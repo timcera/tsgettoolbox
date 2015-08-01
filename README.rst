@@ -1,23 +1,51 @@
-This file requires editing
+TSgettoolbox - Quick Guide
 ==========================
+TSgettoolbox will work with Python 2.6+ and 3.0+.
 
-Note to the author: Please add something informative to this README *before*
-releasing your software, as `a little documentation goes a long way`_.  Both
-README.rst (this file) and NEWS.txt (release notes) will be included in your
-package metadata which gets displayed in the PyPI page for your project.
+Documentation
+-------------
+Reference documentation is at http://pythonhosted.org/tsgettoolbox/
 
-You can take a look at the README.txt of other projects, such as repoze.bfg
-(http://bfg.repoze.org/trac/browser/trunk/README.txt) for some ideas.
+Installation
+------------
+At the command line::
 
-.. _`a little documentation goes a long way`: http://www.martinaspeli.net/articles/a-little-documentation-goes-a-long-way
+    $ pip install tsgettoolbox
+    # OR
+    $ easy_install tsgettoolbox
 
-Credits
--------
+Or, if you have virtualenvwrapper installed::
 
-- `Distribute`_
-- `Buildout`_
-- `modern-package-template`_
+    $ mkvirtualenv tsgettoolbox
+    $ pip install tsgettoolbox
 
-.. _Buildout: http://www.buildout.org/
-.. _Distribute: http://pypi.python.org/pypi/distribute
-.. _`modern-package-template`: http://pypi.python.org/pypi/modern-package-template
+Usage - Command Line
+--------------------
+
+tsgettoolbox get_station NWIS,02245600 EPA,9499939
+
+Station,Parameter,Start_date,End_date
+NWIS:02245600,water_level,2000-01-01,2010-09-30
+NWIS:02245600,water_level,2000-01-01,2010-09-30
+EPA:9499939,water_level,1990-01-01,2001-08-09
+EPA:9499939,ddt,1990-01-01,2001-08-09
+
+tsgettoolbox get_data NWIS,02245600,water_level EPA,9499939,
+
+Datetime,NWIS_02245600_water_level,EPA_9499939_water_level,EPA_9499939_ddt
+1990-01-01,,4.5,0.0045
+1990-01-02,,4.52,0.005
+...
+
+Usage - Python Library
+----------------------
+To use TSgettoolbox in a project::
+
+	from tsgettoolbox import tsgettoolbox
+
+Refer to the API Documentation at http://pythonhosted.org/tsgettoolbox/
+
+Development
+~~~~~~~~~~~
+Development is managed on bitbucket at
+https://bitbucket.org/timcera/tsgettoolbox/overview.
