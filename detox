@@ -1,0 +1,56 @@
+#!/bin/bash
+
+program=tsgettoolbox
+
+pkgs="\
+     setuptools \
+     atlas \
+     numpy \
+     scipy \
+     nose \
+     dateutil \
+     pandas \
+     pip \
+     coverage \
+     flake8 \
+     netcdf4 \
+     odo \
+     "
+
+envs=(2.6 2.7 3.3 3.4)
+
+for env in ${envs[@]}; do
+    echo "${env}"
+
+    conda env list | grep -q "^python${env} "
+    if [ $? -eq 0 ]; then
+        echo "conda update -q -n python${env} ${pkgs}"
+        conda install -q -n python${env} ${pkgs}
+    else
+        conda create -q -n python${env} python=${env} ${pkgs}
+    fi
+
+    source activate python${env}
+    conda install -q -c timcera -n python${env} owslib mando
+
+    if [[ ${env} == '2.6' ]]; then pip install argparse; fi
+    pip uninstall -y ${program}
+    rm -rf build
+    pip install --upgrade --no-deps ../${program}/
+
+    nosetests \
+        --with-doctest \
+        --with-coverage \
+        --cover-tests \
+        --cover-package=${program} \
+        --cover-branches \
+        --cover-erase
+done
+
+
+coverage erase
+coverage run `which nosetests` --with-doctest
+coverage report --include="tsgettoolbox/*" --omit="tests/*"
+coverage html --include="tsgettoolbox/*" --omit="tests/*"
+flake8 tsgettoolbox/__init__.py tsgettoolbox/services/__init__.py --exit-zero
+

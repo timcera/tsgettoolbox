@@ -15,24 +15,27 @@ if sys.argv[-1] == 'publish':
     os.system('python setup.py upload_docs')
     sys.exit()
 
-readme = open('README.rst').read()
+here = os.path.abspath(os.path.dirname(__file__))
+README = open(os.path.join(here, 'README.rst')).read()
+
+version = open("VERSION").readline().strip()
 
 install_requires = [
     # List your project dependencies here.
     # For more details, see:
     # http://packages.python.org/distribute/setuptools.html#declaring-dependencies
-    'ulmo >= 0.2.4',
-    'baker >= 1.3',
+    'odo',
+    'owslib',
+    'netcdf4',
+    'mando >= 0.3.2',
     'pandas >= 0.12',
-    'voluptuous',
-    'six',
 ]
 
 
 setup(name='tsgettoolbox',
-      version=open("VERSION").readline().strip(),
+      version=version,
       description="Will get time series from different sources on the internet.",
-      long_description=readme,
+      long_description=README,
       classifiers=['Environment :: Console',
                    'Intended Audience :: Developers',
                    'Intended Audience :: Science/Research',
@@ -48,13 +51,13 @@ setup(name='tsgettoolbox',
       author='Tim Cera, P.E.',
       author_email='tim@cerazone.net',
       url='',
-      license='GPL2',
-      packages=['tsgettoolbox'],
+      packages=['tsgettoolbox', 'tsgettoolbox/services'],
       include_package_data=True,
       zip_safe=False,
       install_requires=install_requires,
       entry_points={
           'console_scripts':
               ['tsgettoolbox=tsgettoolbox.tsgettoolbox:main']
-      }
+      },
+      test_suite='tests',
       )
