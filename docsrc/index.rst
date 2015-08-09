@@ -25,7 +25,6 @@ Table of Contents
    usage
    contributing
    authors
-   changes
    license
 
 API Documentation

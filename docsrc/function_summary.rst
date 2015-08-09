@@ -8,4 +8,7 @@ Functions
 ---------
 .. autosummary::
 
-    services.usgs_nwis
+    tsgettoolbox.services.coops
+    tsgettoolbox.services.daymet
+    tsgettoolbox.services.ldas
+    tsgettoolbox.services.nwis
