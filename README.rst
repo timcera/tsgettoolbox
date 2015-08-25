@@ -41,7 +41,7 @@ Or, if you have virtualenvwrapper installed::
     $ pip install tsgettoolbox
 
 Or, if you use conda::
-    
+
     $ conda install -c timcera tsgettoolbox
 
 Usage - Command Line
@@ -50,13 +50,13 @@ Just run 'tsgettoolbox --help' to get a list of subcommands.  To get detailed
 help for a particular sub-command, for instance 'coops', type 'tsgettoolbox
 coops --help'.
 
-    coops              
+    coops
                 Download data from Center for Operational Oceanographic
                 Products and Services (CO-OPS). Detailed documentation about
                 the National Ocean Service CO-OPS web services is at
                 http://tidesandcurrents.noaa.gov/api/
 
-    nwis        
+    nwis
                 Download time-series from the USGS National Water Information
                 Service (NWIS). There are three main NWIS databases. The
                 'tsgettoolbox' can currently pull from the Instantaneous Value
@@ -65,7 +65,7 @@ coops --help'.
                 Detailed documnetation is available at
                 http://waterdata.usgs.gov/nwis
 
-    daymet      
+    daymet
                 Download data from the Daymet dataset created by the Oak Ridge
                 National Laboratory. Detailed documentation is at
                 http://daymet.ornl.gov/
@@ -74,6 +74,11 @@ coops --help'.
                 Download data from the Land Data Assimillation Service (LDAS).
                 Two projects are available, the National LDAS (0.125x0.125
                 degree hourly) and the Global LDAS (0.25x0.25 degree 3 hourly).
+
+    forecast_io Download data from http://forecast.io Detailed documentation
+                about the Forecast.io service is at
+                https://developer.forecast.io/docs/v2 You have to get an API
+                key from https://developer.forecast.io/
 
 Usage - Python Library
 ----------------------

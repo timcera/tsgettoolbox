@@ -23,6 +23,7 @@ Table of Contents
 
    readme
    usage
+   examples
    contributing
    authors
    license
