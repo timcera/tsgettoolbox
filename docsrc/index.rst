@@ -22,7 +22,7 @@ Table of Contents
    :maxdepth: 2
 
    readme
-   usage
+   command_line
    examples
    contributing
    authors

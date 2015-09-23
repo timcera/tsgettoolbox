@@ -4,11 +4,10 @@ Function Summary
 
 .. currentmodule:: tsgettoolbox
 
-Functions
----------
 .. autosummary::
 
-    tsgettoolbox.services.coops
-    tsgettoolbox.services.daymet
-    tsgettoolbox.services.ldas
-    tsgettoolbox.services.nwis
+    tsgettoolbox.coops
+    tsgettoolbox.daymet
+    tsgettoolbox.ldas
+    tsgettoolbox.nwis
+    tsgettoolbox.forecast_io

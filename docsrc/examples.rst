@@ -1,9 +1,5 @@
-Usage
-=====
-
-Help::
-
-     tsgettoolbox –help
+Examples
+========
 
 nwis
 ----

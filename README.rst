@@ -44,8 +44,8 @@ Or, if you use conda::
 
     $ conda install -c timcera tsgettoolbox
 
-Usage - Command Line
---------------------
+Usage Summary - Command Line
+----------------------------
 Just run 'tsgettoolbox --help' to get a list of subcommands.  To get detailed
 help for a particular sub-command, for instance 'coops', type 'tsgettoolbox
 coops --help'.
@@ -80,8 +80,8 @@ coops --help'.
                 https://developer.forecast.io/docs/v2 You have to get an API
                 key from https://developer.forecast.io/
 
-Usage - Python Library
-----------------------
+Usage Summary - Python Library
+------------------------------
 To use the tsgettoolbox in a project::
 
 	from tsgettoolbox import tsgettoolbox

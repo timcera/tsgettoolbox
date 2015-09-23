@@ -957,7 +957,7 @@ def forecast_io(
    the given time. If defined, this property will have
    one of the following values: rain, snow, sleet (which
    applies to each of freezing rain, ice pellets, and
-   “wintery mix”), or hail. (If precipIntensity is zero,
+   'wintery mix'), or hail. (If precipIntensity is zero,
    then this property will not be defined.)
   dewPoint::
    A numerical value representing the dew point at the
@@ -966,10 +966,10 @@ def forecast_io(
    A numerical value representing the wind speed in
    miles per hour.
   windBearing::
-   A numerical value representing the direction that the
-   wind is coming from in degrees, with true north at 0°
-   and progressing clockwise. (If windSpeed is zero,
-   then this value will not be defined.)
+   A numerical value representing the direction that
+   the wind is coming from in degrees, with true north
+   at 0 degree and progressing clockwise. (If windSpeed
+   is zero, then this value will not be defined.)
   cloudCover::
    A numerical value between 0 and 1 (inclusive)
    representing the percentage of sky occluded by
@@ -997,16 +997,16 @@ def forecast_io(
    nearest storm in miles. (This value is very
    approximate and should not be used in scenarios
    requiring accurate results. In particular, a storm
-   distance of zero doesn’t necessarily refer to a storm
+   distance of zero doesn't necessarily refer to a storm
    at the requested location, but rather a storm in the
    vicinity of that location.)
   nearestStormBearing::
    A numerical value representing the direction of the
-   nearest storm in degrees, with true north at 0° and
-   progressing clockwise. (If nearestStormDistance is
-   zero, then this value will not be defined. The
-   caveats that apply to nearestStormDistance also apply
-   to this value.)
+   nearest storm in degrees, with true north at
+   0 degree and progressing clockwise. (If
+   nearestStormDistance is zero, then this value will
+   not be defined. The caveats that apply to
+   nearestStormDistance also apply to this value.)
 
   Only defined for 'daily' data
   -----------------------------
@@ -1019,7 +1019,7 @@ def forecast_io(
   moonPhase::
    A number representing the fractional part of the
    lunation number of the given day. This can be thought
-   of as the “percentage complete” of the current lunar
+   of as the 'percentage complete' of the current lunar
    month: a value of 0 represents a new moon, a value of
    0.25 represents a first quarter moon, a value of 0.5
    represents a full moon, and a value of 0.75
@@ -1055,7 +1055,7 @@ def forecast_io(
   ----------------------------------------
   apparentTemperature::
    A numerical value representing the apparent (or
-   “feels like”) temperature at the given time in
+   'feels like') temperature at the given time in
    degrees Fahrenheit.
   temperature::
    A numerical value representing the temperature at the
