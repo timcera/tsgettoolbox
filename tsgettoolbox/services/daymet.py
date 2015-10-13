@@ -70,7 +70,7 @@ def resource_daymet(uri, **kwargs):
     return Daymet(uri, **kwargs)
 
 def _daymet_date_parser(year, doy):
-    return pd.to_datetime(year) + pd.to_timedelta(doy, 'D') - pd.to_timedelta(1, 'D')
+    return pd.to_datetime(year) + pd.to_timedelta(int(doy), 'D') - pd.to_timedelta(1, 'D')
 
 # Function to convert from Daymet type to pd.DataFrame
 @convert.register(pd.DataFrame, Daymet)
