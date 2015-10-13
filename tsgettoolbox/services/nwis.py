@@ -23,7 +23,7 @@ class USGS_WML(object):
 # Function to make `resource` know about the new USGS iv type.
 @resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/dv/.*', priority=17)
 @resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/iv/.*', priority=17)
-def resource_usgs(uri, **kwargs):
+def resource_usgs_wml(uri, **kwargs):
     return USGS_WML(uri, **kwargs)
 
 # Function to convert from USGS type to pd.DataFrame
@@ -61,16 +61,22 @@ def usgs_wml_to_df(data, **kwargs):
 
 class USGS_RDB(object):
     def __init__(self, url, **query_params):
-        # Need to enforce rdb format
+
         # set defaults.
         for key, val in [['statYearType', 'calendar'],
                          ['missingData', 'off'],
                          ['statType', 'all'],
                          ['statReportType', 'daily']
                          ]:
-            if query_params[key] is None:
+            try:
+                if query_params[key] is None:
+                    query_params[key] = val
+            except KeyError:
                 query_params[key] = val
+
+        # Need to enforce rdb format
         query_params['format'] = 'rdb'
+
         if query_params['statReportType'] <> 'annual':
             query_params['statYearType'] = None
         if query_params['statReportType'] == 'daily':
@@ -79,8 +85,9 @@ class USGS_RDB(object):
         self.query_params = query_params
 
 # Function to make `resource` know about the new USGS stat type.
-@resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/stat/.*', priority=17)
-def resource_usgs(uri, **kwargs):
+@resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/stat/.*',
+                   priority=17)
+def resource_usgs_rdb(uri, **kwargs):
     return USGS_RDB(uri, **kwargs)
 
 # Function to convert from USGS RDB type to pd.DataFrame

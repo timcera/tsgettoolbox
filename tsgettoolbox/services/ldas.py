@@ -59,8 +59,8 @@ def resource_ldas(uri, **kwargs):
 
 def _parse_ldas_dates(date, hour):
     try:
-        return pd.to_datetime(date) + pd.to_timedelta(hour[:-1], 'h')
-    except TypeError:
+        return pd.to_datetime(date) + pd.to_timedelta(pd.np.int(hour[:-1]), 'h')
+    except (TypeError, ValueError):
         return pd.NaT
 
 # Function to convert from LDAS type to pd.DataFrame
