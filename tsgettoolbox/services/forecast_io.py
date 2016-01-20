@@ -31,7 +31,7 @@ class forecast_io_json(object):
         self.query_params = query_params
 
 @resource.register(r'https://api\.forecast\.io/forecast.*', priority=17)
-def resource_usgs(uri, **kwargs):
+def resource_forecast_io(uri, **kwargs):
     return forecast_io_json(uri, **kwargs)
 
 # Function to convert from forecast_io_json type to pd.DataFrame
