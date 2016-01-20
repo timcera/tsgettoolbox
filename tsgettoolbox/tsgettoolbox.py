@@ -1155,6 +1155,33 @@ def forecast_io(
         )
     return tsutils.printiso(odo(r, pd.DataFrame))
 
+@mando.command(formatter_class=RawTextHelpFormatter)
+def unavco(station,
+           database='met',
+           startdate=None,
+           enddate=None,
+           ):
+    '''
+ Download data from the Unavco web services:
+ http://www.unavco.com/data/web-services/web-services.html
+
+ :param station <str>:  Unavco station identifier
+ :param database <met>:  Database to pull from.  One of 'met',
+ 'pore_temperature', 'pore_pressure', 'tilt', 'strain'.  The default is 'met'.
+ :param startdate <str>:  Start date in ISO8601 format.
+ :param enddate <str>:  End date in ISO8601 format.
+    '''
+    from tsgettoolbox.services import daymet
+    r = resource(
+        r'http://daymet.ornl.gov/data/send/saveData',
+        measuredParams=measuredParams,
+        lat=lat,
+        lon=lon,
+        year=year,
+        )
+    return tsutils.printiso(odo(r, pd.DataFrame))
+
+
 def main():
     ''' Main '''
     if not os.path.exists('debug_tsgettoolbox'):
