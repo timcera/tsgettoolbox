@@ -1,0 +1,37 @@
+language: python
+
+python:
+  - 2.6
+  - 2.7
+  - 3.3
+  - 3.4
+
+# Setup anaconda
+before_install:
+  - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
+  - chmod +x miniconda.sh
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/envs/test_env/bin:$HOME/miniconda/bin:$PATH"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  # The next couple lines fix a crash with multiprocessing on Travis and are
+  # not specific to using Miniconda
+  - sudo rm -rf /dev/shm
+  - sudo ln -s /run/shm /dev/shm
+
+# Install packages
+install:
+  - conda create -q -n $TRAVIS_PYTHON_VERSION python=$TRAVIS_PYTHON_VERSION setuptools atlas numpy nose dateutil pandas pip coverage
+
+  - source activate $TRAVIS_PYTHON_VERSION
+  - pip install coveralls mando
+  - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install argparse; fi
+  - python setup.py install
+
+script:
+  - source activate $TRAVIS_PYTHON_VERSION
+  - nosetests --with-doctest --with-coverage --cover-tests --cover-package=tsgettoolbox --cover-branches --cover-erase
+
+after_success:
+  - coveralls

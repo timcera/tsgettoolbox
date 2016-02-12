@@ -11,9 +11,7 @@ from odo import odo, resource, convert
 import pandas as pd
 import requests
 
-from tsgettoolbox import appdirs
-
-dirs = appdirs.AppDirs('tsgettoolbox', 'tsgettoolbox')
+from tsgettoolbox import utils
 
 # Forecast.io
 
@@ -38,44 +36,7 @@ def resource_forecast_io(uri, **kwargs):
 @convert.register(pd.DataFrame, forecast_io_json)
 def forecast_io_json_to_df(data, **kwargs):
     # Read in API key
-    if not os.path.exists(dirs.user_config_dir):
-        os.makedirs(dirs.user_config_dir)
-    configfile = os.path.join(dirs.user_config_dir, 'config.ini')
-    if not os.path.exists(configfile):
-        with open(configfile, 'w') as fp:
-            fp.write('''
-
-[forecast.io]
-api_key = ReplaceThisStringWithYourKey
-
-''')
-    # Make sure read only by user.
-    os.chmod(configfile, 0o600)
-
-    inifile = cp.ConfigParser()
-    inifile.readfp(open(configfile, 'r'))
-
-    try:
-        api_key = inifile.get('forecast.io', 'api_key')
-    except:
-        with open(configfile, 'a') as fp:
-            fp.write('''
-
-[forecast.io]
-api_key = ReplaceThisStringWithYourKey
-
-''')
-        api_key = 'ReplaceThisStringWithYourKey'
-
-    inifile.readfp(open(configfile, 'r'))
-    api_key = inifile.get('forecast.io', 'api_key')
-    if api_key == 'ReplaceThisStringWithYourKey':
-        raise ValueError('''
-*
-*   Need to edit {0}
-*   to add your API key that you got from forecast.io.
-*
-'''.format(configfile))
+    api_key = utils.read_api_key('forecast.io')
 
     urlvar = '{0},{1}'.format(data.url_params['latitude'],
                               data.url_params['longitude'])
