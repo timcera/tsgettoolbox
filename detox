@@ -13,7 +13,8 @@ pkgs="\
      odo \
      "
 
-envs=(2.6 2.7 3.3 3.4)
+# 2.6 is not available for networkx requirement
+envs=(2.7 3.3 3.4)
 
 for env in ${envs[@]}; do
     echo "${env}"
@@ -29,7 +30,6 @@ for env in ${envs[@]}; do
     source activate python${env}
     conda install -q -c timcera -n python${env} owslib mando
 
-    if [[ ${env} == '2.6' ]]; then pip install argparse; fi
     pip uninstall -y ${program}
     rm -rf build
     pip install --upgrade --no-deps ../${program}/

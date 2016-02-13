@@ -1,7 +1,7 @@
 language: python
 
+# 2.6 is not available for networkx requirement
 python:
-  - 2.6
   - 2.7
   - 3.3
   - 3.4
@@ -26,7 +26,6 @@ install:
 
   - source activate $TRAVIS_PYTHON_VERSION
   - pip install coveralls mando
-  - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install argparse; fi
   - python setup.py install
 
 script:
