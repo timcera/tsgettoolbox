@@ -4,16 +4,12 @@ program=tsgettoolbox
 
 pkgs="\
      setuptools \
-     atlas \
-     numpy \
-     scipy \
      nose \
      dateutil \
      pandas \
      pip \
      coverage \
      flake8 \
-     netcdf4 \
      odo \
      "
 

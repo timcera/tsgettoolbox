@@ -77,7 +77,7 @@ class USGS_RDB(object):
         # Need to enforce rdb format
         query_params['format'] = 'rdb'
 
-        if query_params['statReportType'] <> 'annual':
+        if query_params['statReportType'] != 'annual':
             query_params['statYearType'] = None
         if query_params['statReportType'] == 'daily':
             query_params['missingData'] = None

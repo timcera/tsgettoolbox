@@ -26,7 +26,6 @@ install_requires = [
     # http://packages.python.org/distribute/setuptools.html#declaring-dependencies
     'odo',
     'owslib',
-    'netcdf4',
     'mando >= 0.3.3',
     'pandas >= 0.12',
     'tstoolbox'
