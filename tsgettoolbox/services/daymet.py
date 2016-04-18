@@ -1,20 +1,23 @@
 
 import datetime
-from collections import defaultdict
 
 from odo import odo, resource, convert
 import pandas as pd
-import requests
+
+try:
+    import urllib.parse as urlp
+except ImportError:
+    import urllib as urlp
 
 _units_map = {
-              'tmax': 'deg_C',
-              'tmin': 'deg_C',
-              'srad': 'W/m2',
-              'vp': 'Pa',
-              'swe': 'kg/m2',
-              'prcp': 'mm',
-              'dayl': 's',
-              }
+    'tmax': 'deg_C',
+    'tmin': 'deg_C',
+    'srad': 'W/m2',
+    'vp': 'Pa',
+    'swe': 'kg/m2',
+    'prcp': 'mm',
+    'dayl': 's',
+    }
 
 # Daymet
 
@@ -28,9 +31,9 @@ class Daymet(object):
     def __init__(self, url, **query_params):
         avail_params = ['tmax', 'tmin', 'srad', 'vp', 'swe', 'prcp', 'dayl']
         params = {
-                  'measureParams': None,
-                  'year': None,
-                  }
+            'measureParams': None,
+            'year': None,
+            }
         params.update(query_params)
         if params['measuredParams'] is not None:
             for testparams in params['measuredParams'].split(','):
@@ -70,21 +73,21 @@ def resource_daymet(uri, **kwargs):
     return Daymet(uri, **kwargs)
 
 def _daymet_date_parser(year, doy):
-    return pd.to_datetime(year) + pd.to_timedelta(int(doy), 'D') - pd.to_timedelta(1, 'D')
+    return pd.to_datetime(year) + pd.to_timedelta(pd.np.int(doy), 'D') - pd.to_timedelta(1, 'D')
 
 # Function to convert from Daymet type to pd.DataFrame
 @convert.register(pd.DataFrame, Daymet)
 def daymet_to_df(data, **kwargs):
     df = pd.read_csv(
-                     requests.Request(
-                         'GET',
-                         data.url,
-                         params=data.query_params,
-                     ).prepare().url,
-                     skiprows=7,
-                     date_parser=_daymet_date_parser,
-                     index_col=0,
-                     parse_dates=[[0, 1]])
+        urlp.unquote('{}?{}'.format(data.url,
+                                    urlp.urlencode(data.query_params))),
+        skiprows=7,
+        sep=",",
+        date_parser=_daymet_date_parser,
+        header=0,
+        index_col=0,
+        skipinitialspace=True,
+        parse_dates=[[0, 1]])
     df.columns = ['Daymet-{0}'.format(i.replace(' ', '_')) for i in df.columns]
     df.index.name = 'Datetime'
     return df

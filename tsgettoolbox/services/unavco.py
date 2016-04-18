@@ -1,7 +1,4 @@
 
-import datetime
-from collections import defaultdict
-
 from odo import odo, resource, convert
 import pandas as pd
 import requests
@@ -37,12 +34,10 @@ def resource_unavco(uri, **kwargs):
 # Function to convert from Unavco type to pd.DataFrame
 @convert.register(pd.DataFrame, Unavco)
 def unavco_to_df(data, **kwargs):
-    df = pd.read_csv(
-                     requests.Request(
-                         'GET',
-                         data.url,
-                         params=data.query_params,
-                     ).prepare().url,
+    df = pd.read_csv(requests.Request(
+        'GET',
+        data.url,
+        params=data.query_params).prepare().url,
                      header=0,
                      index_col=0,
                      parse_dates=0)

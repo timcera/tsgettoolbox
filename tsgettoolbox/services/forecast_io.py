@@ -1,12 +1,4 @@
 
-import os
-import datetime
-from collections import defaultdict
-try:
-    import ConfigParser as cp
-except ImportError:
-    import configparser as cp
-
 from odo import odo, resource, convert
 import pandas as pd
 import requests
@@ -47,7 +39,7 @@ def forecast_io_json_to_df(data, **kwargs):
     req = requests.get('/'.join([data.url,
                                  api_key,
                                  urlvar]),
-                        data.query_params)
+                       data.query_params)
     req.raise_for_status()
 
     try:
@@ -69,15 +61,14 @@ def forecast_io_json_to_df(data, **kwargs):
         ndfj.drop('time', axis=1, inplace=True)
         ndfj.sort(inplace=True)
 
-    for datecols in [
-                     'apparentTemperatureMinTime',
+    for datecols in ['apparentTemperatureMinTime',
                      'apparentTemperatureMaxTime',
                      'precipIntensityMaxTime',
                      'sunriseTime',
                      'sunsetTime',
                      'temperatureMaxTime',
                      'temperatureMinTime'
-                     ]:
+                    ]:
         if datecols in ndfj.columns:
             ndfj[datecols] = pd.to_datetime(ndfj[datecols], unit='s')
 

@@ -1,7 +1,9 @@
 #!/sjr/beodata/local/python_linux/bin/python
-'''
-tsgettoolbox is a collection of command line tools to retrieve time series.
-'''
+"""tsgettoolbox command line/library tools to retrieve time series.
+
+This program is a collection of utilities to download data from various
+web services.
+"""
 
 from __future__ import print_function
 from __future__ import division
@@ -10,7 +12,6 @@ from __future__ import absolute_import
 import sys
 import os.path
 import warnings
-warnings.filterwarnings('ignore')
 
 from odo import odo, resource
 import pandas as pd
@@ -22,6 +23,9 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 from tstoolbox import tsutils
+
+warnings.filterwarnings('ignore')
+
 
 @mando.command(formatter_class=HelpFormatter)
 def coops(station,
@@ -35,12 +39,11 @@ def coops(station,
           time_zone='GMT',
           interval='h',
           bin=None,
-          ):
-    '''
-    Download data from Center for Operational Oceanographic Products and
-    Services (CO-OPS).  Detailed documentation about the National Ocean
-    Service CO-OPS web services is at
-    http://tidesandcurrents.noaa.gov/api/
+         ):
+    """
+    Download from Center for Operational Oceanographic Products and Services.
+
+    CO-OPS web services is at http://tidesandcurrents.noaa.gov/api/
 
     :param station <str>:  A 7 character station ID, or a currents
         station ID.  Specify the station ID with the "station="
@@ -250,8 +253,8 @@ def coops(station,
         Example:'--bin=4' Will retrieve data for bin number 4. Note! If
         a bin is not specified for a PORTS station, the data is returned
         using a predefined real-time bin.
-    '''
-    from tsgettoolbox.services import coops
+    """
+    from tsgettoolbox.services import coops as placeholder
     r = resource(
         r'http://tidesandcurrents.noaa.gov/api/datagetter',
         station=station,
@@ -298,15 +301,16 @@ def nwis(sites=None,
          statType=None,
          missingData=None,
          statYearType=None,
-         ):
-    '''
-    Download time-series from the USGS National Water Information
-    Service (NWIS).  There are three main NWIS databases.  The
-    'tsgettoolbox' can currently pull from the Instantaneous Value
-    database (--database-iv) for sub-daily interval data starting in
-    2007, the Daily Values database (--database=dv), or the Statistics
-    database for daily/monthly/annual statistics.  Detailed
-    documnetation is available at http://waterdata.usgs.gov/nwis.
+        ):
+    """
+    Download from the USGS National Water Information Service (NWIS).
+
+    There are three main NWIS databases.  The 'tsgettoolbox' can
+    currently pull from the Instantaneous Value database (--database-iv)
+    for sub-daily interval data starting in 2007, the Daily Values
+    database (--database=dv), or the Statistics database for
+    daily/monthly/annual statistics.  Detailed documnetation is
+    available at http://waterdata.usgs.gov/nwis.
 
     Every query requires a major filter. Pick the major filter
     ('--sites', '--stateCd', '--huc', '--bBox', '--countyCd') that best
@@ -751,16 +755,16 @@ def nwis(sites=None,
                     the previous year and ends September 30 of
                     the current year. This is the same as
                     a federal fiscal year.
-     '''
-    from tsgettoolbox.services import nwis
+    """
+    from tsgettoolbox.services import nwis as placeholder
     if database not in ['iv', 'dv', 'stat']:
-        raise ValueError('''
+        raise ValueError("""
 *
 *   The 'database' option must be either 'iv' for instantaneous values, and
 *   'dv' for daily values, or 'stat' for daily, monthly, or annual statistics.
 *   You gave {0}.
 *
-'''.format(database))
+""".format(database))
     r = resource(
         r'http://waterservices.usgs.gov/nwis/{0}/'.format(database),
         sites=sites,
@@ -794,14 +798,14 @@ def nwis(sites=None,
 
     return tsutils.printiso(odo(r, pd.DataFrame))
 
+
 @mando.command(formatter_class=HelpFormatter)
 def ghcnd(station,
           start_date=None,
           end_date=None,
-          ):
-    '''
-    Download data from the Global Historical Climatology Network
-    - Daily
+         ):
+    """
+    Download from the Global Historical Climatology Network - Daily.
 
     If you use this data, please read
     ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt about "How to cite".
@@ -849,8 +853,8 @@ def ghcnd(station,
             Example: --end_date=2001-01-05
 
         If start_date and end_date are None, returns the entire series.
-    '''
-    from tsgettoolbox.services import ghcnd
+    """
+    from tsgettoolbox.services import ghcnd as placeholder
     r = resource(
         r'ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all',
         station=station,
@@ -859,16 +863,17 @@ def ghcnd(station,
         )
     return tsutils.printiso(odo(r, pd.DataFrame))
 
+
 @mando.command(formatter_class=HelpFormatter)
 def daymet(lat,
            lon,
            measuredParams=None,
            year=None,
-           ):
-    '''
-    Download data from the Daymet dataset created by the Oak Ridge
-    National Laboratory.  Detailed documentation is at
-    http://daymet.ornl.gov/
+          ):
+    """
+    Download data from Daymet created by the Oak Ridge National Laboratory.
+
+    Detailed documentation is at http://daymet.ornl.gov/
 
     :param lat <float>:  Latitude (required): Enter single geographic
         point by latitude, value between 52.0N and 14.5N.::
@@ -899,8 +904,8 @@ def daymet(lat,
             Example: --years=2012,2013
 
          All years are returned by default.
-    '''
-    from tsgettoolbox.services import daymet
+    """
+    from tsgettoolbox.services import daymet as placeholder
     r = resource(
         r'http://daymet.ornl.gov/data/send/saveData',
         measuredParams=measuredParams,
@@ -910,6 +915,7 @@ def daymet(lat,
         )
     return tsutils.printiso(odo(r, pd.DataFrame))
 
+
 @mando.command(formatter_class=HelpFormatter)
 def ldas(lat=None,
          lon=None,
@@ -918,8 +924,8 @@ def ldas(lat=None,
          variable=None,
          startDate=None,
          endDate=None,
-         ):
-    '''
+        ):
+    """
     Download data from NLDAS or GLDAS.
 
     :param lat <float>:  Either 'lat' and 'lon', or 'xindex' and
@@ -1059,8 +1065,8 @@ def ldas(lat=None,
             Example: --startDate=2001-01-05T05
 
         If startDate and endDate are None, returns the entire series.
-  '''
-    from tsgettoolbox.services import ldas
+    """
+    from tsgettoolbox.services import ldas as placeholder
     project = variable.split(':')[0]
     if lat is not None:
         location = 'GEOM:POINT({0}, {1})'.format(lon, lat)
@@ -1079,20 +1085,22 @@ def ldas(lat=None,
         )
     return tsutils.printiso(odo(r, pd.DataFrame))
 
+
 @mando.command(formatter_class=HelpFormatter)
-def forecast_io(
-          latitude,
-          longitude,
-          time=None,
-          database='hourly',
-          extend=None,
-          units='us',
-          lang='en'
-          ):
-    '''
-    Download data from http://forecast.io Detailed documentation about
-    the Forecast.io service is at https://developer.forecast.io/docs/v2
-    You have to get an API key from https://developer.forecast.io/
+def forecast_io(latitude,
+                longitude,
+                time=None,
+                database='hourly',
+                extend=None,
+                units='us',
+                lang='en'
+               ):
+    """
+    Download data from http://forecast.io.
+
+    Detailed documentation about the Forecast.io service is at
+    https://developer.forecast.io/docs/v2 You have to get an API key
+    from https://developer.forecast.io/
 
     There isn't an absolutely consistent set of data returned for all
     areas, or all databases.  The returned values will be some subset of
@@ -1342,8 +1350,8 @@ def forecast_io(
         x-pig-latin  Igpay Atinlay
         zh           Chinese
         ============ ==========
-    '''
-    from tsgettoolbox.services import forecast_io
+    """
+    from tsgettoolbox.services import forecast_io as placeholder
     r = resource(
         r'https://api.forecast.io/forecast',
         latitude=latitude,
@@ -1356,14 +1364,17 @@ def forecast_io(
         )
     return tsutils.printiso(odo(r, pd.DataFrame))
 
+
 @mando.command(formatter_class=HelpFormatter)
 def unavco(station,
            database='met',
            starttime=None,
            endtime=None,
-           ):
-    '''
-    Download data from the Unavco web services:
+          ):
+    """
+    Download data from the Unavco web services.
+
+    Detailed information at:
     http://www.unavco.com/data/web-services/web-services.html
 
     The "database" option defines different return data.
@@ -1448,15 +1459,17 @@ def unavco(station,
         default is 'met'.
     :param starttime <str>:  Start date in ISO8601 format.
     :param endtime <str>:  End date in ISO8601 format.
-    '''
-    from tsgettoolbox.services import unavco
+    """
+    from tsgettoolbox.services import unavco as placeholder
     map_db_to_url = {
-            'met': r'http://web-services.unavco.org:80/met/data',
-            'pore_temperaure': r'http://web-services.unavco.org:80/pore/data/temperature',
-            'pore_pressure': r'http://web-services.unavco.org:80/pore/data/pressure',
-            'tilt': r'http://web-services.unavco.org:80/tilt/data',
-            'strain': r'http://web-services.unavco.org:80/strain/data/L2',
-            }
+        'met': r'http://web-services.unavco.org:80/met/data',
+        'pore_temperaure': r'http://web-services.unavco.org:80'
+                           '/pore/data/temperature',
+        'pore_pressure': r'http://web-services.unavco.org:80'
+                         '/pore/data/pressure',
+        'tilt': r'http://web-services.unavco.org:80/tilt/data',
+        'strain': r'http://web-services.unavco.org:80/strain/data/L2',
+        }
     r = resource(
         map_db_to_url[database],
         station=station,
@@ -1467,7 +1480,7 @@ def unavco(station,
 
 
 def main():
-    ''' Main '''
+    """Main function."""
     if not os.path.exists('debug_tsgettoolbox'):
         sys.tracebacklimit = 0
     mando.main()

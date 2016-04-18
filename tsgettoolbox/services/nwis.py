@@ -1,7 +1,4 @@
 
-import datetime
-from collections import defaultdict
-
 from odo import odo, resource, convert
 import pandas as pd
 import requests
@@ -67,7 +64,7 @@ class USGS_RDB(object):
                          ['missingData', 'off'],
                          ['statType', 'all'],
                          ['statReportType', 'daily']
-                         ]:
+                        ]:
             try:
                 if query_params[key] is None:
                     query_params[key] = val
@@ -93,16 +90,14 @@ def resource_usgs_rdb(uri, **kwargs):
 # Function to convert from USGS RDB type to pd.DataFrame
 @convert.register(pd.DataFrame, USGS_RDB)
 def usgs_rdb_to_df(data, **kwargs):
-    ndf = pd.read_csv(
-                      requests.Request(
-                          'GET',
-                          data.url,
-                          params=data.query_params,
-                      ).prepare().url,
+    ndf = pd.read_csv(requests.Request(
+        'GET',
+        data.url,
+        params=data.query_params,
+        ).prepare().url,
                       comment='#',
                       header=0,
-                      sep='\t',
-                      )
+                      sep='\t')
     ndf.drop(ndf.index[0], inplace=True)
     if data.query_params['statReportType'] == 'daily':
         ndf['Datetime'] = ['{0:02d}-{1:02d}'.format(int(i), int(j))
@@ -110,7 +105,8 @@ def usgs_rdb_to_df(data, **kwargs):
         ndf.drop(['month_nu', 'day_nu'], axis=1, inplace=True)
     elif data.query_params['statReportType'] == 'monthly':
         ndf['Datetime'] = pd.to_datetime(['{0}-{1:02d}'.format(i, int(j))
-                                       for i, j in zip(ndf['year_nu'], ndf['month_nu'])])
+                                          for i, j in zip(ndf['year_nu'],
+                                                          ndf['month_nu'])])
         ndf.drop(['year_nu', 'month_nu'], axis=1, inplace=True)
     else:
         if data.query_params['statYearType'] == 'water':
@@ -126,9 +122,9 @@ def usgs_rdb_to_df(data, **kwargs):
                       'Datetime'], inplace=True)
     ndf.set_index(['agency_cd', 'site_no', 'parameter_cd', 'dd_nu', 'Datetime'],
                   inplace=True,
-                  )
+                 )
     ndf = ndf.unstack(level=['agency_cd', 'site_no', 'parameter_cd', 'dd_nu'])
-    ndf = ndf.reorder_levels([1,2,3,4,0], axis=1)
+    ndf = ndf.reorder_levels([1, 2, 3, 4, 0], axis=1)
     ndf.columns = [':'.join(col).strip() for col in ndf.columns.values]
     return ndf
 

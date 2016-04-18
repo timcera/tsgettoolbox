@@ -1,47 +1,78 @@
 
-import datetime
-from collections import defaultdict
-
 from odo import odo, resource, convert
 import pandas as pd
 import requests
 
 _units_map = {
-        'NLDAS:NLDAS_FORA0125_H.002:APCPsfc':        ['Precipitation hourly total',          'kg/m^2'],
-        'NLDAS:NLDAS_FORA0125_H.002:DLWRFsfc':       ['Surface DW longwave radiation flux',  'W/m^2'],
-        'NLDAS:NLDAS_FORA0125_H.002:DSWRFsfc':       ['Surface DW shortwave radiation flux', 'W/m^2'],
-        'NLDAS:NLDAS_FORA0125_H.002:PEVAPsfc':       ['Potential evaporation',               'kg/m^2'],
-        'NLDAS:NLDAS_FORA0125_H.002:SPFH2m':         ['2-m above ground specific humidity',  'kg/kg'],
-        'NLDAS:NLDAS_FORA0125_H.002:TMP2m':          ['2-m above ground temperature',        'K'],
-        'NLDAS:NLDAS_FORA0125_H.002:UGRD10m':        ['10-m above ground zonal wind',        'm/s'],
-        'NLDAS:NLDAS_FORA0125_H.002:VGRD10m':        ['10-m above ground meridional wind',   'm/s'],
-        'NLDAS:NLDAS_NOAH0125_H.002:EVPsfc':         ['Total evapotranspiration',            'kg/m^2'],
-        'NLDAS:NLDAS_NOAH0125_H.002:GFLUXsfc':       ['Ground heat flux',                    'w/m^2'],
-        'NLDAS:NLDAS_NOAH0125_H.002:LHTFLsfc':       ['Latent heat flux',                    'w/m^2'],
-        'NLDAS:NLDAS_NOAH0125_H.002:SHTFLsfc':       ['Sensible heat flux',                  'w/m^2'],
-        'NLDAS:NLDAS_NOAH0125_H.002:SSRUNsfc':       ['Surface runoff (non-infiltrating)',   'kg/m^2'],
-        'NLDAS:NLDAS_NOAH0125_H.002:BGRIUNdfc':      ['Subsurface runoff (baseflow)',        'kg/m^2'],
-        'NLDAS:NLDAS_NOAH0125_H.002:SOILM0-10cm':    ['0-10 cm soil moisture content',       'kg/m^2'],
-        'NLDAS:NLDAS_NOAH0125_H.002:SOILM0-100cm':   ['0-100 cm soil moisture content',      'kg/m^2'],
-        'NLDAS:NLDAS_NOAH0125_H.002:SOILM0-200cm':   ['0-200 cm soil moisture content',      'kg/m^2'],
-        'NLDAS:NLDAS_NOAH0125_H.002:SOILM10-40cm':   ['10-40 cm soil moisture content',      'kg/m^2'],
-        'NLDAS:NLDAS_NOAH0125_H.002:SOILM40-100cm':  ['40-100 cm soil moisture content',     'kg/m^2'],
-        'NLDAS:NLDAS_NOAH0125_H.002:SOILM100-200cm': ['100-200 cm soil moisture content',    'kg/m^2'],
-        'NLDAS:NLDAS_NOAH0125_H.002:TSOIL0-10cm':    ['0-10 cm soil temperature',            'K'],
-        'GLDAS:GLDAS_NOAH025_3H.001:Evap':           ['Evapotranspiration',                  'kg/m^2/s'],
-        'GLDAS:GLDAS_NOAH025_3H.001:precip':         ['Precipitation rate',                  'kg/m^s/hr'],
-        'GLDAS:GLDAS_NOAH025_3H.001:Rainf':          ['Rain rate',                           'kg/m^2/s'],
-        'GLDAS:GLDAS_NOAH025_3H.001:Snowf':          ['Snow rate',                           'kg/m^2/s'],
-        'GLDAS:GLDAS_NOAH025_3H.001:Qs':             ['Surface Runoff',                      'kg/m^2/s'],
-        'GLDAS:GLDAS_NOAH025_3H.001:Qsb':            ['Subsurface Runoff',                   'kg/m^2/s'],
-        'GLDAS:GLDAS_NOAH025_3H.001:SOILM0-100cm':   ['0-100 cm top 1 meter soil moisture content', 'kg/m^2'],
-        'GLDAS:GLDAS_NOAH025_3H.001:SOILM0-10cm':    ['0-10 cm layer 1 soil moisture content',      'kg/m^2'],
-        'GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm':   ['10-40 cm layer 2 soil moisture content',     'kg/m^2'],
-        'GLDAS:GLDAS_NOAH025_3H.001:SOILM40-100cm':  ['40-100 cm layer 3 soil moisture content',    'kg/m^2'],
-        'GLDAS:GLDAS_NOAH025_3H.001:Tair':           ['Near surface air temperature',               'K'],
-        'GLDAS:GLDAS_NOAH025_3H.001:TSOIL0-10cm':    ['Average layer 1 soil temperature',           'K'],
-        'GLDAS:GLDAS_NOAH025_3H.001:Wind':           ['Near surface wind magnitude',                'm/s'],
-              }
+    'NLDAS:NLDAS_FORA0125_H.002:APCPsfc':
+        ['Precipitation hourly total',          'kg/m^2'],
+    'NLDAS:NLDAS_FORA0125_H.002:DLWRFsfc':
+        ['Surface DW longwave radiation flux',  'W/m^2'],
+    'NLDAS:NLDAS_FORA0125_H.002:DSWRFsfc':
+        ['Surface DW shortwave radiation flux', 'W/m^2'],
+    'NLDAS:NLDAS_FORA0125_H.002:PEVAPsfc':
+        ['Potential evaporation',               'kg/m^2'],
+    'NLDAS:NLDAS_FORA0125_H.002:SPFH2m':
+        ['2-m above ground specific humidity',  'kg/kg'],
+    'NLDAS:NLDAS_FORA0125_H.002:TMP2m':
+        ['2-m above ground temperature',        'K'],
+    'NLDAS:NLDAS_FORA0125_H.002:UGRD10m':
+        ['10-m above ground zonal wind',        'm/s'],
+    'NLDAS:NLDAS_FORA0125_H.002:VGRD10m':
+        ['10-m above ground meridional wind',   'm/s'],
+    'NLDAS:NLDAS_NOAH0125_H.002:EVPsfc':
+        ['Total evapotranspiration',            'kg/m^2'],
+    'NLDAS:NLDAS_NOAH0125_H.002:GFLUXsfc':
+        ['Ground heat flux',                    'w/m^2'],
+    'NLDAS:NLDAS_NOAH0125_H.002:LHTFLsfc':
+        ['Latent heat flux',                    'w/m^2'],
+    'NLDAS:NLDAS_NOAH0125_H.002:SHTFLsfc':
+        ['Sensible heat flux',                  'w/m^2'],
+    'NLDAS:NLDAS_NOAH0125_H.002:SSRUNsfc':
+        ['Surface runoff (non-infiltrating)',   'kg/m^2'],
+    'NLDAS:NLDAS_NOAH0125_H.002:BGRIUNdfc':
+        ['Subsurface runoff (baseflow)',        'kg/m^2'],
+    'NLDAS:NLDAS_NOAH0125_H.002:SOILM0-10cm':
+        ['0-10 cm soil moisture content',       'kg/m^2'],
+    'NLDAS:NLDAS_NOAH0125_H.002:SOILM0-100cm':
+        ['0-100 cm soil moisture content',      'kg/m^2'],
+    'NLDAS:NLDAS_NOAH0125_H.002:SOILM0-200cm':
+        ['0-200 cm soil moisture content',      'kg/m^2'],
+    'NLDAS:NLDAS_NOAH0125_H.002:SOILM10-40cm':
+        ['10-40 cm soil moisture content',      'kg/m^2'],
+    'NLDAS:NLDAS_NOAH0125_H.002:SOILM40-100cm':
+        ['40-100 cm soil moisture content',     'kg/m^2'],
+    'NLDAS:NLDAS_NOAH0125_H.002:SOILM100-200cm':
+        ['100-200 cm soil moisture content',    'kg/m^2'],
+    'NLDAS:NLDAS_NOAH0125_H.002:TSOIL0-10cm':
+        ['0-10 cm soil temperature',            'K'],
+    'GLDAS:GLDAS_NOAH025_3H.001:Evap':
+        ['Evapotranspiration',                  'kg/m^2/s'],
+    'GLDAS:GLDAS_NOAH025_3H.001:precip':
+        ['Precipitation rate',                  'kg/m^s/hr'],
+    'GLDAS:GLDAS_NOAH025_3H.001:Rainf':
+        ['Rain rate',                           'kg/m^2/s'],
+    'GLDAS:GLDAS_NOAH025_3H.001:Snowf':
+        ['Snow rate',                           'kg/m^2/s'],
+    'GLDAS:GLDAS_NOAH025_3H.001:Qs':
+        ['Surface Runoff',                      'kg/m^2/s'],
+    'GLDAS:GLDAS_NOAH025_3H.001:Qsb':
+        ['Subsurface Runoff',                   'kg/m^2/s'],
+    'GLDAS:GLDAS_NOAH025_3H.001:SOILM0-100cm':
+        ['0-100 cm top 1 meter soil moisture content', 'kg/m^2'],
+    'GLDAS:GLDAS_NOAH025_3H.001:SOILM0-10cm':
+        ['0-10 cm layer 1 soil moisture content',      'kg/m^2'],
+    'GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm':
+        ['10-40 cm layer 2 soil moisture content',     'kg/m^2'],
+    'GLDAS:GLDAS_NOAH025_3H.001:SOILM40-100cm':
+        ['40-100 cm layer 3 soil moisture content',    'kg/m^2'],
+    'GLDAS:GLDAS_NOAH025_3H.001:Tair':
+        ['Near surface air temperature',               'K'],
+    'GLDAS:GLDAS_NOAH025_3H.001:TSOIL0-10cm':
+        ['Average layer 1 soil temperature',           'K'],
+    'GLDAS:GLDAS_NOAH025_3H.001:Wind':
+        ['Near surface wind magnitude',                'm/s'],
+    }
 
 # LDAS
 
@@ -67,10 +98,10 @@ def _parse_ldas_dates(date, hour):
 @convert.register(pd.DataFrame, LDAS)
 def ldas_to_df(data, **kwargs):
     req = requests.Request(
-                         'GET',
-                         data.url,
-                         params=data.query_params,
-                         ).prepare().url
+        'GET',
+        data.url,
+        params=data.query_params,
+        ).prepare().url
     df = pd.read_table(req,
                        skiprows=40,
                        header=None,
