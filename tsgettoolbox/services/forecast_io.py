@@ -33,7 +33,11 @@ def forecast_io_json_to_df(data, **kwargs):
     urlvar = '{0},{1}'.format(data.url_params['latitude'],
                               data.url_params['longitude'])
 
+    time_zone_name = 'LST'
     if data.url_params['time'] is not None:
+        time_zone_name = pd.to_datetime(data.url_params['time']).tz
+        if time_zone_name is None:
+            time_zone_name = 'LST'
         urlvar = urlvar + ',{0}'.format(data.url_params['time'])
 
     req = requests.get('/'.join([data.url,
@@ -72,6 +76,9 @@ def forecast_io_json_to_df(data, **kwargs):
         if datecols in ndfj.columns:
             ndfj[datecols] = pd.to_datetime(ndfj[datecols], unit='s')
 
+    if time_zone_name == 'UTC':
+        ndfj = ndfj.tz_localize('UTC')
+    ndfj.index.name = 'Datetime-{0}'.format(time_zone_name)
     return ndfj
 
 

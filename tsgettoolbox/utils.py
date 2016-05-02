@@ -50,8 +50,8 @@ api_key = ReplaceThisStringWithYourKey
         raise ValueError('''
 *
 *   Need to edit {0}
-*   to add your API key that you got from forecast.io.
+*   to add your API key that you got from {1}.
 *
-'''.format(configfile))
+'''.format(configfile, service))
 
     return api_key

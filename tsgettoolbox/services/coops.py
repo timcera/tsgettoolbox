@@ -43,13 +43,13 @@ def resource_nos(uri, **kwargs):
 def nos_to_df(data, **kwargs):
     settings_map = defaultdict(lambda: [{'metric':'', 'english':''}])
     settings_map['water_level'] = [
-        {'metric':'m', 'english':'ft'}, 'h']  # Preliminary or verified
-                                              # water levels, depending
-                                              # on availability.
+        {'metric':'m', 'english':'ft'}, 'h']    # Preliminary or verified
+                                                # water levels, depending
+                                                # on availability.
     settings_map['air_temperature'] = [
-        {'metric':'deg_C', 'english':'deg_F'}, 'h']  # Air temperature
-                                                     # as measured at
-                                                     # the station.
+        {'metric':'deg_C', 'english':'deg_F'}, 'h']     # Air temperature
+                                                        # as measured at
+                                                        # the station.
     settings_map['water_temperature'] = [
         {'metric':'deg_C', 'english':'deg_F'}, 'h']  # Water temperature
                                                      # as measured at
@@ -132,10 +132,19 @@ def nos_to_df(data, **kwargs):
                                  ncolumn_name,
                                  units))
     df.columns = ['-'.join(i).rstrip('-') for i in new_column_names]
-    df.index.name = 'Datetime-{0}'.format(data.query_params['time_zone'].upper())
+    time_zone_name = data.query_params['time_zone'].upper()
+    if time_zone_name == 'GMT':
+        time_zone_name = 'UTC'
+        df = df.tz_localize(time_zone_name)
+    df.index.name = 'Datetime-{0}'.format(time_zone_name)
     return df
 
 if __name__ == '__main__':
+    """
+    http://tidesandcurrents.noaa.gov/api/datagetter?begin_date=20020101
+    &end_date=20020102&range=1&station=8720218&product=water_level
+    """
+
     r = resource(
         r'http://tidesandcurrents.noaa.gov/api/datagetter',
         begin_date='20020101',

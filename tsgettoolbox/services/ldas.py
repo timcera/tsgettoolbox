@@ -113,8 +113,8 @@ def ldas_to_df(data, **kwargs):
     variable_name = data.query_params['variable'].split(':')[-1]
     unit = _units_map[data.query_params['variable']][1]
     df.columns = ['{0}:{1}'.format(variable_name, unit)]
-    df.index.name = 'Datetime'
-    return df
+    df.index.name = 'Datetime-UTC'
+    return df.tz_localize('UTC')
 
 if __name__ == '__main__':
 #?variable=GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm&

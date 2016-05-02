@@ -43,7 +43,9 @@ def coops(station,
     """
     Download from Center for Operational Oceanographic Products and Services.
 
-    CO-OPS web services is at http://tidesandcurrents.noaa.gov/api/
+    CO-OPS web services is at http://tidesandcurrents.noaa.gov/api/.
+    The time zone of the returned data depends on the setting of the
+    "time_zone" option.  The default is "GMT" also known as "UTC".
 
     :param station <str>:  A 7 character station ID, or a currents
         station ID.  Specify the station ID with the "station="
@@ -94,7 +96,6 @@ def coops(station,
         |                    | that date                      |
         +--------------------+--------------------------------+
 
-
         ================= ==========
         Maximum Retrieval Data Types
         ================= ==========
@@ -121,6 +122,7 @@ def coops(station,
         | available within the    |                 |
         | last 18 minutes.        |                 |
         +-------------------------+-----------------+
+
     :param begin_date <str>:  The beginning date for the data.  See
         explanation with the 'date' option on how to use all of the date
         related parameters.
@@ -206,22 +208,31 @@ def coops(station,
         +------------------------+----------------------------+
         | currents               | Currents data              |
         +------------------------+----------------------------+
+
     :param datum <str>:  Specify the datum that all water levels will be
         reported against.  Note! Datum is mandatory for all water level
         products.
 
-        ======= ===========
-        Option  Description
-        ======= ===========
-        MHHW    Mean Higher High Water
-        MHW     Mean High Water
-        MTL     Mean Tide Level
-        MSL     Mean Sea Level
-        MLW     Mean Low Water
-        MLLW    Mean Lower Low Water
-        NAVD    North American Vertical Datum
-        STND    Station Datum
-        ======= ===========
+        +---------+--------------------------------+
+        | Option  | Description                    |
+        +=========+================================+
+        | MHHW    | Mean Higher High Water         |
+        +---------+--------------------------------+
+        | MHW     | Mean High Water                |
+        +---------+--------------------------------+
+        | MTL     | Mean Tide Level                |
+        +---------+--------------------------------+
+        | MSL     | Mean Sea Level                 |
+        +---------+--------------------------------+
+        | MLW     | Mean Low Water                 |
+        +---------+--------------------------------+
+        | MLLW    | Mean Lower Low Water           |
+        +---------+--------------------------------+
+        | NAVD    | North American Vertical Datum  |
+        +---------+--------------------------------+
+        | STND    | Station Datum                  |
+        +---------+--------------------------------+
+
     :param units <str>:  Metric or english units.
 
         ======== ===========
@@ -235,17 +246,18 @@ def coops(station,
     :param time_zone <str>:  The time zone is specified as 'gmt', 'lst'
         or 'lst_ldt'.
 
-        +--------+------------------------------------------+
-        | Option | Description                              |
-        +========+==========================================+
-        | gmt    | Greenwich Mean Time                      |
-        +--------+------------------------------------------+
-        | lst    | Local Standard Time. The time            |
-        |        | local to the requested station.          |
-        +--------+------------------------------------------+
-        | lst_ldt| Local Standard/Local Daylight Time.      |
-        |        | The time local to the requested station. |
-        +--------+------------------------------------------+
+        +---------+------------------------------------------+
+        | Option  | Description                              |
+        +=========+==========================================+
+        | gmt     | Greenwich Mean Time                      |
+        +---------+------------------------------------------+
+        | lst     | Local Standard Time. The time            |
+        |         | local to the requested station.          |
+        +---------+------------------------------------------+
+        | lst_ldt | Local Standard/Local Daylight Time.      |
+        |         | The time local to the requested station. |
+        +---------+------------------------------------------+
+
     :param interval <str>:  Deliver the Meteorological data at hourly
         intervals.  Does not override 6 minute intervals for
         --product='water_level'.  Defaults to 'h'.
@@ -311,6 +323,11 @@ def nwis(sites=None,
     database (--database=dv), or the Statistics database for
     daily/monthly/annual statistics.  Detailed documnetation is
     available at http://waterdata.usgs.gov/nwis.
+
+    Site local time is output, even if multiple sites are requested and
+    sites are in different time zones.  Note that the measurement time
+    zone at a site may not be the same as the time zone actually in
+    effect at the site.
 
     Every query requires a major filter. Pick the major filter
     ('--sites', '--stateCd', '--huc', '--bBox', '--countyCd') that best
@@ -873,7 +890,8 @@ def daymet(lat,
     """
     Download data from Daymet created by the Oak Ridge National Laboratory.
 
-    Detailed documentation is at http://daymet.ornl.gov/
+    Detailed documentation is at http://daymet.ornl.gov/.  Since this is
+    daily data, it covers midnight to midnight based on local time.
 
     :param lat <float>:  Latitude (required): Enter single geographic
         point by latitude, value between 52.0N and 14.5N.::
@@ -927,6 +945,8 @@ def ldas(lat=None,
         ):
     """
     Download data from NLDAS or GLDAS.
+
+    The time zone is always UTC.
 
     :param lat <float>:  Either 'lat' and 'lon', or 'xindex' and
         'yindex' is required.
@@ -1100,7 +1120,14 @@ def forecast_io(latitude,
 
     Detailed documentation about the Forecast.io service is at
     https://developer.forecast.io/docs/v2 You have to get an API key
-    from https://developer.forecast.io/
+    from https://developer.forecast.io/.
+
+    The time zone of the returned data is dependent on the format of the
+    "time" option.  If there is an ISO8601 representation of the time
+    zone in the "time" option then that is the time zone of the returned
+    data.  If "time" is None or does not explicitly define a time zone,
+    the returned data is in the local time zone of the latitude and
+    longitude.
 
     There isn't an absolutely consistent set of data returned for all
     areas, or all databases.  The returned values will be some subset of
@@ -1323,6 +1350,7 @@ def forecast_io(latitude,
         |                       | units automatically       |
         |                       | according to location     |
         +-----------------------+---------------------------+
+
     :param lang <str>:  Return text summaries in the desired language.
         (Please be advised that units in the summary will be set
         according to the units option, above, so be sure to set both
