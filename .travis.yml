@@ -3,8 +3,8 @@ language: python
 # 2.6 is not available for networkx requirement
 python:
   - 2.7
-  - 3.3
   - 3.4
+  - 3.5
 
 # Setup anaconda
 before_install:
@@ -19,12 +19,7 @@ install:
 
 script:
   - source activate $TRAVIS_PYTHON_VERSION
-  - nosetests --with-doctest \
-              --with-coverage \
-              --cover-tests \
-              --cover-package=tsgettoolbox \
-              --cover-branches \
-              --cover-erase
+  - nosetests --with-doctest --with-coverage --cover-tests --cover-package=tsgettoolbox --cover-branches --cover-erase
 
 after_success:
   - coveralls
