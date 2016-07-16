@@ -14,22 +14,15 @@ pkgs="\
      "
 
 # 2.6 is not available for networkx requirement
-envs=(2.7 3.3 3.4)
+envs=(2.7 3.3 3.4 3.5)
 
 for env in ${envs[@]}; do
     echo "${env}"
 
-    conda env list | grep -q "^python${env} "
-    if [ $? -eq 0 ]; then
-        echo "conda update -q -n python${env} ${pkgs}"
-        conda install -q -n python${env} ${pkgs}
-    else
-        conda create -q -n python${env} python=${env} ${pkgs}
-    fi
+    pew in python${env} << EOT
 
-    source activate python${env}
-    conda install -q -c timcera -n python${env} owslib mando
-
+    pip install --upgrade ${pkgs}
+    pip install --no-deps --upgrade ../mando/
     pip uninstall -y ${program}
     rm -rf build
     pip install --upgrade --no-deps ../${program}/
@@ -41,12 +34,20 @@ for env in ${envs[@]}; do
         --cover-package=${program} \
         --cover-branches \
         --cover-erase
+    exit
+EOT
 done
 
 
+pew in python3.4 << EOTT
 coverage erase
 coverage run `which nosetests` --with-doctest
 coverage report --include="tsgettoolbox/*" --omit="tests/*"
 coverage html --include="tsgettoolbox/*" --omit="tests/*"
 flake8 tsgettoolbox/__init__.py tsgettoolbox/services/__init__.py --exit-zero
 
+cd docsrc
+make clean
+make html
+exit
+EOTT
