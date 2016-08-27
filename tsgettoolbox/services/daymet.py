@@ -35,7 +35,16 @@ class Daymet(object):
             'year': None,
             }
         params.update(query_params)
-        if params['measuredParams'] is not None:
+        if params['measuredParams'] is None:
+            params['measuredParams'] = ','.join(['tmax',
+                                        'tmin',
+                                        'srad',
+                                        'vp',
+                                        'swe',
+                                        'prcp',
+                                        'dayl',
+                                       ])
+        else:
             for testparams in params['measuredParams'].split(','):
                 if testparams not in avail_params:
                     raise ValueError('''
@@ -44,7 +53,11 @@ class Daymet(object):
 *   and 'dayl'.  You supplied {0}.
 *
 '''.format(testparams))
-        if params['year'] is not None:
+
+        last_year = datetime.datetime.now().year - 1
+        if params['year'] is None:
+            params['year'] = ','.join([str(i) for i in range(1980, last_year + 1)])
+        else:
             for testyear in params['year'].split(','):
                 try:
                     iyear = int(testyear)
@@ -55,7 +68,6 @@ class Daymet(object):
 *   supplied {0}.
 *
 '''.format(testyear))
-                last_year = datetime.datetime.now().year - 1
                 if iyear < 1980 or iyear > last_year:
                     raise ValueError('''
 *
