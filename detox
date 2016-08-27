@@ -4,13 +4,10 @@ program=tsgettoolbox
 
 pkgs="\
      setuptools \
-     nose \
-     dateutil \
-     pandas \
      pip \
+     nose \
      coverage \
      flake8 \
-     odo \
      "
 
 # 2.6 is not available for networkx requirement
