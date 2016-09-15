@@ -40,7 +40,7 @@ def unavco_to_df(data, **kwargs):
         params=data.query_params).prepare().url,
                      header=0,
                      index_col=0,
-                     parse_dates=0)
+                     parse_dates=[0])
     df.columns = ['unavco-{0}'.format(i.replace(' ', '_')) for i in df.columns]
     df.index.name = 'Datetime-UTC'
     return df.tz_localize('UTC')
