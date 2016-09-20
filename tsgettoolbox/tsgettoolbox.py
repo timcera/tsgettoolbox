@@ -75,7 +75,7 @@ def coops(station,
         +--------------------+--------------------------------+
         | Parameter Name(s)  | Description                    |
         +====================+================================+
-        | '--date'           | 'latest', 'today', or 'recent'.|
+        | '--date'           | 'latest', 'today', or 'recent' |
         +--------------------+--------------------------------+
         | '--range'          | Specify a number of hours      |
         |                    | to go back from now and        |
@@ -96,32 +96,28 @@ def coops(station,
         |                    | that date                      |
         +--------------------+--------------------------------+
 
-        ================= ==========
-        Maximum Retrieval Data Types
-        ================= ==========
-        31 days           All 6 minute data products
-        1 year            Hourly Height, and High/Low
-        10 years          Tide Predictions, Daily, and Monthly Means
-        ================= ==========
+        +-------------------+------------------------------+
+        | Maximum Retrieval | Data Types                   |
+        +===================+==============================+
+        | 31 days           | All 6 minute data products   |
+        +-------------------+------------------------------+
+        | 1 year            | Hourly Height, and High/Low  |
+        +-------------------+------------------------------+
+        | 10 years          | Tide Predictions, Daily, and |
+        |                   | Monthly Means                |
+        +-------------------+------------------------------+
 
-        Options for the 'date' option::
-
-            'latest': last data point available within the
-                      last 18 min,
-            'today': data collected today, or
-            'recent': data collected in last 72 hours)
-
-        +-------------------------+-----------------+
-        | Description             | Option          |
-        +=========================+=================+
-        | Today's data            | --date='today'  |
-        +-------------------------+-----------------+
-        | The last 3 days of data | --date='recent' |
-        +-------------------------+-----------------+
-        | The last data point     | --date='latest' |
-        | available within the    |                 |
-        | last 18 minutes.        |                 |
-        +-------------------------+-----------------+
+        +--------------------------------+-----------------+
+        | Description of "--date" option | Option          |
+        +================================+=================+
+        | Today's data                   | --date='today'  |
+        +--------------------------------+-----------------+
+        | The last 3 days of data        | --date='recent' |
+        +--------------------------------+-----------------+
+        | The last data point            | --date='latest' |
+        | available within the           |                 |
+        | last 18 minutes.               |                 |
+        +--------------------------------+-----------------+
 
     :param begin_date <str>:  The beginning date for the data.  See
         explanation with the 'date' option on how to use all of the date
@@ -893,24 +889,34 @@ def daymet(lat,
     Detailed documentation is at http://daymet.ornl.gov/.  Since this is
     daily data, it covers midnight to midnight based on local time.
 
-    :param lat <float>:  Latitude (required): Enter single geographic
+    :param lat <float>: Latitude (required): Enter single geographic
         point by latitude, value between 52.0N and 14.5N.::
 
             Example: --lat=43.1
-    :param lon <float>:  Longitude (required): Enter single geographic
+    :param lon <float>: Longitude (required): Enter single geographic
         point by longitude, value between -131.0W and -53.0W.::
 
             Example: --lon=-85.3
     :param measuredParams <str>:  CommaSeparatedVariables (optional):
-        Use the abbreviations from the following table::
+        Use the abbreviations from the following table:
 
-            tmax - maximum temperature, deg C
-            tmin - minimum temperature, deg C
-            srad - shortwave radiation, W/m2
-            vp - vapor pressure, Pa
-            swe - snow-water equivalent, kg/m2
-            prcp - precipitation, mm
-            dayl - daylength, seconds
+        +----------------+-----------------------+---------+
+        | measuredParams | Description           | Unit    |
+        +================+=======================+=========+
+        | tmax           | maximum temperature   | deg C   |
+        +----------------+-----------------------+---------+
+        | tmin           | minimum temperature   | deg C   |
+        +----------------+-----------------------+---------+
+        | srad           | shortwave radiation   | W/m2    |
+        +----------------+-----------------------+---------+
+        | vp             | vapor pressure        | Pa      |
+        +----------------+-----------------------+---------+
+        | swe            | snow-water equivalent | kg/m2   |
+        +----------------+-----------------------+---------+
+        | prcp           | precipitation         | mm      |
+        +----------------+-----------------------+---------+
+        | dayl           | daylength             | seconds |
+        +----------------+-----------------------+---------+
 
          Example: --measuredParams=tmax,tmin
 
@@ -974,85 +980,85 @@ def ldas(lat=None,
     :param variable <str>:  Use the variable codes from the following table:
 
         NLDAS:NLDAS_FORA0125_H.002:APCPsfc
-            Precipitation hourly total          kg/m^2
+            Precipitation hourly total                 kg/m^2
 
         NLDAS:NLDAS_FORA0125_H.002:DLWRFsfc
-            Surface DW longwave radiation flux  W/m^2
+            Surface DW longwave radiation flux         W/m^2
 
         NLDAS:NLDAS_FORA0125_H.002:DSWRFsfc
-            Surface DW shortwave radiation flux W/m^2
+            Surface DW shortwave radiation flux        W/m^2
 
         NLDAS:NLDAS_FORA0125_H.002:PEVAPsfc
-            Potential evaporation               kg/m^2
+            Potential evaporation                      kg/m^2
 
         NLDAS:NLDAS_FORA0125_H.002:SPFH2m
-            2-m above ground specific humidity  kg/kg
+            2-m above ground specific humidity         kg/kg
 
         NLDAS:NLDAS_FORA0125_H.002:TMP2m
-            2-m above ground temperature        K
+            2-m above ground temperature               K
 
         NLDAS:NLDAS_FORA0125_H.002:UGRD10m
-            10-m above ground zonal wind        m/s
+            10-m above ground zonal wind               m/s
 
         NLDAS:NLDAS_FORA0125_H.002:VGRD10m
-            10-m above ground meridional wind   m/s
+            10-m above ground meridional wind          m/s
 
         NLDAS:NLDAS_NOAH0125_H.002:EVPsfc
-            Total evapotranspiration            kg/m^2
+            Total evapotranspiration                   kg/m^2
 
         NLDAS:NLDAS_NOAH0125_H.002:GFLUXsfc
-            Ground heat flux                    w/m^2
+            Ground heat flux                           w/m^2
 
         NLDAS:NLDAS_NOAH0125_H.002:LHTFLsfc
-            Latent heat flux                    w/m^2
+            Latent heat flux                           w/m^2
 
         NLDAS:NLDAS_NOAH0125_H.002:SHTFLsfc
-            Sensible heat flux                  w/m^2
+            Sensible heat flux                         w/m^2
 
         NLDAS:NLDAS_NOAH0125_H.002:SSRUNsfc
-            Surface runoff (non-infiltrating)   kg/m^2
+            Surface runoff (non-infiltrating)          kg/m^2
 
         NLDAS:NLDAS_NOAH0125_H.002:BGRIUNdfc
-            Subsurface runoff (baseflow)        kg/m^2
+            Subsurface runoff (baseflow)               kg/m^2
 
         NLDAS:NLDAS_NOAH0125_H.002:SOILM0-10cm
-            0-10 cm soil moisture content       kg/m^2
+            0-10 cm soil moisture content              kg/m^2
 
         NLDAS:NLDAS_NOAH0125_H.002:SOILM0-100cm
-            0-100 cm soil moisture content      kg/m^2
+            0-100 cm soil moisture content             kg/m^2
 
         NLDAS:NLDAS_NOAH0125_H.002:SOILM0-200cm
-            0-200 cm soil moisture content      kg/m^2
+            0-200 cm soil moisture content             kg/m^2
 
         NLDAS:NLDAS_NOAH0125_H.002:SOILM10-40cm
-            10-40 cm soil moisture content      kg/m^2
+            10-40 cm soil moisture content             kg/m^2
 
         NLDAS:NLDAS_NOAH0125_H.002:SOILM40-100cm
-            40-100 cm soil moisture content     kg/m^2
+            40-100 cm soil moisture content            kg/m^2
 
         NLDAS:NLDAS_NOAH0125_H.002:SOILM100-200cm
-            100-200 cm soil moisture content    kg/m^2
+            100-200 cm soil moisture content           kg/m^2
 
         NLDAS:NLDAS_NOAH0125_H.002:TSOIL0-10cm
-            0-10 cm soil temperature            K
+            0-10 cm soil temperature                   K
 
         GLDAS:GLDAS_NOAH025_3H.001:Evap
-            Evapotranspiration                  kg/m^2/s
+            Evapotranspiration                         kg/m^2/s
 
         GLDAS:GLDAS_NOAH025_3H.001:precip
-            Precipitation rate                  kg/m^s/hr
+            Precipitation rate                         kg/m^s/hr
 
         GLDAS:GLDAS_NOAH025_3H.001:Rainf
-            Rain rate                           kg/m^2/s
+            Rain rate                                  kg/m^2/s
 
         GLDAS:GLDAS_NOAH025_3H.001:Snowf
-            Snow rate                           kg/m^2/s
+            Snow rate                                  kg/m^2/s
 
         GLDAS:GLDAS_NOAH025_3H.001:Qs
-            Surface Runoff                      kg/m^2/s
+            Surface Runoff                             kg/m^2/s
 
         GLDAS:GLDAS_NOAH025_3H.001:Qsb
-            Subsurface Runoff                   kg/m^2/s
+            Subsurface Runoff                          kg/m^2/s
 
         GLDAS:GLDAS_NOAH025_3H.001:SOILM0-100cm
             0-100 cm top 1 meter soil moisture content kg/m^2
@@ -1133,86 +1139,86 @@ def forecast_io(latitude,
     areas, or all databases.  The returned values will be some subset of
     the following list:
 
-     summary::
+    summary::
 
-      A human-readable text summary of this data point.
+     A human-readable text summary of this data point.
 
-     icon::
+    icon::
 
-      A machine-readable text summary of this data |point, suitable for
-      selecting an icon for display. If defined, this property will have
-      one of the following values: 'clear-day', 'clear-night', 'rain',
-      'snow', 'sleet', 'wind', 'fog', 'cloudy', 'partly-cloudy-day', or
-      'partly-cloudy-night'.  (Developers should ensure that a sensible
-      default is defined, as additional values, such as hail,
-      thunderstorm, or tornado, may be defined in the future.)
+     A machine-readable text summary of this data |point, suitable for
+     selecting an icon for display. If defined, this property will have
+     one of the following values: 'clear-day', 'clear-night', 'rain',
+     'snow', 'sleet', 'wind', 'fog', 'cloudy', 'partly-cloudy-day', or
+     'partly-cloudy-night'.  (Developers should ensure that a sensible
+     default is defined, as additional values, such as hail,
+     thunderstorm, or tornado, may be defined in the future.)
 
-     precipIntensity::
+    precipIntensity::
 
-      A numerical value representing the average expected intensity (in
-      inches of liquid water per hour) of precipitation occurring at the
-      given time conditional on probability (that is, assuming any
-      precipitation occurs at all). A very rough guide is that a value
-      of 0 in./hr. corresponds to no precipitation, 0.002 in./hr.
-      corresponds to very light precipitation, 0.017 in./hr. corresponds
-      to light precipitation, 0.1 in./hr. corresponds to moderate
-      precipitation, and 0.4 in./hr. corresponds to heavy precipitation.
+     A numerical value representing the average expected intensity (in
+     inches of liquid water per hour) of precipitation occurring at the
+     given time conditional on probability (that is, assuming any
+     precipitation occurs at all). A very rough guide is that a value
+     of 0 in./hr. corresponds to no precipitation, 0.002 in./hr.
+     corresponds to very light precipitation, 0.017 in./hr. corresponds
+     to light precipitation, 0.1 in./hr. corresponds to moderate
+     precipitation, and 0.4 in./hr. corresponds to heavy precipitation.
 
-     precipProbability::
+    precipProbability::
 
-      A numerical value between 0 and 1 (inclusive) representing the
-      probability of precipitation occuring at the given time.
+     A numerical value between 0 and 1 (inclusive) representing the
+     probability of precipitation occuring at the given time.
 
-     precipType::
+    precipType::
 
-      A string representing the type of precipitation occurring at the
-      given time. If defined, this property will have one of the
-      following values: rain, snow, sleet (which applies to each of
-      freezing rain, ice pellets, and 'wintery mix'), or hail. (If
-      precipIntensity is zero, then this property will not be defined.)
+     A string representing the type of precipitation occurring at the
+     given time. If defined, this property will have one of the
+     following values: rain, snow, sleet (which applies to each of
+     freezing rain, ice pellets, and 'wintery mix'), or hail. (If
+     precipIntensity is zero, then this property will not be defined.)
 
-     dewPoint::
+    dewPoint::
 
-      A numerical value representing the dew point at the given time in
-      degrees Fahrenheit.
+     A numerical value representing the dew point at the given time in
+     degrees Fahrenheit.
 
-     windSpeed::
+    windSpeed::
 
-      A numerical value representing the wind speed in miles per hour.
+     A numerical value representing the wind speed in miles per hour.
 
-     windBearing::
+    windBearing::
 
-      A numerical value representing the direction that the wind is
-      coming from in degrees, with true north at 0 degree and
-      progressing clockwise. (If windSpeed is zero, then this value will
-      not be defined.)
+     A numerical value representing the direction that the wind is
+     coming from in degrees, with true north at 0 degree and
+     progressing clockwise. (If windSpeed is zero, then this value will
+     not be defined.)
 
-     cloudCover::
+    cloudCover::
 
-      A numerical value between 0 and 1 (inclusive) representing the
-      percentage of sky occluded by clouds. A value of 0 corresponds to
-      clear sky, 0.4 to scattered clouds, 0.75 to broken cloud cover,
-      and 1 to completely overcast skies.
+     A numerical value between 0 and 1 (inclusive) representing the
+     percentage of sky occluded by clouds. A value of 0 corresponds to
+     clear sky, 0.4 to scattered clouds, 0.75 to broken cloud cover,
+     and 1 to completely overcast skies.
 
-     humidity::
+    humidity::
 
-      A numerical value between 0 and 1 (inclusive) representing the
-      relative humidity.
+     A numerical value between 0 and 1 (inclusive) representing the
+     relative humidity.
 
-     pressure::
+    pressure::
 
-      A numerical value representing the sea-level air pressure in
-      millibars.
+     A numerical value representing the sea-level air pressure in
+     millibars.
 
-     visibility::
+    visibility::
 
-      A numerical value representing the average visibility in miles,
-      capped at 10 miles.
+     A numerical value representing the average visibility in miles,
+     capped at 10 miles.
 
-     ozone::
+    ozone::
 
-      A numerical value representing the columnar density of total
-      atmospheric ozone at the given time in Dobson units.
+     A numerical value representing the columnar density of total
+     atmospheric ozone at the given time in Dobson units.
 
     Only defined for 'currently' data
     ---------------------------------
@@ -1356,28 +1362,45 @@ def forecast_io(latitude,
         according to the units option, above, so be sure to set both
         options as needed.)
 
-        ============ ==========
-        lang= code   Language
-        ============ ==========
-        ar           Arabic
-        bs           Bosnian
-        de           German
-        en           English (default)
-        es           Spanish
-        fr           French
-        it           Italian
-        nl           Dutch
-        pl           Polish
-        pt           Portuguese
-        ru           Russian
-        sk           Slovak
-        sv           Swedish
-        tet          Tetum
-        tr           Turkish
-        uk           Ukrainian
-        x-pig-latin  Igpay Atinlay
-        zh           Chinese
-        ============ ==========
+        +-------------+-------------------+
+        | lang= code  | Language          |
+        +=============+===================+
+        | ar          | Arabic            |
+        +-------------+-------------------+
+        | bs          | Bosnian           |
+        +-------------+-------------------+
+        | de          | German            |
+        +-------------+-------------------+
+        | en          | English (default) |
+        +-------------+-------------------+
+        | es          | Spanish           |
+        +-------------+-------------------+
+        | fr          | French            |
+        +-------------+-------------------+
+        | it          | Italian           |
+        +-------------+-------------------+
+        | nl          | Dutch             |
+        +-------------+-------------------+
+        | pl          | Polish            |
+        +-------------+-------------------+
+        | pt          | Portuguese        |
+        +-------------+-------------------+
+        | ru          | Russian           |
+        +-------------+-------------------+
+        | sk          | Slovak            |
+        +-------------+-------------------+
+        | sv          | Swedish           |
+        +-------------+-------------------+
+        | tet         | Tetum             |
+        +-------------+-------------------+
+        | tr          | Turkish           |
+        +-------------+-------------------+
+        | uk          | Ukrainian         |
+        +-------------+-------------------+
+        | x-pig-latin | Igpay Atinlay     |
+        +-------------+-------------------+
+        | zh          | Chinese           |
+        +-------------+-------------------+
     """
     from tsgettoolbox.services import forecast_io as placeholder
     r = resource(

@@ -40,10 +40,6 @@ Or, if you have virtualenvwrapper installed::
     $ mkvirtualenv tsgettoolbox
     $ pip install tsgettoolbox
 
-Or, if you use conda::
-
-    $ conda install -c timcera tsgettoolbox
-
 Usage Summary - Command Line
 ----------------------------
 Just run 'tsgettoolbox --help' to get a list of subcommands.  To get detailed
