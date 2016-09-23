@@ -27,6 +27,13 @@ from tstoolbox import tsutils
 warnings.filterwarnings('ignore')
 
 
+@mando.command()
+def about():
+    """Print out information about tsgettoolbox and the system.
+    """
+    tsutils.about(__name__)
+
+
 @mando.command(formatter_class=HelpFormatter)
 def coops(station,
           date=None,
