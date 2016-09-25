@@ -28,7 +28,7 @@ install_requires = [
     'owslib',
     'mando >= 0.3.3',
     'pandas >= 0.12',
-    'tstoolbox',
+    'tstoolbox >= 1.12.12.9',
     'requests',
 ]
 
