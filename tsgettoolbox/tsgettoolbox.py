@@ -1351,9 +1351,11 @@ def darksky(latitude,
     """
     Powered by Dark Sky https://darksky.net/poweredby/
 
-    Detailed documentation about the darksky.net service is at
-    https://darksky.net/dev/docs. You have to get an API key
-    from https://darksky.net/dev/register
+    Powered by Dark Sky https://darksky.net/poweredby/
+
+    Documentation: https://darksky.net/dev/docs
+
+    Registration: https://darksky.net/dev/register
 
     The time zone of the returned data is dependent on the format of the
     "time" option.  If there is an ISO8601 representation of the time
