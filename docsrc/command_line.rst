@@ -13,4 +13,8 @@ Help::
 
 .. include:: ldas.rst
 
-.. include:: forecast_io.rst
+.. include:: darksky.rst
+
+.. include:: unavco.rst
+
+.. include:: ghcnd.rst

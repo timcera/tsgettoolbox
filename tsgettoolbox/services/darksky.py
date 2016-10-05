@@ -5,9 +5,9 @@ import requests
 
 from tsgettoolbox import utils
 
-# Forecast.io
+# darksky.net
 
-class forecast_io_json(object):
+class darksky_net_json(object):
     def __init__(self, url, **query_params):
         self.url = url
         self.url_params = {}
@@ -20,15 +20,15 @@ class forecast_io_json(object):
         query_params['exclude'] = ','.join(all_dbs)
         self.query_params = query_params
 
-@resource.register(r'https://api\.forecast\.io/forecast.*', priority=17)
-def resource_forecast_io(uri, **kwargs):
-    return forecast_io_json(uri, **kwargs)
+@resource.register(r'https://api\.darksky\.net/forecast.*', priority=17)
+def resource_darksky_net(uri, **kwargs):
+    return darksky_net_json(uri, **kwargs)
 
-# Function to convert from forecast_io_json type to pd.DataFrame
-@convert.register(pd.DataFrame, forecast_io_json)
-def forecast_io_json_to_df(data, **kwargs):
+# Function to convert from darksky_io_json type to pd.DataFrame
+@convert.register(pd.DataFrame, darksky_net_json)
+def darksky_net_json_to_df(data, **kwargs):
     # Read in API key
-    api_key = utils.read_api_key('forecast.io')
+    api_key = utils.read_api_key('darksky.net')
 
     urlvar = '{0},{1}'.format(data.url_params['latitude'],
                               data.url_params['longitude'])
@@ -51,19 +51,23 @@ def forecast_io_json_to_df(data, **kwargs):
     except ValueError:
         return pd.DataFrame()
 
-    ndfj = pd.DataFrame(ndfj.ix[data.include_db, :])
+    if isinstance(ndfj.ix[0, 0], dict):
+        ndfj.ix[0, 0] = [ndfj.ix[0, 0]]
 
+    ndfj = pd.DataFrame(ndfj.ix[data.include_db, :])
     ndfj = ndfj.transpose()
 
     ndfj.dropna(inplace=True, how='all')
 
-    if data.include_db not in ['currently', 'flags']:
+    if data.include_db in ['minutely', 'hourly', 'daily']:
         ndfj = pd.DataFrame(ndfj.ix[data.include_db, 'data'])
+    elif data.include_db in ['alerts']:
+        ndfj = pd.DataFrame(ndfj.ix[data.include_db, 0])
 
     if data.include_db != 'flags':
         ndfj.index = pd.to_datetime(ndfj['time'], unit='s')
         ndfj.drop('time', axis=1, inplace=True)
-        ndfj.sort(inplace=True)
+        ndfj.sort_index(inplace=True)
 
     for datecols in ['apparentTemperatureMinTime',
                      'apparentTemperatureMaxTime',
@@ -84,7 +88,7 @@ def forecast_io_json_to_df(data, **kwargs):
 
 if __name__ == '__main__':
     r = resource(
-        r'https://api.forecast.io/forecast',
+        r'https://api.darksky.net/forecast',
         latitude=28.45,
         longitude=-81.34,
         database='currently',
@@ -92,11 +96,11 @@ if __name__ == '__main__':
         )
 
     as_df = odo(r, pd.DataFrame)
-    print('Forecast.io')
-    print(as_df)
+    print('darksky.net currently')
+    print(as_df.head())
 
     r = resource(
-        r'https://api.forecast.io/forecast',
+        r'https://api.darksky.net/forecast',
         latitude=28.45,
         longitude=-81.34,
         database='minutely',
@@ -104,11 +108,11 @@ if __name__ == '__main__':
         )
 
     as_df = odo(r, pd.DataFrame)
-    print('Forecast.io')
-    print(as_df)
+    print('darksky.net minutely')
+    print(as_df.head())
 
     r = resource(
-        r'https://api.forecast.io/forecast',
+        r'https://api.darksky.net/forecast',
         latitude=28.45,
         longitude=-81.34,
         database='hourly',
@@ -116,11 +120,11 @@ if __name__ == '__main__':
         )
 
     as_df = odo(r, pd.DataFrame)
-    print('Forecast.io')
-    print(as_df)
+    print('darksky.net hourly')
+    print(as_df.head())
 
     r = resource(
-        r'https://api.forecast.io/forecast',
+        r'https://api.darksky.net/forecast',
         latitude=28.45,
         longitude=-81.34,
         database='daily',
@@ -128,11 +132,11 @@ if __name__ == '__main__':
         )
 
     as_df = odo(r, pd.DataFrame)
-    print('Forecast.io')
-    print(as_df)
+    print('darksky.net daily')
+    print(as_df.head())
 
     r = resource(
-        r'https://api.forecast.io/forecast',
+        r'https://api.darksky.net/forecast',
         latitude=28.45,
         longitude=-81.34,
         database='alerts',
@@ -140,11 +144,11 @@ if __name__ == '__main__':
         )
 
     as_df = odo(r, pd.DataFrame)
-    print('Forecast.io')
-    print(as_df)
+    print('darksky.net alerts')
+    print(as_df.head())
 
     r = resource(
-        r'https://api.forecast.io/forecast',
+        r'https://api.darksky.net/forecast',
         latitude=28.45,
         longitude=-81.34,
         database='flags',
@@ -152,6 +156,6 @@ if __name__ == '__main__':
         )
 
     as_df = odo(r, pd.DataFrame)
-    print('Forecast.io')
-    print(as_df)
+    print('darksky.net flags')
+    print(as_df.head())
 

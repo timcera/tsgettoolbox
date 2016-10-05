@@ -17,7 +17,14 @@ ldas
 ~~~~
 .. program-output:: tsgettoolbox ldas --help
 
-forecast_io
-~~~~~~~~~~~
-.. program-output:: tsgettoolbox forecast_io --help
+darksky
+~~~~~~~
+.. program-output:: tsgettoolbox darksky --help
 
+unavco
+~~~~~~
+.. program-output:: tsgettoolbox unavco --help
+
+ghcnd
+~~~~~
+.. program-output:: tsgettoolbox ghcnd --help

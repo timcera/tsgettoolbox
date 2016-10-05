@@ -10,4 +10,6 @@ Function Summary
     tsgettoolbox.daymet
     tsgettoolbox.ldas
     tsgettoolbox.nwis
-    tsgettoolbox.forecast_io
+    tsgettoolbox.darksky
+    tsgettoolbox.ghcnd
+    tsgettoolbox.unavco

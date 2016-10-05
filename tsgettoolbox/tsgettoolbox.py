@@ -159,91 +159,94 @@ def coops(station,
         date related parameters.
     :param product <str>:  Specify the data.
 
-        +------------------------+----------------------------+
-        | Option                 | Description                |
-        +========================+============================+
-        | water_level            | Preliminary or verified    |
-        |                        | water levels, depending    |
-        |                        | on availability.           |
-        +------------------------+----------------------------+
-        | air_temperature        | Air temperature            |
-        +------------------------+----------------------------+
-        | water_temperature      | Water temperature          |
-        +------------------------+----------------------------+
-        | wind                   | Wind speed, direction,     |
-        |                        | and gusts                  |
-        +------------------------+----------------------------+
-        | air_gap                | (distance between          |
-        |                        | a bridge and the water's   |
-        |                        | surface)                   |
-        +------------------------+----------------------------+
-        | conductivity           | The water's conductivity   |
-        +------------------------+----------------------------+
-        | visibility             | Visibility from the        |
-        |                        | station's visibility       |
-        |                        | sensor. A measure of       |
-        |                        | atmospheric clarity.       |
-        +------------------------+----------------------------+
-        | humidity               | Relative humidity          |
-        +------------------------+----------------------------+
-        | salinity               | Salinity and specific      |
-        |                        | gravity                    |
-        +------------------------+----------------------------+
-        | hourly_height          | Verified hourly height     |
-        |                        | water level data           |
-        +------------------------+----------------------------+
-        | high_low               | Verified high/low water    |
-        |                        | level data                 |
-        +------------------------+----------------------------+
-        | daily_mean             | Verified daily mean        |
-        |                        | water level data           |
-        +------------------------+----------------------------+
-        | monthly_mean           | Verified monthly mean      |
-        |                        | water level data           |
-        +------------------------+----------------------------+
-        | one_minute_water_level | One minute water level     |
-        |                        | data                       |
-        +------------------------+----------------------------+
-        | predictions            | 6 minute predictions       |
-        |                        | water level data           |
-        +------------------------+----------------------------+
-        | datums                 | datums data                |
-        +------------------------+----------------------------+
-        | currents               | Currents data              |
-        +------------------------+----------------------------+
+        +------------------------+--------------------------+
+        | Option                 | Description              |
+        +========================+==========================+
+        | water_level            | Preliminary or verified  |
+        |                        | water levels, depending  |
+        |                        | on availability.         |
+        +------------------------+--------------------------+
+        | air_temperature        | Air temperature          |
+        +------------------------+--------------------------+
+        | water_temperature      | Water temperature        |
+        +------------------------+--------------------------+
+        | wind                   | Wind speed, direction,   |
+        |                        | and gusts                |
+        +------------------------+--------------------------+
+        | air_gap                | (distance between        |
+        |                        | a bridge and the water's |
+        |                        | surface)                 |
+        +------------------------+--------------------------+
+        | conductivity           | The water's conductivity |
+        +------------------------+--------------------------+
+        | visibility             | Visibility from the      |
+        |                        | station's visibility     |
+        |                        | sensor. A measure of     |
+        |                        | atmospheric clarity.     |
+        +------------------------+--------------------------+
+        | humidity               | Relative humidity        |
+        +------------------------+--------------------------+
+        | salinity               | Salinity and specific    |
+        |                        | gravity                  |
+        +------------------------+--------------------------+
+        | hourly_height          | Verified hourly height   |
+        |                        | water level data         |
+        +------------------------+--------------------------+
+        | high_low               | Verified high/low water  |
+        |                        | level data               |
+        +------------------------+--------------------------+
+        | daily_mean             | Verified daily mean      |
+        |                        | water level data         |
+        +------------------------+--------------------------+
+        | monthly_mean           | Verified monthly mean    |
+        |                        | water level data         |
+        +------------------------+--------------------------+
+        | one_minute_water_level | One minute water level   |
+        |                        | data                     |
+        +------------------------+--------------------------+
+        | predictions            | 6 minute predictions     |
+        |                        | water level data         |
+        +------------------------+--------------------------+
+        | datums                 | datums data              |
+        +------------------------+--------------------------+
+        | currents               | Currents data            |
+        +------------------------+--------------------------+
 
     :param datum <str>:  Specify the datum that all water levels will be
         reported against.  Note! Datum is mandatory for all water level
         products.
 
-        +---------+--------------------------------+
-        | Option  | Description                    |
-        +=========+================================+
-        | MHHW    | Mean Higher High Water         |
-        +---------+--------------------------------+
-        | MHW     | Mean High Water                |
-        +---------+--------------------------------+
-        | MTL     | Mean Tide Level                |
-        +---------+--------------------------------+
-        | MSL     | Mean Sea Level                 |
-        +---------+--------------------------------+
-        | MLW     | Mean Low Water                 |
-        +---------+--------------------------------+
-        | MLLW    | Mean Lower Low Water           |
-        +---------+--------------------------------+
-        | NAVD    | North American Vertical Datum  |
-        +---------+--------------------------------+
-        | STND    | Station Datum                  |
-        +---------+--------------------------------+
+        +--------+-------------------------------+
+        | Option | Description                   |
+        +========+===============================+
+        | MHHW   | Mean Higher High Water        |
+        +--------+-------------------------------+
+        | MHW    | Mean High Water               |
+        +--------+-------------------------------+
+        | MTL    | Mean Tide Level               |
+        +--------+-------------------------------+
+        | MSL    | Mean Sea Level                |
+        +--------+-------------------------------+
+        | MLW    | Mean Low Water                |
+        +--------+-------------------------------+
+        | MLLW   | Mean Lower Low Water          |
+        +--------+-------------------------------+
+        | NAVD   | North American Vertical Datum |
+        +--------+-------------------------------+
+        | STND   | Station Datum                 |
+        +--------+-------------------------------+
 
     :param units <str>:  Metric or english units.
 
-        ======== ===========
-        Option   Description
-        ======== ===========
-        metric   Metric (Celsius, meters) units
-        english  English (Imperial system) (fahrenheit, feet) units
-        ======== ===========
+
+        +---------+--------------------------------+
+        | Option  | Description                    |
+        +=========+================================+
+        | metric  | Metric (Celsius, meters) units |
+        +---------+--------------------------------+
+        | english | English (Imperial system)      |
+        |         | (fahrenheit, feet) units       |
+        +---------+--------------------------------+
 
         The default is 'metric'.
     :param time_zone <str>:  The time zone is specified as 'gmt', 'lst'
@@ -828,38 +831,251 @@ def ghcnd(station,
     Download from the Global Historical Climatology Network - Daily.
 
     If you use this data, please read
-    ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt about "How to cite".
+    ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt about "How to
+    cite".
 
     GHCN (Global Historical Climatology Network)-Daily is an integrated
-    database of daily climate summaries from land surface stations across the
-    globe. Like its monthly counterpart (GHCN-Monthly) , GHCN-Daily is
-    comprised of daily climate records from numerous sources that have been
-    integrated and subjected to a common suite of quality assurance reviews.
+    database of daily climate summaries from land surface stations
+    across the globe. Like its monthly counterpart (GHCN-Monthly),
+    GHCN-Daily is comprised of daily climate records from numerous
+    sources that have been integrated and subjected to a common suite of
+    quality assurance reviews.
 
-    GHCN-Daily now contains records from over 75000 stations in 180 countries
-    and territories. Numerous daily variables are provided, including maximum
-    and minimum temperature, total daily precipitation, snowfall, and snow
-    depth; however, about two thirds of the stations report precipitation only.
-    Both the record length and period of record vary by station and cover
-    intervals ranging from less than year to more than 175 years.
+    GHCN-Daily now contains records from over 75000 stations in 180
+    countries and territories. Numerous daily variables are provided,
+    including maximum and minimum temperature, total daily
+    precipitation, snowfall, and snow depth; however, about two thirds
+    of the stations report precipitation only.  Both the record length
+    and period of record vary by station and cover intervals ranging
+    from less than year to more than 175 years.
 
-    The dataset is regularly reconstructed (usually every weekend) from its
-    20-plus data source components to ensure that GHCN-Daily is generally in
-    sync with its growing list of constituent sources. During this process,
-    quality assurance checks are applied to the full dataset. On most weekdays,
-    GHCN-Daily station data are updated when possible from a variety of data
-    streams, which also undergo a suite of quality checks.
+    The dataset is regularly reconstructed (usually every weekend) from
+    its 20-plus data source components to ensure that GHCN-Daily is
+    generally in sync with its growing list of constituent sources.
+    During this process, quality assurance checks are applied to the
+    full dataset. On most weekdays, GHCN-Daily station data are updated
+    when possible from a variety of data streams, which also undergo
+    a suite of quality checks.
 
-    Some of the data provided here are based on data exchanged under the World
-    Meteorological Organization (WMO) World Weather Watch Program according to
-    WMO Resolution 40 (Cg-XII). This allows WMO member countries to place
-    restrictions on the use or re-export of their data for commercial purposes
-    outside of the receiving country. Those countries' data summaries and
-    products which are available here are intended for free and unrestricted
-    use in research, education, and other non-commercial activities. For
-    non-U.S. locations' data, the data or any derived product shall not be
-    provided to other users or be used for the re-export of commercial
-    services.
+    Some of the data provided here are based on data exchanged under the
+    World Meteorological Organization (WMO) World Weather Watch Program
+    according to WMO Resolution 40 (Cg-XII). This allows WMO member
+    countries to place restrictions on the use or re-export of their
+    data for commercial purposes outside of the receiving country. Those
+    countries' data summaries and products which are available here are
+    intended for free and unrestricted use in research, education, and
+    other non-commercial activities. For non-U.S. locations' data, the
+    data or any derived product shall not be provided to other users or
+    be used for the re-export of commercial services.
+
+    +------+-------------------------------------------------------+
+    | Code | Description                                           |
+    +======+=======================================================+
+    | TMAX | Temperature MAX (1/10 degree C)                       |
+    +------+-------------------------------------------------------+
+    | TMIN | Temperature MIN (1/10 degree C)                       |
+    +------+-------------------------------------------------------+
+    | PRCP | PReCiPitation (tenths of mm)                          |
+    +------+-------------------------------------------------------+
+    | SNOW | SNOWfall (mm)                                         |
+    +------+-------------------------------------------------------+
+    | SNWD | SNoW Depth (mm)                                       |
+    +------+-------------------------------------------------------+
+    | ACMC | Average cloudiness midnight to midnight from          |
+    |      | 30-second ceilometer data (percent)                   |
+    +------+-------------------------------------------------------+
+    | ACMH | Average cloudiness midnight to midnight from manual   |
+    |      | observations (percent)                                |
+    +------+-------------------------------------------------------+
+    | ACSC | Average cloudiness sunrise to sunset from 30-second   |
+    |      | ceilometer data (percent)                             |
+    +------+-------------------------------------------------------+
+    | ACSH | Average cloudiness sunrise to sunset from manual      |
+    |      | observations (percent)                                |
+    +------+-------------------------------------------------------+
+    | AWDR | Average daily wind direction (degrees)                |
+    +------+-------------------------------------------------------+
+    | AWND | Average daily wind speed                              |
+    |      | (tenths of meters per second)                         |
+    +------+-------------------------------------------------------+
+    | DAEV | Number of days included in the multiday evaporation   |
+    |      | total (MDEV)                                          |
+    +------+-------------------------------------------------------+
+    | DAPR | Number of days included in the multiday               |
+    |      | precipitation total (MDPR)                            |
+    +------+-------------------------------------------------------+
+    | DASF | Number of days included in the multiday snowfall      |
+    |      | total (MDSF)                                          |
+    +------+-------------------------------------------------------+
+    | DATN | Number of days included in the multiday minimum       |
+    |      | temperature (MDTN)                                    |
+    +------+-------------------------------------------------------+
+    | DATX | Number of days included in the multiday maximum       |
+    |      | temperature (MDTX)                                    |
+    +------+-------------------------------------------------------+
+    | DAWM | Number of days included in the multiday wind          |
+    |      | movement (MDWM)                                       |
+    +------+-------------------------------------------------------+
+    | DWPR | Number of days with non-zero precipitation            |
+    |      | included in multiday precipitation total (MDPR)       |
+    +------+-------------------------------------------------------+
+    | EVAP | Evaporation of water from evaporation pan             |
+    |      | (tenths of mm)                                        |
+    +------+-------------------------------------------------------+
+    | FMTM | Time of fastest mile or fastest 1-minute wind         |
+    |      | (hours and minutes, i.e., HHMM)                       |
+    +------+-------------------------------------------------------+
+    | FRGB | Base of frozen ground layer (cm)                      |
+    +------+-------------------------------------------------------+
+    | FRGT | Top of frozen ground layer (cm)                       |
+    +------+-------------------------------------------------------+
+    | FRTH | Thickness of frozen ground layer (cm)                 |
+    +------+-------------------------------------------------------+
+    | GAHT | Difference between river and gauge height (cm)        |
+    +------+-------------------------------------------------------+
+    | MDEV | Multiday evaporation total                            |
+    |      | (tenths of mm; use with DAEV)                         |
+    +------+-------------------------------------------------------+
+    | MDPR | Multiday precipitation total (tenths of mm; use       |
+    |      | with DAPR and DWPR, if available)                     |
+    +------+-------------------------------------------------------+
+    | MDSF | Multiday snowfall total                               |
+    +------+-------------------------------------------------------+
+    | MDTN | Multiday minimum temperature                          |
+    |      | (tenths of degrees C; use with DATN)                  |
+    +------+-------------------------------------------------------+
+    | MDTX | Multiday maximum temperature                          |
+    |      | (tenths of degress C; use with DATX)                  |
+    +------+-------------------------------------------------------+
+    | MDWM | Multiday wind movement (km)                           |
+    +------+-------------------------------------------------------+
+    | MNPN | Daily minimum temperature of water in an              |
+    |      | evaporation pan (tenths of degrees C)                 |
+    +------+-------------------------------------------------------+
+    | MXPN | Daily maximum temperature of water in an              |
+    |      | evaporation pan (tenths of degrees C)                 |
+    +------+-------------------------------------------------------+
+    | PGTM | Peak gust time (hours and minutes, i.e., HHMM)        |
+    +------+-------------------------------------------------------+
+    | PSUN | Daily percent of possible sunshine (percent)          |
+    +------+-------------------------------------------------------+
+    | TAVG | Average temperature (tenths of degrees C)             |
+    |      | [Note that TAVG from source 'S' corresponds to an     |
+    |      | average for the period ending at 2400 UTC rather      |
+    |      | than local midnight]                                  |
+    +------+-------------------------------------------------------+
+    | THIC | Thickness of ice on water (tenths of mm)              |
+    +------+-------------------------------------------------------+
+    | TOBS | Temperature at the time of observation                |
+    |      | (tenths of degrees C)                                 |
+    +------+-------------------------------------------------------+
+    | TSUN | Daily total sunshine (minutes)                        |
+    +------+-------------------------------------------------------+
+    | WDF1 | Direction of fastest 1-minute wind (degrees)          |
+    +------+-------------------------------------------------------+
+    | WDF2 | Direction of fastest 2-minute wind (degrees)          |
+    +------+-------------------------------------------------------+
+    | WDF5 | Direction of fastest 5-second wind (degrees)          |
+    +------+-------------------------------------------------------+
+    | WDFG | Direction of peak wind gust (degrees)                 |
+    +------+-------------------------------------------------------+
+    | WDFI | Direction of highest instantaneous wind (degrees)     |
+    +------+-------------------------------------------------------+
+    | WDFM | Fastest mile wind direction (degrees)                 |
+    +------+-------------------------------------------------------+
+    | WDMV | 24-hour wind movement (km)                            |
+    +------+-------------------------------------------------------+
+    | WESD | Water equivalent of snow on the ground                |
+    |      | (tenths of mm)                                        |
+    +------+-------------------------------------------------------+
+    | WESF | Water equivalent of snowfall (tenths of mm)           |
+    +------+-------------------------------------------------------+
+    | WSF1 | Fastest 1-minute wind speed                           |
+    |      | (tenths of meters per second)                         |
+    +------+-------------------------------------------------------+
+    | WSF2 | Fastest 2-minute wind speed                           |
+    |      | (tenths of meters per second)                         |
+    +------+-------------------------------------------------------+
+    | WSF5 | Fastest 5-second wind speed                           |
+    |      | (tenths of meters per second)                         |
+    +------+-------------------------------------------------------+
+    | WSFG | Peak gust wind speed (tenths of meters per second)    |
+    +------+-------------------------------------------------------+
+    | WSFI | Highest instantaneous wind speed                      |
+    |      | (tenths of meters per second)                         |
+    +------+-------------------------------------------------------+
+    | WSFM | Fastest mile wind speed                               |
+    |      | (tenths of meters per second)                         |
+    +------+-------------------------------------------------------+
+    | SN*# | Minimum soil temperature (tenths of degrees C)        |
+    |      | where * corresponds to a code                         |
+    |      | for ground cover and # corresponds to a code          |
+    |      | for soil depth.                                       |
+    |      |                                                       |
+    |      | Ground cover codes include the following:             |
+    |      | 0 = unknown                                           |
+    |      | 1 = grass                                             |
+    |      | 2 = fallow                                            |
+    |      | 3 = bare ground                                       |
+    |      | 4 = brome grass                                       |
+    |      | 5 = sod                                               |
+    |      | 6 = straw multch                                      |
+    |      | 7 = grass muck                                        |
+    |      | 8 = bare muck                                         |
+    |      |                                                       |
+    |      | Depth codes include the following:                    |
+    |      | 1 = 5 cm                                              |
+    |      | 2 = 10 cm                                             |
+    |      | 3 = 20 cm                                             |
+    |      | 4 = 50 cm                                             |
+    |      | 5 = 100 cm                                            |
+    |      | 6 = 150 cm                                            |
+    |      | 7 = 180 cm                                            |
+    +------+-------------------------------------------------------+
+    | SX*# | Maximum soil temperature (tenths of degrees C)        |
+    |      | where * corresponds to a code for ground cover        |
+    |      | and # corresponds to a code for soil depth.           |
+    |      | See SN*# for ground cover and depth codes.            |
+    +------+-------------------------------------------------------+
+    | WT** | Weather Type where ** has one of the                  |
+    |      | following values:                                     |
+    |      |                                                       |
+    |      | 01 = Fog, ice fog, or freezing fog                    |
+    |      |      (may include heavy fog)                          |
+    |      | 02 = Heavy fog or heaving freezing fog                |
+    |      |      (not always distinquished from fog)              |
+    |      | 03 = Thunder                                          |
+    |      | 04 = Ice pellets, sleet, snow pellets, or small       |
+    |      |      hail                                             |
+    |      | 05 = Hail (may include small hail)                    |
+    |      | 06 = Glaze or rime                                    |
+    |      | 07 = Dust, volcanic ash, blowing dust, blowing        |
+    |      |      sand, or blowing obstruction                     |
+    |      | 08 = Smoke or haze                                    |
+    |      | 09 = Blowing or drifting snow                         |
+    |      | 10 = Tornado, waterspout, or funnel cloud             |
+    |      | 11 = High or damaging winds                           |
+    |      | 12 = Blowing spray                                    |
+    |      | 13 = Mist                                             |
+    |      | 14 = Drizzle                                          |
+    |      | 15 = Freezing drizzle                                 |
+    |      | 16 = Rain (may include freezing rain, drizzle,        |
+    |      |      and freezing drizzle)                            |
+    |      | 17 = Freezing rain                                    |
+    |      | 18 = Snow, snow pellets, snow grains, or ice crystals |
+    |      | 19 = Unknown source of precipitation                  |
+    |      | 21 = Ground fog                                       |
+    |      | 22 = Ice fog or freezing fog                          |
+    +------+-------------------------------------------------------+
+    | WV** | Weather in the Vicinity where ** has one of the       |
+    |      | following values:                                     |
+    |      | 01 = Fog, ice fog, or freezing fog                    |
+    |      |      (may include heavy fog)                          |
+    |      | 03 = Thunder                                          |
+    |      | 07 = Ash, dust, sand, or other blowing obstruction    |
+    |      | 18 = Snow or ice crystals                             |
+    |      | 20 = Rain or snow shower                              |
+    +------+-------------------------------------------------------+
 
     :param station <str>: The station id. from the first column of
         ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt
@@ -891,7 +1107,7 @@ def daymet(lat,
            year=None,
           ):
     """
-    Download data from Daymet created by the Oak Ridge National Laboratory.
+    Download data from Daymet by the Oak Ridge National Laboratory.
 
     Detailed documentation is at http://daymet.ornl.gov/.  Since this is
     daily data, it covers midnight to midnight based on local time.
@@ -979,114 +1195,118 @@ def ldas(lat=None,
 
             Example: --xindex=301
     :param yindex <int>:  Either 'lat' and 'lon', or 'xindex' and
-        'yindex' is required.
-     yindex (required if using xindex/yindex): Enter the y index of the
-        NLDAS or GLDAS grid.::
+        'yindex' is required.  yindex (required if using xindex/yindex):
+        Enter the y index of the NLDAS or GLDAS grid.::
 
             Example: --yindex=80
     :param variable <str>:  Use the variable codes from the following table:
 
-        NLDAS:NLDAS_FORA0125_H.002:APCPsfc
-            Precipitation hourly total                 kg/m^2
-
-        NLDAS:NLDAS_FORA0125_H.002:DLWRFsfc
-            Surface DW longwave radiation flux         W/m^2
-
-        NLDAS:NLDAS_FORA0125_H.002:DSWRFsfc
-            Surface DW shortwave radiation flux        W/m^2
-
-        NLDAS:NLDAS_FORA0125_H.002:PEVAPsfc
-            Potential evaporation                      kg/m^2
-
-        NLDAS:NLDAS_FORA0125_H.002:SPFH2m
-            2-m above ground specific humidity         kg/kg
-
-        NLDAS:NLDAS_FORA0125_H.002:TMP2m
-            2-m above ground temperature               K
-
-        NLDAS:NLDAS_FORA0125_H.002:UGRD10m
-            10-m above ground zonal wind               m/s
-
-        NLDAS:NLDAS_FORA0125_H.002:VGRD10m
-            10-m above ground meridional wind          m/s
-
-        NLDAS:NLDAS_NOAH0125_H.002:EVPsfc
-            Total evapotranspiration                   kg/m^2
-
-        NLDAS:NLDAS_NOAH0125_H.002:GFLUXsfc
-            Ground heat flux                           w/m^2
-
-        NLDAS:NLDAS_NOAH0125_H.002:LHTFLsfc
-            Latent heat flux                           w/m^2
-
-        NLDAS:NLDAS_NOAH0125_H.002:SHTFLsfc
-            Sensible heat flux                         w/m^2
-
-        NLDAS:NLDAS_NOAH0125_H.002:SSRUNsfc
-            Surface runoff (non-infiltrating)          kg/m^2
-
-        NLDAS:NLDAS_NOAH0125_H.002:BGRIUNdfc
-            Subsurface runoff (baseflow)               kg/m^2
-
-        NLDAS:NLDAS_NOAH0125_H.002:SOILM0-10cm
-            0-10 cm soil moisture content              kg/m^2
-
-        NLDAS:NLDAS_NOAH0125_H.002:SOILM0-100cm
-            0-100 cm soil moisture content             kg/m^2
-
-        NLDAS:NLDAS_NOAH0125_H.002:SOILM0-200cm
-            0-200 cm soil moisture content             kg/m^2
-
-        NLDAS:NLDAS_NOAH0125_H.002:SOILM10-40cm
-            10-40 cm soil moisture content             kg/m^2
-
-        NLDAS:NLDAS_NOAH0125_H.002:SOILM40-100cm
-            40-100 cm soil moisture content            kg/m^2
-
-        NLDAS:NLDAS_NOAH0125_H.002:SOILM100-200cm
-            100-200 cm soil moisture content           kg/m^2
-
-        NLDAS:NLDAS_NOAH0125_H.002:TSOIL0-10cm
-            0-10 cm soil temperature                   K
-
-        GLDAS:GLDAS_NOAH025_3H.001:Evap
-            Evapotranspiration                         kg/m^2/s
-
-        GLDAS:GLDAS_NOAH025_3H.001:precip
-            Precipitation rate                         kg/m^s/hr
-
-        GLDAS:GLDAS_NOAH025_3H.001:Rainf
-            Rain rate                                  kg/m^2/s
-
-        GLDAS:GLDAS_NOAH025_3H.001:Snowf
-            Snow rate                                  kg/m^2/s
-
-        GLDAS:GLDAS_NOAH025_3H.001:Qs
-            Surface Runoff                             kg/m^2/s
-
-        GLDAS:GLDAS_NOAH025_3H.001:Qsb
-            Subsurface Runoff                          kg/m^2/s
-
-        GLDAS:GLDAS_NOAH025_3H.001:SOILM0-100cm
-            0-100 cm top 1 meter soil moisture content kg/m^2
-
-        GLDAS:GLDAS_NOAH025_3H.001:SOILM0-10cm
-            0-10 cm layer 1 soil moisture content      kg/m^2
-
-        GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm
-            10-40 cm layer 2 soil moisture content     kg/m^2
-
-        GLDAS:GLDAS_NOAH025_3H.001:SOILM40-100cm
-            40-100 cm layer 3 soil moisture content    kg/m^2
-
-        GLDAS:GLDAS_NOAH025_3H.001:Tair
-            Near surface air temperature               K
-
-        GLDAS:GLDAS_NOAH025_3H.001:TSOIL0-10cm
-            Average layer 1 soil temperature           K
-
-        GLDAS:GLDAS_NOAH025_3H.001:Wind
-            Near surface wind magnitude                m/s
+        +------------------------------------------------+-----------+
+        | LDAS "variable" string                         |           |
+        |     Description                                | Units     |
+        +================================================+===========+
+        | NLDAS:NLDAS_FORA0125_H.002:APCPsfc             |           |
+        |     Precipitation hourly total                 | kg/m^2    |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:DLWRFsfc            |           |
+        |     Surface DW longwave radiation flux         | W/m^2     |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:DSWRFsfc            |           |
+        |     Surface DW shortwave radiation flux        | W/m^2     |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:PEVAPsfc            |           |
+        |     Potential evaporation                      | kg/m^2    |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:SPFH2m              |           |
+        |     2-m above ground specific humidity         | kg/kg     |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:TMP2m               |           |
+        |     2-m above ground temperature               | K         |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:UGRD10m             |           |
+        |     10-m above ground zonal wind               | m/s       |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:VGRD10m             |           |
+        |     10-m above ground meridional wind          | m/s       |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:EVPsfc              |           |
+        |     Total evapotranspiration                   | kg/m^2    |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:GFLUXsfc            |           |
+        |     Ground heat flux                           | w/m^2     |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:LHTFLsfc            |           |
+        |     Latent heat flux                           | w/m^2     |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SHTFLsfc            |           |
+        |     Sensible heat flux                         | w/m^2     |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SSRUNsfc            |           |
+        |     Surface runoff (non-infiltrating)          | kg/m^2    |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:BGRIUNdfc           |           |
+        |     Subsurface runoff (baseflow)               | kg/m^2    |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SOILM0-10cm         |           |
+        |     0-10 cm soil moisture content              | kg/m^2    |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SOILM0-100cm        |           |
+        |     0-100 cm soil moisture content             | kg/m^2    |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SOILM0-200cm        |           |
+        |     0-200 cm soil moisture content             | kg/m^2    |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SOILM10-40cm        |           |
+        |     10-40 cm soil moisture content             | kg/m^2    |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SOILM40-100cm       |           |
+        |     40-100 cm soil moisture content            | kg/m^2    |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SOILM100-200cm      |           |
+        |     100-200 cm soil moisture content           | kg/m^2    |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:TSOIL0-10cm         |           |
+        |     0-10 cm soil temperature                   | K         |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Evap                |           |
+        |     Evapotranspiration                         | kg/m^2/s  |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:precip              |           |
+        |     Precipitation rate                         | kg/m^s/hr |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Rainf               |           |
+        |     Rain rate                                  | kg/m^2/s  |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Snowf               |           |
+        |     Snow rate                                  | kg/m^2/s  |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Qs                  |           |
+        |     Surface Runoff                             | kg/m^2/s  |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Qsb                 |           |
+        |     Subsurface Runoff                          | kg/m^2/s  |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:SOILM0-100cm        |           |
+        |     0-100 cm top 1 meter soil moisture content | kg/m^2    |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:SOILM0-10cm         |           |
+        |     0-10 cm layer 1 soil moisture content      | kg/m^2    |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm        |           |
+        |     10-40 cm layer 2 soil moisture content     | kg/m^2    |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:SOILM40-100cm       |           |
+        |     40-100 cm layer 3 soil moisture content    | kg/m^2    |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Tair                |           |
+        |     Near surface air temperature               | K         |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:TSOIL0-10cm         |           |
+        |     Average layer 1 soil temperature           | K         |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Wind                |           |
+        |     Near surface wind magnitude                | m/s       |
+        +------------------------------------------------+-----------+
 
     :param startDate <str>:  The start date of the time series.::
 
@@ -1120,20 +1340,20 @@ def ldas(lat=None,
 
 
 @mando.command(formatter_class=HelpFormatter)
-def forecast_io(latitude,
-                longitude,
-                time=None,
-                database='hourly',
-                extend=None,
-                units='us',
-                lang='en'
-               ):
+def darksky(latitude,
+            longitude,
+            time=None,
+            database='hourly',
+            extend=None,
+            units='us',
+            lang='en'
+           ):
     """
-    Download data from http://forecast.io.
+    Powered by Dark Sky https://darksky.net/poweredby/
 
-    Detailed documentation about the Forecast.io service is at
-    https://developer.forecast.io/docs/v2 You have to get an API key
-    from https://developer.forecast.io/.
+    Detailed documentation about the darksky.net service is at
+    https://darksky.net/dev/docs. You have to get an API key
+    from https://darksky.net/dev/register
 
     The time zone of the returned data is dependent on the format of the
     "time" option.  If there is an ISO8601 representation of the time
@@ -1409,9 +1629,9 @@ def forecast_io(latitude,
         | zh          | Chinese           |
         +-------------+-------------------+
     """
-    from tsgettoolbox.services import forecast_io as placeholder
+    from tsgettoolbox.services import darksky as placeholder
     r = resource(
-        r'https://api.forecast.io/forecast',
+        r'https://api.darksky.net/forecast',
         latitude=latitude,
         longitude=longitude,
         database=database,
@@ -1421,6 +1641,29 @@ def forecast_io(latitude,
         lang=lang,
         )
     return tsutils.printiso(odo(r, pd.DataFrame))
+
+
+@mando.command(formatter_class=HelpFormatter)
+def forecast_io(latitude,
+                longitude,
+                time=None,
+                database='hourly',
+                extend=None,
+                units='us',
+                lang='en'
+               ):
+    """ DEPRECATED: please use 'darksky'.
+
+    The forecast_io service changed names to 'darksky'.
+    """
+    return darksky(latitude,
+                   longitude,
+                   time=time,
+                   database=database,
+                   extend=extend,
+                   units=units,
+                   lang=lang,
+                  )
 
 
 @mando.command(formatter_class=HelpFormatter)

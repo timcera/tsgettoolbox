@@ -71,10 +71,30 @@ coops --help'.
                 Two projects are available, the National LDAS (0.125x0.125
                 degree hourly) and the Global LDAS (0.25x0.25 degree 3 hourly).
 
-    forecast_io Download data from http://forecast.io Detailed documentation
-                about the Forecast.io service is at
-                https://developer.forecast.io/docs/v2 You have to get an API
-                key from https://developer.forecast.io/
+    darksky 
+                Download data from http://api.darksky.net. Detailed
+                documentation about the Forecast.io service is at
+                https://darksky.net/dev/docs. You have to get an API
+                key from https://darksky.net/dev/register
+
+    ghcnd       
+                If you use this data, please read
+                ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt
+                about "How to cite".
+
+                GHCN (Global Historical Climatology Network)-Daily is an
+                integrated database of daily climate summaries from land
+                surface stations across the globe. Like its monthly counterpart
+                (GHCN-Monthly) , GHCN-Daily is comprised of daily climate
+                records from numerous sources that have been integrated and
+                subjected to a common suite of quality assurance reviews.
+
+    unavco      
+                Detailed information at: 
+                http://www.unavco.com/data/web-services/web-services.html
+
+                Returns 'met', 'pore_temperature', 'pore_pressure', 'tilt',
+                'strain', or 'positional' data for UNAVCO stations.
 
 Usage Summary - Python Library
 ------------------------------
@@ -88,3 +108,4 @@ Development
 ~~~~~~~~~~~
 Development is managed on bitbucket at
 https://bitbucket.org/timcera/tsgettoolbox/overview.
+
