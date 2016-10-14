@@ -168,7 +168,7 @@ def ghcnd_to_df(data, **kwargs):
         tmpdf = df.ix[df['code'] == code, :]
         if len(tmpdf) == 0:
             continue
-        tmpdf = tmpdf.set_index(['year', 'month'])
+        tmpdf.set_index(['year', 'month'], inplace=True)
         tmpdf = tmpdf.ix[:, list(range(2, 126, 4))].stack()
         tmpdf.index = (tmpdf.index.get_level_values(0).astype(str).values
                        + "-"
@@ -190,6 +190,7 @@ def ghcnd_to_df(data, **kwargs):
             ndf = tmpdf
 
     ndf.index.name = 'Datetime'
+    ndf.replace(to_replace=[-9999], value=[None], inplace=True)
     return ndf
 
 if __name__ == '__main__':
