@@ -18,14 +18,14 @@
     :alt: tsgettoolbox license
     :target: https://pypi.python.org/pypi/tsgettoolbox/
 
-TSgettoolbox - Quick Guide
+tsgettoolbox - Quick Guide
 ==========================
 The 'tsgettoolbox' is a Python script and library to get time-series data from
 different web services.  The tsgettoolbox will work with Python 2.6+ and 3.0+.
 
 Documentation
 -------------
-Reference documentation is at http://pythonhosted.org/tsgettoolbox/
+Reference documentation is at :ref:`tsgettoolbox_documentation`.
 
 Installation
 ------------
@@ -102,7 +102,7 @@ To use the tsgettoolbox in a project::
 
 	from tsgettoolbox import tsgettoolbox
 
-Refer to the API Documentation at http://pythonhosted.org/tsgettoolbox/
+Refer to the API Documentation at :ref:`tsgettoolbox_documentation`.
 
 Development
 ~~~~~~~~~~~
