@@ -2195,11 +2195,11 @@ def ncdc_gsom(stationid, datatypeid='', startdate='', enddate=''):
         +------+-------------------------------------------------------+
         | HTDD | Heating Degree Days. Computed when daily average      |
         |      | temperature is less than 65 degrees Fahrenheit/18.3   |
-        |      | degrees Celsius. HDD = 65(F)/18.3(C) – mean daily     |
+        |      | degrees Celsius. HDD = 65(F)/18.3(C) - mean daily     |
         |      | temperature. Each day is summed to produce a          |
         |      | monthly/annual total. Annual totals are computed      |
-        |      | based on a July – June year in Northern Hemisphere    |
-        |      | and January – December year in Southern Hemisphere.   |
+        |      | based on a July - June year in Northern Hemisphere    |
+        |      | and January - December year in Southern Hemisphere.   |
         |      | Given in Celsius or Fahrenheit degrees depending on   |
         |      | user specification.                                   |
         +------+-------------------------------------------------------+
@@ -2208,8 +2208,8 @@ def ncdc_gsom(stationid, datatypeid='', startdate='', enddate=''):
         |      | degrees Celsius. CDD = mean daily temperature - 65    |
         |      | degrees Fahrenheit/18.3 degrees Celsius. Each day is  |
         |      | summed to produce a monthly/annual total. Annual      |
-        |      | totals are computed based on a January – December     |
-        |      | year in Northern Hemisphere and July – June year in   |
+        |      | totals are computed based on a January - December     |
+        |      | year in Northern Hemisphere and July - June year in   |
         |      | Southern Hemisphere. Given in Celsius or Fahrenheit   |
         |      | degrees depending on user specification.              |
         +------+-------------------------------------------------------+
@@ -2371,7 +2371,7 @@ def ncdc_gsom(stationid, datatypeid='', startdate='', enddate=''):
         |      | missing or flagged. DaysMissing: Flag indicating      |
         |      | number of days missing or flagged (from 1 to 5).      |
         +------+-------------------------------------------------------+
-        | WSF5 | Peak Wind Gust Speed – Fastest 5-second wind. Maximum |
+        | WSF5 | Peak Wind Gust Speed - Fastest 5-second wind. Maximum |
         |      | wind gust for the month/year. Given in miles per hour |
         |      | or second depending on user specification. Missing if |
         |      | more than 5 days within the month are missing or      |
@@ -2380,7 +2380,7 @@ def ncdc_gsom(stationid, datatypeid='', startdate='', enddate=''):
         |      | indicating number of days missing or flagged (from 1  |
         |      | to 5).                                                |
         +------+-------------------------------------------------------+
-        | WDF5 | Wind Direction for Peak Wind Gust Speed – Fastest     |
+        | WDF5 | Wind Direction for Peak Wind Gust Speed - Fastest     |
         |      | 5-second (WSF5). Given in 360-degree compass point    |
         |      | directions (e.g. 360 = north, 180 = south, etc.).     |
         |      | Missing if more than 5 days within the month are      |
@@ -2389,7 +2389,7 @@ def ncdc_gsom(stationid, datatypeid='', startdate='', enddate=''):
         |      | DaysMissing: Flag indicating number of days missing   |
         |      | or flagged (from 1 to 5).                             |
         +------+-------------------------------------------------------+
-        | WSF3 | Peak Wind Gust Speed – Fastest 3-second wind. Maximum |
+        | WSF3 | Peak Wind Gust Speed - Fastest 3-second wind. Maximum |
         |      | wind gust for the month/year. Given in miles per hour |
         |      | or second depending on user specification. Missing if |
         |      | more than 5 days within the month are missing or      |
@@ -2398,7 +2398,7 @@ def ncdc_gsom(stationid, datatypeid='', startdate='', enddate=''):
         |      | indicating number of days missing or flagged (from 1  |
         |      | to 5).                                                |
         +------+-------------------------------------------------------+
-        | WDF3 | Wind Direction for Peak Wind Gust Speed – Fastest     |
+        | WDF3 | Wind Direction for Peak Wind Gust Speed - Fastest     |
         |      | 5-second (WSF3). Given in 360-degree compass point    |
         |      | directions (e.g. 360 = north, 180 = south, etc.).     |
         |      | Missing if more than 5 days within the month are      |
@@ -2665,11 +2665,11 @@ def ncdc_gsoy(stationid, datatypeid='', startdate='', enddate=''):
         +------+-------------------------------------------------------+
         | HTDD | Heating Degree Days. Computed when daily average      |
         |      | temperature is less than 65 degrees Fahrenheit/18.3   |
-        |      | degrees Celsius. HDD = 65(F)/18.3(C) – mean daily     |
+        |      | degrees Celsius. HDD = 65(F)/18.3(C) - mean daily     |
         |      | temperature. Each day is summed to produce a          |
         |      | monthly/annual total. Annual totals are computed      |
-        |      | based on a July – June year in Northern Hemisphere    |
-        |      | and January – December year in Southern Hemisphere.   |
+        |      | based on a July - June year in Northern Hemisphere    |
+        |      | and January - December year in Southern Hemisphere.   |
         |      | Given in Celsius or Fahrenheit degrees depending on   |
         |      | user specification.                                   |
         +------+-------------------------------------------------------+
@@ -2678,8 +2678,8 @@ def ncdc_gsoy(stationid, datatypeid='', startdate='', enddate=''):
         |      | degrees Celsius. CDD = mean daily temperature - 65    |
         |      | degrees Fahrenheit/18.3 degrees Celsius. Each day is  |
         |      | summed to produce a monthly/annual total. Annual      |
-        |      | totals are computed based on a January – December     |
-        |      | year in Northern Hemisphere and July – June year in   |
+        |      | totals are computed based on a January - December     |
+        |      | year in Northern Hemisphere and July - June year in   |
         |      | Southern Hemisphere. Given in Celsius or Fahrenheit   |
         |      | degrees depending on user specification.              |
         +------+-------------------------------------------------------+
@@ -2841,7 +2841,7 @@ def ncdc_gsoy(stationid, datatypeid='', startdate='', enddate=''):
         |      | missing or flagged. DaysMissing: Flag indicating      |
         |      | number of days missing or flagged (from 1 to 5).      |
         +------+-------------------------------------------------------+
-        | WSF5 | Peak Wind Gust Speed – Fastest 5-second wind. Maximum |
+        | WSF5 | Peak Wind Gust Speed - Fastest 5-second wind. Maximum |
         |      | wind gust for the month/year. Given in miles per hour |
         |      | or second depending on user specification. Missing if |
         |      | more than 5 days within the month are missing or      |
@@ -2850,7 +2850,7 @@ def ncdc_gsoy(stationid, datatypeid='', startdate='', enddate=''):
         |      | indicating number of days missing or flagged (from 1  |
         |      | to 5).                                                |
         +------+-------------------------------------------------------+
-        | WDF5 | Wind Direction for Peak Wind Gust Speed – Fastest     |
+        | WDF5 | Wind Direction for Peak Wind Gust Speed - Fastest     |
         |      | 5-second (WSF5). Given in 360-degree compass point    |
         |      | directions (e.g. 360 = north, 180 = south, etc.).     |
         |      | Missing if more than 5 days within the month are      |
@@ -2859,7 +2859,7 @@ def ncdc_gsoy(stationid, datatypeid='', startdate='', enddate=''):
         |      | DaysMissing: Flag indicating number of days missing   |
         |      | or flagged (from 1 to 5).                             |
         +------+-------------------------------------------------------+
-        | WSF3 | Peak Wind Gust Speed – Fastest 3-second wind. Maximum |
+        | WSF3 | Peak Wind Gust Speed - Fastest 3-second wind. Maximum |
         |      | wind gust for the month/year. Given in miles per hour |
         |      | or second depending on user specification. Missing if |
         |      | more than 5 days within the month are missing or      |
@@ -2868,7 +2868,7 @@ def ncdc_gsoy(stationid, datatypeid='', startdate='', enddate=''):
         |      | indicating number of days missing or flagged (from 1  |
         |      | to 5).                                                |
         +------+-------------------------------------------------------+
-        | WDF3 | Wind Direction for Peak Wind Gust Speed – Fastest     |
+        | WDF3 | Wind Direction for Peak Wind Gust Speed - Fastest     |
         |      | 5-second (WSF3). Given in 360-degree compass point    |
         |      | directions (e.g. 360 = north, 180 = south, etc.).     |
         |      | Missing if more than 5 days within the month are      |
