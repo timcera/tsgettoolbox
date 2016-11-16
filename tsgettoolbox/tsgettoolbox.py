@@ -2455,7 +2455,7 @@ def ncdc_gsom(stationid, datatypeid='', startdate='', enddate=''):
         |      | flagged. DaysMissing: Flag indicating number of days  |
         |      | missing or flagged (from 1 to 5).                     |
         +------+-------------------------------------------------------+
-        |      | “y” values for HXyz, HNyz, LXyz, and LNyz are as      |
+        |      | "y" values for HXyz, HNyz, LXyz, and LNyz are as      |
         |      | follows:                                              |
         +------+-------------------------------------------------------+
         |      | 1=grass                                               |
@@ -2476,7 +2476,7 @@ def ncdc_gsom(stationid, datatypeid='', startdate='', enddate=''):
         +------+-------------------------------------------------------+
         |      | 0=unknown                                             |
         +------+-------------------------------------------------------+
-        |      | “z” values for HXyz, HNyz, LXyz, and LNyz are as      |
+        |      | "z" values for HXyz, HNyz, LXyz, and LNyz are as      |
         |      | follows:                                              |
         +------+-------------------------------------------------------+
         |      | 1= 2 inches or 5 centimeters depth                    |
@@ -2523,7 +2523,7 @@ def ncdc_gsom(stationid, datatypeid='', startdate='', enddate=''):
         |      | is the month, dd is the day of the month and s is a   |
         |      | source flag.                                          |
         +------+-------------------------------------------------------+
-        |      | “x” values for HXyz, HNyz, LXyz, and LNyz are as      |
+        |      | "x" values for HXyz, HNyz, LXyz, and LNyz are as      |
         |      | follows:                                              |
         +------+-------------------------------------------------------+
         |      | 0 = first minimum temperature <= 32 degrees           |
@@ -2925,7 +2925,7 @@ def ncdc_gsoy(stationid, datatypeid='', startdate='', enddate=''):
         |      | flagged. DaysMissing: Flag indicating number of days  |
         |      | missing or flagged (from 1 to 5).                     |
         +------+-------------------------------------------------------+
-        |      | “y” values for HXyz, HNyz, LXyz, and LNyz are as      |
+        |      | "y" values for HXyz, HNyz, LXyz, and LNyz are as      |
         |      | follows:                                              |
         +------+-------------------------------------------------------+
         |      | 1=grass                                               |
@@ -2946,7 +2946,7 @@ def ncdc_gsoy(stationid, datatypeid='', startdate='', enddate=''):
         +------+-------------------------------------------------------+
         |      | 0=unknown                                             |
         +------+-------------------------------------------------------+
-        |      | “z” values for HXyz, HNyz, LXyz, and LNyz are as      |
+        |      | "z" values for HXyz, HNyz, LXyz, and LNyz are as      |
         |      | follows:                                              |
         +------+-------------------------------------------------------+
         |      | 1= 2 inches or 5 centimeters depth                    |
@@ -2993,7 +2993,7 @@ def ncdc_gsoy(stationid, datatypeid='', startdate='', enddate=''):
         |      | is the month, dd is the day of the month and s is a   |
         |      | source flag.                                          |
         +------+-------------------------------------------------------+
-        |      | “x” values for HXyz, HNyz, LXyz, and LNyz are as      |
+        |      | "x" values for HXyz, HNyz, LXyz, and LNyz are as      |
         |      | follows:                                              |
         +------+-------------------------------------------------------+
         |      | 0 = first minimum temperature <= 32 degrees           |
@@ -5618,12 +5618,12 @@ def ncdc_annual(stationid, datatypeid='', startdate='', enddate=''):
     |       | element TPCP would then be 00135S and the total          |
     |       | accumulated amount value appears in a subsequent monthly |
     |       | value. If TPCP = 0 there was no precipitation measured   |
-    |       | during the month. flag 1 is set to “S” and the total     |
+    |       | during the month. flag 1 is set to "S" and the total     |
     |       | accumulated amount appears in a subsequent monthly       |
     |       | value.                                                   |
     +-------+----------------------------------------------------------+
     | T     | Trace of precipitation, snowfall, or snow depth. The     |
-    |       | precipitation data value will = “00000”. (EMXP, MXSD,    |
+    |       | precipitation data value will = "00000". (EMXP, MXSD,    |
     |       | TPCP, TSNW).                                             |
     +-------+----------------------------------------------------------+
     | +     | The phenomena in question occurred on several days. The  |
