@@ -2111,8 +2111,41 @@ def ncdc_gsom(stationid, datatypeid='', startdate='', enddate=''):
     """
     National Climatic Data Center Global Summary of the Month (GSOM)
 
-    For every datatype and record there is a set of meta-data flags.
-    For the GHCNDMS dataset, the flags are::
+    https://gis.ncdc.noaa.gov/all-records/catalog/search/resource/details.page?uuid=%7BC621CB74-5CB2-4534-A544-E9EBB139D9A4%7D
+
+    Cite this dataset when used as a source: Lawrimore, Jay (2016). Global
+    Summary of the Month, Version 1.0. [indicate subset used]. NOAA National
+    Centers for Environmental Information. DOI:10.7289/V5QV3JJ5 [access date].
+
+    NCEI cannot assume liability for any damages caused by any errors or
+    omissions in the data, nor as a result of the failure of the data to
+    function on a particular system. NCEI makes no warranty, expressed or
+    implied, nor does the fact of distribution constitute such a warranty. NCEI
+    can only certify that the data it distributes are an authentic copy of the
+    records that were accepted for inclusion in the NCEI archives.
+
+    The global summaries data set contains a monthly (GSOM) resolution of
+    meteorological elements (max temp, snow, etc) from 1763 to present with
+    updates weekly. The major parameters are: monthly mean maximum, mean
+    minimum and mean temperatures; monthly total precipitation and snowfall;
+    departure from normal of the mean temperature and total precipitation;
+    monthly heating and cooling degree days; number of days that temperatures
+    and precipitation are above or below certain thresholds; and extreme daily
+    temperature and precipitation amounts. The primary source data set source
+    is the Global Historical Climatology Network (GHCN)-Daily Data set. The
+    global summaries data set also contains a yearly (GSOY) resolution of
+    meteorological elements. See associated resources for more information.
+    This data is not to be confused with "GHCN-Monthly", "Annual Summaries" or
+    "NCDC Summary of the Month". There are unique elements that are produced
+    globally within the GSOM and GSOY data files.  There are also bias
+    corrected temperature data in GHCN-Monthly, which will not be available in
+    GSOM and GSOY. The GSOM and GSOY data set is going to replace the legacy
+    DSI-3220 and expand to include non-U.S. (a.k.a. global) stations.  DSI-3220
+    only included National Weather Service (NWS) COOP Published, or "Published
+    in CD", sites.  For every datatype and record there is a set of meta-data
+    flags.
+
+    For the GSOM dataset, the flags are::
 
         'Total Missing','Consecutive Missing'
 
@@ -2581,6 +2614,39 @@ def ncdc_gsom(stationid, datatypeid='', startdate='', enddate=''):
 def ncdc_gsoy(stationid, datatypeid='', startdate='', enddate=''):
     """
     National Climatic Data Center Global Summary of the YEAR (GSOY)
+
+    https://gis.ncdc.noaa.gov/all-records/catalog/search/resource/details.page?id=gov.noaa.ncdc:C00947
+
+    Cite this dataset when used as a source: Lawrimore, Jay (2016). Global
+    Summary of the Year, Version 1.0. [indicate subset used]. NOAA National
+    Centers for Environmental Information. [access date].
+
+    NCEI cannot assume liability for any damages caused by any errors or
+    omissions in the data, nor as a result of the failure of the data to
+    function on a particular system. NCEI makes no warranty, expressed or
+    implied, nor does the fact of distribution constitute such a warranty. NCEI
+    can only certify that the data it distributes are an authentic copy of the
+    records that were accepted for inclusion in the NCEI archives.
+
+    The global summaries data set contains a yearly (GSOY) resolution of
+    meteorological elements (max temp, snow, etc) from 1763 to present with
+    updates weekly. The major parameters are: monthly mean maximum, mean
+    minimum and mean temperatures; monthly total precipitation and snowfall;
+    departure from normal of the mean temperature and total precipitation;
+    monthly heating and cooling degree days; number of days that temperatures
+    and precipitation are above or below certain thresholds; and extreme daily
+    temperature and precipitation amounts. The primary source data set source
+    is the Global Historical Climatology Network (GHCN)-Daily Data set. The
+    global summaries data set also contains a monthly (GSOM) resolution of
+    meteorological elements. See associated resources for more information.
+    This data is not to be confused with "GHCN-Monthly", "Annual Summaries" or
+    "NCDC Summary of the Month". There are unique elements that are produced
+    globally within the GSOM and GSOY data files.  There are also bias
+    corrected temperature data in GHCN-Monthly, which will not be available in
+    GSOM and GSOY. The GSOM and GSOY data set is going to replace the legacy
+    DSI-3220 and expand to include non-U.S. (a.k.a. global) stations.  DSI-3220
+    only included National Weather Service (NWS) COOP Published, or "Published
+    in CD", sites.
 
     For every datatype and record there is a set of meta-data flags.
     For the GHCNDMS dataset, the flags are::
@@ -6875,6 +6941,22 @@ def ncdc_ghcndms(stationid, datatypeid='', startdate='', enddate=''):
         enddate = enddate,
         datasetid = 'GHCNDMS',
         stationid = stationid,
+        )
+
+    return tsutils.printiso(odo(r, pd.DataFrame))
+
+
+def ndbc(station, startUTC, endUTC, observedproperty=None):
+    """Download for the National Data Buoy Center
+    """
+    from tsgettoolbox.services import ndbc as placeholder
+
+    r = resource(
+        r'http://sdf.ndbc.noaa.gov/sos/server.php',
+        station = station,
+        startUTC = startUTC,
+        endUTC = endUTC,
+        observedproperty = observedproperty,
         )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
