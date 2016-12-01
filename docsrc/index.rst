@@ -11,10 +11,6 @@ sources.
 
 tsgettoolbox will work with Python 2.6+ and 3.0+.
 
-Other Work
-----------
-http://timcera.bitbucket.org
-
 Table of Contents
 -----------------
 .. toctree::
@@ -22,15 +18,15 @@ Table of Contents
 
    readme
    command_line
+   function_summary
    examples
+   notebooks
    contributing
    authors
    license
 
-API Documentation
------------------
+Other Projects
+--------------
+http://timcera.bitbucket.org
 
-.. toctree::
-   :maxdepth: 2
 
-   function_summary

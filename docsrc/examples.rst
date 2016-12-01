@@ -1,3 +1,5 @@
+.. include:: ../BADGES.rst
+
 Examples
 ========
 
@@ -170,3 +172,4 @@ produce the following .png file::
             --ofilename gainesville_min_max_temperatures.png
 
 .. image :: images/gainesville_min_max_temperatures.png
+

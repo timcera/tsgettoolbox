@@ -1,3 +1,5 @@
+.. include:: ../BADGES.rst
+
 License
 =======
 

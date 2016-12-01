@@ -71,13 +71,13 @@ coops --help'.
                 Two projects are available, the National LDAS (0.125x0.125
                 degree hourly) and the Global LDAS (0.25x0.25 degree 3 hourly).
 
-    darksky 
+    darksky
                 Download data from http://api.darksky.net. Detailed
                 documentation about the Forecast.io service is at
                 https://darksky.net/dev/docs. You have to get an API
                 key from https://darksky.net/dev/register
 
-    ghcnd       
+    ghcnd
                 If you use this data, please read
                 ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt
                 about "How to cite".
@@ -89,18 +89,66 @@ coops --help'.
                 records from numerous sources that have been integrated and
                 subjected to a common suite of quality assurance reviews.
 
-    unavco      
-                Detailed information at: 
+    unavco
+                Detailed information at:
                 http://www.unavco.com/data/web-services/web-services.html
 
                 Returns 'met', 'pore_temperature', 'pore_pressure', 'tilt',
                 'strain', or 'positional' data for UNAVCO stations.
 
+    ncdc_ghcnd_ftp
+                Download from the Global Historical Climatology Network -
+                Daily.
+
+    ncdc_ghcnd
+                Download from the Global Historical Climatology Network -
+                Daily. Requires registration and free API key.
+
+    ncdc_gsom
+                National Climatic Data Center Global Summary of the Month
+                (GSOM) Requires registration and free API key.
+
+    ncdc_gsoy
+                National Climatic Data Center Global Summary of the YEAR (GSOY)
+                Requires registration and free API key.
+
+    ncdc_normal_ann
+                National Climatic Data Center annual normals. Requires
+                registration and free API key.
+
+    ncdc_normal_dly
+                National Climatic Data Center Daily Normals. Requires
+                registration and free API key.
+
+    ncdc_normal_hly
+                National Climatic Data Center GHCND Monthly Summaries. Requires
+                registration and free API key.
+
+    ncdc_normal_mly
+                National Climatic Data Center GHCND Monthly Summaries. Requires
+                registration and free API key.
+
+    ncdc_precip_15
+                National Climatic Data Center 15 minute precipitation.
+                Requires registration and free API key.
+
+    ncdc_precip_hly
+                National Climatic Data Center hourly precipitation.  Requires
+                registration and free API key.
+
+    ncdc_annual
+                National Climatic Data Center annual data summaries.  Requires
+                registration and free API key.
+
+    ncdc_ghcndms
+                National Climatic Data Center GHCND Monthly Summaries.
+                Requires registration and free API key.
+
 Usage Summary - Python Library
 ------------------------------
 To use the tsgettoolbox in a project::
 
-	from tsgettoolbox import tsgettoolbox
+    from tsgettoolbox import tsgettoolbox
 
 Refer to the API Documentation at :ref:`tsgettoolbox_documentation`.
 
