@@ -47,14 +47,13 @@ def coops(station,
           interval='h',
           bin=None,
          ):
-    """
-    Download from Center for Operational Oceanographic Products and Services.
+    """Download from Center for Operational Oceanographic Products and Services.
 
     CO-OPS web services is at http://tidesandcurrents.noaa.gov/api/.
     The time zone of the returned data depends on the setting of the
     "time_zone" option.  The default is "GMT" also known as "UTC".
 
-    :param station <str>:  A 7 character station ID, or a currents
+    :param str station:  A 7 character station ID, or a currents
         station ID.  Specify the station ID with the "station="
         parameter.::
 
@@ -63,7 +62,7 @@ def coops(station,
         Station listings for various products can be viewed at
         http://tidesandcurrents.noaa.gov or viewed on a map at Tides
         & Currents Station Map
-    :param date <str>:  The API understands several parameters related
+    :param str date:  The API understands several parameters related
         to date ranges.  All dates can be formatted as follows::
 
             YyyyMMdd
@@ -71,68 +70,66 @@ def coops(station,
             MM/dd/yyyy
             MM/dd/yyyy HH:mm
 
-        The date related options are 'begin_date',
-        'end_date', 'date', and 'range'.  They can be
-        combined in the following 5 ways, but if
-        conflicting then follows the table in order.
-        For example, the 'date' option will be used if
-        present regardless of any other option, then
-        'range', ...etc.:
+        The date related options are 'begin_date', 'end_date', 'date',
+        and 'range'.  They can be combined in the following 5 ways, but
+        if conflicting then follows the table in order.  For example,
+        the 'date' option will be used if present regardless of any
+        other option, then 'range', ...etc.:
 
-        +--------------------+-----------------------------------------+
-        | Parameter Name(s)  | Description                             |
-        +====================+=========================================+
-        | '--date'           | 'latest', 'today', or 'recent'          |
-        +--------------------+-----------------------------------------+
-        | '--range'          | Specify a number of hours to go back    |
-        |                    | from now and retrieve data for that     |
-        |                    | date range                              |
-        +--------------------+-----------------------------------------+
-        | '--begin_date' and | Specify a begin date and a number of    |
-        | '--range'          | hours to retrieve data starting from    |
-        |                    | that date                               |
-        +--------------------+-----------------------------------------+
-        | '--begin_date' and | Specify the date/time range of          |
-        | '--end_date'       | retrieval                               |
-        +--------------------+-----------------------------------------+
-        | '--end_date' and a | Specify an end date and a number of     |
-        | '--range'          | hours to retrieve data ending at that   |
-        |                    | date                                    |
-        +--------------------+-----------------------------------------+
+        +--------------------+---------------------------------------+
+        | Parameter Name(s)  | Description                           |
+        +====================+=======================================+
+        | '--date'           | 'latest', 'today', or 'recent'        |
+        +--------------------+---------------------------------------+
+        | '--range'          | Specify a number of hours to go back  |
+        |                    | from now and retrieve data for that   |
+        |                    | date range                            |
+        +--------------------+---------------------------------------+
+        | '--begin_date' and | Specify a begin date and a number of  |
+        | '--range'          | hours to retrieve data starting from  |
+        |                    | that date                             |
+        +--------------------+---------------------------------------+
+        | '--begin_date' and | Specify the date/time range of        |
+        | '--end_date'       | retrieval                             |
+        +--------------------+---------------------------------------+
+        | '--end_date' and a | Specify an end date and a number of   |
+        | '--range'          | hours to retrieve data ending at that |
+        |                    | date                                  |
+        +--------------------+---------------------------------------+
 
-        +-------------------+------------------------------------------+
-        | Maximum Retrieval | Data Types                               |
-        +===================+==========================================+
-        | 31 days           | All 6 minute data products               |
-        +-------------------+------------------------------------------+
-        | 1 year            | Hourly Height, and High/Low              |
-        +-------------------+------------------------------------------+
-        | 10 years          | Tide Predictions, Daily, and Monthly     |
-        |                   | Means                                    |
-        +-------------------+------------------------------------------+
+        +-------------------+--------------------------------------+
+        | Maximum Retrieval | Data Types                           |
+        +===================+======================================+
+        | 31 days           | All 6 minute data products           |
+        +-------------------+--------------------------------------+
+        | 1 year            | Hourly Height, and High/Low          |
+        +-------------------+--------------------------------------+
+        | 10 years          | Tide Predictions, Daily, and Monthly |
+        |                   | Means                                |
+        +-------------------+--------------------------------------+
 
-        +--------------------------------------+-----------------------+
-        | Description of "--date" option       | Option                |
-        +======================================+=======================+
-        | Today's data                         | --date='today'        |
-        +--------------------------------------+-----------------------+
-        | The last 3 days of data              | --date='recent'       |
-        +--------------------------------------+-----------------------+
-        | The last data point available within | --date='latest'       |
-        | the last 18 minutes.                 |                       |
-        +--------------------------------------+-----------------------+
+        +--------------------------------------+-----------------+
+        | Description of "--date" option       | Option          |
+        +======================================+=================+
+        | Today's data                         | --date='today'  |
+        +--------------------------------------+-----------------+
+        | The last 3 days of data              | --date='recent' |
+        +--------------------------------------+-----------------+
+        | The last data point available within | --date='latest' |
+        | the last 18 minutes.                 |                 |
+        +--------------------------------------+-----------------+
 
-    :param begin_date <str>:  The beginning date for the data.  See
+    :param str begin_date:  The beginning date for the data.  See
         explanation with the 'date' option on how to use all of the date
         related parameters.
-    :param end_date <str>:  The end date for the data.  January 1st,
+    :param str end_date:  The end date for the data.  January 1st,
         2012 through January 2nd, 2012::
 
             --begin_date='20120101' --end_date='20120102'
 
         See explanation with the 'date' option on how to use all of the
         date related parameters.
-    :param range <int>:  Specify the number of hours to go back from
+    :param int range:  Specify the number of hours to go back from
         now, an 'end_date', or forward from a 'begin_date'.
 
         48 hours beginning on April 15, 2012::
@@ -153,7 +150,7 @@ def coops(station,
 
         See explanation with the 'date' option on how to use all of the
         date related parameters.
-    :param product <str>:  Specify the data.
+    :param str product:  Specify the data.
 
         +------------------------+-------------------------------------+
         | Option                 | Description                         |
@@ -201,7 +198,7 @@ def coops(station,
         | currents               | Currents data                       |
         +------------------------+-------------------------------------+
 
-    :param datum <str>:  Specify the datum that all water levels will be
+    :param str datum:  Specify the datum that all water levels will be
         reported against.  Note! Datum is mandatory for all water level
         products.
 
@@ -225,7 +222,7 @@ def coops(station,
         | STND   | Station Datum                 |
         +--------+-------------------------------+
 
-    :param units <str>:  Metric or english units.
+    :param str units:  Metric or english units.
 
 
         +---------+----------------------------------------------------+
@@ -237,7 +234,7 @@ def coops(station,
         +---------+----------------------------------------------------+
 
         The default is 'metric'.
-    :param time_zone <str>:  The time zone is specified as 'gmt', 'lst'
+    :param str time_zone:  The time zone is specified as 'gmt', 'lst'
         or 'lst_ldt'.
 
         +---------+----------------------------------------------------+
@@ -252,10 +249,10 @@ def coops(station,
         |         | to the requested station.                          |
         +---------+----------------------------------------------------+
 
-    :param interval <str>:  Deliver the Meteorological data at hourly
+    :param str interval:  Deliver the Meteorological data at hourly
         intervals.  Does not override 6 minute intervals for
         --product='water_level'.  Defaults to 'h'.
-    :param bin <int>:  The bin number for the specified currents station
+    :param int bin:  The bin number for the specified currents station
         Example:'--bin=4' Will retrieve data for bin number 4. Note! If
         a bin is not specified for a PORTS station, the data is returned
         using a predefined real-time bin.
@@ -329,8 +326,8 @@ def nwis(sites=None,
     can have only one major filter per query. If you specify more than
     one major filter, you will get an error.
 
-    Major Filter
-    ============
+    **Major Filter**
+
     Select one of::
 
         '--sites',
@@ -339,8 +336,8 @@ def nwis(sites=None,
         '--bBox', or
         '--countyCd'
 
-    Minor Filters
-    =============
+    **Minor Filters**
+
     Additional filters can be applied after specifying a major filter. This
     further reduces the set of expected results. Users are encouraged to use
     minor filters because it allows more efficient use of this service.
@@ -363,7 +360,7 @@ def nwis(sites=None,
         '--holeDepthMin',
         '--holeDepthMax'
 
-    :param sites <str>:  Want to only query one site? Use sites as your
+    :param str sites:  Want to only query one site? Use sites as your
         major filter, and put only one site number in the list.  Sites
         are comma separated. Sites may be prefixed with an optional
         agency code followed by a colon. If you don't know the site
@@ -377,13 +374,13 @@ def nwis(sites=None,
             --sites=USGS:01646500
             --sites=01646500,06306300
 
-    :param stateCd <str>:  U.S. postal service (2-digit) state code.
+    :param str stateCd:  U.S. postal service (2-digit) state code.
         Can have only 1 state code.  List is available at
         http://www.usps.com/ncsc/lookups/usps_abbreviations.html::
 
             --stateCd=NY
 
-    :param huc <str>:  A list of hydrologic unit codes (HUC) or
+    :param str huc:  A list of hydrologic unit codes (HUC) or
         watersheds.  Only 1 major HUC can be specified per request.
         A major HUC has two digits. Minor HUCs must be eight digits in
         length.  Can have 1 to 10 HUC codes.  List of HUCs is available
@@ -391,7 +388,7 @@ def nwis(sites=None,
 
             --huc=01,02070010
 
-    :param bBox <str>:  A contiguous range of decimal latitude and
+    :param str bBox:  A contiguous range of decimal latitude and
         longitude, starting with the west longitude, then the south
         latitude, then the east longitude, and then the north latitude
         with each value separated by a comma. The product of the range
@@ -408,7 +405,7 @@ def nwis(sites=None,
 
             --bBox=-83,36.5,-81,38.5
 
-    :param countyCd <str>:  A list of county numbers, in a 5 digit
+    :param str countyCd:  A list of county numbers, in a 5 digit
         numeric format. The first two digits of a county's code are the
         FIPS State Code.  Can have from 1 to 20 county codes.  The first
         2 digits are the FIPS State Code
@@ -418,7 +415,7 @@ def nwis(sites=None,
 
             --countyCd=51059,51061
 
-    :param parameterCd <str>:  USGS time-series parameter code.  All
+    :param str parameterCd:  USGS time-series parameter code.  All
         parameter codes are numeric and 5 characters in length.
         Parameter codes are used to identify the constituent measured
         and the units of measure.  Popular codes include stage (00065),
@@ -435,7 +432,7 @@ def nwis(sites=None,
                                       # and gage height in
                                       # feet
 
-    :param siteType <str>:  Restricts sites to those having one or more
+    :param str siteType:  Restricts sites to those having one or more
         major and/or minor site types.  If you request a major site type
         (ex: &siteType=ST) you will get all sub-site types of the same
         major type as well (in this case, ST-CA, ST-DCH and ST-TS).  Can
@@ -446,7 +443,7 @@ def nwis(sites=None,
             --siteType=ST       # Streams only
             --siteType=ST,LA-OU # Streams and Land Outcrops only
 
-    :param modifiedSince <str>:  Returns all values for sites and period
+    :param str modifiedSince:  Returns all values for sites and period
         of record requested only if any values have changed over the
         last modifiedSince period.  modifiedSince is useful if you
         periodically need to poll a site but are only interested in
@@ -488,7 +485,7 @@ def nwis(sites=None,
                    # changed or added within the last two
                    # hours.
 
-    :param agencyCd <str>:  The list of sites returned are filtered to
+    :param str agencyCd:  The list of sites returned are filtered to
         return only those with the provided agency code. The agency code
         describes the organization that maintains the site. Only one
         agency code is allowed and is optional.  An authoritative list
@@ -500,7 +497,7 @@ def nwis(sites=None,
                                          # of Engineers sites
                                          # in Illinois
 
-    :param siteStatus <str>:  Selects sites based on whether or not they
+    :param str siteStatus:  Selects sites based on whether or not they
         are active. If a site is active, it implies that it is being
         actively maintained. A site is considered active if: * it has
         collected time-series (automated) data within the last 183 days
@@ -516,7 +513,7 @@ def nwis(sites=None,
 
             --siteStatus='active'
 
-    :param altMin <float>:  These arguments allows you to select
+    :param float altMin:  These arguments allows you to select
         instantaneous values sites where the associated sites' altitude
         are within a desired altitude, expressed in feet.  Altitude is
         based on the datum used at the site.  Providing a value to
@@ -525,7 +522,7 @@ def nwis(sites=None,
         precision is critical If both the altMin and altMax are
         specified, sites at or between the minimum and maximum altitude
         are returned.
-    :param altMax <float>:  Providing a value to altMax (maximum
+    :param float altMax:  Providing a value to altMax (maximum
         altitude) means you want sites that have or are less than the
         altMax value.::
 
@@ -539,7 +536,7 @@ def nwis(sites=None,
                                       # or greater and 13 feet
                                       # or less.
 
-    :param drainAreaMin <float>:  These arguments allows you to select
+    :param float drainAreaMin:  These arguments allows you to select
         principally surface water sites where the associated sites'
         drainage areas (watersheds) are within a desired size, expressed
         in square miles or decimal fractions thereof.  Providing a value
@@ -552,7 +549,7 @@ def nwis(sites=None,
         area generally only applies to surface water sites.  Use with
         other site types, such as groundwater sites, will likely
         retrieve no results.
-    :param drainAreaMax <float>:  Providing a value to drainAreaMax
+    :param float drainAreaMax:  Providing a value to drainAreaMax
         (maximum drainage area) means you want sites that have or are
         less than the drainAreaMax value.::
 
@@ -569,7 +566,7 @@ def nwis(sites=None,
                                  # and is 10.7 square miles
                                  # or less.
 
-    :param aquiferCd <str>:  Used to filter sites to those that exist in
+    :param str aquiferCd:  Used to filter sites to those that exist in
         specified national aquifers. Note: not all sites have been
         associated with national aquifers.  Enter one or more national
         aquifer codes, separated by commas.  A national aquifer code is
@@ -584,7 +581,7 @@ def nwis(sites=None,
                                   # High Plains national
                                   # aquifers.
 
-    :param localAquiferCd <str>:  Used to filter sites to those that
+    :param str localAquiferCd:  Used to filter sites to those that
         exist in specified local aquifers.  Note: not all sites have
         been associated with local aquifers.  Enter one or more local
         aquifer codes, separated by commas.  A local aquifer code begins
@@ -599,7 +596,7 @@ def nwis(sites=None,
                     # returns sites for the Regolith and
                     # Saprolite local aquifers in Alabama
 
-    :param wellDepthMin <float>:  These arguments allows you to select
+    :param float wellDepthMin:  These arguments allows you to select
         groundwater sites serving data recorded automatically where the
         associated sites' well depth are within a desired depth,
         expressed in feet from the land surface datum.  Express well
@@ -611,7 +608,7 @@ def nwis(sites=None,
         specified are returned wellDepthMax should be greater than or
         equal to wellDepthMin.  Caution: well depth applies to
         groundwater sites only
-    :param wellDepthMax <float>:  Providing a value to wellDepthMax
+    :param float wellDepthMax:  Providing a value to wellDepthMax
         (maximum well depth) means you want sites that have or are less
         than the wellDepthMax value.::
 
@@ -624,7 +621,7 @@ def nwis(sites=None,
                      # depth is 10.5 feet or greater and 10.7
                      # feet or less.
 
-    :param holeDepthMin <float>:  These arguments allows you to select
+    :param float holeDepthMin:  These arguments allows you to select
         groundwater sites serving data recorded automatically where the
         associated sites' hole depth are within a desired depth,
         expressed in feet from the land surface datum.  Express hole
@@ -636,7 +633,7 @@ def nwis(sites=None,
         specified are returned holeDepthMax should be greater than or
         equal to holeDepthMin.  Caution: hole depth applies to
         groundwater sites only.
-    :param holeDepthMax <float>:  Providing a value to holeDepthMax
+    :param float holeDepthMax:  Providing a value to holeDepthMax
         (maximum hole depth) means you want sites that have or are less
         than the holeDepthMax value.::
 
@@ -649,7 +646,7 @@ def nwis(sites=None,
                     # depth is 10.5 feet or greater and 10.7
                     # feet or less.
 
-    :param period <str>:  Get a range of values from now by specifying
+    :param str period:  Get a range of values from now by specifying
         the period argument period must be in ISO-8601 Duration format.
         (http://en.wikipedia.org/wiki/ISO_8601#Durations) Negative
         periods (ex: P-T2H) are not allowed Data are always returned up
@@ -665,7 +662,7 @@ def nwis(sites=None,
                          # now to most recent instantaneous
                          # value)
 
-    :param startDT <str>:  Get a range of values from an explicit begin
+    :param str startDT:  Get a range of values from an explicit begin
         or end date/time   Use the startDT and endDT arguments.  Site
         local time is output, even if multiple sites are requested and
         sites are in different time zones.  Note that the measurement
@@ -687,7 +684,7 @@ def nwis(sites=None,
         day (ex: 2010-09-02) the last minute before midnight site time
         is assumed (2010-09-02T23:59).  Remember, only data from October
         1, 2007 are currently available.
-    :param endDT <str>:  If endDT is present, startDt must also be
+    :param str endDT:  If endDT is present, startDt must also be
         present.::
 
             --startDT=2010-11-22 --endDT=2010-11-22 # Full day,
@@ -698,10 +695,10 @@ def nwis(sites=None,
             --startDT=2010-11-22 --endDT=2010-11-22
             --startDT=2010-11-22T12:00 # Ends with most recent
                                        # instantaneous value
-    :param database <str>:  One of 'iv' for instantaneous values, 'dv'
+    :param str database:  One of 'iv' for instantaneous values, 'dv'
         for daily values, or 'stat' for daily/monthly/annual statistics.
         Default is 'dv'.
-    :param statReportType <str>:  The type of statistics desired. Valid
+    :param str statReportType:  The type of statistics desired. Valid
         statistic report types include::
 
             daily - daily statistics (default)
@@ -714,7 +711,7 @@ def nwis(sites=None,
                      assumed. (annual time-series)
 
         Default is 'daily'.
-    :param statType <str>:  Selects sites based on the statistics
+    :param str statType:  Selects sites based on the statistics
         type(s) desired, such as minimum, maximum or mean
 
         For all statReportType types include::
@@ -738,7 +735,7 @@ def nwis(sites=None,
                 the service can calculate only these
                 percentiles.
 
-    :param missingData <str>:  Used to indicate the rules to follow to
+    :param str missingData:  Used to indicate the rules to follow to
         generate statistics if there are gaps in the period of record
         during the requested statistics period. By default if there are
         any missing data for the report type, the statistic is left
@@ -755,7 +752,7 @@ def nwis(sites=None,
         there is enough data to create one.
 
         Choice is 'off' or 'on'.
-    :param statYearType <str>:  Indicates which kind of year statistics
+    :param str statYearType:  Indicates which kind of year statistics
         should be created against. This only applies when requesting
         annual statistics, i.e. statReportType=annual. Valid year types
         codes include::
@@ -807,6 +804,681 @@ def nwis(sites=None,
         statYearType=statYearType,
         )
 
+    return tsutils.printiso(odo(r, pd.DataFrame))
+
+
+@mando.command(formatter_class=HelpFormatter)
+def daymet(lat,
+           lon,
+           measuredParams=None,
+           year=None,
+          ):
+    """
+    Download data from Daymet by the Oak Ridge National Laboratory.
+
+    Detailed documentation is at http://daymet.ornl.gov/.  Since this is
+    daily data, it covers midnight to midnight based on local time.
+
+    :param float lat: Latitude (required): Enter single geographic
+        point by latitude, value between 52.0N and 14.5N.::
+
+            Example: --lat=43.1
+    :param float lon: Longitude (required): Enter single geographic
+        point by longitude, value between -131.0W and -53.0W.::
+
+            Example: --lon=-85.3
+    :param str measuredParams:  CommaSeparatedVariables (optional):
+        Use the abbreviations from the following table:
+
+        +----------------+-----------------------+---------+
+        | measuredParams | Description           | Unit    |
+        +================+=======================+=========+
+        | tmax           | maximum temperature   | deg C   |
+        +----------------+-----------------------+---------+
+        | tmin           | minimum temperature   | deg C   |
+        +----------------+-----------------------+---------+
+        | srad           | shortwave radiation   | W/m2    |
+        +----------------+-----------------------+---------+
+        | vp             | vapor pressure        | Pa      |
+        +----------------+-----------------------+---------+
+        | swe            | snow-water equivalent | kg/m2   |
+        +----------------+-----------------------+---------+
+        | prcp           | precipitation         | mm      |
+        +----------------+-----------------------+---------+
+        | dayl           | daylength             | seconds |
+        +----------------+-----------------------+---------+
+
+         Example: --measuredParams=tmax,tmin
+
+         All variables are returned by default.
+    :param str year:  CommaSeparatedYears (optional): Current Daymet
+        product (version 2) is available from 1980 to the latest full
+        calendar year.::
+
+            Example: --years=2012,2013
+
+         All years are returned by default.
+    """
+    from tsgettoolbox.services import daymet as placeholder
+    r = resource(
+        r'http://daymet.ornl.gov/data/send/saveData',
+        measuredParams=measuredParams,
+        lat=lat,
+        lon=lon,
+        year=year,
+        )
+    return tsutils.printiso(odo(r, pd.DataFrame))
+
+
+@mando.command(formatter_class=HelpFormatter)
+def ldas(lat=None,
+         lon=None,
+         xindex=None,
+         yindex=None,
+         variable=None,
+         startDate=None,
+         endDate=None,
+        ):
+    """
+    Download data from NLDAS or GLDAS.
+
+    The time zone is always UTC.
+
+    :param float lat:  Either 'lat' and 'lon', or 'xindex' and
+        'yindex' is required.
+
+        Latitude (required): Enter single geographic point by
+        latitude.::
+
+            Example: --lat=43.1
+    :param float lon:  Either 'lat' and 'lon', or 'xindex' and
+        'yindex' is required.  Longitude (required): Enter single
+        geographic point by longitude::
+
+            Example: --lon=-85.3
+    :param int xindex:  Either 'lat' and 'lon', or 'xindex' and
+        'yindex' is required.  xindex (required if using xindex/yindex):
+        Enter the x index of the NLDAS or GLDAS grid.::
+
+            Example: --xindex=301
+    :param int yindex:  Either 'lat' and 'lon', or 'xindex' and
+        'yindex' is required.  yindex (required if using xindex/yindex):
+        Enter the y index of the NLDAS or GLDAS grid.::
+
+            Example: --yindex=80
+    :param str variable:  Use the variable codes from the following table:
+
+        +------------------------------------------------+-----------+
+        | LDAS "variable" string Description             | Units     |
+        +================================================+===========+
+        | NLDAS:NLDAS_FORA0125_H.002:APCPsfc             | kg/m^2    |
+        | Precipitation hourly total                     |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:DLWRFsfc Surface DW | W/m^2     |
+        | longwave radiation flux                        |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:DSWRFsfc Surface DW | W/m^2     |
+        | shortwave radiation flux                       |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:PEVAPsfc Potential  | kg/m^2    |
+        | evaporation                                    |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:SPFH2m 2-m above    | kg/kg     |
+        | ground specific humidity                       |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:TMP2m 2-m above     | K         |
+        | ground temperature                             |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:UGRD10m 10-m above  | m/s       |
+        | ground zonal wind                              |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:VGRD10m 10-m above  | m/s       |
+        | ground meridional wind                         |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:EVPsfc Total        | kg/m^2    |
+        | evapotranspiration                             |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:GFLUXsfc Ground     | w/m^2     |
+        | heat flux                                      |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:LHTFLsfc Latent     | w/m^2     |
+        | heat flux                                      |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SHTFLsfc Sensible   | w/m^2     |
+        | heat flux                                      |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SSRUNsfc Surface    | kg/m^2    |
+        | runoff (non-infiltrating)                      |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:BGRIUNdfc           | kg/m^2    |
+        | Subsurface runoff (baseflow)                   |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SOILM0-10cm 0-10 cm | kg/m^2    |
+        | soil moisture content                          |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SOILM0-100cm 0-100  | kg/m^2    |
+        | cm soil moisture content                       |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SOILM0-200cm 0-200  | kg/m^2    |
+        | cm soil moisture content                       |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SOILM10-40cm 10-40  | kg/m^2    |
+        | cm soil moisture content                       |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SOILM40-100cm       | kg/m^2    |
+        | 40-100 cm soil moisture content                |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SOILM100-200cm      | kg/m^2    |
+        | 100-200 cm soil moisture content               |           |
+        +------------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:TSOIL0-10cm 0-10 cm | K         |
+        | soil temperature                               |           |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Evap                | kg/m^2/s  |
+        | Evapotranspiration                             |           |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:precip              | kg/m^s/hr |
+        | Precipitation rate                             |           |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Rainf Rain rate     | kg/m^2/s  |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Snowf Snow rate     | kg/m^2/s  |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Qs Surface Runoff   | kg/m^2/s  |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Qsb Subsurface      | kg/m^2/s  |
+        | Runoff                                         |           |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:SOILM0-100cm 0-100  | kg/m^2    |
+        | cm top 1 meter soil moisture content           |           |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:SOILM0-10cm 0-10 cm | kg/m^2    |
+        | layer 1 soil moisture content                  |           |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm 10-40  | kg/m^2    |
+        | cm layer 2 soil moisture content               |           |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:SOILM40-100cm       | kg/m^2    |
+        | 40-100 cm layer 3 soil moisture content        |           |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Tair Near surface   | K         |
+        | air temperature                                |           |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:TSOIL0-10cm Average | K         |
+        | layer 1 soil temperature                       |           |
+        +------------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Wind Near surface   | m/s       |
+        | wind magnitude                                 |           |
+        +------------------------------------------------+-----------+
+
+    :param str startDate:  The start date of the time series.::
+
+            Example: --startDate=2001-01-01T05
+
+        If startDate and endDate are None, returns the entire series.
+    :param str endDate:  The end date of the time series.::
+
+            Example: --startDate=2001-01-05T05
+
+        If startDate and endDate are None, returns the entire series.
+    """
+    from tsgettoolbox.services import ldas as placeholder
+    project = variable.split(':')[0]
+    if lat is not None:
+        location = 'GEOM:POINT({0}, {1})'.format(lon, lat)
+    else:
+        if project == 'NLDAS':
+            location = '{0}:X{1:03d}-Y{2:03d}'.format(project, xindex, yindex)
+        else:
+            location = '{0}:X{1:04d}-Y{2:03d}'.format(project, xindex, yindex)
+
+    r = resource(
+        r'http://hydro1.sci.gsfc.nasa.gov/daac-bin/access/timeseries.cgi',
+        variable=variable,
+        location=location,
+        startDate=startDate,
+        endDate=endDate,
+        )
+    return tsutils.printiso(odo(r, pd.DataFrame))
+
+
+@mando.command(formatter_class=HelpFormatter)
+def darksky(latitude,
+            longitude,
+            time=None,
+            database='hourly',
+            extend=None,
+            units='us',
+            lang='en'
+           ):
+    """
+    Powered by Dark Sky https://darksky.net/poweredby/
+
+    Powered by Dark Sky https://darksky.net/poweredby/
+
+    Documentation: https://darksky.net/dev/docs
+
+    Registration: https://darksky.net/dev/register
+
+    The time zone of the returned data is dependent on the format of the
+    "time" option.  If there is an ISO8601 representation of the time
+    zone in the "time" option then that is the time zone of the returned
+    data.  If "time" is None or does not explicitly define a time zone,
+    the returned data is in the local time zone of the latitude and
+    longitude.
+
+    There isn't an absolutely consistent set of data returned for all
+    areas, or all databases.  The returned values will be some subset of
+    the following list:
+
+    summary::
+
+     A human-readable text summary of this data point.
+
+    icon::
+
+     A machine-readable text summary of this data |point, suitable for
+     selecting an icon for display. If defined, this property will have
+     one of the following values: 'clear-day', 'clear-night', 'rain',
+     'snow', 'sleet', 'wind', 'fog', 'cloudy', 'partly-cloudy-day', or
+     'partly-cloudy-night'.  (Developers should ensure that a sensible
+     default is defined, as additional values, such as hail,
+     thunderstorm, or tornado, may be defined in the future.)
+
+    precipIntensity::
+
+     A numerical value representing the average expected intensity (in
+     inches of liquid water per hour) of precipitation occurring at the
+     given time conditional on probability (that is, assuming any
+     precipitation occurs at all). A very rough guide is that a value
+     of 0 in./hr. corresponds to no precipitation, 0.002 in./hr.
+     corresponds to very light precipitation, 0.017 in./hr. corresponds
+     to light precipitation, 0.1 in./hr. corresponds to moderate
+     precipitation, and 0.4 in./hr. corresponds to heavy precipitation.
+
+    precipProbability::
+
+     A numerical value between 0 and 1 (inclusive) representing the
+     probability of precipitation occuring at the given time.
+
+    precipType::
+
+     A string representing the type of precipitation occurring at the
+     given time. If defined, this property will have one of the
+     following values: rain, snow, sleet (which applies to each of
+     freezing rain, ice pellets, and 'wintery mix'), or hail. (If
+     precipIntensity is zero, then this property will not be defined.)
+
+    dewPoint::
+
+     A numerical value representing the dew point at the given time in
+     degrees Fahrenheit.
+
+    windSpeed::
+
+     A numerical value representing the wind speed in miles per hour.
+
+    windBearing::
+
+     A numerical value representing the direction that the wind is
+     coming from in degrees, with true north at 0 degree and
+     progressing clockwise. (If windSpeed is zero, then this value will
+     not be defined.)
+
+    cloudCover::
+
+     A numerical value between 0 and 1 (inclusive) representing the
+     percentage of sky occluded by clouds. A value of 0 corresponds to
+     clear sky, 0.4 to scattered clouds, 0.75 to broken cloud cover,
+     and 1 to completely overcast skies.
+
+    humidity::
+
+     A numerical value between 0 and 1 (inclusive) representing the
+     relative humidity.
+
+    pressure::
+
+     A numerical value representing the sea-level air pressure in
+     millibars.
+
+    visibility::
+
+     A numerical value representing the average visibility in miles,
+     capped at 10 miles.
+
+    ozone::
+
+     A numerical value representing the columnar density of total
+     atmospheric ozone at the given time in Dobson units.
+
+    **Only defined for 'currently' data**
+
+    nearestStormDistance::
+
+     A numerical value representing the distance to the nearest storm
+     in miles. (This value is very approximate and should not be used
+     in scenarios requiring accurate results. In particular, a storm
+     distance of zero doesn't necessarily refer to a storm at the
+     requested location, but rather a storm in the vicinity of that
+     location.)
+
+    nearestStormBearing::
+
+     A numerical value representing the direction of the nearest storm
+     in degrees, with true north at 0 degree and progressing clockwise.
+     (If nearestStormDistance is zero, then this value will not be
+     defined. The caveats that apply to nearestStormDistance also apply
+     to this value.)
+
+    **Only defined for 'daily' data**
+
+    sunriseTime/sunsetTime::
+
+     The last sunrise before and first sunset after the solar noon
+     closest to local noon on the given day.  (Note: near the poles,
+     these may occur on a different day entirely!)
+
+    moonPhase::
+
+     A number representing the fractional part of the lunation number
+     of the given day. This can be thought of as the 'percentage
+     complete' of the current lunar month: a value of 0 represents
+     a new moon, a value of 0.25 represents a first quarter moon,
+     a value of 0.5 represents a full moon, and a value of 0.75
+     represents a last quarter moon. (The ranges in between these
+     represent waxing crescent, waxing gibbous, waning gibbous, and
+     waning crescent moons, respectively.)
+
+    precipIntensityMax, and precipIntensityMaxTime::
+
+     Numerical values representing the maximumum expected intensity of
+     precipitation on the given day in inches of liquid water per hour.
+
+    temperatureMin, temperatureMinTime, temperatureMax,
+    and temperatureMaxTime::
+
+     Numerical values representing the minimum and maximumum
+     temperatures (and the UNIX times at which they occur) on the given
+     day in degrees Fahrenheit.
+
+    apparentTemperatureMin, apparentTemperatureMinTime,
+    apparentTemperatureMax, and
+    apparentTemperatureMaxTime::
+
+     Numerical values representing the minimum and maximumum apparent
+     temperatures and the times at which they occur on the given day in
+     degrees Fahrenheit.
+
+    **Only defined for 'hourly' and 'daily' data**
+
+    precipAccumulation::
+
+     The amount of snowfall accumulation expected to occur on the given
+     day, in inches. (If no accumulation is expected, this property
+     will not be defined.)
+
+    **Defined for every dataset except 'daily'**
+
+    apparentTemperature::
+
+     A numerical value representing the apparent (or 'feels like')
+     temperature at the given time in degrees Fahrenheit.
+
+    temperature::
+
+     A numerical value representing the temperature at the given time
+     in degrees Fahrenheit.
+
+    :param float latitude:  Latitude (required): Enter single
+        geographic point by latitude.::
+
+            Example: --latitude=43.1
+    :param float longitude:  Longitude (required): Enter single
+        geographic point by longitude::
+
+            Example: --longitude=-85.3
+    :param str time:  TIME should either be a UNIX time (that is,
+        seconds since midnight GMT on 1 Jan 1970) or a string formatted
+        as follows: [YYYY]-[MM]-[DD]T[HH]:[MM]:[SS] (with an optional
+        time zone formatted as Z for GMT time or {+,-}[HH][MM] for an
+        offset in hours or minutes). For the latter format, if no
+        timezone is present, local time (at the provided latitude and
+        longitude) is assumed.  (This string format is a subset of ISO
+        8601 time. An as example, 2013-05-06T12:00:00-0400.)
+
+        The default is None, which uses the current time.
+    :param str database:  The database to draw the data from.  This is
+        slightly different than the typical Forecast.io request, which
+        would normally send back all data from all databases.  Typically
+        though the 'tsgettoolbox' and siblings expect a single time
+        increment in a dataset.  This isn't a hard rule, just
+        a tradition.  So pick a database from 'currently', 'minutely',
+        'hourly', 'daily', 'alerts', or 'flags'.  The 'currently'
+        database is the default and is the current conditions.
+        'minutely' give minute by minute forecast from the current time
+        for the next hour, 'hourly' gives hourly forecast for the next
+        two days (unless --extend='hourly' option is given), and 'daily'
+        gives a forecast day by day for the next week.
+    :param str extend:   If set to 'hourly' and --database='hourly'
+        then will get an hourly forecast for the next week.
+    :param str units:  Specify the units for the data.
+
+        +-----------------+--------------------------------------------+
+        | Option          | Description                                |
+        +=================+============================================+
+        | us (default)    | Imperial units                             |
+        +-----------------+--------------------------------------------+
+        | si              | SI units                                   |
+        +-----------------+--------------------------------------------+
+        | ca              | Identical to SI except windSpeed is in     |
+        |                 | km/hr                                      |
+        +-----------------+--------------------------------------------+
+        | uk (deprecated) |                                            |
+        +-----------------+--------------------------------------------+
+        | uk2             | Identical to SI except windSpeed is in     |
+        |                 | miles/hr and nearestStormDistance and      |
+        |                 | visibility are in miles                    |
+        +-----------------+--------------------------------------------+
+        | auto            | Selects the relevant units automatically   |
+        |                 | according to location                      |
+        +-----------------+--------------------------------------------+
+
+    :param str lang:  Return text summaries in the desired language.
+        (Please be advised that units in the summary will be set
+        according to the units option, above, so be sure to set both
+        options as needed.)
+
+        +-------------+-------------------+
+        | lang= code  | Language          |
+        +=============+===================+
+        | ar          | Arabic            |
+        +-------------+-------------------+
+        | bs          | Bosnian           |
+        +-------------+-------------------+
+        | de          | German            |
+        +-------------+-------------------+
+        | en          | English (default) |
+        +-------------+-------------------+
+        | es          | Spanish           |
+        +-------------+-------------------+
+        | fr          | French            |
+        +-------------+-------------------+
+        | it          | Italian           |
+        +-------------+-------------------+
+        | nl          | Dutch             |
+        +-------------+-------------------+
+        | pl          | Polish            |
+        +-------------+-------------------+
+        | pt          | Portuguese        |
+        +-------------+-------------------+
+        | ru          | Russian           |
+        +-------------+-------------------+
+        | sk          | Slovak            |
+        +-------------+-------------------+
+        | sv          | Swedish           |
+        +-------------+-------------------+
+        | tet         | Tetum             |
+        +-------------+-------------------+
+        | tr          | Turkish           |
+        +-------------+-------------------+
+        | uk          | Ukrainian         |
+        +-------------+-------------------+
+        | x-pig-latin | Igpay Atinlay     |
+        +-------------+-------------------+
+        | zh          | Chinese           |
+        +-------------+-------------------+
+
+    """
+
+    from tsgettoolbox.services import darksky as placeholder
+    r = resource(
+        r'https://api.darksky.net/forecast',
+        latitude=latitude,
+        longitude=longitude,
+        database=database,
+        time=time,
+        extend=extend,
+        units=units,
+        lang=lang,
+        )
+    return tsutils.printiso(odo(r, pd.DataFrame))
+
+
+@mando.command(formatter_class=HelpFormatter)
+def forecast_io(latitude,
+                longitude,
+                time=None,
+                database='hourly',
+                extend=None,
+                units='us',
+                lang='en'
+               ):
+    """ DEPRECATED: please use 'darksky'.
+
+    The forecast_io service changed names to 'darksky'.
+    """
+    return darksky(latitude,
+                   longitude,
+                   time=time,
+                   database=database,
+                   extend=extend,
+                   units=units,
+                   lang=lang,
+                  )
+
+
+@mando.command(formatter_class=HelpFormatter)
+def unavco(station,
+           database='met',
+           starttime=None,
+           endtime=None,
+          ):
+    """
+    Download data from the Unavco web services.
+
+    Detailed information at:
+    http://www.unavco.com/data/web-services/web-services.html
+
+    The "database" option defines different return data.
+
+    met::
+
+       Returns hourly meteorological data for the specified station and
+       timeframe.  Pressure, temperature, humidity, wind speed and
+       direction are provided as averages of all the samples taken per
+       hour. Rain and hail are totals for the hour. The sample count is
+       the number of samples taken per hour.
+
+       Stations are configured to sample either at 1 minute or 5 minute
+       intervals and the user can determine which by looking at the
+       sample counts over several hours to see if they approach 12 or
+       60.
+
+       Returns: sample timestamp, pressure (mbar), temperature (degree
+       C), relative humidity(per cent), wind direction(degrees), wind
+       speed(m/s), rain(0.1mm), hail(hits), sample count
+
+    pore_temperature::
+
+       Pore pressure and temperature readings are collected by pore
+       pressure sensors co-located with borehole strainmeters. Tilt data
+       is collected by shallow borehole tiltmeters co-located with
+       borehole strainmeters and seismic stations.
+
+       Get pore temperature for the specified stations and time range.
+
+       Returns: sample time, temperature(degree C)
+
+    pore_pressure::
+
+       Pore pressure and temperature readings are collected by pore
+       pressure sensors co-located with borehole strainmeters. Tilt data
+       is collected by shallow borehole tiltmeters co-located with
+       borehole strainmeters and seismic stations.
+
+       Get pore pressure for the specified stations and time range.
+
+       Returns: sample time, pressure (hPa)
+
+    tilt::
+
+       Get tilt data for specified stations and time range.
+
+       Returns: DateTime, X-axis tilt (microRadians), Y-axis tilt
+       (microRadians), Temperature (degree C), Voltage(v)
+
+    strain::
+
+       Geodetic strain data is collected by four-component deep borehole
+       tensor strainmeters that record transient deformation signals
+       yielding information about the physical properties of the
+       surrounding rock.
+
+       Borehole strainmeters measure very small changes in the dimension
+       of a borehole at depths ranging from 100m to 250m. The Plate
+       Boundary Observatory uses a instrument developed and constructed
+       by GTSM Technologies which measure the change in borehole
+       diameter along three azimuths separated by 120 degrees
+       perpendicular to the borehole.
+
+       Get borehole strain data for the borehole strainmeter station
+       identified.  This data is low rate, 5 minute sample, level
+       2 uncorrected and corrected strain data. Corrected values are the
+       uncorrected strain minus the effects of the tidal signal and
+       barometric pressure.
+
+       Returns: DateTime, Gauge 0 uncorrected microstrain, Gauge
+       1 corrected microstrain, Gauge 1 uncorrected microstrain, Gauge
+       1 corrected microstrain, Gauge 2 microstrain, Gauge 2 corrected
+       microstrain, Gauge 3 microstrain, Gauge 3 corrected microstrain,
+       Eee+Enn uncorrected microstrain, Eee+Enn corrected microstrain,
+       Eee-Enn uncorrected microstrain, Eee-Enn corrected microstrain,
+       2Ene uncorrected microstrain, 2Ene corrected microstrain.
+
+    :param str station:  Unavco station identifier
+    :param str database:  Database to pull from.  One of 'met',
+        'pore_temperature', 'pore_pressure', 'tilt', 'strain'.  The
+        default is 'met'.
+    :param str starttime:  Start date in ISO8601 format.
+    :param str endtime:  End date in ISO8601 format.
+    """
+    from tsgettoolbox.services import unavco as placeholder
+    map_db_to_url = {
+        'met': r'http://web-services.unavco.org:80/met/data',
+        'pore_temperaure': r'http://web-services.unavco.org:80'
+                           '/pore/data/temperature',
+        'pore_pressure': r'http://web-services.unavco.org:80'
+                         '/pore/data/pressure',
+        'tilt': r'http://web-services.unavco.org:80/tilt/data',
+        'strain': r'http://web-services.unavco.org:80/strain/data/L2',
+        }
+    r = resource(
+        map_db_to_url[database],
+        station=station,
+        starttime=starttime,
+        endtime=endtime,
+        )
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
@@ -1105,14 +1777,14 @@ def ncdc_ghcnd_ftp(station,
     |      | 20 = Rain or snow shower                                 |
     +------+----------------------------------------------------------+
 
-    :param station <str>: The station id. from the first column of
+    :param str station: The station id. from the first column of
         ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt
-    :param start_date <str>:  The start date of the time series.
+    :param str start_date:  The start date of the time series.
 
         Example: --start_date=2001-01-01
 
         If start_date and end_date are None, returns the entire series.
-    :param end_date <str>:  The end date of the time series.
+    :param str end_date:  The end date of the time series.
 
         Example: --end_date=2001-01-05
 
@@ -1128,686 +1800,50 @@ def ncdc_ghcnd_ftp(station,
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
-@mando.command(formatter_class=HelpFormatter)
-def daymet(lat,
-           lon,
-           measuredParams=None,
-           year=None,
-          ):
-    """
-    Download data from Daymet by the Oak Ridge National Laboratory.
-
-    Detailed documentation is at http://daymet.ornl.gov/.  Since this is
-    daily data, it covers midnight to midnight based on local time.
-
-    :param lat <float>: Latitude (required): Enter single geographic
-        point by latitude, value between 52.0N and 14.5N.::
-
-            Example: --lat=43.1
-    :param lon <float>: Longitude (required): Enter single geographic
-        point by longitude, value between -131.0W and -53.0W.::
-
-            Example: --lon=-85.3
-    :param measuredParams <str>:  CommaSeparatedVariables (optional):
-        Use the abbreviations from the following table:
-
-        +----------------+-----------------------+---------+
-        | measuredParams | Description           | Unit    |
-        +================+=======================+=========+
-        | tmax           | maximum temperature   | deg C   |
-        +----------------+-----------------------+---------+
-        | tmin           | minimum temperature   | deg C   |
-        +----------------+-----------------------+---------+
-        | srad           | shortwave radiation   | W/m2    |
-        +----------------+-----------------------+---------+
-        | vp             | vapor pressure        | Pa      |
-        +----------------+-----------------------+---------+
-        | swe            | snow-water equivalent | kg/m2   |
-        +----------------+-----------------------+---------+
-        | prcp           | precipitation         | mm      |
-        +----------------+-----------------------+---------+
-        | dayl           | daylength             | seconds |
-        +----------------+-----------------------+---------+
-
-         Example: --measuredParams=tmax,tmin
-
-         All variables are returned by default.
-    :param year <str>:  CommaSeparatedYears (optional): Current Daymet
-        product (version 2) is available from 1980 to the latest full
-        calendar year.::
-
-            Example: --years=2012,2013
-
-         All years are returned by default.
-    """
-    from tsgettoolbox.services import daymet as placeholder
-    r = resource(
-        r'http://daymet.ornl.gov/data/send/saveData',
-        measuredParams=measuredParams,
-        lat=lat,
-        lon=lon,
-        year=year,
-        )
-    return tsutils.printiso(odo(r, pd.DataFrame))
-
-
-@mando.command(formatter_class=HelpFormatter)
-def ldas(lat=None,
-         lon=None,
-         xindex=None,
-         yindex=None,
-         variable=None,
-         startDate=None,
-         endDate=None,
-        ):
-    """
-    Download data from NLDAS or GLDAS.
-
-    The time zone is always UTC.
-
-    :param lat <float>:  Either 'lat' and 'lon', or 'xindex' and
-        'yindex' is required.
-
-        Latitude (required): Enter single geographic point by
-        latitude.::
-
-            Example: --lat=43.1
-    :param lon <float>:  Either 'lat' and 'lon', or 'xindex' and
-        'yindex' is required.  Longitude (required): Enter single
-        geographic point by longitude::
-
-            Example: --lon=-85.3
-    :param xindex <int>:  Either 'lat' and 'lon', or 'xindex' and
-        'yindex' is required.  xindex (required if using xindex/yindex):
-        Enter the x index of the NLDAS or GLDAS grid.::
-
-            Example: --xindex=301
-    :param yindex <int>:  Either 'lat' and 'lon', or 'xindex' and
-        'yindex' is required.  yindex (required if using xindex/yindex):
-        Enter the y index of the NLDAS or GLDAS grid.::
-
-            Example: --yindex=80
-    :param variable <str>:  Use the variable codes from the following table:
-
-        +------------------------------------------------+-----------+
-        | LDAS "variable" string Description             | Units     |
-        +================================================+===========+
-        | NLDAS:NLDAS_FORA0125_H.002:APCPsfc             | kg/m^2    |
-        | Precipitation hourly total                     |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:DLWRFsfc Surface DW | W/m^2     |
-        | longwave radiation flux                        |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:DSWRFsfc Surface DW | W/m^2     |
-        | shortwave radiation flux                       |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:PEVAPsfc Potential  | kg/m^2    |
-        | evaporation                                    |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:SPFH2m 2-m above    | kg/kg     |
-        | ground specific humidity                       |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:TMP2m 2-m above     | K         |
-        | ground temperature                             |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:UGRD10m 10-m above  | m/s       |
-        | ground zonal wind                              |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:VGRD10m 10-m above  | m/s       |
-        | ground meridional wind                         |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:EVPsfc Total        | kg/m^2    |
-        | evapotranspiration                             |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:GFLUXsfc Ground     | w/m^2     |
-        | heat flux                                      |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:LHTFLsfc Latent     | w/m^2     |
-        | heat flux                                      |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SHTFLsfc Sensible   | w/m^2     |
-        | heat flux                                      |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SSRUNsfc Surface    | kg/m^2    |
-        | runoff (non-infiltrating)                      |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:BGRIUNdfc           | kg/m^2    |
-        | Subsurface runoff (baseflow)                   |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SOILM0-10cm 0-10 cm | kg/m^2    |
-        | soil moisture content                          |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SOILM0-100cm 0-100  | kg/m^2    |
-        | cm soil moisture content                       |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SOILM0-200cm 0-200  | kg/m^2    |
-        | cm soil moisture content                       |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SOILM10-40cm 10-40  | kg/m^2    |
-        | cm soil moisture content                       |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SOILM40-100cm       | kg/m^2    |
-        | 40-100 cm soil moisture content                |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SOILM100-200cm      | kg/m^2    |
-        | 100-200 cm soil moisture content               |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:TSOIL0-10cm 0-10 cm | K         |
-        | soil temperature                               |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Evap                | kg/m^2/s  |
-        | Evapotranspiration                             |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:precip              | kg/m^s/hr |
-        | Precipitation rate                             |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Rainf Rain rate     | kg/m^2/s  |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Snowf Snow rate     | kg/m^2/s  |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Qs Surface Runoff   | kg/m^2/s  |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Qsb Subsurface      | kg/m^2/s  |
-        | Runoff                                         |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:SOILM0-100cm 0-100  | kg/m^2    |
-        | cm top 1 meter soil moisture content           |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:SOILM0-10cm 0-10 cm | kg/m^2    |
-        | layer 1 soil moisture content                  |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm 10-40  | kg/m^2    |
-        | cm layer 2 soil moisture content               |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:SOILM40-100cm       | kg/m^2    |
-        | 40-100 cm layer 3 soil moisture content        |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Tair Near surface   | K         |
-        | air temperature                                |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:TSOIL0-10cm Average | K         |
-        | layer 1 soil temperature                       |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Wind Near surface   | m/s       |
-        | wind magnitude                                 |           |
-        +------------------------------------------------+-----------+
-
-    :param startDate <str>:  The start date of the time series.::
-
-            Example: --startDate=2001-01-01T05
-
-        If startDate and endDate are None, returns the entire series.
-    :param endDate <str>:  The end date of the time series.::
-
-            Example: --startDate=2001-01-05T05
-
-        If startDate and endDate are None, returns the entire series.
-    """
-    from tsgettoolbox.services import ldas as placeholder
-    project = variable.split(':')[0]
-    if lat is not None:
-        location = 'GEOM:POINT({0}, {1})'.format(lon, lat)
-    else:
-        if project == 'NLDAS':
-            location = '{0}:X{1:03d}-Y{2:03d}'.format(project, xindex, yindex)
-        else:
-            location = '{0}:X{1:04d}-Y{2:03d}'.format(project, xindex, yindex)
-
-    r = resource(
-        r'http://hydro1.sci.gsfc.nasa.gov/daac-bin/access/timeseries.cgi',
-        variable=variable,
-        location=location,
-        startDate=startDate,
-        endDate=endDate,
-        )
-    return tsutils.printiso(odo(r, pd.DataFrame))
-
-
-@mando.command(formatter_class=HelpFormatter)
-def darksky(latitude,
-            longitude,
-            time=None,
-            database='hourly',
-            extend=None,
-            units='us',
-            lang='en'
-           ):
-    """
-    Powered by Dark Sky https://darksky.net/poweredby/
-
-    Powered by Dark Sky https://darksky.net/poweredby/
-
-    Documentation: https://darksky.net/dev/docs
-
-    Registration: https://darksky.net/dev/register
-
-    The time zone of the returned data is dependent on the format of the
-    "time" option.  If there is an ISO8601 representation of the time
-    zone in the "time" option then that is the time zone of the returned
-    data.  If "time" is None or does not explicitly define a time zone,
-    the returned data is in the local time zone of the latitude and
-    longitude.
-
-    There isn't an absolutely consistent set of data returned for all
-    areas, or all databases.  The returned values will be some subset of
-    the following list:
-
-    summary::
-
-     A human-readable text summary of this data point.
-
-    icon::
-
-     A machine-readable text summary of this data |point, suitable for
-     selecting an icon for display. If defined, this property will have
-     one of the following values: 'clear-day', 'clear-night', 'rain',
-     'snow', 'sleet', 'wind', 'fog', 'cloudy', 'partly-cloudy-day', or
-     'partly-cloudy-night'.  (Developers should ensure that a sensible
-     default is defined, as additional values, such as hail,
-     thunderstorm, or tornado, may be defined in the future.)
-
-    precipIntensity::
-
-     A numerical value representing the average expected intensity (in
-     inches of liquid water per hour) of precipitation occurring at the
-     given time conditional on probability (that is, assuming any
-     precipitation occurs at all). A very rough guide is that a value
-     of 0 in./hr. corresponds to no precipitation, 0.002 in./hr.
-     corresponds to very light precipitation, 0.017 in./hr. corresponds
-     to light precipitation, 0.1 in./hr. corresponds to moderate
-     precipitation, and 0.4 in./hr. corresponds to heavy precipitation.
-
-    precipProbability::
-
-     A numerical value between 0 and 1 (inclusive) representing the
-     probability of precipitation occuring at the given time.
-
-    precipType::
-
-     A string representing the type of precipitation occurring at the
-     given time. If defined, this property will have one of the
-     following values: rain, snow, sleet (which applies to each of
-     freezing rain, ice pellets, and 'wintery mix'), or hail. (If
-     precipIntensity is zero, then this property will not be defined.)
-
-    dewPoint::
-
-     A numerical value representing the dew point at the given time in
-     degrees Fahrenheit.
-
-    windSpeed::
-
-     A numerical value representing the wind speed in miles per hour.
-
-    windBearing::
-
-     A numerical value representing the direction that the wind is
-     coming from in degrees, with true north at 0 degree and
-     progressing clockwise. (If windSpeed is zero, then this value will
-     not be defined.)
-
-    cloudCover::
-
-     A numerical value between 0 and 1 (inclusive) representing the
-     percentage of sky occluded by clouds. A value of 0 corresponds to
-     clear sky, 0.4 to scattered clouds, 0.75 to broken cloud cover,
-     and 1 to completely overcast skies.
-
-    humidity::
-
-     A numerical value between 0 and 1 (inclusive) representing the
-     relative humidity.
-
-    pressure::
-
-     A numerical value representing the sea-level air pressure in
-     millibars.
-
-    visibility::
-
-     A numerical value representing the average visibility in miles,
-     capped at 10 miles.
-
-    ozone::
-
-     A numerical value representing the columnar density of total
-     atmospheric ozone at the given time in Dobson units.
-
-    Only defined for 'currently' data
-    ---------------------------------
-    nearestStormDistance::
-
-     A numerical value representing the distance to the nearest storm
-     in miles. (This value is very approximate and should not be used
-     in scenarios requiring accurate results. In particular, a storm
-     distance of zero doesn't necessarily refer to a storm at the
-     requested location, but rather a storm in the vicinity of that
-     location.)
-
-    nearestStormBearing::
-
-     A numerical value representing the direction of the nearest storm
-     in degrees, with true north at 0 degree and progressing clockwise.
-     (If nearestStormDistance is zero, then this value will not be
-     defined. The caveats that apply to nearestStormDistance also apply
-     to this value.)
-
-    Only defined for 'daily' data
-    -----------------------------
-    sunriseTime/sunsetTime::
-
-     The last sunrise before and first sunset after the solar noon
-     closest to local noon on the given day.  (Note: near the poles,
-     these may occur on a different day entirely!)
-
-    moonPhase::
-
-     A number representing the fractional part of the lunation number
-     of the given day. This can be thought of as the 'percentage
-     complete' of the current lunar month: a value of 0 represents
-     a new moon, a value of 0.25 represents a first quarter moon,
-     a value of 0.5 represents a full moon, and a value of 0.75
-     represents a last quarter moon. (The ranges in between these
-     represent waxing crescent, waxing gibbous, waning gibbous, and
-     waning crescent moons, respectively.)
-
-    precipIntensityMax, and precipIntensityMaxTime::
-
-     Numerical values representing the maximumum expected intensity of
-     precipitation on the given day in inches of liquid water per hour.
-
-    temperatureMin, temperatureMinTime, temperatureMax,
-    and temperatureMaxTime::
-
-     Numerical values representing the minimum and maximumum
-     temperatures (and the UNIX times at which they occur) on the given
-     day in degrees Fahrenheit.
-
-    apparentTemperatureMin, apparentTemperatureMinTime,
-    apparentTemperatureMax, and
-    apparentTemperatureMaxTime::
-
-     Numerical values representing the minimum and maximumum apparent
-     temperatures and the times at which they occur on the given day in
-     degrees Fahrenheit.
-
-    Only defined for 'hourly' and 'daily' data
-    ------------------------------------------
-    precipAccumulation::
-
-     The amount of snowfall accumulation expected to occur on the given
-     day, in inches. (If no accumulation is expected, this property
-     will not be defined.)
-
-    Defined for every dataset except 'daily'
-    ----------------------------------------
-    apparentTemperature::
-
-     A numerical value representing the apparent (or 'feels like')
-     temperature at the given time in degrees Fahrenheit.
-
-    temperature::
-
-     A numerical value representing the temperature at the given time
-     in degrees Fahrenheit.
-
-    :param latitude <float>:  Latitude (required): Enter single
-        geographic point by latitude.::
-
-            Example: --latitude=43.1
-    :param longitude <float>:  Longitude (required): Enter single
-        geographic point by longitude::
-
-            Example: --longitude=-85.3
-    :param time <str>:  TIME should either be a UNIX time (that is,
-        seconds since midnight GMT on 1 Jan 1970) or a string formatted
-        as follows: [YYYY]-[MM]-[DD]T[HH]:[MM]:[SS] (with an optional
-        time zone formatted as Z for GMT time or {+,-}[HH][MM] for an
-        offset in hours or minutes). For the latter format, if no
-        timezone is present, local time (at the provided latitude and
-        longitude) is assumed.  (This string format is a subset of ISO
-        8601 time. An as example, 2013-05-06T12:00:00-0400.)
-
-        The default is None, which uses the current time.
-    :param database <str>:  The database to draw the data from.  This is
-        slightly different than the typical Forecast.io request, which
-        would normally send back all data from all databases.  Typically
-        though the 'tsgettoolbox' and siblings expect a single time
-        increment in a dataset.  This isn't a hard rule, just
-        a tradition.  So pick a database from 'currently', 'minutely',
-        'hourly', 'daily', 'alerts', or 'flags'.  The 'currently'
-        database is the default and is the current conditions.
-        'minutely' give minute by minute forecast from the current time
-        for the next hour, 'hourly' gives hourly forecast for the next
-        two days (unless --extend='hourly' option is given), and 'daily'
-        gives a forecast day by day for the next week.
-    :param extend <str>:   If set to 'hourly' and --database='hourly'
-        then will get an hourly forecast for the next week.
-    :param units <str>:  Specify the units for the data.
-
-        +-----------------+--------------------------------------------+
-        | Option          | Description                                |
-        +=================+============================================+
-        | us (default)    | Imperial units                             |
-        +-----------------+--------------------------------------------+
-        | si              | SI units                                   |
-        +-----------------+--------------------------------------------+
-        | ca              | Identical to SI except windSpeed is in     |
-        |                 | km/hr                                      |
-        +-----------------+--------------------------------------------+
-        | uk (deprecated) |                                            |
-        +-----------------+--------------------------------------------+
-        | uk2             | Identical to SI except windSpeed is in     |
-        |                 | miles/hr and nearestStormDistance and      |
-        |                 | visibility are in miles                    |
-        +-----------------+--------------------------------------------+
-        | auto            | Selects the relevant units automatically   |
-        |                 | according to location                      |
-        +-----------------+--------------------------------------------+
-
-    :param lang <str>:  Return text summaries in the desired language.
-        (Please be advised that units in the summary will be set
-        according to the units option, above, so be sure to set both
-        options as needed.)
-
-        +-------------+-------------------+
-        | lang= code  | Language          |
-        +=============+===================+
-        | ar          | Arabic            |
-        +-------------+-------------------+
-        | bs          | Bosnian           |
-        +-------------+-------------------+
-        | de          | German            |
-        +-------------+-------------------+
-        | en          | English (default) |
-        +-------------+-------------------+
-        | es          | Spanish           |
-        +-------------+-------------------+
-        | fr          | French            |
-        +-------------+-------------------+
-        | it          | Italian           |
-        +-------------+-------------------+
-        | nl          | Dutch             |
-        +-------------+-------------------+
-        | pl          | Polish            |
-        +-------------+-------------------+
-        | pt          | Portuguese        |
-        +-------------+-------------------+
-        | ru          | Russian           |
-        +-------------+-------------------+
-        | sk          | Slovak            |
-        +-------------+-------------------+
-        | sv          | Swedish           |
-        +-------------+-------------------+
-        | tet         | Tetum             |
-        +-------------+-------------------+
-        | tr          | Turkish           |
-        +-------------+-------------------+
-        | uk          | Ukrainian         |
-        +-------------+-------------------+
-        | x-pig-latin | Igpay Atinlay     |
-        +-------------+-------------------+
-        | zh          | Chinese           |
-        +-------------+-------------------+
-
-    """
-
-    from tsgettoolbox.services import darksky as placeholder
-    r = resource(
-        r'https://api.darksky.net/forecast',
-        latitude=latitude,
-        longitude=longitude,
-        database=database,
-        time=time,
-        extend=extend,
-        units=units,
-        lang=lang,
-        )
-    return tsutils.printiso(odo(r, pd.DataFrame))
-
-
-@mando.command(formatter_class=HelpFormatter)
-def forecast_io(latitude,
-                longitude,
-                time=None,
-                database='hourly',
-                extend=None,
-                units='us',
-                lang='en'
-               ):
-    """ DEPRECATED: please use 'darksky'.
-
-    The forecast_io service changed names to 'darksky'.
-    """
-    return darksky(latitude,
-                   longitude,
-                   time=time,
-                   database=database,
-                   extend=extend,
-                   units=units,
-                   lang=lang,
-                  )
-
-
-@mando.command(formatter_class=HelpFormatter)
-def unavco(station,
-           database='met',
-           starttime=None,
-           endtime=None,
-          ):
-    """
-    Download data from the Unavco web services.
-
-    Detailed information at:
-    http://www.unavco.com/data/web-services/web-services.html
-
-    The "database" option defines different return data.
-
-    met::
-
-       Returns hourly meteorological data for the specified station and
-       timeframe.  Pressure, temperature, humidity, wind speed and
-       direction are provided as averages of all the samples taken per
-       hour. Rain and hail are totals for the hour. The sample count is
-       the number of samples taken per hour.
-
-       Stations are configured to sample either at 1 minute or 5 minute
-       intervals and the user can determine which by looking at the
-       sample counts over several hours to see if they approach 12 or
-       60.
-
-       Returns: sample timestamp, pressure (mbar), temperature (degree
-       C), relative humidity(per cent), wind direction(degrees), wind
-       speed(m/s), rain(0.1mm), hail(hits), sample count
-
-    pore_temperature::
-
-       Pore pressure and temperature readings are collected by pore
-       pressure sensors co-located with borehole strainmeters. Tilt data
-       is collected by shallow borehole tiltmeters co-located with
-       borehole strainmeters and seismic stations.
-
-       Get pore temperature for the specified stations and time range.
-
-       Returns: sample time, temperature(degree C)
-
-    pore_pressure::
-
-       Pore pressure and temperature readings are collected by pore
-       pressure sensors co-located with borehole strainmeters. Tilt data
-       is collected by shallow borehole tiltmeters co-located with
-       borehole strainmeters and seismic stations.
-
-       Get pore pressure for the specified stations and time range.
-
-       Returns: sample time, pressure (hPa)
-
-    tilt::
-
-       Get tilt data for specified stations and time range.
-
-       Returns: DateTime, X-axis tilt (microRadians), Y-axis tilt
-       (microRadians), Temperature (degree C), Voltage(v)
-
-    strain::
-
-       Geodetic strain data is collected by four-component deep borehole
-       tensor strainmeters that record transient deformation signals
-       yielding information about the physical properties of the
-       surrounding rock.
-
-       Borehole strainmeters measure very small changes in the dimension
-       of a borehole at depths ranging from 100m to 250m. The Plate
-       Boundary Observatory uses a instrument developed and constructed
-       by GTSM Technologies which measure the change in borehole
-       diameter along three azimuths separated by 120 degrees
-       perpendicular to the borehole.
-
-       Get borehole strain data for the borehole strainmeter station
-       identified.  This data is low rate, 5 minute sample, level
-       2 uncorrected and corrected strain data. Corrected values are the
-       uncorrected strain minus the effects of the tidal signal and
-       barometric pressure.
-
-       Returns: DateTime, Gauge 0 uncorrected microstrain, Gauge
-       1 corrected microstrain, Gauge 1 uncorrected microstrain, Gauge
-       1 corrected microstrain, Gauge 2 microstrain, Gauge 2 corrected
-       microstrain, Gauge 3 microstrain, Gauge 3 corrected microstrain,
-       Eee+Enn uncorrected microstrain, Eee+Enn corrected microstrain,
-       Eee-Enn uncorrected microstrain, Eee-Enn corrected microstrain,
-       2Ene uncorrected microstrain, 2Ene corrected microstrain.
-
-    :param station <str>:  Unavco station identifier
-    :param database <met>:  Database to pull from.  One of 'met',
-        'pore_temperature', 'pore_pressure', 'tilt', 'strain'.  The
-        default is 'met'.
-    :param starttime <str>:  Start date in ISO8601 format.
-    :param endtime <str>:  End date in ISO8601 format.
-    """
-    from tsgettoolbox.services import unavco as placeholder
-    map_db_to_url = {
-        'met': r'http://web-services.unavco.org:80/met/data',
-        'pore_temperaure': r'http://web-services.unavco.org:80'
-                           '/pore/data/temperature',
-        'pore_pressure': r'http://web-services.unavco.org:80'
-                         '/pore/data/pressure',
-        'tilt': r'http://web-services.unavco.org:80/tilt/data',
-        'strain': r'http://web-services.unavco.org:80/strain/data/L2',
-        }
-    r = resource(
-        map_db_to_url[database],
-        station=station,
-        starttime=starttime,
-        endtime=endtime,
-        )
-    return tsutils.printiso(odo(r, pd.DataFrame))
-
-
 # 1763-01-01, 2016-11-05, Daily Summaries             , 1    , GHCND
 @mando.command(formatter_class=HelpFormatter)
 def ncdc_ghcnd(stationid, datatypeid='', startdate='', enddate=''):
     """
-    National Climatic Data Center GHCND Daily Summaries
+    Download from the Global Historical Climatology Network - Daily.
+    Requires registration and free API key.
+
+    If you use this data, please read
+    ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt about "How to
+    cite".
+
+    GHCN (Global Historical Climatology Network)-Daily is an integrated
+    database of daily climate summaries from land surface stations
+    across the globe. Like its monthly counterpart (GHCN-Monthly),
+    GHCN-Daily is comprised of daily climate records from numerous
+    sources that have been integrated and subjected to a common suite of
+    quality assurance reviews.
+
+    GHCN-Daily now contains records from over 75000 stations in 180
+    countries and territories. Numerous daily variables are provided,
+    including maximum and minimum temperature, total daily
+    precipitation, snowfall, and snow depth; however, about two thirds
+    of the stations report precipitation only.  Both the record length
+    and period of record vary by station and cover intervals ranging
+    from less than year to more than 175 years.
+
+    The dataset is regularly reconstructed (usually every weekend) from
+    its 20-plus data source components to ensure that GHCN-Daily is
+    generally in sync with its growing list of constituent sources.
+    During this process, quality assurance checks are applied to the
+    full dataset. On most weekdays, GHCN-Daily station data are updated
+    when possible from a variety of data streams, which also undergo
+    a suite of quality checks.
+
+    Some of the data provided here are based on data exchanged under the
+    World Meteorological Organization (WMO) World Weather Watch Program
+    according to WMO Resolution 40 (Cg-XII). This allows WMO member
+    countries to place restrictions on the use or re-export of their
+    data for commercial purposes outside of the receiving country. Those
+    countries' data summaries and products which are available here are
+    intended for free and unrestricted use in research, education, and
+    other non-commercial activities. For non-U.S. locations' data, the
+    data or any derived product shall not be provided to other users or
+    be used for the re-export of commercial services.
 
     For every datatype and record there is a set of meta-data flags.
     For the GHCNDMS dataset, the flags are::
@@ -1826,9 +1862,9 @@ def ncdc_ghcnd(stationid, datatypeid='', startdate='', enddate=''):
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing.
 
-    :param stationid <str>:  Station ID.
+    :param str stationid:  Station ID.
 
-    :param datatypeid <str>: The following table lists the datatypes
+    :param str datatypeid: The following table lists the datatypes
         available for the 'ghcnd' dataset.  If the datatypeid is not
         given defaults to getting all data available at that station for
         the time period requested.
@@ -2087,9 +2123,9 @@ def ncdc_ghcnd(stationid, datatypeid='', startdate='', enddate=''):
         |      | 20 = Rain or snow shower                              |
         +------+-------------------------------------------------------+
 
-    :param startdate <str>:  Start date in ISO8601 format.
+    :param str startdate:  Start date in ISO8601 format.
 
-    :param enddate <str>:  End date in ISO8601 format.
+    :param str enddate:  End date in ISO8601 format.
 
     """
     from tsgettoolbox.services.ncdc import ncdc_cdo as placeholder
@@ -2110,6 +2146,7 @@ def ncdc_ghcnd(stationid, datatypeid='', startdate='', enddate=''):
 def ncdc_gsom(stationid, datatypeid='', startdate='', enddate=''):
     """
     National Climatic Data Center Global Summary of the Month (GSOM)
+    Requires registration and free API key.
 
     https://gis.ncdc.noaa.gov/all-records/catalog/search/resource/details.page?uuid=%7BC621CB74-5CB2-4534-A544-E9EBB139D9A4%7D
 
@@ -2161,9 +2198,9 @@ def ncdc_gsom(stationid, datatypeid='', startdate='', enddate=''):
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing.
 
-    :param stationid <str>:  Station ID.
+    :param str stationid:  Station ID.
 
-    :param datatypeid <str>: The following table lists the datatypes
+    :param str datatypeid: The following table lists the datatypes
         available for the 'ghcnd' dataset.  If the datatypeid is not
         given defaults to getting all data available at that station for
         the requested time period.
@@ -2590,12 +2627,10 @@ def ncdc_gsom(stationid, datatypeid='', startdate='', enddate=''):
         |      | Fahrenheit/-8.9 degrees Celsius                       |
         +------+-------------------------------------------------------+
 
-
-    :param startdate <str>:  Start date in ISO8601 format.
-    :param enddate <str>:  End date in ISO8601 format.
-
-
+    :param str startdate:  Start date in ISO8601 format.
+    :param str enddate:  End date in ISO8601 format.
     """
+
     from tsgettoolbox.services.ncdc import ncdc_cdo as placeholder
 
     r = resource(
@@ -2614,6 +2649,7 @@ def ncdc_gsom(stationid, datatypeid='', startdate='', enddate=''):
 def ncdc_gsoy(stationid, datatypeid='', startdate='', enddate=''):
     """
     National Climatic Data Center Global Summary of the YEAR (GSOY)
+    Requires registration and free API key.
 
     https://gis.ncdc.noaa.gov/all-records/catalog/search/resource/details.page?id=gov.noaa.ncdc:C00947
 
@@ -2665,9 +2701,9 @@ def ncdc_gsoy(stationid, datatypeid='', startdate='', enddate=''):
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing.
 
-    :param stationid <str>:  Station ID.
+    :param str stationid:  Station ID.
 
-    :param datatypeid <str>: The following table lists the datatypes
+    :param str datatypeid: The following table lists the datatypes
         available for the 'ghcnd' dataset.  If the datatypeid is not
         given defaults to getting all data available at that station.
 
@@ -3093,8 +3129,8 @@ def ncdc_gsoy(stationid, datatypeid='', startdate='', enddate=''):
         |      | Fahrenheit/-8.9 degrees Celsius                       |
         +------+-------------------------------------------------------+
 
-    :param startdate <str>:  Start date in ISO8601 format.
-    :param enddate <str>:  End date in ISO8601 format.
+    :param str startdate:  Start date in ISO8601 format.
+    :param str enddate:  End date in ISO8601 format.
 
 
     """
@@ -3116,10 +3152,11 @@ def ncdc_gsoy(stationid, datatypeid='', startdate='', enddate=''):
 def ncdc_nexrad2(stationid, datatypeid='', startdate='', enddate=''):
     """
     National Climatic Data Center NEXRAD Level II
+    Requires registration and free API key.
 
-    :param stationid <str>:  Station ID.
-    :param starttime <str>:  Start date in ISO8601 format.
-    :param endtime <str>:  End date in ISO8601 format.
+    :param str stationid:  Station ID.
+    :param str starttime:  Start date in ISO8601 format.
+    :param str endtime:  End date in ISO8601 format.
 
     For every datatype and record there is a set of meta-data flags.
     For the GHCNDMS dataset, the flags are::
@@ -3157,10 +3194,11 @@ def ncdc_nexrad2(stationid, datatypeid='', startdate='', enddate=''):
 def ncdc_nexrad3(stationid, datatypeid='', startdate='', enddate=''):
     """
     National Climatic Data Center NEXRAD Level III
+    Requires registration and free API key.
 
-    :param stationid <str>:  Station ID.
-    :param starttime <str>:  Start date in ISO8601 format.
-    :param endtime <str>:  End date in ISO8601 format.
+    :param str stationid:  Station ID.
+    :param str starttime:  Start date in ISO8601 format.
+    :param str endtime:  End date in ISO8601 format.
 
     For every datatype and record there is a set of meta-data flags.
     For the GHCNDMS dataset, the flags are::
@@ -3198,6 +3236,7 @@ def ncdc_nexrad3(stationid, datatypeid='', startdate='', enddate=''):
 def ncdc_normal_ann(stationid, datatypeid='', startdate='', enddate=''):
     """
     National Climatic Data Center annual normals
+    Requires registration and free API key.
 
     The 1981-2010 Normals comprise all climate normals using the thirty year
     period of temperature, degree days, precipitation, snowfall, snow depth,
@@ -3253,9 +3292,9 @@ def ncdc_normal_ann(stationid, datatypeid='', startdate='', enddate=''):
     precipitation/snowfall/snow probabilities of occurrence. Further, Q flags
     are not applicable for standard deviations.
 
-    :param stationid <str>:  Station ID.
+    :param str stationid:  Station ID.
 
-    :param datatypeid <str>: The following table lists the datatypes
+    :param str datatypeid: The following table lists the datatypes
         available for the annual dataset.  If the datatypeid is not given
         defaults to getting all data available at that station.
 
@@ -4843,8 +4882,8 @@ def ncdc_normal_ann(stationid, datatypeid='', startdate='', enddate=''):
         |                         | minimum temperature                |
         +-------------------------+------------------------------------+
 
-    :param startdate <str>:  Start date in ISO8601 format.
-    :param enddate <str>:  End date in ISO8601 format.
+    :param str startdate:  Start date in ISO8601 format.
+    :param str enddate:  End date in ISO8601 format.
 
 
     """
@@ -4866,6 +4905,7 @@ def ncdc_normal_ann(stationid, datatypeid='', startdate='', enddate=''):
 def ncdc_normal_dly(stationid, datatypeid='', startdate='', enddate=''):
     """
     National Climatic Data Center Daily Normals
+    Requires registration and free API key.
 
     For every datatype and record there is a set of meta-data flags.
     For the GHCNDMS dataset, the flags are::
@@ -4884,9 +4924,9 @@ def ncdc_normal_dly(stationid, datatypeid='', startdate='', enddate=''):
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing.
 
-    :param stationid <str>:  Station ID.
+    :param str stationid:  Station ID.
 
-    :param datatypeid <str>: The following table lists the datatypes
+    :param str datatypeid: The following table lists the datatypes
         available for the annual dataset.  If the datatypeid is not
         given defaults to getting all data available at that station.
 
@@ -5101,8 +5141,8 @@ def ncdc_normal_dly(stationid, datatypeid='', startdate='', enddate=''):
         |                         | snowfall totals                    |
         +-------------------------+------------------------------------+
 
-    :param startdate <str>:  Start date in ISO8601 format.
-    :param enddate <str>:  End date in ISO8601 format.
+    :param str startdate:  Start date in ISO8601 format.
+    :param str enddate:  End date in ISO8601 format.
 
 
     """
@@ -5124,6 +5164,7 @@ def ncdc_normal_dly(stationid, datatypeid='', startdate='', enddate=''):
 def ncdc_normal_hly(stationid, datatypeid='', startdate='', enddate=''):
     """
     National Climatic Data Center GHCND Monthly Summaries
+    Requires registration and free API key.
 
     For every datatype and record there is a set of meta-data flags.
     For the GHCNDMS dataset, the flags are::
@@ -5142,9 +5183,9 @@ def ncdc_normal_hly(stationid, datatypeid='', startdate='', enddate=''):
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing.
 
-    :param stationid <str>:  Station ID.
+    :param str stationid:  Station ID.
 
-    :param datatypeid <str>: The following table lists the datatypes
+    :param str datatypeid: The following table lists the datatypes
         available for the annual dataset.  If the datatypeid is not
         given defaults to getting all data available at that station.
 
@@ -5204,8 +5245,8 @@ def ncdc_normal_hly(stationid, datatypeid='', startdate='', enddate=''):
         | HLY-WIND-VCTSPD | Mean wind vector magnitude         |
         +-----------------+------------------------------------+
 
-    :param startdate <str>:  Start date in ISO8601 format.
-    :param enddate <str>:  End date in ISO8601 format.
+    :param str startdate:  Start date in ISO8601 format.
+    :param str enddate:  End date in ISO8601 format.
 
 
     """
@@ -5227,6 +5268,7 @@ def ncdc_normal_hly(stationid, datatypeid='', startdate='', enddate=''):
 def ncdc_normal_mly(stationid, datatypeid='', startdate='', enddate=''):
     """
     National Climatic Data Center GHCND Monthly Summaries
+    Requires registration and free API key.
 
     For every datatype and record there is a set of meta-data flags.
     For the GHCNDMS dataset, the flags are::
@@ -5245,9 +5287,9 @@ def ncdc_normal_mly(stationid, datatypeid='', startdate='', enddate=''):
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing.
 
-    :param stationid <str>:  Station ID.
+    :param str stationid:  Station ID.
 
-    :param datatypeid <str>: The following table lists the datatypes
+    :param str datatypeid: The following table lists the datatypes
         available for the annual dataset.  If the datatypeid is not
         given defaults to getting all data available at that station.
 
@@ -5517,8 +5559,8 @@ def ncdc_normal_mly(stationid, datatypeid='', startdate='', enddate=''):
         |                         | monthly minimum temperature        |
         +-------------------------+------------------------------------+
 
-    :param startdate <str>:  Start date in ISO8601 format.
-    :param enddate <str>:  End date in ISO8601 format.
+    :param str startdate:  Start date in ISO8601 format.
+    :param str enddate:  End date in ISO8601 format.
 
 
     """
@@ -5540,6 +5582,7 @@ def ncdc_normal_mly(stationid, datatypeid='', startdate='', enddate=''):
 def ncdc_precip_15(stationid, datatypeid='', startdate='', enddate=''):
     """
     National Climatic Data Center 15 minute precipitation
+    Requires registration and free API key.
 
     For every datatype and record there is a set of meta-data flags.
     For the GHCNDMS dataset, the flags are::
@@ -5558,9 +5601,9 @@ def ncdc_precip_15(stationid, datatypeid='', startdate='', enddate=''):
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing.
 
-    :param stationid <str>:  Station ID.
+    :param str stationid:  Station ID.
 
-    :param datatypeid <str>: The following table lists the datatypes
+    :param str datatypeid: The following table lists the datatypes
         available for the annual dataset.  If the datatypeid is not given
         defaults to getting all data available at that station.
 
@@ -5572,8 +5615,8 @@ def ncdc_precip_15(stationid, datatypeid='', startdate='', enddate=''):
         | QPCP | Precipitation |
         +------+---------------+
 
-    :param startdate <str>:  Start date in ISO8601 format.
-    :param enddate <str>:  End date in ISO8601 format.
+    :param str startdate:  Start date in ISO8601 format.
+    :param str enddate:  End date in ISO8601 format.
 
     """
     from tsgettoolbox.services.ncdc import ncdc_cdo as placeholder
@@ -5594,6 +5637,7 @@ def ncdc_precip_15(stationid, datatypeid='', startdate='', enddate=''):
 def ncdc_precip_hly(stationid, datatypeid='', startdate='', enddate=''):
     """
     National Climatic Data Center hourly precipitation
+    Requires registration and free API key.
 
     For every datatype and record there is a set of meta-data flags.
     For the GHCNDMS dataset, the flags are::
@@ -5612,9 +5656,9 @@ def ncdc_precip_hly(stationid, datatypeid='', startdate='', enddate=''):
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing.
 
-    :param stationid <str>:  Station ID.
+    :param str stationid:  Station ID.
 
-    :param datatypeid <str>: The following table lists the datatypes
+    :param str datatypeid: The following table lists the datatypes
         available for the annual dataset.  If the datatypeid is not given
         defaults to getting all data available at that station.
 
@@ -5624,8 +5668,8 @@ def ncdc_precip_hly(stationid, datatypeid='', startdate='', enddate=''):
         | HPCP | Precipitation |
         +------+---------------+
 
-    :param startdate <str>:  Start date in ISO8601 format.
-    :param enddate <str>:  End date in ISO8601 format.
+    :param str startdate:  Start date in ISO8601 format.
+    :param str enddate:  End date in ISO8601 format.
 
     """
     from tsgettoolbox.services.ncdc import ncdc_cdo as placeholder
@@ -5646,6 +5690,7 @@ def ncdc_precip_hly(stationid, datatypeid='', startdate='', enddate=''):
 def ncdc_annual(stationid, datatypeid='', startdate='', enddate=''):
     """
     National Climatic Data Center annual data summaries
+    Requires registration and free API key.
 
     For every datatype and record there is a set of meta-data flags.
     For the ANNUAL dataset, the flags are::
@@ -5764,9 +5809,9 @@ def ncdc_annual(stationid, datatypeid='', startdate='', enddate=''):
     |      | month, '5' indicates the station has closed.            |
     +------+---------------------------------------------------------+
 
-    :param stationid <str>:  Station ID.
+    :param str stationid:  Station ID.
 
-    :param datatypeid <str>: The following table lists the datatypes
+    :param str datatypeid: The following table lists the datatypes
         available for the annual dataset.  If the datatypeid is not
         given defaults to getting all data available at that station.
 
@@ -6534,8 +6579,8 @@ def ncdc_annual(stationid, datatypeid='', startdate='', enddate=''):
         | TWND   | Total monthly wind movement over evaporation pan.   |
         +--------+-----------------------------------------------------+
 
-    :param startdate <str>:  Start date in ISO8601 format.
-    :param enddate <str>:  End date in ISO8601 format.
+    :param str startdate:  Start date in ISO8601 format.
+    :param str enddate:  End date in ISO8601 format.
 
     """
     from tsgettoolbox.services.ncdc import ncdc_cdo as placeholder
@@ -6556,10 +6601,11 @@ def ncdc_annual(stationid, datatypeid='', startdate='', enddate=''):
 def ncdc_ghcndms(stationid, datatypeid='', startdate='', enddate=''):
     """
     National Climatic Data Center GHCND Monthly Summaries
+    Requires registration and free API key.
 
-    :param stationid <str>:  Station ID.
+    :param str stationid:  Station ID.
 
-    :param datatypeid <str>: The following table lists the datatypes
+    :param str datatypeid: The following table lists the datatypes
         available for the 'ghcndms' dataset.  If the datatypeid is not
         given defaults to getting all data available at that station.
 
@@ -6912,8 +6958,8 @@ def ncdc_ghcndms(stationid, datatypeid='', startdate='', enddate=''):
         | WV20 | Rain or snow shower                                   |
         +------+-------------------------------------------------------+
 
-    :param starttime <str>:  Start date in ISO8601 format.
-    :param endtime <str>:  End date in ISO8601 format.
+    :param str starttime:  Start date in ISO8601 format.
+    :param str endtime:  End date in ISO8601 format.
 
     For every datatype and record there is a set of meta-data flags.
     For the GHCNDMS dataset, the flags are::
@@ -6948,6 +6994,25 @@ def ncdc_ghcndms(stationid, datatypeid='', startdate='', enddate=''):
 
 def ndbc(station, startUTC, endUTC, observedproperty=None):
     """Download for the National Data Buoy Center
+
+    :param str station:  A 7 character station ID, or a currents
+    :param str observedproperty: one of the following:
+        air_pressure_at_sea_level
+        air_temperature
+        currents
+        sea_floor_depth_below_sea_surface (water level for tsunami stations)
+        sea_water_electrical_conductivity
+        sea_water_salinity
+        sea_water_temperature
+        waves
+	winds
+    :param str startUTC: an ISO 8601 date/time string (only second are
+	optional).
+    :param str endUTC: an ISO 8601 date/time string. (only seconds are
+        optional)
+
+    Data requests are limited to 31 days.
+
     """
     from tsgettoolbox.services import ndbc as placeholder
 
@@ -6959,6 +7024,488 @@ def ndbc(station, startUTC, endUTC, observedproperty=None):
         observedproperty = observedproperty,
         )
 
+    return tsutils.printiso(odo(r, pd.DataFrame))
+
+
+def modis(lat, lon, product, band, startdate=None, enddate=None):
+    """Download MODIS derived data.
+
+    :param float lat: Latitude
+    :param float lon: Longitude
+    :param str product: one of the following:
+
+        +---------+----------+-------------------------+--------+------+
+        | Product | Acronym  | Name                    | Freq   | Cell |
+        |         |          |                         | (days) | (m)  |
+        +=========+==========+=========================+========+======+
+        | MCD12Q1 | LC       | MODIS/Terra+Aqua Land   | annual | 500  |
+        |         |          | Cover (LC) Type Yearly  |        |      |
+        |         |          | L3 Global 500m SIN Grid |        |      |
+        +---------+----------+-------------------------+--------+------+
+        | MCD12Q2 | LCD      | MODIS/Terra+Aqua Land   | annual | 500  |
+        |         |          | Cover Dynamics (LCD)    |        |      |
+        |         |          | Yearly L3 Global 500m   |        |      |
+        |         |          | SIN Grid                |        |      |
+        +---------+----------+-------------------------+--------+------+
+        | MCD43A1 | BRDF     | MODIS/Terra+Aqua        | 16     | 500  |
+        |         |          | BRDF/Albedo             |        |      |
+        |         |          | (BRDF/MCD43A1) 16-Day   |        |      |
+        |         |          | L3 Global 500m SIN Grid |        |      |
+        +---------+----------+-------------------------+--------+------+
+        | MCD43A2 | BRDF/QA  | MODIS/Terra+Aqua        | 16     | 500  |
+        |         |          | BRDF/Model Quality      |        |      |
+        |         |          | (BRDF/MCD43A2) 16-Day   |        |      |
+        |         |          | L3 Global 500m SIN Grid |        |      |
+        |         |          | V005                    |        |      |
+        +---------+----------+-------------------------+--------+------+
+        | MCD43A4 | NBAR     | MODIS/Terra+Aqua Nadir  | 16     | 500  |
+        |         |          | BRDF- Adjusted          |        |      |
+        |         |          | Reflectance (NBAR)      |        |      |
+        |         |          | 16-Day L3 Global 500m   |        |      |
+        |         |          | SIN Grid                |        |      |
+        +---------+----------+-------------------------+--------+------+
+        | MOD09A1 | SREF     | MODIS/Terra Surface     | 8      | 500  |
+        |         |          | Reflectance (SREF)      |        |      |
+        |         |          | 8-Day L3 Global 500m    |        |      |
+        |         |          | SIN Grid                |        |      |
+        +---------+----------+-------------------------+--------+------+
+        | MOD11A2 | TEMP     | MODIS/Terra Land        | 8      | 1000 |
+        |         |          | Surface                 |        |      |
+        |         |          | Temperature/Emissivity  |        |      |
+        |         |          | (LST) 8-Day L3 Global   |        |      |
+        |         |          | 1km SIN Grid            |        |      |
+        +---------+----------+-------------------------+--------+------+
+        | MOD13Q1 | NDVI/EVI | MODIS/Terra Vegetation  | 16     | 250  |
+        |         |          | Indices (NDVI/EVI)      |        |      |
+        |         |          | 16-Day L3 Global 250m   |        |      |
+        |         |          | SIN Grid [Collection 5] |        |      |
+        +---------+----------+-------------------------+--------+------+
+        | MOD15A2 | LAI/FPAR | Leaf Area Index (LAI)   | 8      | 1000 |
+        |         |          | and Fraction of         |        |      |
+        |         |          | Photosynthetically      |        |      |
+        |         |          | Active Radiation (FPAR) |        |      |
+        |         |          | 8-Day Composite         |        |      |
+        |         |          | [Collection 5]          |        |      |
+        +---------+----------+-------------------------+--------+------+
+        | MOD16A2 | ET       | MODIS/Terra             | 8      | 1000 |
+        |         |          | Evapotranspiration (ET) |        |      |
+        |         |          | 8-Day L4 Global         |        |      |
+        |         |          | Collection 5            |        |      |
+        +---------+----------+-------------------------+--------+------+
+        | MOD17A2 | GPP      | MODIS/Terra Gross       | 8      | 1000 |
+        |         |          | Primary Production      |        |      |
+        |         |          | (GPP) 8-Day L4 Global   |        |      |
+        |         |          | [Collection 5.1]        |        |      |
+        +---------+----------+-------------------------+--------+------+
+        | MOD17A3 | NPP      | MODIS/Terra Net Primary | annual | 1000 |
+        |         |          | Production (NPP) Yearly |        |      |
+        |         |          | L4 Global 1km SIN Grid  |        |      |
+        +---------+----------+-------------------------+--------+------+
+        | MYD09A1 | SREF     | MODIS/Aqua Surface      | 8      | 500  |
+        |         |          | Reflectance (SREF)      |        |      |
+        |         |          | 8-Day L3 Global 500m    |        |      |
+        |         |          | SIN Grid                |        |      |
+        +---------+----------+-------------------------+--------+------+
+        | MYD11A2 | TEMP     | MODIS/Aqua Land Surface | 8      | 1000 |
+        |         |          | Temperature/Emissivity  |        |      |
+        |         |          | (LST)8-Day L3 Global    |        |      |
+        |         |          | 1km SIN Grid            |        |      |
+        +---------+----------+-------------------------+--------+------+
+        | MYD13Q1 | NDVI/EVI | MODIS/Aqua Vegetation   | 16     | 250  |
+        |         |          | Indices (NDVI/EVI)      |        |      |
+        |         |          | 16-Day L3 Global 1km    |        |      |
+        |         |          | SIN Grid                |        |      |
+        +---------+----------+-------------------------+--------+------+
+        | MYD15A2 | LAI/FPAR | MODIS/Aqua Leaf Area    | 8      | 1000 |
+        |         |          | Index (LAI) and         |        |      |
+        |         |          | Fraction of             |        |      |
+        |         |          | Photosynthetically      |        |      |
+        |         |          | Active Radiation (FPAR) |        |      |
+        |         |          | 8 Day Composite         |        |      |
+        +---------+----------+-------------------------+--------+------+
+        | MYD17A2 | GPP      | MODIS/Aqua Gross        | 8      | 1000 |
+        |         |          | Primary Production      |        |      |
+        |         |          | (GPP) 8 Day L4 Global   |        |      |
+        +---------+----------+-------------------------+--------+------+
+
+    :param str band: one of the following
+
+        +------------+------------------------------------------------+
+        | Property   | Band                                           |
+        +============+================================================+
+        | MCD12Q1    | LC_Property_1                                  |
+        +------------+------------------------------------------------+
+        |            | LC_Property_2                                  |
+        +------------+------------------------------------------------+
+        |            | LC_Property_3                                  |
+        +------------+------------------------------------------------+
+        |            | Land_Cover_Type_1                              |
+        +------------+------------------------------------------------+
+        |            | Land_Cover_Type_2                              |
+        +------------+------------------------------------------------+
+        |            | Land_Cover_Type_3                              |
+        +------------+------------------------------------------------+
+        |            | Land_Cover_Type_4                              |
+        +------------+------------------------------------------------+
+        |            | Land_Cover_Type_5                              |
+        +------------+------------------------------------------------+
+        |            | Land_Cover_Type_1_Assessment                   |
+        +------------+------------------------------------------------+
+        |            | Land_Cover_Type_2_Assessment                   |
+        +------------+------------------------------------------------+
+        |            | Land_Cover_Type_3_Assessment                   |
+        +------------+------------------------------------------------+
+        |            | Land_Cover_Type_4_Assessment                   |
+        +------------+------------------------------------------------+
+        |            | Land_Cover_Type_5_Assessment                   |
+        +------------+------------------------------------------------+
+        |            | Land_Cover_Type_1_Secondary                    |
+        +------------+------------------------------------------------+
+        |            | Land_Cover_Type_1_Secondary_Percent            |
+        +------------+------------------------------------------------+
+        | MCD12Q2    | NBAR_EVI_Onset_Greenness_Maximum.Num_Modes_02  |
+        +------------+------------------------------------------------+
+        |            | NBAR_EVI_Onset_Greenness_Minimum.Num_Modes_02  |
+        +------------+------------------------------------------------+
+        |            | NBAR_EVI_Onset_Greenness_Maximum.Num_Modes_01  |
+        +------------+------------------------------------------------+
+        |            | NBAR_EVI_Onset_Greenness_Minimum.Num_Modes_01  |
+        +------------+------------------------------------------------+
+        |            | Onset_Greenness_Minimum.Num_Modes_02           |
+        +------------+------------------------------------------------+
+        |            | Onset_Greenness_Decrease.Num_Modes_02          |
+        +------------+------------------------------------------------+
+        |            | Onset_Greenness_Maximum.Num_Modes_02           |
+        +------------+------------------------------------------------+
+        |            | Onset_Greenness_Increase.Num_Modes_02          |
+        +------------+------------------------------------------------+
+        |            | Onset_Greenness_Minimum.Num_Modes_01           |
+        +------------+------------------------------------------------+
+        |            | Onset_Greenness_Decrease.Num_Modes_01          |
+        +------------+------------------------------------------------+
+        |            | Onset_Greenness_Maximum.Num_Modes_01           |
+        +------------+------------------------------------------------+
+        |            | Onset_Greenness_Increase.Num_Modes_01          |
+        +------------+------------------------------------------------+
+        |            | NBAR_EVI_Area.Num_Modes_01                     |
+        +------------+------------------------------------------------+
+        |            | NBAR_EVI_Area.Num_Modes_02                     |
+        +------------+------------------------------------------------+
+        | MCD43A1    | BRDF_Albedo_Parameters_Band1.Num_Parameters_01 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band1.Num_Parameters_02 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band1.Num_Parameters_03 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band2.Num_Parameters_01 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band2.Num_Parameters_02 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band2.Num_Parameters_03 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band3.Num_Parameters_01 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band3.Num_Parameters_02 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band3.Num_Parameters_03 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band4.Num_Parameters_01 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band4.Num_Parameters_02 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band4.Num_Parameters_03 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band5.Num_Parameters_01 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band5.Num_Parameters_02 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band5.Num_Parameters_03 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band6.Num_Parameters_01 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band6.Num_Parameters_02 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band6.Num_Parameters_03 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band7.Num_Parameters_01 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band7.Num_Parameters_02 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_Band7.Num_Parameters_03 |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_vis.Num_Parameters_01   |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_vis.Num_Parameters_02   |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_vis.Num_Parameters_03   |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_nir.Num_Parameters_01   |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_nir.Num_Parameters_02   |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_nir.Num_Parameters_03   |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_shortwave.Num_Paramete  |
+        |            | rs_01                                          |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_shortwave.Num_Paramete  |
+        |            | rs_02                                          |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Parameters_shortwave.Num_Paramete  |
+        |            | rs_03                                          |
+        +------------+------------------------------------------------+
+        |            | BRDF_Shape_Indicators.Num_Shape_Fields_01      |
+        +------------+------------------------------------------------+
+        |            | BRDF_Shape_Indicators.Num_Shape_Fields_02      |
+        +------------+------------------------------------------------+
+        |            | BRDF_Shape_Indicators.Num_Shape_Fields_03      |
+        +------------+------------------------------------------------+
+        |            | BRDF_Shape_Indicators.Num_Shape_Fields_04      |
+        +------------+------------------------------------------------+
+        | MCD43A2    | BRDF_Albedo_Quality                            |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Ancillary                          |
+        +------------+------------------------------------------------+
+        |            | BRDF_Albedo_Band_Quality                       |
+        +------------+------------------------------------------------+
+        |            | Snow_BRDF_Albedo                               |
+        +------------+------------------------------------------------+
+        | MCD43A4    | Nadir_Reflectance_Band1                        |
+        +------------+------------------------------------------------+
+        |            | Nadir_Reflectance_Band2                        |
+        +------------+------------------------------------------------+
+        |            | Nadir_Reflectance_Band3                        |
+        +------------+------------------------------------------------+
+        |            | Nadir_Reflectance_Band4                        |
+        +------------+------------------------------------------------+
+        |            | Nadir_Reflectance_Band5                        |
+        +------------+------------------------------------------------+
+        |            | Nadir_Reflectance_Band6                        |
+        +------------+------------------------------------------------+
+        |            | Nadir_Reflectance_Band7                        |
+        +------------+------------------------------------------------+
+        | MOD09A1    | sur_refl_day_of_year                           |
+        +------------+------------------------------------------------+
+        |            | sur_refl_qc_500m                               |
+        +------------+------------------------------------------------+
+        |            | sur_refl_raz                                   |
+        +------------+------------------------------------------------+
+        |            | sur_refl_state_500m                            |
+        +------------+------------------------------------------------+
+        |            | sur_refl_szen                                  |
+        +------------+------------------------------------------------+
+        |            | sur_refl_vzen                                  |
+        +------------+------------------------------------------------+
+        |            | sur_refl_b01                                   |
+        +------------+------------------------------------------------+
+        |            | sur_refl_b02                                   |
+        +------------+------------------------------------------------+
+        |            | sur_refl_b03                                   |
+        +------------+------------------------------------------------+
+        |            | sur_refl_b04                                   |
+        +------------+------------------------------------------------+
+        |            | sur_refl_b05                                   |
+        +------------+------------------------------------------------+
+        |            | sur_refl_b06                                   |
+        +------------+------------------------------------------------+
+        |            | sur_refl_b07                                   |
+        +------------+------------------------------------------------+
+        | MOD11A2    | Clear_sky_days                                 |
+        +------------+------------------------------------------------+
+        |            | Clear_sky_nights                               |
+        +------------+------------------------------------------------+
+        |            | Day_view_angl                                  |
+        +------------+------------------------------------------------+
+        |            | Day_view_time                                  |
+        +------------+------------------------------------------------+
+        |            | Emis_31                                        |
+        +------------+------------------------------------------------+
+        |            | Emis_32                                        |
+        +------------+------------------------------------------------+
+        |            | Night_view_angl                                |
+        +------------+------------------------------------------------+
+        |            | Night_view_time                                |
+        +------------+------------------------------------------------+
+        |            | QC_Day                                         |
+        +------------+------------------------------------------------+
+        |            | QC_Night                                       |
+        +------------+------------------------------------------------+
+        |            | LST_Day_1km                                    |
+        +------------+------------------------------------------------+
+        |            | LST_Night_1km                                  |
+        +------------+------------------------------------------------+
+        | MOD13Q1    | 250m_16_days_blue_reflectance                  |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_MIR_reflectance                   |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_NIR_reflectance                   |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_pixel_reliability                 |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_red_reflectance                   |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_relative_azimuth_angle            |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_sun_zenith_angle                  |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_view_zenith_angle                 |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_VI_Quality                        |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_NDVI                              |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_EVI                               |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_composite_day_of_the_year         |
+        +------------+------------------------------------------------+
+        | MOD15A2    | FparExtra_QC                                   |
+        +------------+------------------------------------------------+
+        |            | FparLai_QC                                     |
+        +------------+------------------------------------------------+
+        |            | FparStdDev_1km                                 |
+        +------------+------------------------------------------------+
+        |            | LaiStdDev_1km                                  |
+        +------------+------------------------------------------------+
+        |            | Lai_1km                                        |
+        +------------+------------------------------------------------+
+        |            | Fpar_1km                                       |
+        +------------+------------------------------------------------+
+        | MOD15A2GFS | FparExtra_QC                                   |
+        +------------+------------------------------------------------+
+        |            | FparLai_QC                                     |
+        +------------+------------------------------------------------+
+        |            | FparStdDev_1km                                 |
+        +------------+------------------------------------------------+
+        |            | LaiStdDev_1km                                  |
+        +------------+------------------------------------------------+
+        |            | Lai_1km                                        |
+        +------------+------------------------------------------------+
+        |            | Fpar_1km                                       |
+        +------------+------------------------------------------------+
+        | MOD16A2    | ET_1km                                         |
+        +------------+------------------------------------------------+
+        |            | LE_1km                                         |
+        +------------+------------------------------------------------+
+        |            | PET_1km                                        |
+        +------------+------------------------------------------------+
+        |            | PLE_1km                                        |
+        +------------+------------------------------------------------+
+        |            | ET_QC_1km                                      |
+        +------------+------------------------------------------------+
+        | MOD17A2_51 | Psn_QC_1km                                     |
+        +------------+------------------------------------------------+
+        |            | PsnNet_1km                                     |
+        +------------+------------------------------------------------+
+        |            | Gpp_1km                                        |
+        +------------+------------------------------------------------+
+        | MOD17A3    | Gpp_Npp_QC_1km                                 |
+        +------------+------------------------------------------------+
+        |            | Npp_1km                                        |
+        +------------+------------------------------------------------+
+        |            | Gpp_1km                                        |
+        +------------+------------------------------------------------+
+        | MYD09A1    | sur_refl_day_of_year                           |
+        +------------+------------------------------------------------+
+        |            | sur_refl_qc_500m                               |
+        +------------+------------------------------------------------+
+        |            | sur_refl_raz                                   |
+        +------------+------------------------------------------------+
+        |            | sur_refl_state_500m                            |
+        +------------+------------------------------------------------+
+        |            | sur_refl_szen                                  |
+        +------------+------------------------------------------------+
+        |            | sur_refl_vzen                                  |
+        +------------+------------------------------------------------+
+        |            | sur_refl_b01                                   |
+        +------------+------------------------------------------------+
+        |            | sur_refl_b02                                   |
+        +------------+------------------------------------------------+
+        |            | sur_refl_b03                                   |
+        +------------+------------------------------------------------+
+        |            | sur_refl_b04                                   |
+        +------------+------------------------------------------------+
+        |            | sur_refl_b05                                   |
+        +------------+------------------------------------------------+
+        |            | sur_refl_b06                                   |
+        +------------+------------------------------------------------+
+        |            | sur_refl_b07                                   |
+        +------------+------------------------------------------------+
+        | MYD11A2    | Clear_sky_days                                 |
+        +------------+------------------------------------------------+
+        |            | Clear_sky_nights                               |
+        +------------+------------------------------------------------+
+        |            | Day_view_angl                                  |
+        +------------+------------------------------------------------+
+        |            | Day_view_time                                  |
+        +------------+------------------------------------------------+
+        |            | Emis_31                                        |
+        +------------+------------------------------------------------+
+        |            | Emis_32                                        |
+        +------------+------------------------------------------------+
+        |            | Night_view_angl                                |
+        +------------+------------------------------------------------+
+        |            | Night_view_time                                |
+        +------------+------------------------------------------------+
+        |            | QC_Day                                         |
+        +------------+------------------------------------------------+
+        |            | QC_Night                                       |
+        +------------+------------------------------------------------+
+        |            | LST_Day_1km                                    |
+        +------------+------------------------------------------------+
+        |            | LST_Night_1km                                  |
+        +------------+------------------------------------------------+
+        | MYD13Q1    | 250m_16_days_blue_reflectance                  |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_MIR_reflectance                   |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_NIR_reflectance                   |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_pixel_reliability                 |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_red_reflectance                   |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_relative_azimuth_angle            |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_sun_zenith_angle                  |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_view_zenith_angle                 |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_VI_Quality                        |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_NDVI                              |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_EVI                               |
+        +------------+------------------------------------------------+
+        |            | 250m_16_days_composite_day_of_the_year         |
+        +------------+------------------------------------------------+
+        | MYD15A2    | FparExtra_QC                                   |
+        +------------+------------------------------------------------+
+        |            | FparLai_QC                                     |
+        +------------+------------------------------------------------+
+        |            | FparStdDev_1km                                 |
+        +------------+------------------------------------------------+
+        |            | LaiStdDev_1km                                  |
+        +------------+------------------------------------------------+
+        |            | Lai_1km                                        |
+        +------------+------------------------------------------------+
+        |            | Fpar_1km                                       |
+        +------------+------------------------------------------------+
+
+    :param str startdate: ISO 8601 formatted date string
+    :param str enddate: ISO 8601 formatted date string
+
+"""
+    from tsgettoolbox.services import modis as placeholder
+
+    r = resource(
+        r'http://daacmodis.ornl.gov/cgi-bin/MODIS/GLBVIZ_1_Glb_subset/MODIS_webservice.wsdl',
+        product=product,
+        band=band,
+        lat=lat,
+        lon=lon,
+        startdate=startdate,
+        enddate=enddate,
+        )
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
