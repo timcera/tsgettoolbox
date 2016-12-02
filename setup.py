@@ -30,6 +30,7 @@ install_requires = [
     'pandas >= 0.12',
     'tstoolbox >= 1.12.12.9',
     'requests',
+    'zeep',
 ]
 
 
