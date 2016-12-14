@@ -7093,7 +7093,7 @@ def modis(lat, lon, product, band, startdate=None, enddate=None):
 
     The MODIS Land Cover Type product contains five classification
     schemes, which describe land cover properties derived from
-    observations spanning a year’s input of Terra- and Aqua-MODIS
+    observations spanning a year's input of Terra- and Aqua-MODIS
     data.  The primary land cover scheme identifies 17 land cover
     classes defined by the International Geosphere Biosphere
     Programme (IGBP), which includes 11 natural vegetation classes,
@@ -7110,7 +7110,7 @@ def modis(lat, lon, product, band, startdate=None, enddate=None):
     please consult the following paper:
 
     Friedl, M. A., Sulla-Menashe, D., Tan, B., Schneider, A.,
-    Ramankutty, N., Sibley, A., andHuang, X. (2010). MODIS
+    Ramankutty, N., Sibley, A., and Huang, X. (2010). MODIS
     Collection 5 global land cover: Algorithm refinements and
     characterization of new datasets. Remote Sensing of Environment,
     114, 168–182.
