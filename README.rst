@@ -52,22 +52,13 @@ coops --help'.
                 the National Ocean Service CO-OPS web services is at
                 http://tidesandcurrents.noaa.gov/api/
 
-    nwis
-                Download time-series from the USGS National Water Information
-                Service (NWIS). There are three main NWIS databases. The
-                'tsgettoolbox' can currently pull from the Instantaneous Value
-                database (--database-iv) for sub-daily interval data starting
-                in 2007, and the Daily Values database (--database=dv).
-                Detailed documnetation is available at
-                http://waterdata.usgs.gov/nwis
-
     daymet
                 Download data from the Daymet dataset created by the Oak Ridge
                 National Laboratory. Detailed documentation is at
                 http://daymet.ornl.gov/
 
     ldas
-                Download data from the Land Data Assimillation Service (LDAS).
+                Download data from the Land Data Assimilation Service (LDAS).
                 Two projects are available, the National LDAS (0.125x0.125
                 degree hourly) and the Global LDAS (0.25x0.25 degree 3 hourly).
 
@@ -89,12 +80,72 @@ coops --help'.
                 records from numerous sources that have been integrated and
                 subjected to a common suite of quality assurance reviews.
 
-    unavco
-                Detailed information at:
-                http://www.unavco.com/data/web-services/web-services.html
+    modis
+                Download datasets developed using the MODIS satellite imagery.
 
-                Returns 'met', 'pore_temperature', 'pore_pressure', 'tilt',
-                'strain', or 'positional' data for UNAVCO stations.
+                Documentation: https://modis.ornl.gov/documentation.html
+
+                Policies: https://lpdaac.usgs.gov/products/modis_policies
+
+                Citation: https://lpdaac.usgs.gov/citing_our_data
+
+                +---------+---------------------------------------------------+
+                | Product | Name                                              |
+                +=========+===================================================+
+                | MCD12Q1 | MODIS/Terra+Aqua Land Cover (LC) Type Yearly L3   |
+                |         | Global 500m SIN Grid                              |
+                +---------+---------------------------------------------------+
+                | MCD12Q2 | MODIS/Terra+Aqua Land Cover Dynamics (LCD) Yearly |
+                |         | L3 Global 500m SIN Grid                           |
+                +---------+---------------------------------------------------+
+                | MCD43A1 | MODIS/Terra+Aqua BRDF/Albedo (BRDF/MCD43A1)       |
+                |         | 16-Day L3 Global 500m SIN Grid                    |
+                +---------+---------------------------------------------------+
+                | MCD43A2 | MODIS/Terra+Aqua BRDF/Model Quality               |
+                |         | (BRDF/MCD43A2) 16-Day L3 Global 500m SIN Grid     |
+                |         | V005                                              |
+                +---------+---------------------------------------------------+
+                | MCD43A4 | MODIS/Terra+Aqua Nadir BRDF-Adjusted Reflectance  |
+                |         | (NBAR) 16-Day L3 Global 500m SIN Grid             |
+                +---------+---------------------------------------------------+
+                | MOD09A1 | MODIS/Terra Surface Reflectance (SREF) 8-Day L3   |
+                |         | Global 500m SIN Grid                              |
+                +---------+---------------------------------------------------+
+                | MOD11A2 | MODIS/Terra Land Surface Temperature/Emissivity   |
+                |         | (LST) 8-Day L3 Global 1km SIN Grid                |
+                +---------+---------------------------------------------------+
+                | MOD13Q1 | MODIS/Terra Vegetation Indices (NDVI/EVI) 16-Day  |
+                |         | L3 Global 250m SIN Grid [Collection 5]            |
+                +---------+---------------------------------------------------+
+                | MOD15A2 | Leaf Area Index (LAI) and Fraction of             |
+                |         | Photosynthetically Active Radiation (FPAR) 8-Day  |
+                |         | Composite [Collection 5]                          |
+                +---------+---------------------------------------------------+
+                | MOD16A2 | MODIS/Terra Evapotranspiration (ET) 8-Day L4      |
+                |         | Global Collection 5                               |
+                +---------+---------------------------------------------------+
+                | MOD17A2 | MODIS/Terra Gross Primary Production (GPP) 8-Day  |
+                |         | L4 Global [Collection 5.1]                        |
+                +---------+---------------------------------------------------+
+                | MOD17A3 | MODIS/Terra Net Primary Production (NPP) Yearly   |
+                |         | L4 Global 1km SIN Grid                            |
+                +---------+---------------------------------------------------+
+                | MYD09A1 | MODIS/Aqua Surface Reflectance (SREF) 8-Day L3    |
+                |         | Global 500m SIN Grid                              |
+                +---------+---------------------------------------------------+
+                | MYD11A2 | MODIS/Aqua Land Surface Temperature/Emissivity    |
+                |         | (LST)8-Day L3 Global 1km SIN Grid                 |
+                +---------+---------------------------------------------------+
+                | MYD13Q1 | MODIS/Aqua Vegetation Indices (NDVI/EVI) 16-Day   |
+                |         | L3 Global 1km SIN Grid                            |
+                +---------+---------------------------------------------------+
+                | MYD15A2 | MODIS/Aqua Leaf Area Index (LAI) and Fraction of  |
+                |         | Photosynthetically Active Radiation (FPAR) 8 Day  |
+                |         | Composite                                         |
+                +---------+---------------------------------------------------+
+                | MYD17A2 | MODIS/Aqua Gross Primary Production (GPP) 8 Day   |
+                |         | L4 Global                                         |
+                +---------+---------------------------------------------------+
 
     ncdc_ghcnd_ftp
                 Download from the Global Historical Climatology Network -
@@ -143,6 +194,25 @@ coops --help'.
     ncdc_ghcndms
                 National Climatic Data Center GHCND Monthly Summaries.
                 Requires registration and free API key.
+
+    ndbc
+                Download data from the National Data Buoy Center.
+
+    nwis
+                Download time-series from the USGS National Water Information
+                Service (NWIS). There are three main NWIS databases. The
+                'tsgettoolbox' can currently pull from the Instantaneous Value
+                database (--database=iv) for sub-daily interval data starting
+                in 2007, and the Daily Values database (--database=dv).
+                Detailed documnetation is available at
+                http://waterdata.usgs.gov/nwis
+
+    unavco
+                Detailed information at:
+                http://www.unavco.com/data/web-services/web-services.html
+
+                Returns 'met', 'pore_temperature', 'pore_pressure', 'tilt',
+                'strain', or 'positional' data for UNAVCO stations.
 
 Usage Summary - Python Library
 ------------------------------

@@ -6992,26 +6992,82 @@ def ncdc_ghcndms(stationid, datatypeid='', startdate='', enddate=''):
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
-def ndbc(station, startUTC, endUTC, observedproperty=None):
+@mando.command(formatter_class=HelpFormatter)
+def ndbc(station, observedproperty, startUTC, endUTC):
     """Download for the National Data Buoy Center
 
-    :param str station:  A 7 character station ID, or a currents
-    :param str observedproperty: one of the following:
-        air_pressure_at_sea_level
-        air_temperature
-        currents
-        sea_floor_depth_below_sea_surface (water level for tsunami stations)
-        sea_water_electrical_conductivity
-        sea_water_salinity
-        sea_water_temperature
-        waves
-	winds
-    :param str startUTC: an ISO 8601 date/time string (only second are
-	optional).
+    Download data from the National Data Buoy Center.
+
+    The Active Station List is available at
+    http://www.ndbc.noaa.gov/activestations.xml
+
+    This file provides metadata in regards to the current deployment for all
+    active stations on the NDBC web site. The metadata includes station ID,
+    latitude, longitude, station name, station owner, program to which the
+    station belongs, and type of data reported as detailed below::
+
+        met: indicates whether the station has reported meteorological
+        data in the past eight hours (y/n).
+
+        currents: indicates whether the station has reported water
+        current data in the past eight hours (y/n).
+
+        waterquality: indicates whether the station has reported ocean
+        chemistry data in the past eight hours (y/n).
+
+        dart: indicates whether the station has reported water column
+        height/tsunami data in the past 24 hours (y/n).
+
+    This file is refreshed every five minutes as needed. Note: The main
+    activity that drives changes are: a service visit, establishment of
+    a new station, or changes in the type of data received (i.e.
+    sensor/station failure) therefore, minimal updates would be expected
+    in a 24 hour period.
+
+    Note, the TAO entries do not include the data type attributes (met,
+    currents, water quality and dart) but do include a seq attribute for
+    syncing access to the TAO web site. The TAO array is the climate
+    stations in the equatorial Pacific.
+
+    :param str station:  A 7 character station ID, or a
+        currents id.
+    :param str observedproperty: one
+        of the following::
+
+            air_pressure_at_sea_level
+            air_temperature
+            currents
+            sea_floor_depth_below_sea_surface (water level for tsunami stations)
+            sea_water_electrical_conductivity
+            sea_water_salinity
+            sea_water_temperature
+            waves
+            winds
+
+        The 'observedpropery' of 'currents' has several flags::
+
+            Flag 1 represents the overall bin status.
+            Flag 2 represents the ADCP Built-In Test (BIT) status.
+            Flag 3 represents the Error Velocity test status.
+            Flag 4 represents the Percent Good test status.
+            Flag 5 represents the Correlation Magnitude test status.
+            Flag 6 represents the Vertical Velocity test status.
+            Flag 7 represents the North Horizontal Velocity test status.
+            Flag 8 represents the East Horizontal Velocity test status.
+            Flag 9 represents the Echo Intensity test status.
+
+            Valid flag values are:
+
+            0 = quality not evaluated;
+            1 = failed quality test;
+            2 = questionable or suspect data;
+            3 = good data/passed quality test; and
+            9 = missing data.
+
+    :param str startUTC: an ISO 8601 date/time string (only seconds are
+    optional)
     :param str endUTC: an ISO 8601 date/time string. (only seconds are
         optional)
-
-    Data requests are limited to 31 days.
 
     """
     from tsgettoolbox.services import ndbc as placeholder
@@ -7033,142 +7089,321 @@ def modis(lat, lon, product, band, startdate=None, enddate=None):
 
     This data are derived data sets from MODIS satellite photos.
 
+    MCD12Q1
+
+    The MODIS Land Cover Type product contains five classification
+    schemes, which describe land cover properties derived from
+    observations spanning a year’s input of Terra- and Aqua-MODIS
+    data.  The primary land cover scheme identifies 17 land cover
+    classes defined by the International Geosphere Biosphere
+    Programme (IGBP), which includes 11 natural vegetation classes,
+    3 developed and mosaicked land classes, and three non-vegetated
+    land classes.
+
+    The MODIS Terra + Aqua Land Cover Type Yearly L3 Global 500
+    m SIN Grid product incorporates five different land cover
+    classification schemes, derived through a supervised
+    decision-tree classification method.
+
+    V051 Land Cover Type products are produced with revised training
+    data and certain algorithm refinements.  For further details,
+    please consult the following paper:
+
+    Friedl, M. A., Sulla-Menashe, D., Tan, B., Schneider, A.,
+    Ramankutty, N., Sibley, A., andHuang, X. (2010). MODIS
+    Collection 5 global land cover: Algorithm refinements and
+    characterization of new datasets. Remote Sensing of Environment,
+    114, 168–182.
+
+
+    Land Cover Datasets
+
+    +-------------------+----------+---------------------------+
+    | Band              | Abbrev   | Description               |
+    +===================+==========+===========================+
+    | Land_Cover_Type_1 | IGBP     | global vegetation         |
+    |                   |          | classification scheme     |
+    +-------------------+----------+---------------------------+
+    | Land_Cover_Type_2 | UMD      | University of Maryland    |
+    |                   |          | scheme                    |
+    +-------------------+----------+---------------------------+
+    | Land_Cover_Type_3 | LAI/fPAR | MODIS-derived scheme      |
+    +-------------------+----------+---------------------------+
+    | Land_Cover_Type_4 | NPP      | MODIS-derived Net Primary |
+    |                   |          | Production (NPP) scheme   |
+    +-------------------+----------+---------------------------+
+    | Land_Cover_Type_5 | PFT      | Plant Functional Type     |
+    |                   |          | (PFT) scheme              |
+    +-------------------+----------+---------------------------+
+
+
+    Land Cover Types Description
+
+    +------+-----------+-----------+-----------+-----------+-----------+
+    | Code | IGBP      | UMD       | LAI/fPAR  | NPP       | PFT       |
+    +======+===========+===========+===========+===========+===========+
+    | 0    | Water     | Water     | Water     | Water     | Water     |
+    +------+-----------+-----------+-----------+-----------+-----------+
+    | 1    | Evergreen | Evergreen | Grasses/  | Evergreen | Evergreen |
+    |      | Needle    | Needle    | Cereal    | Needle    | Needle    |
+    |      | leaf      | leaf      | crop      | leaf      | leaf      |
+    |      | forest    | forest    |           |           |           |
+    +------+-----------+-----------+-----------+-----------+-----------+
+    | 2    | Evergreen | Evergreen | Shrub     | Evergreen | Evergreen |
+    |      | Broadleaf | Broadleaf |           | Broadleaf | Broadleaf |
+    |      | forest    | forest    |           |           |           |
+    +------+-----------+-----------+-----------+-----------+-----------+
+    | 3    | Deciduous | Deciduous | Broadleaf | Deciduous | Deciduous |
+    |      | Needle    | Needle    | crop      | Needle    | Needle    |
+    |      | leaf      | leaf      |           | leaf      | leaf      |
+    |      | forest    | forest    |           |           |           |
+    +------+-----------+-----------+-----------+-----------+-----------+
+    | 4    | Deciduous | Deciduous | Savanna   | Deciduous | Deciduous |
+    |      | Broadleaf | Broadleaf |           | Broadleaf | Broadleaf |
+    |      | forest    | forest    |           |           |           |
+    +------+-----------+-----------+-----------+-----------+-----------+
+    | 5    | Mixed     | Mixed     | Evergreen | Annual    | Shrub     |
+    |      | forest    | forest    | Broadleaf | Broadleaf |           |
+    |      |           |           | forest    |           |           |
+    +------+-----------+-----------+-----------+-----------+-----------+
+    | 6    | Closed    | Closed    | Deciduous | Annual    | Grassland |
+    |      | shrubland | shrubland | Broadleaf | grass     |           |
+    |      |           |           | forest    |           |           |
+    +------+-----------+-----------+-----------+-----------+-----------+
+    | 7    | Open      | Open      | Evergreen | Non-      | Cereal    |
+    |      | shrubland | shrubland | Needle    | vegetated | crops     |
+    |      |           |           | leaf      | land      |           |
+    |      |           |           | forest    |           |           |
+    +------+-----------+-----------+-----------+-----------+-----------+
+    | 8    | Woody     | Woody     | Deciduous | Urban     | Broad-    |
+    |      | savanna   | savanna   | Needle    |           | leaf      |
+    |      |           |           | leaf      |           | crops     |
+    |      |           |           | forest    |           |           |
+    +------+-----------+-----------+-----------+-----------+-----------+
+    | 9    | Savanna   | Savanna   | Non-      |           | Urban and |
+    |      |           |           | vegetated |           | built-up  |
+    +------+-----------+-----------+-----------+-----------+-----------+
+    | 10   | Grassland | Grassland | Urban     |           | Snow and  |
+    |      |           |           |           |           | ice       |
+    +------+-----------+-----------+-----------+-----------+-----------+
+    | 11   | Permanent |           |           |           | Barren or |
+    |      | wetlands  |           |           |           | sparse    |
+    +------+-----------+-----------+-----------+-----------+-----------+
+    | 12   | Croplands | Cropland  |           |           |           |
+    +------+-----------+-----------+-----------+-----------+-----------+
+    | 13   | Urban and | Urban and |           |           |           |
+    |      | built-up  | built-up  |           |           |           |
+    +------+-----------+-----------+-----------+-----------+-----------+
+    | 14   | Cropland  |           |           |           |           |
+    |      | /Natural  |           |           |           |           |
+    |      | mosaic    |           |           |           |           |
+    +------+-----------+-----------+-----------+-----------+-----------+
+    | 15   | Snow and  |           |           |           |           |
+    |      | ice       |           |           |           |           |
+    +------+-----------+-----------+-----------+-----------+-----------+
+    | 16   | Barren or | Barren or |           |           |           |
+    |      | sparsely  | sparsely  |           |           |           |
+    |      | vegetated | vegetated |           |           |           |
+    +------+-----------+-----------+-----------+-----------+-----------+
+    | 254  | Unclassi  | Unclassi  | Unclassi  | Unclassi  | Unclassi  |
+    |      | fied      | fied      | fied      | fied      | fies      |
+    +------+-----------+-----------+-----------+-----------+-----------+
+    | 255  | Fill      | Fill      | Fill      | Fill      | Fill      |
+    |      | Value     | Value     | Value     | Value     | Value     |
+    +------+-----------+-----------+-----------+-----------+-----------+
+
+
+    Citation
+
+    Citation instructions are from https://modis.ornl.gov/citation.html
+
+    When using subsets of MODIS Land Products from the ORNL DAAC, please
+    use the following citation format:
+
+    Citation: Single Site
+
+    Format (single site):
+
+    ORNL DAAC 2008. MODIS Collection 5 Land Products Global Subsetting
+    and Visualization Tool. ORNL DAAC, Oak Ridge, Tennessee, USA.
+    Accessed Month dd, yyyy. Subset obtained for [Product name] product
+    at [Lat],[Lon], time period: [Start date] to [End date], and subset
+    size: [Width] x [Height] km. http://dx.doi.org/10.3334/ORNLDAAC/1241
+
+    Example (single site):
+
+    ORNL DAAC. 2008. MODIS Collection 5 Land Products Global Subsetting
+    and Visualization Tool. ORNL DAAC, Oak Ridge, Tennessee, USA.
+    Accessed August 25, 2015. Subset obtained for MOD13Q1 product at
+    39.497N,107.3028W, time period: 2000-02-18 to 2015-07-28, and subset
+    size: 0.25 x 0.25 km. http://dx.doi.org/10.3334/ORNLDAAC/1241
+
+    Notes:
+
+    The coordinates used in the citation are the Latitude and Longitude
+    (decimal degrees) specified by the user when the order is placed,
+    trimmed to 4 decimal places.  The citation is also sent in the email
+    along with data retrieval instructions after the order is processed.
+    BibTeX (.bib) file is available for download on the data
+    visualization and download page (see screenshot below).
+
+    Citation: Multiple Sites
+
+    Format (multiple sites, clustered together):
+
+    ORNL DAAC 2008. MODIS Collection 5 Land Products Global Subsetting
+    and Visualization Tool. ORNL DAAC, Oak Ridge, Tennessee, USA.
+    Accessed Month dd, yyyy. Subset obtained for [Product name] product
+    at various sites in Spatial Range: N=DD.DD, S=DD.DD, E=DDD.DD,
+    W=DDD.DD, time period: [Start date] to [End date], and subset size:
+    [Width] x [Height] km. http://dx.doi.org/10.3334/ORNLDAAC/1241
+
+    Example (multiple sites, clustered together):
+
+    ORNL DAAC. 2008. MODIS Collection 5 Land Products Global Subsetting
+    and Visualization Tool. ORNL DAAC, Oak Ridge, Tennessee, USA.
+    Accessed August 25, 2015. Subset obtained for MOD13Q1 product at
+    various sites in Spatial Range: N=39.49N, S=39.25N, E=107.42W,
+    W=106.48W, time period: 2000-02-18 to 2015-07-28, and subset size:
+    0.25 x 0.25 km. http://dx.doi.org/10.3334/ORNLDAAC/1241
+
+    Notes:
+
+    "Spatial Range: N=DD.DD, S=DD.DD, E=DDD.DD, W=DDD.DD" is the
+    bounding box for the site locations used for requesting subsets.
+
+    Please cite each product separately.
+
+    The coordinates used in the citation are the Latitude and Longitude
+    (decimal degrees) specified by the user when the order is placed,
+    trimmed to 4 decimal places.  The citation is also sent in the email
+    along with data retrieval instructions after the order is processed.
+    BibTeX (.bib) file is available for download on the data
+    visualization and download page. Please modify it manually for
+    multiple sites.
+
     :param float lat:  Latitude (required): Enter single
         geographic point by latitude.
     :param float lon:  Longitude (required): Enter single
         geographic point by longitude.
-    :param str product: One of the following values in the 'Product'
+    :param str product: One of the following values in the 'product'
         column.
 
-        +---------+----------+-------------------------+--------+------+
-        | Product | Acronym  | Name                    | Freq   | Size |
-        |         |          |                         | (days) | (m)  |
-        +=========+==========+=========================+========+======+
-        | MCD12Q1 | LC       | MODIS/Terra+Aqua Land   | annual | 500  |
-        |         |          | Cover (LC) Type Yearly  |        |      |
-        |         |          | L3 Global 500m SIN Grid |        |      |
-        +---------+----------+-------------------------+--------+------+
-        | MCD12Q2 | LCD      | MODIS/Terra+Aqua Land   | annual | 500  |
-        |         |          | Cover Dynamics (LCD)    |        |      |
-        |         |          | Yearly L3 Global 500m   |        |      |
-        |         |          | SIN Grid                |        |      |
-        +---------+----------+-------------------------+--------+------+
-        | MCD43A1 | BRDF     | MODIS/Terra+Aqua        | 16     | 500  |
-        |         |          | BRDF/Albedo             |        |      |
-        |         |          | (BRDF/MCD43A1) 16-Day   |        |      |
-        |         |          | L3 Global 500m SIN Grid |        |      |
-        +---------+----------+-------------------------+--------+------+
-        | MCD43A2 | BRDF/QA  | MODIS/Terra+Aqua        | 16     | 500  |
-        |         |          | BRDF/Model Quality      |        |      |
-        |         |          | (BRDF/MCD43A2) 16-Day   |        |      |
-        |         |          | L3 Global 500m SIN Grid |        |      |
-        |         |          | V005                    |        |      |
-        +---------+----------+-------------------------+--------+------+
-        | MCD43A4 | NBAR     | MODIS/Terra+Aqua Nadir  | 16     | 500  |
-        |         |          | BRDF- Adjusted          |        |      |
-        |         |          | Reflectance (NBAR)      |        |      |
-        |         |          | 16-Day L3 Global 500m   |        |      |
-        |         |          | SIN Grid                |        |      |
-        +---------+----------+-------------------------+--------+------+
-        | MOD09A1 | SREF     | MODIS/Terra Surface     | 8      | 500  |
-        |         |          | Reflectance (SREF)      |        |      |
-        |         |          | 8-Day L3 Global 500m    |        |      |
-        |         |          | SIN Grid                |        |      |
-        +---------+----------+-------------------------+--------+------+
-        | MOD11A2 | TEMP     | MODIS/Terra Land        | 8      | 1000 |
-        |         |          | Surface                 |        |      |
-        |         |          | Temperature/Emissivity  |        |      |
-        |         |          | (LST) 8-Day L3 Global   |        |      |
-        |         |          | 1km SIN Grid            |        |      |
-        +---------+----------+-------------------------+--------+------+
-        | MOD13Q1 | NDVI/EVI | MODIS/Terra Vegetation  | 16     | 250  |
-        |         |          | Indices (NDVI/EVI)      |        |      |
-        |         |          | 16-Day L3 Global 250m   |        |      |
-        |         |          | SIN Grid [Collection 5] |        |      |
-        +---------+----------+-------------------------+--------+------+
-        | MOD15A2 | LAI/FPAR | Leaf Area Index (LAI)   | 8      | 1000 |
-        |         |          | and Fraction of         |        |      |
-        |         |          | Photosynthetically      |        |      |
-        |         |          | Active Radiation (FPAR) |        |      |
-        |         |          | 8-Day Composite         |        |      |
-        |         |          | [Collection 5]          |        |      |
-        +---------+----------+-------------------------+--------+------+
-        | MOD16A2 | ET       | MODIS/Terra             | 8      | 1000 |
-        |         |          | Evapotranspiration (ET) |        |      |
-        |         |          | 8-Day L4 Global         |        |      |
-        |         |          | Collection 5            |        |      |
-        +---------+----------+-------------------------+--------+------+
-        | MOD17A2 | GPP      | MODIS/Terra Gross       | 8      | 1000 |
-        |         |          | Primary Production      |        |      |
-        |         |          | (GPP) 8-Day L4 Global   |        |      |
-        |         |          | [Collection 5.1]        |        |      |
-        +---------+----------+-------------------------+--------+------+
-        | MOD17A3 | NPP      | MODIS/Terra Net Primary | annual | 1000 |
-        |         |          | Production (NPP) Yearly |        |      |
-        |         |          | L4 Global 1km SIN Grid  |        |      |
-        +---------+----------+-------------------------+--------+------+
-        | MYD09A1 | SREF     | MODIS/Aqua Surface      | 8      | 500  |
-        |         |          | Reflectance (SREF)      |        |      |
-        |         |          | 8-Day L3 Global 500m    |        |      |
-        |         |          | SIN Grid                |        |      |
-        +---------+----------+-------------------------+--------+------+
-        | MYD11A2 | TEMP     | MODIS/Aqua Land Surface | 8      | 1000 |
-        |         |          | Temperature/Emissivity  |        |      |
-        |         |          | (LST)8-Day L3 Global    |        |      |
-        |         |          | 1km SIN Grid            |        |      |
-        +---------+----------+-------------------------+--------+------+
-        | MYD13Q1 | NDVI/EVI | MODIS/Aqua Vegetation   | 16     | 250  |
-        |         |          | Indices (NDVI/EVI)      |        |      |
-        |         |          | 16-Day L3 Global 1km    |        |      |
-        |         |          | SIN Grid                |        |      |
-        +---------+----------+-------------------------+--------+------+
-        | MYD15A2 | LAI/FPAR | MODIS/Aqua Leaf Area    | 8      | 1000 |
-        |         |          | Index (LAI) and         |        |      |
-        |         |          | Fraction of             |        |      |
-        |         |          | Photosynthetically      |        |      |
-        |         |          | Active Radiation (FPAR) |        |      |
-        |         |          | 8 Day Composite         |        |      |
-        +---------+----------+-------------------------+--------+------+
-        | MYD17A2 | GPP      | MODIS/Aqua Gross        | 8      | 1000 |
-        |         |          | Primary Production      |        |      |
-        |         |          | (GPP) 8 Day L4 Global   |        |      |
-        +---------+----------+-------------------------+--------+------+
+        +---------+------------------------------------+--------+------+
+        | product | Name                               | Freq   | Size |
+        |         |                                    | (days) | (m)  |
+        +=========+====================================+========+======+
+        | MCD12Q1 | MODIS/Terra+Aqua Land Cover (LC)   | annual | 500  |
+        |         | Type Yearly L3 Global 500m SIN     |        |      |
+        |         | Grid                               |        |      |
+        +---------+------------------------------------+--------+------+
+        | MCD12Q2 | MODIS/Terra+Aqua Land Cover        | annual | 500  |
+        |         | Dynamics (LCD) Yearly L3 Global    |        |      |
+        |         | 500m SIN Grid                      |        |      |
+        +---------+------------------------------------+--------+------+
+        | MCD43A1 | MODIS/Terra+Aqua BRDF/Albedo       | 16     | 500  |
+        |         | (BRDF/MCD43A1) 16-Day L3 Global    |        |      |
+        |         | 500m SIN Grid                      |        |      |
+        +---------+------------------------------------+--------+------+
+        | MCD43A2 | MODIS/Terra+Aqua BRDF/Model        | 16     | 500  |
+        |         | Quality (BRDF/MCD43A2) 16-Day L3   |        |      |
+        |         | Global 500m SIN Grid V005          |        |      |
+        +---------+------------------------------------+--------+------+
+        | MCD43A4 | MODIS/Terra+Aqua Nadir BRDF-       | 16     | 500  |
+        |         | Adjusted Reflectance (NBAR) 16-Day |        |      |
+        |         | L3 Global 500m SIN Grid            |        |      |
+        +---------+------------------------------------+--------+------+
+        | MOD09A1 | MODIS/Terra Surface Reflectance    | 8      | 500  |
+        |         | (SREF) 8-Day L3 Global 500m SIN    |        |      |
+        |         | Grid                               |        |      |
+        +---------+------------------------------------+--------+------+
+        | MOD11A2 | MODIS/Terra Land Surface           | 8      | 1000 |
+        |         | Temperature/Emissivity (LST) 8-Day |        |      |
+        |         | L3 Global 1km SIN Grid             |        |      |
+        +---------+------------------------------------+--------+------+
+        | MOD13Q1 | MODIS/Terra Vegetation Indices     | 16     | 250  |
+        |         | (NDVI/EVI) 16-Day L3 Global 250m   |        |      |
+        |         | SIN Grid [Collection 5]            |        |      |
+        +---------+------------------------------------+--------+------+
+        | MOD15A2 | Leaf Area Index (LAI) and Fraction | 8      | 1000 |
+        |         | of Photosynthetically Active       |        |      |
+        |         | Radiation (FPAR) 8-Day Composite   |        |      |
+        |         | [Collection 5]                     |        |      |
+        +---------+------------------------------------+--------+------+
+        | MOD16A2 | MODIS/Terra Evapotranspiration     | 8      | 1000 |
+        |         | (ET) 8-Day L4 Global Collection 5  |        |      |
+        +---------+------------------------------------+--------+------+
+        | MOD17A2 | MODIS/Terra Gross Primary          | 8      | 1000 |
+        |         | Production (GPP) 8-Day L4 Global   |        |      |
+        |         | [Collection 5.1]                   |        |      |
+        +---------+------------------------------------+--------+------+
+        | MOD17A3 | MODIS/Terra Net Primary Production | annual | 1000 |
+        |         | (NPP) Yearly L4 Global 1km SIN     |        |      |
+        |         | Grid                               |        |      |
+        +---------+------------------------------------+--------+------+
+        | MYD09A1 | MODIS/Aqua Surface Reflectance     | 8      | 500  |
+        |         | (SREF) 8-Day L3 Global 500m SIN    |        |      |
+        |         | Grid                               |        |      |
+        +---------+------------------------------------+--------+------+
+        | MYD11A2 | MODIS/Aqua Land Surface            | 8      | 1000 |
+        |         | Temperature/Emissivity (LST)8-Day  |        |      |
+        |         | L3 Global 1km SIN Grid             |        |      |
+        +---------+------------------------------------+--------+------+
+        | MYD13Q1 | MODIS/Aqua Vegetation Indices      | 16     | 250  |
+        |         | (NDVI/EVI) 16-Day L3 Global 1km    |        |      |
+        |         | SIN Grid                           |        |      |
+        +---------+------------------------------------+--------+------+
+        | MYD15A2 | MODIS/Aqua Leaf Area Index (LAI)   | 8      | 1000 |
+        |         | and Fraction of Photosynthetically |        |      |
+        |         | Active Radiation (FPAR) 8 Day      |        |      |
+        |         | Composite                          |        |      |
+        +---------+------------------------------------+--------+------+
+        | MYD17A2 | MODIS/Aqua Gross Primary           | 8      | 1000 |
+        |         | Production (GPP) 8 Day L4 Global   |        |      |
+        +---------+------------------------------------+--------+------+
 
     :param str band:  One of the following. The 'band' selected from the
         second column must match the 'product' in the first column.
 
         +------------+-------------------------------------------------+
-        | Property   | Band                                            |
+        | product    | band                                            |
         +============+=================================================+
-        | MCD12Q1    | LC_Property_1                                   |
+        | MCD12Q1    | LC_Property_1  (not populated)                  |
         +------------+-------------------------------------------------+
-        |            | LC_Property_2                                   |
+        |            | LC_Property_2  (not populated)                  |
         +------------+-------------------------------------------------+
-        |            | LC_Property_3                                   |
+        |            | LC_Property_3  (not populated)                  |
         +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_1                               |
+        |            | Land_Cover_Type_1 (See Land Cover Datasets and  |
+        |            | Land Cover Types tables)                        |
         +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_2                               |
+        |            | Land_Cover_Type_2 (See Land Cover Datasets and  |
+        |            | Land Cover Types tables)                        |
         +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_3                               |
+        |            | Land_Cover_Type_3 (See Land Cover Datasets and  |
+        |            | Land Cover Types tables)                        |
         +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_4                               |
+        |            | Land_Cover_Type_4 (See Land Cover Datasets and  |
+        |            | Land Cover Types tables)                        |
         +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_5                               |
+        |            | Land_Cover_Type_5 (See Land Cover Datasets and  |
+        |            | Land Cover Types tables)                        |
         +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_1_Assessment                    |
+        |            | Land_Cover_Type_1_Assessment (%)                |
         +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_2_Assessment                    |
+        |            | Land_Cover_Type_2_Assessment (not populated)    |
         +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_3_Assessment                    |
+        |            | Land_Cover_Type_3_Assessment (not populated)    |
         +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_4_Assessment                    |
+        |            | Land_Cover_Type_4_Assessment (not populated)    |
         +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_5_Assessment                    |
+        |            | Land_Cover_Type_5_Assessment (not populated)    |
         +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_1_Secondary                     |
+        |            | Land_Cover_Type_1_Secondary (See Land Cover     |
+        |            | Datasets and Land Cover Types tables)           |
         +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_1_Secondary_Percent             |
+        |            | Land_Cover_Type_1_Secondary_Percent (not        |
+        |            | populated)                                      |
         +------------+-------------------------------------------------+
         | MCD12Q2    | NBAR_EVI_Onset_Greenness_Maximum.Num_Modes_02   |
         +------------+-------------------------------------------------+
