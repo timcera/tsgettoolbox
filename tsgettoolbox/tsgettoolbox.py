@@ -7113,7 +7113,7 @@ def modis(lat, lon, product, band, startdate=None, enddate=None):
     Ramankutty, N., Sibley, A., and Huang, X. (2010). MODIS
     Collection 5 global land cover: Algorithm refinements and
     characterization of new datasets. Remote Sensing of Environment,
-    114, 168–182.
+    114, 168-182.
 
 
     Land Cover Datasets
