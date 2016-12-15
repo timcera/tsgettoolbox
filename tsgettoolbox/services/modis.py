@@ -517,7 +517,16 @@ products = ['MCD12Q1',
 class modis(object):
     def __init__(self, url, **query_params):
         self.url = url
+        if query_params['startdate'] is None:
+            query_params['startdate'] = pd.to_datetime('1900-01-01T00')
+        else:
+            query_params['startdate'] = pd.to_datetime(query_params['startdate'])
+        if query_params['enddate'] is None:
+            query_params['enddate'] = pd.datetime.now()
+        else:
+            query_params['enddate'] = pd.to_datetime(query_params['enddate'])
         self.query_params = query_params
+
 
 @resource.register(r'http://daacmodis\.ornl\.gov/cgi-bin/MODIS/GLBVIZ_1_Glb_subset/MODIS_webservice.wsdl', priority=17)
 def resource_modis(uri, **kwargs):
@@ -541,8 +550,8 @@ def modis_to_df(data, **kwargs):
 *
 """.format(data.query_params['product'], bands))
 
-    startdate = pd.to_datetime(data.query_params['startdate'])
-    enddate = pd.to_datetime(data.query_params['enddate'])
+    startdate = data.query_params['startdate']
+    enddate = data.query_params['enddate']
 
     dates = client.service.getdates(data.query_params['lat'],
                                     data.query_params['lon'],

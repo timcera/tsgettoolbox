@@ -7389,7 +7389,7 @@ def modis(lat, lon, product, band, startdate=None, enddate=None):
         |            | Land_Cover_Type_5 (See Land Cover Datasets and  |
         |            | Land Cover Types tables)                        |
         +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_1_Assessment (%)                |
+        |            | Land_Cover_Type_1_Assessment (%%)               |
         +------------+-------------------------------------------------+
         |            | Land_Cover_Type_2_Assessment (not populated)    |
         +------------+-------------------------------------------------+
