@@ -11,10 +11,6 @@ coops
 ~~~~~
 .. program-output:: tsgettoolbox coops --help
 
-nwis
-~~~~
-.. program-output:: tsgettoolbox nwis --help
-
 daymet
 ~~~~~~
 .. program-output:: tsgettoolbox daymet --help
@@ -27,9 +23,9 @@ darksky
 ~~~~~~~
 .. program-output:: tsgettoolbox darksky --help
 
-unavco
-~~~~~~
-.. program-output:: tsgettoolbox unavco --help
+modis        
+~~~~~
+.. program-output:: tsgettoolbox modis --help
 
 ncdc_ghcnd_ftp
 ~~~~~~~~~~~~~~
@@ -78,3 +74,16 @@ ncdc_annual
 ncdc_ghcndms        
 ~~~~~~~~~~~~
 .. program-output:: tsgettoolbox ncdc_ghcndms --help
+
+ndbc        
+~~~~
+.. program-output:: tsgettoolbox ndbc --help
+
+nwis
+~~~~
+.. program-output:: tsgettoolbox nwis --help
+
+unavco
+~~~~~~
+.. program-output:: tsgettoolbox unavco --help
+
