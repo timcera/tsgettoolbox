@@ -6958,8 +6958,8 @@ def ncdc_ghcndms(stationid, datatypeid='', startdate='', enddate=''):
         | WV20 | Rain or snow shower                                   |
         +------+-------------------------------------------------------+
 
-    :param str starttime:  Start date in ISO8601 format.
-    :param str endtime:  End date in ISO8601 format.
+    :param str startdate:  Start date in ISO8601 format.
+    :param str enddate:  End date in ISO8601 format.
 
     For every datatype and record there is a set of meta-data flags.
     For the GHCNDMS dataset, the flags are::
@@ -7065,7 +7065,7 @@ def ndbc(station, observedproperty, startUTC, endUTC):
             9 = missing data.
 
     :param str startUTC: an ISO 8601 date/time string (only seconds are
-    optional)
+        optional)
     :param str endUTC: an ISO 8601 date/time string. (only seconds are
         optional)
 
@@ -7389,7 +7389,7 @@ def modis(lat, lon, product, band, startdate=None, enddate=None):
         |            | Land_Cover_Type_5 (See Land Cover Datasets and  |
         |            | Land Cover Types tables)                        |
         +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_1_Assessment (%%)               |
+        |            | Land_Cover_Type_1_Assessment (per cent)         |
         +------------+-------------------------------------------------+
         |            | Land_Cover_Type_2_Assessment (not populated)    |
         +------------+-------------------------------------------------+
@@ -7487,14 +7487,14 @@ def modis(lat, lon, product, band, startdate=None, enddate=None):
         +------------+-------------------------------------------------+
         |            | BRDF_Albedo_Parameters_nir.Num_Parameters_03    |
         +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_shortwave.Num_Paramete   |
-        |            | rs_01                                           |
+        |            | BRDF_Albedo_Parameters_shortwave.               |
+        |            | Num_Parameters_01                               |
         +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_shortwave.Num_Paramete   |
-        |            | rs_02                                           |
+        |            | BRDF_Albedo_Parameters_shortwave.               |
+        |            | Num_Parameters_02                               |
         +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_shortwave.Num_Paramete   |
-        |            | rs_03                                           |
+        |            | BRDF_Albedo_Parameters_shortwave.               |
+        |            | Num_Parameters_03                               |
         +------------+-------------------------------------------------+
         |            | BRDF_Shape_Indicators.Num_Shape_Fields_01       |
         +------------+-------------------------------------------------+
