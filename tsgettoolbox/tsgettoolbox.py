@@ -360,6 +360,60 @@ def nwis(sites=None,
         '--holeDepthMin',
         '--holeDepthMax'
 
+    The column name in the resulting table is made up of
+    "USGS_SITE_CODE-parameterCd-statistic_code", for example
+    "02248380-00010-00001".  The parameter code is described in the
+    "parameterCd" parameter below.  The statistic code is described in the
+    following table:
+
+    +-------+---------------------+------------------------------------+
+    | Code  | Name                | Description                        |
+    +=======+=====================+====================================+
+    | 00001 | MAXIMUM             | MAXIMUM VALUES                     |
+    +-------+---------------------+------------------------------------+
+    | 00002 | MINIMUM             | MINIMUM VALUES                     |
+    +-------+---------------------+------------------------------------+
+    | 00003 | MEAN                | MEAN VALUES                        |
+    +-------+---------------------+------------------------------------+
+    | 00004 | AM                  | VALUES TAKEN BETWEEN 0001 AND 1200 |
+    +-------+---------------------+------------------------------------+
+    | 00005 | PM                  | VALUES TAKEN BETWEEN 1201 AND 2400 |
+    +-------+---------------------+------------------------------------+
+    | 00006 | SUM                 | SUMMATION VALUES                   |
+    +-------+---------------------+------------------------------------+
+    | 00007 | MODE                | MODAL VALUES                       |
+    +-------+---------------------+------------------------------------+
+    | 00008 | MEDIAN              | MEDIAN VALUES                      |
+    +-------+---------------------+------------------------------------+
+    | 00009 | STD                 | STANDARD DEVIATION VALUES          |
+    +-------+---------------------+------------------------------------+
+    | 00010 | VARIANCE            | VARIANCE VALUES                    |
+    +-------+---------------------+------------------------------------+
+    | 00011 | INSTANTANEOUS       | RANDOM INSTANTANEOUS VALUES        |
+    +-------+---------------------+------------------------------------+
+    | 00012 | EQUIVALENT MEAN     | EQUIVALENT MEAN VALUES             |
+    +-------+---------------------+------------------------------------+
+    | 00013 | SKEWNESS            | SKEWNESS VALUES                    |
+    +-------+---------------------+------------------------------------+
+    | 00021 | TIDAL HIGH-HIGH     | TIDAL HIGH-HIGH VALUES             |
+    +-------+---------------------+------------------------------------+
+    | 00022 | TIDAL LOW-HIGH      | TIDAL LOW-HIGH VALUES              |
+    +-------+---------------------+------------------------------------+
+    | 00023 | TIDAL HIGH-LOW      | TIDAL HIGH-LOW VALUES              |
+    +-------+---------------------+------------------------------------+
+    | 00024 | TIDAL LOW-LOW       | TIDAL LOW-LOW VALUES               |
+    +-------+---------------------+------------------------------------+
+    | 01XXY | XX.Y PERCENTILE     | XX.Y PERCENTILE                    |
+    +-------+---------------------+------------------------------------+
+    | 02LLL | LLL DAY LOW MEAN    | LLL DAY LOW MEAN                   |
+    +-------+---------------------+------------------------------------+
+    | 03HHH | HHH DAY HIGH MEAN   | HHH DAY HIGH MEAN                  |
+    +-------+---------------------+------------------------------------+
+    | 3TTTT | OBSERVATION AT TTTT | INSTANTANEOUS OBSERVATION AT TTTT  |
+    +-------+---------------------+------------------------------------+
+
+    The detailed table is at https://help.waterdata.usgs.gov/stat_code
+
     :param str sites:  Want to only query one site? Use sites as your
         major filter, and put only one site number in the list.  Sites
         are comma separated. Sites may be prefixed with an optional
@@ -420,8 +474,9 @@ def nwis(sites=None,
         Parameter codes are used to identify the constituent measured
         and the units of measure.  Popular codes include stage (00065),
         discharge in cubic feet per second (00060) and water temperature
-        in degrees Celsius (00010). Can have from 1 to 100.  Default:
-        returns all regular time-series for the requested sites.
+	in degrees Celsius (00010). Can request from 1 to 100 "parameterCD"s.
+        Default: returns all regular time-series for the requested sites.
+
         Complete list:
         http://help.waterdata.usgs.gov/codes-and-parameters/parameters::
 

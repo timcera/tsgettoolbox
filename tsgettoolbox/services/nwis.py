@@ -35,9 +35,8 @@ def usgs_wml_to_df(data, **kwargs):
 
     ndf = pd.DataFrame()
     for var in variables.time_series:
-        # I don't want the last part of the name which indicates sampling
-        # interval
-        name = '-'.join(var.name.split(':')[:-1])
+        # Replace the : with -
+        name = '-'.join(var.name.split(':'))
 
         # Extract datetimes and values from wml.
         dt = []
@@ -50,8 +49,11 @@ def usgs_wml_to_df(data, **kwargs):
                 val.append(float(nval))
 
         # Create DataFrame
-        ndf = ndf.join(pd.DataFrame(val, index=dt, columns=[name]),
-                       how='outer')
+        ndf = ndf.join(pd.DataFrame(val,
+                                    index=dt,
+                                    columns=[name]),
+                       how='outer',
+                       rsuffix='_1')
     ndf.index.name = 'Datetime'
     return ndf
 
