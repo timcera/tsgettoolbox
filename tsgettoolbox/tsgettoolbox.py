@@ -45,8 +45,7 @@ def coops(station,
           units='metric',
           time_zone='GMT',
           interval='h',
-          bin=None,
-         ):
+          bin=None):
     """Download from Center for Operational Oceanographic Products and Services.
 
     CO-OPS web services is at http://tidesandcurrents.noaa.gov/api/.
@@ -303,8 +302,7 @@ def nwis(sites=None,
          statReportType=None,
          statType=None,
          missingData=None,
-         statYearType=None,
-        ):
+         statYearType=None):
     """
     Download from the USGS National Water Information Service (NWIS).
 
@@ -474,7 +472,7 @@ def nwis(sites=None,
         Parameter codes are used to identify the constituent measured
         and the units of measure.  Popular codes include stage (00065),
         discharge in cubic feet per second (00060) and water temperature
-	in degrees Celsius (00010). Can request from 1 to 100 "parameterCD"s.
+        in degrees Celsius (00010). Can request from 1 to 100 "parameterCD"s.
         Default: returns all regular time-series for the requested sites.
 
         Complete list:
@@ -866,8 +864,7 @@ def nwis(sites=None,
 def daymet(lat,
            lon,
            measuredParams=None,
-           year=None,
-          ):
+           year=None):
     """
     Download data from Daymet by the Oak Ridge National Laboratory.
 
@@ -932,8 +929,7 @@ def ldas(lat=None,
          yindex=None,
          variable=None,
          startDate=None,
-         endDate=None,
-        ):
+         endDate=None):
     """
     Download data from NLDAS or GLDAS.
 
@@ -1104,8 +1100,7 @@ def darksky(latitude,
             database='hourly',
             extend=None,
             units='us',
-            lang='en'
-           ):
+            lang='en'):
     """
     Powered by Dark Sky https://darksky.net/poweredby/
 
@@ -1407,8 +1402,7 @@ def forecast_io(latitude,
                 database='hourly',
                 extend=None,
                 units='us',
-                lang='en'
-               ):
+                lang='en'):
     """ DEPRECATED: please use 'darksky'.
 
     The forecast_io service changed names to 'darksky'.
@@ -1419,16 +1413,14 @@ def forecast_io(latitude,
                    database=database,
                    extend=extend,
                    units=units,
-                   lang=lang,
-                  )
+                   lang=lang)
 
 
 @mando.command(formatter_class=HelpFormatter)
 def unavco(station,
            database='met',
            starttime=None,
-           endtime=None,
-          ):
+           endtime=None):
     """
     Download data from the Unavco web services.
 
@@ -1540,8 +1532,7 @@ def unavco(station,
 @mando.command(formatter_class=HelpFormatter)
 def ncdc_ghcnd_ftp(station,
                    start_date=None,
-                   end_date=None,
-                  ):
+                   end_date=None):
     """
     Download from the Global Historical Climatology Network - Daily.
 
@@ -1775,7 +1766,7 @@ def ncdc_ghcnd_ftp(station,
     |      | fog)                                                     |
     +------+----------------------------------------------------------+
     |      | 02 = Heavy fog or heaving freezing fog (not always       |
-    |      | distinquished from fog)                                  |
+    |      | distinguished from fog)                                  |
     +------+----------------------------------------------------------+
     |      | 03 = Thunder                                             |
     +------+----------------------------------------------------------+
@@ -1857,7 +1848,10 @@ def ncdc_ghcnd_ftp(station,
 
 # 1763-01-01, 2016-11-05, Daily Summaries             , 1    , GHCND
 @mando.command(formatter_class=HelpFormatter)
-def ncdc_ghcnd(stationid, datatypeid='', startdate='', enddate=''):
+def ncdc_ghcnd(stationid,
+               datatypeid='',
+               startdate='',
+               enddate=''):
     """
     Download from the Global Historical Climatology Network - Daily.
     Requires registration and free API key.
@@ -2121,7 +2115,7 @@ def ncdc_ghcnd(stationid, datatypeid='', startdate='', enddate=''):
         |      | fog)                                                  |
         +------+-------------------------------------------------------+
         |      | 02 = Heavy fog or heaving freezing fog (not always    |
-        |      | distinquished from fog)                               |
+        |      | distinguished from fog)                               |
         +------+-------------------------------------------------------+
         |      | 03 = Thunder                                          |
         +------+-------------------------------------------------------+
@@ -2187,10 +2181,10 @@ def ncdc_ghcnd(stationid, datatypeid='', startdate='', enddate=''):
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
-        startdate = startdate,
-        enddate = enddate,
-        datasetid = 'GHCND',
-        stationid = stationid,
+        startdate=startdate,
+        enddate=enddate,
+        datasetid='GHCND',
+        stationid=stationid,
         )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
@@ -2198,7 +2192,10 @@ def ncdc_ghcnd(stationid, datatypeid='', startdate='', enddate=''):
 
 # 1763-01-01, 2016-09-01, Global Summary of the Month , 1    , GSOM
 @mando.command(formatter_class=HelpFormatter)
-def ncdc_gsom(stationid, datatypeid='', startdate='', enddate=''):
+def ncdc_gsom(stationid,
+              datatypeid='',
+              startdate='',
+              enddate=''):
     """
     National Climatic Data Center Global Summary of the Month (GSOM)
     Requires registration and free API key.
@@ -2690,10 +2687,10 @@ def ncdc_gsom(stationid, datatypeid='', startdate='', enddate=''):
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
-        startdate = startdate,
-        enddate = enddate,
-        datasetid = 'GSOM',
-        stationid = stationid,
+        startdate=startdate,
+        enddate=enddate,
+        datasetid='GSOM',
+        stationid=stationid,
         )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
@@ -2701,7 +2698,10 @@ def ncdc_gsom(stationid, datatypeid='', startdate='', enddate=''):
 
 # 1763-01-01, 2016-01-01, Global Summary of the Year  , 1    , GSOY
 @mando.command(formatter_class=HelpFormatter)
-def ncdc_gsoy(stationid, datatypeid='', startdate='', enddate=''):
+def ncdc_gsoy(stationid,
+              datatypeid='',
+              startdate='',
+              enddate=''):
     """
     National Climatic Data Center Global Summary of the YEAR (GSOY)
     Requires registration and free API key.
@@ -3193,10 +3193,10 @@ def ncdc_gsoy(stationid, datatypeid='', startdate='', enddate=''):
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
-        startdate = startdate,
-        enddate = enddate,
-        datasetid = 'GSOY',
-        stationid = stationid,
+        startdate=startdate,
+        enddate=enddate,
+        datasetid='GSOY',
+        stationid=stationid,
         )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
@@ -3204,7 +3204,10 @@ def ncdc_gsoy(stationid, datatypeid='', startdate='', enddate=''):
 
 # 1991-06-05, 2016-11-06, Weather Radar (Level II)    , 0.95 , NEXRAD2
 # @mando.command(formatter_class=HelpFormatter)
-def ncdc_nexrad2(stationid, datatypeid='', startdate='', enddate=''):
+def ncdc_nexrad2(stationid,
+                 datatypeid='',
+                 startdate='',
+                 enddate=''):
     """
     National Climatic Data Center NEXRAD Level II
     Requires registration and free API key.
@@ -3235,10 +3238,10 @@ def ncdc_nexrad2(stationid, datatypeid='', startdate='', enddate=''):
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
-        startdate = startdate,
-        enddate = enddate,
-        datasetid = 'NEXRAD2',
-        stationid = stationid,
+        startdate=startdate,
+        enddate=enddate,
+        datasetid='NEXRAD2',
+        stationid=stationid,
         )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
@@ -3246,7 +3249,10 @@ def ncdc_nexrad2(stationid, datatypeid='', startdate='', enddate=''):
 
 # 1991-06-05, 2016-11-06, Weather Radar (Level III)   , 0.95 , NEXRAD3
 # @mando.command(formatter_class=HelpFormatter)
-def ncdc_nexrad3(stationid, datatypeid='', startdate='', enddate=''):
+def ncdc_nexrad3(stationid,
+                 datatypeid='',
+                 startdate='',
+                 enddate=''):
     """
     National Climatic Data Center NEXRAD Level III
     Requires registration and free API key.
@@ -3277,10 +3283,10 @@ def ncdc_nexrad3(stationid, datatypeid='', startdate='', enddate=''):
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
-        startdate = startdate,
-        enddate = enddate,
-        datasetid = 'NEXRAD3',
-        stationid = stationid,
+        startdate=startdate,
+        enddate=enddate,
+        datasetid='NEXRAD3',
+        stationid=stationid,
         )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
@@ -3288,7 +3294,10 @@ def ncdc_nexrad3(stationid, datatypeid='', startdate='', enddate=''):
 
 # 2010-01-01, 2010-01-01, Normals Annual/Seasonal     , 1    , NORMAL_ANN
 @mando.command(formatter_class=HelpFormatter)
-def ncdc_normal_ann(stationid, datatypeid='', startdate='', enddate=''):
+def ncdc_normal_ann(stationid,
+                    datatypeid='',
+                    startdate='',
+                    enddate=''):
     """
     National Climatic Data Center annual normals
     Requires registration and free API key.
@@ -4946,10 +4955,10 @@ def ncdc_normal_ann(stationid, datatypeid='', startdate='', enddate=''):
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
-        startdate = startdate,
-        enddate = enddate,
-        datasetid = 'NORMAL_ANN',
-        stationid = stationid,
+        startdate=startdate,
+        enddate=enddate,
+        datasetid='NORMAL_ANN',
+        stationid=stationid,
         )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
@@ -4957,7 +4966,10 @@ def ncdc_normal_ann(stationid, datatypeid='', startdate='', enddate=''):
 
 # 2010-01-01, 2010-12-31, Normals Daily               , 1    , NORMAL_DLY
 @mando.command(formatter_class=HelpFormatter)
-def ncdc_normal_dly(stationid, datatypeid='', startdate='', enddate=''):
+def ncdc_normal_dly(stationid,
+                    datatypeid='',
+                    startdate='',
+                    enddate=''):
     """
     National Climatic Data Center Daily Normals
     Requires registration and free API key.
@@ -5205,10 +5217,10 @@ def ncdc_normal_dly(stationid, datatypeid='', startdate='', enddate=''):
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
-        startdate = startdate,
-        enddate = enddate,
-        datasetid = 'NORMAL_DLY',
-        stationid = stationid,
+        startdate=startdate,
+        enddate=enddate,
+        datasetid='NORMAL_DLY',
+        stationid=stationid,
         )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
@@ -5216,7 +5228,10 @@ def ncdc_normal_dly(stationid, datatypeid='', startdate='', enddate=''):
 
 # 2010-01-01, 2010-12-31, Normals Hourly              , 1    , NORMAL_HLY
 @mando.command(formatter_class=HelpFormatter)
-def ncdc_normal_hly(stationid, datatypeid='', startdate='', enddate=''):
+def ncdc_normal_hly(stationid,
+                    datatypeid='',
+                    startdate='',
+                    enddate=''):
     """
     National Climatic Data Center GHCND Monthly Summaries
     Requires registration and free API key.
@@ -5309,10 +5324,10 @@ def ncdc_normal_hly(stationid, datatypeid='', startdate='', enddate=''):
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
-        startdate = startdate,
-        enddate = enddate,
-        datasetid = 'NORMAL_HLY',
-        stationid = stationid,
+        startdate=startdate,
+        enddate=enddate,
+        datasetid='NORMAL_HLY',
+        stationid=stationid,
         )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
@@ -5320,7 +5335,10 @@ def ncdc_normal_hly(stationid, datatypeid='', startdate='', enddate=''):
 
 # 2010-01-01, 2010-12-01, Normals Monthly             , 1    , NORMAL_MLY
 @mando.command(formatter_class=HelpFormatter)
-def ncdc_normal_mly(stationid, datatypeid='', startdate='', enddate=''):
+def ncdc_normal_mly(stationid,
+                    datatypeid='',
+                    startdate='',
+                    enddate=''):
     """
     National Climatic Data Center GHCND Monthly Summaries
     Requires registration and free API key.
@@ -5623,10 +5641,10 @@ def ncdc_normal_mly(stationid, datatypeid='', startdate='', enddate=''):
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
-        startdate = startdate,
-        enddate = enddate,
-        datasetid = 'NORMAL_MLY',
-        stationid = stationid,
+        startdate=startdate,
+        enddate=enddate,
+        datasetid='NORMAL_MLY',
+        stationid=stationid,
         )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
@@ -5634,7 +5652,10 @@ def ncdc_normal_mly(stationid, datatypeid='', startdate='', enddate=''):
 
 # 1970-05-12, 2014-01-01, Precipitation 15 Minute     , 0.25 , PRECIP_15
 @mando.command(formatter_class=HelpFormatter)
-def ncdc_precip_15(stationid, datatypeid='', startdate='', enddate=''):
+def ncdc_precip_15(stationid,
+                   datatypeid='',
+                   startdate='',
+                   enddate=''):
     """
     National Climatic Data Center 15 minute precipitation
     Requires registration and free API key.
@@ -5678,10 +5699,10 @@ def ncdc_precip_15(stationid, datatypeid='', startdate='', enddate=''):
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
-        startdate = startdate,
-        enddate = enddate,
-        datasetid = 'PRECIP_15',
-        stationid = stationid,
+        startdate=startdate,
+        enddate=enddate,
+        datasetid='PRECIP_15',
+        stationid=stationid,
         )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
@@ -5689,7 +5710,10 @@ def ncdc_precip_15(stationid, datatypeid='', startdate='', enddate=''):
 
 # 1900-01-01, 2014-01-01, Precipitation Hourly        , 1    , PRECIP_HLY
 @mando.command(formatter_class=HelpFormatter)
-def ncdc_precip_hly(stationid, datatypeid='', startdate='', enddate=''):
+def ncdc_precip_hly(stationid,
+                    datatypeid='',
+                    startdate='',
+                    enddate=''):
     """
     National Climatic Data Center hourly precipitation
     Requires registration and free API key.
@@ -5731,10 +5755,10 @@ def ncdc_precip_hly(stationid, datatypeid='', startdate='', enddate=''):
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
-        startdate = startdate,
-        enddate = enddate,
-        datasetid = 'PRECIP_HLY',
-        stationid = stationid,
+        startdate=startdate,
+        enddate=enddate,
+        datasetid='PRECIP_HLY',
+        stationid=stationid,
         )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
@@ -5742,7 +5766,9 @@ def ncdc_precip_hly(stationid, datatypeid='', startdate='', enddate=''):
 
 # ANNUAL
 @mando.command(formatter_class=HelpFormatter)
-def ncdc_annual(stationid, datatypeid='', startdate='', enddate=''):
+def ncdc_annual(stationid,
+                datatypeid='',
+                startdate='', enddate=''):
     """
     National Climatic Data Center annual data summaries
     Requires registration and free API key.
@@ -6642,10 +6668,10 @@ def ncdc_annual(stationid, datatypeid='', startdate='', enddate=''):
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
-        startdate = startdate,
-        enddate = enddate,
-        datasetid = 'ANNUAL',
-        stationid = stationid,
+        startdate=startdate,
+        enddate=enddate,
+        datasetid='ANNUAL',
+        stationid=stationid,
         )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
@@ -6653,7 +6679,10 @@ def ncdc_annual(stationid, datatypeid='', startdate='', enddate=''):
 
 # GHCNDMS
 @mando.command(formatter_class=HelpFormatter)
-def ncdc_ghcndms(stationid, datatypeid='', startdate='', enddate=''):
+def ncdc_ghcndms(stationid,
+                 datatypeid='',
+                 startdate='',
+                 enddate=''):
     """
     National Climatic Data Center GHCND Monthly Summaries
     Requires registration and free API key.
@@ -7038,17 +7067,20 @@ def ncdc_ghcndms(stationid, datatypeid='', startdate='', enddate=''):
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
-        startdate = startdate,
-        enddate = enddate,
-        datasetid = 'GHCNDMS',
-        stationid = stationid,
+        startdate=startdate,
+        enddate=enddate,
+        datasetid='GHCNDMS',
+        stationid=stationid,
         )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
 @mando.command(formatter_class=HelpFormatter)
-def ndbc(station, observedproperty, startUTC, endUTC):
+def ndbc(station,
+         observedproperty,
+         startUTC,
+         endUTC):
     """Download for the National Data Buoy Center
 
     Download data from the National Data Buoy Center.
@@ -7092,7 +7124,8 @@ def ndbc(station, observedproperty, startUTC, endUTC):
             air_pressure_at_sea_level
             air_temperature
             currents
-            sea_floor_depth_below_sea_surface (water level for tsunami stations)
+            sea_floor_depth_below_sea_surface
+                (water level for tsunami stations)
             sea_water_electrical_conductivity
             sea_water_salinity
             sea_water_temperature
@@ -7129,17 +7162,22 @@ def ndbc(station, observedproperty, startUTC, endUTC):
 
     r = resource(
         r'http://sdf.ndbc.noaa.gov/sos/server.php',
-        station = station,
-        startUTC = startUTC,
-        endUTC = endUTC,
-        observedproperty = observedproperty,
+        station=station,
+        startUTC=startUTC,
+        endUTC=endUTC,
+        observedproperty=observedproperty,
         )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
 @mando.command(formatter_class=HelpFormatter)
-def modis(lat, lon, product, band, startdate=None, enddate=None):
+def modis(lat,
+          lon,
+          product,
+          band,
+          startdate=None,
+          enddate=None):
     """Download MODIS derived data.
 
     This data are derived data sets from MODIS satellite photos.
@@ -7812,6 +7850,7 @@ def main():
     if not os.path.exists('debug_tsgettoolbox'):
         sys.tracebacklimit = 0
     mando.main()
+
 
 if __name__ == '__main__':
     main()

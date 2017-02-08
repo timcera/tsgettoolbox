@@ -13,6 +13,7 @@ from tsgettoolbox import appdirs
 
 dirs = appdirs.AppDirs('tsgettoolbox', 'tsgettoolbox')
 
+
 def read_api_key(service):
     # Read in API key
     if not os.path.exists(dirs.user_config_dir):
