@@ -419,7 +419,7 @@ def nwis(sites=None,
         numbers you need, you can find relevant sites with the NWIS
         Mapper (http://wdr.water.usgs.gov/nwisgmap/index.html) or on the
         USGS Water Data for the Nation site.
-        (http://waterdata.usgs.ogv/nwis/)
+        (http://waterdata.usgs.gov/nwis/)
 
         Can have from 1 to 100 comma separated site numbers::
 
