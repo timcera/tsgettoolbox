@@ -87,11 +87,11 @@ def nos_to_df(data, **kwargs):
                                                            # measured at
                                                            # the station.
     settings_map['salinity'] = [
-        {'metric':'PSU', 'english':'PSU'}, 'h']  # Salinity and specific
+        {'metric': 'PSU', 'english': 'PSU'}, 'h']  # Salinity and specific
                                                  # gravity data for the
                                                  # station.
     settings_map['hourly_height'] = [
-        {'metric':'m', 'english':'ft'}, 'h']  # Verified hourly height
+        {'metric': 'm', 'english': 'ft'}, 'h']  # Verified hourly height
                                               # water level data for the
                                               # station.
     settings_map['high_low'] = [
@@ -114,9 +114,13 @@ def nos_to_df(data, **kwargs):
                                                 # water level data for the
                                                 # station.
     settings_map['datums'] = [
-        {'metric': 'm', 'english': 'ft'}, None]     # datums data for the
+        {'metric': 'm', 'english': 'ft'}, None]  # datums data for the
+                                                 # currents stations.
+
+    settings_map['currents'] = [
         {'metric': 'm/s', 'english': 'ft/s'}, 'h']  # Currents data for
-                                                    # currents stations.
+                                                  # currents stations.
+
     df = pd.read_csv(
         requests.Request(
             'GET',
