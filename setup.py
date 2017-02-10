@@ -25,8 +25,6 @@ install_requires = [
     # http://packages.python.org/distribute/setuptools.html#declaring-dependencies
     'odo',
     'owslib',
-    'mando >= 0.4',
-    'pandas >= 0.12',
     'tstoolbox >= 1.12.12.9',
     'requests',
     'zeep',

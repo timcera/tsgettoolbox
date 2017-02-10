@@ -261,8 +261,8 @@ def coops(station,
         r'http://tidesandcurrents.noaa.gov/api/datagetter',
         station=station,
         date=date,
-        begin_date=begin_date,
-        end_date=end_date,
+        begin_date=tsutils.parsedates(begin_date),
+        end_date=tsutils.parsedates(end_date),
         range=range,
         product=product,
         datum=datum,
@@ -7081,7 +7081,7 @@ def ndbc(station,
          observedproperty,
          startUTC,
          endUTC):
-    """Download for the National Data Buoy Center
+    """Download from the National Data Buoy Center
 
     Download data from the National Data Buoy Center.
 
@@ -7116,10 +7116,9 @@ def ndbc(station,
     syncing access to the TAO web site. The TAO array is the climate
     stations in the equatorial Pacific.
 
-    :param str station:  A 7 character station ID, or a
-        currents id.
-    :param str observedproperty: one
-        of the following::
+    :param str station:  A station ID, or a currents id.
+    :param str observedproperty: The 'observedpropery' is
+        one of the following::
 
             air_pressure_at_sea_level
             air_temperature
@@ -7132,25 +7131,44 @@ def ndbc(station,
             waves
             winds
 
-        The 'observedpropery' of 'currents' has several flags::
+            +------------+------------------------------------+
+            | Valid Flag | Description                        |
+            +============+====================================+
+            | 0          | quality not evaluated;             |
+            +------------+------------------------------------+
+            | 1          | failed quality test;               |
+            +------------+------------------------------------+
+            | 2          | questionable or suspect data;      |
+            +------------+------------------------------------+
+            | 3          | good data/passed quality test; and |
+            +------------+------------------------------------+
+            | 9          | missing data.                      |
+            +------------+------------------------------------+
 
-            Flag 1 represents the overall bin status.
-            Flag 2 represents the ADCP Built-In Test (BIT) status.
-            Flag 3 represents the Error Velocity test status.
-            Flag 4 represents the Percent Good test status.
-            Flag 5 represents the Correlation Magnitude test status.
-            Flag 6 represents the Vertical Velocity test status.
-            Flag 7 represents the North Horizontal Velocity test status.
-            Flag 8 represents the East Horizontal Velocity test status.
-            Flag 9 represents the Echo Intensity test status.
+        The 'observedpropery' of 'currents' has several flags.
 
-            Valid flag values are:
+            +------+----------------------------------------+
+            | Flag | Description                            |
+            +======+========================================+
+            | 1    | overall bin status.                    |
+            +------+----------------------------------------+
+            | 2    | ADCP Built-In Test (BIT) status.       |
+            +------+----------------------------------------+
+            | 3    | Error Velocity test status.            |
+            +------+----------------------------------------+
+            | 4    | Percent Good test status.              |
+            +------+----------------------------------------+
+            | 5    | Correlation Magnitude test status.     |
+            +------+----------------------------------------+
+            | 6    | Vertical Velocity test status.         |
+            +------+----------------------------------------+
+            | 7    | North Horizontal Velocity test status. |
+            +------+----------------------------------------+
+            | 8    | East Horizontal Velocity test status.  |
+            +------+----------------------------------------+
+            | 9    | Echo Intensity test status.            |
+            +------+----------------------------------------+
 
-            0 = quality not evaluated;
-            1 = failed quality test;
-            2 = questionable or suspect data;
-            3 = good data/passed quality test; and
-            9 = missing data.
 
     :param str startUTC: an ISO 8601 date/time string (only seconds are
         optional)
