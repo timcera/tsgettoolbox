@@ -5,6 +5,8 @@ from odo import odo, resource, convert
 import pandas as pd
 import requests
 
+from tstoolbox import tsutils
+
 # NOAA/NOS Tides and Currents
 # pd.read_csv('http://tidesandcurrents.noaa.gov/api/datagetter?
 # begin_date=20130101&
@@ -29,6 +31,11 @@ class NOS(object):
         params['time_zone'] = 'gmt'
         params['datum'] = 'mllw'
         params.update(query_params)
+
+        params['begin_date'] = tsutils.parsedate(query_params['begin_date'],
+                                                 strftime='%Y%m%d')
+        params['end_date'] = tsutils.parsedate(query_params['end_date'],
+                                               strftime='%Y%m%d')
 
         params['format'] = 'csv'
         params['application'] = 'tsgettoolbox'
@@ -119,7 +126,8 @@ def nos_to_df(data, **kwargs):
 
     settings_map['currents'] = [
         {'metric': 'm/s', 'english': 'ft/s'}, 'h']  # Currents data for
-                                                  # currents stations.
+                                                    # currents stations.
+
 
     df = pd.read_csv(
         requests.Request(
@@ -154,8 +162,8 @@ if __name__ == '__main__':
 
     r = resource(
         r'http://tidesandcurrents.noaa.gov/api/datagetter',
-        begin_date='20020101',
-        end_date='20020102',
+        begin_date='01/10/2002',
+        end_date='2002-01-02',
         range=1,
         station='8720218',
         product='water_level')

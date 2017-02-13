@@ -3,6 +3,7 @@ from odo import odo, resource, convert
 import pandas as pd
 import requests
 
+from tstoolbox import tsutils
 from tsgettoolbox import utils
 
 # darksky.net
@@ -13,7 +14,8 @@ class darksky_net_json(object):
         self.url_params = {}
         self.url_params['latitude'] = query_params.pop('latitude')
         self.url_params['longitude'] = query_params.pop('longitude')
-        self.url_params['time'] = query_params.pop('time')
+        self.url_params['time'] = tsutils.parsedate(query_params.pop('time'),
+                                                    strftime='%Y-%m-%dT%H:%M:%S')
         self.include_db = query_params.pop('database')
         all_dbs = ['currently', 'minutely', 'hourly', 'daily', 'alerts', 'flags']
         all_dbs.remove(self.include_db)
@@ -159,3 +161,14 @@ if __name__ == '__main__':
     print('darksky.net flags')
     print(as_df.head())
 
+    r = resource(
+        r'https://api.darksky.net/forecast',
+        latitude=28.45,
+        longitude=-81.34,
+        database='currently',
+        time='yesterday',
+        )
+
+    as_df = odo(r, pd.DataFrame)
+    print('darksky.net flags')
+    print(as_df.head())

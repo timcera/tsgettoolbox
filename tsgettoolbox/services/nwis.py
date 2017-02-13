@@ -3,6 +3,7 @@ from odo import odo, resource, convert
 import pandas as pd
 import requests
 
+from tstoolbox import tsutils
 
 # USGS
 
@@ -12,6 +13,10 @@ class USGS_WML(object):
         query_params['format'] = 'waterml,1.1'
         if 'gwlevels' in url:
             query_params['format'] = 'waterml,1.2'
+        query_params['startDT'] = tsutils.parsedate(query_params['startDT'],
+                                                    strftime='%Y-%m-%d')
+        query_params['endDT'] = tsutils.parsedate(query_params['endDT'],
+                                                  strftime='%Y-%m-%d')
         self.url = url
         self.query_params = query_params
 

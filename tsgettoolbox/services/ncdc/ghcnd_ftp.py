@@ -3,6 +3,7 @@
 from odo import odo, resource, convert
 import pandas as pd
 
+from tstoolbox import tsutils
 
 # GHCND
 # Global Historical Climatology Network - Daily
@@ -182,8 +183,10 @@ def ghcnd_to_df(data, **kwargs):
 
         tmpdf = pd.DataFrame(tmpdf)
         tmpdf.columns = [code]
-        tmpdf = tmpdf.ix[data.query_params['start_date']:
-                         data.query_params['end_date'], :]
+        tmpdf = tmpdf.ix[tsutils.parsedate(data.query_params['start_date'],
+                                           strftime='%Y-%m-%d'):
+                         tsutils.parsedate(data.query_params['end_date'],
+                                           strftime='%Y-%m-%d'), :]
         try:
             ndf = ndf.join(tmpdf)
         except NameError:
@@ -205,3 +208,13 @@ if __name__ == '__main__':
     print('ghcnd')
     print(as_df)
 
+    r = resource(
+        r'ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all',
+        station='ASN00075020',
+        start_date='10 years ago',
+        end_date='9 years ago',
+        )
+
+    as_df = odo(r, pd.DataFrame)
+    print('ghcnd')
+    print(as_df)

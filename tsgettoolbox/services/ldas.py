@@ -3,6 +3,8 @@ from odo import odo, resource, convert
 import pandas as pd
 import requests
 
+from tstoolbox import tsutils
+
 _units_map = {
     'NLDAS:NLDAS_FORA0125_H.002:APCPsfc':
         ['Precipitation hourly total',          'kg/m^2'],
@@ -81,6 +83,10 @@ class LDAS(object):
         query_params['type'] = 'asc2'
         self.url = url
         self.query_params = query_params
+        self.query_params['startDate'] = tsutils.parsedate(
+            self.query_params['startDate'], strftime='%Y-%m-%dT%H')
+        self.query_params['endDate'] = tsutils.parsedate(
+            self.query_params['endDate'], strftime='%Y-%m-%dT%H')
 
 # Function to make `resource` know about the new Daymet type.
 # http://hydro1.sci.gsfc.nasa.gov/daac-bin/access/timeseries.cgi?variable=GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm&location=GEOM:POINT%28-99.875,%2031.125%29&startDate=2010-06-01T09&endDate=2015-05-04T21&type=asc2
@@ -132,3 +138,26 @@ if __name__ == '__main__':
     print('LDAS')
     print(as_df)
 
+    r = resource(
+        r'http://hydro1.sci.gsfc.nasa.gov/daac-bin/access/timeseries.cgi',
+        variable='GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm',
+        location='GEOM:POINT(104.2, 35.86)',
+        startDate='2016-01-01T00',
+        endDate='2016-12-01T00'
+        )
+
+    as_df = odo(r, pd.DataFrame)
+    print('LDAS TEST')
+    print(as_df)
+
+    r = resource(
+        r'http://hydro1.sci.gsfc.nasa.gov/daac-bin/access/timeseries.cgi',
+        variable='GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm',
+        location='GEOM:POINT(104.2, 35.86)',
+        startDate='5 days ago',
+        endDate='12-01T00'
+        )
+
+    as_df = odo(r, pd.DataFrame)
+    print('LDAS TEST')
+    print(as_df)

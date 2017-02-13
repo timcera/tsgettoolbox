@@ -4,6 +4,8 @@ import datetime
 from odo import odo, resource, convert
 import pandas as pd
 
+from tstoolbox import tsutils
+
 try:
     import urllib.parse as urlp
 except ImportError:
@@ -60,7 +62,8 @@ class Daymet(object):
         else:
             for testyear in params['year'].split(','):
                 try:
-                    iyear = int(testyear)
+                    iyear = int(tsutils.parsedate(testyear,
+                                                  strftime='%Y'))
                 except ValueError:
                     raise ValueError('''
 *
@@ -117,3 +120,14 @@ if __name__ == '__main__':
     print('Daymet')
     print(as_df)
 
+    r = resource(
+        r'http://daymet.ornl.gov/data/send/saveData',
+        measuredParams='tmax,tmin',
+        lat=43.1,
+        lon=-85.2,
+        year='3 years ago,2 years ago'
+        )
+
+    as_df = odo(r, pd.DataFrame)
+    print('Daymet')
+    print(as_df)

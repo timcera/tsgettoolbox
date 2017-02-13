@@ -5,6 +5,7 @@ from odo import odo, resource, convert
 import pandas as pd
 import requests
 
+from tstoolbox import tsutils
 
 # http://sdf.ndbc.noaa.gov/sos/server.php?
 #     request=GetObservation&
@@ -53,8 +54,8 @@ def ndbc_to_df(data, **kwargs):
             ]
     delta = pd.Timedelta(days=30)
 
-    sdate = pd.to_datetime(data.query_params.pop('startUTC'))
-    edate = pd.to_datetime(data.query_params.pop('endUTC'))
+    sdate = tsutils.parsedate(data.query_params.pop('startUTC'))
+    edate = tsutils.parsedate(data.query_params.pop('endUTC'))
 
     df = pd.DataFrame()
 
@@ -68,15 +69,21 @@ def ndbc_to_df(data, **kwargs):
 
         data.query_params['eventtime'] = '{0}/{1}'.format(tsdate.strftime('%Y-%m-%dT%H:%MZ'),
                            testdate.strftime('%Y-%m-%dT%H:%MZ'))
-        tdf = pd.read_csv(
-            requests.Request(
-                'GET',
-                data.url,
-                params=data.query_params,
-                ).prepare().url,
-            parse_dates=['date_time'])
+        tdf = pd.read_csv(requests.Request(
+                                           'GET',
+                                           data.url,
+                                           params=data.query_params,
+                                           ).prepare().url,
+                          parse_dates=['date_time'])
         if len(tdf) > 0:
             df = df.append(tdf)
+
+    if len(df) == 0:
+        raise ValueError("""
+*
+*   No data collected/available within this time frame.
+*
+""")
 
     for dcols in ['station_id',
                   'sensor_id',
@@ -104,8 +111,8 @@ if __name__ == '__main__':
         r'http://sdf.ndbc.noaa.gov/sos/server.php',
         #observedproperty='air_pressure_at_sea_level',
         observedproperty='currents',
-        startUTC='2002-01-01T00:00Z',
-        endUTC='2012-03-02T00:00Z',
+        startUTC='2012-01-01T00:00Z',
+        endUTC='2012-04-01:00Z',
         station='41012',
         )
 

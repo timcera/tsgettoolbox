@@ -10,6 +10,8 @@ import requests
 
 import zeep
 
+from tstoolbox import tsutils
+
 products = ['MCD12Q1',
             'MCD12Q2',
             'MCD43A1',
@@ -520,11 +522,11 @@ class modis(object):
         if query_params['startdate'] is None:
             query_params['startdate'] = pd.to_datetime('1900-01-01T00')
         else:
-            query_params['startdate'] = pd.to_datetime(query_params['startdate'])
+            query_params['startdate'] = tsutils.parsedate(query_params['startdate'])
         if query_params['enddate'] is None:
             query_params['enddate'] = pd.datetime.now()
         else:
-            query_params['enddate'] = pd.to_datetime(query_params['enddate'])
+            query_params['enddate'] = tsutils.parsedate(query_params['enddate'])
         self.query_params = query_params
 
 
@@ -568,13 +570,13 @@ def modis_to_df(data, **kwargs):
 
     idate = pd.np.array([int(i[1:]) for i in dates])
     startdatestr = 'A{0}{1:03d}'.format(startdate.year,
-                                    (startdate
-                                     - pd.datetime(startdate.year
-                                                   - 1 , 12, 31)).days)
+                                        (startdate -
+                                         pd.datetime(startdate.year -
+                                                     1 , 12, 31)).days)
     enddatestr = 'A{0}{1:03d}'.format(enddate.year,
-                                    (enddate
-                                     - pd.datetime(enddate.year
-                                                   - 1 , 12, 31)).days)
+                                      (enddate -
+                                       pd.datetime(enddate.year -
+                                                   1 , 12, 31)).days)
 
     mask = pd.np.logical_and(idate >= int(startdatestr[1:]),
                              idate <  int(enddatestr[1:]))
@@ -625,3 +627,16 @@ if __name__ == '__main__':
     print('modis')
     print(as_df)
 
+    r = resource(
+        r'http://daacmodis.ornl.gov/cgi-bin/MODIS/GLBVIZ_1_Glb_subset/MODIS_webservice.wsdl',
+        product='MOD16A2',
+        band='PET_1km',
+        lat=30.6,
+        lon=-82.7,
+        startdate='3 years ago',
+        enddate='2 years ago'
+        )
+
+    as_df = odo(r, pd.DataFrame)
+    print('modis')
+    print(as_df)

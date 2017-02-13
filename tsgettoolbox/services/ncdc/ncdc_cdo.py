@@ -8,6 +8,7 @@ from requests.utils import unquote
 from requests.exceptions import HTTPError
 
 from tsgettoolbox import utils
+from tstoolbox import tsutils
 
 # ncdc_cdo
 
@@ -59,12 +60,12 @@ def ncdc_cdo_json_to_df(data, **kwargs):
         edate = pd.to_datetime(dreq.json()['maxdate'])
 
         if 'startdate' in data.query_params:
-            tdate = pd.to_datetime(data.query_params['startdate'])
+            tdate = tsutils.parsedate(data.query_params['startdate'])
             if tdate > sdate:
                 sdate = tdate
 
         if 'enddate' in data.query_params:
-            tdate = pd.to_datetime(data.query_params['enddate'])
+            tdate = tsutils.parsedate(data.query_params['enddate'])
             if tdate < edate:
                 edate = tdate
         delta = pd.Timedelta(days=365)
