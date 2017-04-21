@@ -21,7 +21,7 @@ different web services.  The tsgettoolbox will work with Python 2.6+ and 3.0+.
 
 Documentation
 -------------
-Reference documentation is at :ref:`tsgettoolbox_documentation`.
+Reference documentation is at `tsgettoolbox_documentation`_.
 
 Installation
 ------------
@@ -216,10 +216,11 @@ To use the tsgettoolbox in a project::
 
     from tsgettoolbox import tsgettoolbox
 
-Refer to the API Documentation at :ref:`tsgettoolbox_documentation`.
+Refer to the API Documentation at `tsgettoolbox_documentation`_.
 
 Development
 ~~~~~~~~~~~
 Development is managed on bitbucket at
 https://bitbucket.org/timcera/tsgettoolbox/overview.
 
+.. _tsgettoolbox_documentation: https://timcera.bitbucket.io/tsgettoolbox/docsrc/index.html#tsgettoolbox-documentation

@@ -307,11 +307,15 @@ def nwis(sites=None,
     Download from the USGS National Water Information Service (NWIS).
 
     There are three main NWIS databases.  The 'tsgettoolbox' can
-    currently pull from the Instantaneous Value database (--database-iv)
+    currently pull from the Instantaneous Value database (--database=iv)
     for sub-daily interval data starting in 2007, the Daily Values
     database (--database=dv), or the Statistics database for
     daily/monthly/annual statistics.  Detailed documnetation is
     available at http://waterdata.usgs.gov/nwis.
+
+    tsgettoolbox further can download the field measurements from
+    a single site at a time using "--database=measurements" and peak
+    measurements using "--database=peak".
 
     Site local time is output, even if multiple sites are requested and
     sites are in different time zones.  Note that the measurement time
@@ -749,8 +753,10 @@ def nwis(sites=None,
             --startDT=2010-11-22T12:00 # Ends with most recent
                                        # instantaneous value
     :param str database:  One of 'iv' for instantaneous values, 'dv'
-        for daily values, or 'stat' for daily/monthly/annual statistics.
-        Default is 'dv'.
+        for daily values, 'stat' for daily/monthly/annual statistics, or
+        'measurements' or 'peak' for field measurements.  If using the
+        'measurements' or 'peak' database option you can download data
+        from only one site at a time.  Default is 'dv'.
     :param str statReportType:  The type of statistics desired. Valid
         statistic report types include::
 
@@ -818,16 +824,20 @@ def nwis(sites=None,
                     a federal fiscal year.
     """
     from tsgettoolbox.services import nwis as placeholder
-    if database not in ['iv', 'dv', 'stat']:
+    if database not in ['iv', 'dv', 'stat', 'measurements', 'peak']:
         raise ValueError("""
 *
-*   The 'database' option must be either 'iv' for instantaneous values, and
-*   'dv' for daily values, or 'stat' for daily, monthly, or annual statistics.
+*   The 'database' option must be either 'iv' for instantaneous values,
+*   or 'dv' for daily values, or 'stat' for daily, monthly, or annual
+*   statistics, or 'measurements' for field measurements.
 *   You gave {0}.
 *
 """.format(database))
+    url = r'http://waterservices.usgs.gov/nwis/{0}/'.format(database)
+    if database in ['measurements', 'peak']:
+        url = r'http://nwis.waterdata.usgs.gov/fl/nwis/{0}'.format(database)
     r = resource(
-        r'http://waterservices.usgs.gov/nwis/{0}/'.format(database),
+        url,
         sites=sites,
         stateCd=stateCd,
         huc=huc,

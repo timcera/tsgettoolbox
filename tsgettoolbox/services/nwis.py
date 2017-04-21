@@ -1,4 +1,7 @@
 
+
+from __future__ import print_function
+
 from odo import odo, resource, convert
 import pandas as pd
 import requests
@@ -6,6 +9,7 @@ import requests
 from tstoolbox import tsutils
 
 # USGS
+
 
 class USGS_WML(object):
     def __init__(self, url, **query_params):
@@ -20,13 +24,18 @@ class USGS_WML(object):
         self.url = url
         self.query_params = query_params
 
+
 # Can add gwlevels once can parse WML 2.0
-#@resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/gwlevels/.*', priority=17)
+# @resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/gwlevels/.*',
+#                    priority=17)
 # Function to make `resource` know about the new USGS iv type.
-@resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/dv/.*', priority=17)
-@resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/iv/.*', priority=17)
+@resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/dv/.*',
+                   priority=17)
+@resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/iv/.*',
+                   priority=17)
 def resource_usgs_wml(uri, **kwargs):
     return USGS_WML(uri, **kwargs)
+
 
 # Function to convert from USGS type to pd.DataFrame
 @convert.register(pd.DataFrame, USGS_WML)
@@ -70,8 +79,7 @@ class USGS_RDB(object):
         for key, val in [['statYearType', 'calendar'],
                          ['missingData', 'off'],
                          ['statType', 'all'],
-                         ['statReportType', 'daily']
-                        ]:
+                         ['statReportType', 'daily']]:
             try:
                 if query_params[key] is None:
                     query_params[key] = val
@@ -88,11 +96,13 @@ class USGS_RDB(object):
         self.url = url
         self.query_params = query_params
 
+
 # Function to make `resource` know about the new USGS stat type.
 @resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/stat/.*',
                    priority=17)
 def resource_usgs_rdb(uri, **kwargs):
     return USGS_RDB(uri, **kwargs)
+
 
 # Function to convert from USGS RDB type to pd.DataFrame
 @convert.register(pd.DataFrame, USGS_RDB)
@@ -143,17 +153,106 @@ def usgs_rdb_to_df(data, **kwargs):
     ndf.columns = [':'.join(col).strip() for col in ndf.columns.values]
     return ndf
 
+
+class USGS_MEASUREMENTS_RDB(object):
+    def __init__(self, url, **query_params):
+
+        # Need to enforce rdb format
+        query_params['format'] = 'rdb_expanded'
+        query_params['agency_cd'] = 'USGS'
+        query_params['site_no'] = query_params['sites']
+        query_params.pop('sites')
+
+        self.url = url
+        self.query_params = query_params
+
+# Examples:
+# https://nwis.waterdata.usgs.gov/fl/nwis/measurements?site_no=02315500&agency_cd=USGS&format=rdb_expanded
+
+# Function to make `resource` know about the new USGS stat type.
+@resource.register(r'http(s)?://nwis\.waterdata\.usgs\.gov/../nwis/measurements.*',
+                   priority=17)
+def resource_usgs_measurements_rdb(uri, **kwargs):
+    return USGS_MEASUREMENTS_RDB(uri, **kwargs)
+
+
+# Function to convert from USGS RDB type to pd.DataFrame
+@convert.register(pd.DataFrame, USGS_MEASUREMENTS_RDB)
+def usgs_measurements_rdb_to_df(data, **kwargs):
+    ndf = pd.read_csv(requests.Request(
+        'GET',
+        data.url,
+        params=data.query_params,
+        ).prepare().url,
+                      comment='#',
+                      header=0,
+                      sep='\t')
+    ndf.drop(ndf.index[0], inplace=True)
+    ndf['Datetime'] = pd.to_datetime(ndf['measurement_dt'])
+    ndf.set_index(['Datetime'],
+                  inplace=True)
+    ndf.drop(['measurement_dt',
+              'agency_cd',
+              'site_no'],
+             axis=1,
+             inplace=True)
+    return ndf
+
+
+class USGS_PEAK_RDB(object):
+    def __init__(self, url, **query_params):
+
+        # Need to enforce rdb format
+        query_params['format'] = 'rdb'
+        query_params['agency_cd'] = 'USGS'
+        query_params['site_no'] = query_params['sites']
+        query_params.pop('sites')
+
+        self.url = url
+        self.query_params = query_params
+
+# Examples:
+# https://nwis.waterdata.usgs.gov/fl/nwis/peak?site_no=02315500&agency_cd=USGS&format=rdb_expanded
+
+# Function to make `resource` know about the new USGS stat type.
+@resource.register(r'http(s)?://nwis\.waterdata\.usgs\.gov/../nwis/peak.*',
+                   priority=17)
+def resource_usgs_peak_rdb(uri, **kwargs):
+    return USGS_PEAK_RDB(uri, **kwargs)
+
+
+# Function to convert from USGS RDB type to pd.DataFrame
+@convert.register(pd.DataFrame, USGS_PEAK_RDB)
+def usgs_peak_rdb_to_df(data, **kwargs):
+    ndf = pd.read_csv(requests.Request(
+        'GET',
+        data.url,
+        params=data.query_params,
+        ).prepare().url,
+                      comment='#',
+                      header=0,
+                      sep='\t')
+    ndf.drop(ndf.index[0], inplace=True)
+    ndf['Datetime'] = pd.to_datetime(ndf['peak_dt'])
+    ndf.set_index(['Datetime'],
+                  inplace=True)
+    ndf.drop(['peak_dt',
+              'agency_cd',
+              'site_no'],
+             axis=1,
+             inplace=True)
+    return ndf
 if __name__ == '__main__':
-    #r = resource(
-    #    r'http://waterservices.usgs.gov/nwis/gwlevels/',
-    #    sites='375907091432201',
-    #    startDT='2015-07-01',
-    #    endDT='2015-07-30'
-    #    )
+    # r = resource(
+    #     r'http://waterservices.usgs.gov/nwis/gwlevels/',
+    #     sites='375907091432201',
+    #     startDT='2015-07-01',
+    #     endDT='2015-07-30'
+    #     )
     #
-    #as_df = odo(r, pd.DataFrame)
-    #print('USGS_gwlevels')
-    #print(as_df)
+    # as_df = odo(r, pd.DataFrame)
+    # print('USGS_gwlevels')
+    # print(as_df)
 
     r = resource(
         r'http://waterservices.usgs.gov/nwis/iv/',
