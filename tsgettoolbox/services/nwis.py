@@ -266,7 +266,6 @@ def usgs_measurements_peak_rdb_to_df(data, **kwargs):
         dname = 'measurement_dt'
     elif 'peak' in data.url:
         dname = 'peak_dt'
-    print(ndf[dname])
     ndf['Datetime'] = pd.to_datetime(ndf[dname], errors='coerce')
     ndf.set_index(['Datetime'],
                   inplace=True)
