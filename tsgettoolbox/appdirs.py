@@ -54,18 +54,17 @@ if PY3:
 if sys.platform.startswith('java'):
     import platform
     os_name = platform.java_ver()[3][0]
-    if os_name.startswith('Windows'): # "Windows XP", "Windows 7", etc.
+    if os_name.startswith('Windows'):  # "Windows XP", "Windows 7", etc.
         system = 'win32'
-    elif os_name.startswith('Mac'): # "Mac OS X", etc.
+    elif os_name.startswith('Mac'):  # "Mac OS X", etc.
         system = 'darwin'
-    else: # "Linux", "SunOS", "FreeBSD", etc.
+    else:  # "Linux", "SunOS", "FreeBSD", etc.
         # Setting this to "linux2" is not ideal, but only Windows or Mac
         # are actually checked for and the rest of the module expects
         # *sys.platform* style strings.
         system = 'linux2'
 else:
     system = sys.platform
-
 
 
 def user_data_dir(appname=None, appauthor=None, version=None, roaming=False):
@@ -172,7 +171,8 @@ def site_data_dir(appname=None, appauthor=None, version=None, multipath=False):
         # only first, if multipath is False
         path = os.getenv('XDG_DATA_DIRS',
                          os.pathsep.join(['/usr/local/share', '/usr/share']))
-        pathlist = [os.path.expanduser(x.rstrip(os.sep)) for x in path.split(os.pathsep)]
+        pathlist = [os.path.expanduser(x.rstrip(os.sep))
+                    for x in path.split(os.pathsep)]
         if appname:
             if version:
                 appname = os.path.join(appname, version)
@@ -267,7 +267,8 @@ def site_config_dir(appname=None, appauthor=None, version=None, multipath=False)
         # XDG default for $XDG_CONFIG_DIRS
         # only first, if multipath is False
         path = os.getenv('XDG_CONFIG_DIRS', '/etc/xdg')
-        pathlist = [os.path.expanduser(x.rstrip(os.sep)) for x in path.split(os.pathsep)]
+        pathlist = [os.path.expanduser(x.rstrip(os.sep))
+                    for x in path.split(os.pathsep)]
         if appname:
             if version:
                 appname = os.path.join(appname, version)
@@ -390,6 +391,7 @@ def user_log_dir(appname=None, appauthor=None, version=None, opinion=True):
 
 class AppDirs(object):
     """Convenience wrapper for getting application dirs."""
+
     def __init__(self, appname, appauthor=None, version=None, roaming=False,
                  multipath=False):
         self.appname = appname
@@ -416,7 +418,7 @@ class AppDirs(object):
     @property
     def site_config_dir(self):
         return site_config_dir(self.appname, self.appauthor,
-                             version=self.version, multipath=self.multipath)
+                               version=self.version, multipath=self.multipath)
 
     @property
     def user_cache_dir(self):
@@ -508,6 +510,7 @@ def _get_win_folder_with_ctypes(csidl_name):
 
     return buf.value
 
+
 def _get_win_folder_with_jna(csidl_name):
     import array
     from com.sun import jna
@@ -516,7 +519,8 @@ def _get_win_folder_with_jna(csidl_name):
     buf_size = win32.WinDef.MAX_PATH * 2
     buf = array.zeros('c', buf_size)
     shell = win32.Shell32.INSTANCE
-    shell.SHGetFolderPath(None, getattr(win32.ShlObj, csidl_name), None, win32.ShlObj.SHGFP_TYPE_CURRENT, buf)
+    shell.SHGetFolderPath(None, getattr(
+        win32.ShlObj, csidl_name), None, win32.ShlObj.SHGFP_TYPE_CURRENT, buf)
     dir = jna.Native.toString(buf.tostring()).rstrip("\0")
 
     # Downgrade to short path name if have highbit chars. See
@@ -533,6 +537,7 @@ def _get_win_folder_with_jna(csidl_name):
             dir = jna.Native.toString(buf.tostring()).rstrip("\0")
 
     return dir
+
 
 if system == "win32":
     try:

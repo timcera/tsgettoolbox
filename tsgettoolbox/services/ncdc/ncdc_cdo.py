@@ -12,12 +12,14 @@ from tstoolbox import tsutils
 
 # ncdc_cdo
 
+
 class ncdc_cdo_json(object):
     def __init__(self, url, **query_params):
         self.url = url
         self.query_params = query_params
         self.query_params['limit'] = 1000
         self.query_params['units'] = 'metric'
+
 
 @resource.register(r'http://www\.ncdc\.noaa\.gov/cdo-web/api/v2/datasets*', priority=17)
 @resource.register(r'http://www\.ncdc\.noaa\.gov/cdo-web/api/v2/datacategories*', priority=17)
@@ -30,6 +32,8 @@ def resource_ncdc_cdo(uri, **kwargs):
     return ncdc_cdo_json(uri, **kwargs)
 
 # Function to convert from ncdc_cdo_json type to pd.DataFrame
+
+
 @convert.register(pd.DataFrame, ncdc_cdo_json)
 def ncdc_cdo_json_to_df(data, **kwargs):
     # Read in API key
@@ -50,9 +54,9 @@ def ncdc_cdo_json_to_df(data, **kwargs):
         # Get startdate and/or enddate information
         s = Session()
         ireq = Request('GET',
-            r'http://www.ncdc.noaa.gov/cdo-web/api/v2/stations/{0}'.format(
-                            data.query_params['stationid']),
-                            headers=headers)
+                       r'http://www.ncdc.noaa.gov/cdo-web/api/v2/stations/{0}'.format(
+                           data.query_params['stationid']),
+                       headers=headers)
         prepped = ireq.prepare()
         dreq = s.send(prepped)
 
@@ -97,7 +101,7 @@ def ncdc_cdo_json_to_df(data, **kwargs):
         ireq = Request('GET',
                        data.url,
                        params=data.query_params,
-                       headers = headers)
+                       headers=headers)
         prepped = ireq.prepare()
         prepped.url = unquote(prepped.url)
         req = s.send(prepped)
@@ -130,9 +134,9 @@ def ncdc_cdo_json_to_df(data, **kwargs):
 *   There should be data between {2} and {3}.
 *
 """.format(data.query_params['startdate'],
-           data.query_params['enddate'],
-           pd.to_datetime(dreq.json()['mindate']),
-           pd.to_datetime(dreq.json()['maxdate'])))
+                data.query_params['enddate'],
+                pd.to_datetime(dreq.json()['mindate']),
+                pd.to_datetime(dreq.json()['maxdate'])))
 
     df.drop_duplicates(df.columns, keep='first', inplace=True)
 
@@ -164,25 +168,25 @@ if __name__ == '__main__':
         enddate='2010-05-31',
         stationid='COOP:010008',
         datasetid='PRECIP_15',
-        )
+    )
     as_df = odo(r, pd.DataFrame)
     print(as_df)
     mardi = [
-             #['GHCND', 'GHCND:AE000041196'],
-             ['GHCND', 'GHCND:USR0000GCOO'],
-             ['PRECIP_HLY', 'COOP:087440'],
-             ['PRECIP_15', 'COOP:087440'],
-             #['ANNUAL', 'GHCND:US1FLAL0004'],
-             ['GHCNDMS', 'GHCND:US1FLAL0004'],
-             ['GSOM', 'GHCND:US1FLAL0004'],
-             ['GSOY', 'GHCND:USW00012816'],
-             #['NORMAL_ANN', 'GHCND:USC00083322'],
-             ['NORMAL_HLY', 'GHCND:USW00013889'],
-             ['NORMAL_DLY', 'GHCND:USC00084731'],
-             ['NORMAL_MLY', 'GHCND:USC00086618'],
-             #['NEXRAD3', 'NEXRAD:KJAX'],
-             #['NEXRAD2', 'NEXRAD:KJAX'],
-            ]
+        #['GHCND', 'GHCND:AE000041196'],
+        ['GHCND', 'GHCND:USR0000GCOO'],
+        ['PRECIP_HLY', 'COOP:087440'],
+        ['PRECIP_15', 'COOP:087440'],
+        #['ANNUAL', 'GHCND:US1FLAL0004'],
+        ['GHCNDMS', 'GHCND:US1FLAL0004'],
+        ['GSOM', 'GHCND:US1FLAL0004'],
+        ['GSOY', 'GHCND:USW00012816'],
+        #['NORMAL_ANN', 'GHCND:USC00083322'],
+        ['NORMAL_HLY', 'GHCND:USW00013889'],
+        ['NORMAL_DLY', 'GHCND:USC00084731'],
+        ['NORMAL_MLY', 'GHCND:USC00086618'],
+        #['NEXRAD3', 'NEXRAD:KJAX'],
+        #['NEXRAD2', 'NEXRAD:KJAX'],
+    ]
     for did, sid, in mardi:
         startdate = '2016-01-01'
         enddate = '2003-01-01'
@@ -196,7 +200,7 @@ if __name__ == '__main__':
             startdate=startdate,
             stationid=sid,
             datasetid=did,
-            )
+        )
 
         as_df = odo(r, pd.DataFrame)
         print(did)
@@ -205,11 +209,10 @@ if __name__ == '__main__':
     for did, _ in mardi:
         r = resource(
             r'http://www.ncdc.noaa.gov/cdo-web/api/v2/datatypes',
-            startdate = '1900-01-01',
-            enddate = '2016-01-01',
-            datasetid = did,
-            )
+            startdate='1900-01-01',
+            enddate='2016-01-01',
+            datasetid=did,
+        )
 
         as_df = odo(r, pd.DataFrame)
         as_df.to_csv('{0}.csv'.format(did))
-

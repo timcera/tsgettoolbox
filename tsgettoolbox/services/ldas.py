@@ -74,9 +74,10 @@ _units_map = {
         ['Average layer 1 soil temperature',           'K'],
     'GLDAS:GLDAS_NOAH025_3H.001:Wind':
         ['Near surface wind magnitude',                'm/s'],
-    }
+}
 
 # LDAS
+
 
 class LDAS(object):
     def __init__(self, url, **query_params):
@@ -90,9 +91,12 @@ class LDAS(object):
 
 # Function to make `resource` know about the new Daymet type.
 # http://hydro1.sci.gsfc.nasa.gov/daac-bin/access/timeseries.cgi?variable=GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm&location=GEOM:POINT%28-99.875,%2031.125%29&startDate=2010-06-01T09&endDate=2015-05-04T21&type=asc2
+
+
 @resource.register(r'http://hydro1\.sci\.gsfc\.nasa\.gov/daac-bin/access/timeseries\.cgi.*', priority=17)
 def resource_ldas(uri, **kwargs):
     return LDAS(uri, **kwargs)
+
 
 def _parse_ldas_dates(date, hour):
     try:
@@ -101,13 +105,15 @@ def _parse_ldas_dates(date, hour):
         return pd.NaT
 
 # Function to convert from LDAS type to pd.DataFrame
+
+
 @convert.register(pd.DataFrame, LDAS)
 def ldas_to_df(data, **kwargs):
     req = requests.Request(
         'GET',
         data.url,
         params=data.query_params,
-        ).prepare().url
+    ).prepare().url
     df = pd.read_table(req,
                        skiprows=40,
                        header=None,
@@ -122,17 +128,18 @@ def ldas_to_df(data, **kwargs):
     df.index.name = 'Datetime-UTC'
     return df.tz_localize('UTC')
 
+
 if __name__ == '__main__':
-#?variable=GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm&
-# location=GEOM:POINT%28-99.875,%2031.125%29&
-# startDate=2010-06-01T09&endDate=2015-05-04T21&type=asc2
+    #?variable=GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm&
+    # location=GEOM:POINT%28-99.875,%2031.125%29&
+    # startDate=2010-06-01T09&endDate=2015-05-04T21&type=asc2
     r = resource(
         r'http://hydro1.sci.gsfc.nasa.gov/daac-bin/access/timeseries.cgi',
         variable='GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm',
         location='GEOM:POINT(-99.875, 31.125)',
         startDate='2010-06-01T09',
         endDate='2015-05-04T21'
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('LDAS')
@@ -144,7 +151,7 @@ if __name__ == '__main__':
         location='GEOM:POINT(104.2, 35.86)',
         startDate='2016-01-01T00',
         endDate='2016-12-01T00'
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('LDAS TEST')
@@ -156,7 +163,7 @@ if __name__ == '__main__':
         location='GEOM:POINT(104.2, 35.86)',
         startDate='5 days ago',
         endDate='12-01T00'
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('LDAS TEST')

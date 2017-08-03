@@ -14,28 +14,33 @@ from tstoolbox import tsutils
 # index_col=0,
 # parse_dates=[[0,1]])
 
+
 class ghcnd(object):
     def __init__(self, url, **query_params):
         params = {
             'station': None,
             'start_date': None,
             'end_date': None,
-            }
+        }
         params.update(query_params)
 
         self.url = url
         self.query_params = params
 
 # Function to make `resource` know about the new ghcnd type.
+
+
 @resource.register(r'ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all.*', priority=17)
 def resource_ghcnd(uri, **kwargs):
     return ghcnd(uri, **kwargs)
 
 # Function to convert from ghcnd type to pd.DataFrame
+
+
 @convert.register(pd.DataFrame, ghcnd)
 def ghcnd_to_df(data, **kwargs):
     df = pd.read_fwf(data.url + '/' + data.query_params['station'] + '.dly',
-                     widths=[11, 4, 2, 4] + [5, 1, 1, 1]*31)
+                     widths=[11, 4, 2, 4] + [5, 1, 1, 1] * 31)
     newcols = ['station', 'year', 'month', 'code']
     for day in list(range(1, 32)):
         for col in ['', 'm', 'q', 's']:
@@ -46,38 +51,59 @@ def ghcnd_to_df(data, **kwargs):
              'PRCP',  # PReCiPitation (tenths of mm)
              'SNOW',  # SNOWfall (mm)
              'SNWD',  # SNoW Depth (mm)
-             'ACMC',  # Average cloudiness midnight to midnight from 30-second ceilometer data (percent)
-             'ACMH',  # Average cloudiness midnight to midnight from manual observations (percent)
-             'ACSC',  # Average cloudiness sunrise to sunset from 30-second ceilometer data (percent)
-             'ACSH',  # Average cloudiness sunrise to sunset from manual observations (percent)
+             # Average cloudiness midnight to midnight from 30-second ceilometer data (percent)
+             'ACMC',
+             # Average cloudiness midnight to midnight from manual observations (percent)
+             'ACMH',
+             # Average cloudiness sunrise to sunset from 30-second ceilometer data (percent)
+             'ACSC',
+             # Average cloudiness sunrise to sunset from manual observations (percent)
+             'ACSH',
              'AWDR',  # Average daily wind direction (degrees)
              'AWND',  # Average daily wind speed (tenths of meters per second)
-             'DAEV',  # Number of days included in the multiday evaporation total (MDEV)
-             'DAPR',  # Number of days included in the multiday precipiation total (MDPR)
-             'DASF',  # Number of days included in the multiday snowfall total (MDSF)
-             'DATN',  # Number of days included in the multiday minimum temperature (MDTN)
-             'DATX',  # Number of days included in the multiday maximum temperature (MDTX)
-             'DAWM',  # Number of days included in the multiday wind movement (MDWM)
-             'DWPR',  # Number of days with non-zero precipitation included in multiday precipitation total (MDPR)
-             'EVAP',  # Evaporation of water from evaporation pan (tenths of mm)
-             'FMTM',  # Time of fastest mile or fastest 1-minute wind (hours and minutes, i.e., HHMM)
+             # Number of days included in the multiday evaporation total (MDEV)
+             'DAEV',
+             # Number of days included in the multiday precipiation total (MDPR)
+             'DAPR',
+             # Number of days included in the multiday snowfall total (MDSF)
+             'DASF',
+             # Number of days included in the multiday minimum temperature (MDTN)
+             'DATN',
+             # Number of days included in the multiday maximum temperature (MDTX)
+             'DATX',
+             # Number of days included in the multiday wind movement (MDWM)
+             'DAWM',
+             # Number of days with non-zero precipitation included in multiday precipitation total (MDPR)
+             'DWPR',
+             # Evaporation of water from evaporation pan (tenths of mm)
+             'EVAP',
+             # Time of fastest mile or fastest 1-minute wind (hours and minutes, i.e., HHMM)
+             'FMTM',
              'FRGB',  # Base of frozen ground layer (cm)
              'FRGT',  # Top of frozen ground layer (cm)
              'FRTH',  # Thickness of frozen ground layer (cm)
              'GAHT',  # Difference between river and gauge height (cm)
-             'MDEV',  # Multiday evaporation total (tenths of mm; use with DAEV)
-             'MDPR',  # Multiday precipitation total (tenths of mm; use with DAPR and DWPR, if available)
+             # Multiday evaporation total (tenths of mm; use with DAEV)
+             'MDEV',
+             # Multiday precipitation total (tenths of mm; use with DAPR and DWPR, if available)
+             'MDPR',
              'MDSF',  # Multiday snowfall total
-             'MDTN',  # Multiday minimum temperature (tenths of degrees C; use with DATN)
-             'MDTX',  # Multiday maximum temperature (tenths of degress C; use with DATX)
+             # Multiday minimum temperature (tenths of degrees C; use with DATN)
+             'MDTN',
+             # Multiday maximum temperature (tenths of degress C; use with DATX)
+             'MDTX',
              'MDWM',  # Multiday wind movement (km)
-             'MNPN',  # Daily minimum temperature of water in an evaporation pan (tenths of degrees C)
-             'MXPN',  # Daily maximum temperature of water in an evaporation pan (tenths of degrees C)
+             # Daily minimum temperature of water in an evaporation pan (tenths of degrees C)
+             'MNPN',
+             # Daily maximum temperature of water in an evaporation pan (tenths of degrees C)
+             'MXPN',
              'PGTM',  # Peak gust time (hours and minutes, i.e., HHMM)
              'PSUN',  # Daily percent of possible sunshine (percent)
-             'TAVG',  # Average temperature (tenths of degrees C) [Note that TAVG from source 'S' corresponds to an average for the period ending at 2400 UTC rather than local midnight]
+             # Average temperature (tenths of degrees C) [Note that TAVG from source 'S' corresponds to an average for the period ending at 2400 UTC rather than local midnight]
+             'TAVG',
              'THIC',  # Thickness of ice on water (tenths of mm)
-             'TOBS',  # Temperature at the time of observation (tenths of degrees C)
+             # Temperature at the time of observation (tenths of degrees C)
+             'TOBS',
              'TSUN',  # Daily total sunshine (minutes)
              'WDF1',  # Direction of fastest 1-minute wind (degrees)
              'WDF2',  # Direction of fastest 2-minute wind (degrees)
@@ -88,13 +114,17 @@ def ghcnd_to_df(data, **kwargs):
              'WDMV',  # 24-hour wind movement (km)
              'WESD',  # Water equivalent of snow on the ground (tenths of mm)
              'WESF',  # Water equivalent of snowfall (tenths of mm)
-             'WSF1',  # Fastest 1-minute wind speed (tenths of meters per second)
-             'WSF2',  # Fastest 2-minute wind speed (tenths of meters per second)
-             'WSF5',  # Fastest 5-second wind speed (tenths of meters per second)
+             # Fastest 1-minute wind speed (tenths of meters per second)
+             'WSF1',
+             # Fastest 2-minute wind speed (tenths of meters per second)
+             'WSF2',
+             # Fastest 5-second wind speed (tenths of meters per second)
+             'WSF5',
              'WSFG',  # Peak gust wind speed (tenths of meters per second)
-             'WSFI',  # Highest instantaneous wind speed (tenths of meters per second)
+             # Highest instantaneous wind speed (tenths of meters per second)
+             'WSFI',
              'WSFM',  # Fastest mile wind speed (tenths of meters per second)
-            ]
+             ]
 
     # SN*# = Minimum soil temperature (tenths of degrees C)
     #        where * corresponds to a code
@@ -196,13 +226,14 @@ def ghcnd_to_df(data, **kwargs):
     ndf.replace(to_replace=[-9999], value=[None], inplace=True)
     return ndf
 
+
 if __name__ == '__main__':
     r = resource(
         r'ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all',
         station='ASN00075020',
         start_date='2000-01-01',
         end_date='2001-01-01',
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('ghcnd')
@@ -213,7 +244,7 @@ if __name__ == '__main__':
         station='ASN00075020',
         start_date='10 years ago',
         end_date='9 years ago',
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('ghcnd')

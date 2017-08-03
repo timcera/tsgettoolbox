@@ -516,17 +516,20 @@ products = ['MCD12Q1',
 
 # modis
 
+
 class modis(object):
     def __init__(self, url, **query_params):
         self.url = url
         if query_params['startdate'] is None:
             query_params['startdate'] = pd.to_datetime('1900-01-01T00')
         else:
-            query_params['startdate'] = tsutils.parsedate(query_params['startdate'])
+            query_params['startdate'] = tsutils.parsedate(
+                query_params['startdate'])
         if query_params['enddate'] is None:
             query_params['enddate'] = pd.datetime.now()
         else:
-            query_params['enddate'] = tsutils.parsedate(query_params['enddate'])
+            query_params['enddate'] = tsutils.parsedate(
+                query_params['enddate'])
         self.query_params = query_params
 
 
@@ -534,12 +537,15 @@ class modis(object):
 def resource_modis(uri, **kwargs):
     return modis(uri, **kwargs)
 
+
 def date_parser(strdates):
     return [pd.datetime.fromordinal(
             pd.datetime(int(i[1:5]), 1, 1).toordinal() +
             int(i[5:]) - 1) for i in strdates]
 
 # Function to convert from modis type to pd.DataFrame
+
+
 @convert.register(pd.DataFrame, modis)
 def modis_to_df(data, **kwargs):
     client = zeep.Client(wsdl=data.url)
@@ -572,14 +578,14 @@ def modis_to_df(data, **kwargs):
     startdatestr = 'A{0}{1:03d}'.format(startdate.year,
                                         (startdate -
                                          pd.datetime(startdate.year -
-                                                     1 , 12, 31)).days)
+                                                     1, 12, 31)).days)
     enddatestr = 'A{0}{1:03d}'.format(enddate.year,
                                       (enddate -
                                        pd.datetime(enddate.year -
-                                                   1 , 12, 31)).days)
+                                                   1, 12, 31)).days)
 
     mask = pd.np.logical_and(idate >= int(startdatestr[1:]),
-                             idate <  int(enddatestr[1:]))
+                             idate < int(enddatestr[1:]))
 
     mdates = dates[mask]
     stepdates = mdates[::10]
@@ -612,6 +618,7 @@ def modis_to_df(data, **kwargs):
                   data.query_params['band']]
     return df
 
+
 if __name__ == '__main__':
     r = resource(
         r'http://daacmodis.ornl.gov/cgi-bin/MODIS/GLBVIZ_1_Glb_subset/MODIS_webservice.wsdl',
@@ -621,7 +628,7 @@ if __name__ == '__main__':
         lon=-82.7,
         startdate='1990-06-01T09',
         enddate='2001-05-04T21'
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('modis')
@@ -635,7 +642,7 @@ if __name__ == '__main__':
         lon=-82.7,
         startdate='3 years ago',
         enddate='2 years ago'
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('modis')

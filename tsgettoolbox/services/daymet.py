@@ -19,7 +19,7 @@ _units_map = {
     'swe': 'kg/m2',
     'prcp': 'mm',
     'dayl': 's',
-    }
+}
 
 # Daymet
 
@@ -29,23 +29,24 @@ _units_map = {
 # index_col=0,
 # parse_dates=[[0,1]])
 
+
 class Daymet(object):
     def __init__(self, url, **query_params):
         avail_params = ['tmax', 'tmin', 'srad', 'vp', 'swe', 'prcp', 'dayl']
         params = {
             'measureParams': None,
             'year': None,
-            }
+        }
         params.update(query_params)
         if params['measuredParams'] is None:
             params['measuredParams'] = ','.join(['tmax',
-                                        'tmin',
-                                        'srad',
-                                        'vp',
-                                        'swe',
-                                        'prcp',
-                                        'dayl',
-                                       ])
+                                                 'tmin',
+                                                 'srad',
+                                                 'vp',
+                                                 'swe',
+                                                 'prcp',
+                                                 'dayl',
+                                                 ])
         else:
             for testparams in params['measuredParams'].split(','):
                 if testparams not in avail_params:
@@ -58,7 +59,8 @@ class Daymet(object):
 
         last_year = datetime.datetime.now().year - 1
         if params['year'] is None:
-            params['year'] = ','.join([str(i) for i in range(1980, last_year + 1)])
+            params['year'] = ','.join([str(i)
+                                       for i in range(1980, last_year + 1)])
         else:
             for testyear in params['year'].split(','):
                 try:
@@ -83,14 +85,19 @@ class Daymet(object):
         self.query_params = params
 
 # Function to make `resource` know about the new Daymet type.
+
+
 @resource.register(r'http(s)?://daymet\.ornl\.gov.*', priority=17)
 def resource_daymet(uri, **kwargs):
     return Daymet(uri, **kwargs)
+
 
 def _daymet_date_parser(year, doy):
     return pd.to_datetime(year) + pd.to_timedelta(pd.np.int(doy), 'D') - pd.to_timedelta(1, 'D')
 
 # Function to convert from Daymet type to pd.DataFrame
+
+
 @convert.register(pd.DataFrame, Daymet)
 def daymet_to_df(data, **kwargs):
     df = pd.read_csv(
@@ -107,6 +114,7 @@ def daymet_to_df(data, **kwargs):
     df.index.name = 'Datetime'
     return df
 
+
 if __name__ == '__main__':
     r = resource(
         r'http://daymet.ornl.gov/data/send/saveData',
@@ -114,7 +122,7 @@ if __name__ == '__main__':
         lat=43.1,
         lon=-85.2,
         year='2000,2001'
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('Daymet')
@@ -126,7 +134,7 @@ if __name__ == '__main__':
         lat=43.1,
         lon=-85.2,
         year='3 years ago,2 years ago'
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('Daymet')

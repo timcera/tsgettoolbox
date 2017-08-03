@@ -9,6 +9,7 @@ from tstoolbox import tsutils
 
 # pd.read_csv('http://web-services.unavco.org:80/met/data/P0005/beta?starttime=2012-05-01T00%3A00%3A00&endtime=2012-05-02T23%3A59&tsFormat=iso8601'
 
+
 class Unavco(object):
     def __init__(self, url, **query_params):
         try:
@@ -29,6 +30,8 @@ class Unavco(object):
         self.query_params['tsFormat'] = 'iso8601'
 
 # Function to make `resource` know about the new unavco type.
+
+
 @resource.register(r'http://web-services.unavco.org:80/met/data.*', priority=17)
 @resource.register(r'http://web-services.unavco.org:80/pore/data/temperature.*', priority=17)
 @resource.register(r'http://web-services.unavco.org:80/pore/data/pressure.*', priority=17)
@@ -38,6 +41,8 @@ def resource_unavco(uri, **kwargs):
     return Unavco(uri, **kwargs)
 
 # Function to convert from Unavco type to pd.DataFrame
+
+
 @convert.register(pd.DataFrame, Unavco)
 def unavco_to_df(data, **kwargs):
     req = requests.Request('GET',
@@ -52,13 +57,14 @@ def unavco_to_df(data, **kwargs):
     df.index.name = 'Datetime-UTC'
     return df.tz_localize('UTC')
 
+
 if __name__ == '__main__':
     r = resource(
         r'http://web-services.unavco.org:80/met/data',
         station='P005',
         starttime='2012-05-01T00:00:00',
         endtime='2012-05-02T23:59:59'
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('Unavco_met')
@@ -69,7 +75,7 @@ if __name__ == '__main__':
         station='B078',
         starttime='2012-05-02T00:00:00',
         endtime='2012-05-02T23:59:59'
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('Unavco_pore_temperature')
@@ -80,7 +86,7 @@ if __name__ == '__main__':
         station='B078',
         starttime='2012-05-02T00:00:00',
         endtime='2012-05-02T23:59:59'
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('Unavco_pore_pressure')
@@ -91,7 +97,7 @@ if __name__ == '__main__':
         station='P693',
         starttime='2012-05-01T00:00:00',
         endtime='2012-05-01T01:00:00'
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('Unavco_tilt')
@@ -102,7 +108,7 @@ if __name__ == '__main__':
         station='B007',
         starttime='2012-05-01T00:00:00',
         endtime='2012-05-01T23:59:59'
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('Unavco_strain')

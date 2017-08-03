@@ -270,7 +270,7 @@ def coops(station,
         time_zone=time_zone,
         interval=interval,
         bin=bin,
-        )
+    )
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
@@ -870,7 +870,7 @@ def nwis(sites=None,
         if (stateCd is not None or
             huc is not None or
             bBox is not None or
-            countyCd is not None):
+                countyCd is not None):
             raise ValueError("""
 *
 *   The 'measurements' or 'peak' database can currently only accept one
@@ -969,7 +969,7 @@ def daymet(lat,
         lat=lat,
         lon=lon,
         year=year,
-        )
+    )
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
@@ -1140,7 +1140,7 @@ def ldas(lat=None,
         location=location,
         startDate=startDate,
         endDate=endDate,
-        )
+    )
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
@@ -1442,7 +1442,7 @@ def darksky(latitude,
         extend=extend,
         units=units,
         lang=lang,
-        )
+    )
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
@@ -1570,13 +1570,13 @@ def unavco(station,
                          '/pore/data/pressure',
         'tilt': r'http://web-services.unavco.org:80/tilt/data',
         'strain': r'http://web-services.unavco.org:80/strain/data/L2',
-        }
+    }
     r = resource(
         map_db_to_url[database],
         station=station,
         starttime=starttime,
         endtime=endtime,
-        )
+    )
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
@@ -1893,7 +1893,7 @@ def ncdc_ghcnd_ftp(station,
         station=station,
         start_date=start_date,
         end_date=end_date,
-        )
+    )
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
@@ -2236,7 +2236,7 @@ def ncdc_ghcnd(stationid,
         enddate=enddate,
         datasetid='GHCND',
         stationid=stationid,
-        )
+    )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
 
@@ -2742,7 +2742,7 @@ def ncdc_gsom(stationid,
         enddate=enddate,
         datasetid='GSOM',
         stationid=stationid,
-        )
+    )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
 
@@ -3248,7 +3248,7 @@ def ncdc_gsoy(stationid,
         enddate=enddate,
         datasetid='GSOY',
         stationid=stationid,
-        )
+    )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
 
@@ -3293,7 +3293,7 @@ def ncdc_nexrad2(stationid,
         enddate=enddate,
         datasetid='NEXRAD2',
         stationid=stationid,
-        )
+    )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
 
@@ -3338,7 +3338,7 @@ def ncdc_nexrad3(stationid,
         enddate=enddate,
         datasetid='NEXRAD3',
         stationid=stationid,
-        )
+    )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
 
@@ -5010,7 +5010,7 @@ def ncdc_normal_ann(stationid,
         enddate=enddate,
         datasetid='NORMAL_ANN',
         stationid=stationid,
-        )
+    )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
 
@@ -5272,7 +5272,7 @@ def ncdc_normal_dly(stationid,
         enddate=enddate,
         datasetid='NORMAL_DLY',
         stationid=stationid,
-        )
+    )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
 
@@ -5379,7 +5379,7 @@ def ncdc_normal_hly(stationid,
         enddate=enddate,
         datasetid='NORMAL_HLY',
         stationid=stationid,
-        )
+    )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
 
@@ -5696,7 +5696,7 @@ def ncdc_normal_mly(stationid,
         enddate=enddate,
         datasetid='NORMAL_MLY',
         stationid=stationid,
-        )
+    )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
 
@@ -5754,7 +5754,7 @@ def ncdc_precip_15(stationid,
         enddate=enddate,
         datasetid='PRECIP_15',
         stationid=stationid,
-        )
+    )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
 
@@ -5810,7 +5810,7 @@ def ncdc_precip_hly(stationid,
         enddate=enddate,
         datasetid='PRECIP_HLY',
         stationid=stationid,
-        )
+    )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
 
@@ -6723,7 +6723,7 @@ def ncdc_annual(stationid,
         enddate=enddate,
         datasetid='ANNUAL',
         stationid=stationid,
-        )
+    )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
 
@@ -7122,7 +7122,7 @@ def ncdc_ghcndms(stationid,
         enddate=enddate,
         datasetid='GHCNDMS',
         stationid=stationid,
-        )
+    )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
 
@@ -7235,7 +7235,7 @@ def ndbc(station,
         startUTC=startUTC,
         endUTC=endUTC,
         observedproperty=observedproperty,
-        )
+    )
 
     return tsutils.printiso(odo(r, pd.DataFrame))
 
@@ -7910,7 +7910,7 @@ def modis(lat,
         lon=lon,
         startdate=startdate,
         enddate=enddate,
-        )
+    )
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 

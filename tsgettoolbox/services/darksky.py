@@ -8,6 +8,7 @@ from tsgettoolbox import utils
 
 # darksky.net
 
+
 class darksky_net_json(object):
     def __init__(self, url, **query_params):
         self.url = url
@@ -17,16 +18,20 @@ class darksky_net_json(object):
         self.url_params['time'] = tsutils.parsedate(query_params.pop('time'),
                                                     strftime='%Y-%m-%dT%H:%M:%S')
         self.include_db = query_params.pop('database')
-        all_dbs = ['currently', 'minutely', 'hourly', 'daily', 'alerts', 'flags']
+        all_dbs = ['currently', 'minutely',
+                   'hourly', 'daily', 'alerts', 'flags']
         all_dbs.remove(self.include_db)
         query_params['exclude'] = ','.join(all_dbs)
         self.query_params = query_params
+
 
 @resource.register(r'https://api\.darksky\.net/forecast.*', priority=17)
 def resource_darksky_net(uri, **kwargs):
     return darksky_net_json(uri, **kwargs)
 
 # Function to convert from darksky_io_json type to pd.DataFrame
+
+
 @convert.register(pd.DataFrame, darksky_net_json)
 def darksky_net_json_to_df(data, **kwargs):
     # Read in API key
@@ -78,7 +83,7 @@ def darksky_net_json_to_df(data, **kwargs):
                      'sunsetTime',
                      'temperatureMaxTime',
                      'temperatureMinTime'
-                    ]:
+                     ]:
         if datecols in ndfj.columns:
             ndfj[datecols] = pd.to_datetime(ndfj[datecols], unit='s')
 
@@ -95,7 +100,7 @@ if __name__ == '__main__':
         longitude=-81.34,
         database='currently',
         time='2020-01-01T01:00:00',
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('darksky.net currently')
@@ -107,7 +112,7 @@ if __name__ == '__main__':
         longitude=-81.34,
         database='minutely',
         time=None,
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('darksky.net minutely')
@@ -119,7 +124,7 @@ if __name__ == '__main__':
         longitude=-81.34,
         database='hourly',
         time=None,
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('darksky.net hourly')
@@ -131,7 +136,7 @@ if __name__ == '__main__':
         longitude=-81.34,
         database='daily',
         time=None,
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('darksky.net daily')
@@ -143,7 +148,7 @@ if __name__ == '__main__':
         longitude=-81.34,
         database='alerts',
         time=None,
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('darksky.net alerts')
@@ -155,7 +160,7 @@ if __name__ == '__main__':
         longitude=-81.34,
         database='flags',
         time=None,
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('darksky.net flags')
@@ -167,7 +172,7 @@ if __name__ == '__main__':
         longitude=-81.34,
         database='currently',
         time='yesterday',
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('darksky.net flags')

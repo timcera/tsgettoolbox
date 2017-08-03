@@ -77,10 +77,10 @@ def _read_rdb(data):
         'GET',
         data.url,
         params=data.query_params,
-        ).prepare().url,
-                      comment='#',
-                      header=0,
-                      sep='\t')
+    ).prepare().url,
+        comment='#',
+        header=0,
+        sep='\t')
     ndf.drop(ndf.index[0], inplace=True)
     return ndf
 
@@ -234,7 +234,7 @@ class USGS_MEASUREMENTS_PEAK_RDB(object):
         try:
             url = url.replace('XX',
                               statelookup[int(r.ix[1,
-                                              u'state_cd'])].lower())
+                                                   u'state_cd'])].lower())
         except KeyError:
             raise ValueError("""
 *
@@ -320,7 +320,7 @@ if __name__ == '__main__':
         sites='02325000',
         startDT='2015-07-01',
         endDT='2015-07-30'
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('USGS_IV')
@@ -331,7 +331,7 @@ if __name__ == '__main__':
         sites='02325000',
         startDT='2015-07-01',
         endDT='2015-07-30'
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('USGS_DV')
@@ -340,7 +340,7 @@ if __name__ == '__main__':
     r = resource(
         r'http://waterservices.usgs.gov/nwis/stat/',
         sites='02325000',
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('USGS_DAILY_STAT')
@@ -350,7 +350,7 @@ if __name__ == '__main__':
         r'http://waterservices.usgs.gov/nwis/stat/',
         sites='01646500',
         statReportType='monthly',
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('USGS_MONTHLY_STAT')
@@ -361,7 +361,7 @@ if __name__ == '__main__':
         sites='01646500',
         statReportType='annual',
         statYearType='water',
-        )
+    )
 
     as_df = odo(r, pd.DataFrame)
     print('USGS_ANNUAL_STAT')
