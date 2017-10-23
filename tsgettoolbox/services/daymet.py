@@ -1,5 +1,7 @@
 
 import datetime
+import logging
+import os
 
 from odo import odo, resource, convert
 import pandas as pd
@@ -62,10 +64,12 @@ class Daymet(object):
             params['year'] = ','.join([str(i)
                                        for i in range(1980, last_year + 1)])
         else:
+            accumyear = []
             for testyear in params['year'].split(','):
                 try:
                     iyear = int(tsutils.parsedate(testyear,
                                                   strftime='%Y'))
+                    accumyear.append(iyear)
                 except ValueError:
                     raise ValueError('''
 *
@@ -80,6 +84,8 @@ class Daymet(object):
 *   calendar year.  You supplied {0}.
 *
 '''.format(iyear))
+
+            params['year'] = ",".join([str(i) for i in accumyear])
 
         self.url = url
         self.query_params = params
@@ -100,16 +106,18 @@ def _daymet_date_parser(year, doy):
 
 @convert.register(pd.DataFrame, Daymet)
 def daymet_to_df(data, **kwargs):
-    df = pd.read_csv(
-        urlp.unquote('{}?{}'.format(data.url,
-                                    urlp.urlencode(data.query_params))),
-        skiprows=7,
-        sep=",",
-        date_parser=_daymet_date_parser,
-        header=0,
-        index_col=0,
-        skipinitialspace=True,
-        parse_dates=[[0, 1]])
+    req = urlp.unquote('{}?{}'.format(data.url,
+                                      urlp.urlencode(data.query_params)))
+    if os.path.exists('debug_tsgettoolbox'):
+        logging.warning(req)
+    df = pd.read_csv(req,
+                     skiprows=7,
+                     sep=",",
+                     date_parser=_daymet_date_parser,
+                     header=0,
+                     index_col=0,
+                     skipinitialspace=True,
+                     parse_dates=[[0, 1]])
     df.columns = ['Daymet-{0}'.format(i.replace(' ', '_')) for i in df.columns]
     df.index.name = 'Datetime'
     return df

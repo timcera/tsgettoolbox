@@ -2,6 +2,10 @@
 
 from __future__ import print_function
 
+import logging
+import os
+from io import BytesIO
+
 from odo import odo, resource, convert
 import pandas as pd
 import requests
@@ -42,7 +46,10 @@ def resource_usgs_wml(uri, **kwargs):
 def usgs_wml_to_df(data, **kwargs):
     from owslib.waterml.wml11 import WaterML_1_1 as wml
 
-    req = requests.get(data.url, params=data.query_params)
+    req = requests.get(data.url,
+                       params=data.query_params)
+    if os.path.exists('debug_tsgettoolbox'):
+        logging.warning(req.url)
     req.raise_for_status()
 
     variables = wml(req.content).response
@@ -73,14 +80,16 @@ def usgs_wml_to_df(data, **kwargs):
 
 
 def _read_rdb(data):
-    ndf = pd.read_csv(requests.Request(
-        'GET',
-        data.url,
-        params=data.query_params,
-    ).prepare().url,
-        comment='#',
-        header=0,
-        sep='\t')
+    req = requests.get(data.url,
+                       params=data.query_params)
+    if os.path.exists('debug_tsgettoolbox'):
+        logging.warning(req.url)
+    req.raise_for_status()
+
+    ndf = pd.read_csv(BytesIO(req.content),
+                      comment='#',
+                      header=0,
+                      sep='\t')
     ndf.drop(ndf.index[0], inplace=True)
     return ndf
 

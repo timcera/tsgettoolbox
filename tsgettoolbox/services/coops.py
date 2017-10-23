@@ -1,5 +1,8 @@
 
 from collections import defaultdict
+import logging
+from io import BytesIO
+import os
 
 from odo import odo, resource, convert
 import pandas as pd
@@ -128,12 +131,15 @@ def nos_to_df(data, **kwargs):
         {'metric': 'm/s', 'english': 'ft/s'}, 'h']  # Currents data for
     # currents stations.
 
+    req = requests.get(data.url,
+                       params=data.query_params)
+
+    if os.path.exists('debug_tsgettoolbox'):
+        logging.warning(req.url)
+    req.raise_for_status()
+
     df = pd.read_csv(
-        requests.Request(
-            'GET',
-            data.url,
-            params=data.query_params,
-        ).prepare().url,
+        BytesIO(req.content),
         index_col=0,
         parse_dates=True)
     new_column_names = []

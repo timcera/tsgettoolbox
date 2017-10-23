@@ -1,4 +1,8 @@
 
+import logging
+from io import BytesIO
+import os
+
 from odo import odo, resource, convert
 import pandas as pd
 import requests
@@ -109,12 +113,13 @@ def _parse_ldas_dates(date, hour):
 
 @convert.register(pd.DataFrame, LDAS)
 def ldas_to_df(data, **kwargs):
-    req = requests.Request(
-        'GET',
-        data.url,
-        params=data.query_params,
-    ).prepare().url
-    df = pd.read_table(req,
+    req = requests.get(data.url,
+                       params=data.query_params)
+    if os.path.exists('debug_tsgettoolbox'):
+        logging.warning(req.url)
+    req.raise_for_status()
+
+    df = pd.read_table(BytesIO(req.content),
                        skiprows=40,
                        header=None,
                        index_col=0,
@@ -130,7 +135,7 @@ def ldas_to_df(data, **kwargs):
 
 
 if __name__ == '__main__':
-    #?variable=GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm&
+    # ?variable=GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm&
     # location=GEOM:POINT%28-99.875,%2031.125%29&
     # startDate=2010-06-01T09&endDate=2015-05-04T21&type=asc2
     r = resource(
@@ -161,8 +166,8 @@ if __name__ == '__main__':
         r'http://hydro1.sci.gsfc.nasa.gov/daac-bin/access/timeseries.cgi',
         variable='GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm',
         location='GEOM:POINT(104.2, 35.86)',
-        startDate='5 days ago',
-        endDate='12-01T00'
+        startDate='5 years ago',
+        endDate='4 years ago'
     )
 
     as_df = odo(r, pd.DataFrame)

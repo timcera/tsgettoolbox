@@ -6,7 +6,6 @@ except ImportError:
 
 from odo import odo, resource, convert
 import pandas as pd
-import requests
 
 import zeep
 

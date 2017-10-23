@@ -1,5 +1,7 @@
 
 import time
+import logging
+import os
 
 from odo import odo, resource, convert
 import pandas as pd
@@ -41,7 +43,7 @@ def ncdc_cdo_json_to_df(data, **kwargs):
 
     headers = {'token': api_key}
 
-    sdate = pd.datetime(1800, 1, 1)
+    sdate = pd.datetime(1900, 1, 1)
     td = pd.datetime.today()
     edate = pd.datetime(td.year, td.month, td.day) + pd.Timedelta(days=1)
     if 'NORMAL_' in data.query_params['datasetid']:
@@ -104,6 +106,8 @@ def ncdc_cdo_json_to_df(data, **kwargs):
                        headers=headers)
         prepped = ireq.prepare()
         prepped.url = unquote(prepped.url)
+        if os.path.exists('debug_tsgettoolbox'):
+            logging.warning(prepped.url)
         req = s.send(prepped)
         try:
             req.raise_for_status()
@@ -172,20 +176,20 @@ if __name__ == '__main__':
     as_df = odo(r, pd.DataFrame)
     print(as_df)
     mardi = [
-        #['GHCND', 'GHCND:AE000041196'],
+        # ['GHCND', 'GHCND:AE000041196'],
         ['GHCND', 'GHCND:USR0000GCOO'],
         ['PRECIP_HLY', 'COOP:087440'],
         ['PRECIP_15', 'COOP:087440'],
-        #['ANNUAL', 'GHCND:US1FLAL0004'],
+        # ['ANNUAL', 'GHCND:US1FLAL0004'],
         ['GHCNDMS', 'GHCND:US1FLAL0004'],
         ['GSOM', 'GHCND:US1FLAL0004'],
         ['GSOY', 'GHCND:USW00012816'],
-        #['NORMAL_ANN', 'GHCND:USC00083322'],
+        # ['NORMAL_ANN', 'GHCND:USC00083322'],
         ['NORMAL_HLY', 'GHCND:USW00013889'],
         ['NORMAL_DLY', 'GHCND:USC00084731'],
         ['NORMAL_MLY', 'GHCND:USC00086618'],
-        #['NEXRAD3', 'NEXRAD:KJAX'],
-        #['NEXRAD2', 'NEXRAD:KJAX'],
+        # ['NEXRAD3', 'NEXRAD:KJAX'],
+        # ['NEXRAD2', 'NEXRAD:KJAX'],
     ]
     for did, sid, in mardi:
         startdate = '2016-01-01'
@@ -209,7 +213,7 @@ if __name__ == '__main__':
     for did, _ in mardi:
         r = resource(
             r'http://www.ncdc.noaa.gov/cdo-web/api/v2/datatypes',
-            startdate='1900-01-01',
+            startdate='1901-01-01',
             enddate='2016-01-01',
             datasetid=did,
         )

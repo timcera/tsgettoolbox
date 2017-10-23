@@ -1,5 +1,7 @@
 
-from collections import defaultdict
+import logging
+from io import BytesIO
+import os
 
 from odo import odo, resource, convert
 import pandas as pd
@@ -74,12 +76,16 @@ def ndbc_to_df(data, **kwargs):
 
         data.query_params['eventtime'] = '{0}/{1}'.format(tsdate.strftime('%Y-%m-%dT%H:%MZ'),
                                                           testdate.strftime('%Y-%m-%dT%H:%MZ'))
-        tdf = pd.read_csv(requests.Request(
-            'GET',
-            data.url,
-            params=data.query_params,
-        ).prepare().url,
-            parse_dates=['date_time'])
+
+        req = requests.get(data.url,
+                           params=data.query_params)
+
+        if os.path.exists('debug_tsgettoolbox'):
+            logging.warning(req.url)
+        req.raise_for_status()
+
+        tdf = pd.read_csv(BytesIO(req.content),
+                          parse_dates=['date_time'])
         if len(tdf) > 0:
             df = df.append(tdf)
 

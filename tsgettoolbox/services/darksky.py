@@ -1,4 +1,7 @@
 
+import logging
+import os
+
 from odo import odo, resource, convert
 import pandas as pd
 import requests
@@ -51,6 +54,9 @@ def darksky_net_json_to_df(data, **kwargs):
                                  api_key,
                                  urlvar]),
                        data.query_params)
+
+    if os.path.exists('debug_tsgettoolbox'):
+        logging.warning(req.url)
     req.raise_for_status()
 
     try:

@@ -1,4 +1,8 @@
 
+import logging
+import os
+from io import BytesIO
+
 from odo import odo, resource, convert
 import pandas as pd
 import requests
@@ -45,10 +49,11 @@ def resource_unavco(uri, **kwargs):
 
 @convert.register(pd.DataFrame, Unavco)
 def unavco_to_df(data, **kwargs):
-    req = requests.Request('GET',
-                           data.url,
-                           params=data.query_params).prepare().url
-    df = pd.read_csv(req,
+    req = requests.get(data.url,
+                       params=data.query_params)
+    if os.path.exists('debug_tsgettoolbox'):
+        logging.warning(req.url)
+    df = pd.read_csv(BytesIO(req.content),
                      header=0,
                      index_col=0,
                      parse_dates=[0],
