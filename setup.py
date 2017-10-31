@@ -28,6 +28,7 @@ install_requires = [
     'tstoolbox >= 3.17.14.11',
     'requests',
     'zeep',
+    'ulmo',
 ]
 
 

@@ -35,6 +35,134 @@ def about():
 
 
 @mando.command(formatter_class=HelpFormatter)
+def cdec(station_id,
+         dur_code=None,
+         sensor_num=None,
+         start_date=None,
+         end_date=None):
+    """
+    This module provides access to data provided by the `California Department
+    of Water Resources`_ `California Data Exchange Center`_ web site.
+
+    .. _California Department of Water Resources: http://www.water.ca.gov/
+    .. _California Data Exchange Center: http://cdec.water.ca.gov
+
+    Downloads data for a set of CDEC station and sensor ids. If either is not
+    provided, all available data will be downloaded.
+
+    Parameters
+    ----------
+    :param station_id: str
+        Each string is the CDEC station ID and consist of three capital
+        letters.
+    :param sensor_num: integer, comma separated integers or ``None``
+
+        If ``None`` will get all sensors at `station_id`.
+
+        SELECTED CDEC SENSOR NUMBERS (these are not available for all
+        sites):
+
+        +------------+--------------------------------------------+
+        | sensor_num | Description                                |
+        +============+============================================+
+        | 1          |  river stage [ft]                          |
+        +------------+--------------------------------------------+
+        | 2          |  precipitation accumulated [in]            |
+        +------------+--------------------------------------------+
+        | 3          |  SWE [in]                                  |
+        +------------+--------------------------------------------+
+        | 4          |  air temperature [F]                       |
+        +------------+--------------------------------------------+
+        | 5          |  EC [ms/cm]                                |
+        +------------+--------------------------------------------+
+        | 6          |  reservoir elevation [ft]                  |
+        +------------+--------------------------------------------+
+        | 7          |  reservoir scheduled release [cfs]         |
+        +------------+--------------------------------------------+
+        | 8          |  full natural flow [cfs]                   |
+        +------------+--------------------------------------------+
+        | 15         |  reservoir storage [af]                    |
+        +------------+--------------------------------------------+
+        | 20         |  flow -- river discharge [cfs]             |
+        +------------+--------------------------------------------+
+        | 22         |  reservoir storage change [af]             |
+        +------------+--------------------------------------------+
+        | 23         |  reservoir outflow [cfs]                   |
+        +------------+--------------------------------------------+
+        | 24         |  Evapotranspiration [in]                   |
+        +------------+--------------------------------------------+
+        | 25         |  water temperature [F]                     |
+        +------------+--------------------------------------------+
+        | 27         |  water turbidity [ntu]                     |
+        +------------+--------------------------------------------+
+        | 28         |  chlorophyll [ug/l]                        |
+        +------------+--------------------------------------------+
+        | 41         |  flow -- mean daily [cfs]                  |
+        +------------+--------------------------------------------+
+        | 45         |  precipitation incremental [in]            |
+        +------------+--------------------------------------------+
+        | 46         |  runoff volume [af]                        |
+        +------------+--------------------------------------------+
+        | 61         |  water dissolved oxygen [mg/l]             |
+        +------------+--------------------------------------------+
+        | 62         |  water pH value [pH]                       |
+        +------------+--------------------------------------------+
+        | 64         |  pan evaporation (incremental) [in]        |
+        +------------+--------------------------------------------+
+        | 65         |  full natural flow [af]                    |
+        +------------+--------------------------------------------+
+        | 66         |  flow -- monthly volume [af]               |
+        +------------+--------------------------------------------+
+        | 67         |  accretions (estimated) [af]               |
+        +------------+--------------------------------------------+
+        | 71         |  spillway discharge [cfs]                  |
+        +------------+--------------------------------------------+
+        | 74         |  lake evaporation (computed) [cfs]         |
+        +------------+--------------------------------------------+
+        | 76         |  reservoir inflow [cfs]                    |
+        +------------+--------------------------------------------+
+        | 85         |  control regulating discharge [cfs]        |
+        +------------+--------------------------------------------+
+        | 94         |  top conservation storage (reservoir) [af] |
+        +------------+--------------------------------------------+
+        | 100        |  water EC [us/cm]                          |
+        +------------+--------------------------------------------+
+
+    :param dur_code: string, comma separated strings, or ``None``
+        Possible values are 'E', 'H', 'D', and 'M' but not
+        all of these time resolutions are available at every station.
+
+        +----------+-------------+
+        | dur_code | Description |
+        +==========+=============+
+        | E        | event       |
+        +----------+-------------+
+        | H        | hourly      |
+        +----------+-------------+
+        | D        | daily       |
+        +----------+-------------+
+        | M        | monthly     |
+        +----------+-------------+
+
+    {start_date}
+    {end_date}
+
+    Returns
+    -------
+    dataframe : a pandas.Dataframe
+    """
+    from tsgettoolbox.services import cdec
+    df = cdec.ulmo_df(
+         station_id,
+         dur_code=dur_code,
+         sensor_num=sensor_num,
+         start_date=tsutils.parsedate(start_date),
+         end_date=tsutils.parsedate(end_date),
+    )
+    return tsutils.printiso(df)
+
+
+@mando.command(formatter_class=HelpFormatter)
 def coops(station,
           date=None,
           begin_date=None,
@@ -260,8 +388,8 @@ def coops(station,
         r'http://tidesandcurrents.noaa.gov/api/datagetter',
         station=station,
         date=date,
-        begin_date=tsutils.parsedates(begin_date),
-        end_date=tsutils.parsedates(end_date),
+        begin_date=tsutils.parsedate(begin_date),
+        end_date=tsutils.parsedate(end_date),
         range=range,
         product=product,
         datum=datum,
@@ -730,13 +858,13 @@ def nwis(sites=None,
 
             --period=PT2H # Retrieve last two hours from now
                           # up to most recent
-                             # instantaneous value)
+                          # instantaneous value)
             --period=P7D # Retrieve last seven days up from
                          # now to most recent instantaneous
                          # value)
 
     :param str startDT:  Get a range of values from an explicit begin
-        or end date/time   Use the startDT and endDT arguments.  Site
+        or end date/time.  Use the startDT and endDT arguments.  Site
         local time is output, even if multiple sites are requested and
         sites are in different time zones.  Note that the measurement
         time zone at a site may not be the same as the time zone
@@ -756,7 +884,7 @@ def nwis(sites=None,
         (2010-09-01T00:00) If endDt shows the date and not the time of
         day (ex: 2010-09-02) the last minute before midnight site time
         is assumed (2010-09-02T23:59).  Remember, only data from October
-        1, 2007 are currently available.
+        1, 2007 are currently available in the 'iv' database.
     :param str endDT:  If endDT is present, startDt must also be
         present.::
 
@@ -768,23 +896,45 @@ def nwis(sites=None,
             --startDT=2010-11-22 --endDT=2010-11-22
             --startDT=2010-11-22T12:00 # Ends with most recent
                                        # instantaneous value
-    :param str database:  One of 'iv' for instantaneous values, 'dv'
-        for daily values, 'stat' for daily/monthly/annual statistics, or
-        'site' for site metadata, or 'measurements' for field
-        measurements, or 'peak' for peak flow/stage estimates.  If using
-        the 'measurements' or 'peak' database option you can download
-        data from only one site at a time.  Default is 'dv'.
+    :param str database:  If using the 'measurements' or 'peak'
+        database option you can download data from only one
+        site at a time.  Default is 'dv'.
+
+        +--------------+----------------------------------------+
+        | database     | Description                            |
+        +==============+========================================+
+        | iv           | instantaneous, if continuously sampled |
+        |              | then interval is sub-daily             |
+        +--------------+----------------------------------------+
+        | dv           | daily values (default)                 |
+        +--------------+----------------------------------------+
+        | stat         | daily/monthly/annual statistics        |
+        |              | depending on statReportType option     |
+        +--------------+----------------------------------------+
+        | site         | site metadata                          |
+        +--------------+----------------------------------------+
+        | measurements | field measurements                     |
+        +--------------+----------------------------------------+
+        | peak         | peak                                   |
+        +--------------+----------------------------------------+
+
     :param str statReportType:  The type of statistics desired. Valid
         statistic report types include::
 
-            daily - daily statistics (default)
-                    statistic across years
-            monthly - monthly statistics (monthly time-series)
-            annual - annual statistics, based on either
-                     calendar year or water year, as defined
-                     by statYearType. If statYearType is not
-                     provided, calendar year statistics are
-                     assumed. (annual time-series)
+        +----------------+------------------------------------------+
+        | statReportType | Description                              |
+        +----------------+------------------------------------------+
+        | daily          | daily statistics (default)               |
+        |                | statistic across years                   |
+        +----------------+------------------------------------------+
+        | monthly        | monthly statistics (monthly time-series) |
+        +----------------+------------------------------------------+
+        | annual         | annual statistics, based on either       |
+        |                | calendar year or water year, as defined  |
+        |                | by statYearType. If statYearType is not  |
+        |                | provided, calendar year statistics are   |
+        |                | assumed. (annual time-series)            |
+        +----------------+------------------------------------------+
 
         Default is 'daily'.
     :param str statType:  Selects sites based on the statistics
@@ -840,7 +990,7 @@ def nwis(sites=None,
                     the current year. This is the same as
                     a federal fiscal year.
     """
-    from tsgettoolbox.services import nwis as placeholder
+    from tsgettoolbox.services.usgs import nwis as placeholder
     if database not in ['iv',
                         'dv',
                         'stat',
@@ -1886,7 +2036,7 @@ def ncdc_ghcnd_ftp(station,
 
         If start_date and end_date are None, returns the entire series.
     """
-    from tsgettoolbox.services import ghcnd as placeholder
+    from tsgettoolbox.services.ncdc import ghcnd as placeholder
     r = resource(
         r'ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all',
         station=station,
@@ -2227,7 +2377,7 @@ def ncdc_ghcnd(stationid,
     :param str enddate:  End date in ISO8601 format.
 
     """
-    from tsgettoolbox.services.ncdc import ncdc_cdo as placeholder
+    from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
@@ -2733,7 +2883,7 @@ def ncdc_gsom(stationid,
     :param str enddate:  End date in ISO8601 format.
     """
 
-    from tsgettoolbox.services.ncdc import ncdc_cdo as placeholder
+    from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
@@ -3239,7 +3389,7 @@ def ncdc_gsoy(stationid,
 
 
     """
-    from tsgettoolbox.services.ncdc import ncdc_cdo as placeholder
+    from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
@@ -3284,7 +3434,7 @@ def ncdc_nexrad2(stationid,
     observation/element is missing.
 
     """
-    from tsgettoolbox.services.ncdc import ncdc_cdo as placeholder
+    from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
@@ -3329,7 +3479,7 @@ def ncdc_nexrad3(stationid,
     observation/element is missing.
 
     """
-    from tsgettoolbox.services.ncdc import ncdc_cdo as placeholder
+    from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
@@ -5001,7 +5151,7 @@ def ncdc_normal_ann(stationid,
 
 
     """
-    from tsgettoolbox.services.ncdc import ncdc_cdo as placeholder
+    from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
@@ -5263,7 +5413,7 @@ def ncdc_normal_dly(stationid,
 
 
     """
-    from tsgettoolbox.services.ncdc import ncdc_cdo as placeholder
+    from tsgettoolbox.services.ncdc import ncdc as placeholder
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
@@ -5370,7 +5520,7 @@ def ncdc_normal_hly(stationid,
 
 
     """
-    from tsgettoolbox.services.ncdc import ncdc_cdo as placeholder
+    from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
@@ -5687,7 +5837,7 @@ def ncdc_normal_mly(stationid,
 
 
     """
-    from tsgettoolbox.services.ncdc import ncdc_cdo as placeholder
+    from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
@@ -5745,7 +5895,7 @@ def ncdc_precip_15(stationid,
     :param str enddate:  End date in ISO8601 format.
 
     """
-    from tsgettoolbox.services.ncdc import ncdc_cdo as placeholder
+    from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
@@ -5801,7 +5951,7 @@ def ncdc_precip_hly(stationid,
     :param str enddate:  End date in ISO8601 format.
 
     """
-    from tsgettoolbox.services.ncdc import ncdc_cdo as placeholder
+    from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
@@ -6714,7 +6864,7 @@ def ncdc_annual(stationid,
     :param str enddate:  End date in ISO8601 format.
 
     """
-    from tsgettoolbox.services.ncdc import ncdc_cdo as placeholder
+    from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
@@ -7113,7 +7263,7 @@ def ncdc_ghcndms(stationid,
     observation/element is missing.
 
     """
-    from tsgettoolbox.services.ncdc import ncdc_cdo as placeholder
+    from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
