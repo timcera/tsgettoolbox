@@ -35,6 +35,42 @@ def about():
 
 
 @mando.command(formatter_class=HelpFormatter)
+def cpc(state=None,
+        climate_division=None,
+        start_date=None,
+        end_date=None):
+    """
+    This module provides direct access to `Climate Predicition Center`_ `Weekly
+    Drought Index`_ dataset.
+
+    .. _Climate Prediction Center: http://www.cpc.ncep.noaa.gov/
+    .. _Weekly Drought Index: http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
+
+
+    Parameters
+    ----------
+    state : ``None`` or str
+        If specified, results will be limited to the state corresponding to the
+        given 2-character state code.
+    climate_division : ``None`` or int
+        If specified, results will be limited to the climate division.
+    {start_date}
+    {end_date}
+
+    Returns
+    -------
+    dataframe : a pandas.Dataframe
+    """
+    from tsgettoolbox.services import cpc
+    df = cpc.ulmo_df(
+         state=state,
+         climate_division=climate_division,
+         start_date=tsutils.parsedate(start_date),
+         end_date=tsutils.parsedate(end_date))
+    return tsutils.printiso(df)
+
+
+@mando.command(formatter_class=HelpFormatter)
 def cdec(station_id,
          dur_code=None,
          sensor_num=None,
@@ -2391,20 +2427,27 @@ def ncdc_ghcnd(stationid,
 
 
 # 1763-01-01, 2016-09-01, Global Summary of the Month , 1    , GSOM
+# 1763-01-01, 2016-01-01, Global Summary of the Year  , 1    , GSOY
 @mando.command(formatter_class=HelpFormatter)
-def ncdc_gsom(stationid,
-              datatypeid='',
-              startdate='',
-              enddate=''):
+def ncdc_gs(stationid,
+            database,
+            datatypeid='',
+            startdate='',
+            enddate=''):
     """
-    National Climatic Data Center Global Summary of the Month (GSOM)
-    Requires registration and free API key.
-
+    National Climatic Data Center Global Summary of the MONTH (GSOM)
     https://gis.ncdc.noaa.gov/all-records/catalog/search/resource/details.page?uuid=%7BC621CB74-5CB2-4534-A544-E9EBB139D9A4%7D
-
     Cite this dataset when used as a source: Lawrimore, Jay (2016). Global
     Summary of the Month, Version 1.0. [indicate subset used]. NOAA National
-    Centers for Environmental Information. DOI:10.7289/V5QV3JJ5 [access date].
+    Centers for Environmental Information. DOI:10.7289/V5QV3JJ5
+
+    National Climatic Data Center Global Summary of the YEAR (GSOY)
+    https://gis.ncdc.noaa.gov/all-records/catalog/search/resource/details.page?id=gov.noaa.ncdc:C00947
+    Cite this dataset when used as a source: Lawrimore, Jay (2016). Global
+    Summary of the Year, Version 1.0. [indicate subset used]. NOAA National
+    Centers for Environmental Information
+
+    Requires registration and free API key.
 
     NCEI cannot assume liability for any damages caused by any errors or
     omissions in the data, nor as a result of the failure of the data to
@@ -2434,7 +2477,7 @@ def ncdc_gsom(stationid,
     in CD", sites.  For every datatype and record there is a set of meta-data
     flags.
 
-    For the GSOM dataset, the flags are::
+    For the GHCNDMS dataset the flags are::
 
         'Total Missing','Consecutive Missing'
 
@@ -2451,6 +2494,9 @@ def ncdc_gsom(stationid,
     observation/element is missing.
 
     :param str stationid:  Station ID.
+
+    :pqram str database: Either 'GSOM' for Global Summary of the Month, or
+        'GSOY' for Global Summary of the Year.
 
     :param str datatypeid: The following table lists the datatypes
         available for the 'ghcnd' dataset.  If the datatypeid is not
@@ -2889,513 +2935,7 @@ def ncdc_gsom(stationid,
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
         startdate=startdate,
         enddate=enddate,
-        datasetid='GSOM',
-        stationid=stationid,
-    )
-
-    return tsutils.printiso(odo(r, pd.DataFrame))
-
-
-# 1763-01-01, 2016-01-01, Global Summary of the Year  , 1    , GSOY
-@mando.command(formatter_class=HelpFormatter)
-def ncdc_gsoy(stationid,
-              datatypeid='',
-              startdate='',
-              enddate=''):
-    """
-    National Climatic Data Center Global Summary of the YEAR (GSOY)
-    Requires registration and free API key.
-
-    https://gis.ncdc.noaa.gov/all-records/catalog/search/resource/details.page?id=gov.noaa.ncdc:C00947
-
-    Cite this dataset when used as a source: Lawrimore, Jay (2016). Global
-    Summary of the Year, Version 1.0. [indicate subset used]. NOAA National
-    Centers for Environmental Information. [access date].
-
-    NCEI cannot assume liability for any damages caused by any errors or
-    omissions in the data, nor as a result of the failure of the data to
-    function on a particular system. NCEI makes no warranty, expressed or
-    implied, nor does the fact of distribution constitute such a warranty. NCEI
-    can only certify that the data it distributes are an authentic copy of the
-    records that were accepted for inclusion in the NCEI archives.
-
-    The global summaries data set contains a yearly (GSOY) resolution of
-    meteorological elements (max temp, snow, etc) from 1763 to present with
-    updates weekly. The major parameters are: monthly mean maximum, mean
-    minimum and mean temperatures; monthly total precipitation and snowfall;
-    departure from normal of the mean temperature and total precipitation;
-    monthly heating and cooling degree days; number of days that temperatures
-    and precipitation are above or below certain thresholds; and extreme daily
-    temperature and precipitation amounts. The primary source data set source
-    is the Global Historical Climatology Network (GHCN)-Daily Data set. The
-    global summaries data set also contains a monthly (GSOM) resolution of
-    meteorological elements. See associated resources for more information.
-    This data is not to be confused with "GHCN-Monthly", "Annual Summaries" or
-    "NCDC Summary of the Month". There are unique elements that are produced
-    globally within the GSOM and GSOY data files.  There are also bias
-    corrected temperature data in GHCN-Monthly, which will not be available in
-    GSOM and GSOY. The GSOM and GSOY data set is going to replace the legacy
-    DSI-3220 and expand to include non-U.S. (a.k.a. global) stations.  DSI-3220
-    only included National Weather Service (NWS) COOP Published, or "Published
-    in CD", sites.
-
-    For every datatype and record there is a set of meta-data flags.
-    For the GHCNDMS dataset, the flags are::
-
-        'Total Missing','Consecutive Missing'
-
-    Total Missing:
-
-    Defined as total number of days observation/element is missing in that
-    month.  This can be taken as a measure of quality or completeness as the
-    higher the number of days sampled in the month, the more representative the
-    value is for the entire month.
-
-    Consecutive Missing:
-
-    Defined as the maximum number of consecutive days in the month that an
-    observation/element is missing.
-
-    :param str stationid:  Station ID.
-
-    :param str datatypeid: The following table lists the datatypes
-        available for the 'ghcnd' dataset.  If the datatypeid is not
-        given defaults to getting all data available at that station.
-
-        +------+-------------------------------------------------------+
-        | Code | Description                                           |
-        +======+=======================================================+
-        | TMAX | Monthly/Annual Maximum Temperature. Average of daily  |
-        |      | maximum temperature given in Celsius or Fahrenheit    |
-        |      | depending on user specification. Missing if more than |
-        |      | 5 days within the month are missing or flagged or if  |
-        |      | more than 3 consecutive values within the month are   |
-        |      | missing or flagged.  DaysMissing: Flag indicating     |
-        |      | number of days missing or flagged (from 1 to 5).      |
-        +------+-------------------------------------------------------+
-        | TMIN | Monthly/Annual Minimum Temperature. Average of daily  |
-        |      | minimum temperature given in Celsius or Fahrenheit    |
-        |      | depending on user specification. Missing if more than |
-        |      | 5 days within the month are missing or flagged or if  |
-        |      | more than 3 consecutive values within the month are   |
-        |      | missing or flagged.  DaysMissing: Flag indicating     |
-        |      | number of days missing or flagged (from 1 to 5).      |
-        +------+-------------------------------------------------------+
-        | TAVG | Average Monthly/Annual Temperature. Computed by       |
-        |      | adding the unrounded monthly/annual maximum and       |
-        |      | minimum temperatures and dividing by 2. Given in      |
-        |      | Celsius or Fahrenheit depending on user               |
-        |      | specification. Missing if more than 5 days within the |
-        |      | month are missing or flagged or if more than 3        |
-        |      | consecutive values within the month are missing or    |
-        |      | flagged. DaysMissing: Flag indicating number of days  |
-        |      | missing or flagged (from 1 to 5).                     |
-        +------+-------------------------------------------------------+
-        | EMXT | Extreme maximum temperature for month/year. Highest   |
-        |      | daily maximum temperature for the month/year. Given   |
-        |      | in Celsius or Fahrenheit depending on user            |
-        |      | specification.                                        |
-        +------+-------------------------------------------------------+
-        | DYXT | Day of the EMXT for the month/year.                   |
-        +------+-------------------------------------------------------+
-        | EMNT | Extreme minimum temperature for month/year. Lowest    |
-        |      | daily minimum temperature for the month/year. Given   |
-        |      | in Celsius or Fahrenheit depending on user            |
-        |      | specification.                                        |
-        +------+-------------------------------------------------------+
-        | DYXT | Day of the EMNT for the month/year.                   |
-        +------+-------------------------------------------------------+
-        | DX90 | Number of days with maximum temperature >= 90 degrees |
-        |      | Fahrenheit/32.2 degrees Celsius.                      |
-        +------+-------------------------------------------------------+
-        | DX70 | Number of days with maximum temperature >= 70 degrees |
-        |      | Fahrenheit/21.1 degrees Celsius.                      |
-        +------+-------------------------------------------------------+
-        | DX32 | Number of days with maximum temperature <= 32 degrees |
-        |      | Fahrenheit/0 degrees Celsius.                         |
-        +------+-------------------------------------------------------+
-        | DT32 | Number of days with minimum temperature <= 32 degrees |
-        |      | Fahrenheit/0 degrees Celsius.                         |
-        +------+-------------------------------------------------------+
-        | DT00 | Number of days with maximum temperature <= 0 degrees  |
-        |      | Fahrenheit/-17.8 degrees Celsius.                     |
-        +------+-------------------------------------------------------+
-        | HTDD | Heating Degree Days. Computed when daily average      |
-        |      | temperature is less than 65 degrees Fahrenheit/18.3   |
-        |      | degrees Celsius. HDD = 65(F)/18.3(C) - mean daily     |
-        |      | temperature. Each day is summed to produce a          |
-        |      | monthly/annual total. Annual totals are computed      |
-        |      | based on a July - June year in Northern Hemisphere    |
-        |      | and January - December year in Southern Hemisphere.   |
-        |      | Given in Celsius or Fahrenheit degrees depending on   |
-        |      | user specification.                                   |
-        +------+-------------------------------------------------------+
-        | CLDD | Cooling Degree Days. Computed when daily average      |
-        |      | temperature is more than 65 degrees Fahrenheit/18.3   |
-        |      | degrees Celsius. CDD = mean daily temperature - 65    |
-        |      | degrees Fahrenheit/18.3 degrees Celsius. Each day is  |
-        |      | summed to produce a monthly/annual total. Annual      |
-        |      | totals are computed based on a January - December     |
-        |      | year in Northern Hemisphere and July - June year in   |
-        |      | Southern Hemisphere. Given in Celsius or Fahrenheit   |
-        |      | degrees depending on user specification.              |
-        +------+-------------------------------------------------------+
-        | PRCP | Total Monthly/Annual Precipitation. Given in inches   |
-        |      | or millimeters depending on user specification.       |
-        |      | Measurement Flags: T is used for trace amount, a is   |
-        |      | used for any accumulation within a month/year that    |
-        |      | includes missing days. If no days are missing, no     |
-        |      | flag is used. Source Flag: Source flag from GHCN-     |
-        |      | Daily (see separate documentation for GHCN-Daily).    |
-        |      | Days Miss Flag: Number of days missing or flagged.    |
-        +------+-------------------------------------------------------+
-        | EMXP | Highest daily total of precipitation in the           |
-        |      | month/year. Given in inches or millimeters depending  |
-        |      | on user specification.                                |
-        +------+-------------------------------------------------------+
-        | DYXP | Day that EMXP for the month/year occurred.            |
-        +------+-------------------------------------------------------+
-        | DP01 | Number of days with >= 0.01 inch/0.254 millimeter in  |
-        |      | the month/year.                                       |
-        +------+-------------------------------------------------------+
-        | DP05 | Number of days with >= 0.5 inch/12.7 millimeters in   |
-        |      | the month/year.                                       |
-        +------+-------------------------------------------------------+
-        | DP10 | Number of days with >= 1.00 inch/25.4 millimeters in  |
-        |      | the month/year.                                       |
-        +------+-------------------------------------------------------+
-        | SNOW | Total Monthly/Annual Snowfall. Given in inches or     |
-        |      | millimeters depending on user specification.          |
-        |      | Measurement Flags: T is used for trace amount, a is   |
-        |      | used for any accumulation within a month/year that    |
-        |      | includes missing days. If no days are missing, no     |
-        |      | flag is used. Source Flag: Source flag from GHCN-     |
-        |      | Daily (see separate documentation for GHCN-Daily).    |
-        |      | Days Miss Flag: Number of days missing or flagged.    |
-        +------+-------------------------------------------------------+
-        | EMSN | Highest daily snowfall in the month/year. Given in    |
-        |      | inches or millimeters depending on user               |
-        |      | specification.                                        |
-        +------+-------------------------------------------------------+
-        | DYSN | Day EMSN for the month/year occurred.                 |
-        +------+-------------------------------------------------------+
-        | DSNW | Number of days with snowfall >= 1 inch/25             |
-        |      | millimeters.                                          |
-        +------+-------------------------------------------------------+
-        | DSND | Number of days with snow depth >= 1 inch/25           |
-        |      | millimeters.                                          |
-        +------+-------------------------------------------------------+
-        | EMSD | Highest daily snow depth in the month/year. Given in  |
-        |      | inches or millimeters depending on user               |
-        |      | specification.                                        |
-        +------+-------------------------------------------------------+
-        | DYSD | Day EMSD for the month/year occurred.                 |
-        +------+-------------------------------------------------------+
-        | EVAP | Total Monthly/Annual Evaporation. Given in inches or  |
-        |      | millimeters depending on user specification.          |
-        |      | Measurement Flags: T is used for trace amount, a is   |
-        |      | used for any accumulation within a month/year that    |
-        |      | includes missing days. If no days are missing, no     |
-        |      | flag is used. Source Flag: Source flag from GHCN-     |
-        |      | Daily (see separate documentation for GHCN-Daily).    |
-        |      | Days Miss Flag: Number of days missing or flagged.    |
-        +------+-------------------------------------------------------+
-        | MNPN | Monthly/Annual Mean Minimum Temperature of            |
-        |      | evaporation pan water. Given in Celsius or Fahrenheit |
-        |      | depending on user specification. Missing if more than |
-        |      | 5 days within the month are missing or flagged or if  |
-        |      | more than 3 consecutive values within the month are   |
-        |      | missing or flagged. DaysMissing: Flag indicating      |
-        |      | number of days missing or flagged (from 1 to 5).      |
-        +------+-------------------------------------------------------+
-        | MXPN | Monthly/Annual Mean Maximum Temperature of            |
-        |      | evaporation pan water. Given in Celsius or Fahrenheit |
-        |      | depending on user specification. Missing if more than |
-        |      | 5 days within the month are missing or flagged or if  |
-        |      | more than 3 consecutive values within the month are   |
-        |      | missing or flagged. DaysMissing: Flag indicating      |
-        |      | number of days missing or flagged (from 1 to 5).      |
-        +------+-------------------------------------------------------+
-        | WDMV | Total Monthly/Annual Wind Movement over evaporation   |
-        |      | pan. Given in miles or kilometers depending on user   |
-        |      | specification. Days Miss Flag: Number of days missing |
-        |      | or flagged.                                           |
-        +------+-------------------------------------------------------+
-        | TSUN | Daily total sunshine in minutes. Days Miss Flag:      |
-        |      | Number of days missing or flagged.                    |
-        +------+-------------------------------------------------------+
-        | PSUN | Monthly/Annual Average of the daily percents of       |
-        |      | possible sunshine. Days Miss Flag: Number of days     |
-        |      | missing or flagged.                                   |
-        +------+-------------------------------------------------------+
-        | AWND | Monthly/Annual Average Wind Speed. Given in miles per |
-        |      | hour or meters per second depending on user           |
-        |      | specification. Missing if more than 5 days within the |
-        |      | month are missing or flagged or if more than 3        |
-        |      | consecutive values within the month are missing or    |
-        |      | flagged. DaysMissing: Flag indicating number of days  |
-        |      | missing or flagged (from 1 to 5).                     |
-        +------+-------------------------------------------------------+
-        | WSFM | Maximum Wind Speed/Fastest Mile. Maximum wind speed   |
-        |      | for the month/year reported as the fastest mile.      |
-        |      | Given in miles per hour or meters per second          |
-        |      | depending on user specification. Missing if more than |
-        |      | 5 days within the month are missing or flagged or if  |
-        |      | more than 3 consecutive values within the month are   |
-        |      | missing or flagged. DaysMissing: Flag indicating      |
-        |      | number of days missing or flagged (from 1 to 5).      |
-        +------+-------------------------------------------------------+
-        | WDFM | Wind Direction for Maximum Wind Speed/Fastest Mile    |
-        |      | (WSFM). Given in 360-degree compass point directions  |
-        |      | (e.g. 360 = north, 180 = south, etc.).                |
-        +------+-------------------------------------------------------+
-        | WSF2 | Maximum Wind Speed/Fastest 2-minute. Maximum wind     |
-        |      | speed for the month/year reported as the fastest      |
-        |      | 2-minute. Given in miles per hour or meters per       |
-        |      | second depending on user specification.  Missing if   |
-        |      | more than 5 days within the month are missing or      |
-        |      | flagged or if more than 3 consecutive values within   |
-        |      | the month are missing or flagged. DaysMissing: Flag   |
-        |      | indicating number of days missing or flagged (from 1  |
-        |      | to 5).                                                |
-        +------+-------------------------------------------------------+
-        | WDF2 | Wind Direction for Maximum Wind Speed/Fastest         |
-        |      | 2-Minute (WSF2). Given in 360-degree compass point    |
-        |      | directions (e.g. 360 = north, 180 = south, etc.).     |
-        +------+-------------------------------------------------------+
-        | WSF1 | Maximum Wind Speed/Fastest 1-minute. Maximum wind     |
-        |      | speed for the month/year reported as the fastest      |
-        |      | 1-minute. Given in miles per hour or meters per       |
-        |      | second depending on user specification.  Missing if   |
-        |      | more than 5 days within the month are missing or      |
-        |      | flagged or if more than 3 consecutive values within   |
-        |      | the month are missing or flagged. DaysMissing: Flag   |
-        |      | indicating number of days missing or flagged (from 1  |
-        |      | to 5).                                                |
-        +------+-------------------------------------------------------+
-        | WDF1 | Wind Direction for Maximum Wind Speed/Fastest         |
-        |      | 1-Minute (WSF1). Given in 360-degree compass point    |
-        |      | directions (e.g. 360 = north, 180 = south, etc.).     |
-        |      | Missing if more than 5 days within the month are      |
-        |      | missing or flagged or if more than 3 consecutive      |
-        |      | values within the month are missing or flagged.       |
-        |      | DaysMissing: Flag indicating number of days missing   |
-        |      | or flagged (from 1 to 5).                             |
-        +------+-------------------------------------------------------+
-        | WSFG | Peak Wind Gust Speed. Maximum wind gust for the       |
-        |      | month/year. Given in miles per hour or second         |
-        |      | depending on user specification. Missing if more than |
-        |      | 5 days within the month are missing or flagged or if  |
-        |      | more than 3 consecutive values within the month are   |
-        |      | missing or flagged. DaysMissing: Flag indicating      |
-        |      | number of days missing or flagged (from 1 to 5).      |
-        +------+-------------------------------------------------------+
-        | WDFG | Wind Direction for Peak Wind Gust Speed (WSFG). Given |
-        |      | in 360-degree compass point directions (e.g. 360 =    |
-        |      | north, 180 = south, etc.). Missing if more than 5     |
-        |      | days within the month are missing or flagged or if    |
-        |      | more than 3 consecutive values within the month are   |
-        |      | missing or flagged. DaysMissing: Flag indicating      |
-        |      | number of days missing or flagged (from 1 to 5).      |
-        +------+-------------------------------------------------------+
-        | WSF5 | Peak Wind Gust Speed - Fastest 5-second wind. Maximum |
-        |      | wind gust for the month/year. Given in miles per hour |
-        |      | or second depending on user specification. Missing if |
-        |      | more than 5 days within the month are missing or      |
-        |      | flagged or if more than 3 consecutive values within   |
-        |      | the month are missing or flagged. DaysMissing: Flag   |
-        |      | indicating number of days missing or flagged (from 1  |
-        |      | to 5).                                                |
-        +------+-------------------------------------------------------+
-        | WDF5 | Wind Direction for Peak Wind Gust Speed - Fastest     |
-        |      | 5-second (WSF5). Given in 360-degree compass point    |
-        |      | directions (e.g. 360 = north, 180 = south, etc.).     |
-        |      | Missing if more than 5 days within the month are      |
-        |      | missing or flagged or if more than 3 consecutive      |
-        |      | values within the month are missing or flagged.       |
-        |      | DaysMissing: Flag indicating number of days missing   |
-        |      | or flagged (from 1 to 5).                             |
-        +------+-------------------------------------------------------+
-        | WSF3 | Peak Wind Gust Speed - Fastest 3-second wind. Maximum |
-        |      | wind gust for the month/year. Given in miles per hour |
-        |      | or second depending on user specification. Missing if |
-        |      | more than 5 days within the month are missing or      |
-        |      | flagged or if more than 3 consecutive values within   |
-        |      | the month are missing or flagged. DaysMissing: Flag   |
-        |      | indicating number of days missing or flagged (from 1  |
-        |      | to 5).                                                |
-        +------+-------------------------------------------------------+
-        | WDF3 | Wind Direction for Peak Wind Gust Speed - Fastest     |
-        |      | 5-second (WSF3). Given in 360-degree compass point    |
-        |      | directions (e.g. 360 = north, 180 = south, etc.).     |
-        |      | Missing if more than 5 days within the month are      |
-        |      | missing or flagged or if more than 3 consecutive      |
-        |      | values within the month are missing or flagged.       |
-        |      | DaysMissing: Flag indicating number of days missing   |
-        |      | or flagged (from 1 to 5).                             |
-        +------+-------------------------------------------------------+
-        | MXyz | Monthly/Annual Mean of daily maximum soil temperature |
-        |      | given in Celsius or Fahrenheit depending on user      |
-        |      | specification. Missing if more than 5 days within the |
-        |      | month are missing or flagged or if more than 3        |
-        |      | consecutive values within the month are missing or    |
-        |      | flagged. DaysMissing: Flag indicating number of days  |
-        |      | missing or flagged (from 1 to 5).                     |
-        +------+-------------------------------------------------------+
-        | MNyz | Monthly/Annual Mean of daily minimum soil temperature |
-        |      | given in Celsius or Fahrenheit depending on user      |
-        |      | specification. Missing if more than 5 days within the |
-        |      | month are missing or flagged or if more than 3        |
-        |      | consecutive values within the month are missing or    |
-        |      | flagged. DaysMissing: Flag indicating number of days  |
-        |      | missing or flagged (from 1 to 5).                     |
-        +------+-------------------------------------------------------+
-        | HXyz | Highest maximum soil temperature for the month/year   |
-        |      | given in Celsius or Fahrenheit depending on user      |
-        |      | specification. Missing if more than 5 days within the |
-        |      | month are missing or flagged or if more than 3        |
-        |      | consecutive values within the month are missing or    |
-        |      | flagged. DaysMissing: Flag indicating number of days  |
-        |      | missing or flagged (from 1 to 5).                     |
-        +------+-------------------------------------------------------+
-        | HNyz | Highest minimum soil temperature for the month/year   |
-        |      | given in Celsius or Fahrenheit depending on user      |
-        |      | specification. Missing if more than 5 days within the |
-        |      | month are missing or flagged or if more than 3        |
-        |      | consecutive values within the month are missing or    |
-        |      | flagged. DaysMissing: Flag indicating number of days  |
-        |      | missing or flagged (from 1 to 5).                     |
-        +------+-------------------------------------------------------+
-        | LXyz | Lowest maximum soil temperature for the month/year    |
-        |      | given in Celsius or Fahrenheit depending on user      |
-        |      | specification. Missing if more than 5 days within the |
-        |      | month are missing or flagged or if more than 3        |
-        |      | consecutive values within the month are missing or    |
-        |      | flagged. DaysMissing: Flag indicating number of days  |
-        |      | missing or flagged (from 1 to 5).                     |
-        +------+-------------------------------------------------------+
-        | LNyz | Lowest minimum soil temperature for the month/year    |
-        |      | given in Celsius or Fahrenheit depending on user      |
-        |      | specification. Missing if more than 5 days within the |
-        |      | month are missing or flagged or if more than 3        |
-        |      | consecutive values within the month are missing or    |
-        |      | flagged. DaysMissing: Flag indicating number of days  |
-        |      | missing or flagged (from 1 to 5).                     |
-        +------+-------------------------------------------------------+
-        |      | "y" values for HXyz, HNyz, LXyz, and LNyz are as      |
-        |      | follows:                                              |
-        +------+-------------------------------------------------------+
-        |      | 1=grass                                               |
-        +------+-------------------------------------------------------+
-        |      | 2=fallow                                              |
-        +------+-------------------------------------------------------+
-        |      | 3=bare ground                                         |
-        +------+-------------------------------------------------------+
-        |      | 4=brome grass                                         |
-        +------+-------------------------------------------------------+
-        |      | 5=sod                                                 |
-        +------+-------------------------------------------------------+
-        |      | 6=straw mulch                                         |
-        +------+-------------------------------------------------------+
-        |      | 7=grass muck                                          |
-        +------+-------------------------------------------------------+
-        |      | 8=bare muck                                           |
-        +------+-------------------------------------------------------+
-        |      | 0=unknown                                             |
-        +------+-------------------------------------------------------+
-        |      | "z" values for HXyz, HNyz, LXyz, and LNyz are as      |
-        |      | follows:                                              |
-        +------+-------------------------------------------------------+
-        |      | 1= 2 inches or 5 centimeters depth                    |
-        +------+-------------------------------------------------------+
-        |      | 2= 4 inches or 10 centimeters depth                   |
-        +------+-------------------------------------------------------+
-        |      | 3= 8 inches or 20 centimeters depth                   |
-        +------+-------------------------------------------------------+
-        |      | 4= 20 inches or 50 centimeters depth                  |
-        +------+-------------------------------------------------------+
-        |      | 5= 40 inches or 100 centimeters depth                 |
-        +------+-------------------------------------------------------+
-        |      | 6= 60 inches or 150 centimeters depth                 |
-        +------+-------------------------------------------------------+
-        |      | 7= 72 inches or 180 centimeters depth                 |
-        +------+-------------------------------------------------------+
-        |      | other=unknown                                         |
-        +------+-------------------------------------------------------+
-        | HDSD | Heating Degree Days (season-to-date). Running total   |
-        |      | of monthly heating degree days through the end of the |
-        |      | most recent month. Each month is summed to produce a  |
-        |      | season-to-date total. Season starts in July in        |
-        |      | Northern Hemisphere and January in Southern           |
-        |      | Hemisphere. Given in Celsius or Fahrenheit degrees    |
-        |      | depending on user specification.                      |
-        +------+-------------------------------------------------------+
-        | CDSD | Cooling Degree Days (season-to-date). Running total   |
-        |      | of monthly cooling degree days through the end of the |
-        |      | most recent month. Each month is summed to produce a  |
-        |      | season-to-date total. Season starts in January in     |
-        |      | Northern Hemisphere and July in Southern Hemisphere.  |
-        |      | Given in Celsius or Fahrenheit degrees depending on   |
-        |      | user specification.                                   |
-        +------+-------------------------------------------------------+
-        | FZFx | First/Last Freeze Days. Annual element only. Years    |
-        |      | begins on August 1. Missing if more than 5 days       |
-        |      | within the month are missing or flagged or if more    |
-        |      | than 3 consecutive values within the month are        |
-        |      | missing or flagged. DaysMissing: Flag indicating      |
-        |      | number of days missing or flagged (from 1 to 5).      |
-        |      | Given in format tttt.tyyyymmdds where tttt.t is       |
-        |      | temperature in degrees Fahrenheit or Celsius          |
-        |      | depending on user specification, yyyy is the year, mm |
-        |      | is the month, dd is the day of the month and s is a   |
-        |      | source flag.                                          |
-        +------+-------------------------------------------------------+
-        |      | "x" values for HXyz, HNyz, LXyz, and LNyz are as      |
-        |      | follows:                                              |
-        +------+-------------------------------------------------------+
-        |      | 0 = first minimum temperature <= 32 degrees           |
-        |      | Fahrenheit/0 degrees Celsius                          |
-        +------+-------------------------------------------------------+
-        |      | 1 = first minimum temperature <= 28 degrees           |
-        |      | Fahrenheit/-2.2 degrees Celsius                       |
-        +------+-------------------------------------------------------+
-        |      | 2 = first minimum temperature <= 24 degrees           |
-        |      | Fahrenheit/-4.4 degrees Celsius                       |
-        +------+-------------------------------------------------------+
-        |      | 3 = first minimum temperature <= 20 degrees           |
-        |      | Fahrenheit/-6.7 degrees Celsius                       |
-        +------+-------------------------------------------------------+
-        |      | 4 = first minimum temperature <= 16 degrees           |
-        |      | Fahrenheit/-8.9 degrees Celsius                       |
-        +------+-------------------------------------------------------+
-        |      | 5 = last minimum temperature <= 32 degrees            |
-        |      | Fahrenheit/0 degrees Celsius                          |
-        +------+-------------------------------------------------------+
-        |      | 6 = last minimum temperature <= 28 degrees            |
-        |      | Fahrenheit/-2.2 degrees Celsius                       |
-        +------+-------------------------------------------------------+
-        |      | 7 = last minimum temperature <= 24 degrees            |
-        |      | Fahrenheit/-4.4 degrees Celsius                       |
-        +------+-------------------------------------------------------+
-        |      | 8 = last minimum temperature <= 20 degrees            |
-        |      | Fahrenheit/-6.7 degrees Celsius                       |
-        +------+-------------------------------------------------------+
-        |      | 9 = last minimum temperature <= 16 degrees            |
-        |      | Fahrenheit/-8.9 degrees Celsius                       |
-        +------+-------------------------------------------------------+
-
-    :param str startdate:  Start date in ISO8601 format.
-    :param str enddate:  End date in ISO8601 format.
-
-
-    """
-    from tsgettoolbox.services.ncdc import cdo as placeholder
-
-    r = resource(
-        r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
-        startdate=startdate,
-        enddate=enddate,
-        datasetid='GSOY',
+        datasetid=database,
         stationid=stationid,
     )
 
