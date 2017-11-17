@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-"""tsgettoolbox command line/library tools to retrieve time series.
-
+r"""tsgettoolbox command line/library tools to retrieve time series.
 This program is a collection of utilities to download data from various
 web services.
 """
@@ -29,54 +28,22 @@ warnings.filterwarnings('ignore')
 
 @mando.command()
 def about():
-    """Print out information about tsgettoolbox and the system.
+    r"""Print out information about tsgettoolbox and the system.
     """
     tsutils.about(__name__)
 
 
-@mando.command(formatter_class=HelpFormatter)
-def cpc(state=None,
-        climate_division=None,
-        start_date=None,
-        end_date=None):
-    """
-    This module provides direct access to `Climate Predicition Center`_ `Weekly
-    Drought Index`_ dataset.
-
-    .. _Climate Prediction Center: http://www.cpc.ncep.noaa.gov/
-    .. _Weekly Drought Index: http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
+from tsgettoolbox.services.cpc import cpc
 
 
-    Parameters
-    ----------
-    state : ``None`` or str
-        If specified, results will be limited to the state corresponding to the
-        given 2-character state code.
-    climate_division : ``None`` or int
-        If specified, results will be limited to the climate division.
-    {start_date}
-    {end_date}
-
-    Returns
-    -------
-    dataframe : a pandas.Dataframe
-    """
-    from tsgettoolbox.services import cpc
-    df = cpc.ulmo_df(
-         state=state,
-         climate_division=climate_division,
-         start_date=tsutils.parsedate(start_date),
-         end_date=tsutils.parsedate(end_date))
-    return tsutils.printiso(df)
-
-
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@tsutils.doc(tsutils.docstrings)
 def cdec(station_id,
          dur_code=None,
          sensor_num=None,
          start_date=None,
          end_date=None):
-    """
+    r"""
     This module provides access to data provided by the `California Department
     of Water Resources`_ `California Data Exchange Center`_ web site.
 
@@ -88,10 +55,10 @@ def cdec(station_id,
 
     Parameters
     ----------
-    :param station_id: str
+    station_id: str
         Each string is the CDEC station ID and consist of three capital
         letters.
-    :param sensor_num: integer, comma separated integers or ``None``
+    sensor_num: integer, comma separated integers or ``None``
 
         If ``None`` will get all sensors at `station_id`.
 
@@ -164,7 +131,7 @@ def cdec(station_id,
         | 100        |  water EC [us/cm]                          |
         +------------+--------------------------------------------+
 
-    :param dur_code: string, comma separated strings, or ``None``
+    dur_code: str, comma separated strings, or ``None``
         Possible values are 'E', 'H', 'D', and 'M' but not
         all of these time resolutions are available at every station.
 
@@ -183,22 +150,19 @@ def cdec(station_id,
     {start_date}
     {end_date}
 
-    Returns
-    -------
-    dataframe : a pandas.Dataframe
     """
     from tsgettoolbox.services import cdec
     df = cdec.ulmo_df(
-         station_id,
-         dur_code=dur_code,
-         sensor_num=sensor_num,
-         start_date=tsutils.parsedate(start_date),
-         end_date=tsutils.parsedate(end_date),
+        station_id,
+        dur_code=dur_code,
+        sensor_num=sensor_num,
+        start_date=tsutils.parsedate(start_date),
+        end_date=tsutils.parsedate(end_date),
     )
     return tsutils.printiso(df)
 
 
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def coops(station,
           date=None,
           begin_date=None,
@@ -210,13 +174,16 @@ def coops(station,
           time_zone='GMT',
           interval='h',
           bin=None):
-    """Download from Center for Operational Oceanographic Products and Services.
+    r"""Download from Center for Operational Oceanographic Products and Services.
 
     CO-OPS web services is at http://tidesandcurrents.noaa.gov/api/.
     The time zone of the returned data depends on the setting of the
     "time_zone" option.  The default is "GMT" also known as "UTC".
 
-    :param str station:  A 7 character station ID, or a currents
+    Parameters
+    ----------
+    station
+        A 7 character station ID, or a currents
         station ID.  Specify the station ID with the "station="
         parameter.::
 
@@ -225,7 +192,8 @@ def coops(station,
         Station listings for various products can be viewed at
         http://tidesandcurrents.noaa.gov or viewed on a map at Tides
         & Currents Station Map
-    :param str date:  The API understands several parameters related
+    date
+        The API understands several parameters related
         to date ranges.  All dates can be formatted as follows::
 
             YyyyMMdd
@@ -282,17 +250,21 @@ def coops(station,
         | the last 18 minutes.                 |                 |
         +--------------------------------------+-----------------+
 
-    :param str begin_date:  The beginning date for the data.  See
+    begin_date
+        The beginning date for the data.  See
         explanation with the 'date' option on how to use all of the date
         related parameters.
-    :param str end_date:  The end date for the data.  January 1st,
+
+    end_date
+        The end date for the data.  January 1st,
         2012 through January 2nd, 2012::
 
             --begin_date='20120101' --end_date='20120102'
 
         See explanation with the 'date' option on how to use all of the
         date related parameters.
-    :param int range:  Specify the number of hours to go back from
+    range
+        Specify the number of hours to go back from
         now, an 'end_date', or forward from a 'begin_date'.
 
         48 hours beginning on April 15, 2012::
@@ -313,7 +285,10 @@ def coops(station,
 
         See explanation with the 'date' option on how to use all of the
         date related parameters.
-    :param str product:  Specify the data.
+
+    product
+        Specify the
+        data.
 
         +------------------------+-------------------------------------+
         | Option                 | Description                         |
@@ -361,7 +336,8 @@ def coops(station,
         | currents               | Currents data                       |
         +------------------------+-------------------------------------+
 
-    :param str datum:  Specify the datum that all water levels will be
+    datum
+        Specify the datum that all water levels will be
         reported against.  Note! Datum is mandatory for all water level
         products.
 
@@ -385,7 +361,9 @@ def coops(station,
         | STND   | Station Datum                 |
         +--------+-------------------------------+
 
-    :param str units:  Metric or english units.
+    units
+        Metric or english
+        units.
 
         +---------+----------------------------------------------------+
         | Option  | Description                                        |
@@ -396,7 +374,9 @@ def coops(station,
         +---------+----------------------------------------------------+
 
         The default is 'metric'.
-    :param str time_zone:  The time zone is specified as 'gmt', 'lst'
+
+    time_zone
+        The time zone is specified as 'gmt', 'lst'
         or 'lst_ldt'.
 
         +---------+----------------------------------------------------+
@@ -411,10 +391,12 @@ def coops(station,
         |         | to the requested station.                          |
         +---------+----------------------------------------------------+
 
-    :param str interval:  Deliver the Meteorological data at hourly
+    interval
+        Deliver the Meteorological data at hourly
         intervals.  Does not override 6 minute intervals for
         --product='water_level'.  Defaults to 'h'.
-    :param int bin:  The bin number for the specified currents station
+    bin
+        The bin number for the specified currents station
         Example:'--bin=4' Will retrieve data for bin number 4. Note! If
         a bin is not specified for a PORTS station, the data is returned
         using a predefined real-time bin.
@@ -437,7 +419,7 @@ def coops(station,
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def nwis(sites=None,
          stateCd=None,
          huc=None,
@@ -466,7 +448,7 @@ def nwis(sites=None,
          statType=None,
          missingData=None,
          statYearType=None):
-    """
+    r"""
     Download from the USGS National Water Information Service (NWIS).
 
     Available databases:
@@ -545,7 +527,7 @@ def nwis(sites=None,
     The column name in the resulting table is made up of
     "USGS_SITE_CODE-parameterCd-statistic_code", for example
     "02248380-00010-00001".  The parameter code is described in the
-    "parameterCd" parameter below.  The statistic code is described in the
+    "parameterCd" option below.  The statistic code is described in the
     following table:
 
     +-------+---------------------+------------------------------------+
@@ -596,7 +578,10 @@ def nwis(sites=None,
 
     The detailed table is at https://help.waterdata.usgs.gov/stat_code
 
-    :param str sites:  Want to only query one site? Use sites as your
+    Parameters
+    ----------
+    sites : str
+        Want to only query one site? Use sites as your
         major filter, and put only one site number in the list.  Sites
         are comma separated. Sites may be prefixed with an optional
         agency code followed by a colon. If you don't know the site
@@ -610,54 +595,55 @@ def nwis(sites=None,
             --sites=USGS:01646500
             --sites=01646500,06306300
 
-    :param str stateCd:  U.S. postal service (2-digit) state code.
-        Can have only 1 state code.  List is available at
+    stateCd : str
+        U.S. postal service (2-digit) state code.  Can have only 1 state code.
+        List is available at
         http://www.usps.com/ncsc/lookups/usps_abbreviations.html::
 
             --stateCd=NY
 
-    :param str huc:  A list of hydrologic unit codes (HUC) or
-        watersheds.  Only 1 major HUC can be specified per request.
-        A major HUC has two digits. Minor HUCs must be eight digits in
-        length.  Can have 1 to 10 HUC codes.  List of HUCs is available
-        at http://water.usgs.gov/GIS/huc_name.html::
+    huc : str
+        A list of hydrologic unit codes (HUC) or watersheds.  Only 1 major HUC
+        can be specified per request.  A major HUC has two digits. Minor HUCs
+        must be eight digits in length.  Can have 1 to 10 HUC codes.  List of
+        HUCs is available at http://water.usgs.gov/GIS/huc_name.html::
 
             --huc=01,02070010
 
-    :param str bBox:  A contiguous range of decimal latitude and
-        longitude, starting with the west longitude, then the south
-        latitude, then the east longitude, and then the north latitude
-        with each value separated by a comma. The product of the range
-        of latitude and longitude cannot exceed 25 degrees. Whole or
-        decimal degrees must be specified, up to six digits of
-        precision. Minutes and seconds are not allowed. Remember:
-        western longitude (which includes almost all of the United
-        States) is specified in negative degrees. Caution: many sites
-        outside the continental US do not have latitude and longitude
-        referenced to NAD83 and therefore can not be found using these
-        arguments. Certain sites are not associated with latitude and
-        longitude due to homeland security concerns and cannot be found
-        using this filter.::
+    bBox :
+        A contiguous range of decimal latitude and longitude, starting with the
+        west longitude, then the south latitude, then the east longitude, and
+        then the north latitude with each value separated by a comma. The
+        product of the range of latitude and longitude cannot exceed 25
+        degrees. Whole or decimal degrees must be specified, up to six digits
+        of precision. Minutes and seconds are not allowed. Remember: western
+        longitude (which includes almost all of the United States) is specified
+        in negative degrees. Caution: many sites outside the continental US do
+        not have latitude and longitude referenced to NAD83 and therefore can
+        not be found using these arguments. Certain sites are not associated
+        with latitude and longitude due to homeland security concerns and
+        cannot be found using this filter.::
 
             --bBox=-83,36.5,-81,38.5
 
-    :param str countyCd:  A list of county numbers, in a 5 digit
-        numeric format. The first two digits of a county's code are the
-        FIPS State Code.  Can have from 1 to 20 county codes.  The first
-        2 digits are the FIPS State Code
-        (http://www.itl.nist.gov/fipspubs/fip5-2.htm) and the list of
-        county codes are at
+    countyCd :
+        A list of county numbers, in a 5 digit numeric format. The first two
+        digits of a county's code are the FIPS State Code.  Can have from 1 to
+        20 county codes.  The first 2 digits are the FIPS State Code
+        (http://www.itl.nist.gov/fipspubs/fip5-2.htm) and the list of county
+        codes are at
         http://help.waterdata.usgs.gov/code/county_query?fmt=html::
 
             --countyCd=51059,51061
 
-    :param str parameterCd:  USGS time-series parameter code.  All
-        parameter codes are numeric and 5 characters in length.
-        Parameter codes are used to identify the constituent measured
-        and the units of measure.  Popular codes include stage (00065),
-        discharge in cubic feet per second (00060) and water temperature
-        in degrees Celsius (00010). Can request from 1 to 100 "parameterCD"s.
-        Default: returns all regular time-series for the requested sites.
+    parameterCd :
+        USGS time-series parameter code.  All parameter codes are numeric and
+        5 characters in length.  Parameter codes are used to identify the
+        constituent measured and the units of measure.  Popular codes include
+        stage (00065), discharge in cubic feet per second (00060) and water
+        temperature in degrees Celsius (00010). Can request from 1 to 100
+        "parameterCD"s.  Default: returns all regular time-series for the
+        requested sites.
 
         Complete list:
         http://help.waterdata.usgs.gov/codes-and-parameters/parameters::
@@ -669,30 +655,29 @@ def nwis(sites=None,
                                       # and gage height in
                                       # feet
 
-    :param str siteType:  Restricts sites to those having one or more
-        major and/or minor site types.  If you request a major site type
-        (ex: &siteType=ST) you will get all sub-site types of the same
-        major type as well (in this case, ST-CA, ST-DCH and ST-TS).  Can
-        have from 1 to an unlimited number of siteType codes.  Default
-        is to return all types.  List of valid site types:
-        http://help.waterdata.usgs.gov/site_tp_cd::
+    siteType :
+        Restricts sites to those having one or more major and/or minor site
+        types.  If you request a major site type (ex: &siteType=ST) you will
+        get all sub-site types of the same major type as well (in this case,
+        ST-CA, ST-DCH and ST-TS).  Can have from 1 to an unlimited number of
+        siteType codes.  Default is to return all types.  List of valid site
+        types: http://help.waterdata.usgs.gov/site_tp_cd::
 
             --siteType=ST       # Streams only
             --siteType=ST,LA-OU # Streams and Land Outcrops only
 
-    :param str modifiedSince:  Returns all values for sites and period
-        of record requested only if any values have changed over the
-        last modifiedSince period.  modifiedSince is useful if you
-        periodically need to poll a site but are only interested in
-        getting data if some of it has changed.  It is typically be used
-        with period, or startDT/endDT but does not have to be. In the
+    modifiedSince :
+        Returns all values for sites and period of record requested only if any
+        values have changed over the last modifiedSince period.  modifiedSince
+        is useful if you periodically need to poll a site but are only
+        interested in getting data if some of it has changed.  It is typically
+        be used with period, or startDT/endDT but does not have to be. In the
         latter case, if any values were changed during the specified
-        modifiedSince period, only the most recent values would be
-        retrieved for those sites. This is a typical usage, since users
-        typically are polling a site and only want data if there are new
-        or changed measurements.  ISO-8601 duration format is always
-        used.  There is no default.
-        (http://en.wikipedia.org/wiki/ISO_8601#Durations)::
+        modifiedSince period, only the most recent values would be retrieved
+        for those sites. This is a typical usage, since users typically are
+        polling a site and only want data if there are new or changed
+        measurements.  ISO-8601 duration format is always used.  There is no
+        default.  (http://en.wikipedia.org/wiki/ISO_8601#Durations)::
 
             --modifiedSince=PT2H # Retrieves all values for
                                  # sites and period of
@@ -722,46 +707,46 @@ def nwis(sites=None,
                    # changed or added within the last two
                    # hours.
 
-    :param str agencyCd:  The list of sites returned are filtered to
-        return only those with the provided agency code. The agency code
-        describes the organization that maintains the site. Only one
-        agency code is allowed and is optional.  An authoritative list
-        of agency codes can be found here.  Default is to return all
-        sites regardless of agency code.  List:
+    agencyCd :
+        The list of sites returned are filtered to return only those with the
+        provided agency code. The agency code describes the organization that
+        maintains the site. Only one agency code is allowed and is optional.
+        An authoritative list of agency codes can be found here.  Default is to
+        return all sites regardless of agency code.  List:
         http://help.waterdata.usgs.gov/code/agency_cd_query?fmt=html::
 
             --stateCd=il --agencyCd=USCE # Only US Army Corps
                                          # of Engineers sites
                                          # in Illinois
 
-    :param str siteStatus:  Selects sites based on whether or not they
-        are active. If a site is active, it implies that it is being
-        actively maintained. A site is considered active if: * it has
-        collected time-series (automated) data within the last 183 days
-        (6 months), or * it has collected discrete (manually collected)
-        data within 397 days (13 months) If it does not meet these
-        criteria, it is considered inactive. Some exceptions apply. If
-        a site is flagged by a USGS water science center as
-        discontinued, it will show as inactive. A USGS science center
-        can also flag a new site as active even if it has not collected
-        any data.  The default is all (show both active and inactive
-        sites).  Chose between, 'all', 'active', or 'inactive'.  Default
-        all - sites of any activity status are returned.::
+    siteStatus :
+        Selects sites based on whether or not they are active. If a site is
+        active, it implies that it is being actively maintained. A site is
+        considered active if: * it has collected time-series (automated) data
+        within the last 183 days (6 months), or * it has collected discrete
+        (manually collected) data within 397 days (13 months) If it does not
+        meet these criteria, it is considered inactive. Some exceptions apply.
+        If a site is flagged by a USGS water science center as discontinued, it
+        will show as inactive. A USGS science center can also flag a new site
+        as active even if it has not collected any data.  The default is all
+        (show both active and inactive sites).  Chose between, 'all', 'active',
+        or 'inactive'.  Default all - sites of any activity status are
+        returned.::
 
             --siteStatus='active'
 
-    :param float altMin:  These arguments allows you to select
-        instantaneous values sites where the associated sites' altitude
-        are within a desired altitude, expressed in feet.  Altitude is
-        based on the datum used at the site.  Providing a value to
-        altMin (minimum altitude) means you want sites that have or
-        exceed the altMin value.  You may specify decimal feet if
-        precision is critical If both the altMin and altMax are
-        specified, sites at or between the minimum and maximum altitude
-        are returned.
-    :param float altMax:  Providing a value to altMax (maximum
-        altitude) means you want sites that have or are less than the
-        altMax value.::
+    altMin : float
+        These arguments allows you to select instantaneous values sites where
+        the associated sites' altitude are within a desired altitude, expressed
+        in feet.  Altitude is based on the datum used at the site.  Providing
+        a value to altMin (minimum altitude) means you want sites that have or
+        exceed the altMin value.  You may specify decimal feet if precision is
+        critical If both the altMin and altMax are specified, sites at or
+        between the minimum and maximum altitude are returned.
+
+    altMax : float
+        Providing a value to altMax (maximum altitude) means you want sites
+        that have or are less than the altMax value.::
 
             --altMin=1000 --altMax=5000 # Return sites where
                                         # the altitude is
@@ -773,22 +758,22 @@ def nwis(sites=None,
                                       # or greater and 13 feet
                                       # or less.
 
-    :param float drainAreaMin:  These arguments allows you to select
-        principally surface water sites where the associated sites'
-        drainage areas (watersheds) are within a desired size, expressed
-        in square miles or decimal fractions thereof.  Providing a value
-        to drainAreaMin (minimum drainage area) means you want sites
-        that have or exceed the drainAreaMin value.  The values may be
-        expressed in decimals. If both the drainAreaMin and drainAreaMax
-        are specified, sites at or between the minimum and maximum
-        drainage areas values specified are returned Caution: not all
-        sites are associated with a drainage area.  Caution: drainage
-        area generally only applies to surface water sites.  Use with
-        other site types, such as groundwater sites, will likely
-        retrieve no results.
-    :param float drainAreaMax:  Providing a value to drainAreaMax
-        (maximum drainage area) means you want sites that have or are
-        less than the drainAreaMax value.::
+    drainAreaMin : float
+        These arguments allows you to select principally surface water sites
+        where the associated sites' drainage areas (watersheds) are within
+        a desired size, expressed in square miles or decimal fractions thereof.
+        Providing a value to drainAreaMin (minimum drainage area) means you
+        want sites that have or exceed the drainAreaMin value.  The values may
+        be expressed in decimals. If both the drainAreaMin and drainAreaMax are
+        specified, sites at or between the minimum and maximum drainage areas
+        values specified are returned Caution: not all sites are associated
+        with a drainage area.  Caution: drainage area generally only applies to
+        surface water sites.  Use with other site types, such as groundwater
+        sites, will likely retrieve no results.
+
+    drainAreaMax:  float
+        Providing a value to drainAreaMax (maximum drainage area) means you
+        want sites that have or are less than the drainAreaMax value.::
 
             --drainAreaMin=1000 --drainAreaMax=5000
                                  # Return sites where the
@@ -803,12 +788,12 @@ def nwis(sites=None,
                                  # and is 10.7 square miles
                                  # or less.
 
-    :param str aquiferCd:  Used to filter sites to those that exist in
-        specified national aquifers. Note: not all sites have been
-        associated with national aquifers.  Enter one or more national
-        aquifer codes, separated by commas.  A national aquifer code is
-        exactly 10 characters.  You can have up to 1000 aquiferCd codes.
-        Complete list:
+    aquiferCd
+        Used to filter sites to those that exist in specified national
+        aquifers. Note: not all sites have been associated with national
+        aquifers.  Enter one or more national aquifer codes, separated by
+        commas.  A national aquifer code is exactly 10 characters.  You can
+        have up to 1000 aquiferCd codes.  Complete list:
         http://water.usgs.gov/ogw/NatlAqCode-reflist.html::
 
             --aquiferCd=S500EDRTRN,N100HGHPLN
@@ -818,79 +803,85 @@ def nwis(sites=None,
                                   # High Plains national
                                   # aquifers.
 
-    :param str localAquiferCd:  Used to filter sites to those that
-        exist in specified local aquifers.  Note: not all sites have
-        been associated with local aquifers.  Enter one or more local
-        aquifer codes, separated by commas.  A local aquifer code begins
-        with a 2 character state abbreviation (such as TX for Texas)
-        followed by a colon followed by the 7 character aquifer code.
+    localAquiferCd
+        Used to filter sites to those that exist in specified local aquifers.
+        Note: not all sites have been associated with local aquifers.  Enter
+        one or more local aquifer codes, separated by commas.  A local aquifer
+        code begins with a 2 character state abbreviation (such as TX for
+        Texas) followed by a colon followed by the 7 character aquifer code.
         Can have 0 to 1000 comma delimited codes.  Complete list:
-        http://help.waterdata.usgs.gov/code/aqfr_cd_query?fmt=html To
-        translate state codes associated with the local aquifer you may
-        need this reference: http://www.itl.nist.gov/fipspubs/fip5-2.htm
+        http://help.waterdata.usgs.gov/code/aqfr_cd_query?fmt=html To translate
+        state codes associated with the local aquifer you may need this
+        reference: http://www.itl.nist.gov/fipspubs/fip5-2.htm ::
 
             --localAquiferCd=AL:111RGLT,AL:111RSDM
                     # returns sites for the Regolith and
                     # Saprolite local aquifers in Alabama
 
-    :param float wellDepthMin:  These arguments allows you to select
-        groundwater sites serving data recorded automatically where the
-        associated sites' well depth are within a desired depth,
-        expressed in feet from the land surface datum.  Express well
-        depth as a positive number.  Providing a value to wellDepthMin
-        (minimum well depth) means you want sites that have or exceed
-        the wellDepthMin value.  The values may be expressed in decimals
-        If both the wellDepthMin and wellDepthMax are specified, sites
-        at or between the minimum and maximum well depth values
-        specified are returned wellDepthMax should be greater than or
-        equal to wellDepthMin.  Caution: well depth applies to
-        groundwater sites only
-    :param float wellDepthMax:  Providing a value to wellDepthMax
-        (maximum well depth) means you want sites that have or are less
-        than the wellDepthMax value.::
+    wellDepthMin : float
+        These arguments allows you to select groundwater sites serving data
+        recorded automatically where the associated sites' well depth are
+        within a desired depth, expressed in feet from the land surface datum.
+        Express well depth as a positive number.  Providing a value to
+        wellDepthMin (minimum well depth) means you want sites that have or
+        exceed the wellDepthMin value.  The values may be expressed in decimals
+        Caution: well depth applies to groundwater sites only.::
 
              --wellDepthMin=100 --wellDepthMax=500
                      # Return daily value sites where the well
                      # depth is 100 feet or greater and 500
                      # feet or less.
+
+    wellDepthMax : float
+        Providing a value to wellDepthMax (maximum well depth)
+        means you want sites that have or are less than the wellDepthMax
+        value.::
+
              --wellDepthMin=10.5 --wellDepthMax=10.7
                      # Return daily value sites where the well
                      # depth is 10.5 feet or greater and 10.7
                      # feet or less.
 
-    :param float holeDepthMin:  These arguments allows you to select
-        groundwater sites serving data recorded automatically where the
-        associated sites' hole depth are within a desired depth,
-        expressed in feet from the land surface datum.  Express hole
-        depth as a positive number.  Providing a value to holeDepthMin
-        (minimum hole depth) means you want sites that have or exceed
-        the holeDepthMin value.  The values may be expressed in decimals
-        If both the holeDepthMin and holeDepthMax are specified, sites
-        at or between the minimum and maximum hole depth values
-        specified are returned holeDepthMax should be greater than or
-        equal to holeDepthMin.  Caution: hole depth applies to
-        groundwater sites only.
-    :param float holeDepthMax:  Providing a value to holeDepthMax
-        (maximum hole depth) means you want sites that have or are less
-        than the holeDepthMax value.::
+        If both the wellDepthMin and wellDepthMax are specified, sites at or
+        between the minimum and maximum well depth values specified are
+        returned wellDepthMax should be greater than or equal to wellDepthMin.
+
+    holeDepthMin : float
+        These arguments allows you to select groundwater sites serving data
+        recorded automatically where the associated sites' hole depth are
+        within a desired depth, expressed in feet from the land surface datum.
+        Express hole depth as a positive number.  Providing a value to
+        holeDepthMin (minimum hole depth) means you want sites that have or
+        exceed the holeDepthMin value.  The values may be expressed in decimals
+        Caution: hole depth applies to groundwater sites only.
+
+    holeDepthMax : float
+        Providing a value to holeDepthMax (maximum hole depth) means you want
+        sites that have or are less than the holeDepthMax value.::
 
             --holeDepthMin=100 --holeDepthMax=500
                     # Return daily values sites where the
                     # hole depth is 100 feet or greater and
                     # 500 feet or less.
+
             --holeDepthMin=10.5 --holeDepthMax=10.7
                     # Return daily value sites where the hole
                     # depth is 10.5 feet or greater and 10.7
                     # feet or less.
 
-    :param str period:  Get a range of values from now by specifying
-        the period argument period must be in ISO-8601 Duration format.
-        (http://en.wikipedia.org/wiki/ISO_8601#Durations) Negative
-        periods (ex: P-T2H) are not allowed Data are always returned up
-        to the most recent value, which in the case of a predictive gage
-        might be in the future.  When specifying days from now, the
-        first value will probably not be at midnight of the first day,
-        but somewhat before exactly 24 hours from now.::
+        If both the holeDepthMin and holeDepthMax are specified, sites at or
+        between the minimum and maximum hole depth values specified are
+        returned holeDepthMax should be greater than or equal to holeDepthMin.
+
+    period
+        Get a range of values from now by specifying the period argument period
+        must be in ISO-8601 Duration format.
+        (http://en.wikipedia.org/wiki/ISO_8601#Durations) Negative periods (ex:
+        P-T2H) are not allowed Data are always returned up to the most recent
+        value, which in the case of a predictive gage might be in the future.
+        When specifying days from now, the first value will probably not be at
+        midnight of the first day, but somewhat before exactly 24 hours from
+        now.::
 
             --period=PT2H # Retrieve last two hours from now
                           # up to most recent
@@ -899,42 +890,40 @@ def nwis(sites=None,
                          # now to most recent instantaneous
                          # value)
 
-    :param str startDT:  Get a range of values from an explicit begin
-        or end date/time.  Use the startDT and endDT arguments.  Site
-        local time is output, even if multiple sites are requested and
-        sites are in different time zones.  Note that the measurement
-        time zone at a site may not be the same as the time zone
-        actually in effect at the site.
+    startDT
+        Get a range of values from an explicit begin or end date/time.  Use the
+        startDT and endDT arguments.  Site local time is output, even if
+        multiple sites are requested and sites are in different time zones.
+        Note that the measurement time zone at a site may not be the same as
+        the time zone actually in effect at the site.
 
         Both startDt and endDt must be in ISO-8601 Date/Time format.
-        (http://en.wikipedia.org/wiki/ISO_8601#Dates) You can express
-        the date and time in a timezone other than site local time if
-        you want as long as it follows the ISO standard. For example,
-        you can express the time in Universal time: 2014-03-20T00:00Z.
-        If startDT is supplied and endDT is not, endDT ends with the
-        most recent instantaneous value. startDT must be chronologically
-        before endDT.
+        (http://en.wikipedia.org/wiki/ISO_8601#Dates) You can express the date
+        and time in a timezone other than site local time if you want as long
+        as it follows the ISO standard. For example, you can express the time
+        in Universal time: 2014-03-20T00:00Z.  If startDT is supplied and endDT
+        is not, endDT ends with the most recent instantaneous value. startDT
+        must be chronologically before endDT.
 
-        If startDt shows the date and not the time of day (ex:
-        2010-09-01) the time of midnight site time is assumed
-        (2010-09-01T00:00) If endDt shows the date and not the time of
-        day (ex: 2010-09-02) the last minute before midnight site time
-        is assumed (2010-09-02T23:59).  Remember, only data from October
-        1, 2007 are currently available in the 'iv' database.
-    :param str endDT:  If endDT is present, startDt must also be
+        If startDt shows the date and not the time of day (ex: 2010-09-01) the
+        time of midnight site time is assumed (2010-09-01T00:00) If endDt shows
+        the date and not the time of day (ex: 2010-09-02) the last minute
+        before midnight site time is assumed (2010-09-02T23:59).  Remember,
+        only data from October 1, 2007 are currently available in the 'iv'
+        database.
+
+    endDT
+        If endDT is present, startDt must also be
         present.::
 
-            --startDT=2010-11-22 --endDT=2010-11-22 # Full day,
-                                                    # from
-                                                    # 00:00 to
-                                                    # 23:59
+            --startDT=2010-11-22 --endDT=2010-11-22 # Full day, 00:00 to 23:59
             --startDT=2010-11-22T12:00 --endDT=2010-11-22T18:00
             --startDT=2010-11-22 --endDT=2010-11-22
-            --startDT=2010-11-22T12:00 # Ends with most recent
-                                       # instantaneous value
-    :param str database:  If using the 'measurements' or 'peak'
-        database option you can download data from only one
-        site at a time.  Default is 'dv'.
+            --startDT=2010-11-22T12:00 # Most recent instantaneous value
+
+    database : str
+        If using the 'measurements' or 'peak' database option you can download
+        data from only one site at a time.  Default is 'dv'.
 
         +--------------+----------------------------------------+
         | database     | Description                            |
@@ -954,8 +943,9 @@ def nwis(sites=None,
         | peak         | peak                                   |
         +--------------+----------------------------------------+
 
-    :param str statReportType:  The type of statistics desired. Valid
-        statistic report types include::
+    statReportType : str
+        The type of statistics desired. Valid statistic report types
+        include:
 
         +----------------+------------------------------------------+
         | statReportType | Description                              |
@@ -973,8 +963,10 @@ def nwis(sites=None,
         +----------------+------------------------------------------+
 
         Default is 'daily'.
-    :param str statType:  Selects sites based on the statistics
-        type(s) desired, such as minimum, maximum or mean
+
+    statType : str
+        Selects sites based on the statistics type(s) desired, such as minimum,
+        maximum or mean
 
         For all statReportType types include::
 
@@ -997,27 +989,28 @@ def nwis(sites=None,
                 the service can calculate only these
                 percentiles.
 
-    :param str missingData:  Used to indicate the rules to follow to
-        generate statistics if there are gaps in the period of record
-        during the requested statistics period. By default if there are
-        any missing data for the report type, the statistic is left
-        blank or null.
+    missingData
+        Used to indicate the rules to follow to generate statistics if there
+        are gaps in the period of record during the requested statistics
+        period. By default if there are any missing data for the report type,
+        the statistic is left blank or null.
 
-        This option does not apply to daily statistics, but optionally
-        can be used with monthly and yearly statistics. If used with
-        daily statistics, an error will occur.
+        This option does not apply to daily statistics, but optionally can be
+        used with monthly and yearly statistics. If used with daily statistics,
+        an error will occur.
 
         Missing data can happen for various reasons including there was
         a technical problem with the gage for part of the time period.
 
-        Enabling this switch will attempt to provide a statistic if
-        there is enough data to create one.
+        Enabling this switch will attempt to provide a statistic if there is
+        enough data to create one.
 
         Choice is 'off' or 'on'.
-    :param str statYearType:  Indicates which kind of year statistics
-        should be created against. This only applies when requesting
-        annual statistics, i.e. statReportType=annual. Valid year types
-        codes include::
+
+    statYearType
+        Indicates which kind of year statistics should be created against. This
+        only applies when requesting annual statistics, i.e.
+        statReportType=annual. Valid year types codes include::
 
             calendar - calendar year, i.e. January 1 through
                        December 31
@@ -1025,6 +1018,7 @@ def nwis(sites=None,
                     the previous year and ends September 30 of
                     the current year. This is the same as
                     a federal fiscal year.
+
     """
     from tsgettoolbox.services.usgs import nwis as placeholder
     if database not in ['iv',
@@ -1033,7 +1027,7 @@ def nwis(sites=None,
                         'measurements',
                         'peak',
                         'site']:
-        raise ValueError("""
+        raise ValueError(r"""
 *
 *   The 'database' option must be either 'iv' for instantaneous values,
 *   or 'dv' for daily values, or 'stat' for daily, monthly, or annual
@@ -1046,7 +1040,7 @@ def nwis(sites=None,
     if database in ['measurements', 'peak']:
         words = sites.split(',')
         if len(words) != 1:
-            raise ValueError("""
+            raise ValueError(r"""
 *
 *   For the 'measurements' and 'peak' databases you can only collect
 *   data from one site, you listed {0}.
@@ -1056,7 +1050,7 @@ def nwis(sites=None,
             huc is not None or
             bBox is not None or
                 countyCd is not None):
-            raise ValueError("""
+            raise ValueError(r"""
 *
 *   The 'measurements' or 'peak' database can currently only accept one
 *   site using the 'site' keyword.
@@ -1096,26 +1090,32 @@ def nwis(sites=None,
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def daymet(lat,
            lon,
            measuredParams=None,
            year=None):
-    """
+    r"""
     Download data from Daymet by the Oak Ridge National Laboratory.
 
     Detailed documentation is at http://daymet.ornl.gov/.  Since this is
     daily data, it covers midnight to midnight based on local time.
 
-    :param float lat: Latitude (required): Enter single geographic
+    Parameters
+    ----------
+    lat : float
+        Latitude (required): Enter single geographic
         point by latitude, value between 52.0N and 14.5N.::
 
             Example: --lat=43.1
-    :param float lon: Longitude (required): Enter single geographic
+
+    lon : float
+        Longitude (required): Enter single geographic
         point by longitude, value between -131.0W and -53.0W.::
 
             Example: --lon=-85.3
-    :param str measuredParams:  CommaSeparatedVariables (optional):
+
+    measuredParams:  CommaSeparatedVariables (optional)
         Use the abbreviations from the following table:
 
         +----------------+-----------------------+---------+
@@ -1139,9 +1139,9 @@ def daymet(lat,
          Example: --measuredParams=tmax,tmin
 
          All variables are returned by default.
-    :param str year:  CommaSeparatedYears (optional): Current Daymet
-        product (version 2) is available from 1980 to the latest full
-        calendar year.::
+    year :  CommaSeparatedYears (optional):
+        Current Daymet product (version 2) is available from 1980 to the latest
+        full calendar year.::
 
             Example: --years=2012,2013
 
@@ -1158,7 +1158,7 @@ def daymet(lat,
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def ldas(lat=None,
          lon=None,
          xindex=None,
@@ -1166,144 +1166,161 @@ def ldas(lat=None,
          variable=None,
          startDate=None,
          endDate=None):
-    """
+    r"""
     Download data from NLDAS or GLDAS.
 
     The time zone is always UTC.
 
-    :param float lat:  Either 'lat' and 'lon', or 'xindex' and
+    Parameters
+    ----------
+    lat :  float
+        Either 'lat' and 'lon', or 'xindex' and
         'yindex' is required.
 
         Latitude (required): Enter single geographic point by
         latitude.::
 
             Example: --lat=43.1
-    :param float lon:  Either 'lat' and 'lon', or 'xindex' and
+
+    lon : float
+        Either 'lat' and 'lon', or 'xindex' and
         'yindex' is required.  Longitude (required): Enter single
         geographic point by longitude::
 
             Example: --lon=-85.3
-    :param int xindex:  Either 'lat' and 'lon', or 'xindex' and
+
+    xindex : int
+        Either 'lat' and 'lon', or 'xindex' and
         'yindex' is required.  xindex (required if using xindex/yindex):
         Enter the x index of the NLDAS or GLDAS grid.::
 
             Example: --xindex=301
-    :param int yindex:  Either 'lat' and 'lon', or 'xindex' and
+
+    yindex : int
+        Either 'lat' and 'lon', or 'xindex' and
         'yindex' is required.  yindex (required if using xindex/yindex):
         Enter the y index of the NLDAS or GLDAS grid.::
 
             Example: --yindex=80
-    :param str variable:  Use the variable codes from the following table:
 
-        +------------------------------------------------+-----------+
-        | LDAS "variable" string Description             | Units     |
-        +================================================+===========+
-        | NLDAS:NLDAS_FORA0125_H.002:APCPsfc             | kg/m^2    |
-        | Precipitation hourly total                     |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:DLWRFsfc Surface DW | W/m^2     |
-        | longwave radiation flux                        |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:DSWRFsfc Surface DW | W/m^2     |
-        | shortwave radiation flux                       |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:PEVAPsfc Potential  | kg/m^2    |
-        | evaporation                                    |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:SPFH2m 2-m above    | kg/kg     |
-        | ground specific humidity                       |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:TMP2m 2-m above     | K         |
-        | ground temperature                             |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:UGRD10m 10-m above  | m/s       |
-        | ground zonal wind                              |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:VGRD10m 10-m above  | m/s       |
-        | ground meridional wind                         |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:EVPsfc Total        | kg/m^2    |
-        | evapotranspiration                             |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:GFLUXsfc Ground     | w/m^2     |
-        | heat flux                                      |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:LHTFLsfc Latent     | w/m^2     |
-        | heat flux                                      |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SHTFLsfc Sensible   | w/m^2     |
-        | heat flux                                      |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SSRUNsfc Surface    | kg/m^2    |
-        | runoff (non-infiltrating)                      |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:BGRIUNdfc           | kg/m^2    |
-        | Subsurface runoff (baseflow)                   |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SOILM0-10cm 0-10 cm | kg/m^2    |
-        | soil moisture content                          |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SOILM0-100cm 0-100  | kg/m^2    |
-        | cm soil moisture content                       |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SOILM0-200cm 0-200  | kg/m^2    |
-        | cm soil moisture content                       |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SOILM10-40cm 10-40  | kg/m^2    |
-        | cm soil moisture content                       |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SOILM40-100cm       | kg/m^2    |
-        | 40-100 cm soil moisture content                |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SOILM100-200cm      | kg/m^2    |
-        | 100-200 cm soil moisture content               |           |
-        +------------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:TSOIL0-10cm 0-10 cm | K         |
-        | soil temperature                               |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Evap                | kg/m^2/s  |
-        | Evapotranspiration                             |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:precip              | kg/m^s/hr |
-        | Precipitation rate                             |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Rainf Rain rate     | kg/m^2/s  |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Snowf Snow rate     | kg/m^2/s  |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Qs Surface Runoff   | kg/m^2/s  |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Qsb Subsurface      | kg/m^2/s  |
-        | Runoff                                         |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:SOILM0-100cm 0-100  | kg/m^2    |
-        | cm top 1 meter soil moisture content           |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:SOILM0-10cm 0-10 cm | kg/m^2    |
-        | layer 1 soil moisture content                  |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm 10-40  | kg/m^2    |
-        | cm layer 2 soil moisture content               |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:SOILM40-100cm       | kg/m^2    |
-        | 40-100 cm layer 3 soil moisture content        |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Tair Near surface   | K         |
-        | air temperature                                |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:TSOIL0-10cm Average | K         |
-        | layer 1 soil temperature                       |           |
-        +------------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Wind Near surface   | m/s       |
-        | wind magnitude                                 |           |
-        +------------------------------------------------+-----------+
+    variable : str
+        Use the variable codes from the following table:
 
-    :param str startDate:  The start date of the time series.::
+        +--------------------------------------------+-----------+
+        | LDAS "variable" string Description         | Units     |
+        +============================================+===========+
+        | NLDAS:NLDAS_FORA0125_H.002:APCPsfc         | kg/m^2    |
+        | Precipitation hourly total                 |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:DLWRFsfc        | W/m^2     |
+        | Surface DW longwave radiation flux         |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:DSWRFsfc        | W/m^2     |
+        | Surface DW shortwave radiation flux        |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:PEVAPsfc        | kg/m^2    |
+        | Potential evaporation                      |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:SPFH2m          | kg/kg     |
+        | 2-m above ground specific humidity         |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:TMP2m           | K         |
+        | 2-m above ground temperature               |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:UGRD10m         | m/s       |
+        | 10-m above ground zonal wind               |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_FORA0125_H.002:VGRD10m         | m/s       |
+        | 10-m above ground meridional wind          |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:EVPsfc          | kg/m^2    |
+        | Total evapotranspiration                   |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:GFLUXsfc        | w/m^2     |
+        | Ground heat flux                           |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:LHTFLsfc        | w/m^2     |
+        | Latent heat flux                           |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SHTFLsfc        | w/m^2     |
+        | Sensible heat flux                         |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SSRUNsfc        | kg/m^2    |
+        | Surface runoff (non-infiltrating)          |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:BGRIUNdfc       | kg/m^2    |
+        | Subsurface runoff (baseflow)               |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SOILM0-10cm     | kg/m^2    |
+        | 0-10 cm soil moisture content              |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SOILM0-100cm    | kg/m^2    |
+        | 0-100 cm soil moisture content             |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SOILM0-200cm    | kg/m^2    |
+        | 0-200 cm soil moisture content             |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SOILM10-40cm    | kg/m^2    |
+        | 10-40 cm soil moisture content             |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SOILM40-100cm   | kg/m^2    |
+        | 40-100 cm soil moisture content            |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:SOILM100-200cm  | kg/m^2    |
+        | 100-200 cm soil moisture content           |           |
+        +--------------------------------------------+-----------+
+        | NLDAS:NLDAS_NOAH0125_H.002:TSOIL0-10cm     | K         |
+        | 0-10 cm soil temperature                   |           |
+        +--------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Evap            | kg/m^2/s  |
+        | Evapotranspiration                         |           |
+        +--------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:precip          | kg/m^s/hr |
+        | Precipitation rate                         |           |
+        +--------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Rainf           | kg/m^2/s  |
+        | Rain rate                                  |           |
+        +--------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Snowf           | kg/m^2/s  |
+        | Snow rate                                  |           |
+        +--------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Qs              | kg/m^2/s  |
+        | Surface Runoff                             |           |
+        +--------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Qsb             | kg/m^2/s  |
+        | Subsurface Runoff                          |           |
+        +--------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:SOILM0-100cm    | kg/m^2    |
+        | 0-100 cm top 1 meter soil moisture content |           |
+        +--------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:SOILM0-10cm     | kg/m^2    |
+        | 0-10 cm layer 1 soil moisture content      |           |
+        +--------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm    | kg/m^2    |
+        | 10-40 cm layer 2 soil moisture content     |           |
+        +--------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:SOILM40-100cm   | kg/m^2    |
+        | 40-100 cm layer 3 soil moisture content    |           |
+        +--------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Tair            | K         |
+        | Near surface air temperature               |           |
+        +--------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:TSOIL0-10cm     | K         |
+        | Average layer 1 soil temperature           |           |
+        +--------------------------------------------+-----------+
+        | GLDAS:GLDAS_NOAH025_3H.001:Wind            | m/s       |
+        | Near surface wind magnitude                |           |
+        +--------------------------------------------+-----------+
+
+    startDate : str
+        The start date of the time series.::
 
             Example: --startDate=2001-01-01T05
 
         If startDate and endDate are None, returns the entire series.
-    :param str endDate:  The end date of the time series.::
+
+    endDate : str
+        The end date of the time series.::
 
             Example: --startDate=2001-01-05T05
 
@@ -1329,7 +1346,7 @@ def ldas(lat=None,
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def darksky(latitude,
             longitude,
             time=None,
@@ -1337,7 +1354,7 @@ def darksky(latitude,
             extend=None,
             units='us',
             lang='en'):
-    """
+    r"""
     Powered by Dark Sky https://darksky.net/poweredby/
 
     Powered by Dark Sky https://darksky.net/poweredby/
@@ -1516,15 +1533,18 @@ def darksky(latitude,
      A numerical value representing the temperature at the given time
      in degrees Fahrenheit.
 
-    :param float latitude:  Latitude (required): Enter single
-        geographic point by latitude.::
+    Parameters
+    ----------
+    latitude : float
+        Latitude (required): Enter single geographic point by
+        latitude.
 
-            Example: --latitude=43.1
-    :param float longitude:  Longitude (required): Enter single
-        geographic point by longitude::
+    longitude : float
+        Longitude (required): Enter single geographic point by
+        longitude.
 
-            Example: --longitude=-85.3
-    :param str time:  TIME should either be a UNIX time (that is,
+    time
+        TIME should either be a UNIX time (that is,
         seconds since midnight GMT on 1 Jan 1970) or a string formatted
         as follows: [YYYY]-[MM]-[DD]T[HH]:[MM]:[SS] (with an optional
         time zone formatted as Z for GMT time or {+,-}[HH][MM] for an
@@ -1534,7 +1554,9 @@ def darksky(latitude,
         8601 time. An as example, 2013-05-06T12:00:00-0400.)
 
         The default is None, which uses the current time.
-    :param str database:  The database to draw the data from.  This is
+
+    database
+        The database to draw the data from.  This is
         slightly different than the typical Forecast.io request, which
         would normally send back all data from all databases.  Typically
         though the 'tsgettoolbox' and siblings expect a single time
@@ -1546,9 +1568,14 @@ def darksky(latitude,
         for the next hour, 'hourly' gives hourly forecast for the next
         two days (unless --extend='hourly' option is given), and 'daily'
         gives a forecast day by day for the next week.
-    :param str extend:   If set to 'hourly' and --database='hourly'
+
+    extend
+        If set to 'hourly' and --database='hourly'
         then will get an hourly forecast for the next week.
-    :param str units:  Specify the units for the data.
+
+    units : str
+        Specify the units for the
+        data.
 
         +-----------------+--------------------------------------------+
         | Option          | Description                                |
@@ -1570,7 +1597,8 @@ def darksky(latitude,
         |                 | according to location                      |
         +-----------------+--------------------------------------------+
 
-    :param str lang:  Return text summaries in the desired language.
+    lang : str
+        Return text summaries in the desired language.
         (Please be advised that units in the summary will be set
         according to the units option, above, so be sure to set both
         options as needed.)
@@ -1631,7 +1659,7 @@ def darksky(latitude,
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def forecast_io(latitude,
                 longitude,
                 time=None,
@@ -1639,9 +1667,41 @@ def forecast_io(latitude,
                 extend=None,
                 units='us',
                 lang='en'):
-    """ DEPRECATED: please use 'darksky'.
+    r""" DEPRECATED: please use 'darksky'.
 
-    The forecast_io service changed names to 'darksky'.
+    The forecast_io service changed names to 'darksky'.  See documentation
+    under the darksky service.
+
+    Parameters
+    ----------
+    latitude
+        See documentation under the darksky
+        service.
+
+    longitude
+        See documentation under the darksky
+        service.
+
+    time
+        See documentation under the darksky
+        service.
+
+    database
+        See documentation under the darksky
+        service.
+
+    extend
+        See documentation under the darksky
+        service.
+
+    units
+        See documentation under the darksky
+        service.
+
+    lang
+        See documentation under the darksky
+        service.
+
     """
     return darksky(latitude,
                    longitude,
@@ -1652,12 +1712,12 @@ def forecast_io(latitude,
                    lang=lang)
 
 
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def unavco(station,
            database='met',
            starttime=None,
            endtime=None):
-    """
+    r"""
     Download data from the Unavco web services.
 
     Detailed information at:
@@ -1739,12 +1799,17 @@ def unavco(station,
        Eee-Enn uncorrected microstrain, Eee-Enn corrected microstrain,
        2Ene uncorrected microstrain, 2Ene corrected microstrain.
 
-    :param str station:  Unavco station identifier
-    :param str database:  Database to pull from.  One of 'met',
-        'pore_temperature', 'pore_pressure', 'tilt', 'strain'.  The
-        default is 'met'.
-    :param str starttime:  Start date in ISO8601 format.
-    :param str endtime:  End date in ISO8601 format.
+    Parameters
+    ----------
+    station
+        Unavco station identifier
+    database : str
+        Database to pull from.  One of 'met', 'pore_temperature',
+        'pore_pressure', 'tilt', 'strain'.  The default is 'met'.
+    starttime
+        Start date in ISO8601 format.
+    endtime
+        End date in ISO8601 format.
     """
     from tsgettoolbox.services import unavco as placeholder
     map_db_to_url = {
@@ -1765,11 +1830,12 @@ def unavco(station,
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@tsutils.doc(tsutils.docstrings)
 def ncdc_ghcnd_ftp(station,
                    start_date=None,
                    end_date=None):
-    """
+    r"""
     Download from the Global Historical Climatology Network - Daily.
 
     If you use this data, please read
@@ -2059,18 +2125,13 @@ def ncdc_ghcnd_ftp(station,
     |      | 20 = Rain or snow shower                                 |
     +------+----------------------------------------------------------+
 
-    :param str station: The station id. from the first column of
+    Parameters
+    ----------
+    station
+        The station id. from the first column of
         ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt
-    :param str start_date:  The start date of the time series.
-
-        Example: --start_date=2001-01-01
-
-        If start_date and end_date are None, returns the entire series.
-    :param str end_date:  The end date of the time series.
-
-        Example: --end_date=2001-01-05
-
-        If start_date and end_date are None, returns the entire series.
+    {start_date}
+    {end_date}
     """
     from tsgettoolbox.services.ncdc import ghcnd as placeholder
     r = resource(
@@ -2083,12 +2144,12 @@ def ncdc_ghcnd_ftp(station,
 
 
 # 1763-01-01, 2016-11-05, Daily Summaries             , 1    , GHCND
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def ncdc_ghcnd(stationid,
                datatypeid='',
                startdate='',
                enddate=''):
-    """
+    r"""
     Download from the Global Historical Climatology Network - Daily.
     Requires registration and free API key.
 
@@ -2124,9 +2185,9 @@ def ncdc_ghcnd(stationid,
     according to WMO Resolution 40 (Cg-XII). This allows WMO member
     countries to place restrictions on the use or re-export of their
     data for commercial purposes outside of the receiving country. Those
-    countries' data summaries and products which are available here are
+    countries data summaries and products which are available here are
     intended for free and unrestricted use in research, education, and
-    other non-commercial activities. For non-U.S. locations' data, the
+    other non-commercial activities. For non-U.S. locations data, the
     data or any derived product shall not be provided to other users or
     be used for the re-export of commercial services.
 
@@ -2147,12 +2208,15 @@ def ncdc_ghcnd(stationid,
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing.
 
-    :param str stationid:  Station ID.
+    Parameters
+    ----------
+    stationid
+        Station ID.
 
-    :param str datatypeid: The following table lists the datatypes
-        available for the 'ghcnd' dataset.  If the datatypeid is not
-        given defaults to getting all data available at that station for
-        the time period requested.
+    datatypeid
+        The following table lists the datatypes available for the 'ghcnd'
+        dataset.  If the datatypeid is not given defaults to getting all data
+        available at that station for the time period requested.
 
         The five core values are:
 
@@ -2408,9 +2472,11 @@ def ncdc_ghcnd(stationid,
         |      | 20 = Rain or snow shower                              |
         +------+-------------------------------------------------------+
 
-    :param str startdate:  Start date in ISO8601 format.
+    startdate
+        Start date in ISO8601 format.
 
-    :param str enddate:  End date in ISO8601 format.
+    enddate
+        End date in ISO8601 format.
 
     """
     from tsgettoolbox.services.ncdc import cdo as placeholder
@@ -2428,15 +2494,15 @@ def ncdc_ghcnd(stationid,
 
 # 1763-01-01, 2016-09-01, Global Summary of the Month , 1    , GSOM
 # 1763-01-01, 2016-01-01, Global Summary of the Year  , 1    , GSOY
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def ncdc_gs(stationid,
             database,
             datatypeid='',
             startdate='',
             enddate=''):
-    """
+    r"""
     National Climatic Data Center Global Summary of the MONTH (GSOM)
-    https://gis.ncdc.noaa.gov/all-records/catalog/search/resource/details.page?uuid=%7BC621CB74-5CB2-4534-A544-E9EBB139D9A4%7D
+    https://gis.ncdc.noaa.gov/all-records/catalog/search/resource/details.page
     Cite this dataset when used as a source: Lawrimore, Jay (2016). Global
     Summary of the Month, Version 1.0. [indicate subset used]. NOAA National
     Centers for Environmental Information. DOI:10.7289/V5QV3JJ5
@@ -2493,15 +2559,20 @@ def ncdc_gs(stationid,
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing.
 
-    :param str stationid:  Station ID.
+    Parameters
+    ----------
+    stationid
+        This is the NCDC
+        station ID.
 
-    :pqram str database: Either 'GSOM' for Global Summary of the Month, or
-        'GSOY' for Global Summary of the Year.
+    database : str
+        Either 'GSOM' for Global Summary of the Month, or 'GSOY' for Global
+        Summary of the Year.
 
-    :param str datatypeid: The following table lists the datatypes
-        available for the 'ghcnd' dataset.  If the datatypeid is not
-        given defaults to getting all data available at that station for
-        the requested time period.
+    datatypeid : str
+        The following table lists the datatypes available for the 'ghcnd'
+        dataset.  If the datatypeid is not given defaults to getting all data
+        available at that station for the requested time period.
 
         +------+-------------------------------------------------------+
         | Code | Description                                           |
@@ -2925,8 +2996,11 @@ def ncdc_gs(stationid,
         |      | Fahrenheit/-8.9 degrees Celsius                       |
         +------+-------------------------------------------------------+
 
-    :param str startdate:  Start date in ISO8601 format.
-    :param str enddate:  End date in ISO8601 format.
+    startdate
+        Start date in ISO8601 format.
+
+    enddate
+        End date in ISO8601 format.
     """
 
     from tsgettoolbox.services.ncdc import cdo as placeholder
@@ -2943,18 +3017,18 @@ def ncdc_gs(stationid,
 
 
 # 1991-06-05, 2016-11-06, Weather Radar (Level II)    , 0.95 , NEXRAD2
-# @mando.command(formatter_class=HelpFormatter)
+# @mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def ncdc_nexrad2(stationid,
                  datatypeid='',
                  startdate='',
                  enddate=''):
-    """
+    r"""
     National Climatic Data Center NEXRAD Level II
     Requires registration and free API key.
 
-    :param str stationid:  Station ID.
-    :param str starttime:  Start date in ISO8601 format.
-    :param str endtime:  End date in ISO8601 format.
+    stationid:  Station ID.
+    starttime:  Start date in ISO8601 format.
+    endtime:  End date in ISO8601 format.
 
     For every datatype and record there is a set of meta-data flags.
     For the GHCNDMS dataset, the flags are::
@@ -2988,18 +3062,18 @@ def ncdc_nexrad2(stationid,
 
 
 # 1991-06-05, 2016-11-06, Weather Radar (Level III)   , 0.95 , NEXRAD3
-# @mando.command(formatter_class=HelpFormatter)
+# @mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def ncdc_nexrad3(stationid,
                  datatypeid='',
                  startdate='',
                  enddate=''):
-    """
+    r"""
     National Climatic Data Center NEXRAD Level III
     Requires registration and free API key.
 
-    :param str stationid:  Station ID.
-    :param str starttime:  Start date in ISO8601 format.
-    :param str endtime:  End date in ISO8601 format.
+    stationid:  Station ID.
+    starttime:  Start date in ISO8601 format.
+    endtime:  End date in ISO8601 format.
 
     For every datatype and record there is a set of meta-data flags.
     For the GHCNDMS dataset, the flags are::
@@ -3033,12 +3107,12 @@ def ncdc_nexrad3(stationid,
 
 
 # 2010-01-01, 2010-01-01, Normals Annual/Seasonal     , 1    , NORMAL_ANN
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def ncdc_normal_ann(stationid,
                     datatypeid='',
                     startdate='',
                     enddate=''):
-    """
+    r"""
     National Climatic Data Center annual normals
     Requires registration and free API key.
 
@@ -3096,227 +3170,232 @@ def ncdc_normal_ann(stationid,
     precipitation/snowfall/snow probabilities of occurrence. Further, Q flags
     are not applicable for standard deviations.
 
-    :param str stationid:  Station ID.
+    Parameters
+    ----------
+    stationid
+        The is the NCDC
+        station ID.
 
-    :param str datatypeid: The following table lists the datatypes
-        available for the annual dataset.  If the datatypeid is not given
-        defaults to getting all data available at that station.
+    datatypeid : str
+        The following table lists the datatypes available for the annual
+        dataset.  If the datatypeid is not given defaults to getting all data
+        available at that station.
 
         +-------------------------+------------------------------------+
         | Code                    | Description                        |
         +=========================+====================================+
-        | ANN-CLDD-BASE45         | Long-term averages of annual       |
+        | ANN-CLDD-BASE45         | Average annual                     |
         |                         | cooling degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | ANN-CLDD-BASE50         | Long-term averages of annual       |
+        | ANN-CLDD-BASE50         | Average annual                     |
         |                         | cooling degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | ANN-CLDD-BASE55         | Long-term averages of annual       |
+        | ANN-CLDD-BASE55         | Average annual                     |
         |                         | cooling degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | ANN-CLDD-BASE57         | Long-term averages of annual       |
+        | ANN-CLDD-BASE57         | Average annual                     |
         |                         | cooling degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | ANN-CLDD-BASE60         | Long-term averages of annual       |
+        | ANN-CLDD-BASE60         | Average annual                     |
         |                         | cooling degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | ANN-CLDD-BASE70         | Long-term averages of annual       |
+        | ANN-CLDD-BASE70         | Average annual                     |
         |                         | cooling degree days with base 70F  |
         +-------------------------+------------------------------------+
-        | ANN-CLDD-BASE72         | Long-term averages of annual       |
+        | ANN-CLDD-BASE72         | Average annual                     |
         |                         | cooling degree days with base 72F  |
         +-------------------------+------------------------------------+
-        | ANN-CLDD-NORMAL         | Long-term averages of annual       |
+        | ANN-CLDD-NORMAL         | Average annual                     |
         |                         | cooling degree days with base 65F  |
         +-------------------------+------------------------------------+
-        | ANN-DUTR-NORMAL         | Long-term averages of annual       |
+        | ANN-DUTR-NORMAL         | Average annual                     |
         |                         | diurnal temperature range          |
         +-------------------------+------------------------------------+
-        | ANN-GRDD-BASE40         | Long-term averages of annual       |
+        | ANN-GRDD-BASE40         | Average annual                     |
         |                         | growing degree days with base 40F  |
         +-------------------------+------------------------------------+
-        | ANN-GRDD-BASE45         | Long-term averages of annual       |
+        | ANN-GRDD-BASE45         | Average annual                     |
         |                         | growing degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | ANN-GRDD-BASE50         | Long-term averages of annual       |
+        | ANN-GRDD-BASE50         | Average annual                     |
         |                         | growing degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | ANN-GRDD-BASE55         | Long-term averages of annual       |
+        | ANN-GRDD-BASE55         | Average annual                     |
         |                         | growing degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | ANN-GRDD-BASE57         | Long-term averages of annual       |
+        | ANN-GRDD-BASE57         | Average annual                     |
         |                         | growing degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | ANN-GRDD-BASE60         | Long-term averages of annual       |
+        | ANN-GRDD-BASE60         | Average annual                     |
         |                         | growing degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | ANN-GRDD-BASE65         | Long-term averages of annual       |
+        | ANN-GRDD-BASE65         | Average annual                     |
         |                         | growing degree days with base 65F  |
         +-------------------------+------------------------------------+
-        | ANN-GRDD-BASE70         | Long-term averages of annual       |
+        | ANN-GRDD-BASE70         | Average annual                     |
         |                         | growing degree days with base 70F  |
         +-------------------------+------------------------------------+
-        | ANN-GRDD-BASE72         | Long-term averages of annual       |
+        | ANN-GRDD-BASE72         | Average annual                     |
         |                         | growing degree days with base 72F  |
         +-------------------------+------------------------------------+
-        | ANN-GRDD-TB4886         | Long-term averages of annual       |
+        | ANN-GRDD-TB4886         | Average annual                     |
         |                         | growing degree days with truncated |
         |                         | bases 48F and 86F                  |
         +-------------------------+------------------------------------+
-        | ANN-GRDD-TB5086         | Long-term averages of annual       |
+        | ANN-GRDD-TB5086         | Average annual                     |
         |                         | growing degree days with truncated |
         |                         | bases 50F and 86F                  |
         +-------------------------+------------------------------------+
-        | ANN-HTDD-BASE40         | Long-term averages of annual       |
+        | ANN-HTDD-BASE40         | Average annual                     |
         |                         | heating degree days with base 40F  |
         +-------------------------+------------------------------------+
-        | ANN-HTDD-BASE45         | Long-term averages of annual       |
+        | ANN-HTDD-BASE45         | Average annual                     |
         |                         | heating degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | ANN-HTDD-BASE50         | Long-term averages of annual       |
+        | ANN-HTDD-BASE50         | Average annual                     |
         |                         | heating degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | ANN-HTDD-BASE55         | Long-term averages of annual       |
+        | ANN-HTDD-BASE55         | Average annual                     |
         |                         | heating degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | ANN-HTDD-BASE57         | Long-term averages of annual       |
+        | ANN-HTDD-BASE57         | Average annual                     |
         |                         | heating degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | ANN-HTDD-BASE60         | Long-term averages of annual       |
+        | ANN-HTDD-BASE60         | Average annual                     |
         |                         | heating degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | ANN-HTDD-NORMAL         | Long-term averages of annual       |
+        | ANN-HTDD-NORMAL         | Average annual                     |
         |                         | heating degree days with base 65F  |
         +-------------------------+------------------------------------+
-        | ANN-PRCP-AVGNDS-GE001HI | Long-term averages of number of    |
+        | ANN-PRCP-AVGNDS-GE001HI | Average number of                  |
         |                         | days during the year with          |
         |                         | precipitation >= 0.01 inches       |
         +-------------------------+------------------------------------+
-        | ANN-PRCP-AVGNDS-GE010HI | Long-term averages of number of    |
+        | ANN-PRCP-AVGNDS-GE010HI | Average number of                  |
         |                         | days during the year with          |
         |                         | precipitation >= 0.10 inches       |
         +-------------------------+------------------------------------+
-        | ANN-PRCP-AVGNDS-GE050HI | Long-term averages of number of    |
+        | ANN-PRCP-AVGNDS-GE050HI | Average number of                  |
         |                         | days during the year with          |
         |                         | precipitation >= 0.50 inches       |
         +-------------------------+------------------------------------+
-        | ANN-PRCP-AVGNDS-GE100HI | Long-term averages of number of    |
+        | ANN-PRCP-AVGNDS-GE100HI | Average number of                  |
         |                         | days during the year with          |
         |                         | precipitation >= 1.00 inches       |
         +-------------------------+------------------------------------+
-        | ANN-PRCP-NORMAL         | Long-term averages of annual       |
+        | ANN-PRCP-NORMAL         | Average annual                     |
         |                         | precipitation totals               |
         +-------------------------+------------------------------------+
-        | ANN-SNOW-AVGNDS-GE001TI | Long-term averages of number of    |
+        | ANN-SNOW-AVGNDS-GE001TI | Average number of                  |
         |                         | days during the year with snowfall |
         |                         | >= 0.1 inches                      |
         +-------------------------+------------------------------------+
-        | ANN-SNOW-AVGNDS-GE010TI | Long-term averages of number of    |
+        | ANN-SNOW-AVGNDS-GE010TI | Average number of                  |
         |                         | days during the year with snowfall |
         |                         | >= 1.0 inches                      |
         +-------------------------+------------------------------------+
-        | ANN-SNOW-AVGNDS-GE030TI | Long-term averages of number of    |
+        | ANN-SNOW-AVGNDS-GE030TI | Average number of                  |
         |                         | days during the year with snowfall |
         |                         | >= 3.0 inches                      |
         +-------------------------+------------------------------------+
-        | ANN-SNOW-AVGNDS-GE050TI | Long-term averages of number of    |
+        | ANN-SNOW-AVGNDS-GE050TI | Average number of                  |
         |                         | days during the year with snowfall |
         |                         | >= 5.0 inches                      |
         +-------------------------+------------------------------------+
-        | ANN-SNOW-AVGNDS-GE100TI | Long-term averages of number of    |
+        | ANN-SNOW-AVGNDS-GE100TI | Average number of                  |
         |                         | days during the year with snowfall |
         |                         | >= 10.0 inches                     |
         +-------------------------+------------------------------------+
-        | ANN-SNOW-NORMAL         | Long-term averages of annual       |
+        | ANN-SNOW-NORMAL         | Average annual                     |
         |                         | snowfall totals                    |
         +-------------------------+------------------------------------+
-        | ANN-SNWD-AVGNDS-GE001WI | Long-term averages of number of    |
+        | ANN-SNWD-AVGNDS-GE001WI | Average number of                  |
         |                         | days during the year with snow     |
         |                         | depth >= 1 inch                    |
         +-------------------------+------------------------------------+
-        | ANN-SNWD-AVGNDS-GE003WI | Long-term averages of number of    |
+        | ANN-SNWD-AVGNDS-GE003WI | Average number of                  |
         |                         | days during the year with snow     |
         |                         | depth >= 3 inches                  |
         +-------------------------+------------------------------------+
-        | ANN-SNWD-AVGNDS-GE005WI | Long-term averages of number of    |
+        | ANN-SNWD-AVGNDS-GE005WI | Average number of                  |
         |                         | days during the year with snow     |
         |                         | depth >=5 inches                   |
         +-------------------------+------------------------------------+
-        | ANN-SNWD-AVGNDS-GE010WI | Long-term averages of number of    |
+        | ANN-SNWD-AVGNDS-GE010WI | Average number of                  |
         |                         | days during the year with snow     |
         |                         | depth >=10 inches                  |
         +-------------------------+------------------------------------+
-        | ANN-TAVG-NORMAL         | Long-term averages of annual       |
+        | ANN-TAVG-NORMAL         | Average annual                     |
         |                         | average temperature                |
         +-------------------------+------------------------------------+
-        | ANN-TMAX-AVGNDS-GRTH040 | Long-term average number of days   |
+        | ANN-TMAX-AVGNDS-GRTH040 | Average number of days             |
         |                         | per year where tmax is greater     |
         |                         | than or equal to 40F               |
         +-------------------------+------------------------------------+
-        | ANN-TMAX-AVGNDS-GRTH050 | Long-term average number of days   |
+        | ANN-TMAX-AVGNDS-GRTH050 | Average number of days             |
         |                         | per year where tmax is greater     |
         |                         | than or equal to 50F               |
         +-------------------------+------------------------------------+
-        | ANN-TMAX-AVGNDS-GRTH060 | Long-term average number of days   |
+        | ANN-TMAX-AVGNDS-GRTH060 | Average number of days             |
         |                         | per year where tmax is greater     |
         |                         | than or equal to 60F               |
         +-------------------------+------------------------------------+
-        | ANN-TMAX-AVGNDS-GRTH070 | Long-term average number of days   |
+        | ANN-TMAX-AVGNDS-GRTH070 | Average number of days             |
         |                         | per year where tmax is greater     |
         |                         | than or equal to 70F               |
         +-------------------------+------------------------------------+
-        | ANN-TMAX-AVGNDS-GRTH080 | Long-term average number of days   |
+        | ANN-TMAX-AVGNDS-GRTH080 | Average number of days             |
         |                         | per year where tmax is greater     |
         |                         | than or equal to 80F               |
         +-------------------------+------------------------------------+
-        | ANN-TMAX-AVGNDS-GRTH090 | Long-term average number of days   |
+        | ANN-TMAX-AVGNDS-GRTH090 | Average number of days             |
         |                         | per year where tmax is greater     |
         |                         | than or equal to 90F               |
         +-------------------------+------------------------------------+
-        | ANN-TMAX-AVGNDS-GRTH100 | Long-term average number of days   |
+        | ANN-TMAX-AVGNDS-GRTH100 | Average number of days             |
         |                         | per year where tmax is greater     |
         |                         | than or equal to 100F              |
         +-------------------------+------------------------------------+
-        | ANN-TMAX-AVGNDS-LSTH032 | Long-term average number of days   |
+        | ANN-TMAX-AVGNDS-LSTH032 | Average number of days             |
         |                         | per year where tmax is less than   |
         |                         | or equal to 32F                    |
         +-------------------------+------------------------------------+
-        | ANN-TMAX-NORMAL         | Long-term averages of annual       |
+        | ANN-TMAX-NORMAL         | Average annual                     |
         |                         | maximum temperature                |
         +-------------------------+------------------------------------+
-        | ANN-TMIN-AVGNDS-LSTH000 | Long-term average number of days   |
+        | ANN-TMIN-AVGNDS-LSTH000 | Average number of days             |
         |                         | per year where tmin is less than   |
         |                         | or equal to 0F                     |
         +-------------------------+------------------------------------+
-        | ANN-TMIN-AVGNDS-LSTH010 | Long-term average number of days   |
+        | ANN-TMIN-AVGNDS-LSTH010 | Average number of days             |
         |                         | per year where tmin is less than   |
         |                         | or equal to 10F                    |
         +-------------------------+------------------------------------+
-        | ANN-TMIN-AVGNDS-LSTH020 | Long-term average number of days   |
+        | ANN-TMIN-AVGNDS-LSTH020 | Average number of days             |
         |                         | per year where tmin is less than   |
         |                         | or equal to 20F                    |
         +-------------------------+------------------------------------+
-        | ANN-TMIN-AVGNDS-LSTH032 | Long-term average number of days   |
+        | ANN-TMIN-AVGNDS-LSTH032 | Average number of days             |
         |                         | per year where tmin is less than   |
         |                         | or equal to 32F                    |
         +-------------------------+------------------------------------+
-        | ANN-TMIN-AVGNDS-LSTH040 | Long-term average number of days   |
+        | ANN-TMIN-AVGNDS-LSTH040 | Average number of days             |
         |                         | per year where tmin is less than   |
         |                         | or equal to 40F                    |
         +-------------------------+------------------------------------+
-        | ANN-TMIN-AVGNDS-LSTH050 | Long-term average number of days   |
+        | ANN-TMIN-AVGNDS-LSTH050 | Average number of days             |
         |                         | per year where tmin is less than   |
         |                         | or equal to 50F                    |
         +-------------------------+------------------------------------+
-        | ANN-TMIN-AVGNDS-LSTH060 | Long-term average number of days   |
+        | ANN-TMIN-AVGNDS-LSTH060 | Average number of days             |
         |                         | per year where tmin is less than   |
         |                         | or equal to 60F                    |
         +-------------------------+------------------------------------+
-        | ANN-TMIN-AVGNDS-LSTH070 | Long-term average number of days   |
+        | ANN-TMIN-AVGNDS-LSTH070 | Average number of days             |
         |                         | per year where tmin is less than   |
         |                         | or equal to 70F                    |
         +-------------------------+------------------------------------+
-        | ANN-TMIN-NORMAL         | Long-term averages of annual       |
+        | ANN-TMIN-NORMAL         | Average annual                     |
         |                         | minimum temperature                |
         +-------------------------+------------------------------------+
         | ANN-TMIN-PRBFST-T16FP10 | 10 per cent probability date of    |
@@ -3823,873 +3902,876 @@ def ncdc_normal_ann(stationid,
         | ANN-TMIN-PRBOCC-LSTH036 | probability of 36F or below at     |
         |                         | least once in the year             |
         +-------------------------+------------------------------------+
-        | DJF-CLDD-BASE45         | Long-term averages of winter       |
+        | DJF-CLDD-BASE45         | Average winter                     |
         |                         | cooling degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | DJF-CLDD-BASE50         | Long-term averages of winter       |
+        | DJF-CLDD-BASE50         | Average winter                     |
         |                         | cooling degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | DJF-CLDD-BASE55         | Long-term averages of winter       |
+        | DJF-CLDD-BASE55         | Average winter                     |
         |                         | cooling degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | DJF-CLDD-BASE57         | Long-term averages of winter       |
+        | DJF-CLDD-BASE57         | Average winter                     |
         |                         | cooling degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | DJF-CLDD-BASE60         | Long-term averages of winter       |
+        | DJF-CLDD-BASE60         | Average winter                     |
         |                         | cooling degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | DJF-CLDD-BASE70         | Long-term averages of winter       |
+        | DJF-CLDD-BASE70         | Average winter                     |
         |                         | cooling degree days with base 70F  |
         +-------------------------+------------------------------------+
-        | DJF-CLDD-BASE72         | Long-term averages of winter       |
+        | DJF-CLDD-BASE72         | Average winter                     |
         |                         | cooling degree days with base 72F  |
         +-------------------------+------------------------------------+
-        | DJF-CLDD-NORMAL         | Long-term averages of winter       |
+        | DJF-CLDD-NORMAL         | Average winter                     |
         |                         | cooling degree days with base 65F  |
         +-------------------------+------------------------------------+
-        | DJF-DUTR-NORMAL         | Long-term averages of winter       |
+        | DJF-DUTR-NORMAL         | Average winter                     |
         |                         | diurnal temperature range          |
         +-------------------------+------------------------------------+
-        | DJF-GRDD-BASE40         | Long-term averages of winter       |
+        | DJF-GRDD-BASE40         | Average winter                     |
         |                         | growing degree days with base 40F  |
         +-------------------------+------------------------------------+
-        | DJF-GRDD-BASE45         | Long-term averages of winter       |
+        | DJF-GRDD-BASE45         | Average winter                     |
         |                         | growing degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | DJF-GRDD-BASE50         | Long-term averages of winter       |
+        | DJF-GRDD-BASE50         | Average winter                     |
         |                         | growing degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | DJF-GRDD-BASE55         | Long-term averages of winter       |
+        | DJF-GRDD-BASE55         | Average winter                     |
         |                         | growing degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | DJF-GRDD-BASE57         | Long-term averages of winter       |
+        | DJF-GRDD-BASE57         | Average winter                     |
         |                         | growing degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | DJF-GRDD-BASE60         | Long-term averages of winter       |
+        | DJF-GRDD-BASE60         | Average winter                     |
         |                         | growing degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | DJF-GRDD-BASE65         | Long-term averages of winter       |
+        | DJF-GRDD-BASE65         | Average winter                     |
         |                         | growing degree days with base 65F  |
         +-------------------------+------------------------------------+
-        | DJF-GRDD-BASE70         | Long-term averages of winter       |
+        | DJF-GRDD-BASE70         | Average winter                     |
         |                         | growing degree days with base 70F  |
         +-------------------------+------------------------------------+
-        | DJF-GRDD-BASE72         | Long-term averages of winter       |
+        | DJF-GRDD-BASE72         | Average winter                     |
         |                         | growing degree days with base 72F  |
         +-------------------------+------------------------------------+
-        | DJF-GRDD-TB4886         | Long-term averages of winter       |
+        | DJF-GRDD-TB4886         | Average winter                     |
         |                         | growing degree days with truncated |
         |                         | bases 48F and 86F                  |
         +-------------------------+------------------------------------+
-        | DJF-GRDD-TB5086         | Long-term averages of winter       |
+        | DJF-GRDD-TB5086         | Average winter                     |
         |                         | growing degree days with truncated |
         |                         | bases 50F and 86F                  |
         +-------------------------+------------------------------------+
-        | DJF-HTDD-BASE40         | Long-term averages of winter       |
+        | DJF-HTDD-BASE40         | Average winter                     |
         |                         | heating degree days with base 40F  |
         +-------------------------+------------------------------------+
-        | DJF-HTDD-BASE45         | Long-term averages of winter       |
+        | DJF-HTDD-BASE45         | Average winter                     |
         |                         | heating degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | DJF-HTDD-BASE50         | Long-term averages of winter       |
+        | DJF-HTDD-BASE50         | Average winter                     |
         |                         | heating degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | DJF-HTDD-BASE55         | Long-term averages of winter       |
+        | DJF-HTDD-BASE55         | Average winter                     |
         |                         | heating degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | DJF-HTDD-BASE57         | Long-term averages of winter       |
+        | DJF-HTDD-BASE57         | Average winter                     |
         |                         | heating degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | DJF-HTDD-BASE60         | Long-term averages of winter       |
+        | DJF-HTDD-BASE60         | Average winter                     |
         |                         | heating degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | DJF-HTDD-NORMAL         | Long-term averages of winter       |
+        | DJF-HTDD-NORMAL         | Average winter                     |
         |                         | heating degree days with base 65F  |
         +-------------------------+------------------------------------+
-        | DJF-PRCP-AVGNDS-GE001HI | Long-term averages of number of    |
+        | DJF-PRCP-AVGNDS-GE001HI | Average number of                  |
         |                         | days during December- February     |
         |                         | with precipitation >= 0.01 inches  |
         +-------------------------+------------------------------------+
-        | DJF-PRCP-AVGNDS-GE010HI | Long-term averages of number of    |
+        | DJF-PRCP-AVGNDS-GE010HI | Average number of                  |
         |                         | days during December- February     |
         |                         | with precipitation >= 0.10 inches  |
         +-------------------------+------------------------------------+
-        | DJF-PRCP-AVGNDS-GE050HI | Long-term averages of number of    |
+        | DJF-PRCP-AVGNDS-GE050HI | Average number of                  |
         |                         | days during December- February     |
         |                         | with precipitation >= 0.50 inches  |
         +-------------------------+------------------------------------+
-        | DJF-PRCP-AVGNDS-GE100HI | Long-term averages of number of    |
+        | DJF-PRCP-AVGNDS-GE100HI | Average number of                  |
         |                         | days during December- February     |
         |                         | with precipitation >= 1.00 inches  |
         +-------------------------+------------------------------------+
-        | DJF-PRCP-NORMAL         | Long-term averages of seasonal     |
+        | DJF-PRCP-NORMAL         | Average seasonal                   |
         |                         | precipitation totals forDecember-  |
         |                         | February                           |
         +-------------------------+------------------------------------+
-        | DJF-SNOW-AVGNDS-GE001TI | Long-term averages of number of    |
+        | DJF-SNOW-AVGNDS-GE001TI | Average number of                  |
         |                         | days during December- February     |
         |                         | with snowfall >= 0.1 inches        |
         +-------------------------+------------------------------------+
-        | DJF-SNOW-AVGNDS-GE010TI | Long-term averages of number of    |
+        | DJF-SNOW-AVGNDS-GE010TI | Average number of                  |
         |                         | days during December- February     |
         |                         | with snowfall >= 1.0 inches        |
         +-------------------------+------------------------------------+
-        | DJF-SNOW-AVGNDS-GE030TI | Long-term averages of number of    |
+        | DJF-SNOW-AVGNDS-GE030TI | Average number of                  |
         |                         | days during December- February     |
         |                         | with snowfall >= 3.0 inches        |
         +-------------------------+------------------------------------+
-        | DJF-SNOW-AVGNDS-GE050TI | Long-term averages of number of    |
+        | DJF-SNOW-AVGNDS-GE050TI | Average number of                  |
         |                         | days during December- February     |
         |                         | with snowfall >= 5.0 inches        |
         +-------------------------+------------------------------------+
-        | DJF-SNOW-AVGNDS-GE100TI | Long-term averages of number of    |
+        | DJF-SNOW-AVGNDS-GE100TI | Average number of                  |
         |                         | days during December- February     |
         |                         | with snowfall >= 10.0 inches       |
         +-------------------------+------------------------------------+
-        | DJF-SNOW-NORMAL         | Long-term averages of seasonal     |
+        | DJF-SNOW-NORMAL         | Average seasonal                   |
         |                         | snowfall totals for December-      |
         |                         | February                           |
         +-------------------------+------------------------------------+
-        | DJF-SNWD-AVGNDS-GE001WI | Long-term averages of number of    |
+        | DJF-SNWD-AVGNDS-GE001WI | Average number of                  |
         |                         | days during December- February     |
         |                         | with snow depth >= 1 inch          |
         +-------------------------+------------------------------------+
-        | DJF-SNWD-AVGNDS-GE003WI | Long-term averages of number of    |
+        | DJF-SNWD-AVGNDS-GE003WI | Average number of                  |
         |                         | days during December- February     |
         |                         | with snow depth >= 3 inches        |
         +-------------------------+------------------------------------+
-        | DJF-SNWD-AVGNDS-GE005WI | Long-term averages of number of    |
+        | DJF-SNWD-AVGNDS-GE005WI | Average number of                  |
         |                         | days during December- February     |
         |                         | with snow depth >= 5 inches        |
         +-------------------------+------------------------------------+
-        | DJF-SNWD-AVGNDS-GE010WI | Long-term averages of number of    |
+        | DJF-SNWD-AVGNDS-GE010WI | Average number of                  |
         |                         | days during December- February     |
         |                         | with snow depth >= 10 inches       |
         +-------------------------+------------------------------------+
-        | DJF-TAVG-NORMAL         | Long-term averages of winter       |
+        | DJF-TAVG-NORMAL         | Average winter                     |
         |                         | average temperature                |
         +-------------------------+------------------------------------+
-        | DJF-TMAX-AVGNDS-GRTH040 | Long-term average number of days   |
+        | DJF-TMAX-AVGNDS-GRTH040 | Average number of days             |
         |                         | per winter where tmax is greater   |
         |                         | than or equal to 40F               |
         +-------------------------+------------------------------------+
-        | DJF-TMAX-AVGNDS-GRTH050 | Long-term average number of days   |
+        | DJF-TMAX-AVGNDS-GRTH050 | Average number of days             |
         |                         | per winter where tmax is greater   |
         |                         | than or equal to 50F               |
         +-------------------------+------------------------------------+
-        | DJF-TMAX-AVGNDS-GRTH060 | Long-term average number of days   |
+        | DJF-TMAX-AVGNDS-GRTH060 | Average number of days             |
         |                         | per winter where tmax is greater   |
         |                         | than or equal to 60F               |
         +-------------------------+------------------------------------+
-        | DJF-TMAX-AVGNDS-GRTH070 | Long-term average number of days   |
+        | DJF-TMAX-AVGNDS-GRTH070 | Average number of days             |
         |                         | per winter where tmax is greater   |
         |                         | than or equal to 70F               |
         +-------------------------+------------------------------------+
-        | DJF-TMAX-AVGNDS-GRTH080 | Long-term average number of days   |
+        | DJF-TMAX-AVGNDS-GRTH080 | Average number of days             |
         |                         | per winter where tmax is greater   |
         |                         | than or equal to 80F               |
         +-------------------------+------------------------------------+
-        | DJF-TMAX-AVGNDS-GRTH090 | Long-term average number of days   |
+        | DJF-TMAX-AVGNDS-GRTH090 | Average number of days             |
         |                         | per winter where tmax is greater   |
         |                         | than or equal to 90F               |
         +-------------------------+------------------------------------+
-        | DJF-TMAX-AVGNDS-GRTH100 | Long-term average number of days   |
+        | DJF-TMAX-AVGNDS-GRTH100 | Average number of days             |
         |                         | per winter where tmax is greater   |
         |                         | than or equal to 100F              |
         +-------------------------+------------------------------------+
-        | DJF-TMAX-AVGNDS-LSTH032 | Long-term average number of days   |
+        | DJF-TMAX-AVGNDS-LSTH032 | Average number of days             |
         |                         | per winter where tmax is less than |
         |                         | or equal to 32F                    |
         +-------------------------+------------------------------------+
-        | DJF-TMAX-NORMAL         | Long-term averages of winter       |
+        | DJF-TMAX-NORMAL         | Average winter                     |
         |                         | maximum temperature                |
         +-------------------------+------------------------------------+
-        | DJF-TMIN-AVGNDS-LSTH000 | Long-term average number of days   |
+        | DJF-TMIN-AVGNDS-LSTH000 | Average number of days             |
         |                         | per winter where tmin is less than |
         |                         | or equal to 0F                     |
         +-------------------------+------------------------------------+
-        | DJF-TMIN-AVGNDS-LSTH010 | Long-term average number of days   |
+        | DJF-TMIN-AVGNDS-LSTH010 | Average number of days             |
         |                         | per winter where tmin is less than |
         |                         | or equal to 10F                    |
         +-------------------------+------------------------------------+
-        | DJF-TMIN-AVGNDS-LSTH020 | Long-term average number of days   |
+        | DJF-TMIN-AVGNDS-LSTH020 | Average number of days             |
         |                         | per winter where tmin is less than |
         |                         | or equal to 20F                    |
         +-------------------------+------------------------------------+
-        | DJF-TMIN-AVGNDS-LSTH032 | Long-term average number of days   |
+        | DJF-TMIN-AVGNDS-LSTH032 | Average number of days             |
         |                         | per winter where tmin is less than |
         |                         | or equal to 32F                    |
         +-------------------------+------------------------------------+
-        | DJF-TMIN-AVGNDS-LSTH040 | Long-term average number of days   |
+        | DJF-TMIN-AVGNDS-LSTH040 | Average number of days             |
         |                         | per winter where tmin is less than |
         |                         | or equal to 40F                    |
         +-------------------------+------------------------------------+
-        | DJF-TMIN-AVGNDS-LSTH050 | Long-term average number of days   |
+        | DJF-TMIN-AVGNDS-LSTH050 | Average number of days             |
         |                         | per winter where tmin is less than |
         |                         | or equal to 50F                    |
         +-------------------------+------------------------------------+
-        | DJF-TMIN-AVGNDS-LSTH060 | Long-term average number of days   |
+        | DJF-TMIN-AVGNDS-LSTH060 | Average number of days             |
         |                         | per winter where tmin is less than |
         |                         | or equal to 60F                    |
         +-------------------------+------------------------------------+
-        | DJF-TMIN-AVGNDS-LSTH070 | Long-term average number of days   |
+        | DJF-TMIN-AVGNDS-LSTH070 | Average number of days             |
         |                         | per winter where tmin is less than |
         |                         | or equal to 70F                    |
         +-------------------------+------------------------------------+
-        | DJF-TMIN-NORMAL         | Long-term averages of winter       |
+        | DJF-TMIN-NORMAL         | Average winter                     |
         |                         | minimum temperature                |
         +-------------------------+------------------------------------+
-        | JJA-CLDD-BASE45         | Long-term averages of summer       |
+        | JJA-CLDD-BASE45         | Average summer                     |
         |                         | cooling degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | JJA-CLDD-BASE50         | Long-term averages of summer       |
+        | JJA-CLDD-BASE50         | Average summer                     |
         |                         | cooling degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | JJA-CLDD-BASE55         | Long-term averages of summer       |
+        | JJA-CLDD-BASE55         | Average summer                     |
         |                         | cooling degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | JJA-CLDD-BASE57         | Long-term averages of summer       |
+        | JJA-CLDD-BASE57         | Average summer                     |
         |                         | cooling degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | JJA-CLDD-BASE60         | Long-term averages of summer       |
+        | JJA-CLDD-BASE60         | Average summer                     |
         |                         | cooling degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | JJA-CLDD-BASE70         | Long-term averages of summer       |
+        | JJA-CLDD-BASE70         | Average summer                     |
         |                         | cooling degree days with base 70F  |
         +-------------------------+------------------------------------+
-        | JJA-CLDD-BASE72         | Long-term averages of summer       |
+        | JJA-CLDD-BASE72         | Average summer                     |
         |                         | cooling degree days with base 72F  |
         +-------------------------+------------------------------------+
-        | JJA-CLDD-NORMAL         | Long-term averages of summer       |
+        | JJA-CLDD-NORMAL         | Average summer                     |
         |                         | cooling degree days with base 65F  |
         +-------------------------+------------------------------------+
-        | JJA-DUTR-NORMAL         | Long-term averages of summer       |
+        | JJA-DUTR-NORMAL         | Average summer                     |
         |                         | diurnal temperature range          |
         +-------------------------+------------------------------------+
-        | JJA-GRDD-BASE40         | Long-term averages of summer       |
+        | JJA-GRDD-BASE40         | Average summer                     |
         |                         | growing degree days with base 40F  |
         +-------------------------+------------------------------------+
-        | JJA-GRDD-BASE45         | Long-term averages of summer       |
+        | JJA-GRDD-BASE45         | Average summer                     |
         |                         | growing degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | JJA-GRDD-BASE50         | Long-term averages of summer       |
+        | JJA-GRDD-BASE50         | Average summer                     |
         |                         | growing degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | JJA-GRDD-BASE55         | Long-term averages of summer       |
+        | JJA-GRDD-BASE55         | Average summer                     |
         |                         | growing degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | JJA-GRDD-BASE57         | Long-term averages of summer       |
+        | JJA-GRDD-BASE57         | Average summer                     |
         |                         | growing degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | JJA-GRDD-BASE60         | Long-term averages of summer       |
+        | JJA-GRDD-BASE60         | Average summer                     |
         |                         | growing degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | JJA-GRDD-BASE65         | Long-term averages of summer       |
+        | JJA-GRDD-BASE65         | Average summer                     |
         |                         | growing degree days with base 65F  |
         +-------------------------+------------------------------------+
-        | JJA-GRDD-BASE70         | Long-term averages of summer       |
+        | JJA-GRDD-BASE70         | Average summer                     |
         |                         | growing degree days with base 70F  |
         +-------------------------+------------------------------------+
-        | JJA-GRDD-BASE72         | Long-term averages of summer       |
+        | JJA-GRDD-BASE72         | Average summer                     |
         |                         | growing degree days with base 72F  |
         +-------------------------+------------------------------------+
-        | JJA-GRDD-TB4886         | Long-term averages of summer       |
+        | JJA-GRDD-TB4886         | Average summer                     |
         |                         | growing degree days with truncated |
         |                         | bases 48F and 86F                  |
         +-------------------------+------------------------------------+
-        | JJA-GRDD-TB5086         | Long-term averages of summer       |
+        | JJA-GRDD-TB5086         | Average summer                     |
         |                         | growing degree days with truncated |
         |                         | bases 50F and 86F                  |
         +-------------------------+------------------------------------+
-        | JJA-HTDD-BASE40         | Long-term averages of summer       |
+        | JJA-HTDD-BASE40         | Average summer                     |
         |                         | heating degree days with base 40F  |
         +-------------------------+------------------------------------+
-        | JJA-HTDD-BASE45         | Long-term averages of summer       |
+        | JJA-HTDD-BASE45         | Average summer                     |
         |                         | heating degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | JJA-HTDD-BASE50         | Long-term averages of summer       |
+        | JJA-HTDD-BASE50         | Average summer                     |
         |                         | heating degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | JJA-HTDD-BASE55         | Long-term averages of summer       |
+        | JJA-HTDD-BASE55         | Average summer                     |
         |                         | heating degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | JJA-HTDD-BASE57         | Long-term averages of summer       |
+        | JJA-HTDD-BASE57         | Average summer                     |
         |                         | heating degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | JJA-HTDD-BASE60         | Long-term averages of summer       |
+        | JJA-HTDD-BASE60         | Average summer                     |
         |                         | heating degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | JJA-HTDD-NORMAL         | Long-term averages of summer       |
+        | JJA-HTDD-NORMAL         | Average summer                     |
         |                         | heating degree days with base 65F  |
         +-------------------------+------------------------------------+
-        | JJA-PRCP-AVGNDS-GE001HI | Long-term averages of number of    |
+        | JJA-PRCP-AVGNDS-GE001HI | Average number of                  |
         |                         | days during June-August with       |
         |                         | precipitation >= 0.01 inches       |
         +-------------------------+------------------------------------+
-        | JJA-PRCP-AVGNDS-GE010HI | Long-term averages of number of    |
+        | JJA-PRCP-AVGNDS-GE010HI | Average number of                  |
         |                         | days during June-August with       |
         |                         | precipitation >= 0.10 inches       |
         +-------------------------+------------------------------------+
-        | JJA-PRCP-AVGNDS-GE050HI | Long-term averages of number of    |
+        | JJA-PRCP-AVGNDS-GE050HI | Average number of                  |
         |                         | days during June-August with       |
         |                         | precipitation >= 0.50 inches       |
         +-------------------------+------------------------------------+
-        | JJA-PRCP-AVGNDS-GE100HI | Long-term averages of number of    |
+        | JJA-PRCP-AVGNDS-GE100HI | Average number of                  |
         |                         | days during June-August with       |
         |                         | precipitation >= 1.00 inches       |
         +-------------------------+------------------------------------+
-        | JJA-PRCP-NORMAL         | Long-term averages of seasonal     |
+        | JJA-PRCP-NORMAL         | Average seasonal                   |
         |                         | precipitation totals for June-     |
         |                         | August                             |
         +-------------------------+------------------------------------+
-        | JJA-SNOW-AVGNDS-GE001TI | Long-term averages of number of    |
+        | JJA-SNOW-AVGNDS-GE001TI | Average number of                  |
         |                         | days during June-August with       |
         |                         | snowfall >= 0.1 inches             |
         +-------------------------+------------------------------------+
-        | JJA-SNOW-AVGNDS-GE010TI | Long-term averages of number of    |
+        | JJA-SNOW-AVGNDS-GE010TI | Average number of                  |
         |                         | days during June-August with       |
         |                         | snowfall >= 1.0 inches             |
         +-------------------------+------------------------------------+
-        | JJA-SNOW-AVGNDS-GE030TI | Long-term averages of number of    |
+        | JJA-SNOW-AVGNDS-GE030TI | Average number of                  |
         |                         | days during June-August with       |
         |                         | snowfall >= 3.0 inches             |
         +-------------------------+------------------------------------+
-        | JJA-SNOW-AVGNDS-GE050TI | Long-term averages of number of    |
+        | JJA-SNOW-AVGNDS-GE050TI | Average number of                  |
         |                         | days during June-August with       |
         |                         | snowfall >= 5.0 inches             |
         +-------------------------+------------------------------------+
-        | JJA-SNOW-AVGNDS-GE100TI | Long-term averages of number of    |
+        | JJA-SNOW-AVGNDS-GE100TI | Average number of                  |
         |                         | days during June-August with       |
         |                         | snowfall >= 10.0 inches            |
         +-------------------------+------------------------------------+
-        | JJA-SNOW-NORMAL         | Long-term averages of seasonal     |
+        | JJA-SNOW-NORMAL         | Average seasonal                   |
         |                         | snowfall totals for June- August   |
         +-------------------------+------------------------------------+
-        | JJA-SNWD-AVGNDS-GE001WI | Long-term averages of number of    |
+        | JJA-SNWD-AVGNDS-GE001WI | Average number of                  |
         |                         | days during June-August with snow  |
         |                         | depth >= 1 inch                    |
         +-------------------------+------------------------------------+
-        | JJA-SNWD-AVGNDS-GE003WI | Long-term averages of number of    |
+        | JJA-SNWD-AVGNDS-GE003WI | Average number of                  |
         |                         | days during June-August with snow  |
         |                         | depth >= 3 inches                  |
         +-------------------------+------------------------------------+
-        | JJA-SNWD-AVGNDS-GE005WI | Long-term averages of number of    |
+        | JJA-SNWD-AVGNDS-GE005WI | Average number of                  |
         |                         | days during June-August with snow  |
         |                         | depth >= 5 inches                  |
         +-------------------------+------------------------------------+
-        | JJA-SNWD-AVGNDS-GE010WI | Long-term averages of number of    |
+        | JJA-SNWD-AVGNDS-GE010WI | Average number of                  |
         |                         | days during June-August with snow  |
         |                         | depth >= 10 inches                 |
         +-------------------------+------------------------------------+
-        | JJA-TAVG-NORMAL         | Long-term averages of summer       |
+        | JJA-TAVG-NORMAL         | Average summer                     |
         |                         | average temperature                |
         +-------------------------+------------------------------------+
-        | JJA-TMAX-AVGNDS-GRTH040 | Long-term average number of days   |
+        | JJA-TMAX-AVGNDS-GRTH040 | Average number of days             |
         |                         | per summer where tmax is greater   |
         |                         | than or equal to 40F               |
         +-------------------------+------------------------------------+
-        | JJA-TMAX-AVGNDS-GRTH050 | Long-term average number of days   |
+        | JJA-TMAX-AVGNDS-GRTH050 | Average number of days             |
         |                         | per summer where tmax is greater   |
         |                         | than or equal to 50F               |
         +-------------------------+------------------------------------+
-        | JJA-TMAX-AVGNDS-GRTH060 | Long-term average number of days   |
+        | JJA-TMAX-AVGNDS-GRTH060 | Average number of days             |
         |                         | per summer where tmax is greater   |
         |                         | than or equal to 60F               |
         +-------------------------+------------------------------------+
-        | JJA-TMAX-AVGNDS-GRTH070 | Long-term average number of days   |
+        | JJA-TMAX-AVGNDS-GRTH070 | Average number of days             |
         |                         | per summer where tmax is greater   |
         |                         | than or equal to 70F               |
         +-------------------------+------------------------------------+
-        | JJA-TMAX-AVGNDS-GRTH080 | Long-term average number of days   |
+        | JJA-TMAX-AVGNDS-GRTH080 | Average number of days             |
         |                         | per summer where tmax is greater   |
         |                         | than or equal to 80F               |
         +-------------------------+------------------------------------+
-        | JJA-TMAX-AVGNDS-GRTH090 | Long-term average number of days   |
+        | JJA-TMAX-AVGNDS-GRTH090 | Average number of days             |
         |                         | per summer where tmax is greater   |
         |                         | than or equal to 90F               |
         +-------------------------+------------------------------------+
-        | JJA-TMAX-AVGNDS-GRTH100 | Long-term average number of days   |
+        | JJA-TMAX-AVGNDS-GRTH100 | Average number of days             |
         |                         | per summer where tmax is greater   |
         |                         | than or equal to 100F              |
         +-------------------------+------------------------------------+
-        | JJA-TMAX-AVGNDS-LSTH032 | Long-term average number of days   |
+        | JJA-TMAX-AVGNDS-LSTH032 | Average number of days             |
         |                         | per summer where tmax is less than |
         |                         | or equal to 32F                    |
         +-------------------------+------------------------------------+
-        | JJA-TMAX-NORMAL         | Long-term averages of summer       |
+        | JJA-TMAX-NORMAL         | Average summer                     |
         |                         | maximum temperature                |
         +-------------------------+------------------------------------+
-        | JJA-TMIN-AVGNDS-LSTH000 | Long-term average number of days   |
+        | JJA-TMIN-AVGNDS-LSTH000 | Average number of days             |
         |                         | per summer where tmin is less than |
         |                         | or equal to 0F                     |
         +-------------------------+------------------------------------+
-        | JJA-TMIN-AVGNDS-LSTH010 | Long-term average number of days   |
+        | JJA-TMIN-AVGNDS-LSTH010 | Average number of days             |
         |                         | per summer where tmin is less than |
         |                         | or equal to 10F                    |
         +-------------------------+------------------------------------+
-        | JJA-TMIN-AVGNDS-LSTH020 | Long-term average number of days   |
+        | JJA-TMIN-AVGNDS-LSTH020 | Average number of days             |
         |                         | per summer where tmin is less than |
         |                         | or equal to 20F                    |
         +-------------------------+------------------------------------+
-        | JJA-TMIN-AVGNDS-LSTH032 | Long-term average number of days   |
+        | JJA-TMIN-AVGNDS-LSTH032 | Average number of days             |
         |                         | per summer where tmin is less than |
         |                         | or equal to 32F                    |
         +-------------------------+------------------------------------+
-        | JJA-TMIN-AVGNDS-LSTH040 | Long-term average number of days   |
+        | JJA-TMIN-AVGNDS-LSTH040 | Average number of days             |
         |                         | per summer where tmin is less than |
         |                         | or equal to 40F                    |
         +-------------------------+------------------------------------+
-        | JJA-TMIN-AVGNDS-LSTH050 | Long-term average number of days   |
+        | JJA-TMIN-AVGNDS-LSTH050 | Average number of days             |
         |                         | per summer where tmin is less than |
         |                         | or equal to 50F                    |
         +-------------------------+------------------------------------+
-        | JJA-TMIN-AVGNDS-LSTH060 | Long-term average number of days   |
+        | JJA-TMIN-AVGNDS-LSTH060 | Average number of days             |
         |                         | per summer where tmin is less than |
         |                         | or equal to 60F                    |
         +-------------------------+------------------------------------+
-        | JJA-TMIN-AVGNDS-LSTH070 | Long-term average number of days   |
+        | JJA-TMIN-AVGNDS-LSTH070 | Average number of days             |
         |                         | per summer where tmin is less than |
         |                         | or equal to 70F                    |
         +-------------------------+------------------------------------+
-        | JJA-TMIN-NORMAL         | Long-term averages of summer       |
+        | JJA-TMIN-NORMAL         | Average summer                     |
         |                         | minimum temperature                |
         +-------------------------+------------------------------------+
-        | MAM-CLDD-BASE45         | Long-term averages of spring       |
+        | MAM-CLDD-BASE45         | Average spring                     |
         |                         | cooling degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | MAM-CLDD-BASE50         | Long-term averages of spring       |
+        | MAM-CLDD-BASE50         | Average spring                     |
         |                         | cooling degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | MAM-CLDD-BASE55         | Long-term averages of spring       |
+        | MAM-CLDD-BASE55         | Average spring                     |
         |                         | cooling degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | MAM-CLDD-BASE57         | Long-term averages of spring       |
+        | MAM-CLDD-BASE57         | Average spring                     |
         |                         | cooling degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | MAM-CLDD-BASE60         | Long-term averages of spring       |
+        | MAM-CLDD-BASE60         | Average spring                     |
         |                         | cooling degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | MAM-CLDD-BASE70         | Long-term averages of spring       |
+        | MAM-CLDD-BASE70         | Average spring                     |
         |                         | cooling degree days with base 70F  |
         +-------------------------+------------------------------------+
-        | MAM-CLDD-BASE72         | Long-term averages of spring       |
+        | MAM-CLDD-BASE72         | Average spring                     |
         |                         | cooling degree days with base 72F  |
         +-------------------------+------------------------------------+
-        | MAM-CLDD-NORMAL         | Long-term averages of spring       |
+        | MAM-CLDD-NORMAL         | Average spring                     |
         |                         | cooling degree days with base 65F  |
         +-------------------------+------------------------------------+
-        | MAM-DUTR-NORMAL         | Long-term averages of spring       |
+        | MAM-DUTR-NORMAL         | Average spring                     |
         |                         | diurnal temperature range          |
         +-------------------------+------------------------------------+
-        | MAM-GRDD-BASE40         | Long-term averages of spring       |
+        | MAM-GRDD-BASE40         | Average spring                     |
         |                         | growing degree days with base 40F  |
         +-------------------------+------------------------------------+
-        | MAM-GRDD-BASE45         | Long-term averages of spring       |
+        | MAM-GRDD-BASE45         | Average spring                     |
         |                         | growing degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | MAM-GRDD-BASE50         | Long-term averages of spring       |
+        | MAM-GRDD-BASE50         | Average spring                     |
         |                         | growing degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | MAM-GRDD-BASE55         | Long-term averages of spring       |
+        | MAM-GRDD-BASE55         | Average spring                     |
         |                         | growing degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | MAM-GRDD-BASE57         | Long-term averages of spring       |
+        | MAM-GRDD-BASE57         | Average spring                     |
         |                         | growing degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | MAM-GRDD-BASE60         | Long-term averages of spring       |
+        | MAM-GRDD-BASE60         | Average spring                     |
         |                         | growing degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | MAM-GRDD-BASE65         | Long-term averages of spring       |
+        | MAM-GRDD-BASE65         | Average spring                     |
         |                         | growing degree days with base 65F  |
         +-------------------------+------------------------------------+
-        | MAM-GRDD-BASE70         | Long-term averages of spring       |
+        | MAM-GRDD-BASE70         | Average spring                     |
         |                         | growing degree days with base 70F  |
         +-------------------------+------------------------------------+
-        | MAM-GRDD-BASE72         | Long-term averages of spring       |
+        | MAM-GRDD-BASE72         | Average spring                     |
         |                         | growing degree days with base 72F  |
         +-------------------------+------------------------------------+
-        | MAM-GRDD-TB4886         | Long-term averages of summer       |
+        | MAM-GRDD-TB4886         | Average summer                     |
         |                         | growing degree days with truncated |
         |                         | bases 48F and 86F                  |
         +-------------------------+------------------------------------+
-        | MAM-GRDD-TB5086         | Long-term averages of summer       |
+        | MAM-GRDD-TB5086         | Average summer                     |
         |                         | growing degree days with truncated |
         |                         | bases 50F and 86F                  |
         +-------------------------+------------------------------------+
-        | MAM-HTDD-BASE40         | Long-term averages of spring       |
+        | MAM-HTDD-BASE40         | Average spring                     |
         |                         | heating degree days with base 40F  |
         +-------------------------+------------------------------------+
-        | MAM-HTDD-BASE45         | Long-term averages of spring       |
+        | MAM-HTDD-BASE45         | Average spring                     |
         |                         | heating degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | MAM-HTDD-BASE50         | Long-term averages of spring       |
+        | MAM-HTDD-BASE50         | Average spring                     |
         |                         | heating degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | MAM-HTDD-BASE55         | Long-term averages of spring       |
+        | MAM-HTDD-BASE55         | Average spring                     |
         |                         | heating degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | MAM-HTDD-BASE57         | Long-term averages of spring       |
+        | MAM-HTDD-BASE57         | Average spring                     |
         |                         | heating degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | MAM-HTDD-BASE60         | Long-term averages of spring       |
+        | MAM-HTDD-BASE60         | Average spring                     |
         |                         | heating degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | MAM-HTDD-NORMAL         | Long-term averages of spring       |
+        | MAM-HTDD-NORMAL         | Average spring                     |
         |                         | heating degree days with base 65F  |
         +-------------------------+------------------------------------+
-        | MAM-PRCP-AVGNDS-GE001HI | Long-term averages of number of    |
+        | MAM-PRCP-AVGNDS-GE001HI | Average number of                  |
         |                         | days during March-May with         |
         |                         | precipitation >= 0.01 inches       |
         +-------------------------+------------------------------------+
-        | MAM-PRCP-AVGNDS-GE010HI | Long-term averages of number of    |
+        | MAM-PRCP-AVGNDS-GE010HI | Average number of                  |
         |                         | days during March-May with         |
         |                         | precipitation >= a 0.10 inches     |
         +-------------------------+------------------------------------+
-        | MAM-PRCP-AVGNDS-GE050HI | Long-term averages of number of    |
+        | MAM-PRCP-AVGNDS-GE050HI | Average number of                  |
         |                         | days during March-May with         |
         |                         | precipitation >= 0.50 inches       |
         +-------------------------+------------------------------------+
-        | MAM-PRCP-AVGNDS-GE100HI | Long-term averages of number of    |
+        | MAM-PRCP-AVGNDS-GE100HI | Average number of                  |
         |                         | days during March-May with         |
         |                         | precipitation >= 1.00 inches       |
         +-------------------------+------------------------------------+
-        | MAM-PRCP-NORMAL         | Long-term averages of seasonal     |
+        | MAM-PRCP-NORMAL         | Average seasonal                   |
         |                         | precipitation totals for March-    |
         |                         | May                                |
         +-------------------------+------------------------------------+
-        | MAM-SNOW-AVGNDS-GE001TI | Long-term averages of number of    |
+        | MAM-SNOW-AVGNDS-GE001TI | Average number of                  |
         |                         | days during March-May with         |
         |                         | snowfall >= 0.1 inches             |
         +-------------------------+------------------------------------+
-        | MAM-SNOW-AVGNDS-GE010TI | Long-term averages of number of    |
+        | MAM-SNOW-AVGNDS-GE010TI | Average number of                  |
         |                         | days during March-May with         |
         |                         | snowfall >= 1.0 inches             |
         +-------------------------+------------------------------------+
-        | MAM-SNOW-AVGNDS-GE030TI | Long-term averages of number of    |
+        | MAM-SNOW-AVGNDS-GE030TI | Average number of                  |
         |                         | days during March-May with         |
         |                         | snowfall >= 3.0 inches             |
         +-------------------------+------------------------------------+
-        | MAM-SNOW-AVGNDS-GE050TI | Long-term averages of number of    |
+        | MAM-SNOW-AVGNDS-GE050TI | Average number of                  |
         |                         | days during March-May with         |
         |                         | snowfall >= 5.0 inches             |
         +-------------------------+------------------------------------+
-        | MAM-SNOW-AVGNDS-GE100TI | Long-term averages of number of    |
+        | MAM-SNOW-AVGNDS-GE100TI | Average number of                  |
         |                         | days during March-May with         |
         |                         | snowfall >= 10.0 inches            |
         +-------------------------+------------------------------------+
-        | MAM-SNOW-NORMAL         | Long-term averages of seasonal     |
+        | MAM-SNOW-NORMAL         | Average seasonal                   |
         |                         | snowfall totals for March- May     |
         +-------------------------+------------------------------------+
-        | MAM-SNWD-AVGNDS-GE001WI | Long-term averages of number of    |
+        | MAM-SNWD-AVGNDS-GE001WI | Average number of                  |
         |                         | days during March-May with snow    |
         |                         | depth >= 1 inch                    |
         +-------------------------+------------------------------------+
-        | MAM-SNWD-AVGNDS-GE003WI | Long-term averages of number of    |
+        | MAM-SNWD-AVGNDS-GE003WI | Average number of                  |
         |                         | days during March-May with snow    |
         |                         | depth >= 3 inches                  |
         +-------------------------+------------------------------------+
-        | MAM-SNWD-AVGNDS-GE005WI | Long-term averages of number of    |
+        | MAM-SNWD-AVGNDS-GE005WI | Average number of                  |
         |                         | days during March-May with snow    |
         |                         | depth >= 5 inches                  |
         +-------------------------+------------------------------------+
-        | MAM-SNWD-AVGNDS-GE010WI | Long-term averages of number of    |
+        | MAM-SNWD-AVGNDS-GE010WI | Average number of                  |
         |                         | days during March-May with snow    |
         |                         | depth >= 10 inches                 |
         +-------------------------+------------------------------------+
-        | MAM-TAVG-NORMAL         | Long-term averages of spring       |
+        | MAM-TAVG-NORMAL         | Average spring                     |
         |                         | average temperature                |
         +-------------------------+------------------------------------+
-        | MAM-TMAX-AVGNDS-GRTH040 | Long-term average number of days   |
+        | MAM-TMAX-AVGNDS-GRTH040 | Average number of days             |
         |                         | per spring where tmax is greater   |
         |                         | than or equal to 40F               |
         +-------------------------+------------------------------------+
-        | MAM-TMAX-AVGNDS-GRTH050 | Long-term average number of days   |
+        | MAM-TMAX-AVGNDS-GRTH050 | Average number of days             |
         |                         | per spring where tmax is greater   |
         |                         | than or equal to 50F               |
         +-------------------------+------------------------------------+
-        | MAM-TMAX-AVGNDS-GRTH060 | Long-term average number of days   |
+        | MAM-TMAX-AVGNDS-GRTH060 | Average number of days             |
         |                         | per spring where tmax is greater   |
         |                         | than or equal to 60F               |
         +-------------------------+------------------------------------+
-        | MAM-TMAX-AVGNDS-GRTH070 | Long-term average number of days   |
+        | MAM-TMAX-AVGNDS-GRTH070 | Average number of days             |
         |                         | per spring where tmax is greater   |
         |                         | than or equal to 70F               |
         +-------------------------+------------------------------------+
-        | MAM-TMAX-AVGNDS-GRTH080 | Long-term average number of days   |
+        | MAM-TMAX-AVGNDS-GRTH080 | Average number of days             |
         |                         | per spring where tmax is greater   |
         |                         | than or equal to 80F               |
         +-------------------------+------------------------------------+
-        | MAM-TMAX-AVGNDS-GRTH090 | Long-term average number of days   |
+        | MAM-TMAX-AVGNDS-GRTH090 | Average number of days             |
         |                         | per spring where tmax is greater   |
         |                         | than or equal to 90F               |
         +-------------------------+------------------------------------+
-        | MAM-TMAX-AVGNDS-GRTH100 | Long-term average number of days   |
+        | MAM-TMAX-AVGNDS-GRTH100 | Average number of days             |
         |                         | per spring where tmax is greater   |
         |                         | than or equal to 100F              |
         +-------------------------+------------------------------------+
-        | MAM-TMAX-AVGNDS-LSTH032 | Long-term average number of days   |
+        | MAM-TMAX-AVGNDS-LSTH032 | Average number of days             |
         |                         | per spring where tmax is less than |
         |                         | or equal to 32F                    |
         +-------------------------+------------------------------------+
-        | MAM-TMAX-NORMAL         | Long-term averages of spring       |
+        | MAM-TMAX-NORMAL         | Average spring                     |
         |                         | maximum temperature                |
         +-------------------------+------------------------------------+
-        | MAM-TMIN-AVGNDS-LSTH000 | Long-term average number of days   |
+        | MAM-TMIN-AVGNDS-LSTH000 | Average number of days             |
         |                         | per spring where tmin is less than |
         |                         | or equal to 0F                     |
         +-------------------------+------------------------------------+
-        | MAM-TMIN-AVGNDS-LSTH010 | Long-term average number of days   |
+        | MAM-TMIN-AVGNDS-LSTH010 | Average number of days             |
         |                         | per spring where tmin is less than |
         |                         | or equal to 10F                    |
         +-------------------------+------------------------------------+
-        | MAM-TMIN-AVGNDS-LSTH020 | Long-term average number of days   |
+        | MAM-TMIN-AVGNDS-LSTH020 | Average number of days             |
         |                         | per spring where tmin is less than |
         |                         | or equal to 20F                    |
         +-------------------------+------------------------------------+
-        | MAM-TMIN-AVGNDS-LSTH032 | Long-term average number of days   |
+        | MAM-TMIN-AVGNDS-LSTH032 | Average number of days             |
         |                         | per spring where tmin is less than |
         |                         | or equal to 32F                    |
         +-------------------------+------------------------------------+
-        | MAM-TMIN-AVGNDS-LSTH040 | Long-term average number of days   |
+        | MAM-TMIN-AVGNDS-LSTH040 | Average number of days             |
         |                         | per spring where tmin is less than |
         |                         | or equal to 40F                    |
         +-------------------------+------------------------------------+
-        | MAM-TMIN-AVGNDS-LSTH050 | Long-term average number of days   |
+        | MAM-TMIN-AVGNDS-LSTH050 | Average number of days             |
         |                         | per spring where tmin is less than |
         |                         | or equal to 50F                    |
         +-------------------------+------------------------------------+
-        | MAM-TMIN-AVGNDS-LSTH060 | Long-term average number of days   |
+        | MAM-TMIN-AVGNDS-LSTH060 | Average number of days             |
         |                         | per spring where tmin is less than |
         |                         | or equal to 60F                    |
         +-------------------------+------------------------------------+
-        | MAM-TMIN-AVGNDS-LSTH070 | Long-term average number of days   |
+        | MAM-TMIN-AVGNDS-LSTH070 | Average number of days             |
         |                         | per spring where tmin is less than |
         |                         | or equal to 70F                    |
         +-------------------------+------------------------------------+
-        | MAM-TMIN-NORMAL         | Long-term averages of spring       |
+        | MAM-TMIN-NORMAL         | Average spring                     |
         |                         | minimum temperature                |
         +-------------------------+------------------------------------+
-        | SON-CLDD-BASE45         | Long-term averages of autumn       |
+        | SON-CLDD-BASE45         | Average autumn                     |
         |                         | cooling degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | SON-CLDD-BASE50         | Long-term averages of autumn       |
+        | SON-CLDD-BASE50         | Average autumn                     |
         |                         | cooling degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | SON-CLDD-BASE55         | Long-term averages of autumn       |
+        | SON-CLDD-BASE55         | Average autumn                     |
         |                         | cooling degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | SON-CLDD-BASE57         | Long-term averages of autumn       |
+        | SON-CLDD-BASE57         | Average autumn                     |
         |                         | cooling degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | SON-CLDD-BASE60         | Long-term averages of autumn       |
+        | SON-CLDD-BASE60         | Average autumn                     |
         |                         | cooling degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | SON-CLDD-BASE70         | Long-term averages of autumn       |
+        | SON-CLDD-BASE70         | Average autumn                     |
         |                         | cooling degree days with base 70F  |
         +-------------------------+------------------------------------+
-        | SON-CLDD-BASE72         | Long-term averages of autumn       |
+        | SON-CLDD-BASE72         | Average autumn                     |
         |                         | cooling degree days with base 72F  |
         +-------------------------+------------------------------------+
-        | SON-CLDD-NORMAL         | Long-term averages of autumn       |
+        | SON-CLDD-NORMAL         | Average autumn                     |
         |                         | cooling degree days with base 65F  |
         +-------------------------+------------------------------------+
-        | SON-DUTR-NORMAL         | Long-term averages of autumn       |
+        | SON-DUTR-NORMAL         | Average autumn                     |
         |                         | diurnal temperature range          |
         +-------------------------+------------------------------------+
-        | SON-GRDD-BASE40         | Long-term averages of fall growing |
+        | SON-GRDD-BASE40         | Average fall growing               |
         |                         | degree days with base 40F          |
         +-------------------------+------------------------------------+
-        | SON-GRDD-BASE45         | Long-term averages of fall growing |
+        | SON-GRDD-BASE45         | Average fall growing               |
         |                         | degree days with base 45F          |
         +-------------------------+------------------------------------+
-        | SON-GRDD-BASE50         | Long-term averages of fall growing |
+        | SON-GRDD-BASE50         | Average fall growing               |
         |                         | degree days with base 50F          |
         +-------------------------+------------------------------------+
-        | SON-GRDD-BASE55         | Long-term averages of fall growing |
+        | SON-GRDD-BASE55         | Average fall growing               |
         |                         | degree days with base 55F          |
         +-------------------------+------------------------------------+
-        | SON-GRDD-BASE57         | Long-term averages of fall growing |
+        | SON-GRDD-BASE57         | Average fall growing               |
         |                         | degree days with base 57F          |
         +-------------------------+------------------------------------+
-        | SON-GRDD-BASE60         | Long-term averages of fall growing |
+        | SON-GRDD-BASE60         | Average fall growing               |
         |                         | degree days with base 60F          |
         +-------------------------+------------------------------------+
-        | SON-GRDD-BASE65         | Long-term averages of fall growing |
+        | SON-GRDD-BASE65         | Average fall growing               |
         |                         | degree days with base 65F          |
         +-------------------------+------------------------------------+
-        | SON-GRDD-BASE70         | Long-term averages of fall growing |
+        | SON-GRDD-BASE70         | Average fall growing               |
         |                         | degree days with base 70F          |
         +-------------------------+------------------------------------+
-        | SON-GRDD-BASE72         | Long-term averages of fall growing |
+        | SON-GRDD-BASE72         | Average fall growing               |
         |                         | degree days with base 72F          |
         +-------------------------+------------------------------------+
-        | SON-GRDD-TB4886         | Long-term averages of summer       |
+        | SON-GRDD-TB4886         | Average summer                     |
         |                         | growing degree days with truncated |
         |                         | bases 48F and 86F                  |
         +-------------------------+------------------------------------+
-        | SON-GRDD-TB5086         | Long-term averages of summer       |
+        | SON-GRDD-TB5086         | Average summer                     |
         |                         | growing degree days with truncated |
         |                         | bases 50F and 86F                  |
         +-------------------------+------------------------------------+
-        | SON-HTDD-BASE40         | Long-term averages of autumn       |
+        | SON-HTDD-BASE40         | Average autumn                     |
         |                         | heating degree days with base 40F  |
         +-------------------------+------------------------------------+
-        | SON-HTDD-BASE45         | Long-term averages of autumn       |
+        | SON-HTDD-BASE45         | Average autumn                     |
         |                         | heating degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | SON-HTDD-BASE50         | Long-term averages of autumn       |
+        | SON-HTDD-BASE50         | Average autumn                     |
         |                         | heating degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | SON-HTDD-BASE55         | Long-term averages of autumn       |
+        | SON-HTDD-BASE55         | Average autumn                     |
         |                         | heating degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | SON-HTDD-BASE57         | Long-term averages of autumn       |
+        | SON-HTDD-BASE57         | Average autumn                     |
         |                         | heating degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | SON-HTDD-BASE60         | Long-term averages of autumn       |
+        | SON-HTDD-BASE60         | Average autumn                     |
         |                         | heating degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | SON-HTDD-NORMAL         | Long-term averages of autumn       |
+        | SON-HTDD-NORMAL         | Average autumn                     |
         |                         | heating degree days with base 65F  |
         +-------------------------+------------------------------------+
-        | SON-PRCP-AVGNDS-GE001HI | Long-term averages of number of    |
+        | SON-PRCP-AVGNDS-GE001HI | Average number of                  |
         |                         | days during September- November    |
         |                         | with precipitation >= 0.01 inches  |
         +-------------------------+------------------------------------+
-        | SON-PRCP-AVGNDS-GE010HI | Long-term averages of number of    |
+        | SON-PRCP-AVGNDS-GE010HI | Average number of                  |
         |                         | days during September- November    |
         |                         | with precipitation >= 0.10 inches  |
         +-------------------------+------------------------------------+
-        | SON-PRCP-AVGNDS-GE050HI | Long-term averages of number of    |
+        | SON-PRCP-AVGNDS-GE050HI | Average number of                  |
         |                         | days during September- November    |
         |                         | with precipitation >= 0.50 inches  |
         +-------------------------+------------------------------------+
-        | SON-PRCP-AVGNDS-GE100HI | Long-term averages of number of    |
+        | SON-PRCP-AVGNDS-GE100HI | Average number of                  |
         |                         | days during September- November    |
         |                         | with precipitation >= 1.00 inches  |
         +-------------------------+------------------------------------+
-        | SON-PRCP-NORMAL         | Long-term averages of seasonal     |
+        | SON-PRCP-NORMAL         | Average seasonal                   |
         |                         | precipitation totals for           |
         |                         | September- November                |
         +-------------------------+------------------------------------+
-        | SON-SNOW-AVGNDS-GE001TI | Long-term averages of number of    |
+        | SON-SNOW-AVGNDS-GE001TI | Average number of                  |
         |                         | days during September- November    |
         |                         | with snowfall >= 0.1 inches        |
         +-------------------------+------------------------------------+
-        | SON-SNOW-AVGNDS-GE010TI | Long-term averages of number of    |
+        | SON-SNOW-AVGNDS-GE010TI | Average number of                  |
         |                         | days during September- November    |
         |                         | with snowfall >= 1.0 inches        |
         +-------------------------+------------------------------------+
-        | SON-SNOW-AVGNDS-GE030TI | Long-term averages of number of    |
+        | SON-SNOW-AVGNDS-GE030TI | Average number of                  |
         |                         | days during September- November    |
         |                         | with snowfall >= 3.0 inches        |
         +-------------------------+------------------------------------+
-        | SON-SNOW-AVGNDS-GE050TI | Long-term averages of number of    |
+        | SON-SNOW-AVGNDS-GE050TI | Average number of                  |
         |                         | days during September- November    |
         |                         | with snowfall >= 5.0 inches        |
         +-------------------------+------------------------------------+
-        | SON-SNOW-AVGNDS-GE100TI | Long-term averages of number of    |
+        | SON-SNOW-AVGNDS-GE100TI | Average number of                  |
         |                         | days during September- November    |
         |                         | with snowfall >= 10.0 inches       |
         +-------------------------+------------------------------------+
-        | SON-SNOW-NORMAL         | Long-term averages of seasonal     |
+        | SON-SNOW-NORMAL         | Average seasonal                   |
         |                         | snowfall totals for September-     |
         |                         | November                           |
         +-------------------------+------------------------------------+
-        | SON-SNWD-AVGNDS-GE001WI | Long-term averages of number of    |
+        | SON-SNWD-AVGNDS-GE001WI | Average number of                  |
         |                         | days during September- November    |
         |                         | with snow depth >= 1 inch          |
         +-------------------------+------------------------------------+
-        | SON-SNWD-AVGNDS-GE003WI | Long-term averages of number of    |
+        | SON-SNWD-AVGNDS-GE003WI | Average number of                  |
         |                         | days during September- November    |
         |                         | with snow depth >= 3 inches        |
         +-------------------------+------------------------------------+
-        | SON-SNWD-AVGNDS-GE005WI | Long-term averages of number of    |
+        | SON-SNWD-AVGNDS-GE005WI | Average number of                  |
         |                         | days during September- November    |
         |                         | with snow depth >= 5 inches        |
         +-------------------------+------------------------------------+
-        | SON-SNWD-AVGNDS-GE010WI | Long-term averages of number of    |
+        | SON-SNWD-AVGNDS-GE010WI | Average number of                  |
         |                         | days during September- November    |
         |                         | with snow depth >= 10 inches       |
         +-------------------------+------------------------------------+
-        | SON-TAVG-NORMAL         | Long-term averages of autumn       |
+        | SON-TAVG-NORMAL         | Average autumn                     |
         |                         | average temperature                |
         +-------------------------+------------------------------------+
-        | SON-TMAX-AVGNDS-GRTH040 | Long-term average number of days   |
+        | SON-TMAX-AVGNDS-GRTH040 | Average number of days             |
         |                         | per autumn where tmax is greater   |
         |                         | than or equal to 40F               |
         +-------------------------+------------------------------------+
-        | SON-TMAX-AVGNDS-GRTH050 | Long-term average number of days   |
+        | SON-TMAX-AVGNDS-GRTH050 | Average number of days             |
         |                         | per autumn where tmax is greater   |
         |                         | than or equal to 50F               |
         +-------------------------+------------------------------------+
-        | SON-TMAX-AVGNDS-GRTH060 | Long-term average number of days   |
+        | SON-TMAX-AVGNDS-GRTH060 | Average number of days             |
         |                         | per autumn where tmax is greater   |
         |                         | than or equal to 60F               |
         +-------------------------+------------------------------------+
-        | SON-TMAX-AVGNDS-GRTH070 | Long-term average number of days   |
+        | SON-TMAX-AVGNDS-GRTH070 | Average number of days             |
         |                         | per autumn where tmax is greater   |
         |                         | than or equal to 70F               |
         +-------------------------+------------------------------------+
-        | SON-TMAX-AVGNDS-GRTH080 | Long-term average number of days   |
+        | SON-TMAX-AVGNDS-GRTH080 | Average number of days             |
         |                         | per autumn where tmax is greater   |
         |                         | than or equal to 80F               |
         +-------------------------+------------------------------------+
-        | SON-TMAX-AVGNDS-GRTH090 | Long-term average number of days   |
+        | SON-TMAX-AVGNDS-GRTH090 | Average number of days             |
         |                         | per autumn where tmax is greater   |
         |                         | than or equal to 90F               |
         +-------------------------+------------------------------------+
-        | SON-TMAX-AVGNDS-GRTH100 | Long-term average number of days   |
+        | SON-TMAX-AVGNDS-GRTH100 | Average number of days             |
         |                         | per autumn where tmax is greater   |
         |                         | than or equal to 100F              |
         +-------------------------+------------------------------------+
-        | SON-TMAX-AVGNDS-LSTH032 | Long-term average number of days   |
+        | SON-TMAX-AVGNDS-LSTH032 | Average number of days             |
         |                         | per autumn where tmax is less than |
         |                         | or equal to 32F                    |
         +-------------------------+------------------------------------+
-        | SON-TMAX-NORMAL         | Long-term averages of autumn       |
+        | SON-TMAX-NORMAL         | Average autumn                     |
         |                         | maximum temperature                |
         +-------------------------+------------------------------------+
-        | SON-TMIN-AVGNDS-LSTH000 | Long-term average number of days   |
+        | SON-TMIN-AVGNDS-LSTH000 | Average number of days             |
         |                         | per autumn where tmin is less than |
         |                         | or equal to 0F                     |
         +-------------------------+------------------------------------+
-        | SON-TMIN-AVGNDS-LSTH010 | Long-term average number of days   |
+        | SON-TMIN-AVGNDS-LSTH010 | Average number of days             |
         |                         | per autumn where tmin is less than |
         |                         | or equal to 10F                    |
         +-------------------------+------------------------------------+
-        | SON-TMIN-AVGNDS-LSTH020 | Long-term average number of days   |
+        | SON-TMIN-AVGNDS-LSTH020 | Average number of days             |
         |                         | per autumn where tmin is less than |
         |                         | or equal to 20F                    |
         +-------------------------+------------------------------------+
-        | SON-TMIN-AVGNDS-LSTH032 | Long-term average number of days   |
+        | SON-TMIN-AVGNDS-LSTH032 | Average number of days             |
         |                         | per autumn where tmin is less than |
         |                         | or equal to 32F                    |
         +-------------------------+------------------------------------+
-        | SON-TMIN-AVGNDS-LSTH040 | Long-term average number of days   |
+        | SON-TMIN-AVGNDS-LSTH040 | Average number of days             |
         |                         | per autumn where tmin is less than |
         |                         | or equal to 40F                    |
         +-------------------------+------------------------------------+
-        | SON-TMIN-AVGNDS-LSTH050 | Long-term average number of days   |
+        | SON-TMIN-AVGNDS-LSTH050 | Average number of days             |
         |                         | per autumn where tmin is less than |
         |                         | or equal to 50F                    |
         +-------------------------+------------------------------------+
-        | SON-TMIN-AVGNDS-LSTH060 | Long-term average number of days   |
+        | SON-TMIN-AVGNDS-LSTH060 | Average number of days             |
         |                         | per autumn where tmin is less than |
         |                         | or equal to 60F                    |
         +-------------------------+------------------------------------+
-        | SON-TMIN-AVGNDS-LSTH070 | Long-term average number of days   |
+        | SON-TMIN-AVGNDS-LSTH070 | Average number of days             |
         |                         | per autumn where tmin is less than |
         |                         | or equal to 70F                    |
         +-------------------------+------------------------------------+
-        | SON-TMIN-NORMAL         | Long-term averages of autumn       |
+        | SON-TMIN-NORMAL         | Average autumn                     |
         |                         | minimum temperature                |
         +-------------------------+------------------------------------+
 
-    :param str startdate:  Start date in ISO8601 format.
-    :param str enddate:  End date in ISO8601 format.
+    startdate
+        Many different formats can be used here for the date
+        string, however the closest to ISO8601, the better.
 
-
+    enddate
+        Many different formats can be used here for the date
+        string, however the closest to ISO8601, the better.
     """
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
@@ -4705,12 +4787,12 @@ def ncdc_normal_ann(stationid,
 
 
 # 2010-01-01, 2010-12-31, Normals Daily               , 1    , NORMAL_DLY
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def ncdc_normal_dly(stationid,
                     datatypeid='',
                     startdate='',
                     enddate=''):
-    """
+    r"""
     National Climatic Data Center Daily Normals
     Requires registration and free API key.
 
@@ -4731,99 +4813,103 @@ def ncdc_normal_dly(stationid,
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing.
 
-    :param str stationid:  Station ID.
+    Parameters
+    ----------
+    stationid
+        Station ID.
 
-    :param str datatypeid: The following table lists the datatypes
-        available for the annual dataset.  If the datatypeid is not
-        given defaults to getting all data available at that station.
+    datatypeid
+        The following table lists the datatypes available for the annual
+        dataset.  If the datatypeid is not given defaults to getting all data
+        available at that station.
 
         +-------------------------+------------------------------------+
         | Code                    | Description                        |
         +=========================+====================================+
-        | DLY-CLDD-BASE45         | Long-term averages of daily        |
+        | DLY-CLDD-BASE45         | Average daily                      |
         |                         | cooling degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | DLY-CLDD-BASE50         | Long-term averages of daily        |
+        | DLY-CLDD-BASE50         | Average daily                      |
         |                         | cooling degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | DLY-CLDD-BASE55         | Long-term averages of daily        |
+        | DLY-CLDD-BASE55         | Average daily                      |
         |                         | cooling degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | DLY-CLDD-BASE57         | Long-term averages of daily        |
+        | DLY-CLDD-BASE57         | Average daily                      |
         |                         | cooling degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | DLY-CLDD-BASE60         | Long-term averages of daily        |
+        | DLY-CLDD-BASE60         | Average daily                      |
         |                         | cooling degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | DLY-CLDD-BASE70         | Long-term averages of daily        |
+        | DLY-CLDD-BASE70         | Average daily                      |
         |                         | cooling degree days with base 70F  |
         +-------------------------+------------------------------------+
-        | DLY-CLDD-BASE72         | Long-term averages of daily        |
+        | DLY-CLDD-BASE72         | Average daily                      |
         |                         | cooling degree days with base 72F  |
         +-------------------------+------------------------------------+
-        | DLY-CLDD-NORMAL         | Long-term averages of daily        |
+        | DLY-CLDD-NORMAL         | Average daily                      |
         |                         | cooling degree days with base 65F  |
         +-------------------------+------------------------------------+
-        | DLY-DUTR-NORMAL         | Long-term averages of daily        |
+        | DLY-DUTR-NORMAL         | Average daily                      |
         |                         | diurnal temperature range          |
         +-------------------------+------------------------------------+
         | DLY-DUTR-STDDEV         | Long-term standard deviations of   |
         |                         | daily diurnal temperature range    |
         +-------------------------+------------------------------------+
-        | DLY-GRDD-BASE40         | Long-term averages of daily        |
+        | DLY-GRDD-BASE40         | Average daily                      |
         |                         | growing degree days with base 40F  |
         +-------------------------+------------------------------------+
-        | DLY-GRDD-BASE45         | Long-term averages of daily        |
+        | DLY-GRDD-BASE45         | Average daily                      |
         |                         | growing degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | DLY-GRDD-BASE50         | Long-term averages of daily        |
+        | DLY-GRDD-BASE50         | Average daily                      |
         |                         | growing degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | DLY-GRDD-BASE55         | Long-term averages of daily        |
+        | DLY-GRDD-BASE55         | Average daily                      |
         |                         | growing degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | DLY-GRDD-BASE57         | Long-term averages of daily        |
+        | DLY-GRDD-BASE57         | Average daily                      |
         |                         | growing degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | DLY-GRDD-BASE60         | Long-term averages of daily        |
+        | DLY-GRDD-BASE60         | Average daily                      |
         |                         | growing degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | DLY-GRDD-BASE65         | Long-term averages of daily        |
+        | DLY-GRDD-BASE65         | Average daily                      |
         |                         | growing degree days with base 65F  |
         +-------------------------+------------------------------------+
-        | DLY-GRDD-BASE70         | Long-term averages of daily        |
+        | DLY-GRDD-BASE70         | Average daily                      |
         |                         | growing degree days with base 70F  |
         +-------------------------+------------------------------------+
-        | DLY-GRDD-BASE72         | Long-term averages of daily        |
+        | DLY-GRDD-BASE72         | Average daily                      |
         |                         | growing degree days with base 72F  |
         +-------------------------+------------------------------------+
-        | DLY-GRDD-TB4886         | Long-term averages of daily        |
+        | DLY-GRDD-TB4886         | Average daily                      |
         |                         | growing degree days with truncated |
         |                         | bases 48F and 86F                  |
         +-------------------------+------------------------------------+
-        | DLY-GRDD-TB5086         | Long-term averages of daily        |
+        | DLY-GRDD-TB5086         | Average daily                      |
         |                         | growing degree days with truncated |
         |                         | bases 50F and 86F                  |
         +-------------------------+------------------------------------+
-        | DLY-HTDD-BASE40         | Long-term averages of daily        |
+        | DLY-HTDD-BASE40         | Average daily                      |
         |                         | heating degree days with base 40F  |
         +-------------------------+------------------------------------+
-        | DLY-HTDD-BASE45         | Long-term averages of daily        |
+        | DLY-HTDD-BASE45         | Average daily                      |
         |                         | heating degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | DLY-HTDD-BASE50         | Long-term averages of daily        |
+        | DLY-HTDD-BASE50         | Average daily                      |
         |                         | heating degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | DLY-HTDD-BASE55         | Long-term averages of daily        |
+        | DLY-HTDD-BASE55         | Average daily                      |
         |                         | heating degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | DLY-HTDD-BASE57         | Long-term averages of daily        |
+        | DLY-HTDD-BASE57         | Average daily                      |
         |                         | heating degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | DLY-HTDD-BASE60         | Long-term averages of daily        |
+        | DLY-HTDD-BASE60         | Average daily                      |
         |                         | heating degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | DLY-HTDD-NORMAL         | Long-term averages of daily        |
+        | DLY-HTDD-NORMAL         | Average daily                      |
         |                         | heating degree days with base 65F  |
         +-------------------------+------------------------------------+
         | DLY-PRCP-25PCTL         | 25th percentiles of daily nonzero  |
@@ -4917,40 +5003,42 @@ def ncdc_normal_dly(stationid,
         |                         | inches for 29-day windows centered |
         |                         | on each day of the year            |
         +-------------------------+------------------------------------+
-        | DLY-TAVG-NORMAL         | Long-term averages of daily        |
+        | DLY-TAVG-NORMAL         | Average daily                      |
         |                         | average temperature                |
         +-------------------------+------------------------------------+
         | DLY-TAVG-STDDEV         | Long-term standard deviations of   |
         |                         | daily average temperature          |
         +-------------------------+------------------------------------+
-        | DLY-TMAX-NORMAL         | Long-term averages of daily        |
+        | DLY-TMAX-NORMAL         | Average daily                      |
         |                         | maximum temperature                |
         +-------------------------+------------------------------------+
         | DLY-TMAX-STDDEV         | Long-term standard deviations of   |
         |                         | daily maximum temperature          |
         +-------------------------+------------------------------------+
-        | DLY-TMIN-NORMAL         | Long-term averages of daily        |
+        | DLY-TMIN-NORMAL         | Average daily                      |
         |                         | minimum temperature                |
         +-------------------------+------------------------------------+
         | DLY-TMIN-STDDEV         | Long-term standard deviations of   |
         |                         | daily minimum temperature          |
         +-------------------------+------------------------------------+
-        | MTD-PRCP-NORMAL         | Long-term average month-to-date    |
+        | MTD-PRCP-NORMAL         | Average month-to-date              |
         |                         | precipitation totals               |
         +-------------------------+------------------------------------+
-        | MTD-SNOW-NORMAL         | Long-term average month-to-date    |
+        | MTD-SNOW-NORMAL         | Average month-to-date              |
         |                         | snowfall totals                    |
         +-------------------------+------------------------------------+
-        | YTD-PRCP-NORMAL         | Long-term average year-to-date     |
+        | YTD-PRCP-NORMAL         | Average year-to-date               |
         |                         | precipitation totals               |
         +-------------------------+------------------------------------+
-        | YTD-SNOW-NORMAL         | Long-term average year-to-date     |
+        | YTD-SNOW-NORMAL         | Average year-to-date               |
         |                         | snowfall totals                    |
         +-------------------------+------------------------------------+
 
-    :param str startdate:  Start date in ISO8601 format.
-    :param str enddate:  End date in ISO8601 format.
+    startdate
+        Start date in ISO8601 format.
 
+    enddate
+        End date in ISO8601 format.
 
     """
     from tsgettoolbox.services.ncdc import ncdc as placeholder
@@ -4967,12 +5055,12 @@ def ncdc_normal_dly(stationid,
 
 
 # 2010-01-01, 2010-12-31, Normals Hourly              , 1    , NORMAL_HLY
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def ncdc_normal_hly(stationid,
                     datatypeid='',
                     startdate='',
                     enddate=''):
-    """
+    r"""
     National Climatic Data Center GHCND Monthly Summaries
     Requires registration and free API key.
 
@@ -4993,11 +5081,15 @@ def ncdc_normal_hly(stationid,
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing.
 
-    :param str stationid:  Station ID.
+    Parameters
+    ----------
+    stationid
+        Station ID.
 
-    :param str datatypeid: The following table lists the datatypes
-        available for the annual dataset.  If the datatypeid is not
-        given defaults to getting all data available at that station.
+    datatypeid
+        The following table lists the datatypes available for the annual
+        dataset.  If the datatypeid is not given defaults to getting all data
+        available at that station.
 
         +-----------------+------------------------------------+
         | Code            | Description                        |
@@ -5055,8 +5147,11 @@ def ncdc_normal_hly(stationid,
         | HLY-WIND-VCTSPD | Mean wind vector magnitude         |
         +-----------------+------------------------------------+
 
-    :param str startdate:  Start date in ISO8601 format.
-    :param str enddate:  End date in ISO8601 format.
+    startdate
+        Start date in ISO8601 format.
+
+    enddate
+        End date in ISO8601 format.
 
 
     """
@@ -5074,12 +5169,12 @@ def ncdc_normal_hly(stationid,
 
 
 # 2010-01-01, 2010-12-01, Normals Monthly             , 1    , NORMAL_MLY
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def ncdc_normal_mly(stationid,
                     datatypeid='',
                     startdate='',
                     enddate=''):
-    """
+    r"""
     National Climatic Data Center GHCND Monthly Summaries
     Requires registration and free API key.
 
@@ -5100,99 +5195,103 @@ def ncdc_normal_mly(stationid,
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing.
 
-    :param str stationid:  Station ID.
+    Parameters
+    ----------
+    stationid : str
+        Station ID.
 
-    :param str datatypeid: The following table lists the datatypes
-        available for the annual dataset.  If the datatypeid is not
-        given defaults to getting all data available at that station.
+    datatypeid : str
+        The following table lists the datatypes available for the annual
+        dataset.  If the datatypeid is not given defaults to getting all data
+        available at that station.
 
         +-------------------------+------------------------------------+
         | Code                    | Description                        |
         +=========================+====================================+
-        | MLY-CLDD-BASE45         | Long-term averages of monthly      |
+        | MLY-CLDD-BASE45         | Average monthly                    |
         |                         | cooling degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | MLY-CLDD-BASE50         | Long-term averages of monthly      |
+        | MLY-CLDD-BASE50         | Average monthly                    |
         |                         | cooling degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | MLY-CLDD-BASE55         | Long-term averages of monthly      |
+        | MLY-CLDD-BASE55         | Average monthly                    |
         |                         | cooling degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | MLY-CLDD-BASE57         | Long-term averages of monthly      |
+        | MLY-CLDD-BASE57         | Average monthly                    |
         |                         | cooling degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | MLY-CLDD-BASE60         | Long-term averages of monthly      |
+        | MLY-CLDD-BASE60         | Average monthly                    |
         |                         | cooling degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | MLY-CLDD-BASE70         | Long-term averages of monthly      |
+        | MLY-CLDD-BASE70         | Average monthly                    |
         |                         | cooling degree days with base 70F  |
         +-------------------------+------------------------------------+
-        | MLY-CLDD-BASE72         | Long-term averages of monthly      |
+        | MLY-CLDD-BASE72         | Average monthly                    |
         |                         | cooling degree days with base 72F  |
         +-------------------------+------------------------------------+
-        | MLY-CLDD-NORMAL         | Long-term averages of monthly      |
+        | MLY-CLDD-NORMAL         | Average monthly                    |
         |                         | cooling degree days with base 65F  |
         +-------------------------+------------------------------------+
-        | MLY-DUTR-NORMAL         | Long-term averages of monthly      |
+        | MLY-DUTR-NORMAL         | Average monthly                    |
         |                         | diurnal temperature range          |
         +-------------------------+------------------------------------+
         | MLY-DUTR-STDDEV         | Long-term standard deviations of   |
         |                         | monthly diurnal temperature range  |
         +-------------------------+------------------------------------+
-        | MLY-GRDD-BASE40         | Long-term averages of monthly      |
+        | MLY-GRDD-BASE40         | Average monthly                    |
         |                         | growing degree days with base 40F  |
         +-------------------------+------------------------------------+
-        | MLY-GRDD-BASE45         | Long-term averages of monthly      |
+        | MLY-GRDD-BASE45         | Average monthly                    |
         |                         | growing degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | MLY-GRDD-BASE50         | Long-term averages of monthly      |
+        | MLY-GRDD-BASE50         | Average monthly                    |
         |                         | growing degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | MLY-GRDD-BASE55         | Long-term averages of monthly      |
+        | MLY-GRDD-BASE55         | Average monthly                    |
         |                         | growing degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | MLY-GRDD-BASE57         | Long-term averages of monthly      |
+        | MLY-GRDD-BASE57         | Average monthly                    |
         |                         | growing degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | MLY-GRDD-BASE60         | Long-term averages of monthly      |
+        | MLY-GRDD-BASE60         | Average monthly                    |
         |                         | growing degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | MLY-GRDD-BASE65         | Long-term averages of monthly      |
+        | MLY-GRDD-BASE65         | Average monthly                    |
         |                         | growing degree days with base 65F  |
         +-------------------------+------------------------------------+
-        | MLY-GRDD-BASE70         | Long-term averages of monthly      |
+        | MLY-GRDD-BASE70         | Average monthly                    |
         |                         | growing degree days with base 70F  |
         +-------------------------+------------------------------------+
-        | MLY-GRDD-BASE72         | Long-term averages of monthly      |
+        | MLY-GRDD-BASE72         | Average monthly                    |
         |                         | growing degree days with base 72F  |
         +-------------------------+------------------------------------+
-        | MLY-GRDD-TB4886         | Long-term averages of monthly      |
+        | MLY-GRDD-TB4886         | Average monthly                    |
         |                         | growing degree days with truncated |
         |                         | bases 48F and 86F                  |
         +-------------------------+------------------------------------+
-        | MLY-GRDD-TB5086         | Long-term averages of monthly      |
+        | MLY-GRDD-TB5086         | Average monthly                    |
         |                         | growing degree days with truncated |
         |                         | bases 50F and 86F                  |
         +-------------------------+------------------------------------+
-        | MLY-HTDD-BASE40         | Long-term averages of monthly      |
+        | MLY-HTDD-BASE40         | Average monthly                    |
         |                         | heating degree days with base 40F  |
         +-------------------------+------------------------------------+
-        | MLY-HTDD-BASE45         | Long-term averages of monthly      |
+        | MLY-HTDD-BASE45         | Average monthly                    |
         |                         | heating degree days with base 45F  |
         +-------------------------+------------------------------------+
-        | MLY-HTDD-BASE50         | Long-term averages of monthly      |
+        | MLY-HTDD-BASE50         | Average monthly                    |
         |                         | heating degree days with base 50F  |
         +-------------------------+------------------------------------+
-        | MLY-HTDD-BASE55         | Long-term averages of monthly      |
+        | MLY-HTDD-BASE55         | Average monthly                    |
         |                         | heating degree days with base 55F  |
         +-------------------------+------------------------------------+
-        | MLY-HTDD-BASE57         | Long-term averages of monthly      |
+        | MLY-HTDD-BASE57         | Average monthly                    |
         |                         | heating degree days with base 57F  |
         +-------------------------+------------------------------------+
-        | MLY-HTDD-BASE60         | Long-term averages of monthly      |
+        | MLY-HTDD-BASE60         | Average monthly                    |
         |                         | heating degree days with base 60F  |
         +-------------------------+------------------------------------+
-        | MLY-HTDD-NORMAL         | Long-term averages of monthly      |
+        | MLY-HTDD-NORMAL         | Average monthly                    |
         |                         | heating degree days with base 65F  |
         +-------------------------+------------------------------------+
         | MLY-PRCP-25PCTL         | 25th percentiles of monthly        |
@@ -5204,23 +5303,23 @@ def ncdc_normal_mly(stationid,
         | MLY-PRCP-75PCTL         | 75th percentiles of monthly        |
         |                         | precipitation totals               |
         +-------------------------+------------------------------------+
-        | MLY-PRCP-AVGNDS-GE001HI | Long-term averages of number of    |
+        | MLY-PRCP-AVGNDS-GE001HI | Average number of                  |
         |                         | days per month with precipitation  |
         |                         | >= 0.01 inches                     |
         +-------------------------+------------------------------------+
-        | MLY-PRCP-AVGNDS-GE010HI | Long-term averages of number of    |
+        | MLY-PRCP-AVGNDS-GE010HI | Average number of                  |
         |                         | days per month with precipitation  |
         |                         | >= 0.10 inches                     |
         +-------------------------+------------------------------------+
-        | MLY-PRCP-AVGNDS-GE050HI | Long-term averages of number of    |
+        | MLY-PRCP-AVGNDS-GE050HI | Average number of                  |
         |                         | days per month with precipitation  |
         |                         | >= 0.50 inches                     |
         +-------------------------+------------------------------------+
-        | MLY-PRCP-AVGNDS-GE100HI | Long-term averages of number of    |
+        | MLY-PRCP-AVGNDS-GE100HI | Average number of                  |
         |                         | days per month with precipitation  |
         |                         | >= 1.00 inches                     |
         +-------------------------+------------------------------------+
-        | MLY-PRCP-NORMAL         | Long-term averages of monthly      |
+        | MLY-PRCP-NORMAL         | Average monthly                    |
         |                         | precipitation totals               |
         +-------------------------+------------------------------------+
         | MLY-SNOW-25PCTL         | 25th percentiles of monthly        |
@@ -5232,122 +5331,122 @@ def ncdc_normal_mly(stationid,
         | MLY-SNOW-75PCTL         | 75th percentiles of monthly        |
         |                         | snowfall totals                    |
         +-------------------------+------------------------------------+
-        | MLY-SNOW-AVGNDS-GE001TI | Long-term averages of number of    |
+        | MLY-SNOW-AVGNDS-GE001TI | Average number of                  |
         |                         | days per month with Snowfall >=    |
         |                         | 0.1 inches                         |
         +-------------------------+------------------------------------+
-        | MLY-SNOW-AVGNDS-GE010TI | Long-term averages of number of    |
+        | MLY-SNOW-AVGNDS-GE010TI | Average number of                  |
         |                         | days per month with Snowfall >=    |
         |                         | 1.0 inches                         |
         +-------------------------+------------------------------------+
-        | MLY-SNOW-AVGNDS-GE030TI | Long-term averages of number of    |
+        | MLY-SNOW-AVGNDS-GE030TI | Average number of                  |
         |                         | days per month with Snowfall >=    |
         |                         | 3.0 inches                         |
         +-------------------------+------------------------------------+
-        | MLY-SNOW-AVGNDS-GE050TI | Long-term averages of number of    |
+        | MLY-SNOW-AVGNDS-GE050TI | Average number of                  |
         |                         | days per month with Snowfall >=    |
         |                         | 5.0 inches                         |
         +-------------------------+------------------------------------+
-        | MLY-SNOW-AVGNDS-GE100TI | Long-term averages of number of    |
+        | MLY-SNOW-AVGNDS-GE100TI | Average number of                  |
         |                         | days per month with Snowfall >=    |
         |                         | 10.0 inches                        |
         +-------------------------+------------------------------------+
-        | MLY-SNOW-NORMAL         | Long-term averages of monthly      |
+        | MLY-SNOW-NORMAL         | Average monthly                    |
         |                         | snowfall totals                    |
         +-------------------------+------------------------------------+
-        | MLY-SNWD-AVGNDS-GE001WI | Long-term averages of number of    |
+        | MLY-SNWD-AVGNDS-GE001WI | Average number of                  |
         |                         | days per month with snow depth >=  |
         |                         | 1 inch                             |
         +-------------------------+------------------------------------+
-        | MLY-SNWD-AVGNDS-GE003WI | Long-term averages of number of    |
+        | MLY-SNWD-AVGNDS-GE003WI | Average number of                  |
         |                         | days per month with snow depth >=  |
         |                         | 3 inches                           |
         +-------------------------+------------------------------------+
-        | MLY-SNWD-AVGNDS-GE005WI | Long-term averages of number of    |
+        | MLY-SNWD-AVGNDS-GE005WI | Average number of                  |
         |                         | days per month with snow depth >=  |
         |                         | 5 inches                           |
         +-------------------------+------------------------------------+
-        | MLY-SNWD-AVGNDS-GE010WI | Long-term averages of number of    |
+        | MLY-SNWD-AVGNDS-GE010WI | Average number of                  |
         |                         | days per month with snow depth >=  |
         |                         | 10 inches                          |
         +-------------------------+------------------------------------+
-        | MLY-TAVG-NORMAL         | Long-term averages of monthly      |
+        | MLY-TAVG-NORMAL         | Average monthly                    |
         |                         | average temperature                |
         +-------------------------+------------------------------------+
         | MLY-TAVG-STDDEV         | Long-term standard deviations of   |
         |                         | monthly average temperature        |
         +-------------------------+------------------------------------+
-        | MLY-TMAX-AVGNDS-GRTH040 | Long-term average number of days   |
+        | MLY-TMAX-AVGNDS-GRTH040 | Average number of days             |
         |                         | per month where tmax is greater    |
         |                         | than or equal to 40F               |
         +-------------------------+------------------------------------+
-        | MLY-TMAX-AVGNDS-GRTH050 | Long-term average number of days   |
+        | MLY-TMAX-AVGNDS-GRTH050 | Average number of days             |
         |                         | per month where tmax is greater    |
         |                         | than or equal to 50F               |
         +-------------------------+------------------------------------+
-        | MLY-TMAX-AVGNDS-GRTH060 | Long-term average number of days   |
+        | MLY-TMAX-AVGNDS-GRTH060 | Average number of days             |
         |                         | per month where tmax is greater    |
         |                         | than or equal to 60F               |
         +-------------------------+------------------------------------+
-        | MLY-TMAX-AVGNDS-GRTH070 | Long-term average number of days   |
+        | MLY-TMAX-AVGNDS-GRTH070 | Average number of days             |
         |                         | per month where tmax is greater    |
         |                         | than or equal to 70F               |
         +-------------------------+------------------------------------+
-        | MLY-TMAX-AVGNDS-GRTH080 | Long-term average number of days   |
+        | MLY-TMAX-AVGNDS-GRTH080 | Average number of days             |
         |                         | per month where tmax is greater    |
         |                         | than or equal to 80F               |
         +-------------------------+------------------------------------+
-        | MLY-TMAX-AVGNDS-GRTH090 | Long-term average number of days   |
+        | MLY-TMAX-AVGNDS-GRTH090 | Average number of days             |
         |                         | per month where tmax is greater    |
         |                         | than or equal to 90F               |
         +-------------------------+------------------------------------+
-        | MLY-TMAX-AVGNDS-GRTH100 | Long-term average number of days   |
+        | MLY-TMAX-AVGNDS-GRTH100 | Average number of days             |
         |                         | per month where tmax is greater    |
         |                         | than or equal to 100F              |
         +-------------------------+------------------------------------+
-        | MLY-TMAX-AVGNDS-LSTH032 | Long-term average number of days   |
+        | MLY-TMAX-AVGNDS-LSTH032 | Average number of days             |
         |                         | per month where tmax is less than  |
         |                         | or equal to 32F                    |
         +-------------------------+------------------------------------+
-        | MLY-TMAX-NORMAL         | Long-term averages of monthly      |
+        | MLY-TMAX-NORMAL         | Average monthly                    |
         |                         | maximum temperature                |
         +-------------------------+------------------------------------+
         | MLY-TMAX-STDDEV         | Long-term standard deviations of   |
         |                         | monthly maximum temperature        |
         +-------------------------+------------------------------------+
-        | MLY-TMIN-AVGNDS-LSTH000 | Long-term average number of days   |
+        | MLY-TMIN-AVGNDS-LSTH000 | Average number of days             |
         |                         | per month where tmin is less than  |
         |                         | or equal to 0F                     |
         +-------------------------+------------------------------------+
-        | MLY-TMIN-AVGNDS-LSTH010 | Long-term average number of days   |
+        | MLY-TMIN-AVGNDS-LSTH010 | Average number of days             |
         |                         | per month where tmin is less than  |
         |                         | or equal to 10F                    |
         +-------------------------+------------------------------------+
-        | MLY-TMIN-AVGNDS-LSTH020 | Long-term average number of days   |
+        | MLY-TMIN-AVGNDS-LSTH020 | Average number of days             |
         |                         | per month where tmin is less than  |
         |                         | or equal to 20F                    |
         +-------------------------+------------------------------------+
-        | MLY-TMIN-AVGNDS-LSTH032 | Long-term average number of days   |
+        | MLY-TMIN-AVGNDS-LSTH032 | Average number of days             |
         |                         | per month where tmin is less than  |
         |                         | or equal to 32F                    |
         +-------------------------+------------------------------------+
-        | MLY-TMIN-AVGNDS-LSTH040 | Long-term average number of days   |
+        | MLY-TMIN-AVGNDS-LSTH040 | Average number of days             |
         |                         | per month where tmin is less than  |
         |                         | or equal to 40F                    |
         +-------------------------+------------------------------------+
-        | MLY-TMIN-AVGNDS-LSTH050 | Long-term average number of days   |
+        | MLY-TMIN-AVGNDS-LSTH050 | Average number of days             |
         |                         | per month where tmin is less than  |
         |                         | or equal to 50F                    |
         +-------------------------+------------------------------------+
-        | MLY-TMIN-AVGNDS-LSTH060 | Long-term average number of days   |
+        | MLY-TMIN-AVGNDS-LSTH060 | Average number of days             |
         |                         | per month where tmin is less than  |
         |                         | or equal to 60F                    |
         +-------------------------+------------------------------------+
-        | MLY-TMIN-AVGNDS-LSTH070 | Long-term average number of days   |
+        | MLY-TMIN-AVGNDS-LSTH070 | Average number of days             |
         |                         | per month where tmin is less than  |
         |                         | or equal to 70F                    |
         +-------------------------+------------------------------------+
-        | MLY-TMIN-NORMAL         | Long-term averages of monthly      |
+        | MLY-TMIN-NORMAL         | Average monthly                    |
         |                         | minimum temperature                |
         +-------------------------+------------------------------------+
         | MLY-TMIN-PRBOCC-LSTH016 | probability of 16F or below at     |
@@ -5372,9 +5471,13 @@ def ncdc_normal_mly(stationid,
         |                         | monthly minimum temperature        |
         +-------------------------+------------------------------------+
 
-    :param str startdate:  Start date in ISO8601 format.
-    :param str enddate:  End date in ISO8601 format.
+    startdate
+        Start date in ISO8601
+        format.
 
+    enddate
+        End date in ISO8601
+        format.
 
     """
     from tsgettoolbox.services.ncdc import cdo as placeholder
@@ -5391,12 +5494,12 @@ def ncdc_normal_mly(stationid,
 
 
 # 1970-05-12, 2014-01-01, Precipitation 15 Minute     , 0.25 , PRECIP_15
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def ncdc_precip_15(stationid,
                    datatypeid='',
                    startdate='',
                    enddate=''):
-    """
+    r"""
     National Climatic Data Center 15 minute precipitation
     Requires registration and free API key.
 
@@ -5417,11 +5520,16 @@ def ncdc_precip_15(stationid,
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing.
 
-    :param str stationid:  Station ID.
+    Parameters
+    ----------
+    stationid : str
+        Station
+        ID.
 
-    :param str datatypeid: The following table lists the datatypes
-        available for the annual dataset.  If the datatypeid is not given
-        defaults to getting all data available at that station.
+    datatypeid : str
+        The following table lists the datatypes available for the annual
+        dataset.  If the datatypeid is not given defaults to getting all data
+        available at that station.
 
         +------+---------------+
         | Code | Description   |
@@ -5431,8 +5539,13 @@ def ncdc_precip_15(stationid,
         | QPCP | Precipitation |
         +------+---------------+
 
-    :param str startdate:  Start date in ISO8601 format.
-    :param str enddate:  End date in ISO8601 format.
+    startdate
+        Start date in ISO8601
+        format.
+
+    enddate
+        End date in ISO8601
+        format.
 
     """
     from tsgettoolbox.services.ncdc import cdo as placeholder
@@ -5449,12 +5562,12 @@ def ncdc_precip_15(stationid,
 
 
 # 1900-01-01, 2014-01-01, Precipitation Hourly        , 1    , PRECIP_HLY
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def ncdc_precip_hly(stationid,
                     datatypeid='',
                     startdate='',
                     enddate=''):
-    """
+    r"""
     National Climatic Data Center hourly precipitation
     Requires registration and free API key.
 
@@ -5475,11 +5588,15 @@ def ncdc_precip_hly(stationid,
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing.
 
-    :param str stationid:  Station ID.
+    Parameters
+    ----------
+    stationid : str
+        Station ID.
 
-    :param str datatypeid: The following table lists the datatypes
-        available for the annual dataset.  If the datatypeid is not given
-        defaults to getting all data available at that station.
+    datatypeid : str
+        The following table lists the datatypes available for the annual
+        dataset.  If the datatypeid is not given defaults to getting all data
+        available at that station.
 
         +------+---------------+
         | Code | Description   |
@@ -5487,8 +5604,11 @@ def ncdc_precip_hly(stationid,
         | HPCP | Precipitation |
         +------+---------------+
 
-    :param str startdate:  Start date in ISO8601 format.
-    :param str enddate:  End date in ISO8601 format.
+    startdate
+        Start date in ISO8601 format.
+
+    enddate
+        End date in ISO8601 format.
 
     """
     from tsgettoolbox.services.ncdc import cdo as placeholder
@@ -5505,11 +5625,11 @@ def ncdc_precip_hly(stationid,
 
 
 # ANNUAL
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def ncdc_annual(stationid,
                 datatypeid='',
                 startdate='', enddate=''):
-    """
+    r"""
     National Climatic Data Center annual data summaries
     Requires registration and free API key.
 
@@ -5630,11 +5750,15 @@ def ncdc_annual(stationid,
     |      | month, '5' indicates the station has closed.            |
     +------+---------------------------------------------------------+
 
-    :param str stationid:  Station ID.
+    Parameters
+    ----------
+    stationid : str
+        Station ID.
 
-    :param str datatypeid: The following table lists the datatypes
-        available for the annual dataset.  If the datatypeid is not
-        given defaults to getting all data available at that station.
+    datatypeid : str
+        The following table lists the datatypes available for the annual
+        dataset.  If the datatypeid is not given defaults to getting all data
+        available at that station.
 
         +--------+-----------------------------------------------------+
         | Code   | Description                                         |
@@ -6400,8 +6524,11 @@ def ncdc_annual(stationid,
         | TWND   | Total monthly wind movement over evaporation pan.   |
         +--------+-----------------------------------------------------+
 
-    :param str startdate:  Start date in ISO8601 format.
-    :param str enddate:  End date in ISO8601 format.
+    startdate
+        Start date in ISO8601 format.
+
+    enddate
+        End date in ISO8601 format.
 
     """
     from tsgettoolbox.services.ncdc import cdo as placeholder
@@ -6418,18 +6545,40 @@ def ncdc_annual(stationid,
 
 
 # GHCNDMS
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def ncdc_ghcndms(stationid,
                  datatypeid='',
                  startdate='',
                  enddate=''):
-    """
+    r"""
     National Climatic Data Center GHCND Monthly Summaries
     Requires registration and free API key.
 
-    :param str stationid:  Station ID.
+    For every datatype and record there is a set of meta-data flags.
 
-    :param str datatypeid: The following table lists the datatypes
+    GHCNDMS Meta-Data Flags
+
+    +---------------------+-----------------------------------------------+
+    | Total Missing       | Defined as total number of days               |
+    |                     | observation/element is missing in that month. |
+    |                     | This can be taken as a measure of quality or  |
+    |                     | completeness as the higher the number of days |
+    |                     | sampled in the month, the more representative |
+    |                     | the value is for the entire month.            |
+    +---------------------+-----------------------------------------------+
+    | Consecutive Missing | Defined as the maximum number of consecutive  |
+    |                     | days in the month that an observation/element |
+    |                     | is missing.                                   |
+    +---------------------+-----------------------------------------------+
+
+    Parameters
+    ----------
+    stationid : str
+        Station
+        ID.
+
+    datatypeid : str
+        The following table lists the datatypes
         available for the 'ghcndms' dataset.  If the datatypeid is not
         given defaults to getting all data available at that station.
 
@@ -6782,25 +6931,13 @@ def ncdc_ghcndms(stationid,
         | WV20 | Rain or snow shower                                   |
         +------+-------------------------------------------------------+
 
-    :param str startdate:  Start date in ISO8601 format.
-    :param str enddate:  End date in ISO8601 format.
+    startdate
+       Start date in ISO8601
+       format.
 
-    For every datatype and record there is a set of meta-data flags.
-    For the GHCNDMS dataset, the flags are::
-
-        'Total Missing','Consecutive Missing'
-
-    Total Missing:
-
-    Defined as total number of days observation/element is missing in that
-    month.  This can be taken as a measure of quality or completeness as the
-    higher the number of days sampled in the month, the more representative the
-    value is for the entire month.
-
-    Consecutive Missing:
-
-    Defined as the maximum number of consecutive days in the month that an
-    observation/element is missing.
+    enddate
+       End date in ISO8601
+       format.
 
     """
     from tsgettoolbox.services.ncdc import cdo as placeholder
@@ -6816,12 +6953,12 @@ def ncdc_ghcndms(stationid,
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def ndbc(station,
          observedproperty,
          startUTC,
          endUTC):
-    """Download from the National Data Buoy Center
+    r"""Download from the National Data Buoy Center
 
     Download data from the National Data Buoy Center.
 
@@ -6856,64 +6993,71 @@ def ndbc(station,
     syncing access to the TAO web site. The TAO array is the climate
     stations in the equatorial Pacific.
 
-    :param str station:  A station ID, or a currents id.
-    :param str observedproperty: The 'observedpropery' is
-        one of the following::
+    Parameters
+    ----------
+    station : str
+        A station ID, or a currents
+        id.
+
+    observedproperty : str
+        The 'observedpropery' is one of the
+        following::
 
             air_pressure_at_sea_level
             air_temperature
             currents
-            sea_floor_depth_below_sea_surface
-                (water level for tsunami stations)
+            sea_floor_depth_below_sea_surface (water level for tsunami stations)
             sea_water_electrical_conductivity
             sea_water_salinity
             sea_water_temperature
             waves
             winds
 
-            +------------+------------------------------------+
-            | Valid Flag | Description                        |
-            +============+====================================+
-            | 0          | quality not evaluated;             |
-            +------------+------------------------------------+
-            | 1          | failed quality test;               |
-            +------------+------------------------------------+
-            | 2          | questionable or suspect data;      |
-            +------------+------------------------------------+
-            | 3          | good data/passed quality test; and |
-            +------------+------------------------------------+
-            | 9          | missing data.                      |
-            +------------+------------------------------------+
+        +------------+------------------------------------+
+        | Valid Flag | Description                        |
+        +============+====================================+
+        | 0          | quality not evaluated;             |
+        +------------+------------------------------------+
+        | 1          | failed quality test;               |
+        +------------+------------------------------------+
+        | 2          | questionable or suspect data;      |
+        +------------+------------------------------------+
+        | 3          | good data/passed quality test; and |
+        +------------+------------------------------------+
+        | 9          | missing data.                      |
+        +------------+------------------------------------+
 
         The 'observedpropery' of 'currents' has several flags.
 
-            +------+----------------------------------------+
-            | Flag | Description                            |
-            +======+========================================+
-            | 1    | overall bin status.                    |
-            +------+----------------------------------------+
-            | 2    | ADCP Built-In Test (BIT) status.       |
-            +------+----------------------------------------+
-            | 3    | Error Velocity test status.            |
-            +------+----------------------------------------+
-            | 4    | Percent Good test status.              |
-            +------+----------------------------------------+
-            | 5    | Correlation Magnitude test status.     |
-            +------+----------------------------------------+
-            | 6    | Vertical Velocity test status.         |
-            +------+----------------------------------------+
-            | 7    | North Horizontal Velocity test status. |
-            +------+----------------------------------------+
-            | 8    | East Horizontal Velocity test status.  |
-            +------+----------------------------------------+
-            | 9    | Echo Intensity test status.            |
-            +------+----------------------------------------+
+        +------+----------------------------------------+
+        | Flag | Description                            |
+        +======+========================================+
+        | 1    | overall bin status.                    |
+        +------+----------------------------------------+
+        | 2    | ADCP Built-In Test (BIT) status.       |
+        +------+----------------------------------------+
+        | 3    | Error Velocity test status.            |
+        +------+----------------------------------------+
+        | 4    | Percent Good test status.              |
+        +------+----------------------------------------+
+        | 5    | Correlation Magnitude test status.     |
+        +------+----------------------------------------+
+        | 6    | Vertical Velocity test status.         |
+        +------+----------------------------------------+
+        | 7    | North Horizontal Velocity test status. |
+        +------+----------------------------------------+
+        | 8    | East Horizontal Velocity test status.  |
+        +------+----------------------------------------+
+        | 9    | Echo Intensity test status.            |
+        +------+----------------------------------------+
 
+    startUTC
+        an ISO 8601 date/time string
+        (only seconds are optional)
 
-    :param str startUTC: an ISO 8601 date/time string (only seconds are
-        optional)
-    :param str endUTC: an ISO 8601 date/time string. (only seconds are
-        optional)
+    endUTC
+        an ISO 8601 date/time string.
+        (only seconds are optional)
 
     """
     from tsgettoolbox.services import ndbc as placeholder
@@ -6929,14 +7073,229 @@ def ndbc(station,
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
-@mando.command(formatter_class=HelpFormatter)
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@tsutils.doc(tsutils.docstrings)
+def usgs_eddn(dcp_address,
+              parser,
+              start_date=None,
+              end_date=None):
+    r"""Download from the USGS Emergency Data Distribution Network
+
+    This module provides access to data provided by the United States
+    Geological Survey Emergency Data Distribution Network web site.
+
+    The DCP message format includes some header information that is parsed
+    and the message body, with a variable number of characters. The format of
+    the message body varies widely depending on the manufacturer of the
+    transmitter, data logger, sensors, and the technician who programmed the
+    DCP. The body can be simple ASCII, sometime with parameter codes and
+    time-stamps embedded, sometimes not. The body can also be in
+    'Pseudo-Binary' which is character encoding of binary data that uses 6 bits
+    of every byte and guarantees that all characters are printable.
+
+    United States Geological Survey: http://www.usgs.gov/
+    Emergency Data Distribution Network: http://eddn.usgs.gov/
+    http://eddn.usgs.gov/dcpformat.html
+
+    Fetches GOES Satellite DCP messages from USGS Emergency Data Distribution
+    Network.
+
+    Parameters
+    ----------
+    dcp_address
+        DCP address or list of DCP addresses to be fetched; lists will be
+        joined by a ','.
+
+    parser
+        function that acts on dcp_message each row of the dataframe and returns
+        a new dataframe containing several rows of decoded data. This returned
+        dataframe may have different (but derived) timestamps than that the
+        original row. If a string is passed then a matching parser function is
+        looked up from ulmo.usgs.eddn.parser.  The prebuilt functions are
+        "twdb_dot", "twdb_stevens", "twdb_sutron", and "twdb_texuni".
+
+    {start_date}
+
+    {end_date}
+
+    """
+    from tsgettoolbox.services.usgs import eddn
+
+    df = eddn.ulmo_df(
+        dcp_address=dcp_address,
+        parser=parser,
+        start_date=start_date,
+        end_date=end_date)
+
+    return tsutils.printiso(df)
+
+
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@tsutils.doc(tsutils.docstrings)
+def lcra_hydromet(site_code,
+                  parameter_code,
+                  start_date=None,
+                  end_date=None,
+                  dam_site_location='head'):
+    r"""Fetches site parameter data
+
+    This module provides access to hydrologic and climate data in the Colorado
+    River Basin (Texas) provided by the Lower Colorado River Authority
+    Hydromet web site and web service.
+
+    http://www.lcra.org
+
+    http://hydromet.lcra.org
+
+    Parameters
+    ----------
+    site_code
+        The LCRA site code (four chars long) of the site you want to query data
+        for.
+    parameter_code
+        LCRA parameter
+        code.
+
+        +----------------+---------------------------------------+
+        | parameter_code | Description                           |
+        +----------------+---------------------------------------+
+        | stage          | the level of water above a benchmark  |
+        |                | in feet                               |
+        +----------------+---------------------------------------+
+        | flow           | streamflow in cubic feet per second   |
+        +----------------+---------------------------------------+
+        | pc             | precipitation in inches               |
+        +----------------+---------------------------------------+
+        | temp           | air temperature in degrees fahrenheit |
+        +----------------+---------------------------------------+
+        | rhumid         | air relative humidity as percentage   |
+        +----------------+---------------------------------------+
+        | cndvty         | water electrical conductivity in      |
+        |                | micromhos                             |
+        +----------------+---------------------------------------+
+        | tds            | total suspended solids                |
+        +----------------+---------------------------------------+
+        | windsp         | wind speed miles per hour             |
+        +----------------+---------------------------------------+
+        | winddir        | wind direction in degrees azimuth     |
+        +----------------+---------------------------------------+
+        | upperbasin     | ALL Upper Basin flow and water levels |
+        +----------------+---------------------------------------+
+        | lowerbasin     | ALL Lower Basin flow and water levels |
+        +----------------+---------------------------------------+
+
+    {start_date}
+    {end_date}
+    dam_site_location : str
+        'head' (default) or 'tail'
+        The site location relative to the dam.  Not used for `upperbasin`
+        and `lowerbasin` parameters.
+
+    """
+    from tsgettoolbox.services.lcra import hydromet
+
+    df = hydromet.ulmo_df(site_code,
+                          parameter_code,
+                          start_date=start_date,
+                          end_date=end_date,
+                          dam_site_location=dam_site_location)
+
+    return tsutils.printiso(df)
+
+
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@tsutils.doc(tsutils.docstrings)
+def lcra_wq(site_code,
+            historical=True,
+            start_date=None,
+            end_date=None):
+    r"""
+    Fetches historical or near real-time (for some sites) data
+
+    This module provides access to data provided by the Lower Colorado
+    River Authority Water Quality web site.
+
+    Lower Colorado River Authority: http://www.lcra.org
+
+    Water Quality: http://waterquality.lcra.org/
+
+    Parameters
+    ----------
+    site_code
+        The site code to fetch data for. The following bay sites also have
+        near real-time data available if `historical` option is set to False.
+
+        +--------------------+-----------------+
+        | Near Real-Time     | Name            |
+        | (historical=False) |                 |
+        | site_code          |                 |
+        +====================+=================+
+        | 6977               | Matagorda 4SSW  |
+        +--------------------+-----------------+
+        | 6985               | Matagorda 7 SW  |
+        +--------------------+-----------------+
+        | 6990               | Matagorda 8 SSW |
+        +--------------------+-----------------+
+        | 6996               | Matagorda 9 SW  |
+        +--------------------+-----------------+
+
+    historical
+        Flag to indicate whether to get historical or near real-time data from
+        the bay sites.
+    {start_date}
+    {end_date}
+
+    """
+    from tsgettoolbox.services.lcra import wq
+
+    df = wq.ulmo_df(site_code=site_code,
+                    historical=historical,
+                    start_date=start_date,
+                    end_date=end_date)
+
+    return tsutils.printiso(df)
+
+
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@tsutils.doc(tsutils.docstrings)
+def twc(county,
+        start_date=None,
+        end_date=None):
+    r"""
+    Fetches Texas weather data
+
+    This module provides direct access to `Texas Weather Connection`_ `Daily
+    Keetch-Byram Drought Index (KBDI)`_ dataset.
+
+    .. _Texas Weather Connection: http://twc.tamu.edu/
+    .. _Daily Keetch-Byram Drought Index (KBDI): http://twc.tamu.edu/drought/kbdi
+
+    Parameters
+    ----------
+    county: ``None`` or str
+        If specified, results will be limited to the county corresponding to the
+        given 5-character Texas county fips code i.e. 48???.
+    {start_date}
+    {end_date}
+
+    """
+    from tsgettoolbox.services import twc
+
+    df = twc.ulmo_df(county=county,
+                     start_date=start_date,
+                     end_date=end_date)
+
+    return tsutils.printiso(df)
+
+
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
 def modis(lat,
           lon,
           product,
           band,
           startdate=None,
           enddate=None):
-    """Download MODIS derived data.
+    r"""Download MODIS derived data.
 
     This data are derived data sets from MODIS satellite photos.
 
@@ -6966,7 +7325,6 @@ def modis(lat,
     characterization of new datasets. Remote Sensing of Environment,
     114, 168-182.
 
-
     Land Cover Datasets
 
     +-------------------+----------+---------------------------+
@@ -6986,7 +7344,6 @@ def modis(lat,
     | Land_Cover_Type_5 | PFT      | Plant Functional Type     |
     |                   |          | (PFT) scheme              |
     +-------------------+----------+---------------------------+
-
 
     Land Cover Types Description
 
@@ -7063,7 +7420,6 @@ def modis(lat,
     |      | Value     | Value     | Value     | Value     | Value     |
     +------+-----------+-----------+-----------+-----------+-----------+
 
-
     Citation
 
     Citation instructions are from https://modis.ornl.gov/citation.html
@@ -7133,11 +7489,18 @@ def modis(lat,
     visualization and download page. Please modify it manually for
     multiple sites.
 
-    :param float lat:  Latitude (required): Enter single
-        geographic point by latitude.
-    :param float lon:  Longitude (required): Enter single
-        geographic point by longitude.
-    :param str product: One of the following values in the 'product'
+    Parameters
+    ----------
+    lat : float
+        Latitude (required): Enter single geographic point by
+        latitude.
+
+    lon : float
+        Longitude (required): Enter single geographic point by
+        longitude.
+
+    product : str
+        One of the following values in the 'product'
         column.
 
         +---------+------------------------------------+--------+------+
@@ -7213,8 +7576,9 @@ def modis(lat,
         |         | Production (GPP) 8 Day L4 Global   |        |      |
         +---------+------------------------------------+--------+------+
 
-    :param str band:  One of the following. The 'band' selected from the
-        second column must match the 'product' in the first column.
+    band : str
+        One of the following. The 'band' selected from the second column must
+        match the 'product' in the first column.
 
         +------------+-------------------------------------------------+
         | product    | band                                            |
@@ -7584,9 +7948,11 @@ def modis(lat,
         |            | Fpar_1km                                        |
         +------------+-------------------------------------------------+
 
-    :param str startdate: ISO 8601 formatted date string
+    startdate
+        ISO 8601 formatted date string
 
-    :param str enddate: ISO 8601 formatted date string
+    enddate
+        ISO 8601 formatted date string
 
 """
     from tsgettoolbox.services import modis as placeholder
@@ -7598,13 +7964,12 @@ def modis(lat,
         lat=lat,
         lon=lon,
         startdate=startdate,
-        enddate=enddate,
-    )
+        enddate=enddate)
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
 def main():
-    """Main function."""
+    r"""Main function."""
     if not os.path.exists('debug_tsgettoolbox'):
         sys.tracebacklimit = 0
     mando.main()
