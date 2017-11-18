@@ -50,7 +50,10 @@ setup(name='tsgettoolbox',
       url='http://timcera.bitbucket.io/tsgettoolbox/docsrc/index.html',
       packages=['tsgettoolbox',
                 'tsgettoolbox/services',
+                'tsgettoolbox/services/lcra'
                 'tsgettoolbox/services/ncdc'
+                'tsgettoolbox/services/usace'
+                'tsgettoolbox/services/usgs'
                 ],
       include_package_data=True,
       zip_safe=False,
