@@ -33,8 +33,38 @@ def about():
     tsutils.about(__name__)
 
 
-from . import services
-cpc = services.cpc
+@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@tsutils.doc(tsutils.docstrings)
+def cpc(state=None,
+        climate_division=None,
+        start_date=None,
+        end_date=None):
+    """
+    This module provides direct access to Climate Prediction Center, Weekly
+    Drought Index dataset.
+
+    Climate Prediction Center: http://www.cpc.ncep.noaa.gov/
+    Weekly Drought Index: http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
+
+    Parameters
+    ----------
+    state : ``None`` or str
+        If specified, results will be limited to the state corresponding to the
+        given 2-character state code.
+    climate_division : ``None`` or int
+        If specified, results will be limited to the climate division.
+    {start_date}
+    {end_date}
+
+    """
+    from tsgettoolbox.services import cpc
+    df = cpc.ulmo_df(
+         state=state,
+         climate_division=climate_division,
+         start_date=tsutils.parsedate(start_date),
+         end_date=tsutils.parsedate(end_date))
+    return tsutils.printiso(df)
+
 
 @mando.command(formatter_class=HelpFormatter, doctype='numpy')
 @tsutils.doc(tsutils.docstrings)
