@@ -33,7 +33,7 @@ def about():
     tsutils.about(__name__)
 
 
-from tsgettoolbox.services.cpc import cpc
+from .services.cpc import cpc
 
 
 @mando.command(formatter_class=HelpFormatter, doctype='numpy')
