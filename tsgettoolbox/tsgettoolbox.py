@@ -33,8 +33,8 @@ def about():
     tsutils.about(__name__)
 
 
-from .services.cpc import cpc
-
+from . import services
+cpc = services.cpc
 
 @mando.command(formatter_class=HelpFormatter, doctype='numpy')
 @tsutils.doc(tsutils.docstrings)
