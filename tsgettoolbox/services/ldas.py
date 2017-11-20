@@ -94,10 +94,10 @@ class LDAS(object):
             self.query_params['endDate'], strftime='%Y-%m-%dT%H')
 
 # Function to make `resource` know about the new Daymet type.
-# http://hydro1.sci.gsfc.nasa.gov/daac-bin/access/timeseries.cgi?variable=GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm&location=GEOM:POINT%28-99.875,%2031.125%29&startDate=2010-06-01T09&endDate=2015-05-04T21&type=asc2
+# http://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi?variable=GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm&location=GEOM:POINT%28-99.875,%2031.125%29&startDate=2010-06-01T09&endDate=2015-05-04T21&type=asc2
+# https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi?variable=NLDAS:NLDAS_FORA0125_H.002:APCPsfc&location=NLDAS:X304-Y071&startDate=2015-01-01T00&endDate=2015-06-20T23&type=asc2
 
-
-@resource.register(r'http://hydro1\.sci\.gsfc\.nasa\.gov/daac-bin/access/timeseries\.cgi.*', priority=17)
+@resource.register(r'https://hydro1\.gesdisc\.eosdis\.nasa\.gov/daac-bin/access/timeseries\.cgi.*', priority=17)
 def resource_ldas(uri, **kwargs):
     return LDAS(uri, **kwargs)
 
@@ -139,7 +139,7 @@ if __name__ == '__main__':
     # location=GEOM:POINT%28-99.875,%2031.125%29&
     # startDate=2010-06-01T09&endDate=2015-05-04T21&type=asc2
     r = resource(
-        r'http://hydro1.sci.gsfc.nasa.gov/daac-bin/access/timeseries.cgi',
+        r'https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi',
         variable='GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm',
         location='GEOM:POINT(-99.875, 31.125)',
         startDate='2010-06-01T09',
@@ -151,7 +151,7 @@ if __name__ == '__main__':
     print(as_df)
 
     r = resource(
-        r'http://hydro1.sci.gsfc.nasa.gov/daac-bin/access/timeseries.cgi',
+        r'https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi',
         variable='GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm',
         location='GEOM:POINT(104.2, 35.86)',
         startDate='2016-01-01T00',
@@ -163,7 +163,7 @@ if __name__ == '__main__':
     print(as_df)
 
     r = resource(
-        r'http://hydro1.sci.gsfc.nasa.gov/daac-bin/access/timeseries.cgi',
+        r'https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi',
         variable='GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm',
         location='GEOM:POINT(104.2, 35.86)',
         startDate='5 years ago',

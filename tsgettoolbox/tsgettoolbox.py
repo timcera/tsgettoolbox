@@ -1367,7 +1367,7 @@ def ldas(lat=None,
             location = '{0}:X{1:04d}-Y{2:03d}'.format(project, xindex, yindex)
 
     r = resource(
-        r'http://hydro1.sci.gsfc.nasa.gov/daac-bin/access/timeseries.cgi',
+        r'https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi',
         variable=variable,
         location=location,
         startDate=startDate,
