@@ -42,21 +42,23 @@ Just run 'tsgettoolbox --help' to get a list of subcommands.  To get detailed
 help for a particular sub-command, for instance 'coops', type 'tsgettoolbox
 coops --help'.
 
+    about               
+                Print out information about tsgettoolbox and the system.
+
+    cdec        
+                This module provides access to data provided by the California
+                Department of Water Resources: California Data Exchange
+                Center web site.
+
     coops
                 Download data from Center for Operational Oceanographic
                 Products and Services (CO-OPS). Detailed documentation about
                 the National Ocean Service CO-OPS web services is at
                 http://tidesandcurrents.noaa.gov/api/
 
-    daymet
-                Download data from the Daymet dataset created by the Oak Ridge
-                National Laboratory. Detailed documentation is at
-                http://daymet.ornl.gov/
-
-    ldas
-                Download data from the Land Data Assimilation Service (LDAS).
-                Two projects are available, the National LDAS (0.125x0.125
-                degree hourly) and the Global LDAS (0.25x0.25 degree 3 hourly).
+    cpc         
+                This module provides direct access to Climate Prediction
+                Center, Weekly Drought Index dataset.
 
     darksky
                 Download data from http://api.darksky.net. Detailed
@@ -64,17 +66,21 @@ coops --help'.
                 https://darksky.net/dev/docs. You have to get an API
                 key from https://darksky.net/dev/register
 
-    ghcnd
-                If you use this data, please read
-                ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt
-                about "How to cite".
+    daymet
+                Download data from the Daymet dataset created by the Oak Ridge
+                National Laboratory. Detailed documentation is at
+                http://daymet.ornl.gov/
 
-                GHCN (Global Historical Climatology Network)-Daily is an
-                integrated database of daily climate summaries from land
-                surface stations across the globe. Like its monthly counterpart
-                (GHCN-Monthly) , GHCN-Daily is comprised of daily climate
-                records from numerous sources that have been integrated and
-                subjected to a common suite of quality assurance reviews.
+    lcra_hydromet
+                Fetches site parameter data
+
+    lcra_wq     
+                Fetches historical or near real-time (for some sites) data
+
+    ldas
+                Download data from the Land Data Assimilation Service (LDAS).
+                Two projects are available, the National LDAS (0.125x0.125
+                degree hourly) and the Global LDAS (0.25x0.25 degree 3 hourly).
 
     modis
                 Download datasets developed using the MODIS satellite imagery.
@@ -143,20 +149,28 @@ coops --help'.
                 |         | L4 Global                                         |
                 +---------+---------------------------------------------------+
 
+    ncdc_ghcnd  
+                Download from the Global Historical Climatology Network
+                - Daily. Requires registration and free API key.
+
+                If you use this data, please read
+                ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt
+                about "How to cite".
+
+                GHCN (Global Historical Climatology Network)-Daily is an
+                integrated database of daily climate summaries from land
+                surface stations across the globe. Like its monthly counterpart
+                (GHCN-Monthly) , GHCN-Daily is comprised of daily climate
+                records from numerous sources that have been integrated and
+                subjected to a common suite of quality assurance reviews.
+
     ncdc_ghcnd_ftp
                 Download from the Global Historical Climatology Network -
                 Daily.
 
-    ncdc_ghcnd
-                Download from the Global Historical Climatology Network -
-                Daily. Requires registration and free API key.
-
-    ncdc_gsom
+    ncdc_gs
                 National Climatic Data Center Global Summary of the Month
-                (GSOM) Requires registration and free API key.
-
-    ncdc_gsoy
-                National Climatic Data Center Global Summary of the YEAR (GSOY)
+                (GSOM) or Global Summary of the Year (GSOY). 
                 Requires registration and free API key.
 
     ncdc_normal_ann
@@ -200,8 +214,11 @@ coops --help'.
                 'tsgettoolbox' can currently pull from the Instantaneous Value
                 database (--database=iv) for sub-daily interval data starting
                 in 2007, and the Daily Values database (--database=dv).
-                Detailed documnetation is available at
+                Detailed documentation is available at
                 http://waterdata.usgs.gov/nwis
+
+    twc                 
+                Fetches Texas weather data
 
     unavco
                 Detailed information at:
@@ -209,6 +226,9 @@ coops --help'.
 
                 Returns 'met', 'pore_temperature', 'pore_pressure', 'tilt',
                 'strain', or 'positional' data for UNAVCO stations.
+
+    usgs_eddn   
+                Download from the USGS Emergency Data Distribution Network
 
 Usage Summary - Python Library
 ------------------------------

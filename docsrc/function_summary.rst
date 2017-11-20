@@ -7,18 +7,20 @@ Python API Function Summary
     :toctree: _function_summary
 
     tsgettoolbox.tsgettoolbox.about
+    tsgettoolbox.tsgettoolbox.cdec
     tsgettoolbox.tsgettoolbox.coops
+    tsgettoolbox.tsgettoolbox.cpc
     tsgettoolbox.tsgettoolbox.darksky
     tsgettoolbox.tsgettoolbox.daymet
-    tsgettoolbox.tsgettoolbox.forecast_io
+    tsgettoolbox.tsgettoolbox.lcra_hydromet
+    tsgettoolbox.tsgettoolbox.lcra_wq
     tsgettoolbox.tsgettoolbox.ldas
     tsgettoolbox.tsgettoolbox.modis
     tsgettoolbox.tsgettoolbox.ncdc_annual
     tsgettoolbox.tsgettoolbox.ncdc_ghcnd
     tsgettoolbox.tsgettoolbox.ncdc_ghcnd_ftp
     tsgettoolbox.tsgettoolbox.ncdc_ghcndms
-    tsgettoolbox.tsgettoolbox.ncdc_gsom
-    tsgettoolbox.tsgettoolbox.ncdc_gsoy
+    tsgettoolbox.tsgettoolbox.ncdc_gs
     tsgettoolbox.tsgettoolbox.ncdc_normal_ann
     tsgettoolbox.tsgettoolbox.ncdc_normal_dly
     tsgettoolbox.tsgettoolbox.ncdc_normal_hly
@@ -27,4 +29,6 @@ Python API Function Summary
     tsgettoolbox.tsgettoolbox.ncdc_precip_hly
     tsgettoolbox.tsgettoolbox.ndbc
     tsgettoolbox.tsgettoolbox.nwis
+    tsgettoolbox.tsgettoolbox.twc
     tsgettoolbox.tsgettoolbox.unavco
+    tsgettoolbox.tsgettoolbox.usgs_eddn
