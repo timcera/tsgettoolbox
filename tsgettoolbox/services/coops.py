@@ -39,7 +39,6 @@ class NOS(object):
                                                  strftime='%Y%m%d')
         params['end_date'] = tsutils.parsedate(query_params['end_date'],
                                                strftime='%Y%m%d')
-
         params['format'] = 'csv'
         params['application'] = 'tsgettoolbox'
         self.url = url
@@ -137,6 +136,14 @@ def nos_to_df(data, **kwargs):
     if os.path.exists('debug_tsgettoolbox'):
         logging.warning(req.url)
     req.raise_for_status()
+
+    if b'Wrong ' in req.content:
+        raise ValueError("""
+*
+*   The server responded with the error:
+*   {0}
+*
+""".format(req.content))
 
     df = pd.read_csv(
         BytesIO(req.content),
