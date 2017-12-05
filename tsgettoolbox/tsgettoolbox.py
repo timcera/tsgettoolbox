@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-r"""tsgettoolbox command line/library tools to retrieve time series.
+r"""
+tsgettoolbox command line/library tools to retrieve time series.
+
 This program is a collection of utilities to download data from various
 web services.
 """
@@ -28,8 +30,7 @@ warnings.filterwarnings('ignore')
 
 @mando.command()
 def about():
-    r"""Print out information about tsgettoolbox and the system.
-    """
+    r"""Print out information about tsgettoolbox and the system."""
     tsutils.about(__name__)
 
 
@@ -40,11 +41,20 @@ def cpc(state=None,
         start_date=None,
         end_date=None):
     """
-    This module provides direct access to Climate Prediction Center, Weekly
-    Drought Index dataset.
+    Access to Climate Prediction Center, Weekly Drought Index dataset.
 
     Climate Prediction Center: http://www.cpc.ncep.noaa.gov/
     Weekly Drought Index: http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
+
+    Command Line ::
+
+        tsgettoolbox cpc --state=FL --start_date 2017-01-01 --end_date 2017-02-01
+
+    Python API ::
+
+        df = tsgettoolbox.cpc("FL",
+                              start_date="2017-01-01",
+                              end_date="2017-02-01")
 
     Parameters
     ----------
@@ -74,8 +84,9 @@ def cdec(station_id,
          start_date=None,
          end_date=None):
     r"""
-    This module provides access to data provided by the `California Department
-    of Water Resources`_ `California Data Exchange Center`_ web site.
+    Access data from the `California Department of Water Resources`_
+
+    The web site is called the `California Data Exchange Center`_.
 
     .. _California Department of Water Resources: http://www.water.ca.gov/
     .. _California Data Exchange Center: http://cdec.water.ca.gov
@@ -95,71 +106,71 @@ def cdec(station_id,
         SELECTED CDEC SENSOR NUMBERS (these are not available for all
         sites):
 
-        +------------+--------------------------------------------+
-        | sensor_num | Description                                |
-        +============+============================================+
-        | 1          |  river stage [ft]                          |
-        +------------+--------------------------------------------+
-        | 2          |  precipitation accumulated [in]            |
-        +------------+--------------------------------------------+
-        | 3          |  SWE [in]                                  |
-        +------------+--------------------------------------------+
-        | 4          |  air temperature [F]                       |
-        +------------+--------------------------------------------+
-        | 5          |  EC [ms/cm]                                |
-        +------------+--------------------------------------------+
-        | 6          |  reservoir elevation [ft]                  |
-        +------------+--------------------------------------------+
-        | 7          |  reservoir scheduled release [cfs]         |
-        +------------+--------------------------------------------+
-        | 8          |  full natural flow [cfs]                   |
-        +------------+--------------------------------------------+
-        | 15         |  reservoir storage [af]                    |
-        +------------+--------------------------------------------+
-        | 20         |  flow -- river discharge [cfs]             |
-        +------------+--------------------------------------------+
-        | 22         |  reservoir storage change [af]             |
-        +------------+--------------------------------------------+
-        | 23         |  reservoir outflow [cfs]                   |
-        +------------+--------------------------------------------+
-        | 24         |  Evapotranspiration [in]                   |
-        +------------+--------------------------------------------+
-        | 25         |  water temperature [F]                     |
-        +------------+--------------------------------------------+
-        | 27         |  water turbidity [ntu]                     |
-        +------------+--------------------------------------------+
-        | 28         |  chlorophyll [ug/l]                        |
-        +------------+--------------------------------------------+
-        | 41         |  flow -- mean daily [cfs]                  |
-        +------------+--------------------------------------------+
-        | 45         |  precipitation incremental [in]            |
-        +------------+--------------------------------------------+
-        | 46         |  runoff volume [af]                        |
-        +------------+--------------------------------------------+
-        | 61         |  water dissolved oxygen [mg/l]             |
-        +------------+--------------------------------------------+
-        | 62         |  water pH value [pH]                       |
-        +------------+--------------------------------------------+
-        | 64         |  pan evaporation (incremental) [in]        |
-        +------------+--------------------------------------------+
-        | 65         |  full natural flow [af]                    |
-        +------------+--------------------------------------------+
-        | 66         |  flow -- monthly volume [af]               |
-        +------------+--------------------------------------------+
-        | 67         |  accretions (estimated) [af]               |
-        +------------+--------------------------------------------+
-        | 71         |  spillway discharge [cfs]                  |
-        +------------+--------------------------------------------+
-        | 74         |  lake evaporation (computed) [cfs]         |
-        +------------+--------------------------------------------+
-        | 76         |  reservoir inflow [cfs]                    |
-        +------------+--------------------------------------------+
-        | 85         |  control regulating discharge [cfs]        |
-        +------------+--------------------------------------------+
-        | 94         |  top conservation storage (reservoir) [af] |
-        +------------+--------------------------------------------+
-        | 100        |  water EC [us/cm]                          |
-        +------------+--------------------------------------------+
+        +------------+-------------------------------------------+
+        | sensor_num | Description                               |
+        +============+===========================================+
+        | 1          | river stage [ft]                          |
+        +------------+-------------------------------------------+
+        | 2          | precipitation accumulated [in]            |
+        +------------+-------------------------------------------+
+        | 3          | SWE [in]                                  |
+        +------------+-------------------------------------------+
+        | 4          | air temperature [F]                       |
+        +------------+-------------------------------------------+
+        | 5          | EC [ms/cm]                                |
+        +------------+-------------------------------------------+
+        | 6          | reservoir elevation [ft]                  |
+        +------------+-------------------------------------------+
+        | 7          | reservoir scheduled release [cfs]         |
+        +------------+-------------------------------------------+
+        | 8          | full natural flow [cfs]                   |
+        +------------+-------------------------------------------+
+        | 15         | reservoir storage [af]                    |
+        +------------+-------------------------------------------+
+        | 20         | flow -- river discharge [cfs]             |
+        +------------+-------------------------------------------+
+        | 22         | reservoir storage change [af]             |
+        +------------+-------------------------------------------+
+        | 23         | reservoir outflow [cfs]                   |
+        +------------+-------------------------------------------+
+        | 24         | Evapotranspiration [in]                   |
+        +------------+-------------------------------------------+
+        | 25         | water temperature [F]                     |
+        +------------+-------------------------------------------+
+        | 27         | water turbidity [ntu]                     |
+        +------------+-------------------------------------------+
+        | 28         | chlorophyll [ug/l]                        |
+        +------------+-------------------------------------------+
+        | 41         | flow -- mean daily [cfs]                  |
+        +------------+-------------------------------------------+
+        | 45         | precipitation incremental [in]            |
+        +------------+-------------------------------------------+
+        | 46         | runoff volume [af]                        |
+        +------------+-------------------------------------------+
+        | 61         | water dissolved oxygen [mg/l]             |
+        +------------+-------------------------------------------+
+        | 62         | water pH value [pH]                       |
+        +------------+-------------------------------------------+
+        | 64         | pan evaporation (incremental) [in]        |
+        +------------+-------------------------------------------+
+        | 65         | full natural flow [af]                    |
+        +------------+-------------------------------------------+
+        | 66         | flow -- monthly volume [af]               |
+        +------------+-------------------------------------------+
+        | 67         | accretions (estimated) [af]               |
+        +------------+-------------------------------------------+
+        | 71         | spillway discharge [cfs]                  |
+        +------------+-------------------------------------------+
+        | 74         | lake evaporation (computed) [cfs]         |
+        +------------+-------------------------------------------+
+        | 76         | reservoir inflow [cfs]                    |
+        +------------+-------------------------------------------+
+        | 85         | control regulating discharge [cfs]        |
+        +------------+-------------------------------------------+
+        | 94         | top conservation storage (reservoir) [af] |
+        +------------+-------------------------------------------+
+        | 100        | water EC [us/cm]                          |
+        +------------+-------------------------------------------+
 
     dur_code: str, comma separated strings, or ``None``
         Possible values are 'E', 'H', 'D', and 'M' but not
@@ -204,7 +215,8 @@ def coops(station,
           time_zone='GMT',
           interval='h',
           bin=None):
-    r"""Download from Center for Operational Oceanographic Products and Services.
+    r"""
+    Download from Center for Operational Oceanographic Products and Services.
 
     CO-OPS web services is at http://tidesandcurrents.noaa.gov/api/.
     The time zone of the returned data depends on the setting of the
@@ -223,13 +235,9 @@ def coops(station,
         http://tidesandcurrents.noaa.gov or viewed on a map at Tides
         & Currents Station Map
     date
-        The API understands several parameters related
-        to date ranges.  All dates can be formatted as follows::
-
-            YyyyMMdd
-            yyyyMMdd HH:mm
-            MM/dd/yyyy
-            MM/dd/yyyy HH:mm
+        The API understands several parameters related to date ranges.  Date
+        formats are pretty flexible, however the closer to ISO 8601, the
+        better.
 
         The date related options are 'begin_date', 'end_date', 'date',
         and 'range'.  They can be combined in the following 5 ways, but
@@ -317,8 +325,8 @@ def coops(station,
         date related parameters.
 
     product
-        Specify the
-        data.
+        Specify the observation
+        requested.
 
         +------------------------+-------------------------------------+
         | Option                 | Description                         |
@@ -436,8 +444,8 @@ def coops(station,
         r'http://tidesandcurrents.noaa.gov/api/datagetter',
         station=station,
         date=date,
-        begin_date=tsutils.parsedate(begin_date),
-        end_date=tsutils.parsedate(end_date),
+        begin_date=begin_date,
+        end_date=end_date,
         range=range,
         product=product,
         datum=datum,
@@ -946,10 +954,10 @@ def nwis(sites=None,
         If endDT is present, startDt must also be
         present.::
 
-            --startDT=2010-11-22 --endDT=2010-11-22 # Full day, 00:00 to 23:59
+            --startDT=2010-11-22 --endDT=2010-11-22  # Full day, 00:00 to 23:59
             --startDT=2010-11-22T12:00 --endDT=2010-11-22T18:00
             --startDT=2010-11-22 --endDT=2010-11-22
-            --startDT=2010-11-22T12:00 # Most recent instantaneous value
+            --startDT=2010-11-22T12:00  # From "startDT" to most recent instantaneous value
 
     database : str
         If using the 'measurements' or 'peak' database option you can download
@@ -1061,7 +1069,7 @@ def nwis(sites=None,
 *
 *   The 'database' option must be either 'iv' for instantaneous values,
 *   or 'dv' for daily values, or 'stat' for daily, monthly, or annual
-*   statistics, or 'measurements' for field measurements, pr 'peak' for
+*   statistics, or 'measurements' for field measurements, or 'peak' for
 *   peak stage and flow estimates, or 'site' for site metadata.
 *   You gave {0}.
 *
@@ -1385,7 +1393,7 @@ def darksky(latitude,
             units='us',
             lang='en'):
     r"""
-    Powered by Dark Sky https://darksky.net/poweredby/
+    Data from the Dark Sky forecast service.
 
     Powered by Dark Sky https://darksky.net/poweredby/
 
@@ -1697,7 +1705,8 @@ def forecast_io(latitude,
                 extend=None,
                 units='us',
                 lang='en'):
-    r""" DEPRECATED: please use 'darksky'.
+    r"""
+    DEPRECATED: please use 'darksky'.
 
     The forecast_io service changed names to 'darksky'.  See documentation
     under the darksky service.
@@ -2181,6 +2190,7 @@ def ncdc_ghcnd(stationid,
                enddate=''):
     r"""
     Download from the Global Historical Climatology Network - Daily.
+
     Requires registration and free API key.
 
     If you use this data, please read
@@ -2531,6 +2541,8 @@ def ncdc_gs(stationid,
             startdate='',
             enddate=''):
     r"""
+    Access NCDC Global Summary of Month (GSOM) and Year (GSOY)
+
     National Climatic Data Center Global Summary of the MONTH (GSOM)
     https://gis.ncdc.noaa.gov/all-records/catalog/search/resource/details.page
     Cite this dataset when used as a source: Lawrimore, Jay (2016). Global
@@ -3054,6 +3066,7 @@ def ncdc_nexrad2(stationid,
                  enddate=''):
     r"""
     National Climatic Data Center NEXRAD Level II
+
     Requires registration and free API key.
 
     stationid:  Station ID.
@@ -3099,6 +3112,7 @@ def ncdc_nexrad3(stationid,
                  enddate=''):
     r"""
     National Climatic Data Center NEXRAD Level III
+
     Requires registration and free API key.
 
     stationid:  Station ID.
@@ -3144,6 +3158,7 @@ def ncdc_normal_ann(stationid,
                     enddate=''):
     r"""
     National Climatic Data Center annual normals
+
     Requires registration and free API key.
 
     The 1981-2010 Normals comprise all climate normals using the thirty year
@@ -4824,6 +4839,7 @@ def ncdc_normal_dly(stationid,
                     enddate=''):
     r"""
     National Climatic Data Center Daily Normals
+
     Requires registration and free API key.
 
     For every datatype and record there is a set of meta-data flags.
@@ -5092,6 +5108,7 @@ def ncdc_normal_hly(stationid,
                     enddate=''):
     r"""
     National Climatic Data Center GHCND Monthly Summaries
+
     Requires registration and free API key.
 
     For every datatype and record there is a set of meta-data flags.
@@ -5206,6 +5223,7 @@ def ncdc_normal_mly(stationid,
                     enddate=''):
     r"""
     National Climatic Data Center GHCND Monthly Summaries
+
     Requires registration and free API key.
 
     For every datatype and record there is a set of meta-data flags.
@@ -5531,6 +5549,7 @@ def ncdc_precip_15(stationid,
                    enddate=''):
     r"""
     National Climatic Data Center 15 minute precipitation
+
     Requires registration and free API key.
 
     For every datatype and record there is a set of meta-data flags.
@@ -5599,6 +5618,7 @@ def ncdc_precip_hly(stationid,
                     enddate=''):
     r"""
     National Climatic Data Center hourly precipitation
+
     Requires registration and free API key.
 
     For every datatype and record there is a set of meta-data flags.
@@ -5661,6 +5681,7 @@ def ncdc_annual(stationid,
                 startdate='', enddate=''):
     r"""
     National Climatic Data Center annual data summaries
+
     Requires registration and free API key.
 
     For every datatype and record there is a set of meta-data flags.
@@ -6582,6 +6603,7 @@ def ncdc_ghcndms(stationid,
                  enddate=''):
     r"""
     National Climatic Data Center GHCND Monthly Summaries
+
     Requires registration and free API key.
 
     For every datatype and record there is a set of meta-data flags.
@@ -7109,14 +7131,15 @@ def usgs_eddn(dcp_address,
               parser,
               start_date=None,
               end_date=None):
-    r"""Download from the USGS Emergency Data Distribution Network
+    r"""
+    Download from the USGS Emergency Data Distribution Network
 
     This module provides access to data provided by the United States
     Geological Survey Emergency Data Distribution Network web site.
 
-    The DCP message format includes some header information that is parsed
-    and the message body, with a variable number of characters. The format of
-    the message body varies widely depending on the manufacturer of the
+    The DCP message format includes some header information that is parsed and
+    the message body, with a variable number of characters. The format of the
+    message body varies widely depending on the manufacturer of the
     transmitter, data logger, sensors, and the technician who programmed the
     DCP. The body can be simple ASCII, sometime with parameter codes and
     time-stamps embedded, sometimes not. The body can also be in
@@ -7137,12 +7160,13 @@ def usgs_eddn(dcp_address,
         joined by a ','.
 
     parser
-        function that acts on dcp_message each row of the dataframe and returns
-        a new dataframe containing several rows of decoded data. This returned
-        dataframe may have different (but derived) timestamps than that the
-        original row. If a string is passed then a matching parser function is
-        looked up from ulmo.usgs.eddn.parser.  The prebuilt functions are
-        "twdb_dot", "twdb_stevens", "twdb_sutron", and "twdb_texuni".
+        Function that acts on dcp_message, where each row of the dataframe is
+        processed and returns a new dataframe containing several rows of
+        decoded data. This returned dataframe may have different (but derived)
+        timestamps than that the original row. If a string is passed then
+        a matching parser function is looked up from ulmo.usgs.eddn.parser.
+        The prebuilt functions are "twdb_dot", "twdb_stevens", "twdb_sutron",
+        and "twdb_texuni".
 
     {start_date}
 
@@ -7167,7 +7191,8 @@ def lcra_hydromet(site_code,
                   start_date=None,
                   end_date=None,
                   dam_site_location='head'):
-    r"""Fetches site parameter data
+    r"""
+    Hydrometeorologic data from the Lower Colorado River Authority
 
     This module provides access to hydrologic and climate data in the Colorado
     River Basin (Texas) provided by the Lower Colorado River Authority
@@ -7240,10 +7265,9 @@ def lcra_wq(site_code,
             start_date=None,
             end_date=None):
     r"""
-    Fetches historical or near real-time (for some sites) data
+    Access data from the Lower Colorado River Authority Water Quality
 
-    This module provides access to data provided by the Lower Colorado
-    River Authority Water Quality web site.
+    Fetches historical or near real-time (for some sites) data.
 
     Lower Colorado River Authority: http://www.lcra.org
 
@@ -7292,7 +7316,7 @@ def twc(county,
         start_date=None,
         end_date=None):
     r"""
-    Fetches Texas weather data
+    Fetches Texas Weather Connection (TWC) data
 
     This module provides direct access to `Texas Weather Connection`_ `Daily
     Keetch-Byram Drought Index (KBDI)`_ dataset.
@@ -7325,7 +7349,8 @@ def modis(lat,
           band,
           startdate=None,
           enddate=None):
-    r"""Download MODIS derived data.
+    r"""
+    Download MODIS derived data.
 
     This data are derived data sets from MODIS satellite photos.
 
@@ -7533,466 +7558,237 @@ def modis(lat,
         One of the following values in the 'product'
         column.
 
-        +---------+------------------------------------+--------+------+
-        | product | Name                               | Freq   | Size |
-        |         |                                    | (days) | (m)  |
-        +=========+====================================+========+======+
-        | MCD12Q1 | MODIS/Terra+Aqua Land Cover (LC)   | annual | 500  |
-        |         | Type Yearly L3 Global 500m SIN     |        |      |
-        |         | Grid                               |        |      |
-        +---------+------------------------------------+--------+------+
-        | MCD12Q2 | MODIS/Terra+Aqua Land Cover        | annual | 500  |
-        |         | Dynamics (LCD) Yearly L3 Global    |        |      |
-        |         | 500m SIN Grid                      |        |      |
-        +---------+------------------------------------+--------+------+
-        | MCD43A1 | MODIS/Terra+Aqua BRDF/Albedo       | 16     | 500  |
-        |         | (BRDF/MCD43A1) 16-Day L3 Global    |        |      |
-        |         | 500m SIN Grid                      |        |      |
-        +---------+------------------------------------+--------+------+
-        | MCD43A2 | MODIS/Terra+Aqua BRDF/Model        | 16     | 500  |
-        |         | Quality (BRDF/MCD43A2) 16-Day L3   |        |      |
-        |         | Global 500m SIN Grid V005          |        |      |
-        +---------+------------------------------------+--------+------+
-        | MCD43A4 | MODIS/Terra+Aqua Nadir BRDF-       | 16     | 500  |
-        |         | Adjusted Reflectance (NBAR) 16-Day |        |      |
-        |         | L3 Global 500m SIN Grid            |        |      |
-        +---------+------------------------------------+--------+------+
-        | MOD09A1 | MODIS/Terra Surface Reflectance    | 8      | 500  |
-        |         | (SREF) 8-Day L3 Global 500m SIN    |        |      |
-        |         | Grid                               |        |      |
-        +---------+------------------------------------+--------+------+
-        | MOD11A2 | MODIS/Terra Land Surface           | 8      | 1000 |
-        |         | Temperature/Emissivity (LST) 8-Day |        |      |
-        |         | L3 Global 1km SIN Grid             |        |      |
-        +---------+------------------------------------+--------+------+
-        | MOD13Q1 | MODIS/Terra Vegetation Indices     | 16     | 250  |
-        |         | (NDVI/EVI) 16-Day L3 Global 250m   |        |      |
-        |         | SIN Grid [Collection 5]            |        |      |
-        +---------+------------------------------------+--------+------+
-        | MOD15A2 | Leaf Area Index (LAI) and Fraction | 8      | 1000 |
-        |         | of Photosynthetically Active       |        |      |
-        |         | Radiation (FPAR) 8-Day Composite   |        |      |
-        |         | [Collection 5]                     |        |      |
-        +---------+------------------------------------+--------+------+
-        | MOD16A2 | MODIS/Terra Evapotranspiration     | 8      | 1000 |
-        |         | (ET) 8-Day L4 Global Collection 5  |        |      |
-        +---------+------------------------------------+--------+------+
-        | MOD17A2 | MODIS/Terra Gross Primary          | 8      | 1000 |
-        |         | Production (GPP) 8-Day L4 Global   |        |      |
-        |         | [Collection 5.1]                   |        |      |
-        +---------+------------------------------------+--------+------+
-        | MOD17A3 | MODIS/Terra Net Primary Production | annual | 1000 |
-        |         | (NPP) Yearly L4 Global 1km SIN     |        |      |
-        |         | Grid                               |        |      |
-        +---------+------------------------------------+--------+------+
-        | MYD09A1 | MODIS/Aqua Surface Reflectance     | 8      | 500  |
-        |         | (SREF) 8-Day L3 Global 500m SIN    |        |      |
-        |         | Grid                               |        |      |
-        +---------+------------------------------------+--------+------+
-        | MYD11A2 | MODIS/Aqua Land Surface            | 8      | 1000 |
-        |         | Temperature/Emissivity (LST)8-Day  |        |      |
-        |         | L3 Global 1km SIN Grid             |        |      |
-        +---------+------------------------------------+--------+------+
-        | MYD13Q1 | MODIS/Aqua Vegetation Indices      | 16     | 250  |
-        |         | (NDVI/EVI) 16-Day L3 Global 1km    |        |      |
-        |         | SIN Grid                           |        |      |
-        +---------+------------------------------------+--------+------+
-        | MYD15A2 | MODIS/Aqua Leaf Area Index (LAI)   | 8      | 1000 |
-        |         | and Fraction of Photosynthetically |        |      |
-        |         | Active Radiation (FPAR) 8 Day      |        |      |
-        |         | Composite                          |        |      |
-        +---------+------------------------------------+--------+------+
-        | MYD17A2 | MODIS/Aqua Gross Primary           | 8      | 1000 |
-        |         | Production (GPP) 8 Day L4 Global   |        |      |
-        +---------+------------------------------------+--------+------+
+        +----------+-------------------------------+--------+---------+
+        | product  | Name                          | Freq.  | Size    |
+        |          |                               | (Days) | (Meter) |
+        +==========+===============================+========+=========+
+        | MCD12Q1  | MODIS/Terra+Aqua Land Cover   | annual |  500    |
+        |          | Type Yearly L3                |        |         |
+        +----------+-------------------------------+--------+---------+
+        | MCD12Q2  | MODIS/Terra+Aqua Land Cover   | annual |  500    |
+        |          | Dynamics Yearly L3            |        |         |
+        +----------+-------------------------------+--------+---------+
+        | MCD15A2H | MODIS/Terra+Aqua Leaf Area    | 8      |  500    |
+        |          | Index/FPAR 8-Day L4           |        |         |
+        +----------+-------------------------------+--------+---------+
+        | MCD15A3H | MODIS/Terra+Aqua Leaf Area    | 4      |  500    |
+        |          | Index/FPAR 4-Day L4           |        |         |
+        +----------+-------------------------------+--------+---------+
+        | MOD09A1  | MODIS/Terra Surface           | 8      |  500    |
+        |          | Reflectance 8-Day L3          |        |         |
+        +----------+-------------------------------+--------+---------+
+        | MOD11A2  | MODIS/Terra Land Surface      | 8      | 1000    |
+        |          | Temperature/Emissivity        |        |         |
+        |          | 8-Day L3                      |        |         |
+        +----------+-------------------------------+--------+---------+
+        | MOD13Q1  | MODIS/Terra Vegetation        | 16     |  250    |
+        |          | Indices 16-Day L3             |        |         |
+        +----------+-------------------------------+--------+---------+
+        | MOD15A2H | MODIS/Terra Leaf Area         | 8      |  500    |
+        |          | Index/FPAR 8-Day L4           |        |         |
+        +----------+-------------------------------+--------+---------+
+        | MOD17A2H | MODIS/Terra Gross Primary     | 8      |  500    |
+        |          | Production 8-Day L4           |        |         |
+        +----------+-------------------------------+--------+---------+
+        | MOD17A3H | MODIS/Terra Net Primary       | annual |  500    |
+        |          | Production Yearly L4          |        |         |
+        +----------+-------------------------------+--------+---------+
+        | MYD09A1  | MODIS/Aqua Surface            | 8      |  500    |
+        |          | Reflectance 8-Day L3          |        |         |
+        +----------+-------------------------------+--------+---------+
+        | MYD11A2  | MODIS/Aqua Land Surface       | 8      | 1000    |
+        |          | Temperature/Emissivity        |        |         |
+        |          | 8-Day L3                      |        |         |
+        +----------+-------------------------------+--------+---------+
+        | MYD13Q1  | MODIS/Aqua Vegetation         | 16     |  250    |
+        |          | Indices 16-Day L3             |        |         |
+        +----------+-------------------------------+--------+---------+
+        | MYD15A2H | MODIS/Aqua Leaf Area          | 8      |  500    |
+        |          | Index/FPAR 8-Day L4           |        |         |
+        +----------+-------------------------------+--------+---------+
+        | MYD17A2H | MODIS/Aqua Gross Primary      | 8      |  500    |
+        |          | Production 8-Day L4           |        |         |
+        +----------+-------------------------------+--------+---------+
+        | MYD17A3H | MODIS/Aqua Net Primary        | annual |  500    |
+        |          | Production Yearly L4          |        |         |
+        +----------+-------------------------------+--------+---------+
 
     band : str
         One of the following. The 'band' selected from the second column must
         match the 'product' in the first column.
 
-        +------------+-------------------------------------------------+
-        | product    | band                                            |
-        +============+=================================================+
-        | MCD12Q1    | LC_Property_1  (not populated)                  |
-        +------------+-------------------------------------------------+
-        |            | LC_Property_2  (not populated)                  |
-        +------------+-------------------------------------------------+
-        |            | LC_Property_3  (not populated)                  |
-        +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_1 (See Land Cover Datasets and  |
-        |            | Land Cover Types tables)                        |
-        +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_2 (See Land Cover Datasets and  |
-        |            | Land Cover Types tables)                        |
-        +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_3 (See Land Cover Datasets and  |
-        |            | Land Cover Types tables)                        |
-        +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_4 (See Land Cover Datasets and  |
-        |            | Land Cover Types tables)                        |
-        +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_5 (See Land Cover Datasets and  |
-        |            | Land Cover Types tables)                        |
-        +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_1_Assessment (per cent)         |
-        +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_2_Assessment (not populated)    |
-        +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_3_Assessment (not populated)    |
-        +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_4_Assessment (not populated)    |
-        +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_5_Assessment (not populated)    |
-        +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_1_Secondary (See Land Cover     |
-        |            | Datasets and Land Cover Types tables)           |
-        +------------+-------------------------------------------------+
-        |            | Land_Cover_Type_1_Secondary_Percent (not        |
-        |            | populated)                                      |
-        +------------+-------------------------------------------------+
-        | MCD12Q2    | NBAR_EVI_Onset_Greenness_Maximum.Num_Modes_02   |
-        +------------+-------------------------------------------------+
-        |            | NBAR_EVI_Onset_Greenness_Minimum.Num_Modes_02   |
-        +------------+-------------------------------------------------+
-        |            | NBAR_EVI_Onset_Greenness_Maximum.Num_Modes_01   |
-        +------------+-------------------------------------------------+
-        |            | NBAR_EVI_Onset_Greenness_Minimum.Num_Modes_01   |
-        +------------+-------------------------------------------------+
-        |            | Onset_Greenness_Minimum.Num_Modes_02            |
-        +------------+-------------------------------------------------+
-        |            | Onset_Greenness_Decrease.Num_Modes_02           |
-        +------------+-------------------------------------------------+
-        |            | Onset_Greenness_Maximum.Num_Modes_02            |
-        +------------+-------------------------------------------------+
-        |            | Onset_Greenness_Increase.Num_Modes_02           |
-        +------------+-------------------------------------------------+
-        |            | Onset_Greenness_Minimum.Num_Modes_01            |
-        +------------+-------------------------------------------------+
-        |            | Onset_Greenness_Decrease.Num_Modes_01           |
-        +------------+-------------------------------------------------+
-        |            | Onset_Greenness_Maximum.Num_Modes_01            |
-        +------------+-------------------------------------------------+
-        |            | Onset_Greenness_Increase.Num_Modes_01           |
-        +------------+-------------------------------------------------+
-        |            | NBAR_EVI_Area.Num_Modes_01                      |
-        +------------+-------------------------------------------------+
-        |            | NBAR_EVI_Area.Num_Modes_02                      |
-        +------------+-------------------------------------------------+
-        | MCD43A1    | BRDF_Albedo_Parameters_Band1.Num_Parameters_01  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band1.Num_Parameters_02  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band1.Num_Parameters_03  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band2.Num_Parameters_01  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band2.Num_Parameters_02  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band2.Num_Parameters_03  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band3.Num_Parameters_01  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band3.Num_Parameters_02  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band3.Num_Parameters_03  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band4.Num_Parameters_01  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band4.Num_Parameters_02  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band4.Num_Parameters_03  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band5.Num_Parameters_01  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band5.Num_Parameters_02  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band5.Num_Parameters_03  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band6.Num_Parameters_01  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band6.Num_Parameters_02  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band6.Num_Parameters_03  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band7.Num_Parameters_01  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band7.Num_Parameters_02  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_Band7.Num_Parameters_03  |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_vis.Num_Parameters_01    |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_vis.Num_Parameters_02    |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_vis.Num_Parameters_03    |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_nir.Num_Parameters_01    |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_nir.Num_Parameters_02    |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_nir.Num_Parameters_03    |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_shortwave.               |
-        |            | Num_Parameters_01                               |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_shortwave.               |
-        |            | Num_Parameters_02                               |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Parameters_shortwave.               |
-        |            | Num_Parameters_03                               |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Shape_Indicators.Num_Shape_Fields_01       |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Shape_Indicators.Num_Shape_Fields_02       |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Shape_Indicators.Num_Shape_Fields_03       |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Shape_Indicators.Num_Shape_Fields_04       |
-        +------------+-------------------------------------------------+
-        | MCD43A2    | BRDF_Albedo_Quality                             |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Ancillary                           |
-        +------------+-------------------------------------------------+
-        |            | BRDF_Albedo_Band_Quality                        |
-        +------------+-------------------------------------------------+
-        |            | Snow_BRDF_Albedo                                |
-        +------------+-------------------------------------------------+
-        | MCD43A4    | Nadir_Reflectance_Band1                         |
-        +------------+-------------------------------------------------+
-        |            | Nadir_Reflectance_Band2                         |
-        +------------+-------------------------------------------------+
-        |            | Nadir_Reflectance_Band3                         |
-        +------------+-------------------------------------------------+
-        |            | Nadir_Reflectance_Band4                         |
-        +------------+-------------------------------------------------+
-        |            | Nadir_Reflectance_Band5                         |
-        +------------+-------------------------------------------------+
-        |            | Nadir_Reflectance_Band6                         |
-        +------------+-------------------------------------------------+
-        |            | Nadir_Reflectance_Band7                         |
-        +------------+-------------------------------------------------+
-        | MOD09A1    | sur_refl_day_of_year                            |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_qc_500m                                |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_raz                                    |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_state_500m                             |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_szen                                   |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_vzen                                   |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_b01                                    |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_b02                                    |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_b03                                    |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_b04                                    |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_b05                                    |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_b06                                    |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_b07                                    |
-        +------------+-------------------------------------------------+
-        | MOD11A2    | Clear_sky_days                                  |
-        +------------+-------------------------------------------------+
-        |            | Clear_sky_nights                                |
-        +------------+-------------------------------------------------+
-        |            | Day_view_angl                                   |
-        +------------+-------------------------------------------------+
-        |            | Day_view_time                                   |
-        +------------+-------------------------------------------------+
-        |            | Emis_31                                         |
-        +------------+-------------------------------------------------+
-        |            | Emis_32                                         |
-        +------------+-------------------------------------------------+
-        |            | Night_view_angl                                 |
-        +------------+-------------------------------------------------+
-        |            | Night_view_time                                 |
-        +------------+-------------------------------------------------+
-        |            | QC_Day                                          |
-        +------------+-------------------------------------------------+
-        |            | QC_Night                                        |
-        +------------+-------------------------------------------------+
-        |            | LST_Day_1km                                     |
-        +------------+-------------------------------------------------+
-        |            | LST_Night_1km                                   |
-        +------------+-------------------------------------------------+
-        | MOD13Q1    | 250m_16_days_blue_reflectance                   |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_MIR_reflectance                    |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_NIR_reflectance                    |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_pixel_reliability                  |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_red_reflectance                    |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_relative_azimuth_angle             |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_sun_zenith_angle                   |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_view_zenith_angle                  |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_VI_Quality                         |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_NDVI                               |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_EVI                                |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_composite_day_of_the_year          |
-        +------------+-------------------------------------------------+
-        | MOD15A2    | FparExtra_QC                                    |
-        +------------+-------------------------------------------------+
-        |            | FparLai_QC                                      |
-        +------------+-------------------------------------------------+
-        |            | FparStdDev_1km                                  |
-        +------------+-------------------------------------------------+
-        |            | LaiStdDev_1km                                   |
-        +------------+-------------------------------------------------+
-        |            | Lai_1km                                         |
-        +------------+-------------------------------------------------+
-        |            | Fpar_1km                                        |
-        +------------+-------------------------------------------------+
-        | MOD15A2GFS | FparExtra_QC                                    |
-        +------------+-------------------------------------------------+
-        |            | FparLai_QC                                      |
-        +------------+-------------------------------------------------+
-        |            | FparStdDev_1km                                  |
-        +------------+-------------------------------------------------+
-        |            | LaiStdDev_1km                                   |
-        +------------+-------------------------------------------------+
-        |            | Lai_1km                                         |
-        +------------+-------------------------------------------------+
-        |            | Fpar_1km                                        |
-        +------------+-------------------------------------------------+
-        | MOD16A2    | ET_1km                                          |
-        +------------+-------------------------------------------------+
-        |            | LE_1km                                          |
-        +------------+-------------------------------------------------+
-        |            | PET_1km                                         |
-        +------------+-------------------------------------------------+
-        |            | PLE_1km                                         |
-        +------------+-------------------------------------------------+
-        |            | ET_QC_1km                                       |
-        +------------+-------------------------------------------------+
-        | MOD17A2_51 | Psn_QC_1km                                      |
-        +------------+-------------------------------------------------+
-        |            | PsnNet_1km                                      |
-        +------------+-------------------------------------------------+
-        |            | Gpp_1km                                         |
-        +------------+-------------------------------------------------+
-        | MOD17A3    | Gpp_Npp_QC_1km                                  |
-        +------------+-------------------------------------------------+
-        |            | Npp_1km                                         |
-        +------------+-------------------------------------------------+
-        |            | Gpp_1km                                         |
-        +------------+-------------------------------------------------+
-        | MYD09A1    | sur_refl_day_of_year                            |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_qc_500m                                |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_raz                                    |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_state_500m                             |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_szen                                   |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_vzen                                   |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_b01                                    |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_b02                                    |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_b03                                    |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_b04                                    |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_b05                                    |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_b06                                    |
-        +------------+-------------------------------------------------+
-        |            | sur_refl_b07                                    |
-        +------------+-------------------------------------------------+
-        | MYD11A2    | Clear_sky_days                                  |
-        +------------+-------------------------------------------------+
-        |            | Clear_sky_nights                                |
-        +------------+-------------------------------------------------+
-        |            | Day_view_angl                                   |
-        +------------+-------------------------------------------------+
-        |            | Day_view_time                                   |
-        +------------+-------------------------------------------------+
-        |            | Emis_31                                         |
-        +------------+-------------------------------------------------+
-        |            | Emis_32                                         |
-        +------------+-------------------------------------------------+
-        |            | Night_view_angl                                 |
-        +------------+-------------------------------------------------+
-        |            | Night_view_time                                 |
-        +------------+-------------------------------------------------+
-        |            | QC_Day                                          |
-        +------------+-------------------------------------------------+
-        |            | QC_Night                                        |
-        +------------+-------------------------------------------------+
-        |            | LST_Day_1km                                     |
-        +------------+-------------------------------------------------+
-        |            | LST_Night_1km                                   |
-        +------------+-------------------------------------------------+
-        | MYD13Q1    | 250m_16_days_blue_reflectance                   |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_MIR_reflectance                    |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_NIR_reflectance                    |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_pixel_reliability                  |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_red_reflectance                    |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_relative_azimuth_angle             |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_sun_zenith_angle                   |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_view_zenith_angle                  |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_VI_Quality                         |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_NDVI                               |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_EVI                                |
-        +------------+-------------------------------------------------+
-        |            | 250m_16_days_composite_day_of_the_year          |
-        +------------+-------------------------------------------------+
-        | MYD15A2    | FparExtra_QC                                    |
-        +------------+-------------------------------------------------+
-        |            | FparLai_QC                                      |
-        +------------+-------------------------------------------------+
-        |            | FparStdDev_1km                                  |
-        +------------+-------------------------------------------------+
-        |            | LaiStdDev_1km                                   |
-        +------------+-------------------------------------------------+
-        |            | Lai_1km                                         |
-        +------------+-------------------------------------------------+
-        |            | Fpar_1km                                        |
-        +------------+-------------------------------------------------+
+        +----------+-----------------------------------------------+
+        | product  | band                                          |
+        +==========+===============================================+
+        | MCD12Q1  | LC_Property_1 (not populated)                 |
+        |          | LC_Property_2 (not populated)                 |
+        |          | LC_Property_3 (not populated)                 |
+        |          | Land_Cover_Type_1                             |
+        |          | Land_Cover_Type_2                             |
+        |          | Land_Cover_Type_3                             |
+        |          | Land_Cover_Type_4                             |
+        |          | Land_Cover_Type_5                             |
+        |          | Land_Cover_Type_1_Assessment                  |
+        |          | Land_Cover_Type_2_Assessment (not populated)  |
+        |          | Land_Cover_Type_3_Assessment (not populated)  |
+        |          | Land_Cover_Type_4_Assessment                  |
+        |          | Land_Cover_Type_5_Assessment (not populated)  |
+        |          | Land_Cover_Type_1_Secondary                   |
+        |          | Land_Cover_Type_1_Secondary_Percent           |
+        |          | (not populated)                               |
+        +----------+-----------------------------------------------+
+        | MCD12Q2  | NBAR_EVI_Onset_Greenness_Maximum.Num_Modes_02 |
+        |          | NBAR_EVI_Onset_Greenness_Minimum.Num_Modes_02 |
+        |          | NBAR_EVI_Onset_Greenness_Maximum.Num_Modes_01 |
+        |          | NBAR_EVI_Onset_Greenness_Minimum.Num_Modes_01 |
+        |          | Onset_Greenness_Minimum.Num_Modes_02          |
+        |          | Onset_Greenness_Decrease.Num_Modes_02         |
+        |          | Onset_Greenness_Maximum.Num_Modes_02          |
+        |          | Onset_Greenness_Increase.Num_Modes_02         |
+        |          | Onset_Greenness_Minimum.Num_Modes_01          |
+        |          | Onset_Greenness_Decrease.Num_Modes_01         |
+        |          | Onset_Greenness_Maximum.Num_Modes_01          |
+        |          | Onset_Greenness_Increase.Num_Modes_01         |
+        |          | NBAR_EVI_Area.Num_Modes_01                    |
+        |          | NBAR_EVI_Area.Num_Modes_02                    |
+        +----------+-----------------------------------------------+
+        | MCD15A2H | FparExtra_QC                                  |
+        |          | FparLai_QC                                    |
+        |          | FparStdDev_500m                               |
+        |          | LaiStdDev_500m                                |
+        |          | Lai_500m                                      |
+        |          | Fpar_500m                                     |
+        +----------+-----------------------------------------------+
+        | MCD15A3H | FparExtra_QC                                  |
+        |          | FparLai_QC                                    |
+        |          | FparStdDev_500m                               |
+        |          | LaiStdDev_500m                                |
+        |          | Lai_500m                                      |
+        |          | Fpar_500m                                     |
+        +----------+-----------------------------------------------+
+        | MOD09A1  | sur_refl_day_of_year                          |
+        |          | sur_refl_qc_500m                              |
+        |          | sur_refl_raz                                  |
+        |          | sur_refl_state_500m                           |
+        |          | sur_refl_szen                                 |
+        |          | sur_refl_vzen                                 |
+        |          | sur_refl_b01                                  |
+        |          | sur_refl_b02                                  |
+        |          | sur_refl_b03                                  |
+        |          | sur_refl_b04                                  |
+        |          | sur_refl_b05                                  |
+        |          | sur_refl_b06                                  |
+        |          | sur_refl_b07                                  |
+        +----------+-----------------------------------------------+
+        | MOD11A2  | Clear_sky_days                                |
+        |          | Clear_sky_nights                              |
+        |          | Day_view_angl                                 |
+        |          | Day_view_time                                 |
+        |          | Emis_31                                       |
+        |          | Emis_32                                       |
+        |          | Night_view_angl                               |
+        |          | Night_view_time                               |
+        |          | QC_Day                                        |
+        |          | QC_Night                                      |
+        |          | LST_Day_1km                                   |
+        |          | LST_Night_1km                                 |
+        +----------+-----------------------------------------------+
+        | MOD13Q1  | 250m_16_days_blue_reflectance                 |
+        |          | 250m_16_days_MIR_reflectance                  |
+        |          | 250m_16_days_NIR_reflectance                  |
+        |          | 250m_16_days_pixel_reliability                |
+        |          | 250m_16_days_red_reflectance                  |
+        |          | 250m_16_days_relative_azimuth_angle           |
+        |          | 250m_16_days_sun_zenith_angle                 |
+        |          | 250m_16_days_view_zenith_angle                |
+        |          | 250m_16_days_VI_Quality                       |
+        |          | 250m_16_days_NDVI                             |
+        |          | 250m_16_days_EVI                              |
+        |          | 250m_16_days_composite_day_of_the_year        |
+        +----------+-----------------------------------------------+
+        | MOD15A2H | FparExtra_QC                                  |
+        |          | FparLai_QC                                    |
+        |          | FparStdDev_500m                               |
+        |          | LaiStdDev_500m                                |
+        |          | Lai_500m                                      |
+        |          | Fpar_500m                                     |
+        +----------+-----------------------------------------------+
+        | MOD17A2H | Psn_QC_500m                                   |
+        |          | PsnNet_500m                                   |
+        |          | Gpp_500m                                      |
+        +----------+-----------------------------------------------+
+        | MOD17A3H | Npp_QC_500m                                   |
+        |          | Npp_500m                                      |
+        +----------+-----------------------------------------------+
+        | MYD09A1  | sur_refl_day_of_year                          |
+        |          | sur_refl_qc_500m                              |
+        |          | sur_refl_raz                                  |
+        |          | sur_refl_state_500m                           |
+        |          | sur_refl_szen                                 |
+        |          | sur_refl_vzen                                 |
+        |          | sur_refl_b01                                  |
+        |          | sur_refl_b02                                  |
+        |          | sur_refl_b03                                  |
+        |          | sur_refl_b04                                  |
+        |          | sur_refl_b05                                  |
+        |          | sur_refl_b06                                  |
+        |          | sur_refl_b07                                  |
+        +----------+-----------------------------------------------+
+        | MYD11A2  | Clear_sky_days                                |
+        |          | Clear_sky_nights                              |
+        |          | Day_view_angl                                 |
+        |          | Day_view_time                                 |
+        |          | Emis_31                                       |
+        |          | Emis_32                                       |
+        |          | Night_view_angl                               |
+        |          | Night_view_time                               |
+        |          | QC_Day                                        |
+        |          | QC_Night                                      |
+        |          | LST_Day_1km                                   |
+        |          | LST_Night_1km                                 |
+        +----------+-----------------------------------------------+
+        | MYD13Q1  | 250m_16_days_blue_reflectance                 |
+        |          | 250m_16_days_MIR_reflectance                  |
+        |          | 250m_16_days_NIR_reflectance                  |
+        |          | 250m_16_days_pixel_reliability                |
+        |          | 250m_16_days_red_reflectance                  |
+        |          | 250m_16_days_relative_azimuth_angle           |
+        |          | 250m_16_days_sun_zenith_angle                 |
+        |          | 250m_16_days_view_zenith_angle                |
+        |          | 250m_16_days_VI_Quality                       |
+        |          | 250m_16_days_NDVI                             |
+        |          | 250m_16_days_EVI                              |
+        |          | 250m_16_days_composite_day_of_the_year        |
+        +----------+-----------------------------------------------+
+        | MYD15A2H | FparExtra_QC                                  |
+        |          | FparLai_QC                                    |
+        |          | FparStdDev_500m                               |
+        |          | LaiStdDev_500m                                |
+        |          | Lai_500m                                      |
+        |          | Fpar_500m                                     |
+        +----------+-----------------------------------------------+
+        | MYD17A2H | Psn_QC_500m                                   |
+        |          | PsnNet_500m                                   |
+        |          | Gpp_500m                                      |
+        +----------+-----------------------------------------------+
+        | MYD17A3H | Npp_QC_500m                                   |
+        |          | Npp_500m                                      |
+        +----------+-----------------------------------------------+
 
     startdate
         ISO 8601 formatted date string
 
     enddate
         ISO 8601 formatted date string
-
 """
     from tsgettoolbox.services import modis as placeholder
 
     r = resource(
-        r'http://daacmodis.ornl.gov/cgi-bin/MODIS/GLBVIZ_1_Glb_subset/MODIS_webservice.wsdl',
+        r'https://modis.ornl.gov/cgi-bin/MODIS/soapservice/MODIS_soapservice.wsdl',
         product=product,
         band=band,
-        lat=lat,
-        lon=lon,
+        latitude=lat,
+        longitude=lon,
         startdate=startdate,
         enddate=enddate)
     return tsutils.printiso(odo(r, pd.DataFrame))

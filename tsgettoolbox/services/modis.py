@@ -7,27 +7,11 @@ except ImportError:
 from odo import odo, resource, convert
 import pandas as pd
 
-import zeep
+from zeep import Client
+from zeep import Transport
+from requests import Session
 
 from tstoolbox import tsutils
-
-products = ['MCD12Q1',
-            'MCD12Q2',
-            'MCD43A1',
-            'MCD43A2',
-            'MCD43A4',
-            'MOD09A1',
-            'MOD11A2',
-            'MOD13Q1',
-            'MOD15A2',
-            'MOD15A2GFS',
-            'MOD16A2',
-            'MOD17A2_51',
-            'MOD17A3',
-            'MYD09A1',
-            'MYD11A2',
-            'MYD13Q1',
-            'MYD15A2']
 
 """
 +---------+----------+-------------------------+-----------+------------+
@@ -532,7 +516,7 @@ class modis(object):
         self.query_params = query_params
 
 
-@resource.register(r'http://daacmodis\.ornl\.gov/cgi-bin/MODIS/GLBVIZ_1_Glb_subset/MODIS_webservice.wsdl', priority=17)
+@resource.register(r'https://modis.ornl.gov/cgi-bin/MODIS/soapservice/MODIS_soapservice.wsdl', priority=17)
 def resource_modis(uri, **kwargs):
     return modis(uri, **kwargs)
 
@@ -547,21 +531,36 @@ def date_parser(strdates):
 
 @convert.register(pd.DataFrame, modis)
 def modis_to_df(data, **kwargs):
-    client = zeep.Client(wsdl=data.url)
+    session = Session()
+    session.verify = True
+    transport = Transport(session=session)
+    client = Client(wsdl=data.url, transport=transport)
+    products = client.service.getproducts()
+    if data.query_params['product'] not in products:
+        raise ValueError("""
+*
+*   Available products at the current time are:
+*   {0}.
+*
+*   You gave me {1}.
+*
+""".format(products, data.query_params['product']))
     bands = client.service.getbands(data.query_params['product'])
     if data.query_params['band'] not in bands:
         raise ValueError("""
 *
 *   'band' argument must be in the following list for 'product' = {0}.
-*   {1}
+*   {1}.
 *
-""".format(data.query_params['product'], bands))
+*   You gave me {2}.
+*
+""".format(data.query_params['product'], bands, data.query_params['band']))
 
     startdate = data.query_params['startdate']
     enddate = data.query_params['enddate']
 
-    dates = client.service.getdates(data.query_params['lat'],
-                                    data.query_params['lon'],
+    dates = client.service.getdates(float(data.query_params['latitude']),
+                                    float(data.query_params['longitude']),
                                     data.query_params['product'])
     dates = pd.np.array(dates)
 
@@ -573,60 +572,50 @@ def modis_to_df(data, **kwargs):
     if enddate > testenddate:
         enddate = testenddate
 
-    idate = pd.np.array([int(i[1:]) for i in dates])
-    startdatestr = 'A{0}{1:03d}'.format(startdate.year,
-                                        (startdate -
-                                         pd.datetime(startdate.year -
-                                                     1, 12, 31)).days)
-    enddatestr = 'A{0}{1:03d}'.format(enddate.year,
-                                      (enddate -
-                                       pd.datetime(enddate.year -
-                                                   1, 12, 31)).days)
+    dateintervals = dates[slice(0, -1, 10)]
 
-    mask = pd.np.logical_and(idate >= int(startdatestr[1:]),
-                             idate < int(enddatestr[1:]))
-
-    mdates = dates[mask]
-    stepdates = mdates[::10]
-    if stepdates[-1] != mdates[-1]:
-        stepdates = pd.np.append(stepdates, mdates[-1])
-    collect_list = ''
-    for idate, jdate in zip(stepdates[:-1], stepdates[1:]):
-        index = pd.np.where(mdates == jdate)[0][0]
-        if jdate != stepdates[-1]:
-            index = index - 1
-        nedate = mdates[index]
-        df = client.service.getsubset(data.query_params['lat'],
-                                      data.query_params['lon'],
+    datelist = []
+    valuelist = []
+    for idate, jdate in zip(dateintervals[:-1], dateintervals[1:]):
+        di = client.service.getsubset(float(data.query_params['latitude']),
+                                      float(data.query_params['longitude']),
                                       data.query_params['product'],
                                       data.query_params['band'],
                                       idate,
-                                      nedate,
+                                      jdate,
                                       0,
                                       0)
-        collect_list = collect_list + ''.join(df['subset']['_value_1'])
-    df = pd.read_csv(StringIO(collect_list),
-                     date_parser=date_parser,
-                     index_col=2,
-                     parse_dates=True,
-                     header=None)
-    df.drop([0, 1, 3, 4], axis='columns', inplace=True)
+        try:
+            testv = di['subset']['_value_1']
+        except TypeError:
+            testv = di['subset']
+
+        if testv is None:
+            continue
+        for d in testv:
+            _, _, d, _, _, v = d.split(',')
+            datelist.append(d)
+            valuelist.append(float(v.strip()))
+
+    df = pd.DataFrame(valuelist, index=date_parser(datelist))
     df.index.name = 'Datetime'
     df.columns = [data.query_params['product'] +
                   '_' +
-                  data.query_params['band']]
+                  data.query_params['band'] +
+                  di['units']]
+    df = df*di['scale']
     return df
 
 
 if __name__ == '__main__':
     r = resource(
-        r'http://daacmodis.ornl.gov/cgi-bin/MODIS/GLBVIZ_1_Glb_subset/MODIS_webservice.wsdl',
-        product='MOD16A2',
-        band='PET_1km',
-        lat=30.6,
-        lon=-82.7,
-        startdate='1990-06-01T09',
-        enddate='2001-05-04T21'
+        r'https://modis.ornl.gov/cgi-bin/MODIS/soapservice/MODIS_soapservice.wsdl',
+        product='MOD13Q1',
+        band='250m_16_days_NDVI',
+        latitude=40.0,
+        longitude=-110.0,
+        startdate='2002-06-01T09',
+        enddate='2003-05-04T21'
     )
 
     as_df = odo(r, pd.DataFrame)
@@ -634,11 +623,11 @@ if __name__ == '__main__':
     print(as_df)
 
     r = resource(
-        r'http://daacmodis.ornl.gov/cgi-bin/MODIS/GLBVIZ_1_Glb_subset/MODIS_webservice.wsdl',
+        r'https://modis.ornl.gov/cgi-bin/MODIS/soapservice/MODIS_soapservice.wsdl',
         product='MOD16A2',
-        band='PET_1km',
-        lat=30.6,
-        lon=-82.7,
+        band='LE_500m',
+        latitude=29.65,
+        longitude=-82.32,
         startdate='3 years ago',
         enddate='2 years ago'
     )
