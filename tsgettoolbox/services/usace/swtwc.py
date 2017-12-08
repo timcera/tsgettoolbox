@@ -30,10 +30,8 @@ if __name__ == '__main__':
     #
     #    time.sleep(20)
 
-    r = ulmo_df(4598,
-                'stage',
-                start_date='2015-11-04',
-                end_date='2015-12-05')
+    r = ulmo_df('PTTK1',
+                date='2017-11-31')
 
     print('UB EVERYTHING')
     print(r)

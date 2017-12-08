@@ -14,11 +14,9 @@
     'Pseudo-Binary' which is character encoding of binary data that uses 6 bits
     of every byte and guarantees that all characters are printable.
 
-
     .. _United States Geological Survey: http://www.usgs.gov/
     .. _Emergency Data Distribution Network: http://eddn.usgs.gov/
     .. _http://eddn.usgs.gov/dcpformat.html
-
 """
 from ulmo.usgs.eddn import get_data, decode
 

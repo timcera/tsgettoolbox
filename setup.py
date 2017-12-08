@@ -25,7 +25,7 @@ install_requires = [
     # http://packages.python.org/distribute/setuptools.html#declaring-dependencies
     'odo',
     'owslib',
-    'tstoolbox >= 13.37.19.18',
+    'tstoolbox > 17.40.21.18',
     'requests',
     'zeep',
     'ulmo',

@@ -11,6 +11,7 @@ from requests.exceptions import HTTPError
 
 from tsgettoolbox import utils
 from tstoolbox import tsutils
+from tstoolbox import tstoolbox
 
 # ncdc_cdo
 
@@ -51,7 +52,7 @@ def ncdc_cdo_json_to_df(data, **kwargs):
         # 2010-01-01/2010-12-31
         sdate = pd.datetime(2010, 1, 1)
         edate = pd.datetime(2010, 12, 31)
-        delta = pd.Timedelta(days=367)
+        delta = edate - sdate
     elif 'stationid' in data.query_params:
         # Get startdate and/or enddate information
         s = Session()
@@ -109,20 +110,16 @@ def ncdc_cdo_json_to_df(data, **kwargs):
         if os.path.exists('debug_tsgettoolbox'):
             logging.warning(prepped.url)
         req = s.send(prepped)
-        try:
-            req.raise_for_status()
-        except HTTPError:
-            continue
-
-        if len(req.content) == 0:
-            continue
+        req.raise_for_status()
 
         try:
             tdf = pd.io.json.json_normalize(req.json()['results'])
         except KeyError:
             continue
 
-        df = df.append(tdf)
+        tdf.set_index('date', inplace=True)
+        tdf.index = pd.to_datetime(tdf.index)
+        df = df.combine_first(tdf)
 
     if len(df) == 0:
         if 'NORMAL_' in data.query_params['datasetid']:
@@ -142,23 +139,10 @@ def ncdc_cdo_json_to_df(data, **kwargs):
                 pd.to_datetime(dreq.json()['mindate']),
                 pd.to_datetime(dreq.json()['maxdate'])))
 
-    df.drop_duplicates(df.columns, keep='first', inplace=True)
-
-    if 'date' in df.columns:
-        fdf = df.pivot(index='date',
-                       columns='datatype',
-                       values='value')
-
-        df['dt_att'] = df['datatype'] + '_att'
-        sdf = df.pivot(index='date',
-                       columns='dt_att',
-                       values='attributes')
-
-        ndf = fdf.join(sdf)
-    else:
-        ndf = tdf
-
-    return ndf
+    df = df.drop('station', axis='columns')
+    df = tstoolbox.unstack('datatype',
+                           input_ts=df)
+    return df
 
 
 if __name__ == '__main__':
@@ -176,28 +160,28 @@ if __name__ == '__main__':
     as_df = odo(r, pd.DataFrame)
     print(as_df)
     mardi = [
-        # ['GHCND', 'GHCND:AE000041196'],
+        ['GHCND', 'GHCND:AE000041196'],
         ['GHCND', 'GHCND:USR0000GCOO'],
         ['PRECIP_HLY', 'COOP:087440'],
         ['PRECIP_15', 'COOP:087440'],
-        # ['ANNUAL', 'GHCND:US1FLAL0004'],
+        #['ANNUAL', 'GHCND:US1MOLN0006'],
         ['GHCNDMS', 'GHCND:US1FLAL0004'],
         ['GSOM', 'GHCND:US1FLAL0004'],
         ['GSOY', 'GHCND:USW00012816'],
-        # ['NORMAL_ANN', 'GHCND:USC00083322'],
+        #['NORMAL_ANN', 'GHCND:USC00083322'],
         ['NORMAL_HLY', 'GHCND:USW00013889'],
-        ['NORMAL_DLY', 'GHCND:USC00084731'],
+        #['NORMAL_DLY', 'GHCND:USC00084731'],
         ['NORMAL_MLY', 'GHCND:USC00086618'],
         # ['NEXRAD3', 'NEXRAD:KJAX'],
         # ['NEXRAD2', 'NEXRAD:KJAX'],
     ]
     for did, sid, in mardi:
-        startdate = '2016-01-01'
-        enddate = '2003-01-01'
+        startdate = '2010-01-01'
+        enddate = '2013-01-01'
         if 'NEXRAD' in did:
             startdate = '2000-01-01'
         if 'PRECIP_' in did:
-            startdate = '2013-01-01'
+            startdate = '2009-01-01'
 
         r = resource(
             r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
