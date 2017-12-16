@@ -1,5 +1,4 @@
 
-
 from __future__ import print_function
 
 import logging
@@ -163,7 +162,7 @@ def usgs_rdb_to_df(data, **kwargs):
                              'parameter_cd',
                              'ts_id'])
     ndf = ndf.reorder_levels([1, 2, 3, 4, 0], axis=1)
-    ndf.columns = [':'.join(col).strip() for col in ndf.columns.values]
+    ndf.columns = ['-'.join(col).strip() for col in ndf.columns.values]
     return ndf
 
 

@@ -170,7 +170,7 @@ if __name__ == '__main__':
         ['GSOY', 'GHCND:USW00012816'],
         #['NORMAL_ANN', 'GHCND:USC00083322'],
         ['NORMAL_HLY', 'GHCND:USW00013889'],
-        #['NORMAL_DLY', 'GHCND:USC00084731'],
+        ['NORMAL_DLY', 'GHCND:USC00084731'],
         ['NORMAL_MLY', 'GHCND:USC00086618'],
         # ['NEXRAD3', 'NEXRAD:KJAX'],
         # ['NEXRAD2', 'NEXRAD:KJAX'],
@@ -193,14 +193,3 @@ if __name__ == '__main__':
         as_df = odo(r, pd.DataFrame)
         print(did)
         print(as_df)
-
-    for did, _ in mardi:
-        r = resource(
-            r'http://www.ncdc.noaa.gov/cdo-web/api/v2/datatypes',
-            startdate='1901-01-01',
-            enddate='2016-01-01',
-            datasetid=did,
-        )
-
-        as_df = odo(r, pd.DataFrame)
-        as_df.to_csv('{0}.csv'.format(did))

@@ -211,7 +211,6 @@ def coops(station,
           range=None,
           product='water_level',
           datum='NAVD',
-          units='metric',
           time_zone='GMT',
           interval='h',
           bin=None):
@@ -374,6 +373,50 @@ def coops(station,
         | currents               | Currents data                       |
         +------------------------+-------------------------------------+
 
+
+        Possible water level height variables:
+
+        +-------+----------------------------------------------------------+
+        | Name  | Description                                              |
+        +=======+==========================================================+
+        | Sigma | Standard deviation of 1 second samples used to compute   |
+        |       | the water level height                                   |
+        +-------+----------------------------------------------------------+
+        | O     | Count of number of samples that fall outside a 3-sigma   |
+        |       | band about the mean                                      |
+        +-------+----------------------------------------------------------+
+        | I     | A flag that indicates that the water level value has     |
+        |       | been inferred.                                           |
+        +-------+----------------------------------------------------------+
+        | F     | A flag that when set to 1 indicates that the flat        |
+        |       | tolerance limit was exceeded                             |
+        +-------+----------------------------------------------------------+
+        | R     | A flag that when set to 1 indicates that the rate of     |
+        |       | change tolerance limit was exceeded                      |
+        +-------+----------------------------------------------------------+
+        | T     | A flag that when set to 1 indicates that the temperature |
+        |       | difference tolerance limit was exceeded                  |
+        +-------+----------------------------------------------------------+
+        | L     | A flag that when set to 1 indicates that either the      |
+        |       | maximum or minimum expected water level height limit     |
+        |       | was exceeded                                             |
+        +-------+----------------------------------------------------------+
+
+        Meteorological and ancillary data variables:
+
+        +------+------------------------------------------------------+
+        | Name | Description                                          |
+        +======+======================================================+
+        | X    | A flag that when set to 1 indicates that the maximum |
+        |      | value was exceeded                                   |
+        +------+------------------------------------------------------+
+        | N    | A flag that when set to 1 indicates that the minimum |
+        |      | expected value was exceeded                          |
+        +------+------------------------------------------------------+
+        | R    | A flag that when set to 1 indicates that the rate of |
+        |      | change tolerance limit was exceeded                  |
+        +------+------------------------------------------------------+
+
     datum
         Specify the datum that all water levels will be
         reported against.  Note! Datum is mandatory for all water level
@@ -399,20 +442,6 @@ def coops(station,
         | STND   | Station Datum                 |
         +--------+-------------------------------+
 
-    units
-        Metric or english
-        units.
-
-        +---------+----------------------------------------------------+
-        | Option  | Description                                        |
-        +=========+====================================================+
-        | metric  | Metric (Celsius, meters) units                     |
-        +---------+----------------------------------------------------+
-        | english | English (Imperial system) (fahrenheit, feet) units |
-        +---------+----------------------------------------------------+
-
-        The default is 'metric'.
-
     time_zone
         The time zone is specified as 'gmt', 'lst'
         or 'lst_ldt'.
@@ -433,6 +462,7 @@ def coops(station,
         Deliver the Meteorological data at hourly
         intervals.  Does not override 6 minute intervals for
         --product='water_level'.  Defaults to 'h'.
+
     bin
         The bin number for the specified currents station
         Example:'--bin=4' Will retrieve data for bin number 4. Note! If
@@ -449,7 +479,7 @@ def coops(station,
         range=range,
         product=product,
         datum=datum,
-        units=units,
+        units='metric',
         time_zone=time_zone,
         interval=interval,
         bin=bin,
@@ -1159,9 +1189,9 @@ def daymet(lat,
         +----------------+-----------------------+---------+
         | measuredParams | Description           | Unit    |
         +================+=======================+=========+
-        | tmax           | maximum temperature   | deg C   |
+        | tmax           | maximum temperature   | degC    |
         +----------------+-----------------------+---------+
-        | tmin           | minimum temperature   | deg C   |
+        | tmin           | minimum temperature   | degC    |
         +----------------+-----------------------+---------+
         | srad           | shortwave radiation   | W/m2    |
         +----------------+-----------------------+---------+
@@ -1262,7 +1292,7 @@ def ldas(lat=None,
         | NLDAS:NLDAS_FORA0125_H.002:SPFH2m          | kg/kg     |
         | 2-m above ground specific humidity         |           |
         +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:TMP2m           | K         |
+        | NLDAS:NLDAS_FORA0125_H.002:TMP2m           | degK      |
         | 2-m above ground temperature               |           |
         +--------------------------------------------+-----------+
         | NLDAS:NLDAS_FORA0125_H.002:UGRD10m         | m/s       |
@@ -1307,7 +1337,7 @@ def ldas(lat=None,
         | NLDAS:NLDAS_NOAH0125_H.002:SOILM100-200cm  | kg/m^2    |
         | 100-200 cm soil moisture content           |           |
         +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:TSOIL0-10cm     | K         |
+        | NLDAS:NLDAS_NOAH0125_H.002:TSOIL0-10cm     | degK      |
         | 0-10 cm soil temperature                   |           |
         +--------------------------------------------+-----------+
         | GLDAS:GLDAS_NOAH025_3H.001:Evap            | kg/m^2/s  |
@@ -1340,10 +1370,10 @@ def ldas(lat=None,
         | GLDAS:GLDAS_NOAH025_3H.001:SOILM40-100cm   | kg/m^2    |
         | 40-100 cm layer 3 soil moisture content    |           |
         +--------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Tair            | K         |
+        | GLDAS:GLDAS_NOAH025_3H.001:Tair            | degK      |
         | Near surface air temperature               |           |
         +--------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:TSOIL0-10cm     | K         |
+        | GLDAS:GLDAS_NOAH025_3H.001:TSOIL0-10cm     | degK      |
         | Average layer 1 soil temperature           |           |
         +--------------------------------------------+-----------+
         | GLDAS:GLDAS_NOAH025_3H.001:Wind            | m/s       |
@@ -1390,7 +1420,6 @@ def darksky(latitude,
             time=None,
             database='hourly',
             extend=None,
-            units='us',
             lang='en'):
     r"""
     Data from the Dark Sky forecast service.
@@ -1611,30 +1640,6 @@ def darksky(latitude,
         If set to 'hourly' and --database='hourly'
         then will get an hourly forecast for the next week.
 
-    units : str
-        Specify the units for the
-        data.
-
-        +-----------------+--------------------------------------------+
-        | Option          | Description                                |
-        +=================+============================================+
-        | us (default)    | Imperial units                             |
-        +-----------------+--------------------------------------------+
-        | si              | SI units                                   |
-        +-----------------+--------------------------------------------+
-        | ca              | Identical to SI except windSpeed is in     |
-        |                 | km/hr                                      |
-        +-----------------+--------------------------------------------+
-        | uk (deprecated) |                                            |
-        +-----------------+--------------------------------------------+
-        | uk2             | Identical to SI except windSpeed is in     |
-        |                 | miles/hr and nearestStormDistance and      |
-        |                 | visibility are in miles                    |
-        +-----------------+--------------------------------------------+
-        | auto            | Selects the relevant units automatically   |
-        |                 | according to location                      |
-        +-----------------+--------------------------------------------+
-
     lang : str
         Return text summaries in the desired language.
         (Please be advised that units in the summary will be set
@@ -1691,7 +1696,7 @@ def darksky(latitude,
         database=database,
         time=time,
         extend=extend,
-        units=units,
+        units='si',
         lang=lang,
     )
     return tsutils.printiso(odo(r, pd.DataFrame))
@@ -1703,7 +1708,6 @@ def forecast_io(latitude,
                 time=None,
                 database='hourly',
                 extend=None,
-                units='us',
                 lang='en'):
     r"""
     DEPRECATED: please use 'darksky'.
@@ -1733,10 +1737,6 @@ def forecast_io(latitude,
         See documentation under the darksky
         service.
 
-    units
-        See documentation under the darksky
-        service.
-
     lang
         See documentation under the darksky
         service.
@@ -1747,7 +1747,6 @@ def forecast_io(latitude,
                    time=time,
                    database=database,
                    extend=extend,
-                   units=units,
                    lang=lang)
 
 

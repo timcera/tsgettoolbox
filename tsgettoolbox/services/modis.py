@@ -1,9 +1,4 @@
 
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
-
 from odo import odo, resource, convert
 import pandas as pd
 
@@ -602,6 +597,7 @@ def modis_to_df(data, **kwargs):
     df.columns = [data.query_params['product'] +
                   '_' +
                   data.query_params['band'] +
+                  ':' +
                   di['units']]
     df = df*di['scale']
     return df

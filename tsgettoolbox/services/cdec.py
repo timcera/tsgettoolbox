@@ -35,6 +35,9 @@ def ulmo_df(station_id,
         nnd = pd.DataFrame(d[station_id][key])
         nnd.columns = [key]
         nd = nd.join(nnd, how='outer')
+    nd.rename(lambda x: x.replace(',', '_').replace(' ', '_').replace('__', '_'),
+              axis='columns',
+              inplace=True)
     return nd
 
 

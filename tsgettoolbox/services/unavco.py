@@ -26,6 +26,10 @@ class Unavco(object):
 *
 '''.format(query_params))
         self.url = '{0}/{1}/beta'.format(url, station)
+        if '/met/' in self.url or '/strain/' in self.url:
+            self.comment = None
+        else:
+            self.comment = '#'
         query_params['starttime'] = tsutils.parsedate(
             query_params['starttime']).isoformat()
         query_params['endtime'] = tsutils.parsedate(
@@ -57,8 +61,13 @@ def unavco_to_df(data, **kwargs):
                      header=0,
                      index_col=0,
                      parse_dates=[0],
-                     comment='#')
-    df.columns = ['unavco-{0}'.format(i.replace(' ', '_')) for i in df.columns]
+                     comment=data.comment)
+    df.columns = ['unavco-{0}'.format(i.
+                                      strip().
+                                      replace(' ', '_').
+                                      replace('(', ':').
+                                      replace(')', '').
+                                      replace('deg._C', 'degC')) for i in df.columns]
     df.index.name = 'Datetime-UTC'
     return df.tz_localize('UTC')
 

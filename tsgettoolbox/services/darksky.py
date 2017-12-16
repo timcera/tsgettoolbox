@@ -25,6 +25,7 @@ class darksky_net_json(object):
                    'hourly', 'daily', 'alerts', 'flags']
         all_dbs.remove(self.include_db)
         query_params['exclude'] = ','.join(all_dbs)
+        query_params['units'] = 'si'
         self.query_params = query_params
 
 
@@ -84,11 +85,15 @@ def darksky_net_json_to_df(data, **kwargs):
 
     for datecols in ['apparentTemperatureMinTime',
                      'apparentTemperatureMaxTime',
+                     'apparentTemperatureLowTime',
+                     'apparentTemperatureHighTime',
                      'precipIntensityMaxTime',
                      'sunriseTime',
                      'sunsetTime',
                      'temperatureMaxTime',
-                     'temperatureMinTime'
+                     'temperatureMinTime',
+                     'uvIndexTime',
+                     'windGustTime',
                      ]:
         if datecols in ndfj.columns:
             ndfj[datecols] = pd.to_datetime(ndfj[datecols], unit='s')
@@ -96,6 +101,25 @@ def darksky_net_json_to_df(data, **kwargs):
     if time_zone_name == 'UTC':
         ndfj = ndfj.tz_localize('UTC')
     ndfj.index.name = 'Datetime-{0}'.format(time_zone_name)
+    unitsd = {'nearestStormDistance': ':km',
+              'precipIntensity': ':mm/h',
+              'precipIntensityMax': ':mm/h',
+              'precipAccumulation': ':cm',
+              'temperature': ':degC',
+              'temperatureMin': ':degC',
+              'temperatureMax': ':degC',
+              'apparentTemperature': ':degC',
+              'apparentTemperatureLow': ':degC',
+              'apparentTemperatureHigh': ':degC',
+              'apparentTemperatureMin': ':degC',
+              'apparentTemperatureMax': ':degC',
+              'dewPoint': ':degC',
+              'windSpeed': ':m/s',
+              'windGust': ':m/s',
+              'pressure': ':hPa',
+              'visibility': ':km',
+              'ozone': 'DU'}
+    ndfj.columns = ['{0}{1}'.format(i, unitsd.setdefault(i, '')) for i in ndfj.columns]
     return ndfj
 
 

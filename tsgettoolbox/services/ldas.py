@@ -21,7 +21,7 @@ _units_map = {
     'NLDAS:NLDAS_FORA0125_H.002:SPFH2m':
         ['2-m above ground specific humidity',  'kg/kg'],
     'NLDAS:NLDAS_FORA0125_H.002:TMP2m':
-        ['2-m above ground temperature',        'K'],
+        ['2-m above ground temperature',        'degK'],
     'NLDAS:NLDAS_FORA0125_H.002:UGRD10m':
         ['10-m above ground zonal wind',        'm/s'],
     'NLDAS:NLDAS_FORA0125_H.002:VGRD10m':
@@ -51,7 +51,7 @@ _units_map = {
     'NLDAS:NLDAS_NOAH0125_H.002:SOILM100-200cm':
         ['100-200 cm soil moisture content',    'kg/m^2'],
     'NLDAS:NLDAS_NOAH0125_H.002:TSOIL0-10cm':
-        ['0-10 cm soil temperature',            'K'],
+        ['0-10 cm soil temperature',            'degK'],
     'GLDAS:GLDAS_NOAH025_3H.001:Evap':
         ['Evapotranspiration',                  'kg/m^2/s'],
     'GLDAS:GLDAS_NOAH025_3H.001:precip':
@@ -73,9 +73,9 @@ _units_map = {
     'GLDAS:GLDAS_NOAH025_3H.001:SOILM40-100cm':
         ['40-100 cm layer 3 soil moisture content',    'kg/m^2'],
     'GLDAS:GLDAS_NOAH025_3H.001:Tair':
-        ['Near surface air temperature',               'K'],
+        ['Near surface air temperature',               'degK'],
     'GLDAS:GLDAS_NOAH025_3H.001:TSOIL0-10cm':
-        ['Average layer 1 soil temperature',           'K'],
+        ['Average layer 1 soil temperature',           'degK'],
     'GLDAS:GLDAS_NOAH025_3H.001:Wind':
         ['Near surface wind magnitude',                'm/s'],
 }

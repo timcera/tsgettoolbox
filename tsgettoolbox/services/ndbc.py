@@ -108,8 +108,10 @@ def ndbc_to_df(data, **kwargs):
 
     df.dropna(axis='columns', how='all', inplace=True)
 
-    ind = pd.Index(['{0}@{1}m'.format(e[0], e[1])
-                    for e in df.columns.tolist()])
+    nm = [i[0].split()[0] for i in df.columns]
+    units = [i[0].split()[1].replace('(', '').replace(')', '') for i in df.columns]
+    ind = pd.Index(['{0}@{1}m:{2}'.format(e[1], e[0][1], e[2])
+                    for e in zip(df.columns.tolist(), nm, units)])
     df.columns = ind
 
     df.index.name = 'Datetime'

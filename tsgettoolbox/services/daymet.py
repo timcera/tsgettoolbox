@@ -14,13 +14,13 @@ except ImportError:
     import urllib as urlp
 
 _units_map = {
-    'tmax': 'deg_C',
-    'tmin': 'deg_C',
-    'srad': 'W/m2',
-    'vp': 'Pa',
-    'swe': 'kg/m2',
-    'prcp': 'mm',
-    'dayl': 's',
+    'tmax': ':degC',
+    'tmin': ':degC',
+    'srad': ':W/m2',
+    'vp': ':Pa',
+    'swe': ':kg/m2',
+    'prcp': ':mm',
+    'dayl': ':s',
 }
 
 # Daymet
@@ -118,7 +118,8 @@ def daymet_to_df(data, **kwargs):
                      index_col=0,
                      skipinitialspace=True,
                      parse_dates=[[0, 1]])
-    df.columns = ['Daymet-{0}'.format(i.replace(' ', '_')) for i in df.columns]
+    tmpcols = [i.split()[0] for i in df.columns]
+    df.columns = ['Daymet-{0}{1}'.format(i, _units_map[i]) for i in tmpcols]
     df.index.name = 'Datetime'
     return df
 
@@ -138,7 +139,7 @@ if __name__ == '__main__':
 
     r = resource(
         r'http://daymet.ornl.gov/data/send/saveData',
-        measuredParams='tmax,tmin',
+        measuredParams=None,
         lat=43.1,
         lon=-85.2,
         year='3 years ago,2 years ago'

@@ -60,11 +60,11 @@ def nos_to_df(data, **kwargs):
     # water levels, depending
     # on availability.
     settings_map['air_temperature'] = [
-        {'metric': 'deg_C', 'english': 'deg_F'}, 'h']     # Air temperature
+        {'metric': 'degC', 'english': 'degF'}, 'h']     # Air temperature
     # as measured at
     # the station.
     settings_map['water_temperature'] = [
-        {'metric': 'deg_C', 'english': 'deg_F'}, 'h']  # Water temperature
+        {'metric': 'degC', 'english': 'degF'}, 'h']  # Water temperature
     # as measured at
     # the station.
     settings_map['wind'] = [
@@ -153,10 +153,12 @@ def nos_to_df(data, **kwargs):
     for icolumn_name in df.columns:
         ncolumn_name = icolumn_name.lower().strip().replace(' ', '_')
         units = settings_map[ncolumn_name][0][data.query_params['units']]
+        unitstr = ncolumn_name
+        if units != '':
+            unitstr = ':'.join([ncolumn_name, units])
         new_column_names.append(('NOS',
                                  data.query_params['station'],
-                                 ncolumn_name,
-                                 units))
+                                 unitstr))
     df.columns = ['-'.join(i).rstrip('-') for i in new_column_names]
     time_zone_name = data.query_params['time_zone'].upper()
     if time_zone_name == 'GMT':
