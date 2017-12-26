@@ -217,32 +217,31 @@ def coops(station,
     r"""
     Download from Center for Operational Oceanographic Products and Services.
 
-    CO-OPS web services is at http://tidesandcurrents.noaa.gov/api/.
-    The time zone of the returned data depends on the setting of the
-    "time_zone" option.  The default is "GMT" also known as "UTC".
+    CO-OPS web services is at http://tidesandcurrents.noaa.gov/api/.  The time
+    zone of the returned data depends on the setting of the "time_zone" option.
+    The default is "GMT" also known as "UTC".
 
     Parameters
     ----------
     station
-        A 7 character station ID, or a currents
-        station ID.  Specify the station ID with the "station="
-        parameter.::
+        A 7 character station ID, or a currents station ID.  Specify the
+        station ID with the "station=" parameter.::
 
             Example: '--station=9414290'
 
         Station listings for various products can be viewed at
-        http://tidesandcurrents.noaa.gov or viewed on a map at Tides
-        & Currents Station Map
+        http://tidesandcurrents.noaa.gov or viewed on a map at Tides & Currents
+        Station Map
     date
         The API understands several parameters related to date ranges.  Date
         formats are pretty flexible, however the closer to ISO 8601, the
         better.
 
-        The date related options are 'begin_date', 'end_date', 'date',
-        and 'range'.  They can be combined in the following 5 ways, but
-        if conflicting then follows the table in order.  For example,
-        the 'date' option will be used if present regardless of any
-        other option, then 'range', ...etc.:
+        The date related options are 'begin_date', 'end_date', 'date', and
+        'range'.  They can be combined in the following 5 ways, but if
+        conflicting then follows the table in order.  For example, the 'date'
+        option will be used if present regardless of any other option, then
+        'range', ...etc.:
 
         +--------------------+---------------------------------------+
         | Parameter Name(s)  | Description                           |
@@ -288,21 +287,20 @@ def coops(station,
         +--------------------------------------+-----------------+
 
     begin_date
-        The beginning date for the data.  See
-        explanation with the 'date' option on how to use all of the date
-        related parameters.
+        The beginning date for the data.  See explanation with the 'date'
+        option on how to use all of the date related parameters.
 
     end_date
-        The end date for the data.  January 1st,
-        2012 through January 2nd, 2012::
+        The end date for the data.  January 1st, 2012 through January 2nd,
+        2012::
 
             --begin_date='20120101' --end_date='20120102'
 
-        See explanation with the 'date' option on how to use all of the
-        date related parameters.
+        See explanation with the 'date' option on how to use all of the date
+        related parameters.
     range
-        Specify the number of hours to go back from
-        now, an 'end_date', or forward from a 'begin_date'.
+        Specify the number of hours to go back from now, an 'end_date', or
+        forward from a 'begin_date'.
 
         48 hours beginning on April 15, 2012::
 
@@ -320,8 +318,8 @@ def coops(station,
 
             --range=3
 
-        See explanation with the 'date' option on how to use all of the
-        date related parameters.
+        See explanation with the 'date' option on how to use all of the date
+        related parameters.
 
     product
         Specify the observation
@@ -459,15 +457,14 @@ def coops(station,
         +---------+----------------------------------------------------+
 
     interval
-        Deliver the Meteorological data at hourly
-        intervals.  Does not override 6 minute intervals for
-        --product='water_level'.  Defaults to 'h'.
+        Deliver the Meteorological data at hourly intervals.  Does not override
+        6 minute intervals for --product='water_level'.  Defaults to 'h'.
 
     bin
-        The bin number for the specified currents station
-        Example:'--bin=4' Will retrieve data for bin number 4. Note! If
-        a bin is not specified for a PORTS station, the data is returned
-        using a predefined real-time bin.
+        The bin number for the specified currents station Example:'--bin=4'
+        Will retrieve data for bin number 4. Note! If a bin is not specified
+        for a PORTS station, the data is returned using a predefined real-time
+        bin.
     """
     from tsgettoolbox.services import coops as placeholder
     r = resource(
@@ -540,23 +537,21 @@ def nwis(sites=None,
     | peak         | Peak flow and stage           |
     +--------------+-------------------------------+
 
-    tsgettoolbox further can download the field measurements from
-    a single site at a time using "--database=measurements" and peak
-    measurements using "--database=peak".
+    tsgettoolbox further can download the field measurements from a single site
+    at a time using "--database=measurements" and peak measurements using
+    "--database=peak".
 
-    Detailed documnetation is available at
-    http://waterdata.usgs.gov/nwis.
+    Detailed documnetation is available at http://waterdata.usgs.gov/nwis.
 
-    Site local time is output, even if multiple sites are requested and
-    sites are in different time zones.  Note that the measurement time
-    zone at a site may not be the same as the time zone actually in
-    effect at the site.
+    Site local time is output, even if multiple sites are requested and sites
+    are in different time zones.  Note that the measurement time zone at a site
+    may not be the same as the time zone actually in effect at the site.
 
-    Every query requires a major filter. Pick the major filter
-    ('--sites', '--stateCd', '--huc', '--bBox', '--countyCd') that best
-    retrieves the data for the sites that you are interested in.  You
-    can have only one major filter per query. If you specify more than
-    one major filter, you will get an error.
+    Every query requires a major filter. Pick the major filter ('--sites',
+    '--stateCd', '--huc', '--bBox', '--countyCd') that best retrieves the data
+    for the sites that you are interested in.  You can have only one major
+    filter per query. If you specify more than one major filter, you will get
+    an error.
 
     **Major Filter**
 
@@ -649,13 +644,12 @@ def nwis(sites=None,
     Parameters
     ----------
     sites : str
-        Want to only query one site? Use sites as your
-        major filter, and put only one site number in the list.  Sites
-        are comma separated. Sites may be prefixed with an optional
-        agency code followed by a colon. If you don't know the site
-        numbers you need, you can find relevant sites with the NWIS
-        Mapper (http://wdr.water.usgs.gov/nwisgmap/index.html) or on the
-        USGS Water Data for the Nation site.
+        Want to only query one site? Use sites as your major filter, and put
+        only one site number in the list.  Sites are comma separated. Sites may
+        be prefixed with an optional agency code followed by a colon. If you
+        don't know the site numbers you need, you can find relevant sites with
+        the NWIS Mapper (http://wdr.water.usgs.gov/nwisgmap/index.html) or on
+        the USGS Water Data for the Nation site.
         (http://waterdata.usgs.gov/nwis/)
 
         Can have from 1 to 100 comma separated site numbers::
@@ -714,7 +708,7 @@ def nwis(sites=None,
         requested sites.
 
         Complete list:
-        http://help.waterdata.usgs.gov/codes-and-parameters/parameters::
+            http://help.waterdata.usgs.gov/codes-and-parameters/parameters::
 
             --parameterCd=00060       # discharge, cubic feet
                                       # per second
@@ -901,9 +895,8 @@ def nwis(sites=None,
                      # feet or less.
 
     wellDepthMax : float
-        Providing a value to wellDepthMax (maximum well depth)
-        means you want sites that have or are less than the wellDepthMax
-        value.::
+        Providing a value to wellDepthMax (maximum well depth) means you want
+        sites that have or are less than the wellDepthMax value.::
 
              --wellDepthMin=10.5 --wellDepthMax=10.7
                      # Return daily value sites where the well
@@ -945,7 +938,7 @@ def nwis(sites=None,
         Get a range of values from now by specifying the period argument period
         must be in ISO-8601 Duration format.
         (http://en.wikipedia.org/wiki/ISO_8601#Durations) Negative periods (ex:
-        P-T2H) are not allowed Data are always returned up to the most recent
+        P-T2H) are not allowed.  Data are always returned up to the most recent
         value, which in the case of a predictive gage might be in the future.
         When specifying days from now, the first value will probably not be at
         midnight of the first day, but somewhat before exactly 24 hours from
@@ -1172,14 +1165,14 @@ def daymet(lat,
     Parameters
     ----------
     lat : float
-        Latitude (required): Enter single geographic
-        point by latitude, value between 52.0N and 14.5N.::
+        Latitude (required): Enter single geographic point by latitude, value
+        between 52.0N and 14.5N.::
 
             Example: --lat=43.1
 
     lon : float
-        Longitude (required): Enter single geographic
-        point by longitude, value between -131.0W and -53.0W.::
+        Longitude (required): Enter single geographic point by longitude, value
+        between -131.0W and -53.0W.::
 
             Example: --lon=-85.3
 
@@ -1430,16 +1423,15 @@ def darksky(latitude,
 
     Registration: https://darksky.net/dev/register
 
-    The time zone of the returned data is dependent on the format of the
-    "time" option.  If there is an ISO8601 representation of the time
-    zone in the "time" option then that is the time zone of the returned
-    data.  If "time" is None or does not explicitly define a time zone,
-    the returned data is in the local time zone of the latitude and
-    longitude.
+    The time zone of the returned data is dependent on the format of the "time"
+    option.  If there is an ISO8601 representation of the time zone in the
+    "time" option then that is the time zone of the returned data.  If "time"
+    is None or does not explicitly define a time zone, the returned data is in
+    the local time zone of the latitude and longitude.
 
-    There isn't an absolutely consistent set of data returned for all
-    areas, or all databases.  The returned values will be some subset of
-    the following list:
+    There isn't an absolutely consistent set of data returned for all areas, or
+    all databases.  The returned values will be some subset of the following
+    list:
 
     summary::
 
@@ -1448,12 +1440,12 @@ def darksky(latitude,
     icon::
 
      A machine-readable text summary of this data |point, suitable for
-     selecting an icon for display. If defined, this property will have
-     one of the following values: 'clear-day', 'clear-night', 'rain',
-     'snow', 'sleet', 'wind', 'fog', 'cloudy', 'partly-cloudy-day', or
-     'partly-cloudy-night'.  (Developers should ensure that a sensible
-     default is defined, as additional values, such as hail,
-     thunderstorm, or tornado, may be defined in the future.)
+     selecting an icon for display. If defined, this property will have one of
+     the following values: 'clear-day', 'clear-night', 'rain', 'snow', 'sleet',
+     'wind', 'fog', 'cloudy', 'partly-cloudy-day', or 'partly-cloudy-night'.
+     (Developers should ensure that a sensible default is defined, as
+     additional values, such as hail, thunderstorm, or tornado, may be defined
+     in the future.)
 
     precipIntensity::
 
