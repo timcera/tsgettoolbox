@@ -163,8 +163,8 @@ def nos_to_df(data, **kwargs):
     time_zone_name = data.query_params['time_zone'].upper()
     if time_zone_name == 'GMT':
         time_zone_name = 'UTC'
-        df = df.tz_localize(time_zone_name)
-    df.index.name = 'Datetime-{0}'.format(time_zone_name)
+    df = df.tz_localize(time_zone_name)
+    df.index.name = 'Datetime:{0}'.format(time_zone_name)
     return df
 
 

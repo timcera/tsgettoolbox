@@ -38,6 +38,8 @@ def ulmo_df(station_id,
     nd.rename(lambda x: x.replace(',', '_').replace(' ', '_').replace('__', '_'),
               axis='columns',
               inplace=True)
+    nd = nd.tz_localize('UTC').tz_convert('Etc/GMT+8')
+    nd.index.name = 'Datetime:PST'
     return nd
 
 
