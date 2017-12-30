@@ -68,7 +68,7 @@ def unavco_to_df(data, **kwargs):
                                       replace('(', ':').
                                       replace(')', '').
                                       replace('deg._C', 'degC')) for i in df.columns]
-    df.index.name = 'Datetime-UTC'
+    df.index.name = 'Datetime:UTC'
     return df.tz_localize('UTC')
 
 

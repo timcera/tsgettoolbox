@@ -76,6 +76,7 @@ def darksky_net_json_to_df(data, **kwargs):
         ndfj.index = pd.to_datetime(ndfj['time'], unit='s')
         ndfj.drop('time', axis=1, inplace=True)
         ndfj.sort_index(inplace=True)
+        ndfj = ndfj.tz_localize(time_zone_name)
 
     for datecols in ['apparentTemperatureMinTime',
                      'apparentTemperatureMaxTime',
@@ -92,7 +93,6 @@ def darksky_net_json_to_df(data, **kwargs):
         if datecols in ndfj.columns:
             ndfj[datecols] = pd.to_datetime(ndfj[datecols], unit='s')
 
-    ndfj = ndfj.tz_localize(time_zone_name)
     ndfj.index.name = 'Datetime:{0}'.format(time_zone_name)
     unitsd = {'nearestStormDistance': ':km',
               'precipIntensity': ':mm/h',

@@ -114,7 +114,7 @@ def ndbc_to_df(data, **kwargs):
                     for e in zip(df.columns.tolist(), nm, units)])
     df.columns = ind
 
-    df.index.name = 'Datetime'
+    df.index.name = 'Datetime:UTC'
     return df
 
 

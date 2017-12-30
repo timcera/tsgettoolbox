@@ -620,8 +620,8 @@ if __name__ == '__main__':
 
     r = resource(
         r'https://modis.ornl.gov/cgi-bin/MODIS/soapservice/MODIS_soapservice.wsdl',
-        product='MOD16A2',
-        band='LE_500m',
+        product='MOD15A2H',
+        band='LaiStdDev_500m',
         latitude=29.65,
         longitude=-82.32,
         startdate='3 years ago',
