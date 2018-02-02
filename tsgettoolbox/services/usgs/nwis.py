@@ -13,69 +13,28 @@ from tstoolbox import tsutils
 
 # USGS
 
+# parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
+pmcodes = pd.read_csv('pmcodes',
+                      comment='#',
+                      header=0,
+                      sep='\t',
+                      dtype={0: str})
+pmcodes.set_index('parameter_cd', inplace=True)
 
-class USGS_WML(object):
-    def __init__(self, url, **query_params):
-        # Need to enforce waterml format
-        query_params['format'] = 'waterml,1.1'
-        if 'gwlevels' in url:
-            query_params['format'] = 'waterml,1.2'
-        query_params['startDT'] = tsutils.parsedate(query_params['startDT'],
-                                                    strftime='%Y-%m-%d')
-        query_params['endDT'] = tsutils.parsedate(query_params['endDT'],
-                                                  strftime='%Y-%m-%d')
-        self.url = url
-        self.query_params = query_params
-
-
-# Can add gwlevels once can parse WML 2.0
-# @resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/gwlevels/.*',
-#                    priority=17)
-# Function to make `resource` know about the new USGS iv type.
-@resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/dv/.*',
-                   priority=17)
-@resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/iv/.*',
-                   priority=17)
-def resource_usgs_wml(uri, **kwargs):
-    return USGS_WML(uri, **kwargs)
-
-
-# Function to convert from USGS type to pd.DataFrame
-@convert.register(pd.DataFrame, USGS_WML)
-def usgs_wml_to_df(data, **kwargs):
-    from owslib.waterml.wml11 import WaterML_1_1 as wml
-
-    req = requests.get(data.url,
-                       params=data.query_params)
-    if os.path.exists('debug_tsgettoolbox'):
-        logging.warning(req.url)
-    req.raise_for_status()
-
-    variables = wml(req.content).response
-
-    ndf = pd.DataFrame()
-    for var in variables.time_series:
-        # Replace the : with -
-        name = '-'.join(var.name.split(':'))
-
-        # Extract datetimes and values from wml.
-        dt = []
-        val = []
-        for ndt, nval in var.values[0].get_date_values():
-            dt.append(ndt)
-            try:
-                val.append(int(nval))
-            except ValueError:
-                val.append(float(nval))
-
-        # Create DataFrame
-        ndf = ndf.join(pd.DataFrame(val,
-                                    index=dt,
-                                    columns=[name]),
-                       how='outer',
-                       rsuffix='_1')
-    ndf.index.name = 'Datetime'
-    return ndf
+# IV
+# agency_cd site_no datetime tz_cd 30725_00060 30725_00060_cd 196788_00065 196788_00065_cd
+#
+# DV
+# agency_cd site_no datetime       68479_00010_00001 68479_00010_00001_cd 68482_00010_00001 68482_00010_00001_cd
+#
+# STAT
+# agency_cd site_no                station_nm site_tp_cd dec_lat_va dec_long_va coord_acy_cd dec_coord_datum_cd alt_va alt_acy_va alt_datum_cd huc_cd
+#
+# GWLEVELS
+# agency_cd site_no                site_tp_cd lev_dt lev_tm lev_tz_cd lev_va sl_lev_va sl_datum_cd lev_status_cd lev_agency_cd lev_dt_acy_cd lev_acy_cd lev_src_cd lev_meth_cd lev_age_cd
+#
+# STATS
+# agency_cd site_no                parameter_cd ts_id loc_web_ds month_nu day_nu begin_yr end_yr count_nu max_va_yr max_va min_va_yr min_va mean_va p05_va p10_va p20_va p25_va p50_va p75_va p80_va p90_va p95_va
 
 
 def _read_rdb(data):
@@ -85,17 +44,153 @@ def _read_rdb(data):
         logging.warning(req.url)
     req.raise_for_status()
 
-    ndf = pd.read_csv(BytesIO(req.content),
-                      comment='#',
-                      header=0,
-                      sep='\t')
-    ndf.drop(ndf.index[0], inplace=True)
+    if '/iv/' in data.url or '/dv/' in data.url:
+        # iv and dv results are stacked, a table for each site.  Have to split
+        # the overall req.content into discrete tables for pd.read_csv to work.
+        list_of_sublists = list()
+        n = 0
+        a_list = req.content.splitlines()
+        for i, elt in enumerate(a_list):
+            if i and elt[:9] == b'agency_cd':
+                list_of_sublists.append(a_list[n:i])
+                n = i
+        list_of_sublists.append(a_list[n:])
+
+        ndf = pd.DataFrame()
+        for site in list_of_sublists:
+            try:
+                adf = pd.read_csv(BytesIO(b'\n'.join(site)),
+                                  comment='#',
+                                  header=[0, 1],
+                                  sep='\t')
+            except pd.errors.EmptyDataError:
+                continue
+
+            adf.columns = [i[0] for i in adf.columns]
+
+            test_cnames = []
+            not_ts = []
+            for cname in adf.columns:
+                words = cname.split("_")
+                try:
+                    _ = int(words[0])
+                    if "cd" == words[-1]:
+                        test_cnames.append(cname)
+                    else:
+                        test_cnames.append(cname + ":{0}".format(
+                            pmcodes.loc[words[1], 'parameter_units']))
+                except ValueError:
+                    test_cnames.append(cname)
+                    not_ts.append(cname)
+
+            adf.columns = test_cnames
+            adf.set_index(not_ts, inplace=True)
+
+            if len(ndf) == 0:
+                ndf = adf
+            else:
+                ndf = ndf.join(adf, how="outer")
+
+        ndf.reset_index(inplace=True)
+    else:
+        ndf = pd.read_csv(BytesIO(req.content),
+                          comment='#',
+                          header=[0, 1],
+                          sep='\t')
+        ndf.columns = [i[0] for i in ndf.columns]
     return ndf
 
 
-class USGS_RDB(object):
+
+def _make_nice_names(ndf):
+    nnames = []
+    for col in ndf.columns.values:
+        strung = [str(i) for i in col]
+        nnames.append('_'.join(reversed(strung)).strip())
+    return nnames
+
+
+tzmap = {
+    'EST': 'America/New_York',
+    'EDT': 'America/New_York',
+    'CST': 'America/Chicago',
+    'CDT': 'America/Chicago',
+    'MST': 'America/Denver',
+    'MDT': 'America/Denver',
+    'PST': 'America/Los_Angeles',
+    'PDT': 'America/Los_Angeles',
+}
+
+
+def normalize_tz(row, tz_cd):
+    try:
+        return row['Datetime'].tz_localize(tzmap[row[tz_cd]])
+    except KeyError:
+        return row['Datetime']
+
+
+class USGS_IV_DV_RDB(object):
+    def __init__(self, url, **query_params):
+        # Need to enforce RDB format
+        query_params['format'] = 'rdb'
+        query_params['startDT'] = tsutils.parsedate(query_params['startDT'],
+                                                    strftime='%Y-%m-%d')
+        query_params['endDT'] = tsutils.parsedate(query_params['endDT'],
+                                                  strftime='%Y-%m-%d')
+
+        self.includeCodes = True
+        if 'includeCodes' in query_params:
+            self.includeCodes = query_params.pop('includeCodes')
+
+        self.url = url
+        self.query_params = query_params
+
+
+# Function to make `resource` know about the new USGS iv type.
+@resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/dv/.*',
+                   priority=17)
+@resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/iv/.*',
+                   priority=17)
+def resource_usgs_iv_dv_rdb(uri, **kwargs):
+    return USGS_IV_DV_RDB(uri, **kwargs)
+
+
+# Function to convert from USGS RDB type to pd.DataFrame
+@convert.register(pd.DataFrame, USGS_IV_DV_RDB)
+def usgs_iv_dv_rdb_to_df(data, **kwargs):
+    ndf = _read_rdb(data)
+    ndf['Datetime'] = pd.to_datetime(ndf['datetime'])
+    ndf.drop('datetime',
+             axis='columns',
+             inplace=True)
+    if 'tz_cd' in ndf.columns:
+        ndf['Datetime'] = ndf.apply(normalize_tz,
+                                    args=('tz_cd',),
+                                    axis=1)
+        ndf.drop('tz_cd',
+                 axis='columns',
+                 inplace=True)
+
+    ndf.set_index(['agency_cd',
+                   'site_no',
+                   'Datetime'],
+                  inplace=True)
+    ndf = ndf.unstack(level=['site_no',
+                             'agency_cd'])
+
+    ndf.columns = _make_nice_names(ndf)
+
+    if data.includeCodes is False:
+        ndf.drop([i for i in ndf.columns if i[-3:] == '_cd'],
+                 axis='columns',
+                 inplace=True)
+    return ndf
+
+
+class USGS_STAT_RDB(object):
     def __init__(self, url, **query_params):
 
+        words = query_params['sites'].split(",")
         # set defaults.
         for key, val in [['statYearType', 'calendar'],
                          ['missingData', 'off'],
@@ -121,13 +216,13 @@ class USGS_RDB(object):
 # Function to make `resource` know about the new USGS stat type.
 @resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/stat/.*',
                    priority=17)
-def resource_usgs_rdb(uri, **kwargs):
-    return USGS_RDB(uri, **kwargs)
+def resource_usgs_stat_rdb(uri, **kwargs):
+    return USGS_STAT_RDB(uri, **kwargs)
 
 
-# Function to convert from USGS RDB type to pd.DataFrame
-@convert.register(pd.DataFrame, USGS_RDB)
-def usgs_rdb_to_df(data, **kwargs):
+# Function to convert from USGS STAT_RDB type to pd.DataFrame
+@convert.register(pd.DataFrame, USGS_STAT_RDB)
+def usgs_stat_rdb_to_df(data, **kwargs):
     ndf = _read_rdb(data)
     if data.query_params['statReportType'] == 'daily':
         ndf['Datetime'] = ['{0:02d}-{1:02d}'.format(int(i), int(j))
@@ -162,7 +257,9 @@ def usgs_rdb_to_df(data, **kwargs):
                              'parameter_cd',
                              'ts_id'])
     ndf = ndf.reorder_levels([1, 2, 3, 4, 0], axis=1)
-    ndf.columns = ['-'.join(col).strip() for col in ndf.columns.values]
+
+    ndf.columns = _make_nice_names(ndf)
+
     return ndf
 
 
@@ -311,17 +408,72 @@ def usgs_site_rdb_to_df(data, **kwargs):
     return ndf
 
 
+class USGS_GWLEVELS_RDB(object):
+    def __init__(self, url, **query_params):
+
+        # Need to enforce rdb format
+        query_params['format'] = 'rdb'
+
+        self.url = url
+        self.query_params = query_params
+
+
+@resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/gwlevels/.*',
+                   priority=17)
+def resource_usgs_gwlevels_rdb(uri, **kwargs):
+    return USGS_GWLEVELS_RDB(uri, **kwargs)
+
+
+# Function to convert from USGS RDB type to pd.DataFrame
+@convert.register(pd.DataFrame, USGS_GWLEVELS_RDB)
+def usgs_gwlevels_rdb(data, **kwargs):
+    ndf = _read_rdb(data)
+    # lev_dt    lev_tm  lev_tz_cd
+    ndf['Datetime'] = pd.to_datetime(ndf['lev_dt'] +
+                                     "T" +
+                                     ndf['lev_tm'],
+                                     errors='coerce')
+    mask = pd.isnull(ndf['Datetime'])
+    ndf.loc[mask, 'Datetime'] = pd.to_datetime(ndf.loc[mask, 'lev_dt'],
+                                               errors='coerce')
+    ndf['Datetime'] = ndf.apply(normalize_tz,
+                                args=('lev_tz_cd',),
+                                axis=1)
+    ndf.set_index(['Datetime'],
+                  inplace=True)
+    try:
+        ndf.index.name = 'Datetime:{0}'.format(ndf.index.tz)
+    except AttributeError:
+        ndf.index.name = 'Datetime'
+    ndf.drop(['lev_dt',
+              'lev_tm',
+              'lev_tz_cd',
+              'site_no'],
+             axis=1,
+             inplace=True)
+    return ndf
+
+
 if __name__ == '__main__':
-    # r = resource(
-    #     r'http://waterservices.usgs.gov/nwis/gwlevels/',
-    #     sites='375907091432201',
-    #     startDT='2015-07-01',
-    #     endDT='2015-07-30'
-    #     )
-    #
-    # as_df = odo(r, pd.DataFrame)
-    # print('USGS_gwlevels')
-    # print(as_df)
+    r = resource(
+        r'http://waterservices.usgs.gov/nwis/gwlevels/',
+        sites='375907091432201',
+        startDT='2017-01-01',
+        endDT='2017-12-30'
+    )
+    as_df = odo(r, pd.DataFrame)
+    print('USGS_GWLEVELS single')
+    print(as_df)
+
+    r = resource(
+        r'http://waterservices.usgs.gov/nwis/gwlevels/',
+        hucs='03110201',
+        startDT='2017-01-01',
+        endDT='2017-12-30'
+    )
+    as_df = odo(r, pd.DataFrame)
+    print('USGS_GWLEVELS multiple')
+    print(as_df)
 
     r = resource(
         r'http://waterservices.usgs.gov/nwis/iv/',
@@ -329,9 +481,18 @@ if __name__ == '__main__':
         startDT='2015-07-01',
         endDT='2015-07-30'
     )
-
     as_df = odo(r, pd.DataFrame)
-    print('USGS_IV')
+    print('USGS_IV single')
+    print(as_df)
+
+    r = resource(
+        r'http://waterservices.usgs.gov/nwis/iv/',
+        sites='02325000,02239501',
+        startDT='2015-07-01',
+        endDT='2015-07-30'
+    )
+    as_df = odo(r, pd.DataFrame)
+    print('USGS_IV multiple')
     print(as_df)
 
     r = resource(
@@ -340,18 +501,34 @@ if __name__ == '__main__':
         startDT='2015-07-01',
         endDT='2015-07-30'
     )
-
     as_df = odo(r, pd.DataFrame)
     print('USGS_DV')
+    print(as_df)
+
+    r = resource(
+        r'http://waterservices.usgs.gov/nwis/dv/',
+        sites='02325000,02239501',
+        startDT='2015-07-01',
+        endDT='2015-07-30'
+    )
+    as_df = odo(r, pd.DataFrame)
+    print('USGS_DV multiple')
     print(as_df)
 
     r = resource(
         r'http://waterservices.usgs.gov/nwis/stat/',
         sites='02325000',
     )
-
     as_df = odo(r, pd.DataFrame)
-    print('USGS_DAILY_STAT')
+    print('USGS_DAILY_STAT single')
+    print(as_df)
+
+    r = resource(
+        r'http://waterservices.usgs.gov/nwis/stat/',
+        sites='02325000,02239501',
+    )
+    as_df = odo(r, pd.DataFrame)
+    print('USGS_DAILY_STAT multiple')
     print(as_df)
 
     r = resource(
@@ -359,9 +536,17 @@ if __name__ == '__main__':
         sites='01646500',
         statReportType='monthly',
     )
-
     as_df = odo(r, pd.DataFrame)
-    print('USGS_MONTHLY_STAT')
+    print('USGS_MONTHLY_STAT single')
+    print(as_df)
+
+    r = resource(
+        r'http://waterservices.usgs.gov/nwis/stat/',
+        sites='02325000,01646500',
+        statReportType='monthly',
+    )
+    as_df = odo(r, pd.DataFrame)
+    print('USGS_MONTHLY_STAT multiple')
     print(as_df)
 
     r = resource(
@@ -370,7 +555,16 @@ if __name__ == '__main__':
         statReportType='annual',
         statYearType='water',
     )
-
     as_df = odo(r, pd.DataFrame)
-    print('USGS_ANNUAL_STAT')
+    print('USGS_ANNUAL_STAT single')
+    print(as_df)
+
+    r = resource(
+        r'http://waterservices.usgs.gov/nwis/stat/',
+        sites='01646500,02239501',
+        statReportType='annual',
+        statYearType='water',
+    )
+    as_df = odo(r, pd.DataFrame)
+    print('USGS_ANNUAL_STAT multple')
     print(as_df)
