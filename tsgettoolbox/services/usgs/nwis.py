@@ -14,7 +14,7 @@ from tstoolbox import tsutils
 # USGS
 
 # parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
-pmcodes = pd.read_csv('pmcodes',
+pmcodes = pd.read_csv(os.path.join(os.path.dirname(__file__), 'pmcodes.dat'),
                       comment='#',
                       header=0,
                       sep='\t',

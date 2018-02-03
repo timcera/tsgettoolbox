@@ -24,7 +24,6 @@ install_requires = [
     # For more details, see:
     # http://packages.python.org/distribute/setuptools.html#declaring-dependencies
     'odo',
-    'owslib',
     'tstoolbox > 17.40.21.18',
     'requests',
     'zeep',
@@ -57,6 +56,7 @@ setup(name='tsgettoolbox',
                 'tsgettoolbox/services/usace',
                 'tsgettoolbox/services/usgs',
                 ],
+      package_data={'tsgettoolbox': 'services/usgs/*.dat'},
       include_package_data=True,
       zip_safe=False,
       install_requires=install_requires,
