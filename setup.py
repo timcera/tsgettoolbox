@@ -29,7 +29,7 @@ install_requires = [
     'zeep',
     'ulmo',
     'networkx < 2.0',
-    'pandas >= 0.21',
+    'pandas',
 ]
 
 
