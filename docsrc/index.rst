@@ -17,10 +17,10 @@ Table of Contents
    :maxdepth: 2
 
    readme
+   notebooks
    command_line
    function_summary
    examples
-   notebooks
    contributing
    authors
    license
