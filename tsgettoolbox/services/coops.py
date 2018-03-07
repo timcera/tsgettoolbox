@@ -1,4 +1,6 @@
+from __future__ import print_function
 
+from builtins import object
 from collections import defaultdict
 import logging
 from io import BytesIO

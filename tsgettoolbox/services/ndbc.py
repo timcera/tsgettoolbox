@@ -1,4 +1,7 @@
+from __future__ import print_function
 
+from builtins import zip
+from builtins import object
 import logging
 from io import BytesIO
 import os

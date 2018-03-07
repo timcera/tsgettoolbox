@@ -5,6 +5,7 @@
     .. _Texas Weather Connection: http://twc.tamu.edu/
     .. _Daily Keetch-Byram Drought Index (KBDI): http://twc.tamu.edu/drought/kbdi
 """
+from __future__ import print_function
 from ulmo.twc.kbdi.core import get_data
 import pandas as pd
 

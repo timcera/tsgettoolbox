@@ -8,6 +8,7 @@
     .. _Climate Prediction Center: http://www.cpc.ncep.noaa.gov/
     .. _Weekly Drought Index: http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
 """
+from __future__ import print_function
 
 import pandas as pd
 

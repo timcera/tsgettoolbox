@@ -6,6 +6,7 @@
     .. _Lower Colorado River Authority: http://www.lcra.org
     .. _Water Quality: http://waterquality.lcra.org/
 """
+from __future__ import print_function
 from ulmo.lcra.waterquality.core import get_historical_data, get_recent_data
 
 # def get_historical_data(site_code, start=None, end=None, as_dataframe=False):
@@ -16,6 +17,9 @@ def ulmo_df(site_code,
             start_date=None,
             end_date=None,
             historical=True):
+    """Prepare call to ulmo.lcra.waterquality.core.get_historical_data or
+    .get_recent_data..
+    """
     if historical is True:
         return get_historical_data(site_code,
                                    start=start_date,
@@ -36,10 +40,10 @@ if __name__ == '__main__':
     #
     #    time.sleep(20)
 
-    r = ulmo_df(6977,
+    R = ulmo_df(6977,
                 historical=False,
                 start_date='2015-11-04',
                 end_date='2015-12-05')
 
     print('UB EVERYTHING')
-    print(r)
+    print(R)

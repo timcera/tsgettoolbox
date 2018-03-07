@@ -30,10 +30,14 @@ warnings.filterwarnings('ignore')
 
 nwis_docstrings = {
     'includeCodes': """includeCodes
-        Whether or not to include the metadata/quality code column.  Default is
-        False.  Useful to almost halve the size of the pandas DataFrame.
+        [optional, default is False]
+
+        Whether or not to include the metadata/quality code column.  Useful to
+        almost halve the size of the pandas DataFrame.
         """,
     'sites': """sites : str
+        [optional, default is None]
+
         Want to only query one site? Use sites as your major filter, and put
         only one site number in the list.  Sites are comma separated. Sites may
         be prefixed with an optional agency code followed by a colon. If you
@@ -48,6 +52,8 @@ nwis_docstrings = {
             --sites=01646500,06306300
         """,
     'stateCd': """stateCd : str
+        [optional, default is None]
+
         U.S. postal service (2-digit) state code.  Can have only 1 state code.
         List is available at
         http://www.usps.com/ncsc/lookups/usps_abbreviations.html::
@@ -55,6 +61,8 @@ nwis_docstrings = {
             --stateCd=NY
         """,
     'huc': """huc : str
+        [optional, default is None]
+
         A list of hydrologic unit codes (HUC) or watersheds.  Only 1 major HUC
         can be specified per request.  A major HUC has two digits. Minor HUCs
         must be eight digits in length.  Can have 1 to 10 HUC codes.  List of
@@ -63,6 +71,8 @@ nwis_docstrings = {
             --huc=01,02070010
         """,
     'bBox': """bBox :
+        [optional, default is None]
+
         A contiguous range of decimal latitude and longitude, starting with the
         west longitude, then the south latitude, then the east longitude, and
         then the north latitude with each value separated by a comma. The
@@ -79,6 +89,8 @@ nwis_docstrings = {
             --bBox=-83,36.5,-81,38.5
         """,
     'countyCd': """countyCd :
+        [optional, default is None]
+
         A list of county numbers, in a 5 digit numeric format. The first two
         digits of a county's code are the FIPS State Code.  Can have from 1 to
         20 county codes.  The first 2 digits are the FIPS State Code
@@ -89,6 +101,8 @@ nwis_docstrings = {
             --countyCd=51059,51061
         """,
     'parameterCd': """parameterCd :
+        [optional, default is None]
+
         USGS time-series parameter code.  All parameter codes are numeric and
         5 characters in length.  Parameter codes are used to identify the
         constituent measured and the units of measure.  Popular codes include
@@ -109,6 +123,8 @@ nwis_docstrings = {
                                       # feet
         """,
     'siteType': """siteType :
+        [optional, default is None]
+
         Restricts sites to those having one or more major and/or minor site
         types.  If you request a major site type (ex: &siteType=ST) you will
         get all sub-site types of the same major type as well (in this case,
@@ -120,6 +136,8 @@ nwis_docstrings = {
             --siteType=ST,LA-OU # Streams and Land Outcrops only
         """,
     'modifiedSince': """modifiedSince :
+        [optional, default is None]
+
         Returns all values for sites and period of record requested only if any
         values have changed over the last modifiedSince period.  modifiedSince
         is useful if you periodically need to poll a site but are only
@@ -150,6 +168,8 @@ nwis_docstrings = {
                    # were changed or added within the last two hours.
         """,
     'agencyCd': """agencyCd :
+        [optional, default is None]
+
         The list of sites returned are filtered to return only those with the
         provided agency code. The agency code describes the organization that
         maintains the site. Only one agency code is allowed and is optional.
@@ -162,6 +182,8 @@ nwis_docstrings = {
                                          # in Illinois
         """,
     'siteStatus': """siteStatus :
+        [optional, default is None]
+
         Selects sites based on whether or not they are active. If a site is
         active, it implies that it is being actively maintained. A site is
         considered active if: * it has collected time-series (automated) data
@@ -178,6 +200,8 @@ nwis_docstrings = {
             --siteStatus='active'
         """,
     'altMin': """altMin : float
+        [optional, default is None]
+
         These arguments allows you to select instantaneous values sites where
         the associated sites' altitude are within a desired altitude, expressed
         in feet.  Altitude is based on the datum used at the site.  Providing
@@ -187,6 +211,8 @@ nwis_docstrings = {
         between the minimum and maximum altitude are returned.
         """,
     'altMax': """altMax : float
+        [optional, default is None]
+
         Providing a value to altMax (maximum altitude) means you want sites
         that have or are less than the altMax value.::
 
@@ -198,6 +224,8 @@ nwis_docstrings = {
                   # 13 feet or less.
         """,
     'drainAreaMin': """drainAreaMin : float
+        [optional, default is None]
+
         SURFACE WATER SITE ATTRIBUTE
 
         These arguments allows you to select principally surface water sites
@@ -213,6 +241,8 @@ nwis_docstrings = {
         sites, will likely retrieve no results.
         """,
     'drainAreaMax': """drainAreaMax:  float
+        [optional, default is None]
+
         SURFACE WATER SITE ATTRIBUTE
 
         Providing a value to drainAreaMax (maximum drainage area) means you
@@ -232,6 +262,8 @@ nwis_docstrings = {
                                  # or less.
         """,
     'aquiferCd': """aquiferCd
+        [optional, default is None]
+
         Used to filter sites to those that exist in specified national
         aquifers. Note: not all sites have been associated with national
         aquifers.  Enter one or more national aquifer codes, separated by
@@ -247,6 +279,8 @@ nwis_docstrings = {
                                   # aquifers.
         """,
     'localAquiferCd': """localAquiferCd
+        [optional, default is None]
+
         Used to filter sites to those that exist in specified local aquifers.
         Note: not all sites have been associated with local aquifers.  Enter
         one or more local aquifer codes, separated by commas.  A local aquifer
@@ -262,6 +296,8 @@ nwis_docstrings = {
                     # Saprolite local aquifers in Alabama
         """,
     'wellDepthMin': """wellDepthMin : float
+        [optional, default is None]
+
         GROUNDWATER SITE ATTRIBUTE
 
         These arguments allows you to select groundwater sites serving data
@@ -277,6 +313,8 @@ nwis_docstrings = {
                      # feet or greater and 500 feet or less.
         """,
     'wellDepthMax': """wellDepthMax : float
+        [optional, default is None]
+
         GROUNDWATER SITE ATTRIBUTE
 
         Providing a value to wellDepthMax (maximum well depth) means you want
@@ -291,6 +329,8 @@ nwis_docstrings = {
         returned wellDepthMax should be greater than or equal to wellDepthMin.
         """,
     'holeDepthMin': """holeDepthMin : float
+        [optional, default is None]
+
         GROUNDWATER SITE ATTRIBUTE
 
         These arguments allows you to select groundwater sites serving data
@@ -302,6 +342,8 @@ nwis_docstrings = {
         Caution: hole depth applies to groundwater sites only.
         """,
     'holeDepthMax': """holeDepthMax : float
+        [optional, default is None]
+
         GROUNDWATER SITE ATTRIBUTE
 
         Providing a value to holeDepthMax (maximum hole depth) means you want
@@ -320,6 +362,8 @@ nwis_docstrings = {
         returned holeDepthMax should be greater than or equal to holeDepthMin.
         """,
     'period': """period
+        [optional, default is None]
+
         Get a range of values from now by specifying the period argument period
         must be in ISO-8601 Duration format.
         (http://en.wikipedia.org/wiki/ISO_8601#Durations) Negative periods (ex:
@@ -337,6 +381,8 @@ nwis_docstrings = {
                   # instantaneous value)
         """,
     'startDT': """startDT
+        [optional, default is None]
+
         Get a range of values from an explicit begin or end date/time.  Use the
         startDT and endDT arguments.  Site local time is output, even if
         multiple sites are requested and sites are in different time zones.
@@ -359,6 +405,8 @@ nwis_docstrings = {
         database.
         """,
     'endDT': """endDT
+        [optional, default is None]
+
         If endDT is present, startDt must also be
         present.::
 
@@ -369,6 +417,8 @@ nwis_docstrings = {
                                         # instantaneous value
         """,
     'statReportType': """statReportType : str
+        [optional, default is 'daily']
+
         The type of statistics desired. Valid statistic report
         types include:
 
@@ -386,10 +436,10 @@ nwis_docstrings = {
         |                | provided, calendar year statistics are   |
         |                | assumed. (annual time-series)            |
         +----------------+------------------------------------------+
-
-        Default is 'daily'.
         """,
     'statType': """statType : str
+        [optional, default is None]
+
         Selects sites based on the statistics type(s) desired, such as minimum,
         maximum or mean
 
@@ -415,6 +465,8 @@ nwis_docstrings = {
                 percentiles.
         """,
     'missingData': """missingData
+        [optional, default is None]
+
         Used to indicate the rules to follow to generate statistics if there
         are gaps in the period of record during the requested statistics
         period. By default if there are any missing data for the report type,
@@ -433,6 +485,8 @@ nwis_docstrings = {
         Choice is 'off' or 'on'.
         """,
     'statisticsCd': """statisticsCd
+        [optional, default is None]
+
         The statisticsCd represents how the instantaneous values are
         aggregated.  The statisticsCd js from the following table:
 
@@ -483,6 +537,8 @@ nwis_docstrings = {
         +-------+------------------------------------+
         """,
     'siteOutput': """siteOutput
+        [optional, default is None]
+
         If you would like to see expanded site information, check this box.
         This argument is ignored for visually oriented output formats like
         Mapper, Google Earth and Google Maps. The default is basic. Use
@@ -492,6 +548,8 @@ nwis_docstrings = {
         any values for outputDataTypeCd.
         """,
     'seriesCatalogOutput': """seriesCatalogOutput
+        [optional, default is None]
+
         This argument is ignored for visually oriented output formats like
         Mapper, Google Earth and Google Maps. If you would like to see all the
         period of record information for the sites selected, check this box.
@@ -507,6 +565,8 @@ nwis_docstrings = {
         seriesCatalogOutput=true.
         """,
     'outputDataTypeCd': """outputDataTypeCd
+        [optional, default is None]
+
         This will add period of record information to certain output formats
         (GML, RDB and JSON) that summarize information about the data types
         requested.  The default is all data types. Some output formats are
@@ -567,14 +627,17 @@ nwis_docstrings = {
         +-----+---------------------------------------------------------------+
         """,
     'siteName': """siteName
+        [optional, default is None]
+
         This filter allows you to find a site by its name, using either the
         exact site name or a partial site name. Note that a major filter is
         still required. String matches are case insensitive, so if you specify
         "Boulder" you will retrieve site names with "Boulder", "boulder",
         "BOULDER" as well as many other variants.  To embed a space, you can
-        substitute %20. Examaple: &siteName=Boulder%20Creek
+        use single quotes. Examaple: --siteName='Boulder Creek'
         """,
     'siteNameMatchOperator': """siteNameMatchOperator
+        [optional, default is None]
 
         If used, this must be used with siteName. It determines how the pattern
         matching for the site name behaves. Matches are case insensitive. The
@@ -588,6 +651,8 @@ nwis_docstrings = {
         Example: &siteNameMatchOperator=any
         """,
     'hasDataTypeCd': """hasDataTypeCd
+        [optional, default is None]
+
         Default is all. Restricts results to those sites that collect certain
         kinds of data. Separate values with commas. Allowed values are:
 
@@ -632,6 +697,8 @@ nwis_docstrings = {
         +-----+---------------------------------------------------------------+
         """,
     'statYearType': """statYearType
+        [optional, default is None]
+
         Indicates which kind of year statistics should be created against. This
         only applies when requesting annual statistics, i.e.
         statReportType=annual. Valid year types codes include:
@@ -677,9 +744,13 @@ def cpc(state=None,
     Parameters
     ----------
     state : ``None`` or str
+        [optional]
+
         If specified, results will be limited to the state corresponding to the
         given 2-character state code.
     climate_division : ``None`` or int
+        [optional]
+
         If specified, results will be limited to the climate division.
     {start_date}
     {end_date}
@@ -715,9 +786,12 @@ def cdec(station_id,
     Parameters
     ----------
     station_id: str
+        [optional, default is None]
+
         Each string is the CDEC station ID and consist of three capital
         letters.
     sensor_num: integer, comma separated integers or ``None``
+        [optional, default is None]
 
         If ``None`` will get all sensors at `station_id`.
 
@@ -791,6 +865,8 @@ def cdec(station_id,
         +------------+-------------------------------------------+
 
     dur_code: str, comma separated strings, or ``None``
+        [optional, default is None]
+
         Possible values are 'E', 'H', 'D', and 'M' but not
         all of these time resolutions are available at every station.
 
@@ -850,7 +926,9 @@ def coops(station,
         Station listings for various products can be viewed at
         http://tidesandcurrents.noaa.gov or viewed on a map at Tides & Currents
         Station Map
-    date
+    date : str
+        [optional, default is None]
+
         The API understands several parameters related to date ranges.  Date
         formats are pretty flexible, however the closer to ISO 8601, the
         better.
@@ -905,10 +983,13 @@ def coops(station,
         +--------------------------------------+-----------------+
 
     begin_date
+        [optional, default is None]
+
         The beginning date for the data.  See explanation with the 'date'
         option on how to use all of the date related parameters.
-
     end_date
+        [optional, default is None]
+
         The end date for the data.  January 1st, 2012 through January 2nd,
         2012::
 
@@ -917,6 +998,8 @@ def coops(station,
         See explanation with the 'date' option on how to use all of the date
         related parameters.
     range
+        [optional, default is None]
+
         Specify the number of hours to go back from now, an 'end_date', or
         forward from a 'begin_date'.
 
@@ -938,8 +1021,9 @@ def coops(station,
 
         See explanation with the 'date' option on how to use all of the date
         related parameters.
-
     product : str
+        [optional, default is 'water_level']
+
         Specify the observation requested.  If not specified will download all
         data from that station.
 
@@ -1033,6 +1117,8 @@ def coops(station,
         +------+------------------------------------------------------+
 
     datum
+        [optional, default is 'NAVD']
+
         Specify the datum that all water levels will be
         reported against.  Note! Datum is mandatory for all water level
         products.
@@ -1058,6 +1144,8 @@ def coops(station,
         +--------+-------------------------------+
 
     time_zone
+        [optional, default is 'GMT']
+
         The time zone is specified as 'gmt', 'lst'
         or 'lst_ldt'.
 
@@ -1074,10 +1162,14 @@ def coops(station,
         +---------+----------------------------------------------------+
 
     interval
+        [optional, defaults to 'h']
+
         Deliver the Meteorological data at hourly intervals.  Does not override
-        6 minute intervals for --product='water_level'.  Defaults to 'h'.
+        6 minute intervals for --product='water_level'.
 
     bin
+        [optional, defaults to None]
+
         The bin number for the specified currents station Example:'--bin=4'
         Will retrieve data for bin number 4. Note! If a bin is not specified
         for a PORTS station, the data is returned using a predefined real-time
@@ -1133,19 +1225,41 @@ def epa_wqp(
     ----------
     {bBox}
     lat : float
-        Latitude for radial search, expressed in decimal degrees,WGS84  These
-        three arguments are used together to form a circle on the Earth's
-        surface for locating data-collection stations. Many stations outside
-        the continental US do not have latitude and longitude referenced to
-        WGS84 and therefore cannot be found using these parameters.
+        [optional, default is None]
+
+        Latitude for radial search, expressed in decimal degrees, WGS84
+
+        The `lat`, `lon`, and `within` arguments are used together to form
+        a circle on the Earth's surface for locating data-collection stations.
+        Many stations outside the continental US do not have latitude and
+        longitude referenced to WGS84 and therefore cannot be found using these
+        parameters.
 
     lon : float
+        [optional, default is None]
+
         Longitude for radial search, expressed in decimal degrees, WGS84
 
+        The `lat`, `lon`, and `within` arguments are used together to form
+        a circle on the Earth's surface for locating data-collection stations.
+        Many stations outside the continental US do not have latitude and
+        longitude referenced to WGS84 and therefore cannot be found using these
+        parameters.
+
     within : float
+        [optional, default is None]
+
         Distance for radial search, expressed in decimal miles
 
+        The `lat`, `lon`, and `within` arguments are used together to form
+        a circle on the Earth's surface for locating data-collection stations.
+        Many stations outside the continental US do not have latitude and
+        longitude referenced to WGS84 and therefore cannot be found using these
+        parameters.
+
     countrycode : str
+        [optional, default is None]
+
         Two-character Federal Information Processing Standard (FIPS) country
         code. (see domain service for available codes)
 
@@ -1153,24 +1267,29 @@ def epa_wqp(
         Standards, publication 5-2.
 
     statecode : str
+        [optional, default is None]
+
         Two-character Federal Information Processing Standard (FIPS) country
-        code, followed by a URL-encoded colon ("3A"), followed by a two-digit
-        FIPS state code. (seedomain service for available codes)
+        code, followed bu a ":", followed by a two-digit FIPS state code. (see
+        domain service for available codes)
 
         FIPS state codes were established by the National Institute of
         Standards, publication 5-2.
 
     countycode : str
+        [optional, default is None]
+
         Two-character Federal Information Processing Standard (FIPS) country
-        code, followed by a URL-encoded colon ("3A"), followed by a two-digit
-        FIPS state code, followed by a URL-encoded colon ("3A"), followed by
-        a three-digit FIPS county code. (see domain service for available
-        codes)
+        code, followed by a ":", followed by a two-digit FIPS state code,
+        followed by a ":", followed by a three-digit FIPS county code. (see
+        domain service for available codes)
 
         FIPS county codes were established by the National Institute of
         Standards, publication 5-2.
 
     siteType : str
+        [optional, default is None]
+
         One or more case-sensitive site types, separated by semicolons. (see
         domain service for available site types)
 
@@ -1180,6 +1299,8 @@ def epa_wqp(
         individual stations.
 
     organization : str
+        [optional, default is None]
+
         For USGS organization IDs, append an upper-case postal-service state
         abbreviation to "USGS-" to identify the USGS office managing the data
         collection station records. However, a few US states are serviced by
@@ -1198,14 +1319,20 @@ def epa_wqp(
         those political boundaries.
 
     siteid : str
+        [optional, default is None]
+
         Concatenate an agency code, a hyphen ("-"), and a site-identification
         number.
 
         Each data collection station is assigned a unique
         site-identification number. Other agencies often use different site
         identification numbers for the same stations.
+
     {huc}
+
     sampleMedia : str
+        [optional, default is None]
+
         One or more case-sensitive sample media, separated by semicolons. (see
         domain service for available sample media)
 
@@ -1215,6 +1342,8 @@ def epa_wqp(
         detailed information.
 
     characteristicType : str
+        [optional, default is None]
+
         One or more case-sensitive characteristic types (groupings) separated
         by semicolons. (see domain service for available characteristic types)
 
@@ -1222,6 +1351,8 @@ def epa_wqp(
         between USGS and USEPA.
 
     characteristicName : str
+        [optional, default is None]
+
         One or more case-sensitive characteristic names, separated by
         semicolons. (see domain service for available characteristic names)
 
@@ -1231,18 +1362,26 @@ def epa_wqp(
         associated most parameters to SRS names.
 
     pCode : str
+        [optional, default is None]
+
         One or more five-digit USGS parameter codes, separated by semicolons.
         This is equivalent to "parameterCd" used in other USGS web services.
 
     activityId : str
+        [optional, default is None]
+
         One or more case-sensitive activity IDs, separated by semicolons.
         Designator that uniquely identifies an activity within an organization.
 
     startDateLo : str
+        [optional, default is None]
+
         Date of earliest desired data-collection activity.  A very wide range
         of date strings can be used but the closer to ISO 8601 the better.
 
     startDateHi : str
+        [optional, default is None]
+
         Date of last desired data-collection activity.  A very wide range of
         date strings can be used but the closer to ISO 8601 the better.
     """
@@ -1482,10 +1621,69 @@ def nwis_iv(sites=None,
         '--holeDepthMin',
         '--holeDepthMax'
 
+    **Results**
+
     The column name in the resulting table is made up of
-    "USGS_SITE_CODE-parameterCd", for example
-    "02248380-00010".  The parameter code is described in the
-    "parameterCd" option below.
+    "agencyCd_siteno_parameterCd", for example "USGS_02248380_00010".  The
+    agency and parameter codes are described in the `agencyCd` and
+    `parameterCd` options below.
+
+    If `includeCodes` option is used, there will also be columns representing
+    the data quality codes named "agencyCd_siteno_parameterCd_cd".
+
+    +------+--------------------------------------------------------+
+    | Code |  Description                                           |
+    +======+========================================================+
+    | e    | Value has been edited or estimated by USGS personnel   |
+    |      | and is write protected                                 |
+    +------+--------------------------------------------------------+
+    | &    | Value was computed from affected unit values           |
+    +------+--------------------------------------------------------+
+    | E    | Value was computed from estimated unit values.         |
+    +------+--------------------------------------------------------+
+    | A    | Approved for publication -- Processing and review      |
+    |      | completed.                                             |
+    +------+--------------------------------------------------------+
+    | P    | Provisional data subject to revision.                  |
+    +------+--------------------------------------------------------+
+    | <    | The value is known to be less than reported value and  |
+    |      | is write protected.                                    |
+    +------+--------------------------------------------------------+
+    | >    | The value is known to be greater than reported value   |
+    |      | and is write protected.                                |
+    +------+--------------------------------------------------------+
+    | 1    | Value is write protected without any remark code to be |
+    |      | printed                                                |
+    +------+--------------------------------------------------------+
+    | 2    | Remark is write protected without any remark code to   |
+    |      | be printed                                             |
+    +------+--------------------------------------------------------+
+    |      | No remark (blank)                                      |
+    +------+--------------------------------------------------------+
+    | Ssn  | Parameter monitored seasonally                         |
+    +------+--------------------------------------------------------+
+    | Ice  | Ice affected                                           |
+    +------+--------------------------------------------------------+
+    | Pr   | Partial-record site                                    |
+    +------+--------------------------------------------------------+
+    | Rat  | Rating being developed or revised                      |
+    +------+--------------------------------------------------------+
+    | Eqp  | Equipment malfunction                                  |
+    +------+--------------------------------------------------------+
+    | Fld  | Flood damage                                           |
+    +------+--------------------------------------------------------+
+    | Dis  | Data-collection discontinued                           |
+    +------+--------------------------------------------------------+
+    | Dry  | Dry                                                    |
+    +------+--------------------------------------------------------+
+    | --   | Parameter not determined                               |
+    +------+--------------------------------------------------------+
+    | Mnt  | Maintenance in progress                                |
+    +------+--------------------------------------------------------+
+    | ZFl  | Zero flow                                              |
+    +------+--------------------------------------------------------+
+    | ***  | Temporarily unavailable                                |
+    +------+--------------------------------------------------------+
 
     Parameters
     ----------
@@ -1623,10 +1821,69 @@ def nwis_dv(sites=None,
         '--holeDepthMin',
         '--holeDepthMax'
 
+    **Results**
+
     The column name in the resulting table is made up of
     "USGS_SITE_CODE-parameterCd", for example
     "02248380-00010".  The parameter code is described in the
     "parameterCd" option below.
+
+    If `includeCodes` option is used, there will also be columns representing
+    the data quality codes named "agencyCd_siteno_parameterCd_cd".
+
+    +------+--------------------------------------------------------+
+    | Code |  Description                                           |
+    +======+========================================================+
+    | e    | Value has been edited or estimated by USGS personnel   |
+    |      | and is write protected                                 |
+    +------+--------------------------------------------------------+
+    | &    | Value was computed from affected unit values           |
+    +------+--------------------------------------------------------+
+    | E    | Value was computed from estimated unit values.         |
+    +------+--------------------------------------------------------+
+    | A    | Approved for publication -- Processing and review      |
+    |      | completed.                                             |
+    +------+--------------------------------------------------------+
+    | P    | Provisional data subject to revision.                  |
+    +------+--------------------------------------------------------+
+    | <    | The value is known to be less than reported value and  |
+    |      | is write protected.                                    |
+    +------+--------------------------------------------------------+
+    | >    | The value is known to be greater than reported value   |
+    |      | and is write protected.                                |
+    +------+--------------------------------------------------------+
+    | 1    | Value is write protected without any remark code to be |
+    |      | printed                                                |
+    +------+--------------------------------------------------------+
+    | 2    | Remark is write protected without any remark code to   |
+    |      | be printed                                             |
+    +------+--------------------------------------------------------+
+    |      | No remark (blank)                                      |
+    +------+--------------------------------------------------------+
+    | Ssn  | Parameter monitored seasonally                         |
+    +------+--------------------------------------------------------+
+    | Ice  | Ice affected                                           |
+    +------+--------------------------------------------------------+
+    | Pr   | Partial-record site                                    |
+    +------+--------------------------------------------------------+
+    | Rat  | Rating being developed or revised                      |
+    +------+--------------------------------------------------------+
+    | Eqp  | Equipment malfunction                                  |
+    +------+--------------------------------------------------------+
+    | Fld  | Flood damage                                           |
+    +------+--------------------------------------------------------+
+    | Dis  | Data-collection discontinued                           |
+    +------+--------------------------------------------------------+
+    | Dry  | Dry                                                    |
+    +------+--------------------------------------------------------+
+    | --   | Parameter not determined                               |
+    +------+--------------------------------------------------------+
+    | Mnt  | Maintenance in progress                                |
+    +------+--------------------------------------------------------+
+    | ZFl  | Zero flow                                              |
+    +------+--------------------------------------------------------+
+    | ***  | Temporarily unavailable                                |
+    +------+--------------------------------------------------------+
 
     Parameters
     ----------
@@ -1767,10 +2024,41 @@ def nwis_site(sites=None,
         '--holeDepthMin',
         '--holeDepthMax'
 
-    The column name in the resulting table is made up of
-    "USGS_SITE_CODE-parameterCd", for example
-    "02248380-00010".  The parameter code is described in the
-    "parameterCd" option below.
+    **Results**
+
+    +---------------------+----------------------------------+
+    | Column              | Description                      |
+    +=====================+==================================+
+    | agency_cd           | Agency                           |
+    +---------------------+----------------------------------+
+    | site_no             | Site identification number       |
+    +---------------------+----------------------------------+
+    | station_nm          | Site name                        |
+    +---------------------+----------------------------------+
+    | site_tp_cd_         | Site type                        |
+    +---------------------+----------------------------------+
+    | dec_lat_va          | Decimal latitude                 |
+    +---------------------+----------------------------------+
+    | dec_long_va         | Decimal longitude                |
+    +---------------------+----------------------------------+
+    | coord_acy_cd_       | Latitude-longitude accuracy      |
+    +---------------------+----------------------------------+
+    | dec_coord_datum_cd_ | Decimal Latitude-longitude datum |
+    +---------------------+----------------------------------+
+    | alt_va              | Altitude of Gage/land surface    |
+    +---------------------+----------------------------------+
+    | alt_acy_va          | Altitude accuracy                |
+    +---------------------+----------------------------------+
+    | alt_datum_cd_       | Altitude datum                   |
+    +---------------------+----------------------------------+
+    | huc_cd_             | Hydrologic unit code             |
+    +---------------------+----------------------------------+
+
+    .. _site_tp_cd: https://help.waterdata.usgs.gov/code/site_tp_query?fmt=html
+    .. _coord_acy_cd: https://help.waterdata.usgs.gov/code/coord_acy_cd_query?fmt=html
+    .. _dec_coord_datum_cd: https://help.waterdata.usgs.gov/code/coord_datum_cd_query?fmt=html
+    .. _alt_datum_cd: https://help.waterdata.usgs.gov/code/alt_datum_cd_query?fmt=html
+    .. _huc_cd: https://help.waterdata.usgs.gov/code/hucs_query?fmt=html
 
     Parameters
     ----------
@@ -1914,10 +2202,35 @@ def nwis_gwlevels(sites=None,
         '--holeDepthMin',
         '--holeDepthMax'
 
-    The column name in the resulting table is made up of
-    "USGS_SITE_CODE-parameterCd", for example
-    "02248380-00010".  The parameter code is described in the
-    "parameterCd" option below.
+    **Results**
+
+    +---------------+-------------------------------+
+    | Column        | Description                   |
+    +===============+===============================+
+    | agency_cd     | Agency code                   |
+    +---------------+-------------------------------+
+    | site_no       | USGS site number              |
+    +---------------+-------------------------------+
+    | site_tp_cd    | Site type code                |
+    +---------------+-------------------------------+
+    | lev_dt        | Date level measured           |
+    +---------------+-------------------------------+
+    | lev_tm        | Time level measured           |
+    +---------------+-------------------------------+
+    | lev_tz_cd     | Time datum                    |
+    +---------------+-------------------------------+
+    | lev_va        | Water-level value in feet     |
+    |               | below land surface            |
+    +---------------+-------------------------------+
+    | sl_lev_va     | Water-level value in feet     |
+    |               | above specific vertical datum |
+    +---------------+-------------------------------+
+    | sl_datum_cd   | Referenced vertical datum     |
+    +---------------+-------------------------------+
+    | lev_status_cd | Status                        |
+    +---------------+-------------------------------+
+    | lev_agency_cd | Measuring agency              |
+    +---------------+-------------------------------+
 
     Parameters
     ----------
@@ -2044,10 +2357,96 @@ def nwis_measurements(sites=None,
         '--holeDepthMin',
         '--holeDepthMax'
 
-    The column name in the resulting table is made up of
-    "USGS_SITE_CODE-parameterCd", for example
-    "02248380-00010".  The parameter code is described in the
-    "parameterCd" option below.
+    **Results**
+
+    +---------------------------+-------------------------------------------+
+    | Column                    | Description                               |
+    +===========================+===========================================+
+    | agency_cd                 | Agency code                               |
+    +---------------------------+-------------------------------------------+
+    | site_no                   | Site number                               |
+    +---------------------------+-------------------------------------------+
+    | measurement_nu            | Measurement number                        |
+    +---------------------------+-------------------------------------------+
+    | measurement_dt            | date of measurement (format = MMDDYYYY    |
+    |                           | or Month/Day/Year. The user has options   |
+    |                           | for the data output format)               |
+    +---------------------------+-------------------------------------------+
+    | tz_cd                     | Time zone offset. An ANSI SQL/92 time     |
+    |                           | zone offset string. Some examples are     |
+    |                           | '-07:00' (Eastern), '+02:00' (Eastern     |
+    |                           | Europe), and '+03:30' (India).            |
+    +---------------------------+-------------------------------------------+
+    | q_meas_used_fg            | Flag indicates if the discharge           |
+    |                           | measurement is marked used.               |
+    +---------------------------+-------------------------------------------+
+    | party_nm                  | an indication of who made the             |
+    |                           | measurement and is usually populated with |
+    |                           | a pair of initials separated with a slash |
+    +---------------------------+-------------------------------------------+
+    | site_visit_coll_agency_cd | What agency made the measurement at the   |
+    |                           | site visit                                |
+    +---------------------------+-------------------------------------------+
+    | gage_height_va            | gage height as shown on the inside staff  |
+    |                           | gage at the site or read off the recorder |
+    |                           | inside the gage house in feet             |
+    +---------------------------+-------------------------------------------+
+    | discharge_va              | the computed discharge in cubic feet per  |
+    |                           | second (cfs)                              |
+    +---------------------------+-------------------------------------------+
+    | measured_rating_diff      | measurement rating codes that denote the  |
+    |                           | relative quality of the measurement       |
+    +---------------------------+-------------------------------------------+
+    | gage_va_change            | The amount the gage height changed while  |
+    |                           | the measurement was being made in feet    |
+    +---------------------------+-------------------------------------------+
+    | gage_va_time              | The amount of time elapsed while the      |
+    |                           | measurement was being made in decimal     |
+    |                           | hours                                     |
+    +---------------------------+-------------------------------------------+
+    | control_type_cd           | condition of the rating control at the    |
+    |                           | time of the measurement                   |
+    +---------------------------+-------------------------------------------+
+    | discharge_cd              | The adjustment code for the measured      |
+    |                           | discharge                                 |
+    +---------------------------+-------------------------------------------+
+    | chan_nu                   | The channel number                        |
+    +---------------------------+-------------------------------------------+
+    | chan_name                 | The channel name                          |
+    +---------------------------+-------------------------------------------+
+    | meas_type                 | The channel measurement type              |
+    +---------------------------+-------------------------------------------+
+    | streamflow_method         | The channel discharge measurement method  |
+    +---------------------------+-------------------------------------------+
+    | velocity_method           | The channel velocity measurement method   |
+    +---------------------------+-------------------------------------------+
+    | chan_discharge            | The channel discharge in cubic feet per   |
+    |                           | second                                    |
+    +---------------------------+-------------------------------------------+
+    | chan_width                | The channel width in feet                 |
+    +---------------------------+-------------------------------------------+
+    | chan_area                 | The channel area in square feet           |
+    +---------------------------+-------------------------------------------+
+    | chan_velocity             | The mean velocity in feet per second      |
+    +---------------------------+-------------------------------------------+
+    | chan_stability            | The stability of the channel material     |
+    +---------------------------+-------------------------------------------+
+    | chan_material             | The channel material                      |
+    +---------------------------+-------------------------------------------+
+    | chan_evenness             | The channel evenness from bank to bank    |
+    +---------------------------+-------------------------------------------+
+    | long_vel_desc             | The longitudinal velocity description     |
+    +---------------------------+-------------------------------------------+
+    | horz_vel_desc             | The horizontal velocity description       |
+    +---------------------------+-------------------------------------------+
+    | vert_vel_desc             | The vertical velocity description         |
+    +---------------------------+-------------------------------------------+
+    | chan_loc_cd               | The channel location code                 |
+    +---------------------------+-------------------------------------------+
+    | chan_loc_dist             | The channel location distance             |
+    +---------------------------+-------------------------------------------+
+
+    https://help.waterdata.usgs.gov/output-formats#streamflow_measurement_data
 
     Parameters
     ----------
@@ -2174,10 +2573,101 @@ def nwis_peak(sites=None,
         '--holeDepthMin',
         '--holeDepthMax'
 
-    The column name in the resulting table is made up of
-    "USGS_SITE_CODE-parameterCd", for example
-    "02248380-00010".  The parameter code is described in the
-    "parameterCd" option below.
+    **Results**
+
+    +---------------+--------------------------------------------+
+    | Column        | Description                                |
+    +===============+============================================+
+    | agency_cd     | Agency Code                                |
+    +---------------+--------------------------------------------+
+    | site_no       | USGS station number                        |
+    +---------------+--------------------------------------------+
+    | peak_dt       | Date of peak streamflow                    |
+    |               |   (format YYYY-MM-DD)                      |
+    +---------------+--------------------------------------------+
+    | peak_tm       | Time of peak streamflow                    |
+    |               |   (24 hour format, 00:00 - 23:59)          |
+    +---------------+--------------------------------------------+
+    | peak_va       | Annual peak streamflow value in cfs        |
+    +---------------+--------------------------------------------+
+    | peak_cd       | Peak Discharge-Qualification codes         |
+    |               |   (see explanation below)                  |
+    +---------------+--------------------------------------------+
+    | gage_ht       | Gage height for the associated peak        |
+    |               |   streamflow in feet                       |
+    +---------------+--------------------------------------------+
+    | gage_ht_cd    | Gage height qualification codes            |
+    +---------------+--------------------------------------------+
+    | year_last_pk  | Peak streamflow reported is the highest    |
+    |               |   since this year                          |
+    +---------------+--------------------------------------------+
+    | ag_dt         | Date of maximum gage-height for water year |
+    |               |   (if not concurrent with peak)            |
+    +---------------+--------------------------------------------+
+    | ag_tm         | Time of maximum gage-height for water year |
+    |               |   (if not concurrent with peak)            |
+    +---------------+--------------------------------------------+
+    | ag_gage_ht    | maximum Gage height for water year in feet |
+    |               |   (if not concurrent with peak)            |
+    +---------------+--------------------------------------------+
+    | ag_gage_ht_cd | maximum Gage height code                   |
+    +---------------+--------------------------------------------+
+
+    Peak Streamflow-Qualification Codes(peak_cd):
+    +---------+---------------------------------------------------+
+    | peak_cd | Description                                          |
+    +=========+======================================================+
+    | 1       | Discharge is a Maximum Daily Average                 |
+    +---------+------------------------------------------------------+
+    | 2       | Discharge is an Estimate                             |
+    +---------+------------------------------------------------------+
+    | 3       | Discharge affected by Dam Failure                    |
+    +---------+------------------------------------------------------+
+    | 4       | Discharge less than indicated value,                 |
+    |         |   which is Minimum Recordable Discharge at this site |
+    +---------+------------------------------------------------------+
+    | 5       | Discharge affected to unknown degree by              |
+    |         |   Regulation or Diversion                            |
+    +---------+------------------------------------------------------+
+    | 6       | Discharge affected by Regulation or Diversion        |
+    +---------+------------------------------------------------------+
+    | 7       | Discharge is an Historic Peak                        |
+    +---------+------------------------------------------------------+
+    | 8       | Discharge actually greater than indicated value      |
+    +---------+------------------------------------------------------+
+    | 9       | Discharge due to Snowmelt, Hurricane,                |
+    |         |   Ice-Jam or Debris Dam breakup                      |
+    +---------+------------------------------------------------------+
+    | A       | Year of occurrence is unknown or not exact           |
+    +---------+------------------------------------------------------+
+    | B       | Month or Day of occurrence is unknown or not exact   |
+    +---------+------------------------------------------------------+
+    | C       | All or part of the record affected by Urbanization,  |
+    |         |    Mining, Agricultural changes, Channelization,     |
+    |         |    or other                                          |
+    +---------+------------------------------------------------------+
+    | D       | Base Discharge changed during this year              |
+    +---------+------------------------------------------------------+
+    | E       | Only Annual Maximum Peak available for this year     |
+    +---------+------------------------------------------------------+
+
+    Gage height qualification codes(gage_ht_cd,ag_gage_ht_cd):
+    +---------------+------------------------------------------------+
+    | gage_ht_cd    | Description                                    |
+    | ag_gage_ht_cd |                                                |
+    +===============+================================================+
+    | 1             | Gage height affected by backwater              |
+    +---------------+------------------------------------------------+
+    | 2             | Gage height not the maximum for the year       |
+    +---------------+------------------------------------------------+
+    | 3             | Gage height at different site and(or) datum    |
+    +---------------+------------------------------------------------+
+    | 4             | Gage height below minimum recordable elevation |
+    +---------------+------------------------------------------------+
+    | 5             | Gage height is an estimate                     |
+    +---------------+------------------------------------------------+
+    | 6             | Gage datum changed during this year            |
+    +---------------+------------------------------------------------+
 
     Parameters
     ----------
@@ -2262,10 +2752,6 @@ def nwis_stat(sites=None,
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
 
-    Site local time is output, even if multiple sites are requested and sites
-    are in different time zones.  Note that the measurement time zone at a site
-    may not be the same as the time zone actually in effect at the site.
-
     Every query requires a major filter. Pick the major filter ('--sites',
     '--stateCd', '--huc', '--bBox', '--countyCd') that best retrieves the data
     for the sites that you are interested in.  You can have only one major
@@ -2306,12 +2792,7 @@ def nwis_stat(sites=None,
         '--holeDepthMin',
         '--holeDepthMax'
 
-    The column name in the resulting table is made up of
-    "USGS_SITE_CODE-parameterCd", for example
-    "02248380-00010".  The parameter code is described in the
-    "parameterCd" option below.
-
-    Returns:
+    **Returns**
 
     This returns a pandas DataFrame if using the Python API, or a text table to
     standard out if using the command line interface.  Both will have columns
@@ -3388,7 +3869,7 @@ def ncdc_ghcnd_ftp(station,
     |      | to a code for soil depth. See SN*# for ground cover and  |
     |      | depth codes.                                             |
     +------+----------------------------------------------------------+
-    | WT** | Weather Type where ** has one of the following values:   |
+    | WTXX | Weather Type where XX has one of the following values:   |
     +------+----------------------------------------------------------+
     |      | 01 = Fog, ice fog, or freezing fog (may include heavy    |
     |      | fog)                                                     |
@@ -3436,7 +3917,7 @@ def ncdc_ghcnd_ftp(station,
     +------+----------------------------------------------------------+
     |      | 22 = Ice fog or freezing fog                             |
     +------+----------------------------------------------------------+
-    | WV** | Weather in the Vicinity where ** has one of the          |
+    | WVXX | Weather in the Vicinity where XX has one of the          |
     |      | following values:                                        |
     +------+----------------------------------------------------------+
     |      | 01 = Fog, ice fog, or freezing fog (may include heavy    |
@@ -3735,7 +4216,7 @@ def ncdc_ghcnd(stationid,
         |      | corresponds to a code for soil depth. See SN*# for    |
         |      | ground cover and depth codes.                         |
         +------+-------------------------------------------------------+
-        | WT** | Weather Type where ** has one of the following        |
+        | WTXX | Weather Type where XX has one of the following        |
         |      | values:                                               |
         +------+-------------------------------------------------------+
         |      | 01 = Fog, ice fog, or freezing fog (may include heavy |
@@ -3784,7 +4265,7 @@ def ncdc_ghcnd(stationid,
         +------+-------------------------------------------------------+
         |      | 22 = Ice fog or freezing fog                          |
         +------+-------------------------------------------------------+
-        | WV** | Weather in the Vicinity where ** has one of the       |
+        | WVXX | Weather in the Vicinity where XX has one of the       |
         |      | following values:                                     |
         +------+-------------------------------------------------------+
         |      | 01 = Fog, ice fog, or freezing fog (may include heavy |

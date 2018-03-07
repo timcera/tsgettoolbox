@@ -7,6 +7,8 @@
     .. _Lower Colorado River Authority: http://www.lcra.org
     .. _Hydromet: http://hydromet.lcra.org
 """
+from __future__ import print_function
+from builtins import str
 from ulmo.lcra.hydromet.core import get_site_data, get_current_data
 import pandas as pd
 
