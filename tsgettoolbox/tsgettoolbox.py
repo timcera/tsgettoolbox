@@ -29,13 +29,13 @@ warnings.filterwarnings('ignore')
 
 
 nwis_docstrings = {
-    'includeCodes': """includeCodes
+    'includeCodes': r"""includeCodes
         [optional, default is False]
 
         Whether or not to include the metadata/quality code column.  Useful to
         almost halve the size of the pandas DataFrame.
         """,
-    'sites': """sites : str
+    'sites': r"""sites : str
         [optional, default is None]
 
         Want to only query one site? Use sites as your major filter, and put
@@ -51,7 +51,7 @@ nwis_docstrings = {
             --sites=USGS:01646500
             --sites=01646500,06306300
         """,
-    'stateCd': """stateCd : str
+    'stateCd': r"""stateCd : str
         [optional, default is None]
 
         U.S. postal service (2-digit) state code.  Can have only 1 state code.
@@ -60,7 +60,7 @@ nwis_docstrings = {
 
             --stateCd=NY
         """,
-    'huc': """huc : str
+    'huc': r"""huc : str
         [optional, default is None]
 
         A list of hydrologic unit codes (HUC) or watersheds.  Only 1 major HUC
@@ -70,7 +70,7 @@ nwis_docstrings = {
 
             --huc=01,02070010
         """,
-    'bBox': """bBox :
+    'bBox': r"""bBox :
         [optional, default is None]
 
         A contiguous range of decimal latitude and longitude, starting with the
@@ -88,7 +88,7 @@ nwis_docstrings = {
 
             --bBox=-83,36.5,-81,38.5
         """,
-    'countyCd': """countyCd :
+    'countyCd': r"""countyCd :
         [optional, default is None]
 
         A list of county numbers, in a 5 digit numeric format. The first two
@@ -100,7 +100,7 @@ nwis_docstrings = {
 
             --countyCd=51059,51061
         """,
-    'parameterCd': """parameterCd :
+    'parameterCd': r"""parameterCd :
         [optional, default is None]
 
         USGS time-series parameter code.  All parameter codes are numeric and
@@ -122,7 +122,7 @@ nwis_docstrings = {
                                       # and gage height in
                                       # feet
         """,
-    'siteType': """siteType :
+    'siteType': r"""siteType :
         [optional, default is None]
 
         Restricts sites to those having one or more major and/or minor site
@@ -135,7 +135,7 @@ nwis_docstrings = {
             --siteType=ST       # Streams only
             --siteType=ST,LA-OU # Streams and Land Outcrops only
         """,
-    'modifiedSince': """modifiedSince :
+    'modifiedSince': r"""modifiedSince :
         [optional, default is None]
 
         Returns all values for sites and period of record requested only if any
@@ -167,7 +167,7 @@ nwis_docstrings = {
                    # 23:59 on Nov 2nd, 2010 site local time, only if values
                    # were changed or added within the last two hours.
         """,
-    'agencyCd': """agencyCd :
+    'agencyCd': r"""agencyCd :
         [optional, default is None]
 
         The list of sites returned are filtered to return only those with the
@@ -181,7 +181,7 @@ nwis_docstrings = {
                                          # of Engineers sites
                                          # in Illinois
         """,
-    'siteStatus': """siteStatus :
+    'siteStatus': r"""siteStatus :
         [optional, default is None]
 
         Selects sites based on whether or not they are active. If a site is
@@ -199,7 +199,7 @@ nwis_docstrings = {
 
             --siteStatus='active'
         """,
-    'altMin': """altMin : float
+    'altMin': r"""altMin : float
         [optional, default is None]
 
         These arguments allows you to select instantaneous values sites where
@@ -210,7 +210,7 @@ nwis_docstrings = {
         critical If both the altMin and altMax are specified, sites at or
         between the minimum and maximum altitude are returned.
         """,
-    'altMax': """altMax : float
+    'altMax': r"""altMax : float
         [optional, default is None]
 
         Providing a value to altMax (maximum altitude) means you want sites
@@ -223,7 +223,7 @@ nwis_docstrings = {
                   # Return sites where the altitude is 12.5 feet or greater and
                   # 13 feet or less.
         """,
-    'drainAreaMin': """drainAreaMin : float
+    'drainAreaMin': r"""drainAreaMin : float
         [optional, default is None]
 
         SURFACE WATER SITE ATTRIBUTE
@@ -240,7 +240,7 @@ nwis_docstrings = {
         surface water sites.  Use with other site types, such as groundwater
         sites, will likely retrieve no results.
         """,
-    'drainAreaMax': """drainAreaMax:  float
+    'drainAreaMax': r"""drainAreaMax:  float
         [optional, default is None]
 
         SURFACE WATER SITE ATTRIBUTE
@@ -261,7 +261,7 @@ nwis_docstrings = {
                                  # and is 10.7 square miles
                                  # or less.
         """,
-    'aquiferCd': """aquiferCd
+    'aquiferCd': r"""aquiferCd
         [optional, default is None]
 
         Used to filter sites to those that exist in specified national
@@ -278,7 +278,7 @@ nwis_docstrings = {
                                   # High Plains national
                                   # aquifers.
         """,
-    'localAquiferCd': """localAquiferCd
+    'localAquiferCd': r"""localAquiferCd
         [optional, default is None]
 
         Used to filter sites to those that exist in specified local aquifers.
@@ -295,7 +295,7 @@ nwis_docstrings = {
                     # returns sites for the Regolith and
                     # Saprolite local aquifers in Alabama
         """,
-    'wellDepthMin': """wellDepthMin : float
+    'wellDepthMin': r"""wellDepthMin : float
         [optional, default is None]
 
         GROUNDWATER SITE ATTRIBUTE
@@ -312,7 +312,7 @@ nwis_docstrings = {
                      # Return daily value sites where the well depth is 100
                      # feet or greater and 500 feet or less.
         """,
-    'wellDepthMax': """wellDepthMax : float
+    'wellDepthMax': r"""wellDepthMax : float
         [optional, default is None]
 
         GROUNDWATER SITE ATTRIBUTE
@@ -328,7 +328,7 @@ nwis_docstrings = {
         between the minimum and maximum well depth values specified are
         returned wellDepthMax should be greater than or equal to wellDepthMin.
         """,
-    'holeDepthMin': """holeDepthMin : float
+    'holeDepthMin': r"""holeDepthMin : float
         [optional, default is None]
 
         GROUNDWATER SITE ATTRIBUTE
@@ -341,7 +341,7 @@ nwis_docstrings = {
         exceed the holeDepthMin value.  The values may be expressed in decimals
         Caution: hole depth applies to groundwater sites only.
         """,
-    'holeDepthMax': """holeDepthMax : float
+    'holeDepthMax': r"""holeDepthMax : float
         [optional, default is None]
 
         GROUNDWATER SITE ATTRIBUTE
@@ -361,7 +361,7 @@ nwis_docstrings = {
         between the minimum and maximum hole depth values specified are
         returned holeDepthMax should be greater than or equal to holeDepthMin.
         """,
-    'period': """period
+    'period': r"""period
         [optional, default is None]
 
         Get a range of values from now by specifying the period argument period
@@ -380,7 +380,7 @@ nwis_docstrings = {
                   # Retrieve last seven days up from now to most recent
                   # instantaneous value)
         """,
-    'startDT': """startDT
+    'startDT': r"""startDT
         [optional, default is None]
 
         Get a range of values from an explicit begin or end date/time.  Use the
@@ -404,7 +404,7 @@ nwis_docstrings = {
         only data from October 1, 2007 are currently available in the 'iv'
         database.
         """,
-    'endDT': """endDT
+    'endDT': r"""endDT
         [optional, default is None]
 
         If endDT is present, startDt must also be
@@ -416,7 +416,7 @@ nwis_docstrings = {
             --startDT=2010-11-22T12:00  # From "startDT" to most recent
                                         # instantaneous value
         """,
-    'statReportType': """statReportType : str
+    'statReportType': r"""statReportType : str
         [optional, default is 'daily']
 
         The type of statistics desired. Valid statistic report
@@ -437,7 +437,7 @@ nwis_docstrings = {
         |                | assumed. (annual time-series)            |
         +----------------+------------------------------------------+
         """,
-    'statType': """statType : str
+    'statType': r"""statType : str
         [optional, default is None]
 
         Selects sites based on the statistics type(s) desired, such as minimum,
@@ -464,7 +464,7 @@ nwis_docstrings = {
                 the service can calculate only these
                 percentiles.
         """,
-    'missingData': """missingData
+    'missingData': r"""missingData
         [optional, default is None]
 
         Used to indicate the rules to follow to generate statistics if there
@@ -484,7 +484,7 @@ nwis_docstrings = {
 
         Choice is 'off' or 'on'.
         """,
-    'statisticsCd': """statisticsCd
+    'statisticsCd': r"""statisticsCd
         [optional, default is None]
 
         The statisticsCd represents how the instantaneous values are
@@ -536,7 +536,7 @@ nwis_docstrings = {
         | 3TTTT | INSTANTANEOUS OBSERVATION AT TTTT  |
         +-------+------------------------------------+
         """,
-    'siteOutput': """siteOutput
+    'siteOutput': r"""siteOutput
         [optional, default is None]
 
         If you would like to see expanded site information, check this box.
@@ -547,7 +547,7 @@ nwis_docstrings = {
         &siteOutput=expanded cannot be used if seriesCatalogOutput=true or with
         any values for outputDataTypeCd.
         """,
-    'seriesCatalogOutput': """seriesCatalogOutput
+    'seriesCatalogOutput': r"""seriesCatalogOutput
         [optional, default is None]
 
         This argument is ignored for visually oriented output formats like
@@ -564,7 +564,7 @@ nwis_docstrings = {
         for performance reasons, &siteOutput=expanded cannot be used if
         seriesCatalogOutput=true.
         """,
-    'outputDataTypeCd': """outputDataTypeCd
+    'outputDataTypeCd': r"""outputDataTypeCd
         [optional, default is None]
 
         This will add period of record information to certain output formats
@@ -626,7 +626,7 @@ nwis_docstrings = {
         |     | Link}                                                         |
         +-----+---------------------------------------------------------------+
         """,
-    'siteName': """siteName
+    'siteName': r"""siteName
         [optional, default is None]
 
         This filter allows you to find a site by its name, using either the
@@ -636,7 +636,7 @@ nwis_docstrings = {
         "BOULDER" as well as many other variants.  To embed a space, you can
         use single quotes. Examaple: --siteName='Boulder Creek'
         """,
-    'siteNameMatchOperator': """siteNameMatchOperator
+    'siteNameMatchOperator': r"""siteNameMatchOperator
         [optional, default is None]
 
         If used, this must be used with siteName. It determines how the pattern
@@ -650,7 +650,7 @@ nwis_docstrings = {
 
         Example: &siteNameMatchOperator=any
         """,
-    'hasDataTypeCd': """hasDataTypeCd
+    'hasDataTypeCd': r"""hasDataTypeCd
         [optional, default is None]
 
         Default is all. Restricts results to those sites that collect certain
@@ -696,7 +696,7 @@ nwis_docstrings = {
         |     | Link                                                          |
         +-----+---------------------------------------------------------------+
         """,
-    'statYearType': """statYearType
+    'statYearType': r"""statYearType
         [optional, default is None]
 
         Indicates which kind of year statistics should be created against. This
@@ -725,8 +725,7 @@ def cpc(state=None,
         climate_division=None,
         start_date=None,
         end_date=None):
-    """
-    Access to Climate Prediction Center, Weekly Drought Index dataset.
+    r"""Access to Climate Prediction Center, Weekly Drought Index dataset.
 
     Climate Prediction Center: http://www.cpc.ncep.noaa.gov/
     Weekly Drought Index: http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
@@ -772,8 +771,7 @@ def cdec(station_id,
          sensor_num=None,
          start_date=None,
          end_date=None):
-    r"""
-    Access data from the `California Department of Water Resources`_
+    r"""Access data from the `California Department of Water Resources`_
 
     The web site is called the `California Data Exchange Center`_.
 
@@ -1441,8 +1439,7 @@ def nwis(sites=None,
          statType=None,
          missingData=None,
          statYearType=None):
-    r"""
-    Deprecated: Use the nwis_* functions instead.
+    r"""Deprecated: Use the nwis_* functions instead.
 
     This function has been split up into individual functions for each source
     database.  This allows for keywords and output to be tailored to each
@@ -1571,8 +1568,7 @@ def nwis_iv(sites=None,
             holeDepthMin=None,
             holeDepthMax=None,
             includeCodes=False):
-    r"""
-    Download from the Instantaneous Values database of the USGS National Water
+    r"""Download from the Instantaneous Values database of the USGS National Water
     Information Service (NWIS).
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
@@ -1771,8 +1767,7 @@ def nwis_dv(sites=None,
             holeDepthMin=None,
             holeDepthMax=None,
             includeCodes=False):
-    r"""
-    Download from the Daily Values database of the USGS National Water
+    r"""Download from the Daily Values database of the USGS National Water
     Information Service (NWIS).
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
@@ -1976,8 +1971,7 @@ def nwis_site(sites=None,
               siteName=None,
               siteNameMatchOperator=None,
               hasDataTypeCd=None):
-    r"""
-    Download from the site database of the USGS National Water
+    r"""Download from the site database of the USGS National Water
     Information Service (NWIS).
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
@@ -2035,23 +2029,23 @@ def nwis_site(sites=None,
     +---------------------+----------------------------------+
     | station_nm          | Site name                        |
     +---------------------+----------------------------------+
-    | site_tp_cd_         | Site type                        |
+    | site_tp_cd          | Site type                        |
     +---------------------+----------------------------------+
     | dec_lat_va          | Decimal latitude                 |
     +---------------------+----------------------------------+
     | dec_long_va         | Decimal longitude                |
     +---------------------+----------------------------------+
-    | coord_acy_cd_       | Latitude-longitude accuracy      |
+    | coord_acy_cd        | Latitude-longitude accuracy      |
     +---------------------+----------------------------------+
-    | dec_coord_datum_cd_ | Decimal Latitude-longitude datum |
+    | dec_coord_datum_cd  | Decimal Latitude-longitude datum |
     +---------------------+----------------------------------+
     | alt_va              | Altitude of Gage/land surface    |
     +---------------------+----------------------------------+
     | alt_acy_va          | Altitude accuracy                |
     +---------------------+----------------------------------+
-    | alt_datum_cd_       | Altitude datum                   |
+    | alt_datum_cd        | Altitude datum                   |
     +---------------------+----------------------------------+
-    | huc_cd_             | Hydrologic unit code             |
+    | huc_cd              | Hydrologic unit code             |
     +---------------------+----------------------------------+
 
     .. _site_tp_cd: https://help.waterdata.usgs.gov/code/site_tp_query?fmt=html
@@ -2152,8 +2146,7 @@ def nwis_gwlevels(sites=None,
                   wellDepthMax=None,
                   holeDepthMin=None,
                   holeDepthMax=None):
-    r"""
-    Download from the Groundwater Levels database of the USGS National Water
+    r"""Download from the Groundwater Levels database of the USGS National Water
     Information Service (NWIS).
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
@@ -2307,8 +2300,7 @@ def nwis_measurements(sites=None,
                       wellDepthMax=None,
                       holeDepthMin=None,
                       holeDepthMax=None):
-    r"""
-    Download from the Measurements database of the USGS National Water
+    r"""Download from the Measurements database of the USGS National Water
     Information Service (NWIS).
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
@@ -2523,8 +2515,7 @@ def nwis_peak(sites=None,
               wellDepthMax=None,
               holeDepthMin=None,
               holeDepthMax=None):
-    r"""
-    Download from the Peak database of the USGS National Water
+    r"""Download from the Peak database of the USGS National Water
     Information Service (NWIS).
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
@@ -2746,8 +2737,7 @@ def nwis_stat(sites=None,
               statType=None,
               missingData=None,
               statYearType=None):
-    r"""
-    Download from the Statistic database of the USGS National Water
+    r"""Download from the Statistic database of the USGS National Water
     Information Service (NWIS).
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
@@ -2933,8 +2923,7 @@ def daymet(lat,
            lon,
            measuredParams=None,
            year=None):
-    r"""
-    Download data from Daymet by the Oak Ridge National Laboratory.
+    r"""Download data from Daymet by the Oak Ridge National Laboratory.
 
     Detailed documentation is at http://daymet.ornl.gov/.  Since this is
     daily data, it covers midnight to midnight based on local time.
@@ -3004,8 +2993,7 @@ def ldas(lat=None,
          variable=None,
          startDate=None,
          endDate=None):
-    r"""
-    Download data from NLDAS or GLDAS.
+    r"""Download data from NLDAS or GLDAS.
 
     The time zone is always UTC.
 
@@ -3191,8 +3179,7 @@ def darksky(latitude,
             database='hourly',
             extend=None,
             lang='en'):
-    r"""
-    Data from the Dark Sky forecast service.
+    r"""Data from the Dark Sky forecast service.
 
     Powered by Dark Sky https://darksky.net/poweredby/
 
@@ -3478,8 +3465,7 @@ def forecast_io(latitude,
                 database='hourly',
                 extend=None,
                 lang='en'):
-    r"""
-    DEPRECATED: please use 'darksky'.
+    r"""DEPRECATED: please use 'darksky'.
 
     The forecast_io service changed names to 'darksky'.  See documentation
     under the darksky service.
@@ -3524,8 +3510,7 @@ def unavco(station,
            database='met',
            starttime=None,
            endtime=None):
-    r"""
-    Download data from the Unavco web services.
+    r"""Download data from the Unavco web services.
 
     Detailed information at:
     http://www.unavco.com/data/web-services/web-services.html
@@ -3642,8 +3627,7 @@ def unavco(station,
 def ncdc_ghcnd_ftp(station,
                    start_date=None,
                    end_date=None):
-    r"""
-    Download from the Global Historical Climatology Network - Daily.
+    r"""Download from the Global Historical Climatology Network - Daily.
 
     If you use this data, please read
     ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt about "How to
@@ -3956,8 +3940,7 @@ def ncdc_ghcnd(stationid,
                datatypeid='',
                startdate='',
                enddate=''):
-    r"""
-    Download from the Global Historical Climatology Network - Daily.
+    r"""Download from the Global Historical Climatology Network - Daily.
 
     Requires registration and free API key.
 
@@ -4308,8 +4291,7 @@ def ncdc_gs(stationid,
             datatypeid='',
             startdate='',
             enddate=''):
-    r"""
-    Access NCDC Global Summary of Month (GSOM) and Year (GSOY)
+    r"""Access NCDC Global Summary of Month (GSOM) and Year (GSOY)
 
     National Climatic Data Center Global Summary of the MONTH (GSOM)
     https://gis.ncdc.noaa.gov/all-records/catalog/search/resource/details.page
@@ -4832,8 +4814,7 @@ def ncdc_nexrad2(stationid,
                  datatypeid='',
                  startdate='',
                  enddate=''):
-    r"""
-    National Climatic Data Center NEXRAD Level II
+    r"""National Climatic Data Center NEXRAD Level II
 
     Requires registration and free API key.
 
@@ -4878,8 +4859,7 @@ def ncdc_nexrad3(stationid,
                  datatypeid='',
                  startdate='',
                  enddate=''):
-    r"""
-    National Climatic Data Center NEXRAD Level III
+    r"""National Climatic Data Center NEXRAD Level III
 
     Requires registration and free API key.
 
@@ -4924,8 +4904,7 @@ def ncdc_normal_ann(stationid,
                     datatypeid='',
                     startdate='',
                     enddate=''):
-    r"""
-    National Climatic Data Center annual normals
+    r"""National Climatic Data Center annual normals
 
     Requires registration and free API key.
 
@@ -6605,8 +6584,7 @@ def ncdc_normal_dly(stationid,
                     datatypeid='',
                     startdate='',
                     enddate=''):
-    r"""
-    National Climatic Data Center Daily Normals
+    r"""National Climatic Data Center Daily Normals
 
     Requires registration and free API key.
 
@@ -6874,8 +6852,7 @@ def ncdc_normal_hly(stationid,
                     datatypeid='',
                     startdate='',
                     enddate=''):
-    r"""
-    National Climatic Data Center GHCND Monthly Summaries
+    r"""National Climatic Data Center GHCND Monthly Summaries
 
     Requires registration and free API key.
 
@@ -6989,8 +6966,7 @@ def ncdc_normal_mly(stationid,
                     datatypeid='',
                     startdate='',
                     enddate=''):
-    r"""
-    National Climatic Data Center GHCND Monthly Summaries
+    r"""National Climatic Data Center GHCND Monthly Summaries
 
     Requires registration and free API key.
 
@@ -7315,8 +7291,7 @@ def ncdc_precip_15(stationid,
                    datatypeid='',
                    startdate='',
                    enddate=''):
-    r"""
-    National Climatic Data Center 15 minute precipitation
+    r"""National Climatic Data Center 15 minute precipitation
 
     Requires registration and free API key.
 
@@ -7384,8 +7359,7 @@ def ncdc_precip_hly(stationid,
                     datatypeid='',
                     startdate='',
                     enddate=''):
-    r"""
-    National Climatic Data Center hourly precipitation
+    r"""National Climatic Data Center hourly precipitation
 
     Requires registration and free API key.
 
@@ -7447,8 +7421,7 @@ def ncdc_precip_hly(stationid,
 def ncdc_annual(stationid,
                 datatypeid='',
                 startdate='', enddate=''):
-    r"""
-    National Climatic Data Center annual data summaries
+    r"""National Climatic Data Center annual data summaries
 
     Requires registration and free API key.
 
@@ -8369,8 +8342,7 @@ def ncdc_ghcndms(stationid,
                  datatypeid='',
                  startdate='',
                  enddate=''):
-    r"""
-    National Climatic Data Center GHCND Monthly Summaries
+    r"""National Climatic Data Center GHCND Monthly Summaries
 
     Requires registration and free API key.
 
@@ -8899,8 +8871,7 @@ def usgs_eddn(dcp_address,
               parser,
               start_date=None,
               end_date=None):
-    r"""
-    Download from the USGS Emergency Data Distribution Network
+    r"""Download from the USGS Emergency Data Distribution Network
 
     This module provides access to data provided by the United States
     Geological Survey Emergency Data Distribution Network web site.
@@ -8959,8 +8930,7 @@ def lcra_hydromet(site_code,
                   start_date=None,
                   end_date=None,
                   dam_site_location='head'):
-    r"""
-    Hydrometeorologic data from the Lower Colorado River Authority
+    r"""Hydrometeorologic data from the Lower Colorado River Authority
 
     This module provides access to hydrologic and climate data in the Colorado
     River Basin (Texas) provided by the Lower Colorado River Authority
@@ -9032,8 +9002,7 @@ def lcra_wq(site_code,
             historical=True,
             start_date=None,
             end_date=None):
-    r"""
-    Access data from the Lower Colorado River Authority Water Quality
+    r"""Access data from the Lower Colorado River Authority Water Quality
 
     Fetches historical or near real-time (for some sites) data.
 
@@ -9083,8 +9052,7 @@ def lcra_wq(site_code,
 def twc(county,
         start_date=None,
         end_date=None):
-    r"""
-    Fetches Texas Weather Connection (TWC) data
+    r"""Fetches Texas Weather Connection (TWC) data
 
     This module provides direct access to `Texas Weather Connection`_ `Daily
     Keetch-Byram Drought Index (KBDI)`_ dataset.
@@ -9117,8 +9085,7 @@ def modis(lat,
           band,
           startdate=None,
           enddate=None):
-    r"""
-    Download MODIS derived data.
+    r"""Download MODIS derived data.
 
     This data are derived data sets from MODIS satellite photos.
 
