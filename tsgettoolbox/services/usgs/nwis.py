@@ -129,7 +129,8 @@ def _read_rdb(data):
                 adf = pd.read_csv(BytesIO(b'\n'.join(site)),
                                   comment='#',
                                   header=[0, 1],
-                                  sep='\t')
+                                  sep='\t',
+                                  dtype={'site_no':str})
             except pd.errors.EmptyDataError:
                 continue
 
@@ -163,16 +164,21 @@ def _read_rdb(data):
         ndf = pd.read_csv(BytesIO(req.content),
                           comment='#',
                           header=[0, 1],
-                          sep='\t')
+                          sep='\t',
+                          dtype={'site_no':str,
+                                 'parameter_cd':str,
+                                 'ts_id':str})
         ndf.columns = [i[0] for i in ndf.columns]
     return ndf
 
 
-def _make_nice_names(ndf):
+def _make_nice_names(ndf, reverse=False):
     nnames = []
     for col in ndf.columns.values:
         strung = [str(i) for i in col]
-        nnames.append('_'.join(reversed(strung)).strip())
+        if reverse is True:
+            strung = reversed(strung)
+        nnames.append('_'.join(strung).strip())
     return nnames
 
 
@@ -244,7 +250,7 @@ def usgs_iv_dv_rdb_to_df(data, **kwargs):
     ndf = ndf.unstack(level=['site_no',
                              'agency_cd'])
 
-    ndf.columns = _make_nice_names(ndf)
+    ndf.columns = _make_nice_names(ndf, reverse=True)
 
     if data.includeCodes is False:
         ndf.drop([i for i in ndf.columns if i[-3:] == '_cd'],
