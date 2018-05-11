@@ -725,14 +725,14 @@ def cpc(state=None,
         climate_division=None,
         start_date=None,
         end_date=None):
-    r"""Access to Climate Prediction Center, Weekly Drought Index dataset.
+    r"""Access Climate Prediction Center, Weekly Drought Index dataset.
 
     Climate Prediction Center: http://www.cpc.ncep.noaa.gov/
     Weekly Drought Index: http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
 
     Command Line ::
 
-        tsgettoolbox cpc --state=FL --start_date 2017-01-01 --end_date 2017-02-01
+        tsgettoolbox cpc --state=FL --start_date 2017-01-01
 
     Python API ::
 
@@ -771,7 +771,7 @@ def cdec(station_id,
          sensor_num=None,
          start_date=None,
          end_date=None):
-    r"""Access data from the `California Department of Water Resources`_
+    r"""Access data from the `California Department of Water Resources`_.
 
     The web site is called the `California Data Exchange Center`_.
 
@@ -907,7 +907,7 @@ def coops(station,
           time_zone='GMT',
           interval='h',
           bin=None):
-    r"""Download from Center for Operational Oceanographic Products and Services.
+    r"""Download Center for Operational Oceanographic Products and Services.
 
     CO-OPS web services is at http://tidesandcurrents.noaa.gov/api/.  The time
     zone of the returned data depends on the setting of the "time_zone" option.
@@ -1172,6 +1172,7 @@ def coops(station,
         Will retrieve data for bin number 4. Note! If a bin is not specified
         for a PORTS station, the data is returned using a predefined real-time
         bin.
+
     """
     from tsgettoolbox.services import coops as placeholder
     r = resource(
@@ -1382,6 +1383,7 @@ def epa_wqp(
 
         Date of last desired data-collection activity.  A very wide range of
         date strings can be used but the closer to ISO 8601 the better.
+
     """
     from tsgettoolbox.services.epa import wqp as placeholder
 
@@ -1468,6 +1470,7 @@ def nwis(sites=None,
 
     This function/sub-command will continue to work, however you should change
     all scripts to use the split out functions.
+
     """
     from tsgettoolbox.services.usgs import nwis as placeholder
     if database not in ['iv',
@@ -1568,8 +1571,7 @@ def nwis_iv(sites=None,
             holeDepthMin=None,
             holeDepthMax=None,
             includeCodes=False):
-    r"""Download from the Instantaneous Values database of the USGS National Water
-    Information Service (NWIS).
+    r"""Download from Instantaneous Values of the USGS NWIS.
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
 
@@ -1708,6 +1710,7 @@ def nwis_iv(sites=None,
     {wellDepthMin}
     {wellDepthMax}
     {includeCodes}
+
     """
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://waterservices.usgs.gov/nwis/iv/'
@@ -1767,8 +1770,7 @@ def nwis_dv(sites=None,
             holeDepthMin=None,
             holeDepthMax=None,
             includeCodes=False):
-    r"""Download from the Daily Values database of the USGS National Water
-    Information Service (NWIS).
+    r"""Download from the Daily Values database of the USGS NWIS.
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
 
@@ -1907,6 +1909,7 @@ def nwis_dv(sites=None,
     {wellDepthMin}
     {wellDepthMax}
     {includeCodes}
+
     """
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://waterservices.usgs.gov/nwis/dv/'
@@ -1971,8 +1974,7 @@ def nwis_site(sites=None,
               siteName=None,
               siteNameMatchOperator=None,
               hasDataTypeCd=None):
-    r"""Download from the site database of the USGS National Water
-    Information Service (NWIS).
+    r"""Download from the site database of the USGS NWIS.
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
 
@@ -2086,6 +2088,7 @@ def nwis_site(sites=None,
     {siteName}
     {siteNameMatchOperator}
     {hasDataTypeCd}
+
     """
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://waterservices.usgs.gov/nwis/site/'
@@ -2146,8 +2149,7 @@ def nwis_gwlevels(sites=None,
                   wellDepthMax=None,
                   holeDepthMin=None,
                   holeDepthMax=None):
-    r"""Download from the Groundwater Levels database of the USGS National Water
-    Information Service (NWIS).
+    r"""Download from the Groundwater Levels database of the USGS NWIS.
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
 
@@ -2248,6 +2250,7 @@ def nwis_gwlevels(sites=None,
     {holeDepthMax}
     {wellDepthMin}
     {wellDepthMax}
+
     """
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://waterservices.usgs.gov/nwis/gwlevels/'
@@ -2300,8 +2303,7 @@ def nwis_measurements(sites=None,
                       wellDepthMax=None,
                       holeDepthMin=None,
                       holeDepthMax=None):
-    r"""Download from the Measurements database of the USGS National Water
-    Information Service (NWIS).
+    r"""Download from the Measurements database of the USGS NWIS.
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
 
@@ -2463,6 +2465,7 @@ def nwis_measurements(sites=None,
     {holeDepthMax}
     {wellDepthMin}
     {wellDepthMax}
+
     """
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://nwis.waterdata.usgs.gov/XX/nwis/measurements'
@@ -2515,8 +2518,7 @@ def nwis_peak(sites=None,
               wellDepthMax=None,
               holeDepthMin=None,
               holeDepthMax=None):
-    r"""Download from the Peak database of the USGS National Water
-    Information Service (NWIS).
+    r"""Download from the Peak database of the USGS NWIS.
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
 
@@ -2683,6 +2685,7 @@ def nwis_peak(sites=None,
     {holeDepthMax}
     {wellDepthMin}
     {wellDepthMax}
+
     """
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://nwis.waterdata.usgs.gov/XX/nwis/peak'
@@ -2737,8 +2740,7 @@ def nwis_stat(sites=None,
               statType=None,
               missingData=None,
               statYearType=None):
-    r"""Download from the Statistic database of the USGS National Water
-    Information Service (NWIS).
+    r"""Download from the Statistic database of the USGS NWIS.
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
 
@@ -2973,6 +2975,7 @@ def daymet(lat,
             Example: --years=2012,2013
 
          All years are returned by default.
+
     """
     from tsgettoolbox.services import daymet as placeholder
     r = resource(
@@ -3151,6 +3154,7 @@ def ldas(lat=None,
             Example: --startDate=2001-01-05T05
 
         If startDate and endDate are None, returns the entire series.
+
     """
     from tsgettoolbox.services import ldas as placeholder
     project = variable.split(':')[0]
@@ -3443,7 +3447,6 @@ def darksky(latitude,
         +-------------+-------------------+
 
     """
-
     from tsgettoolbox.services import darksky as placeholder
     r = resource(
         r'https://api.darksky.net/forecast',
@@ -3602,6 +3605,7 @@ def unavco(station,
         Start date in ISO8601 format.
     endtime
         End date in ISO8601 format.
+
     """
     from tsgettoolbox.services import unavco as placeholder
     map_db_to_url = {
@@ -3811,41 +3815,25 @@ def ncdc_ghcnd_ftp(station,
     | SN*# | Minimum soil temperature (tenths of degrees C) where *   |
     |      | corresponds to a code for ground cover and # corresponds |
     |      | to a code for soil depth.                                |
-    +------+----------------------------------------------------------+
+    |      |                                                          |
     |      | Ground cover codes include the following:                |
-    +------+----------------------------------------------------------+
     |      | 0 = unknown                                              |
-    +------+----------------------------------------------------------+
     |      | 1 = grass                                                |
-    +------+----------------------------------------------------------+
     |      | 2 = fallow                                               |
-    +------+----------------------------------------------------------+
     |      | 3 = bare ground                                          |
-    +------+----------------------------------------------------------+
     |      | 4 = brome grass                                          |
-    +------+----------------------------------------------------------+
     |      | 5 = sod                                                  |
-    +------+----------------------------------------------------------+
     |      | 6 = straw mulch                                          |
-    +------+----------------------------------------------------------+
     |      | 7 = grass muck                                           |
-    +------+----------------------------------------------------------+
     |      | 8 = bare muck                                            |
-    +------+----------------------------------------------------------+
+    |      |                                                          |
     |      | Depth codes include the following:                       |
-    +------+----------------------------------------------------------+
     |      | 1 = 5 cm                                                 |
-    +------+----------------------------------------------------------+
     |      | 2 = 10 cm                                                |
-    +------+----------------------------------------------------------+
     |      | 3 = 20 cm                                                |
-    +------+----------------------------------------------------------+
     |      | 4 = 50 cm                                                |
-    +------+----------------------------------------------------------+
     |      | 5 = 100 cm                                               |
-    +------+----------------------------------------------------------+
     |      | 6 = 150 cm                                               |
-    +------+----------------------------------------------------------+
     |      | 7 = 180 cm                                               |
     +------+----------------------------------------------------------+
     | SX*# | Maximum soil temperature (tenths of degrees C) where *   |
@@ -3854,65 +3842,38 @@ def ncdc_ghcnd_ftp(station,
     |      | depth codes.                                             |
     +------+----------------------------------------------------------+
     | WTXX | Weather Type where XX has one of the following values:   |
-    +------+----------------------------------------------------------+
     |      | 01 = Fog, ice fog, or freezing fog (may include heavy    |
-    |      | fog)                                                     |
-    +------+----------------------------------------------------------+
+    |      |      fog)                                                |
     |      | 02 = Heavy fog or heaving freezing fog (not always       |
-    |      | distinguished from fog)                                  |
-    +------+----------------------------------------------------------+
+    |      |      distinguished from fog)                             |
     |      | 03 = Thunder                                             |
-    +------+----------------------------------------------------------+
     |      | 04 = Ice pellets, sleet, snow pellets, or small hail     |
-    +------+----------------------------------------------------------+
     |      | 05 = Hail (may include small hail)                       |
-    +------+----------------------------------------------------------+
     |      | 06 = Glaze or rime                                       |
-    +------+----------------------------------------------------------+
     |      | 07 = Dust, volcanic ash, blowing dust, blowing sand, or  |
-    |      | blowing obstruction                                      |
-    +------+----------------------------------------------------------+
+    |      |      blowing obstruction                                 |
     |      | 08 = Smoke or haze                                       |
-    +------+----------------------------------------------------------+
     |      | 09 = Blowing or drifting snow                            |
-    +------+----------------------------------------------------------+
-    |      | 10 = Tornado, waterspout, or funnel cloud                |
-    +------+----------------------------------------------------------+
     |      | 11 = High or damaging winds                              |
-    +------+----------------------------------------------------------+
     |      | 12 = Blowing spray                                       |
-    +------+----------------------------------------------------------+
     |      | 13 = Mist                                                |
-    +------+----------------------------------------------------------+
     |      | 14 = Drizzle                                             |
-    +------+----------------------------------------------------------+
     |      | 15 = Freezing drizzle                                    |
-    +------+----------------------------------------------------------+
     |      | 16 = Rain (may include freezing rain, drizzle, and       |
-    |      | freezing drizzle)                                        |
-    +------+----------------------------------------------------------+
+    |      |      freezing drizzle)                                   |
     |      | 17 = Freezing rain                                       |
-    +------+----------------------------------------------------------+
     |      | 18 = Snow, snow pellets, snow grains, or ice crystals    |
-    +------+----------------------------------------------------------+
     |      | 19 = Unknown source of precipitation                     |
-    +------+----------------------------------------------------------+
     |      | 21 = Ground fog                                          |
-    +------+----------------------------------------------------------+
     |      | 22 = Ice fog or freezing fog                             |
     +------+----------------------------------------------------------+
     | WVXX | Weather in the Vicinity where XX has one of the          |
     |      | following values:                                        |
-    +------+----------------------------------------------------------+
     |      | 01 = Fog, ice fog, or freezing fog (may include heavy    |
-    |      | fog)                                                     |
-    +------+----------------------------------------------------------+
+    |      |      fog)                                                |
     |      | 03 = Thunder                                             |
-    +------+----------------------------------------------------------+
     |      | 07 = Ash, dust, sand, or other blowing obstruction       |
-    +------+----------------------------------------------------------+
     |      | 18 = Snow or ice crystals                                |
-    +------+----------------------------------------------------------+
     |      | 20 = Rain or snow shower                                 |
     +------+----------------------------------------------------------+
 
@@ -3923,6 +3884,7 @@ def ncdc_ghcnd_ftp(station,
         ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt
     {start_date}
     {end_date}
+
     """
     from tsgettoolbox.services.ncdc import ghcnd as placeholder
     r = resource(
@@ -4157,41 +4119,25 @@ def ncdc_ghcnd(stationid,
         | SN*# | Minimum soil temperature (tenths of degrees C) where  |
         |      | * corresponds to a code for ground cover and #        |
         |      | corresponds to a code for soil depth.                 |
-        +------+-------------------------------------------------------+
+        |      |                                                       |
         |      | Ground cover codes include the following:             |
-        +------+-------------------------------------------------------+
         |      | 0 = unknown                                           |
-        +------+-------------------------------------------------------+
         |      | 1 = grass                                             |
-        +------+-------------------------------------------------------+
         |      | 2 = fallow                                            |
-        +------+-------------------------------------------------------+
         |      | 3 = bare ground                                       |
-        +------+-------------------------------------------------------+
         |      | 4 = brome grass                                       |
-        +------+-------------------------------------------------------+
         |      | 5 = sod                                               |
-        +------+-------------------------------------------------------+
         |      | 6 = straw mulch                                       |
-        +------+-------------------------------------------------------+
         |      | 7 = grass muck                                        |
-        +------+-------------------------------------------------------+
         |      | 8 = bare muck                                         |
-        +------+-------------------------------------------------------+
+        |      |                                                       |
         |      | Depth codes include the following:                    |
-        +------+-------------------------------------------------------+
         |      | 1 = 5 cm                                              |
-        +------+-------------------------------------------------------+
         |      | 2 = 10 cm                                             |
-        +------+-------------------------------------------------------+
         |      | 3 = 20 cm                                             |
-        +------+-------------------------------------------------------+
         |      | 4 = 50 cm                                             |
-        +------+-------------------------------------------------------+
         |      | 5 = 100 cm                                            |
-        +------+-------------------------------------------------------+
         |      | 6 = 150 cm                                            |
-        +------+-------------------------------------------------------+
         |      | 7 = 180 cm                                            |
         +------+-------------------------------------------------------+
         | SX*# | Maximum soil temperature (tenths of degrees C) where  |
@@ -4201,65 +4147,41 @@ def ncdc_ghcnd(stationid,
         +------+-------------------------------------------------------+
         | WTXX | Weather Type where XX has one of the following        |
         |      | values:                                               |
-        +------+-------------------------------------------------------+
+        |      |                                                       |
         |      | 01 = Fog, ice fog, or freezing fog (may include heavy |
-        |      | fog)                                                  |
-        +------+-------------------------------------------------------+
+        |      |      fog)                                             |
         |      | 02 = Heavy fog or heaving freezing fog (not always    |
-        |      | distinguished from fog)                               |
-        +------+-------------------------------------------------------+
+        |      |      distinguished from fog)                          |
         |      | 03 = Thunder                                          |
-        +------+-------------------------------------------------------+
         |      | 04 = Ice pellets, sleet, snow pellets, or small hail  |
-        +------+-------------------------------------------------------+
         |      | 05 = Hail (may include small hail)                    |
-        +------+-------------------------------------------------------+
         |      | 06 = Glaze or rime                                    |
-        +------+-------------------------------------------------------+
         |      | 07 = Dust, volcanic ash, blowing dust, blowing sand,  |
-        |      | or blowing obstruction                                |
-        +------+-------------------------------------------------------+
+        |      |      or blowing obstruction                           |
         |      | 08 = Smoke or haze                                    |
-        +------+-------------------------------------------------------+
         |      | 09 = Blowing or drifting snow                         |
-        +------+-------------------------------------------------------+
         |      | 10 = Tornado, waterspout, or funnel cloud             |
-        +------+-------------------------------------------------------+
         |      | 11 = High or damaging winds                           |
-        +------+-------------------------------------------------------+
         |      | 12 = Blowing spray                                    |
-        +------+-------------------------------------------------------+
         |      | 13 = Mist                                             |
-        +------+-------------------------------------------------------+
         |      | 14 = Drizzle                                          |
-        +------+-------------------------------------------------------+
         |      | 15 = Freezing drizzle                                 |
-        +------+-------------------------------------------------------+
         |      | 16 = Rain (may include freezing rain, drizzle, and    |
-        |      | freezing drizzle)                                     |
-        +------+-------------------------------------------------------+
+        |      |      freezing drizzle)                                |
         |      | 17 = Freezing rain                                    |
-        +------+-------------------------------------------------------+
         |      | 18 = Snow, snow pellets, snow grains, or ice crystals |
-        +------+-------------------------------------------------------+
         |      | 19 = Unknown source of precipitation                  |
-        +------+-------------------------------------------------------+
         |      | 21 = Ground fog                                       |
-        +------+-------------------------------------------------------+
         |      | 22 = Ice fog or freezing fog                          |
         +------+-------------------------------------------------------+
         | WVXX | Weather in the Vicinity where XX has one of the       |
         |      | following values:                                     |
-        +------+-------------------------------------------------------+
+        |      |                                                       |
         |      | 01 = Fog, ice fog, or freezing fog (may include heavy |
         |      | fog)                                                  |
-        +------+-------------------------------------------------------+
         |      | 03 = Thunder                                          |
-        +------+-------------------------------------------------------+
         |      | 07 = Ash, dust, sand, or other blowing obstruction    |
-        +------+-------------------------------------------------------+
         |      | 18 = Snow or ice crystals                             |
-        +------+-------------------------------------------------------+
         |      | 20 = Rain or snow shower                              |
         +------+-------------------------------------------------------+
 
@@ -4291,7 +4213,7 @@ def ncdc_gs(stationid,
             datatypeid='',
             startdate='',
             enddate=''):
-    r"""Access NCDC Global Summary of Month (GSOM) and Year (GSOY)
+    r"""Access NCDC Global Summary of Month (GSOM) and Year (GSOY).
 
     National Climatic Data Center Global Summary of the MONTH (GSOM)
     https://gis.ncdc.noaa.gov/all-records/catalog/search/resource/details.page
@@ -4645,6 +4567,27 @@ def ncdc_gs(stationid,
         |      | consecutive values within the month are missing or    |
         |      | flagged. DaysMissing: Flag indicating number of days  |
         |      | missing or flagged (from 1 to 5).                     |
+        |      |                                                       |
+        |      | "y" values for MXyz, MNyz, HXyz, HNyz, LXyz, and LNyz |
+        |      | 1=grass                                               |
+        |      | 2=fallow                                              |
+        |      | 3=bare ground                                         |
+        |      | 4=brome grass                                         |
+        |      | 5=sod                                                 |
+        |      | 6=straw mulch                                         |
+        |      | 7=grass muck                                          |
+        |      | 8=bare muck                                           |
+        |      | 0=unknown                                             |
+        |      |                                                       |
+        |      | "z" values for HXyz, HNyz, LXyz, and LNyz:            |
+        |      | 1= 2 inches or 5 centimeters depth                    |
+        |      | 2= 4 inches or 10 centimeters depth                   |
+        |      | 3= 8 inches or 20 centimeters depth                   |
+        |      | 4= 20 inches or 50 centimeters depth                  |
+        |      | 5= 40 inches or 100 centimeters depth                 |
+        |      | 6= 60 inches or 150 centimeters depth                 |
+        |      | 7= 72 inches or 180 centimeters depth                 |
+        |      | other=unknown                                         |
         +------+-------------------------------------------------------+
         | MNyz | Monthly/Annual Mean of daily minimum soil temperature |
         |      | given in Celsius or Fahrenheit depending on user      |
@@ -4653,6 +4596,8 @@ def ncdc_gs(stationid,
         |      | consecutive values within the month are missing or    |
         |      | flagged. DaysMissing: Flag indicating number of days  |
         |      | missing or flagged (from 1 to 5).                     |
+        |      |                                                       |
+        |      | See description of flags in MXyz.                     |
         +------+-------------------------------------------------------+
         | HXyz | Highest maximum soil temperature for the month/year   |
         |      | given in Celsius or Fahrenheit depending on user      |
@@ -4661,6 +4606,8 @@ def ncdc_gs(stationid,
         |      | consecutive values within the month are missing or    |
         |      | flagged. DaysMissing: Flag indicating number of days  |
         |      | missing or flagged (from 1 to 5).                     |
+        |      |                                                       |
+        |      | See description of flags in MXyz.                     |
         +------+-------------------------------------------------------+
         | HNyz | Highest minimum soil temperature for the month/year   |
         |      | given in Celsius or Fahrenheit depending on user      |
@@ -4669,6 +4616,8 @@ def ncdc_gs(stationid,
         |      | consecutive values within the month are missing or    |
         |      | flagged. DaysMissing: Flag indicating number of days  |
         |      | missing or flagged (from 1 to 5).                     |
+        |      |                                                       |
+        |      | See description of flags in MXyz.                     |
         +------+-------------------------------------------------------+
         | LXyz | Lowest maximum soil temperature for the month/year    |
         |      | given in Celsius or Fahrenheit depending on user      |
@@ -4677,6 +4626,8 @@ def ncdc_gs(stationid,
         |      | consecutive values within the month are missing or    |
         |      | flagged. DaysMissing: Flag indicating number of days  |
         |      | missing or flagged (from 1 to 5).                     |
+        |      |                                                       |
+        |      | See description of flags in MXyz.                     |
         +------+-------------------------------------------------------+
         | LNyz | Lowest minimum soil temperature for the month/year    |
         |      | given in Celsius or Fahrenheit depending on user      |
@@ -4685,46 +4636,8 @@ def ncdc_gs(stationid,
         |      | consecutive values within the month are missing or    |
         |      | flagged. DaysMissing: Flag indicating number of days  |
         |      | missing or flagged (from 1 to 5).                     |
-        +------+-------------------------------------------------------+
-        |      | "y" values for HXyz, HNyz, LXyz, and LNyz are as      |
-        |      | follows:                                              |
-        +------+-------------------------------------------------------+
-        |      | 1=grass                                               |
-        +------+-------------------------------------------------------+
-        |      | 2=fallow                                              |
-        +------+-------------------------------------------------------+
-        |      | 3=bare ground                                         |
-        +------+-------------------------------------------------------+
-        |      | 4=brome grass                                         |
-        +------+-------------------------------------------------------+
-        |      | 5=sod                                                 |
-        +------+-------------------------------------------------------+
-        |      | 6=straw mulch                                         |
-        +------+-------------------------------------------------------+
-        |      | 7=grass muck                                          |
-        +------+-------------------------------------------------------+
-        |      | 8=bare muck                                           |
-        +------+-------------------------------------------------------+
-        |      | 0=unknown                                             |
-        +------+-------------------------------------------------------+
-        |      | "z" values for HXyz, HNyz, LXyz, and LNyz are as      |
-        |      | follows:                                              |
-        +------+-------------------------------------------------------+
-        |      | 1= 2 inches or 5 centimeters depth                    |
-        +------+-------------------------------------------------------+
-        |      | 2= 4 inches or 10 centimeters depth                   |
-        +------+-------------------------------------------------------+
-        |      | 3= 8 inches or 20 centimeters depth                   |
-        +------+-------------------------------------------------------+
-        |      | 4= 20 inches or 50 centimeters depth                  |
-        +------+-------------------------------------------------------+
-        |      | 5= 40 inches or 100 centimeters depth                 |
-        +------+-------------------------------------------------------+
-        |      | 6= 60 inches or 150 centimeters depth                 |
-        +------+-------------------------------------------------------+
-        |      | 7= 72 inches or 180 centimeters depth                 |
-        +------+-------------------------------------------------------+
-        |      | other=unknown                                         |
+        |      |                                                       |
+        |      | See description of flags in MXyz.                     |
         +------+-------------------------------------------------------+
         | HDSD | Heating Degree Days (season-to-date). Running total   |
         |      | of monthly heating degree days through the end of the |
@@ -4753,39 +4666,28 @@ def ncdc_gs(stationid,
         |      | depending on user specification, yyyy is the year, mm |
         |      | is the month, dd is the day of the month and s is a   |
         |      | source flag.                                          |
-        +------+-------------------------------------------------------+
-        |      | "x" values for HXyz, HNyz, LXyz, and LNyz are as      |
-        |      | follows:                                              |
-        +------+-------------------------------------------------------+
+        |      |                                                       |
+        |      | "x" values for FZFx                                   |
         |      | 0 = first minimum temperature <= 32 degrees           |
-        |      | Fahrenheit/0 degrees Celsius                          |
-        +------+-------------------------------------------------------+
+        |      |     Fahrenheit/0 degrees Celsius                      |
         |      | 1 = first minimum temperature <= 28 degrees           |
-        |      | Fahrenheit/-2.2 degrees Celsius                       |
-        +------+-------------------------------------------------------+
+        |      |     Fahrenheit/-2.2 degrees Celsius                   |
         |      | 2 = first minimum temperature <= 24 degrees           |
-        |      | Fahrenheit/-4.4 degrees Celsius                       |
-        +------+-------------------------------------------------------+
+        |      |     Fahrenheit/-4.4 degrees Celsius                   |
         |      | 3 = first minimum temperature <= 20 degrees           |
-        |      | Fahrenheit/-6.7 degrees Celsius                       |
-        +------+-------------------------------------------------------+
+        |      |     Fahrenheit/-6.7 degrees Celsius                   |
         |      | 4 = first minimum temperature <= 16 degrees           |
-        |      | Fahrenheit/-8.9 degrees Celsius                       |
-        +------+-------------------------------------------------------+
+        |      |     Fahrenheit/-8.9 degrees Celsius                   |
         |      | 5 = last minimum temperature <= 32 degrees            |
-        |      | Fahrenheit/0 degrees Celsius                          |
-        +------+-------------------------------------------------------+
+        |      |     Fahrenheit/0 degrees Celsius                      |
         |      | 6 = last minimum temperature <= 28 degrees            |
-        |      | Fahrenheit/-2.2 degrees Celsius                       |
-        +------+-------------------------------------------------------+
+        |      |     Fahrenheit/-2.2 degrees Celsius                   |
         |      | 7 = last minimum temperature <= 24 degrees            |
-        |      | Fahrenheit/-4.4 degrees Celsius                       |
-        +------+-------------------------------------------------------+
+        |      |     Fahrenheit/-4.4 degrees Celsius                   |
         |      | 8 = last minimum temperature <= 20 degrees            |
-        |      | Fahrenheit/-6.7 degrees Celsius                       |
-        +------+-------------------------------------------------------+
+        |      |     Fahrenheit/-6.7 degrees Celsius                   |
         |      | 9 = last minimum temperature <= 16 degrees            |
-        |      | Fahrenheit/-8.9 degrees Celsius                       |
+        |      |     Fahrenheit/-8.9 degrees Celsius                   |
         +------+-------------------------------------------------------+
 
     startdate
@@ -4793,8 +4695,8 @@ def ncdc_gs(stationid,
 
     enddate
         End date in ISO8601 format.
-    """
 
+    """
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
@@ -4814,7 +4716,7 @@ def ncdc_nexrad2(stationid,
                  datatypeid='',
                  startdate='',
                  enddate=''):
-    r"""National Climatic Data Center NEXRAD Level II
+    r"""National Climatic Data Center NEXRAD Level II.
 
     Requires registration and free API key.
 
@@ -4859,7 +4761,7 @@ def ncdc_nexrad3(stationid,
                  datatypeid='',
                  startdate='',
                  enddate=''):
-    r"""National Climatic Data Center NEXRAD Level III
+    r"""National Climatic Data Center NEXRAD Level III.
 
     Requires registration and free API key.
 
@@ -4904,7 +4806,7 @@ def ncdc_normal_ann(stationid,
                     datatypeid='',
                     startdate='',
                     enddate=''):
-    r"""National Climatic Data Center annual normals
+    r"""National Climatic Data Center annual normals.
 
     Requires registration and free API key.
 
@@ -6564,6 +6466,7 @@ def ncdc_normal_ann(stationid,
     enddate
         Many different formats can be used here for the date
         string, however the closest to ISO8601, the better.
+
     """
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
@@ -6584,7 +6487,7 @@ def ncdc_normal_dly(stationid,
                     datatypeid='',
                     startdate='',
                     enddate=''):
-    r"""National Climatic Data Center Daily Normals
+    r"""National Climatic Data Center Daily Normals.
 
     Requires registration and free API key.
 
@@ -6852,7 +6755,7 @@ def ncdc_normal_hly(stationid,
                     datatypeid='',
                     startdate='',
                     enddate=''):
-    r"""National Climatic Data Center GHCND Monthly Summaries
+    r"""National Climatic Data Center GHCND Monthly Summaries.
 
     Requires registration and free API key.
 
@@ -6945,7 +6848,6 @@ def ncdc_normal_hly(stationid,
     enddate
         End date in ISO8601 format.
 
-
     """
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
@@ -6966,7 +6868,7 @@ def ncdc_normal_mly(stationid,
                     datatypeid='',
                     startdate='',
                     enddate=''):
-    r"""National Climatic Data Center GHCND Monthly Summaries
+    r"""National Climatic Data Center GHCND Monthly Summaries.
 
     Requires registration and free API key.
 
@@ -7291,7 +7193,7 @@ def ncdc_precip_15(stationid,
                    datatypeid='',
                    startdate='',
                    enddate=''):
-    r"""National Climatic Data Center 15 minute precipitation
+    r"""National Climatic Data Center 15 minute precipitation.
 
     Requires registration and free API key.
 
@@ -7359,7 +7261,7 @@ def ncdc_precip_hly(stationid,
                     datatypeid='',
                     startdate='',
                     enddate=''):
-    r"""National Climatic Data Center hourly precipitation
+    r"""National Climatic Data Center hourly precipitation.
 
     Requires registration and free API key.
 
@@ -7421,7 +7323,7 @@ def ncdc_precip_hly(stationid,
 def ncdc_annual(stationid,
                 datatypeid='',
                 startdate='', enddate=''):
-    r"""National Climatic Data Center annual data summaries
+    r"""National Climatic Data Center annual data summaries.
 
     Requires registration and free API key.
 
@@ -8342,7 +8244,7 @@ def ncdc_ghcndms(stationid,
                  datatypeid='',
                  startdate='',
                  enddate=''):
-    r"""National Climatic Data Center GHCND Monthly Summaries
+    r"""National Climatic Data Center GHCND Monthly Summaries.
 
     Requires registration and free API key.
 
@@ -8750,7 +8652,7 @@ def ndbc(station,
          observedproperty,
          startUTC,
          endUTC):
-    r"""Download from the National Data Buoy Center
+    r"""Download from the National Data Buoy Center.
 
     Download data from the National Data Buoy Center.
 
@@ -8798,7 +8700,8 @@ def ndbc(station,
             air_pressure_at_sea_level
             air_temperature
             currents
-            sea_floor_depth_below_sea_surface (water level for tsunami stations)
+            sea_floor_depth_below_sea_surface
+                (water level for tsunami stations)
             sea_water_electrical_conductivity
             sea_water_salinity
             sea_water_temperature
@@ -8871,7 +8774,7 @@ def usgs_eddn(dcp_address,
               parser,
               start_date=None,
               end_date=None):
-    r"""Download from the USGS Emergency Data Distribution Network
+    r"""Download from the USGS Emergency Data Distribution Network.
 
     This module provides access to data provided by the United States
     Geological Survey Emergency Data Distribution Network web site.
@@ -8930,11 +8833,11 @@ def lcra_hydromet(site_code,
                   start_date=None,
                   end_date=None,
                   dam_site_location='head'):
-    r"""Hydrometeorologic data from the Lower Colorado River Authority
+    r"""Hydrometeorologic data from the Lower Colorado River Authority.
 
     This module provides access to hydrologic and climate data in the Colorado
-    River Basin (Texas) provided by the Lower Colorado River Authority
-    Hydromet web site and web service.
+    River Basin (Texas) provided by the Lower Colorado River Authority Hydromet
+    web site and web service.
 
     http://www.lcra.org
 
@@ -9002,7 +8905,7 @@ def lcra_wq(site_code,
             historical=True,
             start_date=None,
             end_date=None):
-    r"""Access data from the Lower Colorado River Authority Water Quality
+    r"""Access data from the Lower Colorado River Authority Water Quality.
 
     Fetches historical or near real-time (for some sites) data.
 
@@ -9013,8 +8916,8 @@ def lcra_wq(site_code,
     Parameters
     ----------
     site_code
-        The site code to fetch data for. The following bay sites also have
-        near real-time data available if `historical` option is set to False.
+        The site code to fetch data for. The following bay sites also have near
+        real-time data available if `historical` option is set to False.
 
         +--------------------+-----------------+
         | Near Real-Time     | Name            |
@@ -9052,7 +8955,7 @@ def lcra_wq(site_code,
 def twc(county,
         start_date=None,
         end_date=None):
-    r"""Fetches Texas Weather Connection (TWC) data
+    r"""Download Texas Weather Connection (TWC) data.
 
     This module provides direct access to `Texas Weather Connection`_ `Daily
     Keetch-Byram Drought Index (KBDI)`_ dataset.
@@ -9063,8 +8966,8 @@ def twc(county,
     Parameters
     ----------
     county: ``None`` or str
-        If specified, results will be limited to the county corresponding to the
-        given 5-character Texas county fips code i.e. 48???.
+        If specified, results will be limited to the county corresponding to
+        the given 5-character Texas county fips code i.e. 48.
     {start_date}
     {end_date}
 
@@ -9210,74 +9113,7 @@ def modis(lat,
     |      | Value     | Value     | Value     | Value     | Value     |
     +------+-----------+-----------+-----------+-----------+-----------+
 
-    Citation
 
-    Citation instructions are from https://modis.ornl.gov/citation.html
-
-    When using subsets of MODIS Land Products from the ORNL DAAC, please
-    use the following citation format:
-
-    Citation: Single Site
-
-    Format (single site):
-
-    ORNL DAAC 2008. MODIS Collection 5 Land Products Global Subsetting
-    and Visualization Tool. ORNL DAAC, Oak Ridge, Tennessee, USA.
-    Accessed Month dd, yyyy. Subset obtained for [Product name] product
-    at [Lat],[Lon], time period: [Start date] to [End date], and subset
-    size: [Width] x [Height] km. http://dx.doi.org/10.3334/ORNLDAAC/1241
-
-    Example (single site):
-
-    ORNL DAAC. 2008. MODIS Collection 5 Land Products Global Subsetting
-    and Visualization Tool. ORNL DAAC, Oak Ridge, Tennessee, USA.
-    Accessed August 25, 2015. Subset obtained for MOD13Q1 product at
-    39.497N,107.3028W, time period: 2000-02-18 to 2015-07-28, and subset
-    size: 0.25 x 0.25 km. http://dx.doi.org/10.3334/ORNLDAAC/1241
-
-    Notes:
-
-    The coordinates used in the citation are the Latitude and Longitude
-    (decimal degrees) specified by the user when the order is placed,
-    trimmed to 4 decimal places.  The citation is also sent in the email
-    along with data retrieval instructions after the order is processed.
-    BibTeX (.bib) file is available for download on the data
-    visualization and download page (see screenshot below).
-
-    Citation: Multiple Sites
-
-    Format (multiple sites, clustered together):
-
-    ORNL DAAC 2008. MODIS Collection 5 Land Products Global Subsetting
-    and Visualization Tool. ORNL DAAC, Oak Ridge, Tennessee, USA.
-    Accessed Month dd, yyyy. Subset obtained for [Product name] product
-    at various sites in Spatial Range: N=DD.DD, S=DD.DD, E=DDD.DD,
-    W=DDD.DD, time period: [Start date] to [End date], and subset size:
-    [Width] x [Height] km. http://dx.doi.org/10.3334/ORNLDAAC/1241
-
-    Example (multiple sites, clustered together):
-
-    ORNL DAAC. 2008. MODIS Collection 5 Land Products Global Subsetting
-    and Visualization Tool. ORNL DAAC, Oak Ridge, Tennessee, USA.
-    Accessed August 25, 2015. Subset obtained for MOD13Q1 product at
-    various sites in Spatial Range: N=39.49N, S=39.25N, E=107.42W,
-    W=106.48W, time period: 2000-02-18 to 2015-07-28, and subset size:
-    0.25 x 0.25 km. http://dx.doi.org/10.3334/ORNLDAAC/1241
-
-    Notes:
-
-    "Spatial Range: N=DD.DD, S=DD.DD, E=DDD.DD, W=DDD.DD" is the
-    bounding box for the site locations used for requesting subsets.
-
-    Please cite each product separately.
-
-    The coordinates used in the citation are the Latitude and Longitude
-    (decimal degrees) specified by the user when the order is placed,
-    trimmed to 4 decimal places.  The citation is also sent in the email
-    along with data retrieval instructions after the order is processed.
-    BibTeX (.bib) file is available for download on the data
-    visualization and download page. Please modify it manually for
-    multiple sites.
 
     Parameters
     ----------
@@ -9515,7 +9351,66 @@ def modis(lat,
 
     enddate
         ISO 8601 formatted date string
-"""
+
+    Notes
+    -----
+    Citation instructions are from https://modis.ornl.gov/citation.html
+
+    When using subsets of MODIS Land Products from the ORNL DAAC, please
+    use the following citation format:
+
+    Citation: Single Site
+
+    Format (single site):
+
+    ORNL DAAC 2008. MODIS Collection 5 Land Products Global Subsetting
+    and Visualization Tool. ORNL DAAC, Oak Ridge, Tennessee, USA.
+    Accessed Month dd, yyyy. Subset obtained for [Product name] product
+    at [Lat],[Lon], time period: [Start date] to [End date], and subset
+    size: [Width] x [Height] km. http://dx.doi.org/10.3334/ORNLDAAC/1241
+
+    Single site:
+
+    ORNL DAAC. 2008. MODIS Collection 5 Land Products Global Subsetting
+    and Visualization Tool. ORNL DAAC, Oak Ridge, Tennessee, USA.
+    Accessed August 25, 2015. Subset obtained for MOD13Q1 product at
+    39.497N,107.3028W, time period: 2000-02-18 to 2015-07-28, and subset
+    size: 0.25 x 0.25 km. http://dx.doi.org/10.3334/ORNLDAAC/1241
+
+
+    Citation: Multiple Sites
+
+    Format (multiple sites, clustered together):
+
+    ORNL DAAC 2008. MODIS Collection 5 Land Products Global Subsetting
+    and Visualization Tool. ORNL DAAC, Oak Ridge, Tennessee, USA.
+    Accessed Month dd, yyyy. Subset obtained for [Product name] product
+    at various sites in Spatial Range: N=DD.DD, S=DD.DD, E=DDD.DD,
+    W=DDD.DD, time period: [Start date] to [End date], and subset size:
+    [Width] x [Height] km. http://dx.doi.org/10.3334/ORNLDAAC/1241
+
+    Multiple sites, clustered together:
+
+    ORNL DAAC. 2008. MODIS Collection 5 Land Products Global Subsetting
+    and Visualization Tool. ORNL DAAC, Oak Ridge, Tennessee, USA.
+    Accessed August 25, 2015. Subset obtained for MOD13Q1 product at
+    various sites in Spatial Range: N=39.49N, S=39.25N, E=107.42W,
+    W=106.48W, time period: 2000-02-18 to 2015-07-28, and subset size:
+    0.25 x 0.25 km. http://dx.doi.org/10.3334/ORNLDAAC/1241
+    "Spatial Range: N=DD.DD, S=DD.DD, E=DDD.DD, W=DDD.DD" is the
+    bounding box for the site locations used for requesting subsets.
+
+    Please cite each product separately.
+
+    The coordinates used in the citation are the Latitude and Longitude
+    (decimal degrees) specified by the user when the order is placed,
+    trimmed to 4 decimal places.  The citation is also sent in the email
+    along with data retrieval instructions after the order is processed.
+    BibTeX (.bib) file is available for download on the data
+    visualization and download page. Please modify it manually for
+    multiple sites.
+
+    """
     from tsgettoolbox.services import modis as placeholder
 
     r = resource(
