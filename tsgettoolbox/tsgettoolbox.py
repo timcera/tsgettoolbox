@@ -33,15 +33,14 @@ nwis_docstrings = {
         [optional, default is False]
 
         Whether or not to include the metadata/quality code column.  Useful to
-        almost halve the size of the pandas DataFrame.
-        """,
+        almost halve the size of the pandas DataFrame.  """,
     'sites': r"""sites : str
         [optional, default is None]
 
         Want to only query one site? Use sites as your major filter, and put
         only one site number in the list.  Sites are comma separated. Sites may
         be prefixed with an optional agency code followed by a colon. If you
-        don't know the site numbers you need, you can find relevant sites with
+        do not know the site numbers you need, you can find relevant sites with
         the NWIS Mapper (http://wdr.water.usgs.gov/nwisgmap/index.html) or on
         the USGS Water Data for the Nation site.
         (http://waterdata.usgs.gov/nwis/)
@@ -49,8 +48,7 @@ nwis_docstrings = {
         Can have from 1 to 100 comma separated site numbers::
 
             --sites=USGS:01646500
-            --sites=01646500,06306300
-        """,
+            --sites=01646500,06306300""",
     'stateCd': r"""stateCd : str
         [optional, default is None]
 
@@ -58,8 +56,7 @@ nwis_docstrings = {
         List is available at
         http://www.usps.com/ncsc/lookups/usps_abbreviations.html::
 
-            --stateCd=NY
-        """,
+            --stateCd=NY""",
     'huc': r"""huc : str
         [optional, default is None]
 
@@ -68,8 +65,7 @@ nwis_docstrings = {
         must be eight digits in length.  Can have 1 to 10 HUC codes.  List of
         HUCs is available at http://water.usgs.gov/GIS/huc_name.html::
 
-            --huc=01,02070010
-        """,
+            --huc=01,02070010""",
     'bBox': r"""bBox :
         [optional, default is None]
 
@@ -86,8 +82,7 @@ nwis_docstrings = {
         with latitude and longitude due to homeland security concerns and
         cannot be found using this filter.::
 
-            --bBox=-83,36.5,-81,38.5
-        """,
+            --bBox=-83,36.5,-81,38.5""",
     'countyCd': r"""countyCd :
         [optional, default is None]
 
@@ -98,8 +93,7 @@ nwis_docstrings = {
         codes are at
         http://help.waterdata.usgs.gov/code/county_query?fmt=html::
 
-            --countyCd=51059,51061
-        """,
+            --countyCd=51059,51061""",
     'parameterCd': r"""parameterCd :
         [optional, default is None]
 
@@ -120,8 +114,7 @@ nwis_docstrings = {
             --parameterCd=00060,00065 # discharge,
                                       # cubic feet per second
                                       # and gage height in
-                                      # feet
-        """,
+                                      # feet""",
     'siteType': r"""siteType :
         [optional, default is None]
 
@@ -133,8 +126,7 @@ nwis_docstrings = {
         types: http://help.waterdata.usgs.gov/site_tp_cd::
 
             --siteType=ST       # Streams only
-            --siteType=ST,LA-OU # Streams and Land Outcrops only
-        """,
+            --siteType=ST,LA-OU # Streams and Land Outcrops only""",
     'modifiedSince': r"""modifiedSince :
         [optional, default is None]
 
@@ -165,8 +157,7 @@ nwis_docstrings = {
                    # requested for sites and parameters that had values change
                    # between midnight site local time on Nov 1st, 2010 and
                    # 23:59 on Nov 2nd, 2010 site local time, only if values
-                   # were changed or added within the last two hours.
-        """,
+                   # were changed or added within the last two hours.""",
     'agencyCd': r"""agencyCd :
         [optional, default is None]
 
@@ -179,15 +170,14 @@ nwis_docstrings = {
 
             --stateCd=il --agencyCd=USCE # Only US Army Corps
                                          # of Engineers sites
-                                         # in Illinois
-        """,
+                                         # in Illinois""",
     'siteStatus': r"""siteStatus :
         [optional, default is None]
 
         Selects sites based on whether or not they are active. If a site is
         active, it implies that it is being actively maintained. A site is
-        considered active if: * it has collected time-series (automated) data
-        within the last 183 days (6 months), or * it has collected discrete
+        considered active if: it has collected time-series (automated) data
+        within the last 183 days (6 months), or it has collected discrete
         (manually collected) data within 397 days (13 months) If it does not
         meet these criteria, it is considered inactive. Some exceptions apply.
         If a site is flagged by a USGS water science center as discontinued, it
@@ -197,8 +187,7 @@ nwis_docstrings = {
         or 'inactive'.  Default all - sites of any activity status are
         returned.::
 
-            --siteStatus='active'
-        """,
+            --siteStatus='active'""",
     'altMin': r"""altMin : float
         [optional, default is None]
 
@@ -208,8 +197,7 @@ nwis_docstrings = {
         a value to altMin (minimum altitude) means you want sites that have or
         exceed the altMin value.  You may specify decimal feet if precision is
         critical If both the altMin and altMax are specified, sites at or
-        between the minimum and maximum altitude are returned.
-        """,
+        between the minimum and maximum altitude are returned.""",
     'altMax': r"""altMax : float
         [optional, default is None]
 
@@ -221,8 +209,7 @@ nwis_docstrings = {
                   # 5000 feet or less.
             --altMin=12.5 --altMax=13
                   # Return sites where the altitude is 12.5 feet or greater and
-                  # 13 feet or less.
-        """,
+                  # 13 feet or less.""",
     'drainAreaMin': r"""drainAreaMin : float
         [optional, default is None]
 
@@ -238,8 +225,7 @@ nwis_docstrings = {
         values specified are returned Caution: not all sites are associated
         with a drainage area.  Caution: drainage area generally only applies to
         surface water sites.  Use with other site types, such as groundwater
-        sites, will likely retrieve no results.
-        """,
+        sites, will likely retrieve no results.""",
     'drainAreaMax': r"""drainAreaMax:  float
         [optional, default is None]
 
@@ -259,8 +245,7 @@ nwis_docstrings = {
                                  # drainage area is 10.5
                                  # square miles or greater
                                  # and is 10.7 square miles
-                                 # or less.
-        """,
+                                 # or less.""",
     'aquiferCd': r"""aquiferCd
         [optional, default is None]
 
@@ -276,8 +261,7 @@ nwis_docstrings = {
                                   # for the Edwards-Trinity
                                   # aquifer system and the
                                   # High Plains national
-                                  # aquifers.
-        """,
+                                  # aquifers.""",
     'localAquiferCd': r"""localAquiferCd
         [optional, default is None]
 
@@ -293,8 +277,7 @@ nwis_docstrings = {
 
             --localAquiferCd=AL:111RGLT,AL:111RSDM
                     # returns sites for the Regolith and
-                    # Saprolite local aquifers in Alabama
-        """,
+                    # Saprolite local aquifers in Alabama""",
     'wellDepthMin': r"""wellDepthMin : float
         [optional, default is None]
 
@@ -310,8 +293,7 @@ nwis_docstrings = {
 
              --wellDepthMin=100 --wellDepthMax=500
                      # Return daily value sites where the well depth is 100
-                     # feet or greater and 500 feet or less.
-        """,
+                     # feet or greater and 500 feet or less.""",
     'wellDepthMax': r"""wellDepthMax : float
         [optional, default is None]
 
@@ -326,8 +308,7 @@ nwis_docstrings = {
 
         If both the wellDepthMin and wellDepthMax are specified, sites at or
         between the minimum and maximum well depth values specified are
-        returned wellDepthMax should be greater than or equal to wellDepthMin.
-        """,
+        returned wellDepthMax should be greater than or equal to wellDepthMin.""",
     'holeDepthMin': r"""holeDepthMin : float
         [optional, default is None]
 
@@ -339,8 +320,7 @@ nwis_docstrings = {
         Express hole depth as a positive number.  Providing a value to
         holeDepthMin (minimum hole depth) means you want sites that have or
         exceed the holeDepthMin value.  The values may be expressed in decimals
-        Caution: hole depth applies to groundwater sites only.
-        """,
+        Caution: hole depth applies to groundwater sites only.""",
     'holeDepthMax': r"""holeDepthMax : float
         [optional, default is None]
 
@@ -359,8 +339,7 @@ nwis_docstrings = {
 
         If both the holeDepthMin and holeDepthMax are specified, sites at or
         between the minimum and maximum hole depth values specified are
-        returned holeDepthMax should be greater than or equal to holeDepthMin.
-        """,
+        returned holeDepthMax should be greater than or equal to holeDepthMin.""",
     'period': r"""period
         [optional, default is None]
 
@@ -378,8 +357,7 @@ nwis_docstrings = {
                   # instantaneous value)
             --period=P7D
                   # Retrieve last seven days up from now to most recent
-                  # instantaneous value)
-        """,
+                  # instantaneous value)""",
     'startDT': r"""startDT
         [optional, default is None]
 
@@ -402,8 +380,7 @@ nwis_docstrings = {
         the date and not the time of day (ex: 2010-09-02) the last minute
         before midnight site time is assumed (2010-09-02T23:59).  Remember,
         only data from October 1, 2007 are currently available in the 'iv'
-        database.
-        """,
+        database.""",
     'endDT': r"""endDT
         [optional, default is None]
 
@@ -414,8 +391,7 @@ nwis_docstrings = {
             --startDT=2010-11-22T12:00 --endDT=2010-11-22T18:00
             --startDT=2010-11-22 --endDT=2010-11-22
             --startDT=2010-11-22T12:00  # From "startDT" to most recent
-                                        # instantaneous value
-        """,
+                                        # instantaneous value""",
     'statReportType': r"""statReportType : str
         [optional, default is 'daily']
 
@@ -435,8 +411,7 @@ nwis_docstrings = {
         |                | by statYearType. If statYearType is not  |
         |                | provided, calendar year statistics are   |
         |                | assumed. (annual time-series)            |
-        +----------------+------------------------------------------+
-        """,
+        +----------------+------------------------------------------+""",
     'statType': r"""statType : str
         [optional, default is None]
 
@@ -462,8 +437,7 @@ nwis_docstrings = {
             P05, P10, P20, P25, P50, P75, P80, P90, P95
                 with the number indicating percentile. Note:
                 the service can calculate only these
-                percentiles.
-        """,
+                percentiles.""",
     'missingData': r"""missingData
         [optional, default is None]
 
@@ -482,8 +456,7 @@ nwis_docstrings = {
         Enabling this switch will attempt to provide a statistic if there is
         enough data to create one.
 
-        Choice is 'off' or 'on'.
-        """,
+        Choice is 'off' or 'on'.""",
     'statisticsCd': r"""statisticsCd
         [optional, default is None]
 
@@ -534,8 +507,7 @@ nwis_docstrings = {
         | 03HHH | HHH DAY HIGH MEAN                  |
         +-------+------------------------------------+
         | 3TTTT | INSTANTANEOUS OBSERVATION AT TTTT  |
-        +-------+------------------------------------+
-        """,
+        +-------+------------------------------------+""",
     'siteOutput': r"""siteOutput
         [optional, default is None]
 
@@ -545,8 +517,7 @@ nwis_docstrings = {
         expanded to get expanded site information. Example:
         &siteOutput=expanded. Note: for performance reasons,
         &siteOutput=expanded cannot be used if seriesCatalogOutput=true or with
-        any values for outputDataTypeCd.
-        """,
+        any values for outputDataTypeCd.""",
     'seriesCatalogOutput': r"""seriesCatalogOutput
         [optional, default is None]
 
@@ -562,8 +533,7 @@ nwis_docstrings = {
         argument are true and false. Example: &seriesCatalogOutput=true.
         &seriesCatalogOutput=true is equivalent to &outputDataTypeCd=all. Note:
         for performance reasons, &siteOutput=expanded cannot be used if
-        seriesCatalogOutput=true.
-        """,
+        seriesCatalogOutput=true.""",
     'outputDataTypeCd': r"""outputDataTypeCd
         [optional, default is None]
 
@@ -624,8 +594,7 @@ nwis_docstrings = {
         +-----+---------------------------------------------------------------+
         | ad  | Sites included in USGS Annual Water Data Reports External     |
         |     | Link}                                                         |
-        +-----+---------------------------------------------------------------+
-        """,
+        +-----+---------------------------------------------------------------+""",
     'siteName': r"""siteName
         [optional, default is None]
 
@@ -634,8 +603,7 @@ nwis_docstrings = {
         still required. String matches are case insensitive, so if you specify
         "Boulder" you will retrieve site names with "Boulder", "boulder",
         "BOULDER" as well as many other variants.  To embed a space, you can
-        use single quotes. Examaple: --siteName='Boulder Creek'
-        """,
+        use single quotes. Examaple: --siteName='Boulder Creek'""",
     'siteNameMatchOperator': r"""siteNameMatchOperator
         [optional, default is None]
 
@@ -648,8 +616,7 @@ nwis_docstrings = {
             exact = The site name must exactly match the string supplied, with
                     the exception that the match is not case sensitive
 
-        Example: &siteNameMatchOperator=any
-        """,
+        Example: &siteNameMatchOperator=any""",
     'hasDataTypeCd': r"""hasDataTypeCd
         [optional, default is None]
 
@@ -694,8 +661,7 @@ nwis_docstrings = {
         +-----+---------------------------------------------------------------+
         | ad  | Sites included in USGS Annual Water Data Reports External     |
         |     | Link                                                          |
-        +-----+---------------------------------------------------------------+
-        """,
+        +-----+---------------------------------------------------------------+""",
     'statYearType': r"""statYearType
         [optional, default is None]
 
@@ -709,8 +675,295 @@ nwis_docstrings = {
         | water    | water year, i.e. a year begins October 1 of the previous |
         |          | year and ends September 30 of the current year. This is  |
         |          | the same as a federal fiscal year.                       |
-        +----------+----------------------------------------------------------+
-        """}
+        +----------+----------------------------------------------------------+"""}
+
+ncdc_ghcnd_docstrings = {
+    'info': r"""If you use this data, please read
+    ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt about "How to
+    cite".
+
+    GHCN (Global Historical Climatology Network)-Daily is an integrated
+    database of daily climate summaries from land surface stations
+    across the globe. Like its monthly counterpart (GHCN-Monthly),
+    GHCN-Daily is comprised of daily climate records from numerous
+    sources that have been integrated and subjected to a common suite of
+    quality assurance reviews.
+
+    GHCN-Daily now contains records from over 75000 stations in 180
+    countries and territories. Numerous daily variables are provided,
+    including maximum and minimum temperature, total daily
+    precipitation, snowfall, and snow depth; however, about two thirds
+    of the stations report precipitation only.  Both the record length
+    and period of record vary by station and cover intervals ranging
+    from less than year to more than 175 years.
+
+    The dataset is regularly reconstructed (usually every weekend) from
+    its 20-plus data source components to ensure that GHCN-Daily is
+    generally in sync with its growing list of constituent sources.
+    During this process, quality assurance checks are applied to the
+    full dataset. On most weekdays, GHCN-Daily station data are updated
+    when possible from a variety of data streams, which also undergo
+    a suite of quality checks.
+
+    Some of the data provided here are based on data exchanged under the
+    World Meteorological Organization (WMO) World Weather Watch Program
+    according to WMO Resolution 40 (Cg-XII). This allows WMO member
+    countries to place restrictions on the use or re-export of their
+    data for commercial purposes outside of the receiving country. Those
+    countries' data summaries and products which are available here are
+    intended for free and unrestricted use in research, education, and
+    other non-commercial activities. For non-U.S. locations' data, the
+    data or any derived product shall not be provided to other users or
+    be used for the re-export of commercial services.
+
+    The five core values are:
+
+    +------+----------------------------------------------------------+
+    | Code | Description                                              |
+    +======+==========================================================+
+    | TMAX | Temperature MAX (1/10 degree C)                          |
+    +------+----------------------------------------------------------+
+    | TMIN | Temperature MIN (1/10 degree C)                          |
+    +------+----------------------------------------------------------+
+    | PRCP | PReCiPitation (tenths of mm)                             |
+    +------+----------------------------------------------------------+
+    | SNOW | SNOWfall (mm)                                            |
+    +------+----------------------------------------------------------+
+    | SNWD | SNoW Depth (mm)                                          |
+    +------+----------------------------------------------------------+
+
+    Other possible data collected:
+
+    +------+----------------------------------------------------------+
+    | Code | Description                                              |
+    +======+==========================================================+
+    | ACMC | Average cloudiness midnight to midnight from 30-second   |
+    |      | ceilometer data (percent)                                |
+    +------+----------------------------------------------------------+
+    | ACMH | Average cloudiness midnight to midnight from manual      |
+    |      | observations (percent)                                   |
+    +------+----------------------------------------------------------+
+    | ACSC | Average cloudiness sunrise to sunset from 30-second      |
+    |      | ceilometer data (percent)                                |
+    +------+----------------------------------------------------------+
+    | ACSH | Average cloudiness sunrise to sunset from manual         |
+    |      | observations (percent)                                   |
+    +------+----------------------------------------------------------+
+    | AWDR | Average daily wind direction (degrees)                   |
+    +------+----------------------------------------------------------+
+    | AWND | Average daily wind speed (tenths of meters per second)   |
+    +------+----------------------------------------------------------+
+    | DAEV | Number of days included in the multiday evaporation      |
+    |      | total (MDEV)                                             |
+    +------+----------------------------------------------------------+
+    | DAPR | Number of days included in the multiday precipitation    |
+    |      | total (MDPR)                                             |
+    +------+----------------------------------------------------------+
+    | DASF | Number of days included in the multiday snowfall total   |
+    |      | (MDSF)                                                   |
+    +------+----------------------------------------------------------+
+    | DATN | Number of days included in the multiday minimum          |
+    |      | temperature (MDTN)                                       |
+    +------+----------------------------------------------------------+
+    | DATX | Number of days included in the multiday maximum          |
+    |      | temperature (MDTX)                                       |
+    +------+----------------------------------------------------------+
+    | DAWM | Number of days included in the multiday wind movement    |
+    |      | (MDWM)                                                   |
+    +------+----------------------------------------------------------+
+    | DWPR | Number of days with non-zero precipitation included in   |
+    |      | multiday precipitation total (MDPR)                      |
+    +------+----------------------------------------------------------+
+    | EVAP | Evaporation of water from evaporation pan (tenths of mm) |
+    +------+----------------------------------------------------------+
+    | FMTM | Time of fastest mile or fastest 1-minute wind (hours and |
+    |      | minutes, i.e., HHMM)                                     |
+    +------+----------------------------------------------------------+
+    | FRGB | Base of frozen ground layer (cm)                         |
+    +------+----------------------------------------------------------+
+    | FRGT | Top of frozen ground layer (cm)                          |
+    +------+----------------------------------------------------------+
+    | FRTH | Thickness of frozen ground layer (cm)                    |
+    +------+----------------------------------------------------------+
+    | GAHT | Difference between river and gauge height (cm)           |
+    +------+----------------------------------------------------------+
+    | MDEV | Multiday evaporation total (tenths of mm; use with DAEV) |
+    +------+----------------------------------------------------------+
+    | MDPR | Multiday precipitation total (tenths of mm; use with     |
+    |      | DAPR and DWPR, if available)                             |
+    +------+----------------------------------------------------------+
+    | MDSF | Multiday snowfall total                                  |
+    +------+----------------------------------------------------------+
+    | MDTN | Multiday minimum temperature (tenths of degrees C; use   |
+    |      | with DATN)                                               |
+    +------+----------------------------------------------------------+
+    | MDTX | Multiday maximum temperature (tenths of degress C; use   |
+    |      | with DATX)                                               |
+    +------+----------------------------------------------------------+
+    | MDWM | Multiday wind movement (km)                              |
+    +------+----------------------------------------------------------+
+    | MNPN | Daily minimum temperature of water in an evaporation pan |
+    |      | (tenths of degrees C)                                    |
+    +------+----------------------------------------------------------+
+    | MXPN | Daily maximum temperature of water in an evaporation pan |
+    |      | (tenths of degrees C)                                    |
+    +------+----------------------------------------------------------+
+    | PGTM | Peak gust time (hours and minutes, i.e., HHMM)           |
+    +------+----------------------------------------------------------+
+    | PSUN | Daily percent of possible sunshine (percent)             |
+    +------+----------------------------------------------------------+
+    | TAVG | Average temperature (tenths of degrees C) [Note that     |
+    |      | TAVG from source 'S' corresponds to an average for the   |
+    |      | period ending at 2400 UTC rather than local midnight]    |
+    +------+----------------------------------------------------------+
+    | THIC | Thickness of ice on water (tenths of mm)                 |
+    +------+----------------------------------------------------------+
+    | TOBS | Temperature at the time of observation (tenths of        |
+    |      | degrees C)                                               |
+    +------+----------------------------------------------------------+
+    | TSUN | Daily total sunshine (minutes)                           |
+    +------+----------------------------------------------------------+
+    | WDF1 | Direction of fastest 1-minute wind (degrees)             |
+    +------+----------------------------------------------------------+
+    | WDF2 | Direction of fastest 2-minute wind (degrees)             |
+    +------+----------------------------------------------------------+
+    | WDF5 | Direction of fastest 5-second wind (degrees)             |
+    +------+----------------------------------------------------------+
+    | WDFG | Direction of peak wind gust (degrees)                    |
+    +------+----------------------------------------------------------+
+    | WDFI | Direction of highest instantaneous wind (degrees)        |
+    +------+----------------------------------------------------------+
+    | WDFM | Fastest mile wind direction (degrees)                    |
+    +------+----------------------------------------------------------+
+    | WDMV | 24-hour wind movement (km)                               |
+    +------+----------------------------------------------------------+
+    | WESD | Water equivalent of snow on the ground (tenths of mm)    |
+    +------+----------------------------------------------------------+
+    | WESF | Water equivalent of snowfall (tenths of mm)              |
+    +------+----------------------------------------------------------+
+    | WSF1 | Fastest 1-minute wind speed (tenths of meters per        |
+    |      | second)                                                  |
+    +------+----------------------------------------------------------+
+    | WSF2 | Fastest 2-minute wind speed (tenths of meters per        |
+    |      | second)                                                  |
+    +------+----------------------------------------------------------+
+    | WSF5 | Fastest 5-second wind speed (tenths of meters per        |
+    |      | second)                                                  |
+    +------+----------------------------------------------------------+
+    | WSFG | Peak gust wind speed (tenths of meters per second)       |
+    +------+----------------------------------------------------------+
+    | WSFI | Highest instantaneous wind speed (tenths of meters per   |
+    |      | second)                                                  |
+    +------+----------------------------------------------------------+
+    | WSFM | Fastest mile wind speed (tenths of meters per second)    |
+    +------+----------------------------------------------------------+
+
+    SNXY and SXXY Table
+
+    +-------+------------------------------------------------------------+
+    | SNXY  | Minimum soil temperature (tenths of degrees C) where 'X'   |
+    |       | corresponds to a code for ground cover and 'Y' corresponds |
+    |       | to a code for soil depth.                                  |
+    +=======+============================================================+
+    |       | Ground cover codes include the following:                  |
+    +-------+------------------------------------------------------------+
+    | X = 0 | unknown                                                    |
+    +-------+------------------------------------------------------------+
+    | X = 1 | grass                                                      |
+    +-------+------------------------------------------------------------+
+    | X = 2 | fallow                                                     |
+    +-------+------------------------------------------------------------+
+    | X = 3 | bare ground                                                |
+    +-------+------------------------------------------------------------+
+    | X = 4 | brome grass                                                |
+    +-------+------------------------------------------------------------+
+    | X = 5 | sod                                                        |
+    +-------+------------------------------------------------------------+
+    | X = 6 | straw mulch                                                |
+    +-------+------------------------------------------------------------+
+    | X = 7 | grass muck                                                 |
+    +-------+------------------------------------------------------------+
+    | X = 8 | bare muck                                                  |
+    +-------+------------------------------------------------------------+
+    |       | Depth codes include the following:                         |
+    +-------+------------------------------------------------------------+
+    | Y = 1 | 5 cm                                                       |
+    +-------+------------------------------------------------------------+
+    | Y = 2 | 10 cm                                                      |
+    +-------+------------------------------------------------------------+
+    | Y = 3 | 20 cm                                                      |
+    +-------+------------------------------------------------------------+
+    | Y = 4 | 50 cm                                                      |
+    +-------+------------------------------------------------------------+
+    | Y = 5 | 100 cm                                                     |
+    +-------+------------------------------------------------------------+
+    | Y = 6 | 150 cm                                                     |
+    +-------+------------------------------------------------------------+
+    | Y = 7 | 180 cm                                                     |
+    +-------+------------------------------------------------------------+
+    | SXXY  | Maximum soil temperature (tenths of degrees C) where the   |
+    |       | second 'X' corresponds to a code for ground cover and 'Y'  |
+    |       | corresponds to a code for soil depth. See SNXY for ground  |
+    |       | cover and depth codes.                                     |
+    +-------+------------------------------------------------------------+
+
+    WTXX and WVXX Table
+
+    +------+-------------------------------------------------------+
+    | XX   | Description                                           |
+    +======+=======================================================+
+    | 01   | Fog, ice fog, or freezing fog (may include heavy      |
+    |      | fog)                                                  |
+    +------+-------------------------------------------------------+
+    | 02   | Heavy fog or heaving freezing fog (not always         |
+    |      | distinguished from fog)                               |
+    +------+-------------------------------------------------------+
+    | 03   | Thunder                                               |
+    +------+-------------------------------------------------------+
+    | 04   | Ice pellets, sleet, snow pellets, or small hail       |
+    +------+-------------------------------------------------------+
+    | 05   | Hail (may include small hail)                         |
+    +------+-------------------------------------------------------+
+    | 06   | Glaze or rime                                         |
+    +------+-------------------------------------------------------+
+    | 07   | Dust, volcanic ash, blowing dust, blowing sand, or    |
+    |      | blowing obstruction                                   |
+    +------+-------------------------------------------------------+
+    | 08   | Smoke or haze                                         |
+    +------+-------------------------------------------------------+
+    | 09   | Blowing or drifting snow                              |
+    +------+-------------------------------------------------------+
+    | 11   | High or damaging winds                                |
+    +------+-------------------------------------------------------+
+    | 12   | Blowing spray                                         |
+    +------+-------------------------------------------------------+
+    | 13   | Mist                                                  |
+    +------+-------------------------------------------------------+
+    | 14   | Drizzle                                               |
+    +------+-------------------------------------------------------+
+    | 15   | Freezing drizzle                                      |
+    +------+-------------------------------------------------------+
+    | 16   | Rain (may include freezing rain, drizzle, and         |
+    |      | freezing drizzle)                                     |
+    +------+-------------------------------------------------------+
+    | 17   | Freezing rain                                         |
+    +------+-------------------------------------------------------+
+    | 18   | Snow, snow pellets, snow grains, or ice crystals      |
+    +------+-------------------------------------------------------+
+    | 19   | Unknown source of precipitation                       |
+    +------+-------------------------------------------------------+
+    | 21   | Ground fog                                            |
+    +------+-------------------------------------------------------+
+    | 22   | Ice fog or freezing fog                               |
+    +------+-------------------------------------------------------+
+    | WVXX | Weather in the Vicinity where XX has one of the       |
+    |      | following values described above: 01, 03, 07, 18, and |
+    |      | 20                                                    |
+    +------+-------------------------------------------------------+""",
+    'station': r"""station
+        The station id. from the first column of
+        ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt"""
+    }
 
 
 @mando.command()
@@ -752,9 +1005,7 @@ def cpc(state=None,
 
         If specified, results will be limited to the climate division.
     {start_date}
-    {end_date}
-
-    """
+    {end_date}"""
     from tsgettoolbox.services import cpc
     df = cpc.ulmo_df(
          state=state,
@@ -881,9 +1132,7 @@ def cdec(station_id,
         +----------+-------------+
 
     {start_date}
-    {end_date}
-
-    """
+    {end_date}"""
     from tsgettoolbox.services import cdec
     df = cdec.ulmo_df(
         station_id,
@@ -1171,9 +1420,7 @@ def coops(station,
         The bin number for the specified currents station Example:'--bin=4'
         Will retrieve data for bin number 4. Note! If a bin is not specified
         for a PORTS station, the data is returned using a predefined real-time
-        bin.
-
-    """
+        bin."""
     from tsgettoolbox.services import coops as placeholder
     r = resource(
         r'http://tidesandcurrents.noaa.gov/api/datagetter',
@@ -1382,9 +1629,7 @@ def epa_wqp(
         [optional, default is None]
 
         Date of last desired data-collection activity.  A very wide range of
-        date strings can be used but the closer to ISO 8601 the better.
-
-    """
+        date strings can be used but the closer to ISO 8601 the better."""
     from tsgettoolbox.services.epa import wqp as placeholder
 
     url = r'https://www.waterqualitydata.us/Result/search'
@@ -1441,7 +1686,7 @@ def nwis(sites=None,
          statType=None,
          missingData=None,
          statYearType=None):
-    r"""Deprecated: Use the nwis_* functions instead.
+    r"""Deprecated: Use the ``nwis_*`` functions instead.
 
     This function has been split up into individual functions for each source
     database.  This allows for keywords and output to be tailored to each
@@ -1469,9 +1714,7 @@ def nwis(sites=None,
     +-------------------+-------------------------------+
 
     This function/sub-command will continue to work, however you should change
-    all scripts to use the split out functions.
-
-    """
+    all scripts to use the split out functions."""
     from tsgettoolbox.services.usgs import nwis as placeholder
     if database not in ['iv',
                         'dv',
@@ -1629,59 +1872,59 @@ def nwis_iv(sites=None,
     If `includeCodes` option is used, there will also be columns representing
     the data quality codes named "agencyCd_siteno_parameterCd_cd".
 
-    +------+--------------------------------------------------------+
-    | Code |  Description                                           |
-    +======+========================================================+
-    | e    | Value has been edited or estimated by USGS personnel   |
-    |      | and is write protected                                 |
-    +------+--------------------------------------------------------+
-    | &    | Value was computed from affected unit values           |
-    +------+--------------------------------------------------------+
-    | E    | Value was computed from estimated unit values.         |
-    +------+--------------------------------------------------------+
-    | A    | Approved for publication -- Processing and review      |
-    |      | completed.                                             |
-    +------+--------------------------------------------------------+
-    | P    | Provisional data subject to revision.                  |
-    +------+--------------------------------------------------------+
-    | <    | The value is known to be less than reported value and  |
-    |      | is write protected.                                    |
-    +------+--------------------------------------------------------+
-    | >    | The value is known to be greater than reported value   |
-    |      | and is write protected.                                |
-    +------+--------------------------------------------------------+
-    | 1    | Value is write protected without any remark code to be |
-    |      | printed                                                |
-    +------+--------------------------------------------------------+
-    | 2    | Remark is write protected without any remark code to   |
-    |      | be printed                                             |
-    +------+--------------------------------------------------------+
-    |      | No remark (blank)                                      |
-    +------+--------------------------------------------------------+
-    | Ssn  | Parameter monitored seasonally                         |
-    +------+--------------------------------------------------------+
-    | Ice  | Ice affected                                           |
-    +------+--------------------------------------------------------+
-    | Pr   | Partial-record site                                    |
-    +------+--------------------------------------------------------+
-    | Rat  | Rating being developed or revised                      |
-    +------+--------------------------------------------------------+
-    | Eqp  | Equipment malfunction                                  |
-    +------+--------------------------------------------------------+
-    | Fld  | Flood damage                                           |
-    +------+--------------------------------------------------------+
-    | Dis  | Data-collection discontinued                           |
-    +------+--------------------------------------------------------+
-    | Dry  | Dry                                                    |
-    +------+--------------------------------------------------------+
-    | --   | Parameter not determined                               |
-    +------+--------------------------------------------------------+
-    | Mnt  | Maintenance in progress                                |
-    +------+--------------------------------------------------------+
-    | ZFl  | Zero flow                                              |
-    +------+--------------------------------------------------------+
-    | ***  | Temporarily unavailable                                |
-    +------+--------------------------------------------------------+
+    +---------+--------------------------------------------------------+
+    | Code    |  Description                                           |
+    +=========+========================================================+
+    | e       | Value has been edited or estimated by USGS personnel   |
+    |         | and is write protected                                 |
+    +---------+--------------------------------------------------------+
+    | &       | Value was computed from affected unit values           |
+    +---------+--------------------------------------------------------+
+    | E       | Value was computed from estimated unit values.         |
+    +---------+--------------------------------------------------------+
+    | A       | Approved for publication -- Processing and review      |
+    |         | completed.                                             |
+    +---------+--------------------------------------------------------+
+    | P       | Provisional data subject to revision.                  |
+    +---------+--------------------------------------------------------+
+    | <       | The value is known to be less than reported value and  |
+    |         | is write protected.                                    |
+    +---------+--------------------------------------------------------+
+    | >       | The value is known to be greater than reported value   |
+    |         | and is write protected.                                |
+    +---------+--------------------------------------------------------+
+    | 1       | Value is write protected without any remark code to be |
+    |         | printed                                                |
+    +---------+--------------------------------------------------------+
+    | 2       | Remark is write protected without any remark code to   |
+    |         | be printed                                             |
+    +---------+--------------------------------------------------------+
+    |         | No remark (blank)                                      |
+    +---------+--------------------------------------------------------+
+    | Ssn     | Parameter monitored seasonally                         |
+    +---------+--------------------------------------------------------+
+    | Ice     | Ice affected                                           |
+    +---------+--------------------------------------------------------+
+    | Pr      | Partial-record site                                    |
+    +---------+--------------------------------------------------------+
+    | Rat     | Rating being developed or revised                      |
+    +---------+--------------------------------------------------------+
+    | Eqp     | Equipment malfunction                                  |
+    +---------+--------------------------------------------------------+
+    | Fld     | Flood damage                                           |
+    +---------+--------------------------------------------------------+
+    | Dis     | Data-collection discontinued                           |
+    +---------+--------------------------------------------------------+
+    | Dry     | Dry                                                    |
+    +---------+--------------------------------------------------------+
+    | --      | Parameter not determined                               |
+    +---------+--------------------------------------------------------+
+    | Mnt     | Maintenance in progress                                |
+    +---------+--------------------------------------------------------+
+    | ZFl     | Zero flow                                              |
+    +---------+--------------------------------------------------------+
+    | ``***`` | Temporarily unavailable                                |
+    +---------+--------------------------------------------------------+
 
     Parameters
     ----------
@@ -1709,9 +1952,7 @@ def nwis_iv(sites=None,
     {holeDepthMax}
     {wellDepthMin}
     {wellDepthMax}
-    {includeCodes}
-
-    """
+    {includeCodes}"""
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://waterservices.usgs.gov/nwis/iv/'
     r = resource(url,
@@ -1828,59 +2069,59 @@ def nwis_dv(sites=None,
     If `includeCodes` option is used, there will also be columns representing
     the data quality codes named "agencyCd_siteno_parameterCd_cd".
 
-    +------+--------------------------------------------------------+
-    | Code |  Description                                           |
-    +======+========================================================+
-    | e    | Value has been edited or estimated by USGS personnel   |
-    |      | and is write protected                                 |
-    +------+--------------------------------------------------------+
-    | &    | Value was computed from affected unit values           |
-    +------+--------------------------------------------------------+
-    | E    | Value was computed from estimated unit values.         |
-    +------+--------------------------------------------------------+
-    | A    | Approved for publication -- Processing and review      |
-    |      | completed.                                             |
-    +------+--------------------------------------------------------+
-    | P    | Provisional data subject to revision.                  |
-    +------+--------------------------------------------------------+
-    | <    | The value is known to be less than reported value and  |
-    |      | is write protected.                                    |
-    +------+--------------------------------------------------------+
-    | >    | The value is known to be greater than reported value   |
-    |      | and is write protected.                                |
-    +------+--------------------------------------------------------+
-    | 1    | Value is write protected without any remark code to be |
-    |      | printed                                                |
-    +------+--------------------------------------------------------+
-    | 2    | Remark is write protected without any remark code to   |
-    |      | be printed                                             |
-    +------+--------------------------------------------------------+
-    |      | No remark (blank)                                      |
-    +------+--------------------------------------------------------+
-    | Ssn  | Parameter monitored seasonally                         |
-    +------+--------------------------------------------------------+
-    | Ice  | Ice affected                                           |
-    +------+--------------------------------------------------------+
-    | Pr   | Partial-record site                                    |
-    +------+--------------------------------------------------------+
-    | Rat  | Rating being developed or revised                      |
-    +------+--------------------------------------------------------+
-    | Eqp  | Equipment malfunction                                  |
-    +------+--------------------------------------------------------+
-    | Fld  | Flood damage                                           |
-    +------+--------------------------------------------------------+
-    | Dis  | Data-collection discontinued                           |
-    +------+--------------------------------------------------------+
-    | Dry  | Dry                                                    |
-    +------+--------------------------------------------------------+
-    | --   | Parameter not determined                               |
-    +------+--------------------------------------------------------+
-    | Mnt  | Maintenance in progress                                |
-    +------+--------------------------------------------------------+
-    | ZFl  | Zero flow                                              |
-    +------+--------------------------------------------------------+
-    | ***  | Temporarily unavailable                                |
-    +------+--------------------------------------------------------+
+    +---------+--------------------------------------------------------+
+    | Code    |  Description                                           |
+    +=========+========================================================+
+    | e       | Value has been edited or estimated by USGS personnel   |
+    |         | and is write protected                                 |
+    +---------+--------------------------------------------------------+
+    | &       | Value was computed from affected unit values           |
+    +---------+--------------------------------------------------------+
+    | E       | Value was computed from estimated unit values.         |
+    +---------+--------------------------------------------------------+
+    | A       | Approved for publication -- Processing and review      |
+    |         | completed.                                             |
+    +---------+--------------------------------------------------------+
+    | P       | Provisional data subject to revision.                  |
+    +---------+--------------------------------------------------------+
+    | <       | The value is known to be less than reported value and  |
+    |         | is write protected.                                    |
+    +---------+--------------------------------------------------------+
+    | >       | The value is known to be greater than reported value   |
+    |         | and is write protected.                                |
+    +---------+--------------------------------------------------------+
+    | 1       | Value is write protected without any remark code to be |
+    |         | printed                                                |
+    +---------+--------------------------------------------------------+
+    | 2       | Remark is write protected without any remark code to   |
+    |         | be printed                                             |
+    +---------+--------------------------------------------------------+
+    |         | No remark (blank)                                      |
+    +---------+--------------------------------------------------------+
+    | Ssn     | Parameter monitored seasonally                         |
+    +---------+--------------------------------------------------------+
+    | Ice     | Ice affected                                           |
+    +---------+--------------------------------------------------------+
+    | Pr      | Partial-record site                                    |
+    +---------+--------------------------------------------------------+
+    | Rat     | Rating being developed or revised                      |
+    +---------+--------------------------------------------------------+
+    | Eqp     | Equipment malfunction                                  |
+    +---------+--------------------------------------------------------+
+    | Fld     | Flood damage                                           |
+    +---------+--------------------------------------------------------+
+    | Dis     | Data-collection discontinued                           |
+    +---------+--------------------------------------------------------+
+    | Dry     | Dry                                                    |
+    +---------+--------------------------------------------------------+
+    | --      | Parameter not determined                               |
+    +---------+--------------------------------------------------------+
+    | Mnt     | Maintenance in progress                                |
+    +---------+--------------------------------------------------------+
+    | ZFl     | Zero flow                                              |
+    +---------+--------------------------------------------------------+
+    | ``***`` | Temporarily unavailable                                |
+    +---------+--------------------------------------------------------+
 
     Parameters
     ----------
@@ -1908,9 +2149,7 @@ def nwis_dv(sites=None,
     {holeDepthMax}
     {wellDepthMin}
     {wellDepthMax}
-    {includeCodes}
-
-    """
+    {includeCodes}"""
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://waterservices.usgs.gov/nwis/dv/'
     r = resource(url,
@@ -2087,9 +2326,7 @@ def nwis_site(sites=None,
     {outputDataTypeCd}
     {siteName}
     {siteNameMatchOperator}
-    {hasDataTypeCd}
-
-    """
+    {hasDataTypeCd}"""
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://waterservices.usgs.gov/nwis/site/'
     r = resource(url,
@@ -2249,9 +2486,7 @@ def nwis_gwlevels(sites=None,
     {holeDepthMin}
     {holeDepthMax}
     {wellDepthMin}
-    {wellDepthMax}
-
-    """
+    {wellDepthMax}"""
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://waterservices.usgs.gov/nwis/gwlevels/'
     r = resource(url,
@@ -2464,9 +2699,7 @@ def nwis_measurements(sites=None,
     {holeDepthMin}
     {holeDepthMax}
     {wellDepthMin}
-    {wellDepthMax}
-
-    """
+    {wellDepthMax}"""
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://nwis.waterdata.usgs.gov/XX/nwis/measurements'
     r = resource(url,
@@ -2684,9 +2917,7 @@ def nwis_peak(sites=None,
     {holeDepthMin}
     {holeDepthMax}
     {wellDepthMin}
-    {wellDepthMax}
-
-    """
+    {wellDepthMax}"""
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://nwis.waterdata.usgs.gov/XX/nwis/peak'
     r = resource(url,
@@ -2886,9 +3117,7 @@ def nwis_stat(sites=None,
     {statReportType}
     {statType}
     {missingData}
-    {statYearType}
-
-    """
+    {statYearType}"""
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://waterservices.usgs.gov/nwis/stat/'
     r = resource(url,
@@ -2974,9 +3203,7 @@ def daymet(lat,
 
             Example: --years=2012,2013
 
-         All years are returned by default.
-
-    """
+         All years are returned by default."""
     from tsgettoolbox.services import daymet as placeholder
     r = resource(
         r'http://daymet.ornl.gov/data/send/saveData',
@@ -3153,9 +3380,7 @@ def ldas(lat=None,
 
             Example: --startDate=2001-01-05T05
 
-        If startDate and endDate are None, returns the entire series.
-
-    """
+        If startDate and endDate are None, returns the entire series."""
     from tsgettoolbox.services import ldas as placeholder
     project = variable.split(':')[0]
     if lat is not None:
@@ -3444,9 +3669,7 @@ def darksky(latitude,
         | x-pig-latin | Igpay Atinlay     |
         +-------------+-------------------+
         | zh          | Chinese           |
-        +-------------+-------------------+
-
-    """
+        +-------------+-------------------+"""
     from tsgettoolbox.services import darksky as placeholder
     r = resource(
         r'https://api.darksky.net/forecast',
@@ -3497,9 +3720,7 @@ def forecast_io(latitude,
 
     lang
         See documentation under the darksky
-        service.
-
-    """
+        service."""
     return darksky(latitude,
                    longitude,
                    time=time,
@@ -3604,9 +3825,7 @@ def unavco(station,
     starttime
         Start date in ISO8601 format.
     endtime
-        End date in ISO8601 format.
-
-    """
+        End date in ISO8601 format."""
     from tsgettoolbox.services import unavco as placeholder
     map_db_to_url = {
         'met': r'http://web-services.unavco.org:80/met/data',
@@ -3627,265 +3846,20 @@ def unavco(station,
 
 
 @mando.command(formatter_class=HelpFormatter, doctype='numpy')
-@tsutils.doc(tsutils.docstrings)
+@tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncdc_ghcnd_docstrings))
 def ncdc_ghcnd_ftp(station,
                    start_date=None,
                    end_date=None):
     r"""Download from the Global Historical Climatology Network - Daily.
 
-    If you use this data, please read
-    ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt about "How to
-    cite".
-
-    GHCN (Global Historical Climatology Network)-Daily is an integrated
-    database of daily climate summaries from land surface stations
-    across the globe. Like its monthly counterpart (GHCN-Monthly),
-    GHCN-Daily is comprised of daily climate records from numerous
-    sources that have been integrated and subjected to a common suite of
-    quality assurance reviews.
-
-    GHCN-Daily now contains records from over 75000 stations in 180
-    countries and territories. Numerous daily variables are provided,
-    including maximum and minimum temperature, total daily
-    precipitation, snowfall, and snow depth; however, about two thirds
-    of the stations report precipitation only.  Both the record length
-    and period of record vary by station and cover intervals ranging
-    from less than year to more than 175 years.
-
-    The dataset is regularly reconstructed (usually every weekend) from
-    its 20-plus data source components to ensure that GHCN-Daily is
-    generally in sync with its growing list of constituent sources.
-    During this process, quality assurance checks are applied to the
-    full dataset. On most weekdays, GHCN-Daily station data are updated
-    when possible from a variety of data streams, which also undergo
-    a suite of quality checks.
-
-    Some of the data provided here are based on data exchanged under the
-    World Meteorological Organization (WMO) World Weather Watch Program
-    according to WMO Resolution 40 (Cg-XII). This allows WMO member
-    countries to place restrictions on the use or re-export of their
-    data for commercial purposes outside of the receiving country. Those
-    countries' data summaries and products which are available here are
-    intended for free and unrestricted use in research, education, and
-    other non-commercial activities. For non-U.S. locations' data, the
-    data or any derived product shall not be provided to other users or
-    be used for the re-export of commercial services.
-
-    The five core values are:
-
-    +------+----------------------------------------------------------+
-    | Code | Description                                              |
-    +======+==========================================================+
-    | TMAX | Temperature MAX (1/10 degree C)                          |
-    +------+----------------------------------------------------------+
-    | TMIN | Temperature MIN (1/10 degree C)                          |
-    +------+----------------------------------------------------------+
-    | PRCP | PReCiPitation (tenths of mm)                             |
-    +------+----------------------------------------------------------+
-    | SNOW | SNOWfall (mm)                                            |
-    +------+----------------------------------------------------------+
-    | SNWD | SNoW Depth (mm)                                          |
-    +------+----------------------------------------------------------+
-
-    Other possible data collected:
-
-    +------+----------------------------------------------------------+
-    | Code | Description                                              |
-    +======+==========================================================+
-    | ACMC | Average cloudiness midnight to midnight from 30-second   |
-    |      | ceilometer data (percent)                                |
-    +------+----------------------------------------------------------+
-    | ACMH | Average cloudiness midnight to midnight from manual      |
-    |      | observations (percent)                                   |
-    +------+----------------------------------------------------------+
-    | ACSC | Average cloudiness sunrise to sunset from 30-second      |
-    |      | ceilometer data (percent)                                |
-    +------+----------------------------------------------------------+
-    | ACSH | Average cloudiness sunrise to sunset from manual         |
-    |      | observations (percent)                                   |
-    +------+----------------------------------------------------------+
-    | AWDR | Average daily wind direction (degrees)                   |
-    +------+----------------------------------------------------------+
-    | AWND | Average daily wind speed (tenths of meters per second)   |
-    +------+----------------------------------------------------------+
-    | DAEV | Number of days included in the multiday evaporation      |
-    |      | total (MDEV)                                             |
-    +------+----------------------------------------------------------+
-    | DAPR | Number of days included in the multiday precipitation    |
-    |      | total (MDPR)                                             |
-    +------+----------------------------------------------------------+
-    | DASF | Number of days included in the multiday snowfall total   |
-    |      | (MDSF)                                                   |
-    +------+----------------------------------------------------------+
-    | DATN | Number of days included in the multiday minimum          |
-    |      | temperature (MDTN)                                       |
-    +------+----------------------------------------------------------+
-    | DATX | Number of days included in the multiday maximum          |
-    |      | temperature (MDTX)                                       |
-    +------+----------------------------------------------------------+
-    | DAWM | Number of days included in the multiday wind movement    |
-    |      | (MDWM)                                                   |
-    +------+----------------------------------------------------------+
-    | DWPR | Number of days with non-zero precipitation included in   |
-    |      | multiday precipitation total (MDPR)                      |
-    +------+----------------------------------------------------------+
-    | EVAP | Evaporation of water from evaporation pan (tenths of mm) |
-    +------+----------------------------------------------------------+
-    | FMTM | Time of fastest mile or fastest 1-minute wind (hours and |
-    |      | minutes, i.e., HHMM)                                     |
-    +------+----------------------------------------------------------+
-    | FRGB | Base of frozen ground layer (cm)                         |
-    +------+----------------------------------------------------------+
-    | FRGT | Top of frozen ground layer (cm)                          |
-    +------+----------------------------------------------------------+
-    | FRTH | Thickness of frozen ground layer (cm)                    |
-    +------+----------------------------------------------------------+
-    | GAHT | Difference between river and gauge height (cm)           |
-    +------+----------------------------------------------------------+
-    | MDEV | Multiday evaporation total (tenths of mm; use with DAEV) |
-    +------+----------------------------------------------------------+
-    | MDPR | Multiday precipitation total (tenths of mm; use with     |
-    |      | DAPR and DWPR, if available)                             |
-    +------+----------------------------------------------------------+
-    | MDSF | Multiday snowfall total                                  |
-    +------+----------------------------------------------------------+
-    | MDTN | Multiday minimum temperature (tenths of degrees C; use   |
-    |      | with DATN)                                               |
-    +------+----------------------------------------------------------+
-    | MDTX | Multiday maximum temperature (tenths of degress C; use   |
-    |      | with DATX)                                               |
-    +------+----------------------------------------------------------+
-    | MDWM | Multiday wind movement (km)                              |
-    +------+----------------------------------------------------------+
-    | MNPN | Daily minimum temperature of water in an evaporation pan |
-    |      | (tenths of degrees C)                                    |
-    +------+----------------------------------------------------------+
-    | MXPN | Daily maximum temperature of water in an evaporation pan |
-    |      | (tenths of degrees C)                                    |
-    +------+----------------------------------------------------------+
-    | PGTM | Peak gust time (hours and minutes, i.e., HHMM)           |
-    +------+----------------------------------------------------------+
-    | PSUN | Daily percent of possible sunshine (percent)             |
-    +------+----------------------------------------------------------+
-    | TAVG | Average temperature (tenths of degrees C) [Note that     |
-    |      | TAVG from source 'S' corresponds to an average for the   |
-    |      | period ending at 2400 UTC rather than local midnight]    |
-    +------+----------------------------------------------------------+
-    | THIC | Thickness of ice on water (tenths of mm)                 |
-    +------+----------------------------------------------------------+
-    | TOBS | Temperature at the time of observation (tenths of        |
-    |      | degrees C)                                               |
-    +------+----------------------------------------------------------+
-    | TSUN | Daily total sunshine (minutes)                           |
-    +------+----------------------------------------------------------+
-    | WDF1 | Direction of fastest 1-minute wind (degrees)             |
-    +------+----------------------------------------------------------+
-    | WDF2 | Direction of fastest 2-minute wind (degrees)             |
-    +------+----------------------------------------------------------+
-    | WDF5 | Direction of fastest 5-second wind (degrees)             |
-    +------+----------------------------------------------------------+
-    | WDFG | Direction of peak wind gust (degrees)                    |
-    +------+----------------------------------------------------------+
-    | WDFI | Direction of highest instantaneous wind (degrees)        |
-    +------+----------------------------------------------------------+
-    | WDFM | Fastest mile wind direction (degrees)                    |
-    +------+----------------------------------------------------------+
-    | WDMV | 24-hour wind movement (km)                               |
-    +------+----------------------------------------------------------+
-    | WESD | Water equivalent of snow on the ground (tenths of mm)    |
-    +------+----------------------------------------------------------+
-    | WESF | Water equivalent of snowfall (tenths of mm)              |
-    +------+----------------------------------------------------------+
-    | WSF1 | Fastest 1-minute wind speed (tenths of meters per        |
-    |      | second)                                                  |
-    +------+----------------------------------------------------------+
-    | WSF2 | Fastest 2-minute wind speed (tenths of meters per        |
-    |      | second)                                                  |
-    +------+----------------------------------------------------------+
-    | WSF5 | Fastest 5-second wind speed (tenths of meters per        |
-    |      | second)                                                  |
-    +------+----------------------------------------------------------+
-    | WSFG | Peak gust wind speed (tenths of meters per second)       |
-    +------+----------------------------------------------------------+
-    | WSFI | Highest instantaneous wind speed (tenths of meters per   |
-    |      | second)                                                  |
-    +------+----------------------------------------------------------+
-    | WSFM | Fastest mile wind speed (tenths of meters per second)    |
-    +------+----------------------------------------------------------+
-    | SN*# | Minimum soil temperature (tenths of degrees C) where *   |
-    |      | corresponds to a code for ground cover and # corresponds |
-    |      | to a code for soil depth.                                |
-    |      |                                                          |
-    |      | Ground cover codes include the following:                |
-    |      | 0 = unknown                                              |
-    |      | 1 = grass                                                |
-    |      | 2 = fallow                                               |
-    |      | 3 = bare ground                                          |
-    |      | 4 = brome grass                                          |
-    |      | 5 = sod                                                  |
-    |      | 6 = straw mulch                                          |
-    |      | 7 = grass muck                                           |
-    |      | 8 = bare muck                                            |
-    |      |                                                          |
-    |      | Depth codes include the following:                       |
-    |      | 1 = 5 cm                                                 |
-    |      | 2 = 10 cm                                                |
-    |      | 3 = 20 cm                                                |
-    |      | 4 = 50 cm                                                |
-    |      | 5 = 100 cm                                               |
-    |      | 6 = 150 cm                                               |
-    |      | 7 = 180 cm                                               |
-    +------+----------------------------------------------------------+
-    | SX*# | Maximum soil temperature (tenths of degrees C) where *   |
-    |      | corresponds to a code for ground cover and # corresponds |
-    |      | to a code for soil depth. See SN*# for ground cover and  |
-    |      | depth codes.                                             |
-    +------+----------------------------------------------------------+
-    | WTXX | Weather Type where XX has one of the following values:   |
-    |      | 01 = Fog, ice fog, or freezing fog (may include heavy    |
-    |      |      fog)                                                |
-    |      | 02 = Heavy fog or heaving freezing fog (not always       |
-    |      |      distinguished from fog)                             |
-    |      | 03 = Thunder                                             |
-    |      | 04 = Ice pellets, sleet, snow pellets, or small hail     |
-    |      | 05 = Hail (may include small hail)                       |
-    |      | 06 = Glaze or rime                                       |
-    |      | 07 = Dust, volcanic ash, blowing dust, blowing sand, or  |
-    |      |      blowing obstruction                                 |
-    |      | 08 = Smoke or haze                                       |
-    |      | 09 = Blowing or drifting snow                            |
-    |      | 11 = High or damaging winds                              |
-    |      | 12 = Blowing spray                                       |
-    |      | 13 = Mist                                                |
-    |      | 14 = Drizzle                                             |
-    |      | 15 = Freezing drizzle                                    |
-    |      | 16 = Rain (may include freezing rain, drizzle, and       |
-    |      |      freezing drizzle)                                   |
-    |      | 17 = Freezing rain                                       |
-    |      | 18 = Snow, snow pellets, snow grains, or ice crystals    |
-    |      | 19 = Unknown source of precipitation                     |
-    |      | 21 = Ground fog                                          |
-    |      | 22 = Ice fog or freezing fog                             |
-    +------+----------------------------------------------------------+
-    | WVXX | Weather in the Vicinity where XX has one of the          |
-    |      | following values:                                        |
-    |      | 01 = Fog, ice fog, or freezing fog (may include heavy    |
-    |      |      fog)                                                |
-    |      | 03 = Thunder                                             |
-    |      | 07 = Ash, dust, sand, or other blowing obstruction       |
-    |      | 18 = Snow or ice crystals                                |
-    |      | 20 = Rain or snow shower                                 |
-    +------+----------------------------------------------------------+
+    {info}
 
     Parameters
     ----------
-    station
-        The station id. from the first column of
-        ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt
+    {station}
     {start_date}
-    {end_date}
+    {end_date}"""
 
-    """
     from tsgettoolbox.services.ncdc import ghcnd as placeholder
     r = resource(
         r'ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all',
@@ -3898,51 +3872,16 @@ def ncdc_ghcnd_ftp(station,
 
 # 1763-01-01, 2016-11-05, Daily Summaries             , 1    , GHCND
 @mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncdc_ghcnd_docstrings))
 def ncdc_ghcnd(stationid,
                datatypeid='',
-               startdate='',
-               enddate=''):
+               start_date='',
+               end_date=''):
     r"""Download from the Global Historical Climatology Network - Daily.
 
     Requires registration and free API key.
 
-    If you use this data, please read
-    ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt about "How to
-    cite".
-
-    GHCN (Global Historical Climatology Network)-Daily is an integrated
-    database of daily climate summaries from land surface stations
-    across the globe. Like its monthly counterpart (GHCN-Monthly),
-    GHCN-Daily is comprised of daily climate records from numerous
-    sources that have been integrated and subjected to a common suite of
-    quality assurance reviews.
-
-    GHCN-Daily now contains records from over 75000 stations in 180
-    countries and territories. Numerous daily variables are provided,
-    including maximum and minimum temperature, total daily
-    precipitation, snowfall, and snow depth; however, about two thirds
-    of the stations report precipitation only.  Both the record length
-    and period of record vary by station and cover intervals ranging
-    from less than year to more than 175 years.
-
-    The dataset is regularly reconstructed (usually every weekend) from
-    its 20-plus data source components to ensure that GHCN-Daily is
-    generally in sync with its growing list of constituent sources.
-    During this process, quality assurance checks are applied to the
-    full dataset. On most weekdays, GHCN-Daily station data are updated
-    when possible from a variety of data streams, which also undergo
-    a suite of quality checks.
-
-    Some of the data provided here are based on data exchanged under the
-    World Meteorological Organization (WMO) World Weather Watch Program
-    according to WMO Resolution 40 (Cg-XII). This allows WMO member
-    countries to place restrictions on the use or re-export of their
-    data for commercial purposes outside of the receiving country. Those
-    countries data summaries and products which are available here are
-    intended for free and unrestricted use in research, education, and
-    other non-commercial activities. For non-U.S. locations data, the
-    data or any derived product shall not be provided to other users or
-    be used for the re-export of commercial services.
+    {info}
 
     For every datatype and record there is a set of meta-data flags.
     For the GHCNDMS dataset, the flags are::
@@ -3963,241 +3902,22 @@ def ncdc_ghcnd(stationid,
 
     Parameters
     ----------
-    stationid
-        Station ID.
+    {station}
 
     datatypeid
-        The following table lists the datatypes available for the 'ghcnd'
+        [optional, defaults to returning all available data at that station]
+
+        See the tables above for available datatypeid for the 'ghcnd'
         dataset.  If the datatypeid is not given defaults to getting all data
         available at that station for the time period requested.
-
-        The five core values are:
-
-        +------+-------------------------------------------------------+
-        | Code | Description                                           |
-        +======+=======================================================+
-        | TMAX | Temperature MAX (1/10 degree C)                       |
-        +------+-------------------------------------------------------+
-        | TMIN | Temperature MIN (1/10 degree C)                       |
-        +------+-------------------------------------------------------+
-        | PRCP | PReCiPitation (tenths of mm)                          |
-        +------+-------------------------------------------------------+
-        | SNOW | SNOWfall (mm)                                         |
-        +------+-------------------------------------------------------+
-        | SNWD | SNoW Depth (mm)                                       |
-        +------+-------------------------------------------------------+
-
-        Other possible data collected:
-
-        +------+-------------------------------------------------------+
-        | Code | Description                                           |
-        +======+=======================================================+
-        | ACMC | Average cloudiness midnight to midnight from          |
-        |      | 30-second ceilometer data (percent)                   |
-        +------+-------------------------------------------------------+
-        | ACMH | Average cloudiness midnight to midnight from manual   |
-        |      | observations (percent)                                |
-        +------+-------------------------------------------------------+
-        | ACSC | Average cloudiness sunrise to sunset from 30-second   |
-        |      | ceilometer data (percent)                             |
-        +------+-------------------------------------------------------+
-        | ACSH | Average cloudiness sunrise to sunset from manual      |
-        |      | observations (percent)                                |
-        +------+-------------------------------------------------------+
-        | AWDR | Average daily wind direction (degrees)                |
-        +------+-------------------------------------------------------+
-        | AWND | Average daily wind speed (tenths of meters per        |
-        |      | second)                                               |
-        +------+-------------------------------------------------------+
-        | DAEV | Number of days included in the multiday evaporation   |
-        |      | total (MDEV)                                          |
-        +------+-------------------------------------------------------+
-        | DAPR | Number of days included in the multiday precipitation |
-        |      | total (MDPR)                                          |
-        +------+-------------------------------------------------------+
-        | DASF | Number of days included in the multiday snowfall      |
-        |      | total (MDSF)                                          |
-        +------+-------------------------------------------------------+
-        | DATN | Number of days included in the multiday minimum       |
-        |      | temperature (MDTN)                                    |
-        +------+-------------------------------------------------------+
-        | DATX | Number of days included in the multiday maximum       |
-        |      | temperature (MDTX)                                    |
-        +------+-------------------------------------------------------+
-        | DAWM | Number of days included in the multiday wind movement |
-        |      | (MDWM)                                                |
-        +------+-------------------------------------------------------+
-        | DWPR | Number of days with non-zero precipitation included   |
-        |      | in multiday precipitation total (MDPR)                |
-        +------+-------------------------------------------------------+
-        | EVAP | Evaporation of water from evaporation pan (tenths of  |
-        |      | mm)                                                   |
-        +------+-------------------------------------------------------+
-        | FMTM | Time of fastest mile or fastest 1-minute wind (hours  |
-        |      | and minutes, i.e., HHMM)                              |
-        +------+-------------------------------------------------------+
-        | FRGB | Base of frozen ground layer (cm)                      |
-        +------+-------------------------------------------------------+
-        | FRGT | Top of frozen ground layer (cm)                       |
-        +------+-------------------------------------------------------+
-        | FRTH | Thickness of frozen ground layer (cm)                 |
-        +------+-------------------------------------------------------+
-        | GAHT | Difference between river and gauge height (cm)        |
-        +------+-------------------------------------------------------+
-        | MDEV | Multiday evaporation total (tenths of mm; use with    |
-        |      | DAEV)                                                 |
-        +------+-------------------------------------------------------+
-        | MDPR | Multiday precipitation total (tenths of mm; use with  |
-        |      | DAPR and DWPR, if available)                          |
-        +------+-------------------------------------------------------+
-        | MDSF | Multiday snowfall total                               |
-        +------+-------------------------------------------------------+
-        | MDTN | Multiday minimum temperature (tenths of degrees C;    |
-        |      | use with DATN)                                        |
-        +------+-------------------------------------------------------+
-        | MDTX | Multiday maximum temperature (tenths of degress C;    |
-        |      | use with DATX)                                        |
-        +------+-------------------------------------------------------+
-        | MDWM | Multiday wind movement (km)                           |
-        +------+-------------------------------------------------------+
-        | MNPN | Daily minimum temperature of water in an evaporation  |
-        |      | pan (tenths of degrees C)                             |
-        +------+-------------------------------------------------------+
-        | MXPN | Daily maximum temperature of water in an evaporation  |
-        |      | pan (tenths of degrees C)                             |
-        +------+-------------------------------------------------------+
-        | PGTM | Peak gust time (hours and minutes, i.e., HHMM)        |
-        +------+-------------------------------------------------------+
-        | PSUN | Daily percent of possible sunshine (percent)          |
-        +------+-------------------------------------------------------+
-        | TAVG | Average temperature (tenths of degrees C) [Note that  |
-        |      | TAVG from source 'S' corresponds to an average for    |
-        |      | the period ending at 2400 UTC rather than local       |
-        |      | midnight]                                             |
-        +------+-------------------------------------------------------+
-        | THIC | Thickness of ice on water (tenths of mm)              |
-        +------+-------------------------------------------------------+
-        | TOBS | Temperature at the time of observation (tenths of     |
-        |      | degrees C)                                            |
-        +------+-------------------------------------------------------+
-        | TSUN | Daily total sunshine (minutes)                        |
-        +------+-------------------------------------------------------+
-        | WDF1 | Direction of fastest 1-minute wind (degrees)          |
-        +------+-------------------------------------------------------+
-        | WDF2 | Direction of fastest 2-minute wind (degrees)          |
-        +------+-------------------------------------------------------+
-        | WDF5 | Direction of fastest 5-second wind (degrees)          |
-        +------+-------------------------------------------------------+
-        | WDFG | Direction of peak wind gust (degrees)                 |
-        +------+-------------------------------------------------------+
-        | WDFI | Direction of highest instantaneous wind (degrees)     |
-        +------+-------------------------------------------------------+
-        | WDFM | Fastest mile wind direction (degrees)                 |
-        +------+-------------------------------------------------------+
-        | WDMV | 24-hour wind movement (km)                            |
-        +------+-------------------------------------------------------+
-        | WESD | Water equivalent of snow on the ground (tenths of mm) |
-        +------+-------------------------------------------------------+
-        | WESF | Water equivalent of snowfall (tenths of mm)           |
-        +------+-------------------------------------------------------+
-        | WSF1 | Fastest 1-minute wind speed (tenths of meters per     |
-        |      | second)                                               |
-        +------+-------------------------------------------------------+
-        | WSF2 | Fastest 2-minute wind speed (tenths of meters per     |
-        |      | second)                                               |
-        +------+-------------------------------------------------------+
-        | WSF5 | Fastest 5-second wind speed (tenths of meters per     |
-        |      | second)                                               |
-        +------+-------------------------------------------------------+
-        | WSFG | Peak gust wind speed (tenths of meters per second)    |
-        +------+-------------------------------------------------------+
-        | WSFI | Highest instantaneous wind speed (tenths of meters    |
-        |      | per second)                                           |
-        +------+-------------------------------------------------------+
-        | WSFM | Fastest mile wind speed (tenths of meters per second) |
-        +------+-------------------------------------------------------+
-        | SN*# | Minimum soil temperature (tenths of degrees C) where  |
-        |      | * corresponds to a code for ground cover and #        |
-        |      | corresponds to a code for soil depth.                 |
-        |      |                                                       |
-        |      | Ground cover codes include the following:             |
-        |      | 0 = unknown                                           |
-        |      | 1 = grass                                             |
-        |      | 2 = fallow                                            |
-        |      | 3 = bare ground                                       |
-        |      | 4 = brome grass                                       |
-        |      | 5 = sod                                               |
-        |      | 6 = straw mulch                                       |
-        |      | 7 = grass muck                                        |
-        |      | 8 = bare muck                                         |
-        |      |                                                       |
-        |      | Depth codes include the following:                    |
-        |      | 1 = 5 cm                                              |
-        |      | 2 = 10 cm                                             |
-        |      | 3 = 20 cm                                             |
-        |      | 4 = 50 cm                                             |
-        |      | 5 = 100 cm                                            |
-        |      | 6 = 150 cm                                            |
-        |      | 7 = 180 cm                                            |
-        +------+-------------------------------------------------------+
-        | SX*# | Maximum soil temperature (tenths of degrees C) where  |
-        |      | * corresponds to a code for ground cover and #        |
-        |      | corresponds to a code for soil depth. See SN*# for    |
-        |      | ground cover and depth codes.                         |
-        +------+-------------------------------------------------------+
-        | WTXX | Weather Type where XX has one of the following        |
-        |      | values:                                               |
-        |      |                                                       |
-        |      | 01 = Fog, ice fog, or freezing fog (may include heavy |
-        |      |      fog)                                             |
-        |      | 02 = Heavy fog or heaving freezing fog (not always    |
-        |      |      distinguished from fog)                          |
-        |      | 03 = Thunder                                          |
-        |      | 04 = Ice pellets, sleet, snow pellets, or small hail  |
-        |      | 05 = Hail (may include small hail)                    |
-        |      | 06 = Glaze or rime                                    |
-        |      | 07 = Dust, volcanic ash, blowing dust, blowing sand,  |
-        |      |      or blowing obstruction                           |
-        |      | 08 = Smoke or haze                                    |
-        |      | 09 = Blowing or drifting snow                         |
-        |      | 10 = Tornado, waterspout, or funnel cloud             |
-        |      | 11 = High or damaging winds                           |
-        |      | 12 = Blowing spray                                    |
-        |      | 13 = Mist                                             |
-        |      | 14 = Drizzle                                          |
-        |      | 15 = Freezing drizzle                                 |
-        |      | 16 = Rain (may include freezing rain, drizzle, and    |
-        |      |      freezing drizzle)                                |
-        |      | 17 = Freezing rain                                    |
-        |      | 18 = Snow, snow pellets, snow grains, or ice crystals |
-        |      | 19 = Unknown source of precipitation                  |
-        |      | 21 = Ground fog                                       |
-        |      | 22 = Ice fog or freezing fog                          |
-        +------+-------------------------------------------------------+
-        | WVXX | Weather in the Vicinity where XX has one of the       |
-        |      | following values:                                     |
-        |      |                                                       |
-        |      | 01 = Fog, ice fog, or freezing fog (may include heavy |
-        |      | fog)                                                  |
-        |      | 03 = Thunder                                          |
-        |      | 07 = Ash, dust, sand, or other blowing obstruction    |
-        |      | 18 = Snow or ice crystals                             |
-        |      | 20 = Rain or snow shower                              |
-        +------+-------------------------------------------------------+
-
-    startdate
-        Start date in ISO8601 format.
-
-    enddate
-        End date in ISO8601 format.
-
-    """
+    {start_date}
+    {end_date}"""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
         r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
-        startdate=startdate,
-        enddate=enddate,
+        startdate=start_date,
+        enddate=end_date,
         datasetid='GHCND',
         stationid=stationid,
     )
@@ -4694,9 +4414,7 @@ def ncdc_gs(stationid,
         Start date in ISO8601 format.
 
     enddate
-        End date in ISO8601 format.
-
-    """
+        End date in ISO8601 format."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
@@ -4739,9 +4457,7 @@ def ncdc_nexrad2(stationid,
     Consecutive Missing:
 
     Defined as the maximum number of consecutive days in the month that an
-    observation/element is missing.
-
-    """
+    observation/element is missing."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
@@ -4784,9 +4500,7 @@ def ncdc_nexrad3(stationid,
     Consecutive Missing:
 
     Defined as the maximum number of consecutive days in the month that an
-    observation/element is missing.
-
-    """
+    observation/element is missing."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
@@ -4878,26 +4592,11 @@ def ncdc_normal_ann(stationid,
         +-------------------------+------------------------------------+
         | Code                    | Description                        |
         +=========================+====================================+
-        | ANN-CLDD-BASE45         | Average annual                     |
-        |                         | cooling degree days with base 45F  |
-        +-------------------------+------------------------------------+
-        | ANN-CLDD-BASE50         | Average annual                     |
-        |                         | cooling degree days with base 50F  |
-        +-------------------------+------------------------------------+
-        | ANN-CLDD-BASE55         | Average annual                     |
-        |                         | cooling degree days with base 55F  |
-        +-------------------------+------------------------------------+
-        | ANN-CLDD-BASE57         | Average annual                     |
-        |                         | cooling degree days with base 57F  |
-        +-------------------------+------------------------------------+
-        | ANN-CLDD-BASE60         | Average annual                     |
-        |                         | cooling degree days with base 60F  |
-        +-------------------------+------------------------------------+
-        | ANN-CLDD-BASE70         | Average annual                     |
-        |                         | cooling degree days with base 70F  |
-        +-------------------------+------------------------------------+
-        | ANN-CLDD-BASE72         | Average annual                     |
-        |                         | cooling degree days with base 72F  |
+        | ANN-CLDD-BASExx         | Average annual                     |
+        |                         | cooling degree days where xx is    |
+        |                         | the base in degree F.              |
+        |                         | 'xx' can be one of 45, 50, 57, 60, |
+        |                         | 65, 70, 72                         |
         +-------------------------+------------------------------------+
         | ANN-CLDD-NORMAL         | Average annual                     |
         |                         | cooling degree days with base 65F  |
@@ -4905,32 +4604,11 @@ def ncdc_normal_ann(stationid,
         | ANN-DUTR-NORMAL         | Average annual                     |
         |                         | diurnal temperature range          |
         +-------------------------+------------------------------------+
-        | ANN-GRDD-BASE40         | Average annual                     |
-        |                         | growing degree days with base 40F  |
-        +-------------------------+------------------------------------+
-        | ANN-GRDD-BASE45         | Average annual                     |
-        |                         | growing degree days with base 45F  |
-        +-------------------------+------------------------------------+
-        | ANN-GRDD-BASE50         | Average annual                     |
-        |                         | growing degree days with base 50F  |
-        +-------------------------+------------------------------------+
-        | ANN-GRDD-BASE55         | Average annual                     |
-        |                         | growing degree days with base 55F  |
-        +-------------------------+------------------------------------+
-        | ANN-GRDD-BASE57         | Average annual                     |
-        |                         | growing degree days with base 57F  |
-        +-------------------------+------------------------------------+
-        | ANN-GRDD-BASE60         | Average annual                     |
-        |                         | growing degree days with base 60F  |
-        +-------------------------+------------------------------------+
-        | ANN-GRDD-BASE65         | Average annual                     |
-        |                         | growing degree days with base 65F  |
-        +-------------------------+------------------------------------+
-        | ANN-GRDD-BASE70         | Average annual                     |
-        |                         | growing degree days with base 70F  |
-        +-------------------------+------------------------------------+
-        | ANN-GRDD-BASE72         | Average annual                     |
-        |                         | growing degree days with base 72F  |
+        | ANN-GRDD-BASExx         | Average annual                     |
+        |                         | growing degree days where xx is    |
+        |                         | the base in degree F.              |
+        |                         | 'xx' can be one of 40, 45, 50, 55, |
+        |                         | 57, 60, 65, 70, 72.                |
         +-------------------------+------------------------------------+
         | ANN-GRDD-TB4886         | Average annual                     |
         |                         | growing degree days with truncated |
@@ -6423,37 +6101,11 @@ def ncdc_normal_ann(stationid,
         | SON-TMAX-NORMAL         | Average autumn                     |
         |                         | maximum temperature                |
         +-------------------------+------------------------------------+
-        | SON-TMIN-AVGNDS-LSTH000 | Average number of days             |
+        | SON-TMIN-AVGNDS-LSTHxxx | Average number of days             |
         |                         | per autumn where tmin is less than |
-        |                         | or equal to 0F                     |
-        +-------------------------+------------------------------------+
-        | SON-TMIN-AVGNDS-LSTH010 | Average number of days             |
-        |                         | per autumn where tmin is less than |
-        |                         | or equal to 10F                    |
-        +-------------------------+------------------------------------+
-        | SON-TMIN-AVGNDS-LSTH020 | Average number of days             |
-        |                         | per autumn where tmin is less than |
-        |                         | or equal to 20F                    |
-        +-------------------------+------------------------------------+
-        | SON-TMIN-AVGNDS-LSTH032 | Average number of days             |
-        |                         | per autumn where tmin is less than |
-        |                         | or equal to 32F                    |
-        +-------------------------+------------------------------------+
-        | SON-TMIN-AVGNDS-LSTH040 | Average number of days             |
-        |                         | per autumn where tmin is less than |
-        |                         | or equal to 40F                    |
-        +-------------------------+------------------------------------+
-        | SON-TMIN-AVGNDS-LSTH050 | Average number of days             |
-        |                         | per autumn where tmin is less than |
-        |                         | or equal to 50F                    |
-        +-------------------------+------------------------------------+
-        | SON-TMIN-AVGNDS-LSTH060 | Average number of days             |
-        |                         | per autumn where tmin is less than |
-        |                         | or equal to 60F                    |
-        +-------------------------+------------------------------------+
-        | SON-TMIN-AVGNDS-LSTH070 | Average number of days             |
-        |                         | per autumn where tmin is less than |
-        |                         | or equal to 70F                    |
+        |                         | or equal to 'xxx' degree F.        |
+        |                         | Where 'xxx' is one of 000, 010,    |
+        |                         | 020, 032, 040, 050, 060, 070       |
         +-------------------------+------------------------------------+
         | SON-TMIN-NORMAL         | Average autumn                     |
         |                         | minimum temperature                |
@@ -6465,9 +6117,7 @@ def ncdc_normal_ann(stationid,
 
     enddate
         Many different formats can be used here for the date
-        string, however the closest to ISO8601, the better.
-
-    """
+        string, however the closest to ISO8601, the better."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
@@ -6733,9 +6383,7 @@ def ncdc_normal_dly(stationid,
         Start date in ISO8601 format.
 
     enddate
-        End date in ISO8601 format.
-
-    """
+        End date in ISO8601 format."""
     from tsgettoolbox.services.ncdc import ncdc as placeholder
 
     r = resource(
@@ -6846,9 +6494,7 @@ def ncdc_normal_hly(stationid,
         Start date in ISO8601 format.
 
     enddate
-        End date in ISO8601 format.
-
-    """
+        End date in ISO8601 format."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
@@ -7171,9 +6817,7 @@ def ncdc_normal_mly(stationid,
 
     enddate
         End date in ISO8601
-        format.
-
-    """
+        format."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
@@ -7239,9 +6883,7 @@ def ncdc_precip_15(stationid,
 
     enddate
         End date in ISO8601
-        format.
-
-    """
+        format."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
@@ -7302,9 +6944,7 @@ def ncdc_precip_hly(stationid,
         Start date in ISO8601 format.
 
     enddate
-        End date in ISO8601 format.
-
-    """
+        End date in ISO8601 format."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
@@ -8222,9 +7862,7 @@ def ncdc_annual(stationid,
         Start date in ISO8601 format.
 
     enddate
-        End date in ISO8601 format.
-
-    """
+        End date in ISO8601 format."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
@@ -8631,9 +8269,7 @@ def ncdc_ghcndms(stationid,
 
     enddate
        End date in ISO8601
-       format.
-
-    """
+       format."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
@@ -8752,9 +8388,7 @@ def ndbc(station,
 
     endUTC
         an ISO 8601 date/time string.
-        (only seconds are optional)
-
-    """
+        (only seconds are optional)"""
     from tsgettoolbox.services import ndbc as placeholder
 
     r = resource(
@@ -8812,9 +8446,7 @@ def usgs_eddn(dcp_address,
 
     {start_date}
 
-    {end_date}
-
-    """
+    {end_date}"""
     from tsgettoolbox.services.usgs import eddn
 
     df = eddn.ulmo_df(
@@ -8885,9 +8517,7 @@ def lcra_hydromet(site_code,
     dam_site_location : str
         'head' (default) or 'tail'
         The site location relative to the dam.  Not used for `upperbasin`
-        and `lowerbasin` parameters.
-
-    """
+        and `lowerbasin` parameters."""
     from tsgettoolbox.services.lcra import hydromet
 
     df = hydromet.ulmo_df(site_code,
@@ -8937,9 +8567,7 @@ def lcra_wq(site_code,
         Flag to indicate whether to get historical or near real-time data from
         the bay sites.
     {start_date}
-    {end_date}
-
-    """
+    {end_date}"""
     from tsgettoolbox.services.lcra import wq
 
     df = wq.ulmo_df(site_code=site_code,
@@ -8969,9 +8597,7 @@ def twc(county,
         If specified, results will be limited to the county corresponding to
         the given 5-character Texas county fips code i.e. 48.
     {start_date}
-    {end_date}
-
-    """
+    {end_date}"""
     from tsgettoolbox.services import twc
 
     df = twc.ulmo_df(county=county,
@@ -9408,9 +9034,7 @@ def modis(lat,
     along with data retrieval instructions after the order is processed.
     BibTeX (.bib) file is available for download on the data
     visualization and download page. Please modify it manually for
-    multiple sites.
-
-    """
+    multiple sites."""
     from tsgettoolbox.services import modis as placeholder
 
     r = resource(

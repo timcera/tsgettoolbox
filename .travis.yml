@@ -3,9 +3,9 @@ language: python
 # 2.6 is not available for networkx requirement
 python:
   - 2.7
-  - 3.4
   - 3.5
   - 3.6
+  - 3.7-dev
 
 before_install:
   - sudo apt-get -qq update
