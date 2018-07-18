@@ -11,7 +11,7 @@ EXAMPLE: Retrieval of NWIS daily and instantaneous values
 
 The command::
 
-    tsgettoolbox nwis --sites=02232000 --startDT 2008-01-01 --endDT 2008-01-10
+    tsgettoolbox nwis_dv --sites=02232000 --startDT 2008-01-01 --endDT 2008-01-10
 
 Would display::
 
@@ -27,12 +27,13 @@ Would display::
     2008-01-09,82,2.68,
     2008-01-10,75,2.68,
 
-The default is to pull from the Daily Value database. To pull from the
-Instantaneous Value database instead, use '--database=iv'. Note the difference
-in the --endDT option compared to the example above. ‘Timezone’ is the timezone
-of the station.::
+Note the difference in the --endDT option compared to the example above.
 
-    tsgettoolbox nwis --sites=02232000 --startDT 2008-01-01 --endDT 2008-01-01T03:00 --database=iv
+To pull from the instantaneous database use the sub-command 'nwis_iv'.  In the
+following example, the timezone is indicated in the ISO 8601 date/time value as
+'-05:00'.::
+
+    tsgettoolbox nwis_iv --sites=02232000 --startDT 2008-01-01 --endDT 2008-01-01T03:00 --database=iv
 
     Datetime,USGS-02232000-00060,USGS-02232000-00065,USGS-02232000-63160
     2008-01-01 00:00:00-05:00,109,2.7,

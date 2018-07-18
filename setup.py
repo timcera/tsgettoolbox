@@ -24,7 +24,7 @@ install_requires = [
     # For more details, see:
     # http://packages.python.org/distribute/setuptools.html#declaring-dependencies
     'odo',
-    'tstoolbox > 17.40.21.18',
+    'tstoolbox >= 22.55.29.20',
     'requests',
     'zeep',
     'ulmo',
