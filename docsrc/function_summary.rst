@@ -12,6 +12,7 @@ Python API Function Summary
     tsgettoolbox.tsgettoolbox.cpc
     tsgettoolbox.tsgettoolbox.darksky
     tsgettoolbox.tsgettoolbox.daymet
+    tsgettoolbox.tsgettoolbox.epa_wqp
     tsgettoolbox.tsgettoolbox.lcra_hydromet
     tsgettoolbox.tsgettoolbox.lcra_wq
     tsgettoolbox.tsgettoolbox.ldas
@@ -28,7 +29,13 @@ Python API Function Summary
     tsgettoolbox.tsgettoolbox.ncdc_precip_15
     tsgettoolbox.tsgettoolbox.ncdc_precip_hly
     tsgettoolbox.tsgettoolbox.ndbc
-    tsgettoolbox.tsgettoolbox.nwis
+    tsgettoolbox.tsgettoolbox.nwis_dv
+    tsgettoolbox.tsgettoolbox.nwis_iv
+    tsgettoolbox.tsgettoolbox.nwis_site
+    tsgettoolbox.tsgettoolbox.nwis_gwlevels
+    tsgettoolbox.tsgettoolbox.nwis_measurements
+    tsgettoolbox.tsgettoolbox.nwis_peak
+    tsgettoolbox.tsgettoolbox.nwis_stat
     tsgettoolbox.tsgettoolbox.twc
     tsgettoolbox.tsgettoolbox.unavco
     tsgettoolbox.tsgettoolbox.usgs_eddn
