@@ -42,7 +42,7 @@ class NDBC(object):
 # Function to make `resource` know about the new NOS type.
 
 
-@resource.register(r'http://sdf\.ndbc\.noaa\.gov/sos/server\.php.*', priority=17)
+@resource.register(r'https://sdf\.ndbc\.noaa\.gov/sos/server\.php.*', priority=17)
 def resource_ndbc(uri, **kwargs):
     return NDBC(uri, **kwargs)
 
@@ -126,7 +126,7 @@ if __name__ == '__main__':
     """
 
     r = resource(
-        r'http://sdf.ndbc.noaa.gov/sos/server.php',
+        r'https://sdf.ndbc.noaa.gov/sos/server.php',
         # observedproperty='air_pressure_at_sea_level',
         observedproperty='currents',
         startUTC='2012-01-01T00:00Z',

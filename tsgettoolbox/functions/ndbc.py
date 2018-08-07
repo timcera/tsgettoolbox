@@ -120,7 +120,7 @@ def ndbc(station,
     from tsgettoolbox.services import ndbc as placeholder
 
     r = resource(
-        r'http://sdf.ndbc.noaa.gov/sos/server.php',
+        r'https://sdf.ndbc.noaa.gov/sos/server.php',
         station=station,
         startUTC=startUTC,
         endUTC=endUTC,
