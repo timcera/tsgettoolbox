@@ -10,14 +10,15 @@ try:
 except ImportError:
     from distutils.core import setup
 
+version = open("VERSION").readline().strip()
+
 if sys.argv[-1] == 'publish':
-    os.system('python setup.py sdist upload')
+    os.system('python setup.py sdist')
+    os.system('twine upload dist/tsgettoolbox-{0}*'.format(version))
     sys.exit()
 
 here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, 'README.rst')).read()
-
-version = open("VERSION").readline().strip()
 
 install_requires = [
     # List your project dependencies here.
