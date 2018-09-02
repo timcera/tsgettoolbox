@@ -279,7 +279,9 @@ def darksky(latitude,
         | x-pig-latin | Igpay Atinlay     |
         +-------------+-------------------+
         | zh          | Chinese           |
-        +-------------+-------------------+"""
+        +-------------+-------------------+
+
+    """
     from tsgettoolbox.services import darksky as placeholder
     r = resource(
         r'https://api.darksky.net/forecast',
@@ -330,7 +332,9 @@ def forecast_io(latitude,
 
     lang
         See documentation under the darksky
-        service."""
+        service.
+
+    """
     return darksky(latitude,
                    longitude,
                    time=time,

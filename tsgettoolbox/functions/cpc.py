@@ -37,12 +37,17 @@ def cpc(state=None,
 
         If specified, results will be limited to the state corresponding to the
         given 2-character state code.
+
     climate_division : ``None`` or int
         [optional]
 
         If specified, results will be limited to the climate division.
+
     {start_date}
-    {end_date}"""
+
+    {end_date}
+
+    """
     from tsgettoolbox.services import cpc
     df = cpc.ulmo_df(
          state=state,

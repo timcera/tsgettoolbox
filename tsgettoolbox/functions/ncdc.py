@@ -312,7 +312,8 @@ def ncdc_ghcnd_ftp(station,
     ----------
     {station}
     {start_date}
-    {end_date}"""
+    {end_date}
+    """
 
     from tsgettoolbox.services.ncdc import ghcnd as placeholder
     r = resource(

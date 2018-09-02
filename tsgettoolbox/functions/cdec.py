@@ -33,6 +33,7 @@ def cdec(station_id,
 
         Each string is the CDEC station ID and consist of three capital
         letters.
+
     sensor_num: integer, comma separated integers or ``None``
         [optional, default is None]
 
@@ -126,7 +127,10 @@ def cdec(station_id,
         +----------+-------------+
 
     {start_date}
-    {end_date}"""
+
+    {end_date}
+
+    """
     from tsgettoolbox.services import cdec
     df = cdec.ulmo_df(
         station_id,

@@ -71,16 +71,17 @@ def daymet(lat,
         | dayl           | daylength             | seconds |
         +----------------+-----------------------+---------+
 
-         Example: --measuredParams=tmax,tmin
+        Example: --measuredParams=tmax,tmin
 
-         All variables are returned by default.
+        All variables are returned by default.
     year :  CommaSeparatedYears (optional):
         Current Daymet product (version 2) is available from 1980 to the latest
         full calendar year.::
 
             Example: --years=2012,2013
 
-         All years are returned by default."""
+        All years are returned by default.
+    """
     from tsgettoolbox.services import daymet as placeholder
     r = resource(
         r'http://daymet.ornl.gov/data/send/saveData',

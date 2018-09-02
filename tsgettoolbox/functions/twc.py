@@ -28,7 +28,8 @@ def twc(county,
         If specified, results will be limited to the county corresponding to
         the given 5-character Texas county fips code i.e. 48.
     {start_date}
-    {end_date}"""
+    {end_date}
+    """
     from tsgettoolbox.services import twc
 
     df = twc.ulmo_df(county=county,

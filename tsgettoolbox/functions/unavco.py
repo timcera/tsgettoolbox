@@ -107,7 +107,8 @@ def unavco(station,
     starttime
         Start date in ISO8601 format.
     endtime
-        End date in ISO8601 format."""
+        End date in ISO8601 format.
+    """
     from tsgettoolbox.services import unavco as placeholder
     map_db_to_url = {
         'met': r'http://web-services.unavco.org:80/met/data',

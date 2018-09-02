@@ -438,7 +438,8 @@ def modis(lat,
     along with data retrieval instructions after the order is processed.
     BibTeX (.bib) file is available for download on the data
     visualization and download page. Please modify it manually for
-    multiple sites."""
+    multiple sites.
+    """
     from tsgettoolbox.services import modis as placeholder
 
     r = resource(

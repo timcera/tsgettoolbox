@@ -176,7 +176,8 @@ def ldas(lat=None,
 
             Example: --startDate=2001-01-05T05
 
-        If startDate and endDate are None, returns the entire series."""
+        If startDate and endDate are None, returns the entire series.
+    """
     from tsgettoolbox.services import ldas as placeholder
     project = variable.split(':')[0]
     if lat is not None:

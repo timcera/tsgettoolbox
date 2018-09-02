@@ -735,7 +735,8 @@ def nwis(sites=None,
     +-------------------+-------------------------------+
 
     This function/sub-command will continue to work, however you should change
-    all scripts to use the split out functions."""
+    all scripts to use the split out functions.
+    """
     from tsgettoolbox.services.usgs import nwis as placeholder
     if database not in ['iv',
                         'dv',

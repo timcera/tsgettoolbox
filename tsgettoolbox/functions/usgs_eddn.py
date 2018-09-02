@@ -53,7 +53,8 @@ def usgs_eddn(dcp_address,
 
     {start_date}
 
-    {end_date}"""
+    {end_date}
+    """
     from tsgettoolbox.services.usgs import eddn
 
     df = eddn.ulmo_df(

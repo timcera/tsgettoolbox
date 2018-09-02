@@ -1,7 +1,7 @@
 
+import mando
 from odo import odo, resource
 import pandas as pd
-import mando
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -40,6 +40,7 @@ def coops(station,
         Station listings for various products can be viewed at
         http://tidesandcurrents.noaa.gov or viewed on a map at Tides & Currents
         Station Map
+
     date : str
         [optional, default is None]
 
@@ -101,6 +102,7 @@ def coops(station,
 
         The beginning date for the data.  See explanation with the 'date'
         option on how to use all of the date related parameters.
+
     end_date
         [optional, default is None]
 
@@ -111,6 +113,7 @@ def coops(station,
 
         See explanation with the 'date' option on how to use all of the date
         related parameters.
+
     range
         [optional, default is None]
 
@@ -135,6 +138,7 @@ def coops(station,
 
         See explanation with the 'date' option on how to use all of the date
         related parameters.
+
     product : str
         [optional, default is 'water_level']
 
@@ -287,7 +291,9 @@ def coops(station,
         The bin number for the specified currents station Example:'--bin=4'
         Will retrieve data for bin number 4. Note! If a bin is not specified
         for a PORTS station, the data is returned using a predefined real-time
-        bin."""
+        bin.
+
+    """
     from tsgettoolbox.services import coops as placeholder
     r = resource(
         r'http://tidesandcurrents.noaa.gov/api/datagetter',

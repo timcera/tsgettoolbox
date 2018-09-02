@@ -68,7 +68,8 @@ def lcra_hydromet(site_code,
     dam_site_location : str
         'head' (default) or 'tail'
         The site location relative to the dam.  Not used for `upperbasin`
-        and `lowerbasin` parameters."""
+        and `lowerbasin` parameters.
+    """
     from tsgettoolbox.services.lcra import hydromet
 
     df = hydromet.ulmo_df(site_code,
