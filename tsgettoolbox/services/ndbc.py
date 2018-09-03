@@ -85,7 +85,7 @@ class NDBC(object):
                                    'SPD09': 'SPD09:cm/s',
                                    'DEP10': 'DEP10:m',
                                    'DIR10': 'DIR10:degT',
-                                   'SPD10': 'SPD10:cm/s', 
+                                   'SPD10': 'SPD10:cm/s',
                                    'DEP11': 'DEP11:m',
                                    'DIR11': 'DIR11:degT',
                                    'SPD11': 'SPD11:cm/s',
@@ -115,7 +115,7 @@ class NDBC(object):
                                    'SPD19': 'SPD19:cm/s',
                                    'DEP20': 'DEP20:m',
                                    'DIR20': 'DIR20:degT',
-                                   'SPD20': 'SPD20:cm/s', 
+                                   'SPD20': 'SPD20:cm/s',
                                    },
                           'srad': {'SRAD1': 'SRAD1:w/m2',
                                    'SWRAD': 'SWRAD:w/m2',
@@ -253,17 +253,7 @@ def ndbc_to_df(data, **kwargs):
 
         if len(tdf) > 0:
             tdf.rename(columns=data.rename, inplace=True)
-
-            # Want to keep the column order, so collect column names before
-            # using combine_first since combine_first will alphabetize.
-            if len(df.columns) > len(tdf.columns):
-                tcnames = df.columns
-            else:
-                tcnames = tdf.columns
-            df = df.combine_first(tdf)
-
-            # Set back to original order.
-            df = df[tcnames]
+            df = df.append(tdf)
 
     if len(df) == 0:
         raise ValueError("""
