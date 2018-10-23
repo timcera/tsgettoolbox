@@ -1,8 +1,8 @@
 from __future__ import print_function
 
+import re
 from builtins import str
 from builtins import zip
-import re
 
 import pandas as pd
 
@@ -11,12 +11,13 @@ DEFAULT_END_DATE = 'Now'
 
 
 def get_stations():
-    """Fetches information on all CDEC sites.
+    """Fetch information on all CDEC sites.
 
     Returns
     -------
     df : pandas DataFrame
         a pandas DataFrame (indexed on site id) with station information.
+
     """
     # I haven't found a better list of stations, seems pretty janky
     # to just have them in a file, and not sure if/when it is updated.
@@ -34,8 +35,9 @@ def get_stations():
 
 def get_sensors(sensor_id=None):
     """
-    Gets a list of sensor ids as a DataFrame indexed on sensor
-    number. Can be limited by a list of numbers.
+    Get a list of sensor ids as a DataFrame indexed on sensor number.
+
+    Can be limited by a list of numbers.
 
     Usage example::
 
@@ -53,8 +55,8 @@ def get_sensors(sensor_id=None):
     -------
     df : pandas DataFrame
         a python dict with site codes mapped to site information
-    """
 
+    """
     url = 'http://cdec.water.ca.gov/misc/senslist.html'
     df = pd.read_html(url, header=0)[0]
     df.set_index('Sensor No')
@@ -65,11 +67,11 @@ def get_sensors(sensor_id=None):
 
 
 def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
-    """
-    Gets available sensors for the given stations, sensor ids and time
-    resolutions. If no station ids are provided, all available stations will
-    be used (this is not recommended, and will probably take a really long
-    time).
+    """Get available sensors for the given stations.
+
+    Get available sensors, sensor ids and time resolutions. If no station ids
+    are provided, all available stations will be used (this is not recommended,
+    and will probably take a really long time).
 
     The list can be limited by a list of sensor numbers, or time resolutions
     if you already know what you want. If none of the provided sensors or
@@ -81,7 +83,6 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
         from ulmo import cdec
         # to get all available sensors
         available_sensors = cdec.historical.get_station_sensors(['NEW'])
-
 
     Parameters
     ----------
@@ -95,21 +96,20 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
         Possible values are 'event', 'hourly', 'daily', and 'monthly' but not
         all of these time resolutions are available at every station.
 
-
     Returns
     -------
     dict : a python dict
         a python dict with site codes as keys with values containing pandas
         DataFrames of available sensor numbers and metadata.
-    """
 
+    """
     station_sensors = {}
 
     if station_ids is None:
         station_ids = get_stations().index
 
     for station_id in station_ids:
-        url = 'http://cdec.water.ca.gov/cgi-progs/queryCSV?station_id=%s' % (station_id)
+        url = 'http://cdec.water.ca.gov/cgi-progs/queryCSV?station_id={0}'.format(station_id)
 
         sensor_list = pd.read_html(url)[0]
         sensor_list.columns = ['sensor_id',
@@ -142,12 +142,11 @@ def get_data(station_ids=None,
              resolutions=None,
              start=None,
              end=None):
-    """
-    Downloads data for a set of CDEC station and sensor ids. If either is not
-    provided, all available data will be downloaded. Be really careful with
-    choosing hourly resolution as the data sets are big, and CDEC's servers
-    are slow as molasses in winter.
+    """Download data for a set of CDEC station and sensor ids.
 
+    If either is not provided, all available data will be downloaded. Be really
+    careful with choosing hourly resolution as the data sets are big, and
+    CDEC's servers are slow as molasses in winter.
 
     Usage example::
 
@@ -166,14 +165,13 @@ def get_data(station_ids=None,
         Possible values are 'event', 'hourly', 'daily', and 'monthly' but not
         all of these time resolutions are available at every station.
 
-
     Returns
     -------
     dict : a python dict
         a python dict with site codes as keys. Values will be nested dicts
         containing all of the sensor/resolution combinations.
-    """
 
+    """
     if start is None:
         start_date = pd.Timestamp(DEFAULT_START_DATE).date()
     else:
@@ -183,12 +181,12 @@ def get_data(station_ids=None,
     else:
         end_date = pd.Timestamp(end).date()
 
-    start_date_str = '%s/%s/%s' % (start_date.month,
-                                   start_date.day,
-                                   start_date.year)
-    end_date_str = '%s/%s/%s' % (end_date.month,
-                                 end_date.day,
-                                 end_date.year)
+    start_date_str = '{0}/{1}/{2}'.format(start_date.month,
+                                          start_date.day,
+                                          start_date.year)
+    end_date_str = '{0}/{1}/{2}'.format(end_date.month,
+                                        end_date.day,
+                                        end_date.year)
 
     if station_ids is None:
         station_ids = get_stations().index

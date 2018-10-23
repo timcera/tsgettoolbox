@@ -1,14 +1,17 @@
 """
-    This module provides access to data provided by the `United States Army
-    Corps of Engineers`_ `Tulsa District Water Control`_ web site.
+Access data provided by the `United States Army Corps of Engineers`_.
 
-    .. _United States Army Corps of Engineers: http://www.usace.army.mil/
-    .. _Tulsa District Water Control: http://www.swt-wc.usace.army.mil/
+Access data from the USACE `Tulsa District Water Control`_ web site.
+
+.. _United States Army Corps of Engineers: http://www.usace.army.mil/
+.. _Tulsa District Water Control: http://www.swt-wc.usace.army.mil/
 
 """
-from ulmo.usace.swtwc.core import get_station_data
-import pandas as pd
 import datetime
+
+import pandas as pd
+
+from ulmo.usace.swtwc.core import get_station_data
 
 # def get_station_data(station_code, date=None, as_dataframe=False):
 
@@ -23,7 +26,8 @@ def ulmo_df(station_code,
                                date=date,
                                as_dataframe=True)
     df = alldict['values']
-    df.columns = ['{0}:{1}'.format(i, alldict['variables'][i]['unit']) for i in df.columns]
+    df.columns = ['{0}:{1}'.format(i, alldict['variables'][i]['unit'])
+                  for i in df.columns]
     df.columns = [i.replace('  ', '_').replace(' ', '_') for i in df.columns]
     df = df.tz_localize(alldict['timezone'])
     return df

@@ -1,17 +1,21 @@
 
-import time
 import logging
 import os
+import time
 
-from odo import odo, resource, convert
+from odo import convert
+from odo import odo
+from odo import resource
+
 import pandas as pd
+
 from requests import Request, Session
 from requests.utils import unquote
-from requests.exceptions import HTTPError
 
 from tsgettoolbox import utils
-from tstoolbox import tsutils
+
 from tstoolbox import tstoolbox
+from tstoolbox import tsutils
 
 # ncdc_cdo
 
@@ -24,13 +28,27 @@ class ncdc_cdo_json(object):
         self.query_params['units'] = 'metric'
 
 
-@resource.register(r'http://www\.ncdc\.noaa\.gov/cdo-web/api/v2/datasets*', priority=17)
-@resource.register(r'http://www\.ncdc\.noaa\.gov/cdo-web/api/v2/datacategories*', priority=17)
-@resource.register(r'http://www\.ncdc\.noaa\.gov/cdo-web/api/v2/datatypes*', priority=17)
-@resource.register(r'http://www\.ncdc\.noaa\.gov/cdo-web/api/v2/locationcategories*', priority=17)
-@resource.register(r'http://www\.ncdc\.noaa\.gov/cdo-web/api/v2/locations*', priority=17)
-@resource.register(r'http://www\.ncdc\.noaa\.gov/cdo-web/api/v2/stations*', priority=17)
-@resource.register(r'http://www\.ncdc\.noaa\.gov/cdo-web/api/v2/data/*', priority=17)
+@resource.register(
+    r'http://www\.ncdc\.noaa\.gov/cdo-web/api/v2/datasets*',
+    priority=17)
+@resource.register(
+    r'http://www\.ncdc\.noaa\.gov/cdo-web/api/v2/datacategories*',
+    priority=17)
+@resource.register(
+    r'http://www\.ncdc\.noaa\.gov/cdo-web/api/v2/datatypes*',
+    priority=17)
+@resource.register(
+    r'http://www\.ncdc\.noaa\.gov/cdo-web/api/v2/locationcategories*',
+    priority=17)
+@resource.register(
+    r'http://www\.ncdc\.noaa\.gov/cdo-web/api/v2/locations*',
+    priority=17)
+@resource.register(
+    r'http://www\.ncdc\.noaa\.gov/cdo-web/api/v2/stations*',
+    priority=17)
+@resource.register(
+    r'http://www\.ncdc\.noaa\.gov/cdo-web/api/v2/data/*',
+    priority=17)
 def resource_ncdc_cdo(uri, **kwargs):
     return ncdc_cdo_json(uri, **kwargs)
 
@@ -164,11 +182,11 @@ if __name__ == '__main__':
         ['GHCND', 'GHCND:USR0000GCOO'],
         ['PRECIP_HLY', 'COOP:087440'],
         ['PRECIP_15', 'COOP:087440'],
-        #['ANNUAL', 'GHCND:US1MOLN0006'],
+        # ['ANNUAL', 'GHCND:US1MOLN0006'],
         ['GHCNDMS', 'GHCND:US1FLAL0004'],
         ['GSOM', 'GHCND:US1FLAL0004'],
         ['GSOY', 'GHCND:USW00012816'],
-        #['NORMAL_ANN', 'GHCND:USC00083322'],
+        # ['NORMAL_ANN', 'GHCND:USC00083322'],
         ['NORMAL_HLY', 'GHCND:USW00013889'],
         ['NORMAL_DLY', 'GHCND:USC00084731'],
         ['NORMAL_MLY', 'GHCND:USC00086618'],

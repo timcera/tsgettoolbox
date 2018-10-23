@@ -1,15 +1,21 @@
 from __future__ import print_function
 
-from builtins import zip
 from builtins import object
-from odo import odo, resource, convert
+from builtins import zip
+
+from odo import convert
+from odo import odo
+from odo import resource
+
 import pandas as pd
 
-from zeep import Client
-from zeep import Transport
 from requests import Session
 
 from tstoolbox import tsutils
+
+from zeep import Client
+from zeep import Transport
+
 
 """
 +---------+----------+-------------------------+-----------+------------+
@@ -514,7 +520,9 @@ class modis(object):
         self.query_params = query_params
 
 
-@resource.register(r'https://modis.ornl.gov/cgi-bin/MODIS/soapservice/MODIS_soapservice.wsdl', priority=17)
+@resource.register(
+    r'https://modis.ornl.gov/cgi-bin/MODIS/soapservice/MODIS_soapservice.wsdl',
+    priority=17)
 def resource_modis(uri, **kwargs):
     return modis(uri, **kwargs)
 

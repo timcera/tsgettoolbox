@@ -1,12 +1,10 @@
 """
-    ulmo.cpc.drought.core
-    ~~~~~~~~~~~~~~~~~~~~~
+This module provides direct access to `Climate Predicition Center`_.
 
-    This module provides direct access to `Climate Predicition Center`_ `Weekly
-    Drought Index`_ dataset.
+`Weekly Drought Index`_ dataset from `Climate Prediction Center`_.
 
-    .. _Climate Prediction Center: http://www.cpc.ncep.noaa.gov/
-    .. _Weekly Drought Index: http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
+.. _Climate Prediction Center: http://www.cpc.ncep.noaa.gov/
+.. _Weekly Drought Index: http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
 """
 from __future__ import print_function
 

@@ -1,13 +1,17 @@
 
 from __future__ import print_function
 
-from builtins import object
 import logging
 import os
+from builtins import object
 from io import BytesIO
 
-from odo import odo, resource, convert
+from odo import convert
+from odo import odo
+from odo import resource
+
 import pandas as pd
+
 import requests
 
 from tstoolbox import tsutils
@@ -20,13 +24,13 @@ class EPA_CSV(object):
         # Need to enforce waterml format
         query_params['mimeType'] = 'csv'
         try:
-           query_params['startDateLo'] = tsutils.parsedate(query_params['startDateLo'],
-                                                           strftime='%m-%d-%Y')
+            query_params['startDateLo'] = tsutils.parsedate(
+                query_params['startDateLo'], strftime='%m-%d-%Y')
         except KeyError:
             pass
         try:
-            query_params['startDateHi'] = tsutils.parsedate(query_params['startDateHi'],
-                                                            strftime='%m-%d-%Y')
+            query_params['startDateHi'] = tsutils.parsedate(
+                query_params['startDateHi'], strftime='%m-%d-%Y')
         except KeyError:
             pass
         self.url = url

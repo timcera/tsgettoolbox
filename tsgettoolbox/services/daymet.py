@@ -1,15 +1,20 @@
 from __future__ import print_function
 
-from future import standard_library
-standard_library.install_aliases()
-from builtins import str
-from builtins import range
-from builtins import object
 import datetime
 import logging
 import os
 
-from odo import odo, resource, convert
+from future import standard_library
+
+standard_library.install_aliases()
+from builtins import object
+from builtins import range
+from builtins import str
+
+from odo import convert
+from odo import odo
+from odo import resource
+
 import pandas as pd
 
 from tstoolbox import tsutils
@@ -58,12 +63,12 @@ class Daymet(object):
         else:
             for testparams in params['measuredParams'].split(','):
                 if testparams not in avail_params:
-                    raise ValueError('''
+                    raise ValueError("""
 *
 *   The measuredParams must be 'tmax', 'tmin', 'srad', 'vp', 'swe', 'prcp',
 *   and 'dayl'.  You supplied {0}.
 *
-'''.format(testparams))
+""".format(testparams))
 
         last_year = datetime.datetime.now().year - 1
         if params['year'] is None:
@@ -77,21 +82,21 @@ class Daymet(object):
                                                   strftime='%Y'))
                     accumyear.append(iyear)
                 except ValueError:
-                    raise ValueError('''
+                    raise ValueError("""
 *
 *   The year= option must contain a comma separated list of integers.  You
 *   supplied {0}.
 *
-'''.format(testyear))
+""".format(testyear))
                 if iyear < 1980 or iyear > last_year:
-                    raise ValueError('''
+                    raise ValueError("""
 *
 *   The year= option must contain values from 1980 up to and including the last
 *   calendar year.  You supplied {0}.
 *
-'''.format(iyear))
+""".format(iyear))
 
-            params['year'] = ",".join([str(i) for i in accumyear])
+            params['year'] = ','.join([str(i) for i in accumyear])
 
         self.url = url
         self.query_params = params
@@ -105,9 +110,9 @@ def resource_daymet(uri, **kwargs):
 
 
 def _daymet_date_parser(year, doy):
-    return pd.to_datetime("{}-{}".format(int(float(year)),
+    return pd.to_datetime('{}-{}'.format(int(float(year)),
                                          int(float(doy))),
-                          format="%Y-%j")
+                          format='%Y-%j')
 
 # Function to convert from Daymet type to pd.DataFrame
 
@@ -120,7 +125,7 @@ def daymet_to_df(data, **kwargs):
         logging.warning(req)
     df = pd.read_csv(req,
                      skiprows=7,
-                     sep=",",
+                     sep=',',
                      date_parser=_daymet_date_parser,
                      header=0,
                      index_col=0,

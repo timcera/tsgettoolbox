@@ -1,12 +1,16 @@
 from __future__ import print_function
 
-from builtins import object
 import logging
 import os
+from builtins import object
 from io import BytesIO
 
-from odo import odo, resource, convert
+from odo import convert
+from odo import odo
+from odo import resource
+
 import pandas as pd
+
 import requests
 
 from tstoolbox import tsutils
@@ -21,12 +25,12 @@ class Unavco(object):
         try:
             station = query_params.pop('station')
         except KeyError:
-            raise KeyError('''
+            raise KeyError("""
 *
 *   The station keyword is required.  You have given me
 *   {0}.
 *
-'''.format(query_params))
+""".format(query_params))
         self.url = '{0}/{1}/beta'.format(url, station)
         if '/met/' in self.url or '/strain/' in self.url:
             self.comment = None
@@ -42,11 +46,16 @@ class Unavco(object):
 # Function to make `resource` know about the new unavco type.
 
 
-@resource.register(r'http://web-services.unavco.org:80/met/data.*', priority=17)
-@resource.register(r'http://web-services.unavco.org:80/pore/data/temperature.*', priority=17)
-@resource.register(r'http://web-services.unavco.org:80/pore/data/pressure.*', priority=17)
-@resource.register(r'http://web-services.unavco.org:80/tilt/data.*', priority=17)
-@resource.register(r'http://web-services.unavco.org:80/strain/data/L2.*', priority=17)
+@resource.register(r'http://web-services.unavco.org:80/met/data.*',
+                   priority=17)
+@resource.register(r'http://web-services.unavco.org:80/pore/data/temperature.*',
+                   priority=17)
+@resource.register(r'http://web-services.unavco.org:80/pore/data/pressure.*',
+                   priority=17)
+@resource.register(r'http://web-services.unavco.org:80/tilt/data.*',
+                   priority=17)
+@resource.register(r'http://web-services.unavco.org:80/strain/data/L2.*',
+                   priority=17)
 def resource_unavco(uri, **kwargs):
     return Unavco(uri, **kwargs)
 
@@ -69,7 +78,8 @@ def unavco_to_df(data, **kwargs):
                                       replace(' ', '_').
                                       replace('(', ':').
                                       replace(')', '').
-                                      replace('deg._C', 'degC')) for i in df.columns]
+                                      replace('deg._C', 'degC'))
+                  for i in df.columns]
     df.index.name = 'Datetime:UTC'
     return df.tz_localize('UTC')
 

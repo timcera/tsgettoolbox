@@ -1,6 +1,8 @@
 
+from odo import convert
+from odo import odo
+from odo import resource
 
-from odo import odo, resource, convert
 import pandas as pd
 
 from tstoolbox import tsutils
@@ -30,7 +32,8 @@ class ghcnd(object):
 # Function to make `resource` know about the new ghcnd type.
 
 
-@resource.register(r'ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all.*', priority=17)
+@resource.register(r'ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all.*',
+                   priority=17)
 def resource_ghcnd(uri, **kwargs):
     return ghcnd(uri, **kwargs)
 
@@ -51,33 +54,42 @@ def ghcnd_to_df(data, **kwargs):
              'PRCP',  # PReCiPitation (tenths of mm)
              'SNOW',  # SNOWfall (mm)
              'SNWD',  # SNoW Depth (mm)
-             # Average cloudiness midnight to midnight from 30-second ceilometer data (percent)
+             # Average cloudiness midnight to midnight from 30-second
+             # ceilometer data (percent)
              'ACMC',
-             # Average cloudiness midnight to midnight from manual observations (percent)
+             # Average cloudiness midnight to midnight from manual observations
+             # (percent)
              'ACMH',
-             # Average cloudiness sunrise to sunset from 30-second ceilometer data (percent)
+             # Average cloudiness sunrise to sunset from 30-second ceilometer
+             # data (percent)
              'ACSC',
-             # Average cloudiness sunrise to sunset from manual observations (percent)
+             # Average cloudiness sunrise to sunset from manual observations
+             # (percent)
              'ACSH',
              'AWDR',  # Average daily wind direction (degrees)
              'AWND',  # Average daily wind speed (tenths of meters per second)
              # Number of days included in the multiday evaporation total (MDEV)
              'DAEV',
-             # Number of days included in the multiday precipiation total (MDPR)
+             # Number of days included in the multiday precipiation total
+             # (MDPR)
              'DAPR',
              # Number of days included in the multiday snowfall total (MDSF)
              'DASF',
-             # Number of days included in the multiday minimum temperature (MDTN)
+             # Number of days included in the multiday minimum temperature
+             # (MDTN)
              'DATN',
-             # Number of days included in the multiday maximum temperature (MDTX)
+             # Number of days included in the multiday maximum temperature
+             # (MDTX)
              'DATX',
              # Number of days included in the multiday wind movement (MDWM)
              'DAWM',
-             # Number of days with non-zero precipitation included in multiday precipitation total (MDPR)
+             # Number of days with non-zero precipitation included in multiday
+             # precipitation total (MDPR)
              'DWPR',
              # Evaporation of water from evaporation pan (tenths of mm)
              'EVAP',
-             # Time of fastest mile or fastest 1-minute wind (hours and minutes, i.e., HHMM)
+             # Time of fastest mile or fastest 1-minute wind (hours and
+             # minutes, i.e., HHMM)
              'FMTM',
              'FRGB',  # Base of frozen ground layer (cm)
              'FRGT',  # Top of frozen ground layer (cm)
@@ -85,21 +97,28 @@ def ghcnd_to_df(data, **kwargs):
              'GAHT',  # Difference between river and gauge height (cm)
              # Multiday evaporation total (tenths of mm; use with DAEV)
              'MDEV',
-             # Multiday precipitation total (tenths of mm; use with DAPR and DWPR, if available)
+             # Multiday precipitation total (tenths of mm; use with DAPR and
+             # DWPR, if available)
              'MDPR',
              'MDSF',  # Multiday snowfall total
-             # Multiday minimum temperature (tenths of degrees C; use with DATN)
+             # Multiday minimum temperature (tenths of degrees C; use with
+             # DATN)
              'MDTN',
-             # Multiday maximum temperature (tenths of degress C; use with DATX)
+             # Multiday maximum temperature (tenths of degress C; use with
+             # DATX)
              'MDTX',
              'MDWM',  # Multiday wind movement (km)
-             # Daily minimum temperature of water in an evaporation pan (tenths of degrees C)
+             # Daily minimum temperature of water in an evaporation pan (tenths
+             # of degrees C)
              'MNPN',
-             # Daily maximum temperature of water in an evaporation pan (tenths of degrees C)
+             # Daily maximum temperature of water in an evaporation pan (tenths
+             # of degrees C)
              'MXPN',
              'PGTM',  # Peak gust time (hours and minutes, i.e., HHMM)
              'PSUN',  # Daily percent of possible sunshine (percent)
-             # Average temperature (tenths of degrees C) [Note that TAVG from source 'S' corresponds to an average for the period ending at 2400 UTC rather than local midnight]
+             # Average temperature (tenths of degrees C) [Note that TAVG from
+             # source 'S' corresponds to an average for the period ending at
+             # 2400 UTC rather than local midnight]
              'TAVG',
              'THIC',  # Thickness of ice on water (tenths of mm)
              # Temperature at the time of observation (tenths of degrees C)
@@ -165,12 +184,14 @@ def ghcnd_to_df(data, **kwargs):
     # WT** = Weather Type where ** has one of the following values:
     #
     #        01 = Fog, ice fog, or freezing fog (may include heavy fog)
-    #        02 = Heavy fog or heaving freezing fog (not always distinquished from fog)
+    #        02 = Heavy fog or heaving freezing fog (not always distinquished
+    #        from fog)
     #        03 = Thunder
     #        04 = Ice pellets, sleet, snow pellets, or small hail
     #        05 = Hail (may include small hail)
     #        06 = Glaze or rime
-    #        07 = Dust, volcanic ash, blowing dust, blowing sand, or blowing obstruction
+    #        07 = Dust, volcanic ash, blowing dust, blowing sand, or blowing
+    #        obstruction
     #        08 = Smoke or haze
     #        09 = Blowing or drifting snow
     #        10 = Tornado, waterspout, or funnel cloud
@@ -179,7 +200,8 @@ def ghcnd_to_df(data, **kwargs):
     #        13 = Mist
     #        14 = Drizzle
     #        15 = Freezing drizzle
-    #        16 = Rain (may include freezing rain, drizzle, and freezing drizzle)
+    #        16 = Rain (may include freezing rain, drizzle, and freezing
+    #        drizzle)
     #        17 = Freezing rain
     #        18 = Snow, snow pellets, snow grains, or ice crystals
     #        19 = Unknown source of precipitation
@@ -202,9 +224,9 @@ def ghcnd_to_df(data, **kwargs):
         tmpdf.set_index(['year', 'month'], inplace=True)
         tmpdf = tmpdf.ix[:, list(range(2, 126, 4))].stack()
         tmpdf.index = (tmpdf.index.get_level_values(0).astype(str).values
-                       + "-"
+                       + '-'
                        + tmpdf.index.get_level_values(1).astype(str).values
-                       + "-"
+                       + '-'
                        + tmpdf.index.get_level_values(2).astype(str).values)
 
         # Get rid of bad dates, for example April 31.

@@ -1,13 +1,17 @@
 from __future__ import print_function
 
+import logging
+import os
 from builtins import object
 from collections import defaultdict
-import logging
 from io import BytesIO
-import os
 
-from odo import odo, resource, convert
+from odo import convert
+from odo import odo
+from odo import resource
+
 import pandas as pd
+
 import requests
 
 from tstoolbox import tsutils

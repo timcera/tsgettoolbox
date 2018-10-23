@@ -1,13 +1,16 @@
 """
-    This module provides direct access to `Texas Weather Connection`_ `Daily
-    Keetch-Byram Drought Index (KBDI)`_ dataset.
+Direct access to KBDI from `Texas Weather Connection`_.
 
-    .. _Texas Weather Connection: http://twc.tamu.edu/
-    .. _Daily Keetch-Byram Drought Index (KBDI): http://twc.tamu.edu/drought/kbdi
+Access the Texas `Daily Keetch-Byram Drought Index (KBDI)`_ dataset.
+
+.. _Texas Weather Connection: http://twc.tamu.edu/
+.. _Daily Keetch-Byram Drought Index (KBDI): http://twc.tamu.edu/drought/kbdi
 """
 from __future__ import print_function
-from ulmo.twc.kbdi.core import get_data
+
 import pandas as pd
+
+from ulmo.twc.kbdi.core import get_data
 
 
 def ulmo_df(county=None,

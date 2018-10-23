@@ -1,7 +1,7 @@
 
-from __future__ import print_function
-from __future__ import division
 from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
 
 import os
 try:
@@ -21,12 +21,12 @@ def read_api_key(service):
     configfile = os.path.join(dirs.user_config_dir, 'config.ini')
     if not os.path.exists(configfile):
         with open(configfile, 'w') as fp:
-            fp.write('''
+            fp.write("""
 
 [{0}]
 api_key = ReplaceThisStringWithYourKey
 
-'''.format(service))
+""".format(service))
     # Make sure read only by user.
     os.chmod(configfile, 0o600)
 
@@ -37,22 +37,22 @@ api_key = ReplaceThisStringWithYourKey
         api_key = inifile.get(service, 'api_key')
     except:
         with open(configfile, 'a') as fp:
-            fp.write('''
+            fp.write("""
 
 [{0}]
 api_key = ReplaceThisStringWithYourKey
 
-'''.format(service))
+""".format(service))
         api_key = 'ReplaceThisStringWithYourKey'
 
     inifile.readfp(open(configfile, 'r'))
     api_key = inifile.get(service, 'api_key')
     if api_key == 'ReplaceThisStringWithYourKey':
-        raise ValueError('''
+        raise ValueError("""
 *
 *   Need to edit {0}
 *   to add your API key that you got from {1}.
 *
-'''.format(configfile, service))
+""".format(configfile, service))
 
     return api_key

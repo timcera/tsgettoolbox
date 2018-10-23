@@ -1,12 +1,16 @@
 from __future__ import print_function
 
-from builtins import object
 import logging
-from io import BytesIO
 import os
+from builtins import object
+from io import BytesIO
 
-from odo import odo, resource, convert
+from odo import convert
+from odo import odo
+from odo import resource
+
 import pandas as pd
+
 import requests
 
 from tstoolbox import tsutils
@@ -98,6 +102,7 @@ class LDAS(object):
 # Function to make `resource` know about the new Daymet type.
 # http://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi?variable=GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm&location=GEOM:POINT%28-99.875,%2031.125%29&startDate=2010-06-01T09&endDate=2015-05-04T21&type=asc2
 # https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi?variable=NLDAS:NLDAS_FORA0125_H.002:APCPsfc&location=NLDAS:X304-Y071&startDate=2015-01-01T00&endDate=2015-06-20T23&type=asc2
+
 
 @resource.register(r'https://hydro1\.gesdisc\.eosdis\.nasa\.gov/daac-bin/access/timeseries\.cgi.*', priority=17)
 def resource_ldas(uri, **kwargs):

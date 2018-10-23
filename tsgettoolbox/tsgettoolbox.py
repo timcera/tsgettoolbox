@@ -5,17 +5,14 @@ tsgettoolbox command line/library tools to retrieve time series.
 This program is a collection of utilities to download data from various
 web services.
 """
-
-from __future__ import print_function
-from __future__ import division
 from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
 
-import sys
 import os.path
+import sys
 import warnings
 
-from odo import odo, resource
-import pandas as pd
 import mando
 
 try:

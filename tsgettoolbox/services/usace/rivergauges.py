@@ -1,12 +1,16 @@
 """
-    This module provides access to data provided by the `United States Army
-    Corps of Engineers`_ `Rivergages`_ web site.
+Provide access to data from the USACE `Rivergages`_ web site.
 
-    .. _United States Army Corps of Engineers: http://www.usace.army.mil/
-    .. _Rivergages: http://rivergages.mvr.usace.army.mil/WaterControl/new/layout.cfm
+`United States Army Corps of Engineers`_ `Rivergages`_ web site.
+
+.. _United States Army Corps of Engineers: http://www.usace.army.mil/
+.. _Rivergages: http://rivergages.mvr.usace.army.mil/WaterControl/new/layout.cfm
 """
-from ulmo.usace.rivergages.core import get_stations, get_station_data, get_station_parameters
 import pandas as pd
+
+from ulmo.usace.rivergages.core import get_station_data
+from ulmo.usace.rivergages.core import get_station_parameters
+from ulmo.usace.rivergages.core import get_stations
 
 # def get_station_data(station_code, parameter, start=None, end=None,
 #         min_value=None, max_value=None):

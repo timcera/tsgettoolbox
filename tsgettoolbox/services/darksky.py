@@ -1,15 +1,20 @@
 from __future__ import print_function
 
-from builtins import object
 import logging
 import os
+from builtins import object
 
-from odo import odo, resource, convert
+from odo import convert
+from odo import odo
+from odo import resource
+
 import pandas as pd
+
 import requests
 
-from tstoolbox import tsutils
 from tsgettoolbox import utils
+
+from tstoolbox import tsutils
 
 # darksky.net
 
@@ -20,8 +25,9 @@ class darksky_net_json(object):
         self.url_params = {}
         self.url_params['latitude'] = query_params.pop('latitude')
         self.url_params['longitude'] = query_params.pop('longitude')
-        self.url_params['time'] = tsutils.parsedate(query_params.pop('time'),
-                                                    strftime='%Y-%m-%dT%H:%M:%S')
+        self.url_params['time'] = tsutils.parsedate(
+            query_params.pop('time'),
+            strftime='%Y-%m-%dT%H:%M:%S')
         self.include_db = query_params.pop('database')
         all_dbs = ['currently', 'minutely',
                    'hourly', 'daily', 'alerts', 'flags']
@@ -114,7 +120,8 @@ def darksky_net_json_to_df(data, **kwargs):
               'pressure': ':hPa',
               'visibility': ':km',
               'ozone': 'DU'}
-    ndfj.columns = ['{0}{1}'.format(i, unitsd.setdefault(i, '')) for i in ndfj.columns]
+    ndfj.columns = ['{0}{1}'.format(i, unitsd.setdefault(i, ''))
+                    for i in ndfj.columns]
     return ndfj
 
 

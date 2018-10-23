@@ -1,13 +1,17 @@
 from __future__ import print_function
 
-from builtins import object
 import datetime
 import logging
 import os
+from builtins import object
 from io import StringIO
 
-from odo import odo, resource, convert
+from odo import convert
+from odo import odo
+from odo import resource
+
 import pandas as pd
+
 import requests
 
 from tstoolbox import tsutils
@@ -120,9 +124,9 @@ class NDBC(object):
                           'srad': {'SRAD1': 'SRAD1:w/m2',
                                    'SWRAD': 'SWRAD:w/m2',
                                    'LWRAD': 'LWRAD:w/m2',
-                                  }
+                                   }
                           }
-        self.rename={
+        self.rename = {
                 'WD': 'WDIR:degT',
                 'DIR': 'WDIR:degT',
                 'SPD': 'WSPD:m/s',

@@ -1,12 +1,12 @@
 """
-    ulmo.lcra.waterquality.core
-    ~~~~~~~~~~~~~~~~~~~~~
-    This module provides access to data provided by the `Lower Colorado
-    River Authority`_ `Water Quality`_ web site.
-    .. _Lower Colorado River Authority: http://www.lcra.org
-    .. _Water Quality: http://waterquality.lcra.org/
+Access to data provided by the `Lower Colorado River Authority`_.
+
+`Water Quality`_ web site.
+.. _Lower Colorado River Authority: http://www.lcra.org
+.. _Water Quality: http://waterquality.lcra.org/
 """
 from __future__ import print_function
+
 from ulmo.lcra.waterquality.core import get_historical_data, get_recent_data
 
 # def get_historical_data(site_code, start=None, end=None, as_dataframe=False):
@@ -17,8 +17,9 @@ def ulmo_df(site_code,
             start_date=None,
             end_date=None,
             historical=True):
-    """Prepare call to ulmo.lcra.waterquality.core.get_historical_data or
-    .get_recent_data..
+    """Call to ulmo.lcra.waterquality.core functions.
+
+    Specifically: .get_historical_data or .get_recent_data.
     """
     if historical is True:
         return get_historical_data(site_code,

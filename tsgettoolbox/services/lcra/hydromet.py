@@ -1,16 +1,20 @@
 """
-    ulmo.lcra.hydromet.core
-    ~~~~~~~~~~~~~~~~~~~~~~~
-    This module provides access to hydrologic and climate data in the Colorado
-    River Basin (Texas) provided by the `Lower Colorado River Authority`_
-    `Hydromet`_ web site and web service.
-    .. _Lower Colorado River Authority: http://www.lcra.org
-    .. _Hydromet: http://hydromet.lcra.org
+Access hydrologic and climate data from the `Lower Colorado River Authority`_.
+
+Data for the Colorado River Basin (Texas) provided by the `Lower Colorado River
+Authority`_ `Hydromet`_ web site and web service.
+
+.. _Lower Colorado River Authority: http://www.lcra.org
+.. _Hydromet: http://hydromet.lcra.org
 """
 from __future__ import print_function
+
 from builtins import str
-from ulmo.lcra.hydromet.core import get_site_data, get_current_data
+
 import pandas as pd
+
+from ulmo.lcra.hydromet.core import get_current_data
+from ulmo.lcra.hydromet.core import get_site_data
 
 
 def ulmo_df(site_code,
@@ -24,7 +28,7 @@ def ulmo_df(site_code,
         return df.set_index('location')
 
     # def get_site_data(site_code, parameter_code, as_dataframe=True,
-    #                  start_date=None, end_date=None, dam_site_location='head'):
+    #     start_date=None, end_date=None, dam_site_location='head'):
     return get_site_data(str(site_code),
                          parameter_code,
                          start_date=pd.to_datetime(start_date),
