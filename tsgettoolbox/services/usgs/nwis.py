@@ -5,8 +5,12 @@ import logging
 import os
 from io import BytesIO
 
-from odo import odo, resource, convert
+from odo import convert
+from odo import odo
+from odo import resource
+
 import pandas as pd
+
 import requests
 
 from tstoolbox import tsutils
@@ -114,7 +118,7 @@ def _read_rdb(data):
     if '/iv/' in data.url or '/dv/' in data.url:
         # iv and dv results are stacked, a table for each site.  Have to split
         # the overall req.content into discrete tables for pd.read_csv to work.
-        list_of_sublists = list()
+        list_of_sublists = []
         n = 0
         a_list = req.content.splitlines()
         for i, elt in enumerate(a_list):
@@ -130,7 +134,7 @@ def _read_rdb(data):
                                   comment='#',
                                   header=[0, 1],
                                   sep='\t',
-                                  dtype={'site_no':str})
+                                  dtype={'site_no': str})
             except pd.errors.EmptyDataError:
                 continue
 
@@ -139,13 +143,13 @@ def _read_rdb(data):
             test_cnames = []
             not_ts = []
             for cname in adf.columns:
-                words = cname.split("_")
+                words = cname.split('_')
                 try:
                     _ = int(words[0])
-                    if "cd" == words[-1]:
+                    if 'cd' == words[-1]:
                         test_cnames.append(cname)
                     else:
-                        test_cnames.append(cname + ":{0}".format(
+                        test_cnames.append(cname + ':{0}'.format(
                             pmcodes.loc[words[1], 'parameter_units']))
                 except ValueError:
                     test_cnames.append(cname)
@@ -157,7 +161,7 @@ def _read_rdb(data):
             if len(ndf) == 0:
                 ndf = adf
             else:
-                ndf = ndf.join(adf, how="outer")
+                ndf = ndf.join(adf, how='outer')
 
         ndf.reset_index(inplace=True)
     else:
@@ -229,7 +233,7 @@ def resource_usgs_iv_dv_rdb(uri, **kwargs):
 
 @convert.register(pd.DataFrame, USGS_IV_DV_RDB)
 def usgs_iv_dv_rdb_to_df(data, **kwargs):
-    """ Function to convert from USGS RDB type to pd.DataFrame """
+    """Convert from USGS RDB type to pd.DataFrame."""
     ndf = _read_rdb(data)
     ndf['Datetime'] = pd.to_datetime(ndf['datetime'])
     ndf.drop('datetime',
@@ -249,6 +253,11 @@ def usgs_iv_dv_rdb_to_df(data, **kwargs):
                   inplace=True)
     ndf = ndf.unstack(level=['site_no',
                              'agency_cd'])
+
+    # Sometime in the near future figure out a better way because right now the
+    # ndf.unstack above can create a huge dataframe that is mostly NA.
+    # Workaround is to trim it down to size in next command.
+    ndf.dropna(axis='columns', how='all', inplace=True)
 
     ndf.columns = _make_nice_names(ndf, reverse=True)
 
@@ -287,13 +296,13 @@ class USGS_STAT_RDB(object):
 @resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/stat/.*',
                    priority=17)
 def resource_usgs_stat_rdb(uri, **kwargs):
-    """ Function to make `resource` know about the new USGS stat type. """
+    """Make `resource` know about the new USGS stat type."""
     return USGS_STAT_RDB(uri, **kwargs)
 
 
 @convert.register(pd.DataFrame, USGS_STAT_RDB)
 def usgs_stat_rdb_to_df(data, **kwargs):
-    """ Function to convert from USGS STAT_RDB type to pd.DataFrame """
+    """Convert from USGS STAT_RDB type to pd.DataFrame."""
     ndf = _read_rdb(data)
     if data.query_params['statReportType'] == 'daily':
         ndf['Datetime'] = ['{0:02d}-{1:02d}'.format(int(i), int(j))
@@ -436,7 +445,7 @@ def resource_usgs_measurements_peak_rdb(uri, **kwargs):
 
 @convert.register(pd.DataFrame, USGS_MEASUREMENTS_PEAK_RDB)
 def usgs_measurements_peak_rdb_to_df(data, **kwargs):
-    """ Function to convert from USGS RDB type to pd.DataFrame """
+    """Convert from USGS RDB type to pd.DataFrame."""
     ndf = _read_rdb(data)
     if 'measurements' in data.url:
         dname = 'measurement_dt'
@@ -474,7 +483,7 @@ def resource_usgs_site_rdb(uri, **kwargs):
 
 @convert.register(pd.DataFrame, USGS_SITE_RDB)
 def usgs_site_rdb_to_df(data, **kwargs):
-    """ Function to convert from USGS RDB type to pd.DataFrame """
+    """Convert from USGS RDB type to pd.DataFrame."""
     ndf = _read_rdb(data)
     return ndf
 
@@ -492,17 +501,17 @@ class USGS_GWLEVELS_RDB(object):
 @resource.register(r'http(s)?://waterservices\.usgs\.gov/nwis/gwlevels/.*',
                    priority=17)
 def resource_usgs_gwlevels_rdb(uri, **kwargs):
-    """Function to assign URL to."""
+    """Assign URL to a function.."""
     return USGS_GWLEVELS_RDB(uri, **kwargs)
 
 
 @convert.register(pd.DataFrame, USGS_GWLEVELS_RDB)
 def usgs_gwlevels_rdb(data, **kwargs):
-    """ Function to convert from USGS RDB type to pd.DataFrame"""
+    """Convert from USGS RDB type to pd.DataFrame."""
     ndf = _read_rdb(data)
     # lev_dt    lev_tm  lev_tz_cd
     ndf['Datetime'] = pd.to_datetime(ndf['lev_dt'] +
-                                     "T" +
+                                     'T' +
                                      ndf['lev_tm'],
                                      errors='coerce')
     mask = pd.isnull(ndf['Datetime'])
