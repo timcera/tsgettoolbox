@@ -35,8 +35,8 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 00132	Information	Dry days before precipitation event, days		Dry period preceding precipitation	days
 00134	Information	Storm event serial number			nu
 00135	Information	Elapsed time of storm, hours			hours
-00206	Information	Collector area, wet deposition, square meters			m2
-00207	Information	Collector area, dry deposition, square meters			m2
+00206	Information	Collector area, wet deposition, square meters			m^2
+00207	Information	Collector area, dry deposition, square meters			m^2
 04117	Information	Tether line used for collecting sample (yes=1), code			code
 04118	Information	Composited samples in cross-sectional bedload measurement, number			nu
 04119	Information	Verticals in composite sample, number			nu
@@ -54,10 +54,10 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 45584	Information	Gate opening, width, meters			m
 45585	Information	Gate opening, width, feet			ft
 45586	Information	Lockage, count of lock openings, units			units
-45587	Information	Temperature, internal, within data collection platform, degrees Celsius			deg C
-45588	Information	Temperature, internal, within data collection platform, degrees Fahrenheit			deg F
-45589	Information	Temperature, internal, within equipment shelter, degrees Celsius			deg C
-45590	Information	Temperature, internal, within equipment shelter, degrees Fahrenheit			deg F
+45587	Information	Temperature, internal, within data collection platform, degrees Celsius			degC
+45588	Information	Temperature, internal, within data collection platform, degrees Fahrenheit			degF
+45589	Information	Temperature, internal, within equipment shelter, degrees Celsius			degC
+45590	Information	Temperature, internal, within equipment shelter, degrees Fahrenheit			degF
 45591	Information	Gate opening, height, meters			m
 45592	Information	Gate opening, height, feet			ft
 45700	Information	Gate openings, reservoir, all gates, feet			ft
@@ -254,7 +254,7 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 72004	Information	Pump or flow period prior to sampling, minutes			minutes
 72005	Information	Sample source, code			code
 72006	Information	Sampling condition, code			code
-72023	Information	Reservoir storage, million cubic feet		Reservoir storage	Mft3
+72023	Information	Reservoir storage, million cubic feet		Reservoir storage	Mft^3
 72027	Information	Azimuth from outlet, degrees			Deg
 72028	Information	Azimuth from southernmost point, degrees			Deg
 72029	Information	Distance from outlet or southernmost point, feet			ft
@@ -293,11 +293,11 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 72163	Information	Thermal survey period duration, days			days
 72165	Information	Absolute pressure from unvented pressure transducer, feet			ft
 72166	Information	Raw sensor value, millivolts			mv
-72176	Information	Temperature of sensor, degrees Celsius			deg C
-72191	Information	Area, cross section, square meters			m2
+72176	Information	Temperature of sensor, degrees Celsius			degC
+72191	Information	Area, cross section, square meters			m^2
 72195	Information	Depth to compute isokinetic transit rate, feet			ft
 72196	Information	Velocity to compute isokinetic transit rate, feet per second			ft/sec
-72197	Information	Specific weight, dry, pounds per cubic foot			lb/ft3
+72197	Information	Specific weight, dry, pounds per cubic foot			lb/ft^3
 72203	Information	Absolute pressure from unvented pressure transducer, pounds per square inch			psi
 72217	Information	Duration sampler collected water, seconds			seconds
 72218	Information	Sample volume to compute isokinetic transit rate, milliliters			ml
@@ -325,8 +325,8 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 72278	Information	Sensor offset, water level sensor, feet			ft
 72280	Information	Number of outliers, data points discarded from NOS-averaged dateset, count			count
 72281	Information	Standard deviation, from NOS-averaged dataset, feet			ft
-72282	Information	Temperature #1, Aquatrak, air temperature of the upper sounding well, degrees Fahrenheit			deg F
-72283	Information	Temperature #2, Aquatrak, air temperature of the bottom sounding well, degrees Fahrenheit			deg F
+72282	Information	Temperature #1, Aquatrak, air temperature of the upper sounding well, degrees Fahrenheit			degF
+72283	Information	Temperature #2, Aquatrak, air temperature of the bottom sounding well, degrees Fahrenheit			degF
 72295	Information	Acoustic backscatter, collected using an acoustic Doppler meter, corrected for beam spreading and absorption of the acoustic signal due to water properties, decibels			dB
 72296	Information	Instrument noise level, measured by an acoustic Doppler meter, in counts			count
 72297	Information	Attenuation corrected backscatter, uncalibrated from LISST-ABS instrument, in counts			count
@@ -357,8 +357,8 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 75972	Information	Transducer signal, depth sensing, millivolts			mV
 78890	Information	Sampling depth, feet below mean sea level			ft
 78891	Information	Sampling depth, meters below mean sea level			m
-81024	Information	Drainage area, square miles			mi2
-81025	Information	Contributing drainage area, square miles			mi2
+81024	Information	Drainage area, square miles			mi^2
+81025	Information	Contributing drainage area, square miles			mi^2
 81028	Information	Withdrawal of groundwater, million gallons per day			mgd
 81352	Information	Filter pore size, micrometers			um
 81799	Information	Stream flow event cfs 0 composite			composite
@@ -373,7 +373,7 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 82073	Information	Starting time, 24 hour clock, hour-minute (hhmm)			hhmm
 82074	Information	Ending time, 24 hour clock, hour-minute (hhmm)			hhmm
 82075	Information	Amount of rinse water, liters			l
-82076	Information	Area exposed, square centimeters			cm2
+82076	Information	Area exposed, square centimeters			cm^2
 82283	Information	Collector efficiency, dry deposition, percent			%
 82284	Information	Collector efficiency, wet deposition, percent			%
 82292	Information	Data relay ground station source node, code			code
@@ -386,11 +386,11 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 82377	Information	Fraction of curb-miles in catchment swept per day			None
 82378	Information	Preceding storm event serial number			nu
 82398	Information	Sampling method, code			code
-82632	Information	Area, cross section, square feet			ft2
-82916	Information	Area, sampler, atmospheric deposition, wet, square centimeters			cm2
+82632	Information	Area, cross section, square feet			ft^2
+82916	Information	Area, sampler, atmospheric deposition, wet, square centimeters			cm^2
 83105	Information	pH of check solution, wet atmospheric deposition, unfiltered, standard units			std units
 83152	Information	Check solution specific conductance, wet atmospheric deposition, unfiltered, microsiemens per centimeter at 25 degrees Celsius			uS/cm @25C
-83198	Information	Area, sampler, atmospheric deposition, bulk, square centimeters			cm2
+83198	Information	Area, sampler, atmospheric deposition, bulk, square centimeters			cm^2
 83387	Information	Check solution pH, bulk atmospheric deposition, unfiltered, standard units			std units
 83434	Information	Check solution specific conductance, bulk atmospheric deposition, unfiltered, microsiemens per centimeter at 25 degrees Celsius			uS/cm @25C
 84060	Information	Topography, physiographic setting, code			code
@@ -1379,8 +1379,8 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 99225	Information	Datum offset, elevation of station's Aquatrak leveling point in reference to established datum, meters			m
 99226	Information	Sensor offset, Aquatrak sensor, meters			m
 99228	Information	Number of outliers, Aquatrak, data points discarded from the 181 point dataset, number			nu
-99229	Information	Temperature #1, Aquatrak, air temperature of the upper sounding well, degrees Celsius			deg C
-99230	Information	Temperature #2, Aquatrak, air temperature of the bottom sounding well, degrees Celsius			deg C
+99229	Information	Temperature #1, Aquatrak, air temperature of the upper sounding well, degrees Celsius			degC
+99230	Information	Temperature #2, Aquatrak, air temperature of the bottom sounding well, degrees Celsius			degC
 99233	Information	Dissolved oxygen charge, membrane DO sensor performance, number			nu
 99234	Information	Count of samples collected by autosampler, number			nu
 99235	Information	Status of equipment alarm, codes specified in data descriptor			code
@@ -1578,15 +1578,15 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 99995	Information	alpha-HCH-d6, surrogate, NWQL schedule 2003, water, filtered, percent recovery	86194-41-4		%
 99996	Information	Sample weight, NWQL schedule OCSS, suspended sediment, grams			g
 00004	Physical	Stream width, feet		Instream features, est. stream width	ft
-00010	Physical	Temperature, water, degrees Celsius		Temperature, water	deg C
-00011	Physical	Temperature, water, degrees Fahrenheit		Temperature, water, deg F	deg F
-00012	Physical	Evaporation temperature, 48 inch pan, degrees Celsius			deg C
-00013	Physical	Evaporation temperature, 24 inch pan, degrees Celsius			deg C
-00014	Physical	Wet bulb temperature, degrees Celsius		Temperature, wet bulb	deg C
-00020	Physical	Temperature, air, degrees Celsius		Temperature, air, deg C	deg C
-00021	Physical	Temperature, air, degrees Fahrenheit		Temperature, air, deg F	deg F
+00010	Physical	Temperature, water, degrees Celsius		Temperature, water	degC
+00011	Physical	Temperature, water, degrees Fahrenheit		Temperature, water, degF	degF
+00012	Physical	Evaporation temperature, 48 inch pan, degrees Celsius			degC
+00013	Physical	Evaporation temperature, 24 inch pan, degrees Celsius			degC
+00014	Physical	Wet bulb temperature, degrees Celsius		Temperature, wet bulb	degC
+00020	Physical	Temperature, air, degrees Celsius		Temperature, air, degC	degC
+00021	Physical	Temperature, air, degrees Fahrenheit		Temperature, air, degF	degF
 00025	Physical	Barometric pressure, millimeters of mercury		Barometric pressure	mm/Hg
-00030	Physical	Incident solar radiation intensity, calories per square centimeter per day		Solar irradiation, local	cal/cm2/d
+00030	Physical	Incident solar radiation intensity, calories per square centimeter per day		Solar irradiation, local	cal/cm^2/d
 00031	Physical	Incident light remaining at depth, percent		Light attenuation at measurement depth	%
 00032	Physical	Cloud cover, percent		Cloud cover (percent)	%
 00034	Physical	Depth to 1 percent of surface light, feet		Light attenuation, depth at 99%	ft
@@ -1596,17 +1596,17 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 00046	Physical	Precipitation, total, inches per week		Precipitation	in/week
 00047	Physical	Total partial pressure of dissolved gases, water, unfiltered, millimeters of mercury		Partial pressure of dissolved gases	mm/Hg
 00048	Physical	Total partial pressure of dissolved gases, water, unfiltered, percent of saturation		Partial pressure of dissolved gases	%
-00049	Physical	Surface area, square miles			mi2
+00049	Physical	Surface area, square miles			mi^2
 00050	Physical	Evaporation total, inches per day		Evaporation	inches/day
-00051	Physical	Surface area, square feet			ft2
+00051	Physical	Surface area, square feet			ft^2
 00052	Physical	Relative humidity, percent		Relative humidity	%
 00053	Physical	Surface area, acres			ac
 00055	Physical	Stream velocity, feet per second		Stream velocity	ft/sec
 00056	Physical	Flow rate of well, gallons per day			gal/day
 00058	Physical	Flow rate of well, gallons per minute			gal/min
 00059	Physical	Flow rate, instantaneous, gallons per minute		Flow rate, instantaneous	gal/min
-00060	Physical	Discharge, cubic feet per second		Stream flow, mean. daily	ft3/s
-00061	Physical	Discharge, instantaneous, cubic feet per second		Stream flow, instantaneous	ft3/s
+00060	Physical	Discharge, cubic feet per second		Stream flow, mean. daily	ft^3/s
+00061	Physical	Discharge, instantaneous, cubic feet per second		Stream flow, instantaneous	ft^3/s
 00062	Physical	Elevation of reservoir water surface above datum, feet			ft
 00064	Physical	Mean depth of stream, feet		Depth	ft
 00065	Physical	Gage height, feet		Height, gage	ft
@@ -1645,8 +1645,8 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 00197	Physical	Evaporation, accumulated, inches		Evaporation	in
 00198	Physical	Depth to 10 percent of surface light, feet			ft
 00199	Physical	Depth to 50 percent of surface light, feet		Light attenuation, depth at 50%	ft
-00200	Physical	Incident light intensity, 400-700 nanometers, microeinsteins per square meter per second			uE/m2/sec
-00201	Physical	Incident light, daily total, 400-700 nanometers, microeinsteins per square meter			uEinst/m2
+00200	Physical	Incident light intensity, 400-700 nanometers, microeinsteins per square meter per second			uE/m^2/sec
+00201	Physical	Incident light, daily total, 400-700 nanometers, microeinsteins per square meter			uEinst/m^2
 00294	Physical	Chemical oxygen demand, soluble, dry atmospheric deposition, milligrams per kilogram		Chemical oxygen demand	mg/kg
 00296	Physical	Chemical oxygen demand, insoluble, dry atmospheric deposition, milligrams per kilogram		Chemical oxygen demand	mg/kg
 00297	Physical	Chemical oxygen demand, total, dry atmospheric deposition, milligrams per kilogram		Chemical oxygen demand	mg/kg
@@ -1663,7 +1663,7 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 00339	Physical	Chemical oxygen demand, bed sediment, total, dry weight, milligrams per kilogram		Chemical oxygen demand	mg/kg
 00340	Physical	Chemical oxygen demand, high level, water, unfiltered, milligrams per liter		Chemical oxygen demand, (high level)	mg/l
 00349	Physical	Biochemical oxygen demand, water, unfiltered, 30 days at 20 degrees Celsius, milligrams per liter		Biochemical oxygen demand, non-standard conditions	mg/l
-00359	Physical	Biochemical oxygen demand, water, filtered, 5 days at 20 degrees Celsius, milligrams per liter		BOD, filtered, 5 day, 20 deg C	mg/l
+00359	Physical	Biochemical oxygen demand, water, filtered, 5 days at 20 degrees Celsius, milligrams per liter		BOD, filtered, 5 day, 20 degC	mg/l
 00367	Physical	Chemical oxygen demand, low level, water, filtered, milligrams per liter		Chemical oxygen demand, (low level)	mg/l
 00400	Physical	pH, water, unfiltered, field, standard units		pH	std units
 00401	Physical	Cations minus anions, water, milliequivalents		Cations-Anions	meq
@@ -1707,8 +1707,8 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 01350	Physical	Turbidity, severity, code		Turbidity severity	code
 01351	Physical	Streamflow, severity, code		Flow, severity	code
 01355	Physical	Ice cover, floating or solid, severity, code		Ice cover, floating or solid	code
-30205	Physical	Temperature, wood (fire potential), degrees Fahrenheit			deg F
-30206	Physical	Temperature, wood (fire potential), degrees Celsius			deg C
+30205	Physical	Temperature, wood (fire potential), degrees Fahrenheit			degF
+30206	Physical	Temperature, wood (fire potential), degrees Celsius			degC
 30207	Physical	Gage height, above datum, meters		Gage height	m
 30208	Physical	Discharge, cubic meters per second			m3/sec
 30209	Physical	Discharge, instantaneous, cubic meters per second		Stream flow, instantaneous	m3/sec
@@ -1717,8 +1717,8 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 30212	Physical	Stage, sonic range determination, feet			ft
 30213	Physical	Stage, sonic range determination, meters			m
 30214	Physical	Pressure, relative, manometer tank, count			count
-30267	Physical	Illumination, lumens per square foot			lm/ft2
-30334	Physical	Surface area, suspended sediment, square meters per gram		Surface area	m2/g
+30267	Physical	Illumination, lumens per square foot			lm/ft^2
+30334	Physical	Surface area, suspended sediment, square meters per gram		Surface area	m^2/g
 32290	Physical	Fluorescence transmission (transparency to fluorescence) at 700 nm, percent			%
 32291	Physical	UV fluorescence, water, in situ, single band, 370 nm excitation, 460 nm emission, relative fluorescence units (RFU)			RFU
 32292	Physical	UV fluorescence, water, in situ, single band, 270 nm excitation, 340 nm emission, relative fluorescence units (RFU)			RFU
@@ -1757,19 +1757,19 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 45003	Physical	Precipitation, number of days since greater than 1.0 inch precipitation event			days
 46253	Physical	pH, 1 to 1 soil/water mixture, standard units		pH, in soil	std units
 46311	Physical	Moisture content, soil, dry weight, percent		Moisture content	%
-46514	Physical	Solar radiation, upward intensity, calories per square centimeter per minute			cal/cm2/mn
-46515	Physical	Solar radiation, downward intensity, calories per square centimeter per minute			cal/cm2/mn
-46516	Physical	Solar radiation, net, calories per square centimeter per minute			cal/cm2/mn
+46514	Physical	Solar radiation, upward intensity, calories per square centimeter per minute			cal/cm^2/mn
+46515	Physical	Solar radiation, downward intensity, calories per square centimeter per minute			cal/cm^2/mn
+46516	Physical	Solar radiation, net, calories per square centimeter per minute			cal/cm^2/mn
 46529	Physical	Precipitation, inches		Precipitation	in
 49282	Physical	Moisture content, bed sediment smaller than 2 millimeters, wet sieved (native water), field, recoverable, dry weight, percent		Moisture content	%
 49491	Physical	Moisture content, biota, whole organism, recoverable, wet weight, percent		Moisture content	%
 49701	Physical	Transparency, water, in situ, Secchi disc, feet		Water transparency, Secchi disc	ft
-49982	Physical	Bulk density, soil, dry, grams per cubic centimeter			g/cm3
-49983	Physical	Mineral density, soil, grams per cubic centimeter			g/cm3
+49982	Physical	Bulk density, soil, dry, grams per cubic centimeter			g/cm^3
+49983	Physical	Mineral density, soil, grams per cubic centimeter			g/cm^3
 49984	Physical	Rubbed fiber content, soil, percent			%
 49985	Physical	Marsh level movement, vertical, meters			m
 49986	Physical	Degree of decomposition, soil, code			code
-50011	Physical	Temperature, vent gas, volcanic, degrees Celsius			deg C
+50011	Physical	Temperature, vent gas, volcanic, degrees Celsius			degC
 50012	Physical	Compaction, aquifer system, feet			ft
 50013	Physical	Compaction, soil, feet			ft
 50042	Physical	Discharge, gallons per minute			gal/min
@@ -1789,10 +1789,10 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 51336	Physical	Loss on ignition, solids smaller than 0.063 mm, wet sieved, percent			%
 51337	Physical	Loss on ignition, solids between 0.063 and 0.250 mm, wet sieved, percent			%
 51338	Physical	Loss on ignition, solids between 0.250 mm and 1 mm, wet sieved, percent			%
-51339	Physical	Bulk density, solids smaller than 2 mm, wet sieved, grams per cubic centimeter			g/cm3
-51340	Physical	Bulk density, solids smaller than 0.063 mm, wet sieved, grams per cubic centimeter			g/cm3
-51341	Physical	Bulk density, solids between 0.063 and 0.250 mm, wet sieved, grams per cubic centimeter			g/cm3
-51342	Physical	Bulk density, solids between 0.250 mm and 1 mm, wet sieved, grams per cubic centimeter			g/cm3
+51339	Physical	Bulk density, solids smaller than 2 mm, wet sieved, grams per cubic centimeter			g/cm^3
+51340	Physical	Bulk density, solids smaller than 0.063 mm, wet sieved, grams per cubic centimeter			g/cm^3
+51341	Physical	Bulk density, solids between 0.063 and 0.250 mm, wet sieved, grams per cubic centimeter			g/cm^3
+51342	Physical	Bulk density, solids between 0.250 mm and 1 mm, wet sieved, grams per cubic centimeter			g/cm^3
 51343	Physical	Porosity, solids smaller than 2 mm, wet sieved, fraction			fraction
 51344	Physical	Porosity, solids smaller than 0.063 mm, wet sieved, fraction			fraction
 51345	Physical	Porosity, solids between 0.063 and 0.250 mm, wet sieved, fraction			fraction
@@ -1846,7 +1846,7 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 61727	Physical	Wind gust speed, air, knots			knots
 61728	Physical	Wind gust speed, air, miles per hour			mph
 61729	Physical	Wind gust direction, air, degrees clockwise from true north			Deg
-61920	Physical	Temperature, bed sediment, degrees Celsius			deg C
+61920	Physical	Temperature, bed sediment, degrees Celsius			degC
 62600	Physical	Water level elevation above NGVD 1929, corrected for barometric pressure, feet			ft
 62601	Physical	Water level elevation above NGVD 1929, inclined (non-vertical) well, feet			ft
 62602	Physical	Barometric pressure, corrected to sea level, inches of mercury		Barometric pressure	in/Hg
@@ -1855,8 +1855,8 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 62605	Physical	Barometric pressure, uncorrected, inches of water		Barometric pressure	in/H2O
 62606	Physical	Barometric pressure, corrected to sea level, kilopascals		Barometric pressure	kPa
 62607	Physical	Barometric pressure, uncorrected, kilopascals		Barometric pressure	kPa
-62608	Physical	Total solar radiation (direct + diffuse radiation on a horizontal surface), watts per square meter			W/m2
-62609	Physical	Net solar radiation, watts per square meter			W/m2
+62608	Physical	Total solar radiation (direct + diffuse radiation on a horizontal surface), watts per square meter			W/m^2
+62609	Physical	Net solar radiation, watts per square meter			W/m^2
 62610	Physical	Groundwater level above NGVD 1929, feet			ft
 62611	Physical	Groundwater level above NAVD 1988, feet			ft
 62612	Physical	Groundwater level above NGVD 1929, meters			m
@@ -1873,8 +1873,8 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 62623	Physical	Tide stage, above datum, feet		Tide stage	ft
 62624	Physical	Tide stage, above datum, meters		Tide stage	m
 62625	Physical	Wind speed, meters per second		Wind velocity	m/sec
-62846	Physical	Temperature, soil, degrees Fahrenheit			deg F
-62856	Physical	Discharge, peak for storm event, cubic feet per second			ft3/s
+62846	Physical	Temperature, soil, degrees Fahrenheit			degF
+62856	Physical	Discharge, peak for storm event, cubic feet per second			ft^3/s
 62923	Physical	Solids, percent smaller than 0.0005 millimeters			%
 62924	Physical	Solids, percent smaller than 0.001 millimeters			%
 62925	Physical	Solids, percent smaller than 0.002 millimeters			%
@@ -1896,13 +1896,13 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 62941	Physical	Solids, percent smaller than 32 millimeters			%
 62942	Physical	Solids, percent smaller than 64 millimeters			%
 62943	Physical	Solids, percent smaller than 128 millimeters			%
-62947	Physical	Bulk density, solids, grams per cubic centimeter			g/cm3
+62947	Physical	Bulk density, solids, grams per cubic centimeter			g/cm^3
 62948	Physical	Moisture content, solids, gravimetric, dry weight, grams of water per gram of dry solids		Moisture content	g H2O/g
 62949	Physical	Moisture content, solids, volumetric, percent of total volume		Moisture content	%
-62966	Physical	Temperature, plant surface, degrees Celsius			deg C
-62967	Physical	Soil-heat flux, watts per square meter			W/m2
-62968	Physical	Latent-heat flux, watts per square meter			W/m2
-62969	Physical	Sensible-heat flux, watts per square meter			W/m2
+62966	Physical	Temperature, plant surface, degrees Celsius			degC
+62967	Physical	Soil-heat flux, watts per square meter			W/m^2
+62968	Physical	Latent-heat flux, watts per square meter			W/m^2
+62969	Physical	Sensible-heat flux, watts per square meter			W/m^2
 62970	Physical	Water vapor pressure, megapascals			MPa
 63001	Physical	Oxidation reduction potential, raw emf, reference electrode not specified, millivolts		Oxidation reduction potential (ORP)	mV
 63002	Physical	Oxidation reduction potential, relative to the standard hydrogen electrode (SHE), millivolts		Oxidation reduction potential (ORP)	mV
@@ -1946,7 +1946,7 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 70349	Physical	Non-settleable solids, water, unfiltered, milliliters per liter		Non-settleable solids	ml/l
 70516	Physical	Color, absorbance at 400 nm, water, filtered, absorbance units per centimeter		Color	AU/cm
 70971	Physical	Light attenuation coefficient, alphas per meter			alpha/m
-71820	Physical	Density of water sample, unfiltered, grams per milliliter at 20 degrees Celsius		Density of water at 20 deg C	g/mL @ 20C
+71820	Physical	Density of water sample, unfiltered, grams per milliliter at 20 degrees Celsius		Density of water at 20 degC	g/mL @ 20C
 71835	Physical	Oxygen consumed, water, filtered, milligrams per liter			mg/l
 71840	Physical	Oxygen consumed, water, unfiltered, milligrams per liter			mg/l
 71860	Physical	Sodium carbonate, residual, water, unfiltered, milligrams per liter as calcium carbonate	497-19-8	Sodium carbonate	mg/l CaCO3
@@ -1955,9 +1955,9 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 72003	Physical	Depth to bottom of water-bearing zone, feet			ft
 72008	Physical	Depth of well, feet below land surface datum		Depth	ft
 72010	Physical	Fluid resistivity, ohm-meter(s)			ohm-meters
-72012	Physical	Temperature, specific gravity measurement, degrees Celsius			deg C
+72012	Physical	Temperature, specific gravity measurement, degrees Celsius			degC
 72013	Physical	Specific gravity		Specific gravity	None
-72014	Physical	Temperature, resistivity measurement, degrees Celsius			deg C
+72014	Physical	Temperature, resistivity measurement, degrees Celsius			degC
 72015	Physical	Depth to top of sample interval, feet below land surface datum			ft
 72016	Physical	Depth to bottom of sample interval, feet below land surface datum			ft
 72019	Physical	Depth to water level, feet below land surface		Depth to water level below land surface	ft
@@ -1968,21 +1968,21 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 72025	Physical	Depth of reservoir, feet		Depth of pond or reservoir in feet	ft
 72040	Physical	Drawdown observed, feet			ft
 72106	Physical	Elevation of sample, feet			ft
-72122	Physical	Discharge, median for storm event, cubic feet per second			ft3/s
-72123	Physical	Discharge, mean for storm event, cubic feet per second			ft3/s
-72124	Physical	Net radiation (net solar + net long wave radiation), watts per square meter			W/m2
+72122	Physical	Discharge, median for storm event, cubic feet per second			ft^3/s
+72123	Physical	Discharge, mean for storm event, cubic feet per second			ft^3/s
+72124	Physical	Net radiation (net solar + net long wave radiation), watts per square meter			W/m^2
 72125	Physical	Atmospheric water vapor pressure, calculated, kilopascals			kPa
 72127	Physical	Atmospheric saturated water vapor pressure, calculated, kilopascals			kPa
-72128	Physical	Potential latent heat flux, calculated by Penman method, watts per square meter			W/m2
+72128	Physical	Potential latent heat flux, calculated by Penman method, watts per square meter			W/m^2
 72129	Physical	Potential evapotranspiration (PET), calculated by Priestley-Taylor method, millimeters per hour			mm/hr
 72130	Physical	Potential evapotranspiration (PET), calculated by Penman method, millimeters per hour			mm/hr
 72131	Physical	Precipitation, millimeters per hour		Precipitation	mm/hr
-72132	Physical	Soil heat flux at soil surface, calculated, watts per square meter			W/m2
+72132	Physical	Soil heat flux at soil surface, calculated, watts per square meter			W/m^2
 72133	Physical	Soil water matric potential, negative bars			neg bar
-72134	Physical	Change in heat flux density between 8 centimeter soil depth and the surface, calculated, watts per square meter			W/m2
+72134	Physical	Change in heat flux density between 8 centimeter soil depth and the surface, calculated, watts per square meter			W/m^2
 72135	Physical	Evapotranspiration total, inches per day			inches/day
 72136	Physical	Hydrostatic head difference, groundwater minus surface water, millimeters			mm
-72137	Physical	Discharge, tidally filtered, cubic feet per second			ft3/s
+72137	Physical	Discharge, tidally filtered, cubic feet per second			ft^3/s
 72138	Physical	Discharge, tidally filtered, cubic meters per second			m3/sec
 72139	Physical	Discharge, tidally filtered, gallons per minute			gal/min
 72149	Physical	Stream velocity, meters per second		Stream velocity	m/sec
@@ -1997,37 +1997,37 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 72171	Physical	Stage, tidally filtered, above datum, meters			meters
 72172	Physical	Wave height, Fourier transformation, feet			ft
 72173	Physical	Wave period, Fourier transformation, seconds			seconds
-72174	Physical	Longwave radiation, upward intensity, watts per square meter			W/m2
-72175	Physical	Longwave radiation, downward intensity, watts per square meter			W/m2
+72174	Physical	Longwave radiation, upward intensity, watts per square meter			W/m^2
+72175	Physical	Longwave radiation, downward intensity, watts per square meter			W/m^2
 72177	Physical	Groundwater discharge, centimeters per day			cm/d
 72178	Physical	Water depth, water surface to bottom, meters			meters
-72179	Physical	Shortwave solar radiation, watts per square meter			W/m2
+72179	Physical	Shortwave solar radiation, watts per square meter			W/m^2
 72180	Physical	Evapotranspiration, inches			inches
 72181	Physical	Moisture content, soil, volumetric, fraction of total volume			number
 72182	Physical	Atmospheric water vapor density, grams per cubic meter			g/m3
 72183	Physical	Inflow, gallons per day			gal/day
-72184	Physical	Visible radiation (average flux density), microeinsteins per second per square meter			uE/m2/sec
-72185	Physical	Shortwave radiation, upward intensity, watts per square meter			W/m2
-72186	Physical	Shortwave radiation, downward intensity, watts per square meter			W/m2
+72184	Physical	Visible radiation (average flux density), microeinsteins per second per square meter			uE/m^2/sec
+72185	Physical	Shortwave radiation, upward intensity, watts per square meter			W/m^2
+72186	Physical	Shortwave radiation, downward intensity, watts per square meter			W/m^2
 72187	Physical	Transparency, water, in situ, Secchi disc observed with viewscope, inches			in
 72188	Physical	Turbidity, water, unfiltered, field, broad band light source (400-680 nm), detectors at multiple angles including 90 +-30 degrees, ratiometric correction, nephelometric			NTRU
 72189	Physical	Snow depth, meters		Depth, snow cover	m
 72190	Physical	Velocity at point in stream, meters per second			m/sec
 72192	Physical	Precipitation, cumulative, inches		Precipitation	in
-72193	Physical	Net radiation (net solar + net long wave radiation), upward intensity, watts per square meter			W/m2
+72193	Physical	Net radiation (net solar + net long wave radiation), upward intensity, watts per square meter			W/m^2
 72194	Physical	Precipitation, cumulative, millimeters		Precipitation	mm
 72198	Physical	Snow depth, feet			ft
 72199	Physical	Water depth, water surface to bottom, feet		Depth of water column	ft
 72200	Physical	Evaporation per recording interval, millimeters			mm
-72201	Physical	Net incident shortwave radiation, watts per square meter			W/m2
-72202	Physical	Net emitted longwave radiation, watts per square meter			W/m2
+72201	Physical	Net incident shortwave radiation, watts per square meter			W/m^2
+72202	Physical	Net emitted longwave radiation, watts per square meter			W/m^2
 72204	Physical	Barometric pressure (BP), uncorrected, pounds per square inch			psi
 72205	Physical	Bulk electrical conductance, soil, decisiemens per meter			dS/m
 72206	Physical	Sublimation from snowpack per recording interval, millimeters			mm
 72207	Physical	Albedo (ratio of reflected to total incoming solar radiation), ratio			None
 72208	Physical	Turbidity, water, unfiltered, mid-depth of water column, broad band light source (400-680 nm), detection angle 90 +-30 degrees to incident light, nephelometric turbidity			NTU
 72209	Physical	Turbidity, water, unfiltered, mid-depth of water column, monochrome near infra-red LED light, 780-900 nm, detection angle 90 +-2.5 degrees, formazin nephelometric units		Turbidity	FNU
-72211	Physical	Density of water sample, deionized and deaired, at specific gravity test-temperature, grams per cubic centimeter			g/cm3
+72211	Physical	Density of water sample, deionized and deaired, at specific gravity test-temperature, grams per cubic centimeter			g/cm^3
 72212	Physical	Porosity, soil or solids, fraction			None
 72213	Physical	Turbidity, water, unfiltered, monochrome near infra-red LED light, 780-900 nm, detector angles at 90 +-2.5 degrees and 0-45 degrees, ratiometric, FBRU			FBRU
 72214	Physical	Lake or reservoir elevation above International Great Lakes Datum (IGLD), feet			ft
@@ -2045,12 +2045,12 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 72232	Physical	Groundwater level above Puerto Rico Datum of 2002, feet			ft
 72241	Physical	Absolute pressure from unvented pressure transducer, millimeters of mercury			mm/Hg
 72242	Physical	Tree sap flow, grams of sap per hour			g/hr
-72243	Physical	Discharge, cubic feet per day			ft3/day
+72243	Physical	Discharge, cubic feet per day			ft^3/day
 72250	Physical	Marsh mat (floating vegetation) elevation above NAVD 1988, feet			ft
 72251	Physical	Water level above marsh, feet			ft
-72252	Physical	Solar radiation (average flux density on a horizontal surface during measurement interval), kilowatts per square meter			kW/m2
-72253	Physical	Soil temperature, degrees Celsius			deg C
-72263	Physical	Density of water sample, unfiltered, in grams per cubic centimeter at 20 degrees Celsius			g/cm3
+72252	Physical	Solar radiation (average flux density on a horizontal surface during measurement interval), kilowatts per square meter			kW/m^2
+72253	Physical	Soil temperature, degrees Celsius			degC
+72263	Physical	Density of water sample, unfiltered, in grams per cubic centimeter at 20 degrees Celsius			g/cm^3
 72264	Physical	Lake or reservoir elevation above New York State Barge Canal Datum (NYBCD), feet			ft
 72265	Physical	Lake or reservoir elevation above New York State Barge Canal Datum (NYBCD), meters			m
 72266	Physical	Refractive index of fluid (real value) for laser diffraction diameter measurement			None
@@ -2075,7 +2075,7 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 72293	Physical	Water level elevation above gage datum, corrected for barometric pressure, feet			ft
 72294	Physical	Mean water velocity for discharge computation, miles per hour			mph
 72321	Physical	Stream velocity, miles per hour			mph
-74019	Physical	Flashpoint of potentially organically contaminated water, degrees Fahrenheit			deg F
+74019	Physical	Flashpoint of potentially organically contaminated water, degrees Fahrenheit			degF
 74072	Physical	Flow rate, liters per second			l/sec
 74082	Physical	Streamflow, daily, acre-feet			ac-ft
 74207	Physical	Moisture content, soil, volumetric, percent of total volume		Moisture content	%
@@ -2085,8 +2085,8 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 80087	Physical	Carbonaceous biochemical oxygen demand, water, unfiltered, 20 days at 20 degrees Celsius, milligrams per liter		Carbonaceous biochemical oxygen demand, non-standard conditions	mg/l
 80110	Physical	Specific gravity at 4 degrees Celsius, water, unfiltered, ratio			None
 81026	Physical	Water content of snow, inches		Water content of snow	in
-81027	Physical	Temperature, soil, degrees Celsius		Temperature, soil	deg C
-81029	Physical	Temperature, snow, degrees Celsius			deg C
+81027	Physical	Temperature, soil, degrees Celsius		Temperature, soil	degC
+81029	Physical	Temperature, snow, degrees Celsius			degC
 81356	Physical	Cation exchange capacity, milliequivalents per 100 grams		Cation exchange capacity	meq/100 g
 81380	Physical	Discharge velocity, meters per second		Velocity-discharge	m/sec
 81381	Physical	Discharge duration, minutes			minutes
@@ -2098,7 +2098,7 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 81914	Physical	Initial flowing pressure, pounds per square inch			psi
 81915	Physical	Final flowing pressure, pounds per square inch			psi
 81916	Physical	Pressure at bottom of hole, pounds per square inch			psi
-81917	Physical	Temperature at bottom of hole, degrees Fahrenheit			deg F
+81917	Physical	Temperature at bottom of hole, degrees Fahrenheit			degF
 82015	Physical	Mean depth of lake, feet		Depth	ft
 82016	Physical	Maximum depth of lake, feet		Depth	ft
 82047	Physical	Depth to top of sampling interval, meters			m
@@ -2123,13 +2123,13 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 82264	Physical	Street debris smaller than 1 millimeter, sieve diameter, percent			%
 82265	Physical	Street debris smaller than 2 millimeters, sieve diameter, percent			%
 82266	Physical	Street debris smaller than 4 millimeters, sieve diameter, percent			%
-82285	Physical	Rate of dry deposition, milligrams per square meter per day			mg/m2/day
+82285	Physical	Rate of dry deposition, milligrams per square meter per day			mg/m^2/day
 82286	Physical	Solids in rainfall, dry weight, milligrams per liter			mg/l
 82300	Physical	Snow depth, inches		Depth, snow cover	in
-82363	Physical	Dry deposition, milligrams per square meter			mg/m2
+82363	Physical	Dry deposition, milligrams per square meter			mg/m^2
 82371	Physical	Precipitation within 3 days before sample collection, inches		Precipitation	in
 82372	Physical	Precipitation within 14 days before sample collection, inches		Precipitation	in
-82375	Physical	Solids, total, accumulation rate, dry weight, grams per square meter per day		Total solids	g/m2/day
+82375	Physical	Solids, total, accumulation rate, dry weight, grams per square meter per day		Total solids	g/m^2/day
 82379	Physical	Street solids load removed by sweeping, pounds per curb-mile			lb/curb-mi
 82380	Physical	Street solids total dry weight, pounds per curb-mile			lb/curb-mi
 82381	Physical	Precipitation total, inches per storm		Precipitation	in
@@ -2171,16 +2171,16 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 85328	Physical	Depth to 1 percent of surface light, meters		Light attenuation, depth at 99%	m
 85540	Physical	Air, water, dissolved, volume percent of dissolved gases	132259-10-0		%
 85541	Physical	Inert gases, water, dissolved, volume percent of dissolved gases		Inert gases	%
-85555	Physical	Gas/water ratio, cubic feet per barrel			ft3/barrel
-85557	Physical	Temperature, low saturation, degrees Celsius			deg C
-85558	Physical	Temperature, high saturation, degrees Celsius			deg C
+85555	Physical	Gas/water ratio, cubic feet per barrel			ft^3/barrel
+85557	Physical	Temperature, low saturation, degrees Celsius			degC
+85558	Physical	Temperature, high saturation, degrees Celsius			degC
 85559	Physical	Pressure, low saturation, pounds per square inch			psi
 85560	Physical	Pressure, high saturation, pounds per square inch			psi
-85583	Physical	Temperature, intragravel water, degrees Celsius		Temperature, water	deg C
-85588	Physical	Gross heating value of dissolved hydrocarbons, dry, calculated, British thermal units per cubic foot at 60 degrees Fahrenheit and 14.73 pounds per square inch absolute			Btu/ft3
+85583	Physical	Temperature, intragravel water, degrees Celsius		Temperature, water	degC
+85588	Physical	Gross heating value of dissolved hydrocarbons, dry, calculated, British thermal units per cubic foot at 60 degrees Fahrenheit and 14.73 pounds per square inch absolute			Btu/ft^3
 85599	Physical	Rainfall, total for defined period, centimeters			cm/sample
 85822	Physical	Moisture content, biota, tissue, wet weight, percent of total weight		Moisture content	%
-90010	Physical	Temperature, area-weighted-average, degrees Celsius			deg C
+90010	Physical	Temperature, area-weighted-average, degrees Celsius			degC
 90034	Physical	Depth to 1 percent of surface light, cross section average, feet			ft
 90077	Physical	Transparency, water, in situ, Secchi disc, cross section average, inches		Water transparency, Secchi disc	in
 90094	Physical	Specific conductance, water, unfiltered, area weighted average, microsiemens per centimeter at 25 degrees Celsius		Specific conductance	uS/cm @25C
@@ -2188,7 +2188,7 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 90096	Physical	Specific conductance, water, filtered, laboratory, microsiemens per centimeter at 25 degrees Celsius		Specific conductance	uS/cm @25C
 90198	Physical	Depth to 10 percent surface light, cross section average, feet			ft
 90199	Physical	Depth to 50 percent surface light, cross section average, feet		Light attenuation, depth at 50%	ft
-90200	Physical	Incident light intensity, 400-700 nanometers, cross-sectional average, microeinsteins per square meter per second			uE/m2/sec
+90200	Physical	Incident light intensity, 400-700 nanometers, cross-sectional average, microeinsteins per square meter per second			uE/m^2/sec
 90400	Physical	pH, water, area weighted average, standard units		pH	std units
 90860	Physical	Salinity, water, unfiltered, practical salinity units at 25 degrees Celsius		Salinity	PSS
 90862	Physical	Salinity, water, unfiltered, Practical Salinity Scale		Salinity	PSS
@@ -2208,7 +2208,7 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 99061	Physical	Discharge, instantaneous, cubic meters per second		Stream flow, instantaneous	m3/sec
 99064	Physical	Water surface elevation difference between two locations, feet			ft
 99065	Physical	Gage height, above datum, meters		Gage height	m
-99066	Physical	Hyporheic flux of water from groundwater to surface water, milliliters per square centimeter per day			ml/cm2/day
+99066	Physical	Hyporheic flux of water from groundwater to surface water, milliliters per square centimeter per day			ml/cm^2/day
 99067	Physical	Difference between observed and predicted water surface elevation, feet			ft
 99227	Physical	Primary water level, Aquatrak, distance from measuring point to water surface, meters			m
 99231	Physical	Electrical resistance, ohms			ohms
@@ -2221,18 +2221,18 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 99872	Physical	Turbidity, water, unfiltered, laboratory, Hach 2100AN, nephelometric turbidity units		Turbidity	NTU
 99974	Physical	Specific conductance, 1 meter below water surface, microsiemens per centimeter at 25 degrees Celsius		Specific conductance	uS/cm @25C
 99975	Physical	pH, 1 meter below water surface, standard units		pH	std units
-99976	Physical	Temperature, 1 meter below water surface, degrees Celsius		Temperature, water	deg C
+99976	Physical	Temperature, 1 meter below water surface, degrees Celsius		Temperature, water	degC
 99978	Physical	Specific conductance, water, 1 meter above bottom, microsiemens per centimeter at 25 degrees Celsius		Specific conductance	uS/cm @25C
 99979	Physical	pH, water, 1 meter above bottom, standard units		pH	std units
-99980	Physical	Temperature, water, 1 meter above bottom, degrees Celsius		Temperature, water	deg C
+99980	Physical	Temperature, water, 1 meter above bottom, degrees Celsius		Temperature, water	degC
 99982	Physical	Specific conductance, water, mid-depth of water column, microsiemens per centimeter at 25 degrees Celsius		Specific conductance	uS/cm @25C
 99983	Physical	pH, water, mid-depth of water column, standard units		pH	std units
-99984	Physical	Temperature, water, mid-depth of water column, degrees Celsius		Temperature, water	deg C
-99986	Physical	Solar radiation (average flux density on a horizontal surface during measurement interval), watts per square meter		Solar irradiation, local	W/m2
-99987	Physical	Solar radiation (total flux density on a horizontal surface during measurement interval), megajoules per square meter			MJ/m2
-99988	Physical	Photosynthetically active radiation (average flux density on a horizontal surface during measurement interval), micromoles of photons per square meter per second		Light, photosynthetic active radiation (PAR)	umol/m2/s
-99989	Physical	Photosynthetically active radiation (total flux density on a horizontal surface during measurement interval), millimoles of photons per square meter			mmol/m2
-99997	Physical	Photosynthetically active radiation (PAR) in water at the 1% light level, micromoles of photons per square meter per second			umol/m2/s
+99984	Physical	Temperature, water, mid-depth of water column, degrees Celsius		Temperature, water	degC
+99986	Physical	Solar radiation (average flux density on a horizontal surface during measurement interval), watts per square meter		Solar irradiation, local	W/m^2
+99987	Physical	Solar radiation (total flux density on a horizontal surface during measurement interval), megajoules per square meter			MJ/m^2
+99988	Physical	Photosynthetically active radiation (average flux density on a horizontal surface during measurement interval), micromoles of photons per square meter per second		Light, photosynthetic active radiation (PAR)	umol/m^2/s
+99989	Physical	Photosynthetically active radiation (total flux density on a horizontal surface during measurement interval), millimoles of photons per square meter			mmol/m^2
+99997	Physical	Photosynthetically active radiation (PAR) in water at the 1% light level, micromoles of photons per square meter per second			umol/m^2/s
 00910	Inorganics, Major, Metals	Calcium, water, unfiltered, milligrams per liter as calcium carbonate	7440-70-2	Calcium	mg/l CaCO3
 00915	Inorganics, Major, Metals	Calcium, water, filtered, milligrams per liter	7440-70-2	Calcium	mg/l
 00916	Inorganics, Major, Metals	Calcium, water, unfiltered, recoverable, milligrams per liter	7440-70-2	Calcium	mg/l
@@ -2395,97 +2395,97 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 82474	Inorganics, Major, Metals	Magnesium, insoluble, dry atmospheric deposition, milligrams per kilogram	7439-95-4	Magnesium	mg/kg
 82475	Inorganics, Major, Metals	Magnesium, dry atmospheric deposition, recoverable, milligrams per kilogram	7439-95-4	Magnesium	mg/kg
 82932	Inorganics, Major, Metals	Calcium, wet atmospheric deposition, filtered, milligrams per liter	7440-70-2	Calcium	mg/l
-82933	Inorganics, Major, Metals	Calcium, wet atmospheric deposition, filtered, milligrams per square meter	7440-70-2	Calcium	mg/m2
+82933	Inorganics, Major, Metals	Calcium, wet atmospheric deposition, filtered, milligrams per square meter	7440-70-2	Calcium	mg/m^2
 82935	Inorganics, Major, Metals	Calcium, wet atmospheric deposition, suspended, milligrams per liter	7440-70-2	Calcium	mg/l
-82936	Inorganics, Major, Metals	Calcium, wet atmospheric deposition, suspended, milligrams per square meter	7440-70-2	Calcium	mg/m2
+82936	Inorganics, Major, Metals	Calcium, wet atmospheric deposition, suspended, milligrams per square meter	7440-70-2	Calcium	mg/m^2
 82938	Inorganics, Major, Metals	Calcium, wet atmospheric deposition, unfiltered, recoverable, milligrams per liter	7440-70-2	Calcium	mg/l
-82939	Inorganics, Major, Metals	Calcium, wet atmospheric deposition, unfiltered, recoverable, milligrams per square meter	7440-70-2	Calcium	mg/m2
+82939	Inorganics, Major, Metals	Calcium, wet atmospheric deposition, unfiltered, recoverable, milligrams per square meter	7440-70-2	Calcium	mg/m^2
 82940	Inorganics, Major, Metals	Calcium, wet atmospheric deposition, unfiltered, recoverable, microequivalents per liter	7440-70-2	Calcium	ueq/L
 82941	Inorganics, Major, Metals	Calcium, wet atmospheric deposition, unfiltered, milligrams per liter	7440-70-2	Calcium	mg/l
-82942	Inorganics, Major, Metals	Calcium, wet atmospheric deposition, unfiltered, milligrams per square meter	7440-70-2	Calcium	mg/m2
+82942	Inorganics, Major, Metals	Calcium, wet atmospheric deposition, unfiltered, milligrams per square meter	7440-70-2	Calcium	mg/m^2
 83002	Inorganics, Major, Metals	Magnesium, wet atmospheric deposition, filtered, milligrams per liter	7439-95-4	Magnesium	mg/l
-83003	Inorganics, Major, Metals	Magnesium, wet atmospheric deposition, filtered, milligrams per square meter	7439-95-4	Magnesium	mg/m2
+83003	Inorganics, Major, Metals	Magnesium, wet atmospheric deposition, filtered, milligrams per square meter	7439-95-4	Magnesium	mg/m^2
 83004	Inorganics, Major, Metals	Magnesium, wet atmospheric deposition, filtered, microequivalents per liter	7439-95-4	Magnesium	ueq/L
 83005	Inorganics, Major, Metals	Magnesium, wet atmospheric deposition, suspended, milligrams per liter	7439-95-4	Magnesium	mg/l
-83006	Inorganics, Major, Metals	Magnesium, wet atmospheric deposition, suspended, milligrams per square meter	7439-95-4	Magnesium	mg/m2
+83006	Inorganics, Major, Metals	Magnesium, wet atmospheric deposition, suspended, milligrams per square meter	7439-95-4	Magnesium	mg/m^2
 83007	Inorganics, Major, Metals	Magnesium, wet atmospheric deposition, suspended, microequivalents per liter	7439-95-4	Magnesium	ueq/L
 83008	Inorganics, Major, Metals	Magnesium, wet atmospheric deposition, unfiltered, recoverable, milligrams per liter	7439-95-4	Magnesium	mg/l
-83009	Inorganics, Major, Metals	Magnesium, wet atmospheric deposition, unfiltered, recoverable, milligrams per square meter	7439-95-4	Magnesium	mg/m2
+83009	Inorganics, Major, Metals	Magnesium, wet atmospheric deposition, unfiltered, recoverable, milligrams per square meter	7439-95-4	Magnesium	mg/m^2
 83010	Inorganics, Major, Metals	Magnesium, wet atmospheric deposition, unfiltered, recoverable, microequivalents per liter	7439-95-4	Magnesium	ueq/L
 83011	Inorganics, Major, Metals	Magnesium, wet atmospheric deposition, unfiltered, milligrams per liter	7439-95-4	Magnesium	mg/l
-83012	Inorganics, Major, Metals	Magnesium, wet atmospheric deposition, unfiltered, milligrams per square meter	7439-95-4	Magnesium	mg/m2
+83012	Inorganics, Major, Metals	Magnesium, wet atmospheric deposition, unfiltered, milligrams per square meter	7439-95-4	Magnesium	mg/m^2
 83013	Inorganics, Major, Metals	Magnesium, wet atmospheric deposition, unfiltered, microequivalents per liter	7439-95-4	Magnesium	ueq/L
 83120	Inorganics, Major, Metals	Potassium, wet atmospheric deposition, filtered, milligrams per liter	7440-09-7	Potassium	mg/l
-83121	Inorganics, Major, Metals	Potassium, wet atmospheric deposition, filtered, milligrams per square meter	7440-09-7	Potassium	mg/m2
+83121	Inorganics, Major, Metals	Potassium, wet atmospheric deposition, filtered, milligrams per square meter	7440-09-7	Potassium	mg/m^2
 83122	Inorganics, Major, Metals	Potassium, wet atmospheric deposition, filtered, microequivalents per liter	7440-09-7	Potassium	ueq/L
 83123	Inorganics, Major, Metals	Potassium, wet atmospheric deposition, suspended, milligrams per liter	7440-09-7	Potassium	mg/l
-83124	Inorganics, Major, Metals	Potassium, wet atmospheric deposition, suspended, milligrams per square meter	7440-09-7	Potassium	mg/m2
+83124	Inorganics, Major, Metals	Potassium, wet atmospheric deposition, suspended, milligrams per square meter	7440-09-7	Potassium	mg/m^2
 83125	Inorganics, Major, Metals	Potassium, wet atmospheric deposition, suspended, microequivalents per liter	7440-09-7	Potassium	ueq/L
 83126	Inorganics, Major, Metals	Potassium, wet atmospheric deposition, unfiltered, recoverable, milligrams per liter	7440-09-7	Potassium	mg/l
-83127	Inorganics, Major, Metals	Potassium, wet atmospheric deposition, unfiltered, recoverable, milligrams per square meter	7440-09-7	Potassium	mg/m2
+83127	Inorganics, Major, Metals	Potassium, wet atmospheric deposition, unfiltered, recoverable, milligrams per square meter	7440-09-7	Potassium	mg/m^2
 83128	Inorganics, Major, Metals	Potassium, wet atmospheric deposition, unfiltered, recoverable, microequivalents per liter	7440-09-7	Potassium	ueq/L
 83129	Inorganics, Major, Metals	Potassium, wet atmospheric deposition, unfiltered, milligrams per liter	7440-09-7	Potassium	mg/l
-83130	Inorganics, Major, Metals	Potassium, wet atmospheric deposition, unfiltered, milligrams per square meter	7440-09-7	Potassium	mg/m2
+83130	Inorganics, Major, Metals	Potassium, wet atmospheric deposition, unfiltered, milligrams per square meter	7440-09-7	Potassium	mg/m^2
 83131	Inorganics, Major, Metals	Potassium, wet atmospheric deposition, unfiltered, microequivalents per liter	7440-09-7	Potassium	ueq/L
 83138	Inorganics, Major, Metals	Sodium, wet atmospheric deposition, filtered, milligrams per liter	7440-23-5	Sodium	mg/l
-83139	Inorganics, Major, Metals	Sodium, wet atmospheric deposition, filtered, milligrams per square meter	7440-23-5	Sodium	mg/m2
+83139	Inorganics, Major, Metals	Sodium, wet atmospheric deposition, filtered, milligrams per square meter	7440-23-5	Sodium	mg/m^2
 83140	Inorganics, Major, Metals	Sodium, wet atmospheric deposition, filtered, microequivalents per liter	7440-23-5	Sodium	ueq/L
 83141	Inorganics, Major, Metals	Sodium, wet atmospheric deposition, suspended, milligrams per liter	7440-23-5	Sodium	mg/l
-83142	Inorganics, Major, Metals	Sodium, wet atmospheric deposition, suspended, milligrams per square meter	7440-23-5	Sodium	mg/m2
+83142	Inorganics, Major, Metals	Sodium, wet atmospheric deposition, suspended, milligrams per square meter	7440-23-5	Sodium	mg/m^2
 83143	Inorganics, Major, Metals	Sodium, wet atmospheric deposition, suspended, microequivalents per liter	7440-23-5	Sodium	ueq/L
 83144	Inorganics, Major, Metals	Sodium, wet atmospheric deposition, unfiltered, recoverable, milligrams per liter	7440-23-5	Sodium	mg/l
-83145	Inorganics, Major, Metals	Sodium, wet atmospheric deposition, unfiltered, recoverable, milligrams per square meter	7440-23-5	Sodium	mg/m2
+83145	Inorganics, Major, Metals	Sodium, wet atmospheric deposition, unfiltered, recoverable, milligrams per square meter	7440-23-5	Sodium	mg/m^2
 83146	Inorganics, Major, Metals	Sodium, wet atmospheric deposition, unfiltered, recoverable, microequivalents per liter	7440-23-5	Sodium	ueq/L
 83147	Inorganics, Major, Metals	Sodium, wet atmospheric deposition, unfiltered, milligrams per liter	7440-23-5	Sodium	mg/l
-83148	Inorganics, Major, Metals	Sodium, wet atmospheric deposition, unfiltered, milligrams per square meter	7440-23-5	Sodium	mg/m2
+83148	Inorganics, Major, Metals	Sodium, wet atmospheric deposition, unfiltered, milligrams per square meter	7440-23-5	Sodium	mg/m^2
 83149	Inorganics, Major, Metals	Sodium, wet atmospheric deposition, unfiltered, microequivalents per liter	7440-23-5	Sodium	ueq/L
 83214	Inorganics, Major, Metals	Calcium, bulk atmospheric deposition, filtered, milligrams per liter	7440-70-2	Calcium	mg/l
-83215	Inorganics, Major, Metals	Calcium, bulk atmospheric deposition, filtered, milligrams per square meter	7440-70-2	Calcium	mg/m2
+83215	Inorganics, Major, Metals	Calcium, bulk atmospheric deposition, filtered, milligrams per square meter	7440-70-2	Calcium	mg/m^2
 83216	Inorganics, Major, Metals	Calcium, bulk atmospheric deposition, filtered, microequivalents per liter	7440-70-2	Calcium	ueq/L
 83217	Inorganics, Major, Metals	Calcium, bulk atmospheric deposition, suspended, milligrams per liter	7440-70-2	Calcium	mg/l
-83218	Inorganics, Major, Metals	Calcium, bulk atmospheric deposition, suspended, milligrams per square meter	7440-70-2	Calcium	mg/m2
+83218	Inorganics, Major, Metals	Calcium, bulk atmospheric deposition, suspended, milligrams per square meter	7440-70-2	Calcium	mg/m^2
 83219	Inorganics, Major, Metals	Calcium, bulk atmospheric deposition, suspended, microequivalents per liter	7440-70-2	Calcium	ueq/L
 83220	Inorganics, Major, Metals	Calcium, bulk atmospheric deposition, unfiltered, recoverable, milligrams per liter	7440-70-2	Calcium	mg/l
-83221	Inorganics, Major, Metals	Calcium, bulk atmospheric deposition, unfiltered, recoverable, milligrams per square meter	7440-70-2	Calcium	mg/m2
+83221	Inorganics, Major, Metals	Calcium, bulk atmospheric deposition, unfiltered, recoverable, milligrams per square meter	7440-70-2	Calcium	mg/m^2
 83222	Inorganics, Major, Metals	Calcium, bulk atmospheric deposition, unfiltered, recoverable, microequivalents per liter	7440-70-2	Calcium	ueq/L
 83223	Inorganics, Major, Metals	Calcium, bulk atmospheric deposition, unfiltered, milligrams per liter	7440-70-2	Calcium	mg/l
-83224	Inorganics, Major, Metals	Calcium, bulk atmospheric deposition, unfiltered, milligrams per square meter	7440-70-2	Calcium	mg/m2
+83224	Inorganics, Major, Metals	Calcium, bulk atmospheric deposition, unfiltered, milligrams per square meter	7440-70-2	Calcium	mg/m^2
 83225	Inorganics, Major, Metals	Calcium, bulk atmospheric deposition, unfiltered, microequivalents per liter	7440-70-2	Calcium	ueq/L
 83284	Inorganics, Major, Metals	Magnesium, bulk atmospheric deposition, filtered, milligrams per liter	7439-95-4	Magnesium	mg/l
-83285	Inorganics, Major, Metals	Magnesium, bulk atmospheric deposition, filtered, milligrams per square meter	7439-95-4	Magnesium	mg/m2
+83285	Inorganics, Major, Metals	Magnesium, bulk atmospheric deposition, filtered, milligrams per square meter	7439-95-4	Magnesium	mg/m^2
 83286	Inorganics, Major, Metals	Magnesium, bulk atmospheric deposition, filtered, microequivalents per liter	7439-95-4	Magnesium	ueq/L
 83287	Inorganics, Major, Metals	Magnesium, bulk atmospheric deposition, suspended, milligrams per liter	7439-95-4	Magnesium	mg/l
-83288	Inorganics, Major, Metals	Magnesium, bulk atmospheric deposition, suspended, milligrams per square meter	7439-95-4	Magnesium	mg/m2
+83288	Inorganics, Major, Metals	Magnesium, bulk atmospheric deposition, suspended, milligrams per square meter	7439-95-4	Magnesium	mg/m^2
 83289	Inorganics, Major, Metals	Magnesium, bulk atmospheric deposition, suspended, microequivalents per liter	7439-95-4	Magnesium	ueq/L
 83290	Inorganics, Major, Metals	Magnesium, bulk atmospheric deposition, unfiltered, recoverable, milligrams per liter	7439-95-4	Magnesium	mg/l
-83291	Inorganics, Major, Metals	Magnesium, bulk atmospheric deposition, unfiltered, recoverable, milligrams per square meter	7439-95-4	Magnesium	mg/m2
+83291	Inorganics, Major, Metals	Magnesium, bulk atmospheric deposition, unfiltered, recoverable, milligrams per square meter	7439-95-4	Magnesium	mg/m^2
 83292	Inorganics, Major, Metals	Magnesium, bulk atmospheric deposition, unfiltered, recoverable, microequivalents per liter	7439-95-4	Magnesium	ueq/L
 83293	Inorganics, Major, Metals	Magnesium, bulk atmospheric deposition, unfiltered, milligrams per liter	7439-95-4	Magnesium	mg/l
-83294	Inorganics, Major, Metals	Magnesium, bulk atmospheric deposition, unfiltered, milligrams per square meter	7439-95-4	Magnesium	mg/m2
+83294	Inorganics, Major, Metals	Magnesium, bulk atmospheric deposition, unfiltered, milligrams per square meter	7439-95-4	Magnesium	mg/m^2
 83295	Inorganics, Major, Metals	Magnesium, bulk atmospheric deposition, unfiltered, microequivalents per liter	7439-95-4	Magnesium	ueq/L
 83402	Inorganics, Major, Metals	Potassium, bulk atmospheric deposition, filtered, milligrams per liter	7440-09-7	Potassium	mg/l
-83403	Inorganics, Major, Metals	Potassium, bulk atmospheric deposition, filtered, milligrams per square meter	7440-09-7	Potassium	mg/m2
+83403	Inorganics, Major, Metals	Potassium, bulk atmospheric deposition, filtered, milligrams per square meter	7440-09-7	Potassium	mg/m^2
 83404	Inorganics, Major, Metals	Potassium, bulk atmospheric deposition, filtered, microequivalents per liter	7440-09-7	Potassium	ueq/L
 83405	Inorganics, Major, Metals	Potassium, bulk atmospheric deposition, suspended, milligrams per liter	7440-09-7	Potassium	mg/l
-83406	Inorganics, Major, Metals	Potassium, bulk atmospheric deposition, suspended, milligrams per square meter	7440-09-7	Potassium	mg/m2
+83406	Inorganics, Major, Metals	Potassium, bulk atmospheric deposition, suspended, milligrams per square meter	7440-09-7	Potassium	mg/m^2
 83407	Inorganics, Major, Metals	Potassium, bulk atmospheric deposition, suspended, microequivalents per liter	7440-09-7	Potassium	ueq/L
 83408	Inorganics, Major, Metals	Potassium, bulk atmospheric deposition, unfiltered, recoverable, milligrams per liter	7440-09-7	Potassium	mg/l
-83409	Inorganics, Major, Metals	Potassium, bulk atmospheric deposition, unfiltered, recoverable, milligrams per square meter	7440-09-7	Potassium	mg/m2
+83409	Inorganics, Major, Metals	Potassium, bulk atmospheric deposition, unfiltered, recoverable, milligrams per square meter	7440-09-7	Potassium	mg/m^2
 83410	Inorganics, Major, Metals	Potassium, bulk atmospheric deposition, unfiltered, recoverable, microequivalents per liter	7440-09-7	Potassium	ueq/L
 83411	Inorganics, Major, Metals	Potassium, bulk atmospheric deposition, unfiltered, milligrams per liter	7440-09-7	Potassium	mg/l
-83412	Inorganics, Major, Metals	Potassium, bulk atmospheric deposition, unfiltered, milligrams per square meter	7440-09-7	Potassium	mg/m2
+83412	Inorganics, Major, Metals	Potassium, bulk atmospheric deposition, unfiltered, milligrams per square meter	7440-09-7	Potassium	mg/m^2
 83413	Inorganics, Major, Metals	Potassium, bulk atmospheric deposition, unfiltered, microequivalents per liter	7440-09-7	Potassium	ueq/L
 83420	Inorganics, Major, Metals	Sodium, bulk atmospheric deposition, filtered, milligrams per liter	7440-23-5	Sodium	mg/l
-83421	Inorganics, Major, Metals	Sodium, bulk atmospheric deposition, filtered, milligrams per square meter	7440-23-5	Sodium	mg/m2
+83421	Inorganics, Major, Metals	Sodium, bulk atmospheric deposition, filtered, milligrams per square meter	7440-23-5	Sodium	mg/m^2
 83422	Inorganics, Major, Metals	Sodium, bulk atmospheric deposition, filtered, microequivalents per liter	7440-23-5	Sodium	ueq/L
 83423	Inorganics, Major, Metals	Sodium, bulk atmospheric deposition, suspended, milligrams per liter	7440-23-5	Sodium	mg/l
-83424	Inorganics, Major, Metals	Sodium, bulk atmospheric deposition, suspended, milligrams per square meter	7440-23-5	Sodium	mg/m2
+83424	Inorganics, Major, Metals	Sodium, bulk atmospheric deposition, suspended, milligrams per square meter	7440-23-5	Sodium	mg/m^2
 83425	Inorganics, Major, Metals	Sodium, bulk atmospheric deposition, suspended, microequivalents per liter	7440-23-5	Sodium	ueq/L
 83426	Inorganics, Major, Metals	Sodium, bulk atmospheric deposition, unfiltered, recoverable, milligrams per liter	7440-23-5	Sodium	mg/l
-83427	Inorganics, Major, Metals	Sodium, bulk atmospheric deposition, unfiltered, recoverable, milligrams per square meter	7440-23-5	Sodium	mg/m2
+83427	Inorganics, Major, Metals	Sodium, bulk atmospheric deposition, unfiltered, recoverable, milligrams per square meter	7440-23-5	Sodium	mg/m^2
 83428	Inorganics, Major, Metals	Sodium, bulk atmospheric deposition, unfiltered, recoverable, microequivalents per liter	7440-23-5	Sodium	ueq/L
 83429	Inorganics, Major, Metals	Sodium, bulk atmospheric deposition, unfiltered, milligrams per liter	7440-23-5	Sodium	mg/l
-83430	Inorganics, Major, Metals	Sodium, bulk atmospheric deposition, unfiltered, milligrams per square meter	7440-23-5	Sodium	mg/m2
+83430	Inorganics, Major, Metals	Sodium, bulk atmospheric deposition, unfiltered, milligrams per square meter	7440-23-5	Sodium	mg/m^2
 83431	Inorganics, Major, Metals	Sodium, bulk atmospheric deposition, unfiltered, microequivalents per liter	7440-23-5	Sodium	ueq/L
 85769	Inorganics, Major, Metals	Sodium, biota, tissue, recoverable, wet weight, milligrams per kilogram	7440-23-5	Sodium	mg/kg
 85770	Inorganics, Major, Metals	Potassium, biota, tissue, recoverable, wet weight, milligrams per kilogram	7440-09-7	Potassium	mg/kg
@@ -2690,75 +2690,75 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 82906	Inorganics, Major, Non-metals	Acid neutralizing capacity, wet atmospheric deposition, unfiltered, laboratory, milligrams per liter as calcium carbonate		Alkalinity	mg/l CaCO3
 82907	Inorganics, Major, Non-metals	Acid neutralizing capacity, wet atmospheric deposition, unfiltered, laboratory, microequivalents per liter		Alkalinity	ueq/L
 82944	Inorganics, Major, Non-metals	Chloride, wet atmospheric deposition, filtered, milligrams per liter	16887-00-6	Chloride	mg/l
-82945	Inorganics, Major, Non-metals	Chloride, wet atmospheric deposition, filtered, milligrams per square meter	16887-00-6	Chloride	mg/m2
+82945	Inorganics, Major, Non-metals	Chloride, wet atmospheric deposition, filtered, milligrams per square meter	16887-00-6	Chloride	mg/m^2
 82946	Inorganics, Major, Non-metals	Chloride, wet atmospheric deposition, filtered, microequivalents per liter	16887-00-6	Chloride	ueq/L
 82947	Inorganics, Major, Non-metals	Chloride, wet atmospheric deposition, unfiltered, milligrams per liter	16887-00-6	Chloride	mg/l
-82948	Inorganics, Major, Non-metals	Chloride, wet atmospheric deposition, unfiltered, milligrams per square meter	16887-00-6	Chloride	mg/m2
+82948	Inorganics, Major, Non-metals	Chloride, wet atmospheric deposition, unfiltered, milligrams per square meter	16887-00-6	Chloride	mg/m^2
 82949	Inorganics, Major, Non-metals	Chloride, wet atmospheric deposition, unfiltered, microequivalents per liter	16887-00-6	Chloride	ueq/L
 82974	Inorganics, Major, Non-metals	Hydrogen ion, wet atmospheric deposition, filtered, milligrams per liter	12408-02-5	Hydrogen ion	mg/l
-82975	Inorganics, Major, Non-metals	Hydrogen ion, wet atmospheric deposition, filtered, milligrams per square meter	12408-02-5	Hydrogen ion	mg/m2
+82975	Inorganics, Major, Non-metals	Hydrogen ion, wet atmospheric deposition, filtered, milligrams per square meter	12408-02-5	Hydrogen ion	mg/m^2
 82976	Inorganics, Major, Non-metals	Hydrogen ion, wet atmospheric deposition, filtered, microequivalents per liter	12408-02-5	Hydrogen ion	ueq/L
 82977	Inorganics, Major, Non-metals	Hydrogen ion, wet atmospheric deposition, unfiltered, milligrams per liter	12408-02-5	Hydrogen ion	mg/l
-82978	Inorganics, Major, Non-metals	Hydrogen ion, wet atmospheric deposition, unfiltered, milligrams per square meter	12408-02-5	Hydrogen ion	mg/m2
+82978	Inorganics, Major, Non-metals	Hydrogen ion, wet atmospheric deposition, unfiltered, milligrams per square meter	12408-02-5	Hydrogen ion	mg/m^2
 82979	Inorganics, Major, Non-metals	Hydrogen ion, wet atmospheric deposition, unfiltered, microequivalents per liter	12408-02-5	Hydrogen ion	ueq/L
 82980	Inorganics, Major, Non-metals	Hydrogen ion, wet atmospheric deposition, filtered, calculated, milligrams per liter	12408-02-5	Hydrogen ion	mg/l
-82981	Inorganics, Major, Non-metals	Hydrogen ion, wet atmospheric deposition, filtered, calculated, milligrams per square meter	12408-02-5	Hydrogen ion	mg/m2
+82981	Inorganics, Major, Non-metals	Hydrogen ion, wet atmospheric deposition, filtered, calculated, milligrams per square meter	12408-02-5	Hydrogen ion	mg/m^2
 82982	Inorganics, Major, Non-metals	Hydrogen ion, wet atmospheric deposition, filtered, calculated, microequivalents per liter	12408-02-5	Hydrogen ion	ueq/L
 82983	Inorganics, Major, Non-metals	Hydrogen ion, wet atmospheric deposition, unfiltered, calculated, milligrams per liter	12408-02-5	Hydrogen ion	mg/l
-82984	Inorganics, Major, Non-metals	Hydrogen ion, wet atmospheric deposition, unfiltered, calculated, milligrams per square meter	12408-02-5	Hydrogen ion	mg/m2
+82984	Inorganics, Major, Non-metals	Hydrogen ion, wet atmospheric deposition, unfiltered, calculated, milligrams per square meter	12408-02-5	Hydrogen ion	mg/m^2
 82985	Inorganics, Major, Non-metals	Hydrogen ion, wet atmospheric deposition, unfiltered, calculated, microequivalents per liter	12408-02-5	Hydrogen ion	ueq/L
 83157	Inorganics, Major, Non-metals	Sulfate, wet atmospheric deposition, filtered, milligrams per liter as sulfur	14808-79-8	Sulfate	mg/l as S
-83158	Inorganics, Major, Non-metals	Sulfate, wet atmospheric deposition, filtered, milligrams per square meter as sulfur	14808-79-8	Sulfate	mg/m2 as S
+83158	Inorganics, Major, Non-metals	Sulfate, wet atmospheric deposition, filtered, milligrams per square meter as sulfur	14808-79-8	Sulfate	mg/m^2 as S
 83159	Inorganics, Major, Non-metals	Sulfate, wet atmospheric deposition, filtered, microequivalents per liter	14808-79-8	Sulfate	ueq/L
 83160	Inorganics, Major, Non-metals	Sulfate, wet atmospheric deposition, filtered, milligrams per liter	14808-79-8	Sulfate	mg/l
-83161	Inorganics, Major, Non-metals	Sulfate, wet atmospheric deposition, filtered, milligrams per square meter	14808-79-8	Sulfate	mg/m2
+83161	Inorganics, Major, Non-metals	Sulfate, wet atmospheric deposition, filtered, milligrams per square meter	14808-79-8	Sulfate	mg/m^2
 83162	Inorganics, Major, Non-metals	Sulfate, wet atmospheric deposition, filtered, microequivalents per liter	14808-79-8	Sulfate	ueq/L
 83163	Inorganics, Major, Non-metals	Sulfate, wet atmospheric deposition, unfiltered, milligrams per liter as sulfur	14808-79-8	Sulfate	mg/l as S
-83164	Inorganics, Major, Non-metals	Sulfate, wet atmospheric deposition, unfiltered, milligrams per square meter as sulfur	14808-79-8	Sulfate	mg/m2 as S
+83164	Inorganics, Major, Non-metals	Sulfate, wet atmospheric deposition, unfiltered, milligrams per square meter as sulfur	14808-79-8	Sulfate	mg/m^2 as S
 83165	Inorganics, Major, Non-metals	Sulfate, wet atmospheric deposition, unfiltered, microequivalents per liter	14808-79-8	Sulfate	ueq/L
 83166	Inorganics, Major, Non-metals	Sulfate, wet atmospheric deposition, unfiltered, milligrams per liter	14808-79-8	Sulfate	mg/l
-83167	Inorganics, Major, Non-metals	Sulfate, wet atmospheric deposition, unfiltered, milligrams per square meter	14808-79-8	Sulfate	mg/m2
+83167	Inorganics, Major, Non-metals	Sulfate, wet atmospheric deposition, unfiltered, milligrams per square meter	14808-79-8	Sulfate	mg/m^2
 83168	Inorganics, Major, Non-metals	Sulfate, wet atmospheric deposition, unfiltered, microequivalents per liter	14808-79-8	Sulfate	ueq/L
 83186	Inorganics, Major, Non-metals	Acid neutralizing capacity, bulk atmospheric deposition, unfiltered, field, milligrams per liter as calcium carbonate		Alkalinity	mg/l CaCO3
 83187	Inorganics, Major, Non-metals	Acid neutralizing capacity, bulk atmospheric deposition, unfiltered, field, microequivalents per liter		Alkalinity	ueq/L
 83188	Inorganics, Major, Non-metals	Acid neutralizing capacity, bulk atmospheric deposition, unfiltered, laboratory, milligrams per liter as calcium carbonate		Alkalinity	mg/l CaCO3
 83189	Inorganics, Major, Non-metals	Acid neutralizing capacity, bulk atmospheric deposition, unfiltered, laboratory, microequivalents per liter		Alkalinity	ueq/L
 83226	Inorganics, Major, Non-metals	Chloride, bulk atmospheric deposition, filtered, milligrams per liter	16887-00-6	Chloride	mg/l
-83227	Inorganics, Major, Non-metals	Chloride, bulk atmospheric deposition, filtered, milligrams per square meter	16887-00-6	Chloride	mg/m2
+83227	Inorganics, Major, Non-metals	Chloride, bulk atmospheric deposition, filtered, milligrams per square meter	16887-00-6	Chloride	mg/m^2
 83228	Inorganics, Major, Non-metals	Chloride, bulk atmospheric deposition, filtered, microequivalents per liter	16887-00-6	Chloride	ueq/L
 83229	Inorganics, Major, Non-metals	Chloride, bulk atmospheric deposition, unfiltered, milligrams per liter	16887-00-6	Chloride	mg/l
-83230	Inorganics, Major, Non-metals	Chloride, bulk atmospheric deposition, unfiltered, milligrams per square meter	16887-00-6	Chloride	mg/m2
+83230	Inorganics, Major, Non-metals	Chloride, bulk atmospheric deposition, unfiltered, milligrams per square meter	16887-00-6	Chloride	mg/m^2
 83231	Inorganics, Major, Non-metals	Chloride, bulk atmospheric deposition, unfiltered, microequivalents per liter	16887-00-6	Chloride	ueq/L
 83256	Inorganics, Major, Non-metals	Hydrogen ion, bulk atmospheric deposition, filtered, milligrams per liter	12408-02-5	Hydrogen ion	mg/l
-83257	Inorganics, Major, Non-metals	Hydrogen ion, bulk atmospheric deposition, filtered, milligrams per square meter	12408-02-5	Hydrogen ion	mg/m2
+83257	Inorganics, Major, Non-metals	Hydrogen ion, bulk atmospheric deposition, filtered, milligrams per square meter	12408-02-5	Hydrogen ion	mg/m^2
 83258	Inorganics, Major, Non-metals	Hydrogen ion, bulk atmospheric deposition, filtered, microequivalents per liter	12408-02-5	Hydrogen ion	ueq/L
 83259	Inorganics, Major, Non-metals	Hydrogen ion, bulk atmospheric deposition, unfiltered, milligrams per liter	12408-02-5	Hydrogen ion	mg/l
-83260	Inorganics, Major, Non-metals	Hydrogen ion, bulk atmospheric deposition, unfiltered, milligrams per square meter	12408-02-5	Hydrogen ion	mg/m2
+83260	Inorganics, Major, Non-metals	Hydrogen ion, bulk atmospheric deposition, unfiltered, milligrams per square meter	12408-02-5	Hydrogen ion	mg/m^2
 83261	Inorganics, Major, Non-metals	Hydrogen ion, bulk atmospheric deposition, unfiltered, microequivalents per liter	12408-02-5	Hydrogen ion	ueq/L
 83262	Inorganics, Major, Non-metals	Hydrogen ion, bulk atmospheric deposition, filtered, calculated, milligrams per liter	12408-02-5	Hydrogen ion	mg/l
-83263	Inorganics, Major, Non-metals	Hydrogen ion, bulk atmospheric deposition, filtered, calculated, milligrams per square meter	12408-02-5	Hydrogen ion	mg/m2
+83263	Inorganics, Major, Non-metals	Hydrogen ion, bulk atmospheric deposition, filtered, calculated, milligrams per square meter	12408-02-5	Hydrogen ion	mg/m^2
 83264	Inorganics, Major, Non-metals	Hydrogen ion, bulk atmospheric deposition, filtered, calculated, microequivalents per liter	12408-02-5	Hydrogen ion	ueq/L
 83265	Inorganics, Major, Non-metals	Hydrogen ion, bulk atmospheric deposition, unfiltered, calculated, milligrams per liter	12408-02-5	Hydrogen ion	mg/l
-83266	Inorganics, Major, Non-metals	Hydrogen ion, bulk atmospheric deposition, unfiltered, calculated, milligrams per square meter	12408-02-5	Hydrogen ion	mg/m2
+83266	Inorganics, Major, Non-metals	Hydrogen ion, bulk atmospheric deposition, unfiltered, calculated, milligrams per square meter	12408-02-5	Hydrogen ion	mg/m^2
 83267	Inorganics, Major, Non-metals	Hydrogen ion, bulk atmospheric deposition, unfiltered, calculated, microequivalents per liter	12408-02-5	Hydrogen ion	ueq/L
 83439	Inorganics, Major, Non-metals	Sulfate, bulk atmospheric deposition, filtered, milligrams per liter as sulfur	14808-79-8	Sulfate	mg/l as S
-83440	Inorganics, Major, Non-metals	Sulfate, bulk atmospheric deposition, filtered, milligrams per square meter as sulfur	14808-79-8	Sulfate	mg/m2 as S
+83440	Inorganics, Major, Non-metals	Sulfate, bulk atmospheric deposition, filtered, milligrams per square meter as sulfur	14808-79-8	Sulfate	mg/m^2 as S
 83441	Inorganics, Major, Non-metals	Sulfate, bulk atmospheric deposition, filtered, microequivalents per liter	14808-79-8	Sulfate	ueq/L
 83442	Inorganics, Major, Non-metals	Sulfate, bulk atmospheric deposition, filtered, milligrams per liter	14808-79-8	Sulfate	mg/l
-83443	Inorganics, Major, Non-metals	Sulfate, bulk atmospheric deposition, filtered, milligrams per square meter	14808-79-8	Sulfate	mg/m2
+83443	Inorganics, Major, Non-metals	Sulfate, bulk atmospheric deposition, filtered, milligrams per square meter	14808-79-8	Sulfate	mg/m^2
 83444	Inorganics, Major, Non-metals	Sulfate, bulk atmospheric deposition, filtered, microequivalents per liter	14808-79-8	Sulfate	ueq/L
 83445	Inorganics, Major, Non-metals	Sulfate, bulk atmospheric deposition, unfiltered, milligrams per liter as sulfur	14808-79-8	Sulfate	mg/l as S
-83446	Inorganics, Major, Non-metals	Sulfate, bulk atmospheric deposition, unfiltered, milligrams per square meter as sulfur	14808-79-8	Sulfate	mg/m2 as S
+83446	Inorganics, Major, Non-metals	Sulfate, bulk atmospheric deposition, unfiltered, milligrams per square meter as sulfur	14808-79-8	Sulfate	mg/m^2 as S
 83447	Inorganics, Major, Non-metals	Sulfate, bulk atmospheric deposition, unfiltered, microequivalents per liter	14808-79-8	Sulfate	ueq/L
 83448	Inorganics, Major, Non-metals	Sulfate, bulk atmospheric deposition, unfiltered, milligrams per liter	14808-79-8	Sulfate	mg/l
-83449	Inorganics, Major, Non-metals	Sulfate, bulk atmospheric deposition, unfiltered, milligrams per square meter	14808-79-8	Sulfate	mg/m2
+83449	Inorganics, Major, Non-metals	Sulfate, bulk atmospheric deposition, unfiltered, milligrams per square meter	14808-79-8	Sulfate	mg/m^2
 83450	Inorganics, Major, Non-metals	Sulfate, bulk atmospheric deposition, unfiltered, microequivalents per liter	14808-79-8	Sulfate	ueq/L
 85544	Inorganics, Major, Non-metals	Carbon dioxide, water, dissolved, volume percent of dissolved gases	124-38-9	Carbon dioxide	%
 85546	Inorganics, Major, Non-metals	Hydrogen, water, dissolved, volume percent of dissolved gases	1333-74-0	Hydrogen	%
 85548	Inorganics, Major, Non-metals	Nitrogen plus carbon monoxide, water, dissolved, volume percent of dissolved gases			%
 85550	Inorganics, Major, Non-metals	Dissolved oxygen, water, dissolved, volume percent of dissolved gases	7782-44-7	Oxygen	%
-85571	Inorganics, Major, Non-metals	Carbon dioxide, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	124-38-9	Carbon dioxide	cm3/g @STP
-85573	Inorganics, Major, Non-metals	Dissolved oxygen, water, dissolved, cubic centimeters per gram at standard temperature and pressure	7782-44-7	Oxygen	cm3/g @STP
+85571	Inorganics, Major, Non-metals	Carbon dioxide, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	124-38-9	Carbon dioxide	cm^3/g @STP
+85573	Inorganics, Major, Non-metals	Dissolved oxygen, water, dissolved, cubic centimeters per gram at standard temperature and pressure	7782-44-7	Oxygen	cm^3/g @STP
 85576	Inorganics, Major, Non-metals	Hydrogen, water, dissolved, nanomoles per kilogram	1333-74-0	Hydrogen	nmol/kg
 85590	Inorganics, Major, Non-metals	Carbon [inorganic plus organic], bed sediment, total, dry weight, milligrams per kilogram	7440-44-0		mg/kg
 90300	Inorganics, Major, Non-metals	Dissolved oxygen, water, unfiltered, area weighted average, milligrams per liter	7782-44-7	Oxygen	mg/l
@@ -2980,154 +2980,154 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 82461	Nutrient	Nitrate, soluble, dry atmospheric deposition, milligrams per kilogram as nitrate	14797-55-8	Nitrate	mg/kg
 82462	Nutrient	Nitrate, soluble, dry atmospheric deposition, milligrams per kilogram as nitrogen	14797-55-8	Nitrate	mg/kg as N
 83044	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, filtered, milligrams per liter as nitrogen		Ammonia and ammonium	mg/l as N
-83045	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, filtered, milligrams per square meter as nitrogen		Ammonia and ammonium	mg/m2 as N
+83045	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, filtered, milligrams per square meter as nitrogen		Ammonia and ammonium	mg/m^2 as N
 83046	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, filtered, microequivalents per liter		Ammonia and ammonium	ueq/L
 83047	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, filtered, milligrams per liter as NH4		Ammonia and ammonium	mg/l NH4
-83048	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, filtered, milligrams per square meter as NH4		Ammonia and ammonium	mg/m2 NH4
+83048	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, filtered, milligrams per square meter as NH4		Ammonia and ammonium	mg/m^2 NH4
 83049	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, filtered, microequivalents per liter		Ammonia and ammonium	ueq/L
 83050	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, suspended, milligrams per liter as nitrogen		Ammonia and ammonium	mg/l as N
-83051	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, suspended, milligrams per square meter as nitrogen		Ammonia and ammonium	mg/m2 as N
+83051	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, suspended, milligrams per square meter as nitrogen		Ammonia and ammonium	mg/m^2 as N
 83052	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, suspended, microequivalents per liter		Ammonia and ammonium	ueq/L
 83053	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, suspended, milligrams per liter as NH4		Ammonia and ammonium	mg/l NH4
-83054	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, suspended, milligrams per square meter as NH4		Ammonia and ammonium	mg/m2 NH4
+83054	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, suspended, milligrams per square meter as NH4		Ammonia and ammonium	mg/m^2 NH4
 83055	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, suspended, microequivalents per liter		Ammonia and ammonium	ueq/L
 83056	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, unfiltered, recoverable, milligrams per liter as nitrogen		Ammonia and ammonium	mg/l as N
-83057	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, unfiltered, recoverable, milligrams per square meter as nitrogen		Ammonia and ammonium	mg/m2 as N
+83057	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, unfiltered, recoverable, milligrams per square meter as nitrogen		Ammonia and ammonium	mg/m^2 as N
 83058	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, unfiltered, recoverable, microequivalents per liter		Ammonia and ammonium	ueq/L
 83059	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, unfiltered, recoverable, milligrams per liter as NH4		Ammonia and ammonium	mg/l NH4
-83060	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, unfiltered, recoverable, milligrams per square meter as NH4		Ammonia and ammonium	mg/m2 NH4
+83060	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, unfiltered, recoverable, milligrams per square meter as NH4		Ammonia and ammonium	mg/m^2 NH4
 83061	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, unfiltered, recoverable, microequivalents per liter		Ammonia and ammonium	ueq/L
 83062	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, unfiltered, milligrams per liter as nitrogen		Ammonia and ammonium	mg/l as N
-83063	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, unfiltered, milligrams per square meter as nitrogen		Ammonia and ammonium	mg/m2 as N
+83063	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, unfiltered, milligrams per square meter as nitrogen		Ammonia and ammonium	mg/m^2 as N
 83064	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, unfiltered, microequivalents per liter		Ammonia and ammonium	ueq/L
 83065	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, unfiltered, milligrams per liter as NH4		Ammonia and ammonium	mg/l NH4
-83066	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, unfiltered, milligrams per square meter as NH4		Ammonia and ammonium	mg/m2 NH4
+83066	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, unfiltered, milligrams per square meter as NH4		Ammonia and ammonium	mg/m^2 NH4
 83067	Nutrient	Ammonia (NH3 + NH4+), wet atmospheric deposition, unfiltered, microequivalents per liter		Ammonia and ammonium	ueq/L
 83068	Nutrient	Nitrate, wet atmospheric deposition, filtered, milligrams per liter as nitrogen	14797-55-8	Nitrate	mg/l as N
-83069	Nutrient	Nitrate, wet atmospheric deposition, filtered, milligrams per square meter as nitrogen	14797-55-8	Nitrate	mg/m2 as N
+83069	Nutrient	Nitrate, wet atmospheric deposition, filtered, milligrams per square meter as nitrogen	14797-55-8	Nitrate	mg/m^2 as N
 83070	Nutrient	Nitrate, wet atmospheric deposition, filtered, microequivalents per liter	14797-55-8	Nitrate	ueq/L
 83071	Nutrient	Nitrate, wet atmospheric deposition, filtered, milligrams per liter as nitrate	14797-55-8	Nitrate	mg/l
-83072	Nutrient	Nitrate, wet atmospheric deposition, filtered, milligrams per square meter as nitrate	14797-55-8	Nitrate	mg/m2
+83072	Nutrient	Nitrate, wet atmospheric deposition, filtered, milligrams per square meter as nitrate	14797-55-8	Nitrate	mg/m^2
 83073	Nutrient	Nitrate, wet atmospheric deposition, filtered, microequivalents per liter	14797-55-8	Nitrate	ueq/L
 83074	Nutrient	Nitrate, wet atmospheric deposition, unfiltered, milligrams per liter as nitrogen	14797-55-8	Nitrate	mg/l as N
-83075	Nutrient	Nitrate, wet atmospheric deposition, unfiltered, milligrams per square meter as nitrogen	14797-55-8	Nitrate	mg/m2 as N
+83075	Nutrient	Nitrate, wet atmospheric deposition, unfiltered, milligrams per square meter as nitrogen	14797-55-8	Nitrate	mg/m^2 as N
 83076	Nutrient	Nitrate, wet atmospheric deposition, unfiltered, microequivalents per liter	14797-55-8	Nitrate	ueq/L
 83077	Nutrient	Nitrate, wet atmospheric deposition, unfiltered, milligrams per liter as nitrate	14797-55-8	Nitrate	mg/l
-83078	Nutrient	Nitrate, wet atmospheric deposition, unfiltered, milligrams per square meter as nitrate	14797-55-8	Nitrate	mg/m2
+83078	Nutrient	Nitrate, wet atmospheric deposition, unfiltered, milligrams per square meter as nitrate	14797-55-8	Nitrate	mg/m^2
 83079	Nutrient	Nitrate, wet atmospheric deposition, unfiltered, microequivalents per liter	14797-55-8	Nitrate	ueq/L
 83080	Nutrient	Nitrate plus nitrite, wet atmospheric deposition, filtered, milligrams per liter as nitrogen		Inorganic nitrogen (nitrate and nitrite)	mg/l as N
-83081	Nutrient	Nitrate plus nitrite, wet atmospheric deposition, filtered, milligrams per square meter as nitrogen		Inorganic nitrogen (nitrate and nitrite)	mg/m2 as N
+83081	Nutrient	Nitrate plus nitrite, wet atmospheric deposition, filtered, milligrams per square meter as nitrogen		Inorganic nitrogen (nitrate and nitrite)	mg/m^2 as N
 83082	Nutrient	Nitrate plus nitrite, wet atmospheric deposition, filtered, microequivalents per liter		Inorganic nitrogen (nitrate and nitrite)	ueq/L
 83083	Nutrient	Nitrate plus nitrite, wet atmospheric deposition, filtered, milligrams per liter as nitrate		Inorganic nitrogen (nitrate and nitrite)	mg/l NO3
-83084	Nutrient	Nitrate plus nitrite, wet atmospheric deposition, filtered, milligrams per square meter as nitrate		Inorganic nitrogen (nitrate and nitrite)	mg/m2 NO3
+83084	Nutrient	Nitrate plus nitrite, wet atmospheric deposition, filtered, milligrams per square meter as nitrate		Inorganic nitrogen (nitrate and nitrite)	mg/m^2 NO3
 83085	Nutrient	Nitrate plus nitrite, wet atmospheric deposition, filtered, microequivalents per liter		Inorganic nitrogen (nitrate and nitrite)	ueq/L
 83086	Nutrient	Nitrate plus nitrite, wet atmospheric deposition, unfiltered, milligrams per liter as nitrogen		Inorganic nitrogen (nitrate and nitrite)	mg/l as N
-83087	Nutrient	Nitrate plus nitrite, wet atmospheric deposition, unfiltered, milligrams per square meter as nitrogen		Inorganic nitrogen (nitrate and nitrite)	mg/m2 as N
+83087	Nutrient	Nitrate plus nitrite, wet atmospheric deposition, unfiltered, milligrams per square meter as nitrogen		Inorganic nitrogen (nitrate and nitrite)	mg/m^2 as N
 83088	Nutrient	Nitrate plus nitrite, wet atmospheric deposition, unfiltered, microequivalents per liter		Inorganic nitrogen (nitrate and nitrite)	ueq/L
 83089	Nutrient	Nitrate plus nitrite, wet atmospheric deposition, unfiltered, milligrams per liter as nitrate		Inorganic nitrogen (nitrate and nitrite)	mg/l NO3
-83090	Nutrient	Nitrate plus nitrite, wet atmospheric deposition, unfiltered, milligrams per square meter as nitrate		Inorganic nitrogen (nitrate and nitrite)	mg/m2 NO3
+83090	Nutrient	Nitrate plus nitrite, wet atmospheric deposition, unfiltered, milligrams per square meter as nitrate		Inorganic nitrogen (nitrate and nitrite)	mg/m^2 NO3
 83091	Nutrient	Nitrate plus nitrite, wet atmospheric deposition, unfiltered, microequivalents per liter		Inorganic nitrogen (nitrate and nitrite)	ueq/L
 83092	Nutrient	Nitrite, wet atmospheric deposition, filtered, milligrams per liter as nitrogen	14797-65-0	Nitrite	mg/l as N
-83093	Nutrient	Nitrite, wet atmospheric deposition, filtered, milligrams per square meter as nitrogen	14797-65-0	Nitrite	mg/m2 as N
+83093	Nutrient	Nitrite, wet atmospheric deposition, filtered, milligrams per square meter as nitrogen	14797-65-0	Nitrite	mg/m^2 as N
 83094	Nutrient	Nitrite, wet atmospheric deposition, filtered, microequivalents per liter	14797-65-0	Nitrite	ueq/L
 83095	Nutrient	Nitrite, wet atmospheric deposition, filtered, milligrams per liter as nitrite	14797-65-0	Nitrite	mg/l
-83096	Nutrient	Nitrite, wet atmospheric deposition, filtered, milligrams per square meter as nitrite	14797-65-0	Nitrite	mg/m2
+83096	Nutrient	Nitrite, wet atmospheric deposition, filtered, milligrams per square meter as nitrite	14797-65-0	Nitrite	mg/m^2
 83097	Nutrient	Nitrite, wet atmospheric deposition, filtered, microequivalents per liter	14797-65-0	Nitrite	ueq/L
 83098	Nutrient	Nitrite, wet atmospheric deposition, unfiltered, milligrams per liter as nitrogen	14797-65-0	Nitrite	mg/l as N
-83099	Nutrient	Nitrite, wet atmospheric deposition, unfiltered, milligrams per square meter as nitrogen	14797-65-0	Nitrite	mg/m2 as N
+83099	Nutrient	Nitrite, wet atmospheric deposition, unfiltered, milligrams per square meter as nitrogen	14797-65-0	Nitrite	mg/m^2 as N
 83100	Nutrient	Nitrite, wet atmospheric deposition, unfiltered, microequivalents per liter	14797-65-0	Nitrite	ueq/L
 83101	Nutrient	Nitrite, wet atmospheric deposition, unfiltered, milligrams per liter as nitrite	14797-65-0	Nitrite	mg/l
-83102	Nutrient	Nitrite, wet atmospheric deposition, unfiltered, milligrams per square meter as nitrite	14797-65-0	Nitrite	mg/m2
+83102	Nutrient	Nitrite, wet atmospheric deposition, unfiltered, milligrams per square meter as nitrite	14797-65-0	Nitrite	mg/m^2
 83103	Nutrient	Nitrite, wet atmospheric deposition, unfiltered, microequivalents per liter	14797-65-0	Nitrite	ueq/L
 83108	Nutrient	Orthophosphate, wet atmospheric deposition, filtered, milligrams per liter as phosphorus	14265-44-2	Phosphate	mg/l as P
-83109	Nutrient	Orthophosphate, wet atmospheric deposition, filtered, milligrams per square meter as phosphorus	14265-44-2	Phosphate	mg/m2 as P
+83109	Nutrient	Orthophosphate, wet atmospheric deposition, filtered, milligrams per square meter as phosphorus	14265-44-2	Phosphate	mg/m^2 as P
 83110	Nutrient	Orthophosphate, wet atmospheric deposition, filtered, microequivalents per liter	14265-44-2	Phosphate	ueq/L
 83111	Nutrient	Orthophosphate, wet atmospheric deposition, filtered, milligrams per liter as PO4	14265-44-2	Phosphate	mg/l
-83112	Nutrient	Orthophosphate, wet atmospheric deposition, filtered, milligrams per square meter as PO4	14265-44-2	Phosphate	mg/m2
+83112	Nutrient	Orthophosphate, wet atmospheric deposition, filtered, milligrams per square meter as PO4	14265-44-2	Phosphate	mg/m^2
 83113	Nutrient	Orthophosphate, wet atmospheric deposition, filtered, microequivalents per liter	14265-44-2	Phosphate	ueq/L
 83114	Nutrient	Orthophosphate, wet atmospheric deposition, unfiltered, milligrams per liter as phosphorus	14265-44-2	Phosphate	mg/l as P
-83115	Nutrient	Orthophosphate, wet atmospheric deposition, unfiltered, milligrams per square meter as phosphorus	14265-44-2	Phosphate	mg/m2 as P
+83115	Nutrient	Orthophosphate, wet atmospheric deposition, unfiltered, milligrams per square meter as phosphorus	14265-44-2	Phosphate	mg/m^2 as P
 83116	Nutrient	Orthophosphate, wet atmospheric deposition, unfiltered, microequivalents per liter	14265-44-2	Phosphate	ueq/L
 83117	Nutrient	Orthophosphate, wet atmospheric deposition, unfiltered, milligrams per liter as PO4	14265-44-2	Phosphate	mg/l
-83118	Nutrient	Orthophosphate, wet atmospheric deposition, unfiltered, milligrams per square meter as PO4	14265-44-2	Phosphate	mg/m2
+83118	Nutrient	Orthophosphate, wet atmospheric deposition, unfiltered, milligrams per square meter as PO4	14265-44-2	Phosphate	mg/m^2
 83119	Nutrient	Orthophosphate, wet atmospheric deposition, unfiltered, microequivalents per liter	14265-44-2	Phosphate	ueq/L
 83326	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, filtered, milligrams per liter as nitrogen		Ammonia and ammonium	mg/l as N
-83327	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, filtered, milligrams per square meter as nitrogen		Ammonia and ammonium	mg/m2 as N
+83327	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, filtered, milligrams per square meter as nitrogen		Ammonia and ammonium	mg/m^2 as N
 83328	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, filtered, microequivalents per liter		Ammonia and ammonium	ueq/L
 83329	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, filtered, milligrams per liter as NH4		Ammonia and ammonium	mg/l NH4
-83330	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, filtered, milligrams per square meter as NH4		Ammonia and ammonium	mg/m2 NH4
+83330	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, filtered, milligrams per square meter as NH4		Ammonia and ammonium	mg/m^2 NH4
 83331	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, filtered, microequivalents per liter		Ammonia and ammonium	ueq/L
 83332	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, suspended, milligrams per liter as nitrogen		Ammonia and ammonium	mg/l as N
-83333	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, suspended, milligrams per square meter as nitrogen		Ammonia and ammonium	mg/m2 as N
+83333	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, suspended, milligrams per square meter as nitrogen		Ammonia and ammonium	mg/m^2 as N
 83334	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, suspended, microequivalents per liter		Ammonia and ammonium	ueq/L
 83335	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, suspended, milligrams per liter as NH4		Ammonia and ammonium	mg/l NH4
-83336	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, suspended, milligrams per square meter as NH4		Ammonia and ammonium	mg/m2 NH4
+83336	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, suspended, milligrams per square meter as NH4		Ammonia and ammonium	mg/m^2 NH4
 83337	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, suspended, microequivalents per liter		Ammonia and ammonium	ueq/L
 83338	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, unfiltered, recoverable, milligrams per liter as nitrogen		Ammonia and ammonium	mg/l as N
-83339	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, unfiltered, recoverable, milligrams per square meter as nitrogen		Ammonia and ammonium	mg/m2 as N
+83339	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, unfiltered, recoverable, milligrams per square meter as nitrogen		Ammonia and ammonium	mg/m^2 as N
 83340	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, unfiltered, recoverable, microequivalents per liter		Ammonia and ammonium	ueq/L
 83341	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, unfiltered, recoverable, milligrams per liter as NH4		Ammonia and ammonium	mg/l NH4
-83342	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, unfiltered, recoverable, milligrams per square meter as NH4		Ammonia and ammonium	mg/m2 NH4
+83342	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, unfiltered, recoverable, milligrams per square meter as NH4		Ammonia and ammonium	mg/m^2 NH4
 83343	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, unfiltered, recoverable, microequivalents per liter		Ammonia and ammonium	ueq/L
 83344	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, unfiltered, milligrams per liter as nitrogen		Ammonia and ammonium	mg/l as N
-83345	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, unfiltered, milligrams per square meter as nitrogen		Ammonia and ammonium	mg/m2 as N
+83345	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, unfiltered, milligrams per square meter as nitrogen		Ammonia and ammonium	mg/m^2 as N
 83346	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, unfiltered, microequivalents per liter		Ammonia and ammonium	ueq/L
 83347	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, unfiltered, milligrams per liter as NH4		Ammonia and ammonium	mg/l NH4
-83348	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, unfiltered, milligrams per square meter as NH4		Ammonia and ammonium	mg/m2 NH4
+83348	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, unfiltered, milligrams per square meter as NH4		Ammonia and ammonium	mg/m^2 NH4
 83349	Nutrient	Ammonia (NH3 + NH4+), bulk atmospheric deposition, unfiltered, microequivalents per liter		Ammonia and ammonium	ueq/L
 83350	Nutrient	Nitrate, bulk atmospheric deposition, filtered, milligrams per liter as nitrogen	14797-55-8	Nitrate	mg/l as N
-83351	Nutrient	Nitrate, bulk atmospheric deposition, filtered, milligrams per square meter as nitrogen	14797-55-8	Nitrate	mg/m2 as N
+83351	Nutrient	Nitrate, bulk atmospheric deposition, filtered, milligrams per square meter as nitrogen	14797-55-8	Nitrate	mg/m^2 as N
 83352	Nutrient	Nitrate, bulk atmospheric deposition, filtered, microequivalents per liter	14797-55-8	Nitrate	ueq/L
 83353	Nutrient	Nitrate, bulk atmospheric deposition, filtered, milligrams per liter as nitrate	14797-55-8	Nitrate	mg/l
-83354	Nutrient	Nitrate, bulk atmospheric deposition, filtered, milligrams per square meter as nitrate	14797-55-8	Nitrate	mg/m2
+83354	Nutrient	Nitrate, bulk atmospheric deposition, filtered, milligrams per square meter as nitrate	14797-55-8	Nitrate	mg/m^2
 83355	Nutrient	Nitrate, bulk atmospheric deposition, filtered, microequivalents per liter	14797-55-8	Nitrate	ueq/L
 83356	Nutrient	Nitrate, bulk atmospheric deposition, unfiltered, milligrams per liter as nitrogen	14797-55-8	Nitrate	mg/l as N
-83357	Nutrient	Nitrate, bulk atmospheric deposition, unfiltered, milligrams per square meter as nitrogen	14797-55-8	Nitrate	mg/m2 as N
+83357	Nutrient	Nitrate, bulk atmospheric deposition, unfiltered, milligrams per square meter as nitrogen	14797-55-8	Nitrate	mg/m^2 as N
 83358	Nutrient	Nitrate, bulk atmospheric deposition, unfiltered, microequivalents per liter	14797-55-8	Nitrate	ueq/L
 83359	Nutrient	Nitrate, bulk atmospheric deposition, unfiltered, milligrams per liter as nitrate	14797-55-8	Nitrate	mg/l
-83360	Nutrient	Nitrate, bulk atmospheric deposition, unfiltered, milligrams per square meter as nitrate	14797-55-8	Nitrate	mg/m2
+83360	Nutrient	Nitrate, bulk atmospheric deposition, unfiltered, milligrams per square meter as nitrate	14797-55-8	Nitrate	mg/m^2
 83361	Nutrient	Nitrate, bulk atmospheric deposition, unfiltered, microequivalents per liter	14797-55-8	Nitrate	ueq/L
 83362	Nutrient	Nitrate plus nitrite, bulk atmospheric deposition, filtered, milligrams per liter as nitrogen		Inorganic nitrogen (nitrate and nitrite)	mg/l as N
-83363	Nutrient	Nitrate plus nitrite, bulk atmospheric deposition, filtered, milligrams per square meter as nitrogen		Inorganic nitrogen (nitrate and nitrite)	mg/m2 as N
+83363	Nutrient	Nitrate plus nitrite, bulk atmospheric deposition, filtered, milligrams per square meter as nitrogen		Inorganic nitrogen (nitrate and nitrite)	mg/m^2 as N
 83364	Nutrient	Nitrate plus nitrite, bulk atmospheric deposition, filtered, microequivalents per liter		Inorganic nitrogen (nitrate and nitrite)	ueq/L
 83365	Nutrient	Nitrate plus nitrite, bulk atmospheric deposition, filtered, milligrams per liter as nitrate		Inorganic nitrogen (nitrate and nitrite)	mg/l NO3
-83366	Nutrient	Nitrate plus nitrite, bulk atmospheric deposition, filtered, milligrams per square meter as nitrate		Inorganic nitrogen (nitrate and nitrite)	mg/m2 NO3
+83366	Nutrient	Nitrate plus nitrite, bulk atmospheric deposition, filtered, milligrams per square meter as nitrate		Inorganic nitrogen (nitrate and nitrite)	mg/m^2 NO3
 83367	Nutrient	Nitrate plus nitrite, bulk atmospheric deposition, filtered, microequivalents per liter		Inorganic nitrogen (nitrate and nitrite)	ueq/L
 83368	Nutrient	Nitrate plus nitrite, bulk atmospheric deposition, unfiltered, milligrams per liter as nitrogen		Inorganic nitrogen (nitrate and nitrite)	mg/l as N
-83369	Nutrient	Nitrate plus nitrite, bulk atmospheric deposition, unfiltered, milligrams per square meter as nitrogen		Inorganic nitrogen (nitrate and nitrite)	mg/m2 as N
+83369	Nutrient	Nitrate plus nitrite, bulk atmospheric deposition, unfiltered, milligrams per square meter as nitrogen		Inorganic nitrogen (nitrate and nitrite)	mg/m^2 as N
 83370	Nutrient	Nitrate plus nitrite, bulk atmospheric deposition, unfiltered, microequivalents per liter		Inorganic nitrogen (nitrate and nitrite)	ueq/L
 83371	Nutrient	Nitrate plus nitrite, bulk atmospheric deposition, unfiltered, milligrams per liter as nitrate		Inorganic nitrogen (nitrate and nitrite)	mg/l NO3
-83372	Nutrient	Nitrate plus nitrite, bulk atmospheric deposition, unfiltered, milligrams per square meter as nitrate		Inorganic nitrogen (nitrate and nitrite)	mg/m2 NO3
+83372	Nutrient	Nitrate plus nitrite, bulk atmospheric deposition, unfiltered, milligrams per square meter as nitrate		Inorganic nitrogen (nitrate and nitrite)	mg/m^2 NO3
 83373	Nutrient	Nitrate plus nitrite, bulk atmospheric deposition, unfiltered, microequivalents per liter		Inorganic nitrogen (nitrate and nitrite)	ueq/L
 83374	Nutrient	Nitrite, bulk atmospheric deposition, filtered, milligrams per liter as nitrogen	14797-65-0	Nitrite	mg/l as N
-83375	Nutrient	Nitrite, bulk atmospheric deposition, filtered, milligrams per square meter as nitrogen	14797-65-0	Nitrite	mg/m2 as N
+83375	Nutrient	Nitrite, bulk atmospheric deposition, filtered, milligrams per square meter as nitrogen	14797-65-0	Nitrite	mg/m^2 as N
 83376	Nutrient	Nitrite, bulk atmospheric deposition, filtered, microequivalents per liter	14797-65-0	Nitrite	ueq/L
 83377	Nutrient	Nitrite, bulk atmospheric deposition, filtered, milligrams per liter as nitrite	14797-65-0	Nitrite	mg/l
-83378	Nutrient	Nitrite, bulk atmospheric deposition, filtered, milligrams per square meter as nitrite	14797-65-0	Nitrite	mg/m2
+83378	Nutrient	Nitrite, bulk atmospheric deposition, filtered, milligrams per square meter as nitrite	14797-65-0	Nitrite	mg/m^2
 83379	Nutrient	Nitrite, bulk atmospheric deposition, filtered, microequivalents per liter	14797-65-0	Nitrite	ueq/L
 83380	Nutrient	Nitrite, bulk atmospheric deposition, unfiltered, milligrams per liter as nitrogen	14797-65-0	Nitrite	mg/l as N
-83381	Nutrient	Nitrite, bulk atmospheric deposition, unfiltered, milligrams per square meter as nitrogen	14797-65-0	Nitrite	mg/m2 as N
+83381	Nutrient	Nitrite, bulk atmospheric deposition, unfiltered, milligrams per square meter as nitrogen	14797-65-0	Nitrite	mg/m^2 as N
 83382	Nutrient	Nitrite, bulk atmospheric deposition, unfiltered, microequivalents per liter	14797-65-0	Nitrite	ueq/L
 83383	Nutrient	Nitrite, bulk atmospheric deposition, unfiltered, milligrams per liter as nitrite	14797-65-0	Nitrite	mg/l
-83384	Nutrient	Nitrite, bulk atmospheric deposition, unfiltered, milligrams per square meter as nitrite	14797-65-0	Nitrite	mg/m2
+83384	Nutrient	Nitrite, bulk atmospheric deposition, unfiltered, milligrams per square meter as nitrite	14797-65-0	Nitrite	mg/m^2
 83385	Nutrient	Nitrite, bulk atmospheric deposition, unfiltered, microequivalents per liter	14797-65-0	Nitrite	ueq/L
 83390	Nutrient	Orthophosphate, bulk atmospheric deposition, filtered, milligrams per liter as phosphorus	14265-44-2	Phosphate	mg/l as P
-83391	Nutrient	Orthophosphate, bulk atmospheric deposition, filtered, milligrams per square meter as phosphorus	14265-44-2	Phosphate	mg/m2 as P
+83391	Nutrient	Orthophosphate, bulk atmospheric deposition, filtered, milligrams per square meter as phosphorus	14265-44-2	Phosphate	mg/m^2 as P
 83392	Nutrient	Orthophosphate, bulk atmospheric deposition, filtered, microequivalents per liter	14265-44-2	Phosphate	ueq/L
 83393	Nutrient	Orthophosphate, bulk atmospheric deposition, filtered, milligrams per liter as PO4	14265-44-2	Phosphate	mg/l
-83394	Nutrient	Orthophosphate, bulk atmospheric deposition, filtered, milligrams per square meter as PO4	14265-44-2	Phosphate	mg/m2
+83394	Nutrient	Orthophosphate, bulk atmospheric deposition, filtered, milligrams per square meter as PO4	14265-44-2	Phosphate	mg/m^2
 83395	Nutrient	Orthophosphate, bulk atmospheric deposition, filtered, microequivalents per liter	14265-44-2	Phosphate	ueq/L
 83396	Nutrient	Orthophosphate, bulk atmospheric deposition, unfiltered, milligrams per liter as phosphorus	14265-44-2	Phosphate	mg/l as P
-83397	Nutrient	Orthophosphate, bulk atmospheric deposition, unfiltered, milligrams per square meter as phosphorus	14265-44-2	Phosphate	mg/m2 as P
+83397	Nutrient	Orthophosphate, bulk atmospheric deposition, unfiltered, milligrams per square meter as phosphorus	14265-44-2	Phosphate	mg/m^2 as P
 83398	Nutrient	Orthophosphate, bulk atmospheric deposition, unfiltered, microequivalents per liter as PO4	14265-44-2	Phosphate	ueq/L
 83399	Nutrient	Orthophosphate, bulk atmospheric deposition, unfiltered, milligrams per liter as PO4	14265-44-2	Phosphate	mg/l
-83400	Nutrient	Orthophosphate, bulk atmospheric deposition, unfiltered, milligrams per square meter as PO4	14265-44-2	Phosphate	mg/m2
+83400	Nutrient	Orthophosphate, bulk atmospheric deposition, unfiltered, milligrams per square meter as PO4	14265-44-2	Phosphate	mg/m^2
 83401	Nutrient	Orthophosphate, bulk atmospheric deposition, unfiltered, microequivalents per liter	14265-44-2	Phosphate	ueq/L
 83551	Nutrient	Hydrolyzable phosphorus, water, dissolved, pounds per day			lb/day
 83554	Nutrient	Nitrate plus nitrite, water, total, short tons per day as nitrogen			ton/d as N
 83555	Nutrient	Orthophosphate, water, dissolved, pounds of phosphorus per day	14265-44-2		lb/d as P
 83556	Nutrient	Orthophosphate, water, dissolved, pounds of PO4 per day	14265-44-2		lb/d asPO4
-85570	Nutrient	Dinitrogen, water, dissolved, cubic centimeters per gram at standard temperature and pressure	7727-37-9	Nitrogen	cm3/g @STP
+85570	Nutrient	Dinitrogen, water, dissolved, cubic centimeters per gram at standard temperature and pressure	7727-37-9	Nitrogen	cm^3/g @STP
 90859	Nutrient	Nitrate plus nitrite, water, unfiltered, calculated, milligrams per liter as nitrogen		Inorganic nitrogen (nitrate and nitrite)	mg/l as N
 90861	Nutrient	Particulate nitrogen to particulate organic carbon mass ratio, number			None
 91003	Nutrient	Nitrate, water, filtered, micrograms per liter as nitrate	14797-55-8	Nitrate	ug/l
@@ -3295,10 +3295,10 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 31803	Microbiological	Bacteroides human marker qHF183, solids, recoverable, dry weight, copies per gram (cp/g)			cp/g
 31804	Microbiological	Bacteroides bovine marker BoBac, solids, recoverable, dry weight, copies per gram (cp/g)			cp/g
 31805	Microbiological	Bacteroides dog marker BacCan, solids, recoverable, dry weight, copies per gram (cp/g)			cp/g
-31806	Microbiological	Bacteroides bovine marker CowM2, water, 0.4 micron filter method, recoverable, copies per 100 milliliter (cp/100 mL)			cp/100 mL
-31807	Microbiological	Bacteroides bovine marker CowM2, solids, recoverable, dry weight, copies per gram (cp/g)			cp/g
-31808	Microbiological	Bacteroides ruminant marker Rum2Bac, water, 0.4 micron filter method, recoverable, copies per 100 milliliter (cp/100 mL)			cp/100 mL
-31809	Microbiological	Bacteroides ruminant marker Rum2Bac, solids, recoverable, dry weight, copies per gram (cp/g)			cp/g
+31806	Microbiological	Bacteroides bovine marker Cowm^2, water, 0.4 micron filter method, recoverable, copies per 100 milliliter (cp/100 mL)			cp/100 mL
+31807	Microbiological	Bacteroides bovine marker Cowm^2, solids, recoverable, dry weight, copies per gram (cp/g)			cp/g
+31808	Microbiological	Bacteroides ruminant marker Rum^2Bac, water, 0.4 micron filter method, recoverable, copies per 100 milliliter (cp/100 mL)			cp/100 mL
+31809	Microbiological	Bacteroides ruminant marker Rum^2Bac, solids, recoverable, dry weight, copies per gram (cp/g)			cp/g
 31810	Microbiological	Catellicoccus avian marker GFD, water, 0.4 micron filter method, recoverable, copies per 100 milliliter (cp/100 mL)			cp/100 mL
 31811	Microbiological	Catellicoccus avian marker GFD, solids, recoverable, dry weight, copies per gram (cp/g)			cp/g
 31812	Microbiological	Escherichia coli Shiga toxin 1 (stx1) gene, water, presence or absence in 500 milliliters			PrsAbs0.5L
@@ -3431,8 +3431,8 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 99769	Microbiological	Hepatitis-A virus, reverse-transcriptase polymerase chain reaction method (RT-PCR), 1MDS filter, water, presence or absence in 50 liters			PrsAbs/50L
 99770	Microbiological	Norwalk virus, reverse-transcriptase polymerase chain reaction method (RT-PCR), 1MDS filter, water, presence or absence in 50 liters			PrsAbs/50L
 99771	Microbiological	Calicivirus, reverse-transcriptase polymerase chain reaction method (RT-PCR), 1MDS filter, water, presence or absence in 50 liters		Caliciviruses	PrsAbs/50L
-00572	Biological	Biomass, periphyton, ash weight, grams per square meter		Biomass, periphyton	g/m2
-00573	Biological	Biomass, periphyton, dry weight, grams per square meter		Biomass, periphyton	g/m2
+00572	Biological	Biomass, periphyton, ash weight, grams per square meter		Biomass, periphyton	g/m^2
+00573	Biological	Biomass, periphyton, dry weight, grams per square meter		Biomass, periphyton	g/m^2
 01340	Biological	Dead fish, severity, code		Dead fish, severity	code
 01371	Biological	Average length of biological tissue samples in composite, centimeters			cm
 01373	Biological	Average weight of biological tissue samples in composite, grams			g
@@ -3453,19 +3453,19 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 32213	Biological	Pheophytin a, fluorometric method, micrograms per liter	603-17-8	Pheophytin a	ug/l
 32217	Biological	Chlorophyll a, fluorometric method, uncorrected, micrograms per liter	479-61-8	Chlorophyll a	ug/l
 32218	Biological	Pheophytin a, phytoplankton, spectrophotometric acid method, micrograms per liter	603-17-8	Pheophytin a	ug/l
-32223	Biological	Chlorophyll a, periphyton, spectrophotometric method, corrected, milligrams per square meter	479-61-8	Chlorophyll a	mg/m2
-32224	Biological	Pheophytin a, periphyton, spectrophotometric acid method, corrected, milligrams per square meter	603-17-8	Pheophytin a	mg/m2
-32225	Biological	Chlorophylls, periphyton, spectrophotometric method, uncorrected, milligrams per square meter	1406-65-1	Chlorophyll	mg/m2
-32226	Biological	Chlorophyll b, periphyton, spectrophotometric method, uncorrected, milligrams per square meter	519-62-0	Chlorophyll b	mg/m2
-32227	Biological	Chlorophyll c, periphyton, spectrophotometric method, uncorrected, milligrams per square meter	11003-45-5	Chlorophyll c	mg/m2
-32228	Biological	Chlorophyll a, periphyton, spectrophotometric method, uncorrected, milligrams per square meter	479-61-8	Chlorophyll a	mg/m2
+32223	Biological	Chlorophyll a, periphyton, spectrophotometric method, corrected, milligrams per square meter	479-61-8	Chlorophyll a	mg/m^2
+32224	Biological	Pheophytin a, periphyton, spectrophotometric acid method, corrected, milligrams per square meter	603-17-8	Pheophytin a	mg/m^2
+32225	Biological	Chlorophylls, periphyton, spectrophotometric method, uncorrected, milligrams per square meter	1406-65-1	Chlorophyll	mg/m^2
+32226	Biological	Chlorophyll b, periphyton, spectrophotometric method, uncorrected, milligrams per square meter	519-62-0	Chlorophyll b	mg/m^2
+32227	Biological	Chlorophyll c, periphyton, spectrophotometric method, uncorrected, milligrams per square meter	11003-45-5	Chlorophyll c	mg/m^2
+32228	Biological	Chlorophyll a, periphyton, spectrophotometric method, uncorrected, milligrams per square meter	479-61-8	Chlorophyll a	mg/m^2
 32230	Biological	Chlorophyll a, phytoplankton, spectrophotometric method, uncorrected, micrograms per liter	479-61-8	Chlorophyll a	ug/l
 32231	Biological	Chlorophyll b, phytoplankton, spectrophotometric method, micrograms per liter	519-62-0	Chlorophyll b	ug/l
 32232	Biological	Chlorophyll c, phytoplankton, spectrophotometric method, micrograms per liter	11003-45-5	Chlorophyll c	ug/l
 32234	Biological	Chlorophylls, phytoplankton, spectrophotometric method, uncorrected, micrograms per liter	1406-65-1	Chlorophyll	ug/l
-32241	Biological	Chlorophylls, periphyton, fluorometric method, uncorrected, milligrams per square meter	1406-65-1	Chlorophyll	mg/m2
-32242	Biological	Chlorophyll a, periphyton, fluorometric method, corrected, milligrams per square meter	479-61-8	Chlorophyll a	mg/m2
-32243	Biological	Pheophytin a, periphyton, fluorometric method, milligrams per square meter	603-17-8	Pheophytin a	mg/m2
+32241	Biological	Chlorophylls, periphyton, fluorometric method, uncorrected, milligrams per square meter	1406-65-1	Chlorophyll	mg/m^2
+32242	Biological	Chlorophyll a, periphyton, fluorometric method, corrected, milligrams per square meter	479-61-8	Chlorophyll a	mg/m^2
+32243	Biological	Pheophytin a, periphyton, fluorometric method, milligrams per square meter	603-17-8	Pheophytin a	mg/m^2
 32268	Biological	Pheophytin a, plankton in water, milligrams per cubic meter	603-17-8		mg/m3
 32269	Biological	Chlorophyll a, plankton in water, milligrams per cubic meter	479-61-8		mg/m3
 32271	Biological	Chlorophylls less than 35 microns, 35-um sieve prefilter, phytoplankton, fluorometric method, micrograms per liter	1406-65-1	Chlorophyll	ug/l
@@ -3496,7 +3496,7 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 47463	Biological	Males, in sample or catch, number			nu
 49273	Biological	Water present, biota, tissue, recoverable, dry weight, percent			%
 49953	Biological	Biomass, phytoplankton, ash free dry mass, milligrams per liter		Biomass, phytoplankton	mg/l
-49954	Biological	Biomass, periphyton, ash free dry mass, grams per square meter		Biomass, periphyton	g/m2
+49954	Biological	Biomass, periphyton, ash free dry mass, grams per square meter		Biomass, periphyton	g/m^2
 51285	Biological	Geosmin, water, filtered (0.7 micron glass fiber filter), recoverable, nanograms per liter	19700-21-1		ng/l
 51754	Biological	Cyanobacteria, water, copies per 100 milliliters (cp/100 mL)			cp/100 mL
 51755	Biological	Microcystis, water, copies per 100 milliliters (cp/100 mL)			cp/100 mL
@@ -3530,27 +3530,27 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 62356	Biological	Individuals with external tumors, biota, number in sample			nu
 62357	Biological	Individuals with ich, biota, number in sample			nu
 62358	Biological	Individuals with other external parasites, biota, number in sample			nu
-62359	Biological	Pheophytin a, periphyton, milligrams per square meter	603-17-8	Pheophytin a	mg/m2
+62359	Biological	Pheophytin a, periphyton, milligrams per square meter	603-17-8	Pheophytin a	mg/m^2
 62360	Biological	Pheophytin a, phytoplankton, micrograms per liter	603-17-8	Pheophytin a	ug/l
 62361	Biological	Chlorophyll, total, water, fluorometric, 650-700 nanometers, in situ sensor, micrograms per liter	1406-65-1	Chlorophyll	ug/l
 62886	Biological	Mean age of organisms in composite sample, years			years
 62887	Biological	Minimum age of organisms in composite sample, years			years
 62888	Biological	Maximum age of organisms in composite sample, years			years
-63763	Biological	Chlorophyll a, periphyton, depositional-targeted habitat (DTH), chromatographic-fluorometric method, milligrams per square meter	479-61-8	Chlorophyll a	mg/m2
-63764	Biological	Pheophytin a, periphyton, depositional-targeted habitat (DTH), chromatographic-fluorometric method, milligrams per square meter	603-17-8	Pheophytin a	mg/m2
-63765	Biological	Biomass, periphyton, ash weight, depositional-targeted habitat (DTH), grams per square meter		Biomass, periphyton	g/m2
-63766	Biological	Biomass, periphyton, ash free dry weight, depositional-targeted habitat (DTH), grams per square meter		Biomass, periphyton	g/m2
-63767	Biological	Biomass, periphyton, dry weight, depositional-targeted habitat (DTH), grams per square meter		Biomass, periphyton	g/m2
+63763	Biological	Chlorophyll a, periphyton, depositional-targeted habitat (DTH), chromatographic-fluorometric method, milligrams per square meter	479-61-8	Chlorophyll a	mg/m^2
+63764	Biological	Pheophytin a, periphyton, depositional-targeted habitat (DTH), chromatographic-fluorometric method, milligrams per square meter	603-17-8	Pheophytin a	mg/m^2
+63765	Biological	Biomass, periphyton, ash weight, depositional-targeted habitat (DTH), grams per square meter		Biomass, periphyton	g/m^2
+63766	Biological	Biomass, periphyton, ash free dry weight, depositional-targeted habitat (DTH), grams per square meter		Biomass, periphyton	g/m^2
+63767	Biological	Biomass, periphyton, dry weight, depositional-targeted habitat (DTH), grams per square meter		Biomass, periphyton	g/m^2
 65228	Biological	Chlorophyll b, water, unfiltered, trichromatic method, uncorrected, micrograms per liter	519-62-0	Chlorophyll b	ug/l
 65229	Biological	Chlorophyll c, water, unfiltered, trichromatic method, uncorrected, micrograms per liter	11003-45-5	Chlorophyll c	ug/l
 65230	Biological	Chlorophyll a, water, in situ, in vivo fluorescence, in vivo fluorescence units	479-61-8	Chlorophyll a	IVFU
 65231	Biological	Chlorophyll a, water, in situ, in vivo fluorescence, micrograms per liter	479-61-8	Chlorophyll a	ug/l
-70940	Biological	Invertebrates, benthic, wet weight, grams per square meter			g/m2
-70941	Biological	Invertebrates, benthic, dry weight, grams per square meter			g/m2
-70942	Biological	Invertebrates, benthic, ash weight, grams per square meter			g/m2
-70943	Biological	Invertebrates, benthic, organisms per square meter			#/m2
-70944	Biological	Macrophytes, total, number per square meter			#/m2
-70945	Biological	Periphyton, total, number of cells per square millimeter		Periphyton	cells/mm2
+70940	Biological	Invertebrates, benthic, wet weight, grams per square meter			g/m^2
+70941	Biological	Invertebrates, benthic, dry weight, grams per square meter			g/m^2
+70942	Biological	Invertebrates, benthic, ash weight, grams per square meter			g/m^2
+70943	Biological	Invertebrates, benthic, organisms per square meter			#/m^2
+70944	Biological	Macrophytes, total, number per square meter			#/m^2
+70945	Biological	Periphyton, total, number of cells per square millimeter		Periphyton	cells/mm^2
 70946	Biological	Zooplankton, total, number of organisms per cubic meter		Zooplankton	#/m3
 70947	Biological	Zooplankton, dry weight, grams per cubic meter		Zooplankton	g/m3
 70948	Biological	Zooplankton, ash weight, grams per cubic meter		Zooplankton	g/m3
@@ -3560,20 +3560,20 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 70952	Biological	Chlorophyll b, phytoplankton, chromatographic-spectrophotometric method, micrograms per liter	519-62-0	Chlorophyll b	ug/l
 70953	Biological	Chlorophyll a, phytoplankton, chromatographic-fluorometric method, micrograms per liter	479-61-8	Chlorophyll a	ug/l
 70954	Biological	Chlorophyll b, phytoplankton, chromatographic-fluorometric method, micrograms per liter	519-62-0	Chlorophyll b	ug/l
-70955	Biological	Chlorophyll a, periphyton, chromatographic-spectrophotometric method, milligrams per square meter	479-61-8	Chlorophyll a	mg/m2
-70956	Biological	Chlorophyll b, periphyton, chromatographic-spectrophotometric method, milligrams per square meter	519-62-0	Chlorophyll b	mg/m2
-70957	Biological	Chlorophyll a, periphyton, chromatographic-fluorometric method, milligrams per square meter	479-61-8	Chlorophyll a	mg/m2
-70958	Biological	Chlorophyll b, periphyton, chromatographic-fluorometric method, milligrams per square meter	519-62-0	Chlorophyll b	mg/m2
+70955	Biological	Chlorophyll a, periphyton, chromatographic-spectrophotometric method, milligrams per square meter	479-61-8	Chlorophyll a	mg/m^2
+70956	Biological	Chlorophyll b, periphyton, chromatographic-spectrophotometric method, milligrams per square meter	519-62-0	Chlorophyll b	mg/m^2
+70957	Biological	Chlorophyll a, periphyton, chromatographic-fluorometric method, milligrams per square meter	479-61-8	Chlorophyll a	mg/m^2
+70958	Biological	Chlorophyll b, periphyton, chromatographic-fluorometric method, milligrams per square meter	519-62-0	Chlorophyll b	mg/m^2
 70959	Biological	Productivity, primary, gross, milligrams oxygen per cubic meter per day			mg O2/m3/d
-70960	Biological	Productivity, primary, gross, milligrams oxygen per square meter per day			mg O2/m2/d
+70960	Biological	Productivity, primary, gross, milligrams oxygen per square meter per day			mg O2/m^2/d
 70961	Biological	Productivity, primary, gross, milligrams carbon per cubic meter per day			mg C/m3/d
-70962	Biological	Productivity, primary, gross, milligrams carbon per square meter per day			mg C/m2/d
+70962	Biological	Productivity, primary, gross, milligrams carbon per square meter per day			mg C/m^2/d
 70963	Biological	Productivity, primary, net, milligrams oxygen per cubic meter per day			mg O2/m3/d
-70964	Biological	Productivity, primary, net, milligrams oxygen per square meter per day			mg O2/m2/d
+70964	Biological	Productivity, primary, net, milligrams oxygen per square meter per day			mg O2/m^2/d
 70965	Biological	Productivity, primary, net, milligrams carbon per cubic meter per day			mg C/m3/d
-70966	Biological	Productivity, primary, net, milligrams carbon per square meter per day			mg C/m2/d
+70966	Biological	Productivity, primary, net, milligrams carbon per square meter per day			mg C/m^2/d
 70967	Biological	Respiration, milligrams oxygen per cubic meter per day		Respiration	mg 02/m3/d
-70968	Biological	Respiration, milligrams oxygen per square meter per day		Respiration	mg 02/m2/d
+70968	Biological	Respiration, milligrams oxygen per square meter per day		Respiration	mg 02/m^2/d
 70988	Biological	Algal growth potential, milligrams per liter		Algal growth potential	mg/l
 71100	Biological	Seston, water, unfiltered, total, milligrams per liter		Seston	mg/l
 71101	Biological	Seston, water, unfiltered, ash weight, milligrams per liter		Seston	mg/l
@@ -3589,8 +3589,8 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 81354	Biological	Biomass, plankton, dry weight, milligrams per liter		Biomass, plankton	mg/l
 81614	Biological	Individuals in sample, biota, number			nu
 81615	Biological	Species, different in sample, number			nu
-81804	Biological	Diatoms, periphyton, number per square millimeter			number/mm2
-82555	Biological	Carbon production in plants, photosynthesis, carbon-14, milligrams of carbon per square meter			mg C/m2
+81804	Biological	Diatoms, periphyton, number per square millimeter			number/mm^2
+82555	Biological	Carbon production in plants, photosynthesis, carbon-14, milligrams of carbon per square meter			mg C/m^2
 84015	Biological	Age of organism, years			years
 84178	Biological	Floating vegetation, severity, code		Floating vegetation severity, choice list	code
 85209	Biological	Algal growth potential, USGS modified bottle test, water, filtered, milligrams per liter		Algal growth potential	mg/l
@@ -3601,9 +3601,9 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 92213	Biological	Pheophytin a, fluorometric method, area weighted average, micrograms per liter	603-17-8	Pheophytin a	ug/l
 92217	Biological	Chlorophyll a, fluorometric method, uncorrected, area weighted average, micrograms per liter	479-61-8	Chlorophyll a	ug/l
 94423	Biological	Dreissena  Beneden, 1835, count			count
-94424	Biological	Dreissena polymorpha (Pallas, 1771) adults, number per square meter		Dreissena polymorpha	#/m2
+94424	Biological	Dreissena polymorpha (Pallas, 1771) adults, number per square meter		Dreissena polymorpha	#/m^2
 94425	Biological	Dreissena polymorpha (Pallas, 1771) larvae, number per liter		Dreissena polymorpha	#/l
-94426	Biological	Dreissena bugensis  Andrusov, 1897 adults, number per square meter			#/m2
+94426	Biological	Dreissena bugensis  Andrusov, 1897 adults, number per square meter			#/m^2
 94427	Biological	Dreissena bugensis  Andrusov, 1897 larvae, number per liter			#/l
 94428	Biological	Zebra mussel Dreissena polymorpha (Pallas, 1771) rDNA ITS 2 gene, water, DNA based, recoverable, copies per liter (cp/L)		Dreissena polymorpha	cp/L
 94429	Biological	Zebra mussel Dreissena polymorpha (Pallas, 1771) shell length, larvae, average, micrometers		Dreissena polymorpha	um
@@ -4595,13 +4595,13 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 64181	Inorganics, Minor, Metals	Lead, solids, dry weight, recoverable, milligrams per kilogram	7439-92-1	Lead	mg/kg
 64182	Inorganics, Minor, Metals	Vanadium, solids, dry weight, recoverable, milligrams per kilogram	7440-62-2	Vanadium	mg/kg
 64747	Inorganics, Minor, Metals	Mercury, wet atmospheric deposition, unfiltered, nanograms per liter	7439-97-6	Mercury	ng/l
-64749	Inorganics, Minor, Metals	Mercury, wet atmospheric deposition, unfiltered, nanograms per square meter per week	7439-97-6	Mercury	ng/m2/wk
+64749	Inorganics, Minor, Metals	Mercury, wet atmospheric deposition, unfiltered, nanograms per square meter per week	7439-97-6	Mercury	ng/m^2/wk
 64751	Inorganics, Minor, Metals	Reactive gaseous mercury, air, picograms per cubic meter			pg/m3
-64752	Inorganics, Minor, Metals	Reactive gaseous mercury, dry atmospheric deposition, nanograms per square meter per hour			ng/m2/hr
+64752	Inorganics, Minor, Metals	Reactive gaseous mercury, dry atmospheric deposition, nanograms per square meter per hour			ng/m^2/hr
 64753	Inorganics, Minor, Metals	Particulate-bound mercury, air, picograms per cubic meter	7439-97-6	Mercury	pg/m3
-64754	Inorganics, Minor, Metals	Particulate-bound mercury, dry atmospheric deposition, nanograms per square meter per hour	7439-97-6	Mercury	ng/m2/hr
+64754	Inorganics, Minor, Metals	Particulate-bound mercury, dry atmospheric deposition, nanograms per square meter per hour	7439-97-6	Mercury	ng/m^2/hr
 64755	Inorganics, Minor, Metals	Elemental mercury, air, picograms per cubic meter	7439-97-6	Mercury	pg/m3
-64756	Inorganics, Minor, Metals	Elemental mercury, dry atmospheric deposition, nanograms per square meter per hour	7439-97-6	Mercury	ng/m2/hr
+64756	Inorganics, Minor, Metals	Elemental mercury, dry atmospheric deposition, nanograms per square meter per hour	7439-97-6	Mercury	ng/m^2/hr
 64833	Inorganics, Minor, Metals	Cadmium, solids, extracted by 6N hydrochloric acid, recoverable, dry weight, milligrams per kilogram	7440-43-9	Cadmium	mg/kg
 64840	Inorganics, Minor, Metals	Beryllium, biota, tissue, recoverable, wet weight, milligrams per kilogram	7440-41-7	Beryllium	mg/kg
 64841	Inorganics, Minor, Metals	Lithium, biota, tissue, recoverable, wet weight, milligrams per kilogram	7439-93-2	Lithium	mg/kg
@@ -4757,209 +4757,209 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 82502	Inorganics, Minor, Metals	Iron, insoluble, dry atmospheric deposition, micrograms per kilogram	7439-89-6	Iron	ug/kg
 82503	Inorganics, Minor, Metals	Iron, dry atmospheric deposition, recoverable, micrograms per kilogram	7439-89-6	Iron	ug/kg
 82908	Inorganics, Minor, Metals	Aluminum, wet atmospheric deposition, filtered, microequivalents per liter	7429-90-5	Aluminum	ueq/L
-82909	Inorganics, Minor, Metals	Aluminum, wet atmospheric deposition, filtered, micrograms per square meter	7429-90-5	Aluminum	ug/m2
+82909	Inorganics, Minor, Metals	Aluminum, wet atmospheric deposition, filtered, micrograms per square meter	7429-90-5	Aluminum	ug/m^2
 82910	Inorganics, Minor, Metals	Aluminum, wet atmospheric deposition, suspended, micrograms per liter	7429-90-5	Aluminum	ug/l
-82911	Inorganics, Minor, Metals	Aluminum, wet atmospheric deposition, suspended, micrograms per square meter	7429-90-5	Aluminum	ug/m2
+82911	Inorganics, Minor, Metals	Aluminum, wet atmospheric deposition, suspended, micrograms per square meter	7429-90-5	Aluminum	ug/m^2
 82912	Inorganics, Minor, Metals	Aluminum, wet atmospheric deposition, unfiltered, recoverable, micrograms per liter	7429-90-5	Aluminum	ug/l
-82913	Inorganics, Minor, Metals	Aluminum, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7429-90-5	Aluminum	ug/m2
+82913	Inorganics, Minor, Metals	Aluminum, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7429-90-5	Aluminum	ug/m^2
 82914	Inorganics, Minor, Metals	Aluminum, wet atmospheric deposition, unfiltered, micrograms per liter	7429-90-5	Aluminum	ug/l
-82915	Inorganics, Minor, Metals	Aluminum, wet atmospheric deposition, unfiltered, micrograms per square meter	7429-90-5	Aluminum	ug/m2
+82915	Inorganics, Minor, Metals	Aluminum, wet atmospheric deposition, unfiltered, micrograms per square meter	7429-90-5	Aluminum	ug/m^2
 82924	Inorganics, Minor, Metals	Cadmium, wet atmospheric deposition, filtered, micrograms per liter	7440-43-9	Cadmium	ug/l
-82925	Inorganics, Minor, Metals	Cadmium, wet atmospheric deposition, filtered, micrograms per square meter	7440-43-9	Cadmium	ug/m2
+82925	Inorganics, Minor, Metals	Cadmium, wet atmospheric deposition, filtered, micrograms per square meter	7440-43-9	Cadmium	ug/m^2
 82926	Inorganics, Minor, Metals	Cadmium, wet atmospheric deposition, suspended, micrograms per liter	7440-43-9	Cadmium	ug/l
-82927	Inorganics, Minor, Metals	Cadmium, wet atmospheric deposition, suspended, micrograms per square meter	7440-43-9	Cadmium	ug/m2
+82927	Inorganics, Minor, Metals	Cadmium, wet atmospheric deposition, suspended, micrograms per square meter	7440-43-9	Cadmium	ug/m^2
 82928	Inorganics, Minor, Metals	Cadmium, wet atmospheric deposition, unfiltered, recoverable, micrograms per liter	7440-43-9	Cadmium	ug/l
-82929	Inorganics, Minor, Metals	Cadmium, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-43-9	Cadmium	ug/m2
+82929	Inorganics, Minor, Metals	Cadmium, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-43-9	Cadmium	ug/m^2
 82930	Inorganics, Minor, Metals	Cadmium, wet atmospheric deposition, unfiltered, micrograms per liter	7440-43-9	Cadmium	ug/l
-82931	Inorganics, Minor, Metals	Cadmium, wet atmospheric deposition, unfiltered, micrograms per square meter	7440-43-9	Cadmium	ug/m2
+82931	Inorganics, Minor, Metals	Cadmium, wet atmospheric deposition, unfiltered, micrograms per square meter	7440-43-9	Cadmium	ug/m^2
 82950	Inorganics, Minor, Metals	Chromium, wet atmospheric deposition, filtered, micrograms per liter	7440-47-3	Chromium	ug/l
-82951	Inorganics, Minor, Metals	Chromium, wet atmospheric deposition, filtered, micrograms per square meter	7440-47-3	Chromium	ug/m2
+82951	Inorganics, Minor, Metals	Chromium, wet atmospheric deposition, filtered, micrograms per square meter	7440-47-3	Chromium	ug/m^2
 82952	Inorganics, Minor, Metals	Chromium, wet atmospheric deposition, suspended, micrograms per liter	7440-47-3	Chromium	ug/l
-82953	Inorganics, Minor, Metals	Chromium, wet atmospheric deposition, suspended, micrograms per square meter	7440-47-3	Chromium	ug/m2
+82953	Inorganics, Minor, Metals	Chromium, wet atmospheric deposition, suspended, micrograms per square meter	7440-47-3	Chromium	ug/m^2
 82954	Inorganics, Minor, Metals	Chromium, wet atmospheric deposition, unfiltered, recoverable, micrograms per liter	7440-47-3	Chromium	ug/l
-82955	Inorganics, Minor, Metals	Chromium, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-47-3	Chromium	ug/m2
+82955	Inorganics, Minor, Metals	Chromium, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-47-3	Chromium	ug/m^2
 82956	Inorganics, Minor, Metals	Chromium, wet atmospheric deposition, unfiltered, micrograms per liter	7440-47-3	Chromium	ug/l
-82957	Inorganics, Minor, Metals	Chromium, wet atmospheric deposition, unfiltered, micrograms per square meter	7440-47-3	Chromium	ug/m2
+82957	Inorganics, Minor, Metals	Chromium, wet atmospheric deposition, unfiltered, micrograms per square meter	7440-47-3	Chromium	ug/m^2
 82958	Inorganics, Minor, Metals	Cobalt, wet atmospheric deposition, filtered, micrograms per liter	7440-48-4	Cobalt	ug/l
-82959	Inorganics, Minor, Metals	Cobalt, wet atmospheric deposition, filtered, micrograms per square meter	7440-48-4	Cobalt	ug/m2
+82959	Inorganics, Minor, Metals	Cobalt, wet atmospheric deposition, filtered, micrograms per square meter	7440-48-4	Cobalt	ug/m^2
 82960	Inorganics, Minor, Metals	Cobalt, wet atmospheric deposition, suspended, micrograms per liter	7440-48-4	Cobalt	ug/l
-82961	Inorganics, Minor, Metals	Cobalt, wet atmospheric deposition, suspended, micrograms per square meter	7440-48-4	Cobalt	ug/m2
+82961	Inorganics, Minor, Metals	Cobalt, wet atmospheric deposition, suspended, micrograms per square meter	7440-48-4	Cobalt	ug/m^2
 82962	Inorganics, Minor, Metals	Cobalt, wet atmospheric deposition, unfiltered, recoverable, micrograms per liter	7440-48-4	Cobalt	ug/l
-82963	Inorganics, Minor, Metals	Cobalt, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-48-4	Cobalt	ug/m2
+82963	Inorganics, Minor, Metals	Cobalt, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-48-4	Cobalt	ug/m^2
 82964	Inorganics, Minor, Metals	Cobalt, wet atmospheric deposition, unfiltered, micrograms per liter	7440-48-4	Cobalt	ug/l
-82965	Inorganics, Minor, Metals	Cobalt, wet atmospheric deposition, unfiltered, micrograms per square meter	7440-48-4	Cobalt	ug/m2
+82965	Inorganics, Minor, Metals	Cobalt, wet atmospheric deposition, unfiltered, micrograms per square meter	7440-48-4	Cobalt	ug/m^2
 82966	Inorganics, Minor, Metals	Copper, wet atmospheric deposition, filtered, micrograms per liter	7440-50-8	Copper	ug/l
-82967	Inorganics, Minor, Metals	Copper, wet atmospheric deposition, filtered, micrograms per square meter	7440-50-8	Copper	ug/m2
+82967	Inorganics, Minor, Metals	Copper, wet atmospheric deposition, filtered, micrograms per square meter	7440-50-8	Copper	ug/m^2
 82968	Inorganics, Minor, Metals	Copper, wet atmospheric deposition, suspended, micrograms per liter	7440-50-8	Copper	ug/l
-82969	Inorganics, Minor, Metals	Copper, wet atmospheric deposition, suspended, micrograms per square meter	7440-50-8	Copper	ug/m2
+82969	Inorganics, Minor, Metals	Copper, wet atmospheric deposition, suspended, micrograms per square meter	7440-50-8	Copper	ug/m^2
 82970	Inorganics, Minor, Metals	Copper, wet atmospheric deposition, unfiltered, recoverable, micrograms per liter	7440-50-8	Copper	ug/l
-82971	Inorganics, Minor, Metals	Copper, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-50-8	Copper	ug/m2
+82971	Inorganics, Minor, Metals	Copper, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-50-8	Copper	ug/m^2
 82972	Inorganics, Minor, Metals	Copper, wet atmospheric deposition, unfiltered, micrograms per liter	7440-50-8	Copper	ug/l
-82973	Inorganics, Minor, Metals	Copper, wet atmospheric deposition, unfiltered, micrograms per square meter	7440-50-8	Copper	ug/m2
+82973	Inorganics, Minor, Metals	Copper, wet atmospheric deposition, unfiltered, micrograms per square meter	7440-50-8	Copper	ug/m^2
 82986	Inorganics, Minor, Metals	Iron, wet atmospheric deposition, filtered, micrograms per liter	7439-89-6	Iron	ug/l
-82987	Inorganics, Minor, Metals	Iron, wet atmospheric deposition, filtered, micrograms per square meter	7439-89-6	Iron	ug/m2
+82987	Inorganics, Minor, Metals	Iron, wet atmospheric deposition, filtered, micrograms per square meter	7439-89-6	Iron	ug/m^2
 82988	Inorganics, Minor, Metals	Iron, wet atmospheric deposition, suspended, micrograms per liter	7439-89-6	Iron	ug/l
-82989	Inorganics, Minor, Metals	Iron, wet atmospheric deposition, suspended, micrograms per square meter	7439-89-6	Iron	ug/m2
+82989	Inorganics, Minor, Metals	Iron, wet atmospheric deposition, suspended, micrograms per square meter	7439-89-6	Iron	ug/m^2
 82990	Inorganics, Minor, Metals	Iron, wet atmospheric deposition, unfiltered, recoverable, micrograms per liter	7439-89-6	Iron	ug/l
-82991	Inorganics, Minor, Metals	Iron, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7439-89-6	Iron	ug/m2
+82991	Inorganics, Minor, Metals	Iron, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7439-89-6	Iron	ug/m^2
 82992	Inorganics, Minor, Metals	Iron, wet atmospheric deposition, unfiltered, micrograms per liter	7439-89-6	Iron	ug/l
-82993	Inorganics, Minor, Metals	Iron, wet atmospheric deposition, unfiltered, micrograms per square meter	7439-89-6	Iron	ug/m2
+82993	Inorganics, Minor, Metals	Iron, wet atmospheric deposition, unfiltered, micrograms per square meter	7439-89-6	Iron	ug/m^2
 82994	Inorganics, Minor, Metals	Lead, wet atmospheric deposition, filtered, micrograms per liter	7439-92-1	Lead	ug/l
-82995	Inorganics, Minor, Metals	Lead, wet atmospheric deposition, filtered, micrograms per square meter	7439-92-1	Lead	ug/m2
+82995	Inorganics, Minor, Metals	Lead, wet atmospheric deposition, filtered, micrograms per square meter	7439-92-1	Lead	ug/m^2
 82996	Inorganics, Minor, Metals	Lead, wet atmospheric deposition, suspended, micrograms per liter	7439-92-1	Lead	ug/l
-82997	Inorganics, Minor, Metals	Lead, wet atmospheric deposition, suspended, micrograms per square meter	7439-92-1	Lead	ug/m2
+82997	Inorganics, Minor, Metals	Lead, wet atmospheric deposition, suspended, micrograms per square meter	7439-92-1	Lead	ug/m^2
 82998	Inorganics, Minor, Metals	Lead, wet atmospheric deposition, unfiltered, recoverable, micrograms per liter	7439-92-1	Lead	ug/l
-82999	Inorganics, Minor, Metals	Lead, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7439-92-1	Lead	ug/m2
+82999	Inorganics, Minor, Metals	Lead, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7439-92-1	Lead	ug/m^2
 83000	Inorganics, Minor, Metals	Lead, wet atmospheric deposition, unfiltered, micrograms per liter	7439-92-1	Lead	ug/l
-83001	Inorganics, Minor, Metals	Lead, wet atmospheric deposition, unfiltered, micrograms per square meter	7439-92-1	Lead	ug/m2
+83001	Inorganics, Minor, Metals	Lead, wet atmospheric deposition, unfiltered, micrograms per square meter	7439-92-1	Lead	ug/m^2
 83014	Inorganics, Minor, Metals	Manganese, wet atmospheric deposition, filtered, micrograms per liter	7439-96-5	Manganese	ug/l
-83015	Inorganics, Minor, Metals	Manganese, wet atmospheric deposition, filtered, micrograms per square meter	7439-96-5	Manganese	ug/m2
+83015	Inorganics, Minor, Metals	Manganese, wet atmospheric deposition, filtered, micrograms per square meter	7439-96-5	Manganese	ug/m^2
 83016	Inorganics, Minor, Metals	Manganese, wet atmospheric deposition, suspended, micrograms per liter	7439-96-5	Manganese	ug/l
-83017	Inorganics, Minor, Metals	Manganese, wet atmospheric deposition, suspended, micrograms per square meter	7439-96-5	Manganese	ug/m2
+83017	Inorganics, Minor, Metals	Manganese, wet atmospheric deposition, suspended, micrograms per square meter	7439-96-5	Manganese	ug/m^2
 83018	Inorganics, Minor, Metals	Manganese, wet atmospheric deposition, unfiltered, recoverable, micrograms per liter	7439-96-5	Manganese	ug/l
-83019	Inorganics, Minor, Metals	Manganese, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7439-96-5	Manganese	ug/m2
+83019	Inorganics, Minor, Metals	Manganese, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7439-96-5	Manganese	ug/m^2
 83020	Inorganics, Minor, Metals	Manganese, wet atmospheric deposition, unfiltered, micrograms per liter	7439-96-5	Manganese	ug/l
-83021	Inorganics, Minor, Metals	Manganese, wet atmospheric deposition, unfiltered, micrograms per square meter	7439-96-5	Manganese	ug/m2
+83021	Inorganics, Minor, Metals	Manganese, wet atmospheric deposition, unfiltered, micrograms per square meter	7439-96-5	Manganese	ug/m^2
 83022	Inorganics, Minor, Metals	Mercury, wet atmospheric deposition, filtered, micrograms per liter	7439-97-6	Mercury	ug/l
-83023	Inorganics, Minor, Metals	Mercury, wet atmospheric deposition, filtered, micrograms per square meter	7439-97-6	Mercury	ug/m2
+83023	Inorganics, Minor, Metals	Mercury, wet atmospheric deposition, filtered, micrograms per square meter	7439-97-6	Mercury	ug/m^2
 83024	Inorganics, Minor, Metals	Mercury, wet atmospheric deposition, suspended, micrograms per liter	7439-97-6	Mercury	ug/l
-83025	Inorganics, Minor, Metals	Mercury, wet atmospheric deposition, suspended, micrograms per square meter	7439-97-6	Mercury	ug/m2
+83025	Inorganics, Minor, Metals	Mercury, wet atmospheric deposition, suspended, micrograms per square meter	7439-97-6	Mercury	ug/m^2
 83026	Inorganics, Minor, Metals	Mercury, wet atmospheric deposition, unfiltered, micrograms per liter	7439-97-6	Mercury	ug/l
-83027	Inorganics, Minor, Metals	Mercury, wet atmospheric deposition, unfiltered, micrograms per square meter	7439-97-6	Mercury	ug/m2
+83027	Inorganics, Minor, Metals	Mercury, wet atmospheric deposition, unfiltered, micrograms per square meter	7439-97-6	Mercury	ug/m^2
 83028	Inorganics, Minor, Metals	Molybdenum, wet atmospheric deposition, filtered, micrograms per liter	7439-98-7	Molybdenum	ug/l
-83029	Inorganics, Minor, Metals	Molybdenum, wet atmospheric deposition, filtered, micrograms per square meter	7439-98-7	Molybdenum	ug/m2
+83029	Inorganics, Minor, Metals	Molybdenum, wet atmospheric deposition, filtered, micrograms per square meter	7439-98-7	Molybdenum	ug/m^2
 83030	Inorganics, Minor, Metals	Molybdenum, wet atmospheric deposition, suspended, micrograms per liter	7439-98-7	Molybdenum	ug/l
-83031	Inorganics, Minor, Metals	Molybdenum, wet atmospheric deposition, suspended, micrograms per square meter	7439-98-7	Molybdenum	ug/m2
+83031	Inorganics, Minor, Metals	Molybdenum, wet atmospheric deposition, suspended, micrograms per square meter	7439-98-7	Molybdenum	ug/m^2
 83032	Inorganics, Minor, Metals	Molybdenum, wet atmospheric deposition, unfiltered, recoverable, micrograms per liter	7439-98-7	Molybdenum	ug/l
-83033	Inorganics, Minor, Metals	Molybdenum, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7439-98-7	Molybdenum	ug/m2
+83033	Inorganics, Minor, Metals	Molybdenum, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7439-98-7	Molybdenum	ug/m^2
 83034	Inorganics, Minor, Metals	Molybdenum, wet atmospheric deposition, unfiltered, micrograms per liter	7439-98-7	Molybdenum	ug/l
-83035	Inorganics, Minor, Metals	Molybdenum, wet atmospheric deposition, unfiltered, micrograms per square meter	7439-98-7	Molybdenum	ug/m2
+83035	Inorganics, Minor, Metals	Molybdenum, wet atmospheric deposition, unfiltered, micrograms per square meter	7439-98-7	Molybdenum	ug/m^2
 83036	Inorganics, Minor, Metals	Nickel, wet atmospheric deposition, filtered, micrograms per liter	7440-02-0	Nickel	ug/l
-83037	Inorganics, Minor, Metals	Nickel, wet atmospheric deposition, filtered, micrograms per square meter	7440-02-0	Nickel	ug/m2
+83037	Inorganics, Minor, Metals	Nickel, wet atmospheric deposition, filtered, micrograms per square meter	7440-02-0	Nickel	ug/m^2
 83038	Inorganics, Minor, Metals	Nickel, wet atmospheric deposition, suspended, micrograms per liter	7440-02-0	Nickel	ug/l
-83039	Inorganics, Minor, Metals	Nickel, wet atmospheric deposition, suspended, micrograms per square meter	7440-02-0	Nickel	ug/m2
+83039	Inorganics, Minor, Metals	Nickel, wet atmospheric deposition, suspended, micrograms per square meter	7440-02-0	Nickel	ug/m^2
 83040	Inorganics, Minor, Metals	Nickel, wet atmospheric deposition, unfiltered, recoverable, micrograms per liter	7440-02-0	Nickel	ug/l
-83041	Inorganics, Minor, Metals	Nickel, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-02-0	Nickel	ug/m2
+83041	Inorganics, Minor, Metals	Nickel, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-02-0	Nickel	ug/m^2
 83042	Inorganics, Minor, Metals	Nickel, wet atmospheric deposition, unfiltered, micrograms per liter	7440-02-0	Nickel	ug/l
-83043	Inorganics, Minor, Metals	Nickel, wet atmospheric deposition, unfiltered, micrograms per square meter	7440-02-0	Nickel	ug/m2
+83043	Inorganics, Minor, Metals	Nickel, wet atmospheric deposition, unfiltered, micrograms per square meter	7440-02-0	Nickel	ug/m^2
 83169	Inorganics, Minor, Metals	Vanadium, wet atmospheric deposition, filtered, micrograms per liter	7440-62-2	Vanadium	ug/l
-83170	Inorganics, Minor, Metals	Vanadium, wet atmospheric deposition, filtered, micrograms per square meter	7440-62-2	Vanadium	ug/m2
+83170	Inorganics, Minor, Metals	Vanadium, wet atmospheric deposition, filtered, micrograms per square meter	7440-62-2	Vanadium	ug/m^2
 83171	Inorganics, Minor, Metals	Vanadium, wet atmospheric deposition, suspended, micrograms per liter	7440-62-2	Vanadium	ug/l
-83172	Inorganics, Minor, Metals	Vanadium, wet atmospheric deposition, suspended, micrograms per square meter	7440-62-2	Vanadium	ug/m2
+83172	Inorganics, Minor, Metals	Vanadium, wet atmospheric deposition, suspended, micrograms per square meter	7440-62-2	Vanadium	ug/m^2
 83173	Inorganics, Minor, Metals	Vanadium, wet atmospheric deposition, unfiltered, recoverable, micrograms per liter	7440-62-2	Vanadium	ug/l
-83174	Inorganics, Minor, Metals	Vanadium, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-62-2	Vanadium	ug/m2
+83174	Inorganics, Minor, Metals	Vanadium, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-62-2	Vanadium	ug/m^2
 83175	Inorganics, Minor, Metals	Vanadium, wet atmospheric deposition, unfiltered, micrograms per liter	7440-62-2	Vanadium	ug/l
-83176	Inorganics, Minor, Metals	Vanadium, wet atmospheric deposition, unfiltered, micrograms per square meter	7440-62-2	Vanadium	ug/m2
+83176	Inorganics, Minor, Metals	Vanadium, wet atmospheric deposition, unfiltered, micrograms per square meter	7440-62-2	Vanadium	ug/m^2
 83178	Inorganics, Minor, Metals	Zinc, wet atmospheric deposition, filtered, micrograms per liter	7440-66-6	Zinc	ug/l
-83179	Inorganics, Minor, Metals	Zinc, wet atmospheric deposition, filtered, micrograms per square meter	7440-66-6	Zinc	ug/m2
+83179	Inorganics, Minor, Metals	Zinc, wet atmospheric deposition, filtered, micrograms per square meter	7440-66-6	Zinc	ug/m^2
 83180	Inorganics, Minor, Metals	Zinc, wet atmospheric deposition, suspended, micrograms per liter	7440-66-6	Zinc	ug/l
-83181	Inorganics, Minor, Metals	Zinc, wet atmospheric deposition, suspended, micrograms per square meter	7440-66-6	Zinc	ug/m2
+83181	Inorganics, Minor, Metals	Zinc, wet atmospheric deposition, suspended, micrograms per square meter	7440-66-6	Zinc	ug/m^2
 83182	Inorganics, Minor, Metals	Zinc, wet atmospheric deposition, unfiltered, recoverable, micrograms per liter	7440-66-6	Zinc	ug/l
-83183	Inorganics, Minor, Metals	Zinc, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-66-6	Zinc	ug/m2
+83183	Inorganics, Minor, Metals	Zinc, wet atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-66-6	Zinc	ug/m^2
 83184	Inorganics, Minor, Metals	Zinc, wet atmospheric deposition, unfiltered, micrograms per liter	7440-66-6	Zinc	ug/l
-83185	Inorganics, Minor, Metals	Zinc, wet atmospheric deposition, unfiltered, micrograms per square meter	7440-66-6	Zinc	ug/m2
+83185	Inorganics, Minor, Metals	Zinc, wet atmospheric deposition, unfiltered, micrograms per square meter	7440-66-6	Zinc	ug/m^2
 83190	Inorganics, Minor, Metals	Aluminum, bulk atmospheric deposition, filtered, micrograms per liter	7429-90-5	Aluminum	ug/l
-83191	Inorganics, Minor, Metals	Aluminum, bulk atmospheric deposition, filtered, micrograms per square meter	7429-90-5	Aluminum	ug/m2
+83191	Inorganics, Minor, Metals	Aluminum, bulk atmospheric deposition, filtered, micrograms per square meter	7429-90-5	Aluminum	ug/m^2
 83192	Inorganics, Minor, Metals	Aluminum, bulk atmospheric deposition, suspended, micrograms per liter	7429-90-5	Aluminum	ug/l
-83193	Inorganics, Minor, Metals	Aluminum, bulk atmospheric deposition, suspended, micrograms per square meter	7429-90-5	Aluminum	ug/m2
+83193	Inorganics, Minor, Metals	Aluminum, bulk atmospheric deposition, suspended, micrograms per square meter	7429-90-5	Aluminum	ug/m^2
 83194	Inorganics, Minor, Metals	Aluminum, bulk atmospheric deposition, unfiltered, recoverable, micrograms per liter	7429-90-5	Aluminum	ug/l
-83195	Inorganics, Minor, Metals	Aluminum, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7429-90-5	Aluminum	ug/m2
+83195	Inorganics, Minor, Metals	Aluminum, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7429-90-5	Aluminum	ug/m^2
 83196	Inorganics, Minor, Metals	Aluminum, bulk atmospheric deposition, unfiltered, micrograms per liter	7429-90-5	Aluminum	ug/l
-83197	Inorganics, Minor, Metals	Aluminum, bulk atmospheric deposition, unfiltered, micrograms per square meter	7429-90-5	Aluminum	ug/m2
+83197	Inorganics, Minor, Metals	Aluminum, bulk atmospheric deposition, unfiltered, micrograms per square meter	7429-90-5	Aluminum	ug/m^2
 83206	Inorganics, Minor, Metals	Cadmium, bulk atmospheric deposition, filtered, micrograms per liter	7440-43-9	Cadmium	ug/l
-83207	Inorganics, Minor, Metals	Cadmium, bulk atmospheric deposition, filtered, micrograms per square meter	7440-43-9	Cadmium	ug/m2
+83207	Inorganics, Minor, Metals	Cadmium, bulk atmospheric deposition, filtered, micrograms per square meter	7440-43-9	Cadmium	ug/m^2
 83208	Inorganics, Minor, Metals	Cadmium, bulk atmospheric deposition, suspended, micrograms per liter	7440-43-9	Cadmium	ug/l
-83209	Inorganics, Minor, Metals	Cadmium, bulk atmospheric deposition, suspended, micrograms per square meter	7440-43-9	Cadmium	ug/m2
+83209	Inorganics, Minor, Metals	Cadmium, bulk atmospheric deposition, suspended, micrograms per square meter	7440-43-9	Cadmium	ug/m^2
 83210	Inorganics, Minor, Metals	Cadmium, bulk atmospheric deposition, unfiltered, recoverable, micrograms per liter	7440-43-9	Cadmium	ug/l
-83211	Inorganics, Minor, Metals	Cadmium, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-43-9	Cadmium	ug/m2
+83211	Inorganics, Minor, Metals	Cadmium, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-43-9	Cadmium	ug/m^2
 83212	Inorganics, Minor, Metals	Cadmium, bulk atmospheric deposition, unfiltered, micrograms per liter	7440-43-9	Cadmium	ug/l
-83213	Inorganics, Minor, Metals	Cadmium, bulk atmospheric deposition, unfiltered, micrograms per square meter	7440-43-9	Cadmium	ug/m2
+83213	Inorganics, Minor, Metals	Cadmium, bulk atmospheric deposition, unfiltered, micrograms per square meter	7440-43-9	Cadmium	ug/m^2
 83232	Inorganics, Minor, Metals	Chromium, bulk atmospheric deposition, filtered, micrograms per liter	7440-47-3	Chromium	ug/l
-83233	Inorganics, Minor, Metals	Chromium, bulk atmospheric deposition, filtered, micrograms per square meter	7440-47-3	Chromium	ug/m2
+83233	Inorganics, Minor, Metals	Chromium, bulk atmospheric deposition, filtered, micrograms per square meter	7440-47-3	Chromium	ug/m^2
 83234	Inorganics, Minor, Metals	Chromium, bulk atmospheric deposition, suspended, micrograms per liter	7440-47-3	Chromium	ug/l
-83235	Inorganics, Minor, Metals	Chromium, bulk atmospheric deposition, suspended, micrograms per square meter	7440-47-3	Chromium	ug/m2
+83235	Inorganics, Minor, Metals	Chromium, bulk atmospheric deposition, suspended, micrograms per square meter	7440-47-3	Chromium	ug/m^2
 83236	Inorganics, Minor, Metals	Chromium, bulk atmospheric deposition, unfiltered, recoverable, micrograms per liter	7440-47-3	Chromium	ug/l
-83237	Inorganics, Minor, Metals	Chromium, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-47-3	Chromium	ug/m2
+83237	Inorganics, Minor, Metals	Chromium, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-47-3	Chromium	ug/m^2
 83238	Inorganics, Minor, Metals	Chromium, bulk atmospheric deposition, unfiltered, micrograms per liter	7440-47-3	Chromium	ug/l
-83239	Inorganics, Minor, Metals	Chromium, bulk atmospheric deposition, unfiltered, micrograms per square meter	7440-47-3	Chromium	ug/m2
+83239	Inorganics, Minor, Metals	Chromium, bulk atmospheric deposition, unfiltered, micrograms per square meter	7440-47-3	Chromium	ug/m^2
 83240	Inorganics, Minor, Metals	Cobalt, bulk atmospheric deposition, filtered, micrograms per liter	7440-48-4	Cobalt	ug/l
-83241	Inorganics, Minor, Metals	Cobalt, bulk atmospheric deposition, filtered, micrograms per square meter	7440-48-4	Cobalt	ug/m2
+83241	Inorganics, Minor, Metals	Cobalt, bulk atmospheric deposition, filtered, micrograms per square meter	7440-48-4	Cobalt	ug/m^2
 83242	Inorganics, Minor, Metals	Cobalt, bulk atmospheric deposition, suspended, micrograms per liter	7440-48-4	Cobalt	ug/l
-83243	Inorganics, Minor, Metals	Cobalt, bulk atmospheric deposition, suspended, micrograms per square meter	7440-48-4	Cobalt	ug/m2
+83243	Inorganics, Minor, Metals	Cobalt, bulk atmospheric deposition, suspended, micrograms per square meter	7440-48-4	Cobalt	ug/m^2
 83244	Inorganics, Minor, Metals	Cobalt, bulk atmospheric deposition, unfiltered, recoverable, micrograms per liter	7440-48-4	Cobalt	ug/l
-83245	Inorganics, Minor, Metals	Cobalt, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-48-4	Cobalt	ug/m2
+83245	Inorganics, Minor, Metals	Cobalt, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-48-4	Cobalt	ug/m^2
 83246	Inorganics, Minor, Metals	Cobalt, bulk atmospheric deposition, unfiltered, micrograms per liter	7440-48-4	Cobalt	ug/l
-83247	Inorganics, Minor, Metals	Cobalt, bulk atmospheric deposition, unfiltered, micrograms per square meter	7440-48-4	Cobalt	ug/m2
+83247	Inorganics, Minor, Metals	Cobalt, bulk atmospheric deposition, unfiltered, micrograms per square meter	7440-48-4	Cobalt	ug/m^2
 83248	Inorganics, Minor, Metals	Copper, bulk atmospheric deposition, filtered, micrograms per liter	7440-50-8	Copper	ug/l
-83249	Inorganics, Minor, Metals	Copper, bulk atmospheric deposition, filtered, micrograms per square meter	7440-50-8	Copper	ug/m2
+83249	Inorganics, Minor, Metals	Copper, bulk atmospheric deposition, filtered, micrograms per square meter	7440-50-8	Copper	ug/m^2
 83250	Inorganics, Minor, Metals	Copper, bulk atmospheric deposition, suspended, micrograms per liter	7440-50-8	Copper	ug/l
-83251	Inorganics, Minor, Metals	Copper, bulk atmospheric deposition, suspended, micrograms per square meter	7440-50-8	Copper	ug/m2
+83251	Inorganics, Minor, Metals	Copper, bulk atmospheric deposition, suspended, micrograms per square meter	7440-50-8	Copper	ug/m^2
 83252	Inorganics, Minor, Metals	Copper, bulk atmospheric deposition, unfiltered, recoverable, micrograms per liter	7440-50-8	Copper	ug/l
-83253	Inorganics, Minor, Metals	Copper, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-50-8	Copper	ug/m2
+83253	Inorganics, Minor, Metals	Copper, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-50-8	Copper	ug/m^2
 83254	Inorganics, Minor, Metals	Copper, bulk atmospheric deposition, unfiltered, micrograms per liter	7440-50-8	Copper	ug/l
-83255	Inorganics, Minor, Metals	Copper, bulk atmospheric deposition, unfiltered, micrograms per square meter	7440-50-8	Copper	ug/m2
+83255	Inorganics, Minor, Metals	Copper, bulk atmospheric deposition, unfiltered, micrograms per square meter	7440-50-8	Copper	ug/m^2
 83268	Inorganics, Minor, Metals	Iron, bulk atmospheric deposition, filtered, micrograms per liter	7439-89-6	Iron	ug/l
-83269	Inorganics, Minor, Metals	Iron, bulk atmospheric deposition, filtered, micrograms per square meter	7439-89-6	Iron	ug/m2
+83269	Inorganics, Minor, Metals	Iron, bulk atmospheric deposition, filtered, micrograms per square meter	7439-89-6	Iron	ug/m^2
 83270	Inorganics, Minor, Metals	Iron, bulk atmospheric deposition, suspended, micrograms per liter	7439-89-6	Iron	ug/l
-83271	Inorganics, Minor, Metals	Iron, bulk atmospheric deposition, suspended, micrograms per square meter	7439-89-6	Iron	ug/m2
+83271	Inorganics, Minor, Metals	Iron, bulk atmospheric deposition, suspended, micrograms per square meter	7439-89-6	Iron	ug/m^2
 83272	Inorganics, Minor, Metals	Iron, bulk atmospheric deposition, unfiltered, recoverable, micrograms per liter	7439-89-6	Iron	ug/l
-83273	Inorganics, Minor, Metals	Iron, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7439-89-6	Iron	ug/m2
+83273	Inorganics, Minor, Metals	Iron, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7439-89-6	Iron	ug/m^2
 83274	Inorganics, Minor, Metals	Iron, bulk atmospheric deposition, unfiltered, micrograms per liter	7439-89-6	Iron	ug/l
-83275	Inorganics, Minor, Metals	Iron, bulk atmospheric deposition, unfiltered, micrograms per square meter	7439-89-6	Iron	ug/m2
+83275	Inorganics, Minor, Metals	Iron, bulk atmospheric deposition, unfiltered, micrograms per square meter	7439-89-6	Iron	ug/m^2
 83276	Inorganics, Minor, Metals	Lead, bulk atmospheric deposition, filtered, micrograms per liter	7439-92-1	Lead	ug/l
-83277	Inorganics, Minor, Metals	Lead, bulk atmospheric deposition, filtered, micrograms per square meter	7439-92-1	Lead	ug/m2
+83277	Inorganics, Minor, Metals	Lead, bulk atmospheric deposition, filtered, micrograms per square meter	7439-92-1	Lead	ug/m^2
 83278	Inorganics, Minor, Metals	Lead, bulk atmospheric deposition, suspended, micrograms per liter	7439-92-1	Lead	ug/l
-83279	Inorganics, Minor, Metals	Lead, bulk atmospheric deposition, suspended, micrograms per square meter	7439-92-1	Lead	ug/m2
+83279	Inorganics, Minor, Metals	Lead, bulk atmospheric deposition, suspended, micrograms per square meter	7439-92-1	Lead	ug/m^2
 83280	Inorganics, Minor, Metals	Lead, bulk atmospheric deposition, unfiltered, recoverable, micrograms per liter	7439-92-1	Lead	ug/l
-83281	Inorganics, Minor, Metals	Lead, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7439-92-1	Lead	ug/m2
+83281	Inorganics, Minor, Metals	Lead, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7439-92-1	Lead	ug/m^2
 83282	Inorganics, Minor, Metals	Lead, bulk atmospheric deposition, unfiltered, micrograms per liter	7439-92-1	Lead	ug/l
-83283	Inorganics, Minor, Metals	Lead, bulk atmospheric deposition, unfiltered, micrograms per square meter	7439-92-1	Lead	ug/m2
+83283	Inorganics, Minor, Metals	Lead, bulk atmospheric deposition, unfiltered, micrograms per square meter	7439-92-1	Lead	ug/m^2
 83296	Inorganics, Minor, Metals	Manganese, bulk atmospheric deposition, filtered, micrograms per liter	7439-96-5	Manganese	ug/l
-83297	Inorganics, Minor, Metals	Manganese, bulk atmospheric deposition, filtered, micrograms per square meter	7439-96-5	Manganese	ug/m2
+83297	Inorganics, Minor, Metals	Manganese, bulk atmospheric deposition, filtered, micrograms per square meter	7439-96-5	Manganese	ug/m^2
 83298	Inorganics, Minor, Metals	Manganese, bulk atmospheric deposition, suspended, micrograms per liter	7439-96-5	Manganese	ug/l
-83299	Inorganics, Minor, Metals	Manganese, bulk atmospheric deposition, suspended, micrograms per square meter	7439-96-5	Manganese	ug/m2
+83299	Inorganics, Minor, Metals	Manganese, bulk atmospheric deposition, suspended, micrograms per square meter	7439-96-5	Manganese	ug/m^2
 83300	Inorganics, Minor, Metals	Manganese, bulk atmospheric deposition, unfiltered, recoverable, micrograms per liter	7439-96-5	Manganese	ug/l
-83301	Inorganics, Minor, Metals	Manganese, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7439-96-5	Manganese	ug/m2
+83301	Inorganics, Minor, Metals	Manganese, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7439-96-5	Manganese	ug/m^2
 83302	Inorganics, Minor, Metals	Manganese, bulk atmospheric deposition, unfiltered, micrograms per liter	7439-96-5	Manganese	ug/l
-83303	Inorganics, Minor, Metals	Manganese, bulk atmospheric deposition, unfiltered, micrograms per square meter	7439-96-5	Manganese	ug/m2
+83303	Inorganics, Minor, Metals	Manganese, bulk atmospheric deposition, unfiltered, micrograms per square meter	7439-96-5	Manganese	ug/m^2
 83304	Inorganics, Minor, Metals	Mercury, bulk atmospheric deposition, filtered, micrograms per liter	7439-97-6	Mercury	ug/l
-83305	Inorganics, Minor, Metals	Mercury, bulk atmospheric deposition, filtered, micrograms per square meter	7439-97-6	Mercury	ug/m2
+83305	Inorganics, Minor, Metals	Mercury, bulk atmospheric deposition, filtered, micrograms per square meter	7439-97-6	Mercury	ug/m^2
 83306	Inorganics, Minor, Metals	Mercury, bulk atmospheric deposition, suspended, micrograms per liter	7439-97-6	Mercury	ug/l
-83307	Inorganics, Minor, Metals	Mercury, bulk atmospheric deposition, suspended, micrograms per square meter	7439-97-6	Mercury	ug/m2
+83307	Inorganics, Minor, Metals	Mercury, bulk atmospheric deposition, suspended, micrograms per square meter	7439-97-6	Mercury	ug/m^2
 83308	Inorganics, Minor, Metals	Mercury, bulk atmospheric deposition, unfiltered, micrograms per liter	7439-97-6	Mercury	ug/l
-83309	Inorganics, Minor, Metals	Mercury, bulk atmospheric deposition, unfiltered, micrograms per square meter	7439-97-6	Mercury	ug/m2
+83309	Inorganics, Minor, Metals	Mercury, bulk atmospheric deposition, unfiltered, micrograms per square meter	7439-97-6	Mercury	ug/m^2
 83310	Inorganics, Minor, Metals	Molybdenum, bulk atmospheric deposition, filtered, micrograms per liter	7439-98-7	Molybdenum	ug/l
-83311	Inorganics, Minor, Metals	Molybdenum, bulk atmospheric deposition, filtered, micrograms per square meter	7439-98-7	Molybdenum	ug/m2
+83311	Inorganics, Minor, Metals	Molybdenum, bulk atmospheric deposition, filtered, micrograms per square meter	7439-98-7	Molybdenum	ug/m^2
 83312	Inorganics, Minor, Metals	Molybdenum, bulk atmospheric deposition, suspended, micrograms per liter	7439-98-7	Molybdenum	ug/l
-83313	Inorganics, Minor, Metals	Molybdenum, bulk atmospheric deposition, suspended, micrograms per square meter	7439-98-7	Molybdenum	ug/m2
+83313	Inorganics, Minor, Metals	Molybdenum, bulk atmospheric deposition, suspended, micrograms per square meter	7439-98-7	Molybdenum	ug/m^2
 83314	Inorganics, Minor, Metals	Molybdenum, bulk atmospheric deposition, unfiltered, recoverable, micrograms per liter	7439-98-7	Molybdenum	ug/l
-83315	Inorganics, Minor, Metals	Molybdenum, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7439-98-7	Molybdenum	ug/m2
+83315	Inorganics, Minor, Metals	Molybdenum, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7439-98-7	Molybdenum	ug/m^2
 83316	Inorganics, Minor, Metals	Molybdenum, bulk atmospheric deposition, unfiltered, micrograms per liter	7439-98-7	Molybdenum	ug/l
-83317	Inorganics, Minor, Metals	Molybdenum, bulk atmospheric deposition, unfiltered, micrograms per square meter	7439-98-7	Molybdenum	ug/m2
+83317	Inorganics, Minor, Metals	Molybdenum, bulk atmospheric deposition, unfiltered, micrograms per square meter	7439-98-7	Molybdenum	ug/m^2
 83318	Inorganics, Minor, Metals	Nickel, bulk atmospheric deposition, filtered, micrograms per liter	7440-02-0	Nickel	ug/l
-83319	Inorganics, Minor, Metals	Nickel, bulk atmospheric deposition, filtered, micrograms per square meter	7440-02-0	Nickel	ug/m2
+83319	Inorganics, Minor, Metals	Nickel, bulk atmospheric deposition, filtered, micrograms per square meter	7440-02-0	Nickel	ug/m^2
 83320	Inorganics, Minor, Metals	Nickel, bulk atmospheric deposition, suspended, micrograms per liter	7440-02-0	Nickel	ug/l
-83321	Inorganics, Minor, Metals	Nickel, bulk atmospheric deposition, suspended, micrograms per square meter	7440-02-0	Nickel	ug/m2
+83321	Inorganics, Minor, Metals	Nickel, bulk atmospheric deposition, suspended, micrograms per square meter	7440-02-0	Nickel	ug/m^2
 83322	Inorganics, Minor, Metals	Nickel, bulk atmospheric deposition, unfiltered, recoverable, micrograms per liter	7440-02-0	Nickel	ug/l
-83323	Inorganics, Minor, Metals	Nickel, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-02-0	Nickel	ug/m2
+83323	Inorganics, Minor, Metals	Nickel, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-02-0	Nickel	ug/m^2
 83324	Inorganics, Minor, Metals	Nickel, bulk atmospheric deposition, unfiltered, micrograms per liter	7440-02-0	Nickel	ug/l
-83325	Inorganics, Minor, Metals	Nickel, bulk atmospheric deposition, unfiltered, micrograms per square meter	7440-02-0	Nickel	ug/m2
+83325	Inorganics, Minor, Metals	Nickel, bulk atmospheric deposition, unfiltered, micrograms per square meter	7440-02-0	Nickel	ug/m^2
 83451	Inorganics, Minor, Metals	Vanadium, bulk atmospheric deposition, filtered, micrograms per liter	7440-62-2	Vanadium	ug/l
-83452	Inorganics, Minor, Metals	Vanadium, bulk atmospheric deposition, filtered, micrograms per square meter	7440-62-2	Vanadium	ug/m2
+83452	Inorganics, Minor, Metals	Vanadium, bulk atmospheric deposition, filtered, micrograms per square meter	7440-62-2	Vanadium	ug/m^2
 83453	Inorganics, Minor, Metals	Vanadium, bulk atmospheric deposition, suspended, micrograms per liter	7440-62-2	Vanadium	ug/l
-83454	Inorganics, Minor, Metals	Vanadium, bulk atmospheric deposition, suspended, micrograms per square meter	7440-62-2	Vanadium	ug/m2
+83454	Inorganics, Minor, Metals	Vanadium, bulk atmospheric deposition, suspended, micrograms per square meter	7440-62-2	Vanadium	ug/m^2
 83455	Inorganics, Minor, Metals	Vanadium, bulk atmospheric deposition, unfiltered, recoverable, micrograms per liter	7440-62-2	Vanadium	ug/l
-83456	Inorganics, Minor, Metals	Vanadium, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-62-2	Vanadium	ug/m2
+83456	Inorganics, Minor, Metals	Vanadium, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-62-2	Vanadium	ug/m^2
 83457	Inorganics, Minor, Metals	Vanadium, bulk atmospheric deposition, unfiltered, micrograms per liter	7440-62-2	Vanadium	ug/l
-83458	Inorganics, Minor, Metals	Vanadium, bulk atmospheric deposition, unfiltered, micrograms per square meter	7440-62-2	Vanadium	ug/m2
+83458	Inorganics, Minor, Metals	Vanadium, bulk atmospheric deposition, unfiltered, micrograms per square meter	7440-62-2	Vanadium	ug/m^2
 83460	Inorganics, Minor, Metals	Zinc, bulk atmospheric deposition, filtered, micrograms per liter	7440-66-6	Zinc	ug/l
-83461	Inorganics, Minor, Metals	Zinc, bulk atmospheric deposition, filtered, micrograms per square meter	7440-66-6	Zinc	ug/m2
+83461	Inorganics, Minor, Metals	Zinc, bulk atmospheric deposition, filtered, micrograms per square meter	7440-66-6	Zinc	ug/m^2
 83462	Inorganics, Minor, Metals	Zinc, bulk atmospheric deposition, suspended, micrograms per liter	7440-66-6	Zinc	ug/l
-83463	Inorganics, Minor, Metals	Zinc, bulk atmospheric deposition, suspended, micrograms per square meter	7440-66-6	Zinc	ug/m2
+83463	Inorganics, Minor, Metals	Zinc, bulk atmospheric deposition, suspended, micrograms per square meter	7440-66-6	Zinc	ug/m^2
 83464	Inorganics, Minor, Metals	Zinc, bulk atmospheric deposition, unfiltered, recoverable, micrograms per liter	7440-66-6	Zinc	ug/l
-83465	Inorganics, Minor, Metals	Zinc, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-66-6	Zinc	ug/m2
+83465	Inorganics, Minor, Metals	Zinc, bulk atmospheric deposition, unfiltered, recoverable, micrograms per square meter	7440-66-6	Zinc	ug/m^2
 83466	Inorganics, Minor, Metals	Zinc, bulk atmospheric deposition, unfiltered, micrograms per liter	7440-66-6	Zinc	ug/l
-83467	Inorganics, Minor, Metals	Zinc, bulk atmospheric deposition, unfiltered, micrograms per square meter	7440-66-6	Zinc	ug/m2
+83467	Inorganics, Minor, Metals	Zinc, bulk atmospheric deposition, unfiltered, micrograms per square meter	7440-66-6	Zinc	ug/m^2
 90868	Inorganics, Minor, Metals	Iron(III), water, filtered, calculated, micrograms per liter	20074-52-6		ug/l
 91009	Inorganics, Minor, Metals	Iron, water, unfiltered, short tons per day	7439-89-6	Iron	tons/day
 91010	Inorganics, Minor, Metals	Iron, water, dissolved, short tons per day	7439-89-6	Iron	tons/day
@@ -5130,10 +5130,10 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 52774	Inorganics, Minor, Non-metals	Arsenic, water, filtered, milligrams per liter	7440-38-2		mg/l
 52789	Inorganics, Minor, Non-metals	Boron, bed sediment smaller than 62.5 microns, wet sieved, laboratory, total digestion, dry weight, milligrams per kilogram	7440-42-8		mg/kg
 53446	Inorganics, Minor, Non-metals	Sulfur, suspended sediment smaller than 177 um, dry weight, percent	7704-34-9		%
-61038	Inorganics, Minor, Non-metals	Helium, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	7440-59-7	Helium	cm3/g STP
-61039	Inorganics, Minor, Non-metals	Helium error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	7440-59-7	Helium	cm3/g STP
-61046	Inorganics, Minor, Non-metals	Neon, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	7440-01-9	Neon	cm3/g STP
-61047	Inorganics, Minor, Non-metals	Neon error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	7440-01-9	Neon	cm3/g STP
+61038	Inorganics, Minor, Non-metals	Helium, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	7440-59-7	Helium	cm^3/g STP
+61039	Inorganics, Minor, Non-metals	Helium error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	7440-59-7	Helium	cm^3/g STP
+61046	Inorganics, Minor, Non-metals	Neon, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	7440-01-9	Neon	cm^3/g STP
+61047	Inorganics, Minor, Non-metals	Neon error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	7440-01-9	Neon	cm^3/g STP
 61050	Inorganics, Minor, Non-metals	Selenium, bed sediment smaller than 2 millimeters, total digestion, dry weight, milligrams per kilogram	7782-49-2	Selenium	mg/kg
 61209	Inorganics, Minor, Non-metals	Perchlorate, water, unfiltered, micrograms per liter	14797-73-0	Perchlorate	ug/l
 62171	Inorganics, Minor, Non-metals	Perchlorate, water, unfiltered, recoverable, milligrams per liter	14797-73-0	Perchlorate	mg/l
@@ -5183,71 +5183,71 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 82505	Inorganics, Minor, Non-metals	Arsenic, insoluble, dry atmospheric deposition, micrograms per kilogram	7440-38-2	Arsenic	ug/kg
 82506	Inorganics, Minor, Non-metals	Arsenic, total, dry atmospheric deposition, micrograms per kilogram	7440-38-2	Arsenic	ug/kg
 82917	Inorganics, Minor, Non-metals	Arsenic, wet atmospheric deposition, filtered, micrograms per liter	7440-38-2	Arsenic	ug/l
-82918	Inorganics, Minor, Non-metals	Arsenic, wet atmospheric deposition, filtered, micrograms per square meter	7440-38-2	Arsenic	ug/m2
+82918	Inorganics, Minor, Non-metals	Arsenic, wet atmospheric deposition, filtered, micrograms per square meter	7440-38-2	Arsenic	ug/m^2
 82919	Inorganics, Minor, Non-metals	Arsenic, wet atmospheric deposition, suspended, micrograms per liter	7440-38-2	Arsenic	ug/l
-82920	Inorganics, Minor, Non-metals	Arsenic, wet atmospheric deposition, suspended, micrograms per square meter	7440-38-2	Arsenic	ug/m2
+82920	Inorganics, Minor, Non-metals	Arsenic, wet atmospheric deposition, suspended, micrograms per square meter	7440-38-2	Arsenic	ug/m^2
 82921	Inorganics, Minor, Non-metals	Arsenic, wet atmospheric deposition, unfiltered, micrograms per liter	7440-38-2	Arsenic	ug/l
-82922	Inorganics, Minor, Non-metals	Arsenic, wet atmospheric deposition, unfiltered, micrograms per square meter	7440-38-2	Arsenic	ug/m2
+82922	Inorganics, Minor, Non-metals	Arsenic, wet atmospheric deposition, unfiltered, micrograms per square meter	7440-38-2	Arsenic	ug/m^2
 83132	Inorganics, Minor, Non-metals	Selenium, wet atmospheric deposition, filtered, micrograms per liter	7782-49-2	Selenium	ug/l
-83133	Inorganics, Minor, Non-metals	Selenium, wet atmospheric deposition, filtered, micrograms per square meter	7782-49-2	Selenium	ug/m2
+83133	Inorganics, Minor, Non-metals	Selenium, wet atmospheric deposition, filtered, micrograms per square meter	7782-49-2	Selenium	ug/m^2
 83134	Inorganics, Minor, Non-metals	Selenium, wet atmospheric deposition, suspended, micrograms per liter	7782-49-2	Selenium	ug/l
-83135	Inorganics, Minor, Non-metals	Selenium, wet atmospheric deposition, suspended, micrograms per square meter	7782-49-2	Selenium	ug/m2
+83135	Inorganics, Minor, Non-metals	Selenium, wet atmospheric deposition, suspended, micrograms per square meter	7782-49-2	Selenium	ug/m^2
 83136	Inorganics, Minor, Non-metals	Selenium, wet atmospheric deposition, unfiltered, micrograms per liter	7782-49-2	Selenium	ug/l
-83137	Inorganics, Minor, Non-metals	Selenium, wet atmospheric deposition, unfiltered, micrograms per square meter	7782-49-2	Selenium	ug/m2
+83137	Inorganics, Minor, Non-metals	Selenium, wet atmospheric deposition, unfiltered, micrograms per square meter	7782-49-2	Selenium	ug/m^2
 83199	Inorganics, Minor, Non-metals	Arsenic, bulk atmospheric deposition, filtered, micrograms per liter	7440-38-2	Arsenic	ug/l
-83200	Inorganics, Minor, Non-metals	Arsenic, bulk atmospheric deposition, filtered, micrograms per square meter	7440-38-2	Arsenic	ug/m2
+83200	Inorganics, Minor, Non-metals	Arsenic, bulk atmospheric deposition, filtered, micrograms per square meter	7440-38-2	Arsenic	ug/m^2
 83201	Inorganics, Minor, Non-metals	Arsenic, bulk atmospheric deposition, suspended, micrograms per liter	7440-38-2	Arsenic	ug/l
-83202	Inorganics, Minor, Non-metals	Arsenic, bulk atmospheric deposition, suspended, micrograms per square meter	7440-38-2	Arsenic	ug/m2
+83202	Inorganics, Minor, Non-metals	Arsenic, bulk atmospheric deposition, suspended, micrograms per square meter	7440-38-2	Arsenic	ug/m^2
 83203	Inorganics, Minor, Non-metals	Arsenic, bulk atmospheric deposition, unfiltered, micrograms per liter	7440-38-2	Arsenic	ug/l
-83204	Inorganics, Minor, Non-metals	Arsenic, bulk atmospheric deposition, unfiltered, micrograms per square meter	7440-38-2	Arsenic	ug/m2
+83204	Inorganics, Minor, Non-metals	Arsenic, bulk atmospheric deposition, unfiltered, micrograms per square meter	7440-38-2	Arsenic	ug/m^2
 83414	Inorganics, Minor, Non-metals	Selenium, bulk atmospheric deposition, filtered, micrograms per liter	7782-49-2	Selenium	ug/l
-83415	Inorganics, Minor, Non-metals	Selenium, bulk atmospheric deposition, filtered, micrograms per square meter	7782-49-2	Selenium	ug/m2
+83415	Inorganics, Minor, Non-metals	Selenium, bulk atmospheric deposition, filtered, micrograms per square meter	7782-49-2	Selenium	ug/m^2
 83416	Inorganics, Minor, Non-metals	Selenium, bulk atmospheric deposition, suspended, micrograms per liter	7782-49-2	Selenium	ug/l
-83417	Inorganics, Minor, Non-metals	Selenium, bulk atmospheric deposition, suspended, micrograms per square meter	7782-49-2	Selenium	ug/m2
+83417	Inorganics, Minor, Non-metals	Selenium, bulk atmospheric deposition, suspended, micrograms per square meter	7782-49-2	Selenium	ug/m^2
 83418	Inorganics, Minor, Non-metals	Selenium, bulk atmospheric deposition, unfiltered, micrograms per liter	7782-49-2	Selenium	ug/l
-83419	Inorganics, Minor, Non-metals	Selenium, bulk atmospheric deposition, unfiltered, micrograms per square meter	7782-49-2	Selenium	ug/m2
+83419	Inorganics, Minor, Non-metals	Selenium, bulk atmospheric deposition, unfiltered, micrograms per square meter	7782-49-2	Selenium	ug/m^2
 85542	Inorganics, Minor, Non-metals	Argon, water, dissolved, volume percent of dissolved gases	7440-37-1	Argon	%
-85563	Inorganics, Minor, Non-metals	Argon, water, dissolved, cubic centimeters per gram at standard temperature and pressure	7440-37-1	Argon	cm3/g STP
-85564	Inorganics, Minor, Non-metals	Argon error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	7440-37-1	Argon	cm3/g STP
-85565	Inorganics, Minor, Non-metals	Krypton, water, dissolved, cubic centimeters per gram at standard temperature and pressure	7439-90-9	Krypton	cm3/g STP
-85566	Inorganics, Minor, Non-metals	Krypton error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	7439-90-9	Krypton	cm3/g STP
-85567	Inorganics, Minor, Non-metals	Xenon, water, dissolved, cubic centimeters per gram at standard temperature and pressure	7440-63-3	Xenon	cm3/g STP
-85568	Inorganics, Minor, Non-metals	Xenon error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	7440-63-3	Xenon	cm3/g STP
+85563	Inorganics, Minor, Non-metals	Argon, water, dissolved, cubic centimeters per gram at standard temperature and pressure	7440-37-1	Argon	cm^3/g STP
+85564	Inorganics, Minor, Non-metals	Argon error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	7440-37-1	Argon	cm^3/g STP
+85565	Inorganics, Minor, Non-metals	Krypton, water, dissolved, cubic centimeters per gram at standard temperature and pressure	7439-90-9	Krypton	cm^3/g STP
+85566	Inorganics, Minor, Non-metals	Krypton error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	7439-90-9	Krypton	cm^3/g STP
+85567	Inorganics, Minor, Non-metals	Xenon, water, dissolved, cubic centimeters per gram at standard temperature and pressure	7440-63-3	Xenon	cm^3/g STP
+85568	Inorganics, Minor, Non-metals	Xenon error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	7440-63-3	Xenon	cm^3/g STP
 85575	Inorganics, Minor, Non-metals	Helium, water, dissolved, nanomoles per kilogram	7440-59-7	Helium	nmol/kg
 85577	Inorganics, Minor, Non-metals	Neon, water, dissolved, nanomoles per kilogram	7440-01-9	Neon	nmol/kg
 85589	Inorganics, Minor, Non-metals	Cyanide, weak acid, dissociable, water, filtered, milligrams per liter	57-12-5		mg/l
-85604	Inorganics, Minor, Non-metals	Argon-36, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13965-95-2		cm3/g @STP
-85605	Inorganics, Minor, Non-metals	Argon-36 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13965-95-2		cm3/g @STP
-85606	Inorganics, Minor, Non-metals	Argon-40, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	1290046-39-7		cm3/g @STP
-85607	Inorganics, Minor, Non-metals	Argon-40 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	1290046-39-7		cm3/g @STP
-85608	Inorganics, Minor, Non-metals	Krypton-78, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	33580-79-9		cm3/g @STP
-85609	Inorganics, Minor, Non-metals	Krypton-78 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	33580-79-9		cm3/g @STP
-85610	Inorganics, Minor, Non-metals	Krypton-80, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	26110-67-8		cm3/g @STP
-85611	Inorganics, Minor, Non-metals	Krypton-80 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	26110-67-8		cm3/g @STP
-85612	Inorganics, Minor, Non-metals	Krypton-82, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14191-81-2		cm3/g @STP
-85613	Inorganics, Minor, Non-metals	Krypton-82 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14191-81-2		cm3/g @STP
-85614	Inorganics, Minor, Non-metals	Krypton-83, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13965-98-5		cm3/g @STP
-85615	Inorganics, Minor, Non-metals	Krypton-83 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13965-98-5		cm3/g @STP
-85616	Inorganics, Minor, Non-metals	Krypton-84, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14993-91-0		cm3/g @STP
-85617	Inorganics, Minor, Non-metals	Krypton-84 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14993-91-0		cm3/g @STP
-85618	Inorganics, Minor, Non-metals	Krypton-86, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14191-82-3		cm3/g @STP
-85619	Inorganics, Minor, Non-metals	Krypton-86 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14191-82-3		cm3/g @STP
-85620	Inorganics, Minor, Non-metals	Xenon-124, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	15687-60-2		cm3/g @STP
-85621	Inorganics, Minor, Non-metals	Xenon-124 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	15687-60-2		cm3/g @STP
-85622	Inorganics, Minor, Non-metals	Xenon-128, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	27818-78-6		cm3/g @STP
-85623	Inorganics, Minor, Non-metals	Xenon-128 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	27818-78-6		cm3/g @STP
-85624	Inorganics, Minor, Non-metals	Xenon-129, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13965-99-6		cm3/g @STP
-85625	Inorganics, Minor, Non-metals	Xenon-129 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13965-99-6		cm3/g @STP
-85626	Inorganics, Minor, Non-metals	Xenon-130, water, unfiltered, cubic centimeters per gram at standard temperature and pressure			cm3/g @STP
-85627	Inorganics, Minor, Non-metals	Xenon-130 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure			cm3/g @STP
-85628	Inorganics, Minor, Non-metals	Xenon-131, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14683-11-5		cm3/g @STP
-85629	Inorganics, Minor, Non-metals	Xenon-131 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14683-11-5		cm3/g @STP
-85630	Inorganics, Minor, Non-metals	Xenon-132, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14155-79-4		cm3/g @STP
-85631	Inorganics, Minor, Non-metals	Xenon-132 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14155-79-4		cm3/g @STP
-85632	Inorganics, Minor, Non-metals	Xenon-134, water, unfiltered, cubic centimeters per gram at standard temperature and pressure			cm3/g @STP
-85633	Inorganics, Minor, Non-metals	Xenon-134 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure			cm3/g @STP
-85634	Inorganics, Minor, Non-metals	Xenon-136, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	15751-79-8		cm3/g @STP
-85635	Inorganics, Minor, Non-metals	Xenon-136 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	15751-79-8		cm3/g @STP
+85604	Inorganics, Minor, Non-metals	Argon-36, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13965-95-2		cm^3/g @STP
+85605	Inorganics, Minor, Non-metals	Argon-36 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13965-95-2		cm^3/g @STP
+85606	Inorganics, Minor, Non-metals	Argon-40, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	1290046-39-7		cm^3/g @STP
+85607	Inorganics, Minor, Non-metals	Argon-40 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	1290046-39-7		cm^3/g @STP
+85608	Inorganics, Minor, Non-metals	Krypton-78, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	33580-79-9		cm^3/g @STP
+85609	Inorganics, Minor, Non-metals	Krypton-78 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	33580-79-9		cm^3/g @STP
+85610	Inorganics, Minor, Non-metals	Krypton-80, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	26110-67-8		cm^3/g @STP
+85611	Inorganics, Minor, Non-metals	Krypton-80 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	26110-67-8		cm^3/g @STP
+85612	Inorganics, Minor, Non-metals	Krypton-82, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14191-81-2		cm^3/g @STP
+85613	Inorganics, Minor, Non-metals	Krypton-82 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14191-81-2		cm^3/g @STP
+85614	Inorganics, Minor, Non-metals	Krypton-83, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13965-98-5		cm^3/g @STP
+85615	Inorganics, Minor, Non-metals	Krypton-83 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13965-98-5		cm^3/g @STP
+85616	Inorganics, Minor, Non-metals	Krypton-84, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14993-91-0		cm^3/g @STP
+85617	Inorganics, Minor, Non-metals	Krypton-84 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14993-91-0		cm^3/g @STP
+85618	Inorganics, Minor, Non-metals	Krypton-86, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14191-82-3		cm^3/g @STP
+85619	Inorganics, Minor, Non-metals	Krypton-86 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14191-82-3		cm^3/g @STP
+85620	Inorganics, Minor, Non-metals	Xenon-124, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	15687-60-2		cm^3/g @STP
+85621	Inorganics, Minor, Non-metals	Xenon-124 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	15687-60-2		cm^3/g @STP
+85622	Inorganics, Minor, Non-metals	Xenon-128, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	27818-78-6		cm^3/g @STP
+85623	Inorganics, Minor, Non-metals	Xenon-128 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	27818-78-6		cm^3/g @STP
+85624	Inorganics, Minor, Non-metals	Xenon-129, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13965-99-6		cm^3/g @STP
+85625	Inorganics, Minor, Non-metals	Xenon-129 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13965-99-6		cm^3/g @STP
+85626	Inorganics, Minor, Non-metals	Xenon-130, water, unfiltered, cubic centimeters per gram at standard temperature and pressure			cm^3/g @STP
+85627	Inorganics, Minor, Non-metals	Xenon-130 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure			cm^3/g @STP
+85628	Inorganics, Minor, Non-metals	Xenon-131, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14683-11-5		cm^3/g @STP
+85629	Inorganics, Minor, Non-metals	Xenon-131 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14683-11-5		cm^3/g @STP
+85630	Inorganics, Minor, Non-metals	Xenon-132, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14155-79-4		cm^3/g @STP
+85631	Inorganics, Minor, Non-metals	Xenon-132 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	14155-79-4		cm^3/g @STP
+85632	Inorganics, Minor, Non-metals	Xenon-134, water, unfiltered, cubic centimeters per gram at standard temperature and pressure			cm^3/g @STP
+85633	Inorganics, Minor, Non-metals	Xenon-134 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure			cm^3/g @STP
+85634	Inorganics, Minor, Non-metals	Xenon-136, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	15751-79-8		cm^3/g @STP
+85635	Inorganics, Minor, Non-metals	Xenon-136 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	15751-79-8		cm^3/g @STP
 91081	Inorganics, Minor, Non-metals	Acid volatile sulfide plus pyritic sulfide, solids, dry weight, milligram per kilogram			mg/kg
 91700	Inorganics, Minor, Non-metals	Arsenic, solids, 10% nitric acid extracted, recoverable, dry weight, milligrams per kilogram	7440-38-2	Arsenic	mg/kg
 99033	Inorganics, Minor, Non-metals	Inorganic arsenic, water, filtered (0.45 micron filter), micrograms per liter as arsenic			ug/l
@@ -14078,7 +14078,7 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 64715	Organics, other	Valproic acid, suspended sediment, recoverable, micrograms per liter	99-66-1	Valproic acid	ug/l
 64716	Organics, other	Warfarin, suspended sediment, recoverable, nanograms per liter	81-81-2	Warfarin	ng/l
 64748	Organics, other	Methylmercury, wet atmospheric deposition, unfiltered, nanograms per liter	22967-92-6	Methylmercury(1+)	ng/l
-64750	Organics, other	Methylmercury, wet atmospheric deposition, unfiltered, nanograms per square meter per week	22967-92-6	Methylmercury(1+)	ng/m2/wk
+64750	Organics, other	Methylmercury, wet atmospheric deposition, unfiltered, nanograms per square meter per week	22967-92-6	Methylmercury(1+)	ng/m^2/wk
 64835	Organics, other	Butyric acid, water, unfiltered, recoverable, milligrams per liter	107-92-6	Butyric acid	mg/l
 64836	Organics, other	Formic acid, water, unfiltered, recoverable, milligrams per liter	64-18-6	Formic acid	mg/l
 64837	Organics, other	Lactic acid, water, unfiltered, recoverable, milligrams per liter	50-21-5	Lactic acid	mg/l
@@ -15860,11 +15860,11 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 85551	Organics, other	n-Pentane, water, unfiltered, recoverable, volume percent of dissolved gases	109-66-0	Pentane	%
 85552	Organics, other	Propane, water, dissolved, recoverable, volume percent of dissolved gases	74-98-6	Propane	%
 85556	Organics, other	Organic acids, water, unfiltered, recoverable, milligrams per liter as propionic acid		Organic acids	mgC3H6O2/L
-85572	Organics, other	Methane, water, dissolved, cubic centimeters per gram at standard temperature and pressure	74-82-8	Methane	cm3/g @STP
+85572	Organics, other	Methane, water, dissolved, cubic centimeters per gram at standard temperature and pressure	74-82-8	Methane	cm^3/g @STP
 85574	Organics, other	Methane, water, dissolved, recoverable, milligrams per liter	74-82-8	Methane	mg/l
-85584	Organics, other	Methane, water, dissolved, recoverable, cubic centimeters of gas at standard temperature and pressure per liter of water	74-82-8		cm3/L STP
-85585	Organics, other	Ethane, water, dissolved, recoverable, cubic centimeters of gas at standard temperature and pressure per liter of water	74-84-0		cm3/L STP
-85586	Organics, other	Propane, water, dissolved, recoverable, cubic centimeters of gas at standard temperature and pressure per liter of water	74-98-6		cm3/L STP
+85584	Organics, other	Methane, water, dissolved, recoverable, cubic centimeters of gas at standard temperature and pressure per liter of water	74-82-8		cm^3/L STP
+85585	Organics, other	Ethane, water, dissolved, recoverable, cubic centimeters of gas at standard temperature and pressure per liter of water	74-84-0		cm^3/L STP
+85586	Organics, other	Propane, water, dissolved, recoverable, cubic centimeters of gas at standard temperature and pressure per liter of water	74-98-6		cm^3/L STP
 85668	Organics, other	1-Chloro-1,1-difluoroethane, water, unfiltered, recoverable, micrograms per liter	75-68-3		ug/l
 85795	Organics, other	m-Xylene plus p-xylene, water, unfiltered, recoverable, micrograms per liter	179601-23-1	Benzene, 1,3(and 1,4)-dimethyl- Chemical m(and p)-xylene	ug/l
 89001	Organics, other	Triclosan, water, unfiltered, immunoassay, recoverable, micrograms per liter	3380-34-5	Triclosan	ug/l
@@ -16718,13 +16718,13 @@ parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
 82785	Stable Isotopes	Xenon-134/Xenon-132 error, water, unfiltered, ratio			ratio
 82786	Stable Isotopes	Xenon-136/Xenon-132 error, water, unfiltered, ratio	15751-79-8		ratio
 82787	Stable Isotopes	delta Lithium-7/Lithium-6, water, filtered, per mil		Lithium-7/lithium-6, ratio	per mil
-85561	Stable Isotopes	Helium-4, water, dissolved, cubic centimeters per gram at standard temperature and pressure			cm3/g STP
-85562	Stable Isotopes	Helium-4 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure			cm3/g STP
+85561	Stable Isotopes	Helium-4, water, dissolved, cubic centimeters per gram at standard temperature and pressure			cm^3/g STP
+85562	Stable Isotopes	Helium-4 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure			cm^3/g STP
 85569	Stable Isotopes	Helium-3/helium-4 error, water, unfiltered, ratio	14762-55-1		None
-85600	Stable Isotopes	Neon-20, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13981-34-5		cm3/g @STP
-85601	Stable Isotopes	Neon-20 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13981-34-5		cm3/g @STP
-85602	Stable Isotopes	Neon-22, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13886-72-1		cm3/g @STP
-85603	Stable Isotopes	Neon-22 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13886-72-1		cm3/g @STP
+85600	Stable Isotopes	Neon-20, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13981-34-5		cm^3/g @STP
+85601	Stable Isotopes	Neon-20 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13981-34-5		cm^3/g @STP
+85602	Stable Isotopes	Neon-22, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13886-72-1		cm^3/g @STP
+85603	Stable Isotopes	Neon-22 error, water, unfiltered, cubic centimeters per gram at standard temperature and pressure	13886-72-1		cm^3/g @STP
 00496	Sediment	Loss on ignition, bed sediment, dry weight, milligrams per kilogram			mg/kg
 04065	Sediment	Suspended sediment, fall diameter (deionized water), percent smaller than 4 millimeters		Sediment	%
 04122	Sediment	Bedload sediment discharge, daily average, per unit width of river, composite samples, short tons per day per foot of width		Sediment	ton/d/ft
