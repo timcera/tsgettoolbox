@@ -10,7 +10,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-version = open("VERSION").readline().strip()
+version = open('VERSION').readline().strip()
 
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist')
@@ -35,7 +35,7 @@ install_requires = [
 
 setup(name='tsgettoolbox',
       version=version,
-      description="Will get time series from different sources on the internet.",
+      description='Will get time series from different sources on the internet.',
       long_description=README,
       classifiers=['Environment :: Console',
                    'Intended Audience :: Developers',

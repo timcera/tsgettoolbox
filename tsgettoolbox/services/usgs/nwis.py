@@ -22,7 +22,8 @@ pmcodes = pd.read_csv(os.path.join(os.path.dirname(__file__), 'pmcodes.dat'),
                       comment='#',
                       header=0,
                       sep='\t',
-                      dtype={0: str})
+                      dtype={0: str},
+                      na_values='Dis')
 pmcodes.set_index('parameter_cd', inplace=True)
 
 # IV
@@ -134,7 +135,8 @@ def _read_rdb(data):
                                   comment='#',
                                   header=[0, 1],
                                   sep='\t',
-                                  dtype={'site_no': str})
+                                  dtype={'site_no': str},
+                                  na_values='Dis')
             except pd.errors.EmptyDataError:
                 continue
 
@@ -171,7 +173,8 @@ def _read_rdb(data):
                           sep='\t',
                           dtype={'site_no':str,
                                  'parameter_cd':str,
-                                 'ts_id':str})
+                                 'ts_id':str},
+                          na_values='Dis')
         ndf.columns = [i[0] for i in ndf.columns]
     return ndf
 
