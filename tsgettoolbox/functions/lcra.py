@@ -9,13 +9,13 @@ except ImportError:
 from tstoolbox import tsutils
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@mando.command('lcra_hydromet', formatter_class=HelpFormatter, doctype='numpy')
 @tsutils.doc(tsutils.docstrings)
-def lcra_hydromet(site_code,
-                  parameter_code,
-                  start_date=None,
-                  end_date=None,
-                  dam_site_location='head'):
+def lcra_hydromet_cli(site_code,
+                      parameter_code,
+                      start_date=None,
+                      end_date=None,
+                      dam_site_location='head'):
     r"""Hydrometeorologic data from the Lower Colorado River Authority.
 
     This module provides access to hydrologic and climate data in the Colorado
@@ -70,6 +70,19 @@ def lcra_hydromet(site_code,
         The site location relative to the dam.  Not used for `upperbasin`
         and `lowerbasin` parameters.
     """
+    tsutils._printiso(lcra_hydromet(site_code,
+                                    parameter_code,
+                                    start_date=start_date,
+                                    end_date=end_date,
+                                    dam_site_location=dam_site_location))
+
+
+def lcra_hydromet(site_code,
+                  parameter_code,
+                  start_date=None,
+                  end_date=None,
+                  dam_site_location='head'):
+    r"""Hydrometeorologic data from the Lower Colorado River Authority."""
     from tsgettoolbox.services.lcra import hydromet
 
     df = hydromet.ulmo_df(site_code,
@@ -78,15 +91,15 @@ def lcra_hydromet(site_code,
                           end_date=end_date,
                           dam_site_location=dam_site_location)
 
-    return tsutils.printiso(df)
+    return df
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@mando.command('lcra_wq', formatter_class=HelpFormatter, doctype='numpy')
 @tsutils.doc(tsutils.docstrings)
-def lcra_wq(site_code,
-            historical=True,
-            start_date=None,
-            end_date=None):
+def lcra_wq_cli(site_code,
+                historical=True,
+                start_date=None,
+                end_date=None):
     r"""Access data from the Lower Colorado River Authority Water Quality.
 
     Fetches historical or near real-time (for some sites) data.
@@ -120,6 +133,17 @@ def lcra_wq(site_code,
         the bay sites.
     {start_date}
     {end_date}"""
+    tsutils._printiso(lcra_wq(site_code,
+                              historical=historical,
+                              start_date=start_date,
+                              end_date=None))
+
+
+def lcra_wq(site_code,
+            historical=True,
+            start_date=None,
+            end_date=None):
+    r"""Access data from the Lower Colorado River Authority Water Quality."""
     from tsgettoolbox.services.lcra import wq
 
     df = wq.ulmo_df(site_code=site_code,
@@ -127,4 +151,4 @@ def lcra_wq(site_code,
                     start_date=start_date,
                     end_date=end_date)
 
-    return tsutils.printiso(df)
+    return df

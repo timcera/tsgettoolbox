@@ -11,18 +11,18 @@ except ImportError:
 from tstoolbox import tsutils
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@mando.command('coops', formatter_class=HelpFormatter, doctype='numpy')
 @tsutils.doc(tsutils.docstrings)
-def coops(station,
-          date=None,
-          begin_date=None,
-          end_date=None,
-          range=None,
-          product='water_level',
-          datum='NAVD',
-          time_zone='GMT',
-          interval='h',
-          bin=None):
+def coops_cli(station,
+              date=None,
+              begin_date=None,
+              end_date=None,
+              range=None,
+              product='water_level',
+              datum='NAVD',
+              time_zone='GMT',
+              interval='h',
+              bin=None):
     r"""Download Center for Operational Oceanographic Products and Services.
 
     CO-OPS web services is at http://tidesandcurrents.noaa.gov/api/.  The time
@@ -294,6 +294,29 @@ def coops(station,
         bin.
 
     """
+    tsutils._printiso(coops_cli(station,
+                                date=date,
+                                begin_date=begin_date,
+                                end_date=end_date,
+                                range=range,
+                                product=product,
+                                datum=datum,
+                                time_zone=time_zone,
+                                interval=interval,
+                                bin=bin))
+
+
+def coops(station,
+          date=None,
+          begin_date=None,
+          end_date=None,
+          range=None,
+          product='water_level',
+          datum='NAVD',
+          time_zone='GMT',
+          interval='h',
+          bin=None):
+    r"""Download Center for Operational Oceanographic Products and Services."""
     from tsgettoolbox.services import coops as placeholder
     r = resource(
         r'http://tidesandcurrents.noaa.gov/api/datagetter',
@@ -309,4 +332,4 @@ def coops(station,
         interval=interval,
         bin=bin,
     )
-    return tsutils.printiso(odo(r, pd.DataFrame))
+    return odo(r, pd.DataFrame)

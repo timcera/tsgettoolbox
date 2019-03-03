@@ -112,6 +112,7 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
         url = 'http://cdec.water.ca.gov/cgi-progs/queryCSV?station_id={0}'.format(station_id)
 
         sensor_list = pd.read_html(url)[0]
+        print(sensor_list)
         sensor_list.columns = ['sensor_id',
                                'variable',
                                'resolution',

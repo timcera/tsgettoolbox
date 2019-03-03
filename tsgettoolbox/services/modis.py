@@ -570,15 +570,22 @@ def modis_to_df(data, **kwargs):
                                     data.query_params['product'])
     dates = pd.np.array(dates)
 
-    teststartdate = date_parser([dates[0]])[0]
-    if startdate < teststartdate:
+    dr = pd.DatetimeIndex([date_parser([i])[0] for i in dates])
+
+    teststartdate = dr[0]
+    if startdate <= teststartdate:
         startdate = teststartdate
 
-    testenddate = date_parser([dates[-1]])[0]
-    if enddate > testenddate:
+    testenddate = dr[-1]
+    if enddate >= testenddate:
         enddate = testenddate
 
-    dateintervals = dates[slice(0, -1, 10)]
+    tenddate = dates[-1]
+    mask = (dr >= startdate) & (dr <= enddate)
+    dates = dates[mask]
+    dateintervals = dates[::10].tolist()
+    if dateintervals[-1] != dates[-1]:
+        dateintervals.append(dates[-1])
 
     datelist = []
     valuelist = []
@@ -610,7 +617,8 @@ def modis_to_df(data, **kwargs):
                   data.query_params['band'] +
                   ':' +
                   di['units']]
-    df = df*di['scale']
+    if di['scale'] != 0:
+        df = df*di['scale']
     return df
 
 

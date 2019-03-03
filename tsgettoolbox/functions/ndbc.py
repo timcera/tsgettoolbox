@@ -543,6 +543,17 @@ def ndbc(station,
         | REMCAP   | Remaining Battery Capacity (ampere-hours)            |
         +----------+------------------------------------------------------+
         """
+    tsutils._printiso(ndbc(station,
+                           table,
+                           startUTC,
+                           endUTC))
+
+
+def ndbc(station,
+         table,
+         startUTC,
+         endUTC):
+    r"""Download historical from the National Data Buoy Center."""
     from tsgettoolbox.services import ndbc as placeholder
 
     r = resource(
@@ -553,4 +564,4 @@ def ndbc(station,
         endUTC=endUTC,
     )
 
-    return tsutils.printiso(odo(r, pd.DataFrame))
+    return odo(r, pd.DataFrame)

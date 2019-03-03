@@ -11,14 +11,14 @@ except ImportError:
 from tstoolbox import tsutils
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
-def ldas(lat=None,
-         lon=None,
-         xindex=None,
-         yindex=None,
-         variable=None,
-         startDate=None,
-         endDate=None):
+@mando.command('ldas', formatter_class=HelpFormatter, doctype='numpy')
+def ldas_cli(lat=None,
+             lon=None,
+             xindex=None,
+             yindex=None,
+             variable=None,
+             startDate=None,
+             endDate=None):
     r"""Download data from NLDAS or GLDAS.
 
     The time zone is always UTC.
@@ -178,6 +178,23 @@ def ldas(lat=None,
 
         If startDate and endDate are None, returns the entire series.
     """
+    tsutils._printiso(ldas(lat=lat,
+                           lon=lon,
+                           xindex=xindex,
+                           yindex=yindex,
+                           variable=variable,
+                           startDate=startDate,
+                           endDate=endDate))
+
+
+def ldas(lat=None,
+         lon=None,
+         xindex=None,
+         yindex=None,
+         variable=None,
+         startDate=None,
+         endDate=None):
+    r"""Download data from NLDAS or GLDAS."""
     from tsgettoolbox.services import ldas as placeholder
     project = variable.split(':')[0]
     if lat is not None:
@@ -195,4 +212,4 @@ def ldas(lat=None,
         startDate=startDate,
         endDate=endDate,
     )
-    return tsutils.printiso(odo(r, pd.DataFrame))
+    return odo(r, pd.DataFrame)

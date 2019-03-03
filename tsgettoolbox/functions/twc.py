@@ -9,11 +9,11 @@ except ImportError:
 from tstoolbox import tsutils
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@mando.command('twc', formatter_class=HelpFormatter, doctype='numpy')
 @tsutils.doc(tsutils.docstrings)
-def twc(county,
-        start_date=None,
-        end_date=None):
+def twc_cli(county,
+            start_date=None,
+            end_date=None):
     r"""Download Texas Weather Connection (TWC) data.
 
     This module provides direct access to `Texas Weather Connection`_ `Daily
@@ -30,10 +30,19 @@ def twc(county,
     {start_date}
     {end_date}
     """
+    tsutils._printiso(twc(county,
+                          start_date=start_date,
+                          end_date=end_date))
+
+
+def twc(county,
+        start_date=None,
+        end_date=None):
+    r"""Download Texas Weather Connection (TWC) data."""
     from tsgettoolbox.services import twc
 
     df = twc.ulmo_df(county=county,
                      start_date=start_date,
                      end_date=end_date)
 
-    return tsutils.printiso(df)
+    return df

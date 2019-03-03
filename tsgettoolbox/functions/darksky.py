@@ -11,13 +11,13 @@ except ImportError:
 from tstoolbox import tsutils
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
-def darksky(latitude,
-            longitude,
-            time=None,
-            database='hourly',
-            extend=None,
-            lang='en'):
+@mando.command('darksky', formatter_class=HelpFormatter, doctype='numpy')
+def darksky_cli(latitude,
+                longitude,
+                time=None,
+                database='hourly',
+                extend=None,
+                lang='en'):
     r"""Data from the Dark Sky forecast service.
 
     Powered by Dark Sky https://darksky.net/poweredby/
@@ -282,6 +282,21 @@ def darksky(latitude,
         +-------------+-------------------+
 
     """
+    tsutils._printiso(darksky(latitude,
+                              longitude,
+                              time=time,
+                              database=database,
+                              extend=extend,
+                              lang=lang))
+
+
+def darksky(latitude,
+            longitude,
+            time=None,
+            database='hourly',
+            extend=None,
+            lang='en'):
+    r"""Data from the Dark Sky forecast service."""
     from tsgettoolbox.services import darksky as placeholder
     r = resource(
         r'https://api.darksky.net/forecast',
@@ -293,7 +308,7 @@ def darksky(latitude,
         units='si',
         lang=lang,
     )
-    return tsutils.printiso(odo(r, pd.DataFrame))
+    return odo(r, pd.DataFrame)
 
 
 @mando.command(formatter_class=HelpFormatter, doctype='numpy')

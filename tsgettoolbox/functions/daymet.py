@@ -26,11 +26,11 @@ from tstoolbox import tsutils
 warnings.filterwarnings('ignore')
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
-def daymet(lat,
-           lon,
-           measuredParams=None,
-           year=None):
+@mando.command('daymet', formatter_class=HelpFormatter, doctype='numpy')
+def daymet_cli(lat,
+               lon,
+               measuredParams=None,
+               year=None):
     r"""Download data from Daymet by the Oak Ridge National Laboratory.
 
     Detailed documentation is at http://daymet.ornl.gov/.  Since this is
@@ -82,6 +82,17 @@ def daymet(lat,
 
         All years are returned by default.
     """
+    tsutils._printiso(daymet(lat,
+                             lon,
+                             measuredParams=measuredParams,
+                             year=year))
+
+
+def daymet(lat,
+           lon,
+           measuredParams=None,
+           year=None):
+    r"""Download data from Daymet by the Oak Ridge National Laboratory."""
     from tsgettoolbox.services import daymet as placeholder
     r = resource(
         r'http://daymet.ornl.gov/data/send/saveData',
@@ -90,4 +101,4 @@ def daymet(lat,
         lon=lon,
         year=year,
     )
-    return tsutils.printiso(odo(r, pd.DataFrame))
+    return odo(r, pd.DataFrame)

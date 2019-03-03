@@ -9,12 +9,12 @@ except ImportError:
 from tstoolbox import tsutils
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@mando.command('cpc', formatter_class=HelpFormatter, doctype='numpy')
 @tsutils.doc(tsutils.docstrings)
-def cpc(state=None,
-        climate_division=None,
-        start_date=None,
-        end_date=None):
+def cpc_cli(state=None,
+            climate_division=None,
+            start_date=None,
+            end_date=None):
     r"""Access Climate Prediction Center, Weekly Drought Index dataset.
 
     Climate Prediction Center: http://www.cpc.ncep.noaa.gov/
@@ -48,10 +48,20 @@ def cpc(state=None,
     {end_date}
 
     """
+    tsutils._printiso(cpc(state=state,
+                          climate_division=climate_division,
+                          start_date=start_date,
+                          end_date=end_date))
+
+
+def cpc(state=None,
+        climate_division=None,
+        start_date=None,
+        end_date=None):
+    r"""Access Climate Prediction Center, Weekly Drought Index dataset."""
     from tsgettoolbox.services import cpc
-    df = cpc.ulmo_df(
-         state=state,
-         climate_division=climate_division,
-         start_date=tsutils.parsedate(start_date),
-         end_date=tsutils.parsedate(end_date))
-    return tsutils.printiso(df)
+    df = cpc.ulmo_df(state=state,
+                     climate_division=climate_division,
+                     start_date=tsutils.parsedate(start_date),
+                     end_date=tsutils.parsedate(end_date))
+    return df

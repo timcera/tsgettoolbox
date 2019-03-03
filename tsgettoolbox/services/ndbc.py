@@ -1,10 +1,13 @@
 from __future__ import print_function
 
 import datetime
+from base64 import b64decode
+from gzip import GzipFile
 import logging
 import os
 from builtins import object
 from io import StringIO
+from io import BytesIO
 
 from odo import convert
 from odo import odo
@@ -227,8 +230,11 @@ def ndbc_to_df(data, **kwargs):
         except requests.exceptions.HTTPError:
             continue
 
+        content = BytesIO(req.content)
+        content = GzipFile(fileobj=content).read()
+
         # Test to see if 1 or 2 line header
-        f = StringIO(req.content.decode('utf-8'))
+        f = StringIO(content.decode('utf-8'))
         head1 = f.readline()
         head2 = f.readline()
         f.seek(0)

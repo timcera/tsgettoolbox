@@ -9,12 +9,12 @@ except ImportError:
 from tstoolbox import tsutils
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@mando.command('usgs_eddn', formatter_class=HelpFormatter, doctype='numpy')
 @tsutils.doc(tsutils.docstrings)
-def usgs_eddn(dcp_address,
-              parser,
-              start_date=None,
-              end_date=None):
+def usgs_eddn_cli(dcp_address,
+                  parser,
+                  start_date=None,
+                  end_date=None):
     r"""Download from the USGS Emergency Data Distribution Network.
 
     This module provides access to data provided by the United States
@@ -55,6 +55,17 @@ def usgs_eddn(dcp_address,
 
     {end_date}
     """
+    tsutils._printiso(usgs_eddn(dcp_address,
+                                parser,
+                                start_date=start_date,
+                                end_date=end_date))
+
+
+def usgs_eddn(dcp_address,
+              parser,
+              start_date=None,
+              end_date=None):
+    r"""Download from the USGS Emergency Data Distribution Network."""
     from tsgettoolbox.services.usgs import eddn
 
     df = eddn.ulmo_df(
@@ -63,4 +74,4 @@ def usgs_eddn(dcp_address,
         start_date=start_date,
         end_date=end_date)
 
-    return tsutils.printiso(df)
+    return df

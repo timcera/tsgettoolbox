@@ -11,11 +11,11 @@ except ImportError:
 from tstoolbox import tsutils
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
-def unavco(station,
-           database='met',
-           starttime=None,
-           endtime=None):
+@mando.command('unavco', formatter_class=HelpFormatter, doctype='numpy')
+def unavco_cli(station,
+               database='met',
+               starttime=None,
+               endtime=None):
     r"""Download data from the Unavco web services.
 
     Detailed information at:
@@ -109,6 +109,17 @@ def unavco(station,
     endtime
         End date in ISO8601 format.
     """
+    tsutils._printiso(unavco(station,
+                             database=database,
+                             starttime=starttime,
+                             endtime=endtime))
+
+
+def unavco(station,
+           database='met',
+           starttime=None,
+           endtime=None):
+    r"""Download data from the Unavco web services."""
     from tsgettoolbox.services import unavco as placeholder
     map_db_to_url = {
         'met': r'http://web-services.unavco.org:80/met/data',
@@ -125,4 +136,4 @@ def unavco(station,
         starttime=starttime,
         endtime=endtime,
     )
-    return tsutils.printiso(odo(r, pd.DataFrame))
+    return odo(r, pd.DataFrame)

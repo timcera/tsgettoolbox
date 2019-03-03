@@ -810,32 +810,32 @@ def nwis(sites=None,
     return tsutils.printiso(odo(r, pd.DataFrame))
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@mando.command('nwis_iv', formatter_class=HelpFormatter, doctype='numpy')
 @tsutils.doc(nwis_docstrings)
-def nwis_iv(sites=None,
-            stateCd=None,
-            huc=None,
-            bBox=None,
-            countyCd=None,
-            parameterCd=None,
-            period=None,
-            startDT=None,
-            endDT=None,
-            siteType=None,
-            modifiedSince=None,
-            agencyCd=None,
-            siteStatus=None,
-            altMin=None,
-            altMax=None,
-            drainAreaMin=None,
-            drainAreaMax=None,
-            aquiferCd=None,
-            localAquiferCd=None,
-            wellDepthMin=None,
-            wellDepthMax=None,
-            holeDepthMin=None,
-            holeDepthMax=None,
-            includeCodes=False):
+def nwis_iv_cli(sites=None,
+                stateCd=None,
+                huc=None,
+                bBox=None,
+                countyCd=None,
+                parameterCd=None,
+                period=None,
+                startDT=None,
+                endDT=None,
+                siteType=None,
+                modifiedSince=None,
+                agencyCd=None,
+                siteStatus=None,
+                altMin=None,
+                altMax=None,
+                drainAreaMin=None,
+                drainAreaMax=None,
+                aquiferCd=None,
+                localAquiferCd=None,
+                wellDepthMin=None,
+                wellDepthMax=None,
+                holeDepthMin=None,
+                holeDepthMax=None,
+                includeCodes=False):
     r"""Download from Instantaneous Values of the USGS NWIS.
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
@@ -975,6 +975,57 @@ def nwis_iv(sites=None,
     {wellDepthMin}
     {wellDepthMax}
     {includeCodes}"""
+    tsutils._printiso(nwis_iv(sites=sites,
+                              stateCd=stateCd,
+                              huc=huc,
+                              bBox=bBox,
+                              countyCd=countyCd,
+                              parameterCd=parameterCd,
+                              siteType=siteType,
+                              modifiedSince=modifiedSince,
+                              agencyCd=agencyCd,
+                              siteStatus=siteStatus,
+                              altMin=altMin,
+                              altMax=altMax,
+                              drainAreaMin=drainAreaMin,
+                              drainAreaMax=drainAreaMax,
+                              aquiferCd=aquiferCd,
+                              localAquiferCd=localAquiferCd,
+                              wellDepthMin=wellDepthMin,
+                              wellDepthMax=wellDepthMax,
+                              holeDepthMin=holeDepthMin,
+                              holeDepthMax=holeDepthMax,
+                              period=period,
+                              startDT=startDT,
+                              endDT=endDT,
+                              includeCodes=includeCodes))
+
+
+def nwis_iv(sites=None,
+            stateCd=None,
+            huc=None,
+            bBox=None,
+            countyCd=None,
+            parameterCd=None,
+            period=None,
+            startDT=None,
+            endDT=None,
+            siteType=None,
+            modifiedSince=None,
+            agencyCd=None,
+            siteStatus=None,
+            altMin=None,
+            altMax=None,
+            drainAreaMin=None,
+            drainAreaMax=None,
+            aquiferCd=None,
+            localAquiferCd=None,
+            wellDepthMin=None,
+            wellDepthMax=None,
+            holeDepthMin=None,
+            holeDepthMax=None,
+            includeCodes=False):
+    r"""Download from Instantaneous Values of the USGS NWIS."""
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://waterservices.usgs.gov/nwis/iv/'
     r = resource(url,
@@ -1003,36 +1054,36 @@ def nwis_iv(sites=None,
                  endDT=endDT,
                  includeCodes=includeCodes)
 
-    return tsutils.printiso(odo(r, pd.DataFrame))
+    return odo(r, pd.DataFrame)
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@mando.command('nwis_dv', formatter_class=HelpFormatter, doctype='numpy')
 @tsutils.doc(nwis_docstrings)
-def nwis_dv(sites=None,
-            stateCd=None,
-            huc=None,
-            bBox=None,
-            countyCd=None,
-            parameterCd=None,
-            statisticsCd=None,
-            period=None,
-            startDT=None,
-            endDT=None,
-            siteType=None,
-            modifiedSince=None,
-            agencyCd=None,
-            siteStatus=None,
-            altMin=None,
-            altMax=None,
-            drainAreaMin=None,
-            drainAreaMax=None,
-            aquiferCd=None,
-            localAquiferCd=None,
-            wellDepthMin=None,
-            wellDepthMax=None,
-            holeDepthMin=None,
-            holeDepthMax=None,
-            includeCodes=False):
+def nwis_dv_cli(sites=None,
+                stateCd=None,
+                huc=None,
+                bBox=None,
+                countyCd=None,
+                parameterCd=None,
+                statisticsCd=None,
+                period=None,
+                startDT=None,
+                endDT=None,
+                siteType=None,
+                modifiedSince=None,
+                agencyCd=None,
+                siteStatus=None,
+                altMin=None,
+                altMax=None,
+                drainAreaMin=None,
+                drainAreaMax=None,
+                aquiferCd=None,
+                localAquiferCd=None,
+                wellDepthMin=None,
+                wellDepthMax=None,
+                holeDepthMin=None,
+                holeDepthMax=None,
+                includeCodes=False):
     r"""Download from the Daily Values database of the USGS NWIS.
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
@@ -1172,6 +1223,59 @@ def nwis_dv(sites=None,
     {wellDepthMin}
     {wellDepthMax}
     {includeCodes}"""
+    tsutils._printiso(nwis_dv(sites=sites,
+                              stateCd=stateCd,
+                              huc=huc,
+                              bBox=bBox,
+                              countyCd=countyCd,
+                              parameterCd=parameterCd,
+                              statisticsCd=statisticsCd,
+                              siteType=siteType,
+                              modifiedSince=modifiedSince,
+                              agencyCd=agencyCd,
+                              siteStatus=siteStatus,
+                              altMin=altMin,
+                              altMax=altMax,
+                              drainAreaMin=drainAreaMin,
+                              drainAreaMax=drainAreaMax,
+                              aquiferCd=aquiferCd,
+                              localAquiferCd=localAquiferCd,
+                              wellDepthMin=wellDepthMin,
+                              wellDepthMax=wellDepthMax,
+                              holeDepthMin=holeDepthMin,
+                              holeDepthMax=holeDepthMax,
+                              period=period,
+                              startDT=startDT,
+                              endDT=endDT,
+                              includeCodes=includeCodes))
+
+
+def nwis_dv(sites=None,
+            stateCd=None,
+            huc=None,
+            bBox=None,
+            countyCd=None,
+            parameterCd=None,
+            statisticsCd=None,
+            period=None,
+            startDT=None,
+            endDT=None,
+            siteType=None,
+            modifiedSince=None,
+            agencyCd=None,
+            siteStatus=None,
+            altMin=None,
+            altMax=None,
+            drainAreaMin=None,
+            drainAreaMax=None,
+            aquiferCd=None,
+            localAquiferCd=None,
+            wellDepthMin=None,
+            wellDepthMax=None,
+            holeDepthMin=None,
+            holeDepthMax=None,
+            includeCodes=False):
+    r"""Download from the Daily Values database of the USGS NWIS."""
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://waterservices.usgs.gov/nwis/dv/'
     r = resource(url,
@@ -1201,40 +1305,40 @@ def nwis_dv(sites=None,
                  endDT=endDT,
                  includeCodes=includeCodes)
 
-    return tsutils.printiso(odo(r, pd.DataFrame))
+    return odo(r, pd.DataFrame)
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@mando.command('nwis_site', formatter_class=HelpFormatter, doctype='numpy')
 @tsutils.doc(nwis_docstrings)
-def nwis_site(sites=None,
-              stateCd=None,
-              huc=None,
-              bBox=None,
-              countyCd=None,
-              parameterCd=None,
-              period=None,
-              startDT=None,
-              endDT=None,
-              siteType=None,
-              modifiedSince=None,
-              agencyCd=None,
-              siteStatus=None,
-              altMin=None,
-              altMax=None,
-              drainAreaMin=None,
-              drainAreaMax=None,
-              aquiferCd=None,
-              localAquiferCd=None,
-              wellDepthMin=None,
-              wellDepthMax=None,
-              holeDepthMin=None,
-              holeDepthMax=None,
-              siteOutput=None,
-              seriesCatalogOutput=None,
-              outputDataTypeCd=None,
-              siteName=None,
-              siteNameMatchOperator=None,
-              hasDataTypeCd=None):
+def nwis_site_cli(sites=None,
+                  stateCd=None,
+                  huc=None,
+                  bBox=None,
+                  countyCd=None,
+                  parameterCd=None,
+                  period=None,
+                  startDT=None,
+                  endDT=None,
+                  siteType=None,
+                  modifiedSince=None,
+                  agencyCd=None,
+                  siteStatus=None,
+                  altMin=None,
+                  altMax=None,
+                  drainAreaMin=None,
+                  drainAreaMax=None,
+                  aquiferCd=None,
+                  localAquiferCd=None,
+                  wellDepthMin=None,
+                  wellDepthMax=None,
+                  holeDepthMin=None,
+                  holeDepthMax=None,
+                  siteOutput=None,
+                  seriesCatalogOutput=None,
+                  outputDataTypeCd=None,
+                  siteName=None,
+                  siteNameMatchOperator=None,
+                  hasDataTypeCd=None):
     r"""Download from the site database of the USGS NWIS.
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
@@ -1349,6 +1453,67 @@ def nwis_site(sites=None,
     {siteName}
     {siteNameMatchOperator}
     {hasDataTypeCd}"""
+    tsutils._printiso(nwis_site(sites=sites,
+                                stateCd=stateCd,
+                                huc=huc,
+                                bBox=bBox,
+                                countyCd=countyCd,
+                                parameterCd=parameterCd,
+                                siteType=siteType,
+                                modifiedSince=modifiedSince,
+                                agencyCd=agencyCd,
+                                siteStatus=siteStatus,
+                                altMin=altMin,
+                                altMax=altMax,
+                                drainAreaMin=drainAreaMin,
+                                drainAreaMax=drainAreaMax,
+                                aquiferCd=aquiferCd,
+                                localAquiferCd=localAquiferCd,
+                                wellDepthMin=wellDepthMin,
+                                wellDepthMax=wellDepthMax,
+                                holeDepthMin=holeDepthMin,
+                                holeDepthMax=holeDepthMax,
+                                period=period,
+                                startDT=startDT,
+                                endDT=endDT,
+                                siteOutput=siteOutput,
+                                seriesCatalogOutput=seriesCatalogOutput,
+                                outputDataTypeCd=outputDataTypeCd,
+                                siteName=siteName,
+                                siteNameMatchOperator=siteNameMatchOperator,
+                                hasDataTypeCd=hasDataTypeCd))
+
+
+def nwis_site(sites=None,
+              stateCd=None,
+              huc=None,
+              bBox=None,
+              countyCd=None,
+              parameterCd=None,
+              period=None,
+              startDT=None,
+              endDT=None,
+              siteType=None,
+              modifiedSince=None,
+              agencyCd=None,
+              siteStatus=None,
+              altMin=None,
+              altMax=None,
+              drainAreaMin=None,
+              drainAreaMax=None,
+              aquiferCd=None,
+              localAquiferCd=None,
+              wellDepthMin=None,
+              wellDepthMax=None,
+              holeDepthMin=None,
+              holeDepthMax=None,
+              siteOutput=None,
+              seriesCatalogOutput=None,
+              outputDataTypeCd=None,
+              siteName=None,
+              siteNameMatchOperator=None,
+              hasDataTypeCd=None):
+    r"""Download from the site database of the USGS NWIS."""
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://waterservices.usgs.gov/nwis/site/'
     r = resource(url,
@@ -1382,32 +1547,32 @@ def nwis_site(sites=None,
                  siteNameMatchOperator=siteNameMatchOperator,
                  hasDataTypeCd=hasDataTypeCd)
 
-    return tsutils.printiso(odo(r, pd.DataFrame))
+    return odo(r, pd.DataFrame)
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@mando.command('nwis_gwlevels', formatter_class=HelpFormatter, doctype='numpy')
 @tsutils.doc(nwis_docstrings)
-def nwis_gwlevels(sites=None,
-                  stateCd=None,
-                  huc=None,
-                  bBox=None,
-                  countyCd=None,
-                  parameterCd=None,
-                  period=None,
-                  startDT=None,
-                  endDT=None,
-                  siteType=None,
-                  modifiedSince=None,
-                  agencyCd=None,
-                  siteStatus=None,
-                  altMin=None,
-                  altMax=None,
-                  aquiferCd=None,
-                  localAquiferCd=None,
-                  wellDepthMin=None,
-                  wellDepthMax=None,
-                  holeDepthMin=None,
-                  holeDepthMax=None):
+def nwis_gwlevels_cli(sites=None,
+                      stateCd=None,
+                      huc=None,
+                      bBox=None,
+                      countyCd=None,
+                      parameterCd=None,
+                      period=None,
+                      startDT=None,
+                      endDT=None,
+                      siteType=None,
+                      modifiedSince=None,
+                      agencyCd=None,
+                      siteStatus=None,
+                      altMin=None,
+                      altMax=None,
+                      aquiferCd=None,
+                      localAquiferCd=None,
+                      wellDepthMin=None,
+                      wellDepthMax=None,
+                      holeDepthMin=None,
+                      holeDepthMax=None):
     r"""Download from the Groundwater Levels database of the USGS NWIS.
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
@@ -1509,6 +1674,50 @@ def nwis_gwlevels(sites=None,
     {holeDepthMax}
     {wellDepthMin}
     {wellDepthMax}"""
+    tsutils._printiso(nwis_gwlevels(sites=sites,
+                                    stateCd=stateCd,
+                                    huc=huc,
+                                    bBox=bBox,
+                                    countyCd=countyCd,
+                                    parameterCd=parameterCd,
+                                    siteType=siteType,
+                                    modifiedSince=modifiedSince,
+                                    agencyCd=agencyCd,
+                                    siteStatus=siteStatus,
+                                    altMin=altMin,
+                                    altMax=altMax,
+                                    aquiferCd=aquiferCd,
+                                    localAquiferCd=localAquiferCd,
+                                    wellDepthMin=wellDepthMin,
+                                    wellDepthMax=wellDepthMax,
+                                    holeDepthMin=holeDepthMin,
+                                    holeDepthMax=holeDepthMax,
+                                    period=period,
+                                    startDT=startDT,
+                                    endDT=endDT))
+
+
+def nwis_gwlevels(sites=None,
+                  stateCd=None,
+                  huc=None,
+                  bBox=None,
+                  countyCd=None,
+                  parameterCd=None,
+                  period=None,
+                  startDT=None,
+                  endDT=None,
+                  siteType=None,
+                  modifiedSince=None,
+                  agencyCd=None,
+                  siteStatus=None,
+                  altMin=None,
+                  altMax=None,
+                  aquiferCd=None,
+                  localAquiferCd=None,
+                  wellDepthMin=None,
+                  wellDepthMax=None,
+                  holeDepthMin=None,
+                  holeDepthMax=None):
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://waterservices.usgs.gov/nwis/gwlevels/'
     r = resource(url,
@@ -1534,32 +1743,32 @@ def nwis_gwlevels(sites=None,
                  startDT=startDT,
                  endDT=endDT)
 
-    return tsutils.printiso(odo(r, pd.DataFrame))
+    return odo(r, pd.DataFrame)
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@mando.command('nwis_measurements', formatter_class=HelpFormatter, doctype='numpy')
 @tsutils.doc(nwis_docstrings)
-def nwis_measurements(sites=None,
-                      stateCd=None,
-                      huc=None,
-                      bBox=None,
-                      countyCd=None,
-                      parameterCd=None,
-                      period=None,
-                      startDT=None,
-                      endDT=None,
-                      siteType=None,
-                      modifiedSince=None,
-                      agencyCd=None,
-                      siteStatus=None,
-                      altMin=None,
-                      altMax=None,
-                      aquiferCd=None,
-                      localAquiferCd=None,
-                      wellDepthMin=None,
-                      wellDepthMax=None,
-                      holeDepthMin=None,
-                      holeDepthMax=None):
+def nwis_measurements_cli(sites=None,
+                          stateCd=None,
+                          huc=None,
+                          bBox=None,
+                          countyCd=None,
+                          parameterCd=None,
+                          period=None,
+                          startDT=None,
+                          endDT=None,
+                          siteType=None,
+                          modifiedSince=None,
+                          agencyCd=None,
+                          siteStatus=None,
+                          altMin=None,
+                          altMax=None,
+                          aquiferCd=None,
+                          localAquiferCd=None,
+                          wellDepthMin=None,
+                          wellDepthMax=None,
+                          holeDepthMin=None,
+                          holeDepthMax=None):
     r"""Download from the Measurements database of the USGS NWIS.
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
@@ -1722,6 +1931,51 @@ def nwis_measurements(sites=None,
     {holeDepthMax}
     {wellDepthMin}
     {wellDepthMax}"""
+    tsutils._printiso(nwis_measurements_cli(sites=sites,
+                                            stateCd=stateCd,
+                                            huc=huc,
+                                            bBox=bBox,
+                                            countyCd=countyCd,
+                                            parameterCd=parameterCd,
+                                            siteType=siteType,
+                                            modifiedSince=modifiedSince,
+                                            agencyCd=agencyCd,
+                                            siteStatus=siteStatus,
+                                            altMin=altMin,
+                                            altMax=altMax,
+                                            aquiferCd=aquiferCd,
+                                            localAquiferCd=localAquiferCd,
+                                            wellDepthMin=wellDepthMin,
+                                            wellDepthMax=wellDepthMax,
+                                            holeDepthMin=holeDepthMin,
+                                            holeDepthMax=holeDepthMax,
+                                            period=period,
+                                            startDT=startDT,
+                                            endDT=endDT))
+
+
+def nwis_measurements(sites=None,
+                      stateCd=None,
+                      huc=None,
+                      bBox=None,
+                      countyCd=None,
+                      parameterCd=None,
+                      period=None,
+                      startDT=None,
+                      endDT=None,
+                      siteType=None,
+                      modifiedSince=None,
+                      agencyCd=None,
+                      siteStatus=None,
+                      altMin=None,
+                      altMax=None,
+                      aquiferCd=None,
+                      localAquiferCd=None,
+                      wellDepthMin=None,
+                      wellDepthMax=None,
+                      holeDepthMin=None,
+                      holeDepthMax=None):
+    r"""Download from the Measurements database of the USGS NWIS."""
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://nwis.waterdata.usgs.gov/XX/nwis/measurements'
     r = resource(url,
@@ -1747,32 +2001,32 @@ def nwis_measurements(sites=None,
                  startDT=startDT,
                  endDT=endDT)
 
-    return tsutils.printiso(odo(r, pd.DataFrame))
+    return odo(r, pd.DataFrame)
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@mando.command('nwis_peak', formatter_class=HelpFormatter, doctype='numpy')
 @tsutils.doc(nwis_docstrings)
-def nwis_peak(sites=None,
-              stateCd=None,
-              huc=None,
-              bBox=None,
-              countyCd=None,
-              parameterCd=None,
-              period=None,
-              startDT=None,
-              endDT=None,
-              siteType=None,
-              modifiedSince=None,
-              agencyCd=None,
-              siteStatus=None,
-              altMin=None,
-              altMax=None,
-              aquiferCd=None,
-              localAquiferCd=None,
-              wellDepthMin=None,
-              wellDepthMax=None,
-              holeDepthMin=None,
-              holeDepthMax=None):
+def nwis_peak_cli(sites=None,
+                  stateCd=None,
+                  huc=None,
+                  bBox=None,
+                  countyCd=None,
+                  parameterCd=None,
+                  period=None,
+                  startDT=None,
+                  endDT=None,
+                  siteType=None,
+                  modifiedSince=None,
+                  agencyCd=None,
+                  siteStatus=None,
+                  altMin=None,
+                  altMax=None,
+                  aquiferCd=None,
+                  localAquiferCd=None,
+                  wellDepthMin=None,
+                  wellDepthMax=None,
+                  holeDepthMin=None,
+                  holeDepthMax=None):
     r"""Download from the Peak database of the USGS NWIS.
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
@@ -1940,6 +2194,51 @@ def nwis_peak(sites=None,
     {holeDepthMax}
     {wellDepthMin}
     {wellDepthMax}"""
+    tsutils._printiso(nwis_peak(sites=sites,
+                                stateCd=stateCd,
+                                huc=huc,
+                                bBox=bBox,
+                                countyCd=countyCd,
+                                parameterCd=parameterCd,
+                                siteType=siteType,
+                                modifiedSince=modifiedSince,
+                                agencyCd=agencyCd,
+                                siteStatus=siteStatus,
+                                altMin=altMin,
+                                altMax=altMax,
+                                aquiferCd=aquiferCd,
+                                localAquiferCd=localAquiferCd,
+                                wellDepthMin=wellDepthMin,
+                                wellDepthMax=wellDepthMax,
+                                holeDepthMin=holeDepthMin,
+                                holeDepthMax=holeDepthMax,
+                                period=period,
+                                startDT=startDT,
+                                endDT=endDT))
+
+
+def nwis_peak(sites=None,
+              stateCd=None,
+              huc=None,
+              bBox=None,
+              countyCd=None,
+              parameterCd=None,
+              period=None,
+              startDT=None,
+              endDT=None,
+              siteType=None,
+              modifiedSince=None,
+              agencyCd=None,
+              siteStatus=None,
+              altMin=None,
+              altMax=None,
+              aquiferCd=None,
+              localAquiferCd=None,
+              wellDepthMin=None,
+              wellDepthMax=None,
+              holeDepthMin=None,
+              holeDepthMax=None):
+    r"""Download from the Peak database of the USGS NWIS."""
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://nwis.waterdata.usgs.gov/XX/nwis/peak'
     r = resource(url,
@@ -1965,34 +2264,34 @@ def nwis_peak(sites=None,
                  startDT=startDT,
                  endDT=endDT)
 
-    return tsutils.printiso(odo(r, pd.DataFrame))
+    return odo(r, pd.DataFrame)
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@mando.command('nwis_stat', formatter_class=HelpFormatter, doctype='numpy')
 @tsutils.doc(nwis_docstrings)
-def nwis_stat(sites=None,
-              parameterCd=None,
-              period=None,
-              startDT=None,
-              endDT=None,
-              siteType=None,
-              modifiedSince=None,
-              agencyCd=None,
-              siteStatus=None,
-              altMin=None,
-              altMax=None,
-              drainAreaMin=None,
-              drainAreaMax=None,
-              aquiferCd=None,
-              localAquiferCd=None,
-              wellDepthMin=None,
-              wellDepthMax=None,
-              holeDepthMin=None,
-              holeDepthMax=None,
-              statReportType=None,
-              statType=None,
-              missingData=None,
-              statYearType=None):
+def nwis_stat_cli(sites=None,
+                  parameterCd=None,
+                  period=None,
+                  startDT=None,
+                  endDT=None,
+                  siteType=None,
+                  modifiedSince=None,
+                  agencyCd=None,
+                  siteStatus=None,
+                  altMin=None,
+                  altMax=None,
+                  drainAreaMin=None,
+                  drainAreaMax=None,
+                  aquiferCd=None,
+                  localAquiferCd=None,
+                  wellDepthMin=None,
+                  wellDepthMax=None,
+                  holeDepthMin=None,
+                  holeDepthMax=None,
+                  statReportType=None,
+                  statType=None,
+                  missingData=None,
+                  statYearType=None):
     r"""Download from the Statistic database of the USGS NWIS.
 
     Detailed documentation is available at http://waterdata.usgs.gov/nwis.
@@ -2140,6 +2439,55 @@ def nwis_stat(sites=None,
     {statType}
     {missingData}
     {statYearType}"""
+    tsutils._printiso(nwis_stat(sites=sites,
+                                parameterCd=parameterCd,
+                                siteType=siteType,
+                                modifiedSince=modifiedSince,
+                                agencyCd=agencyCd,
+                                siteStatus=siteStatus,
+                                altMin=altMin,
+                                altMax=altMax,
+                                drainAreaMin=drainAreaMin,
+                                drainAreaMax=drainAreaMax,
+                                aquiferCd=aquiferCd,
+                                localAquiferCd=localAquiferCd,
+                                wellDepthMin=wellDepthMin,
+                                wellDepthMax=wellDepthMax,
+                                holeDepthMin=holeDepthMin,
+                                holeDepthMax=holeDepthMax,
+                                period=period,
+                                startDT=startDT,
+                                endDT=endDT,
+                                statReportType=statReportType,
+                                statType=statType,
+                                missingData=missingData,
+                                statYearType=statYearType))
+
+
+def nwis_stat(sites=None,
+              parameterCd=None,
+              period=None,
+              startDT=None,
+              endDT=None,
+              siteType=None,
+              modifiedSince=None,
+              agencyCd=None,
+              siteStatus=None,
+              altMin=None,
+              altMax=None,
+              drainAreaMin=None,
+              drainAreaMax=None,
+              aquiferCd=None,
+              localAquiferCd=None,
+              wellDepthMin=None,
+              wellDepthMax=None,
+              holeDepthMin=None,
+              holeDepthMax=None,
+              statReportType=None,
+              statType=None,
+              missingData=None,
+              statYearType=None):
+    r"""Download from the Statistic database of the USGS NWIS."""
     from tsgettoolbox.services.usgs import nwis as placeholder
     url = r'http://waterservices.usgs.gov/nwis/stat/'
     r = resource(url,
@@ -2168,31 +2516,29 @@ def nwis_stat(sites=None,
                  statYearType=statYearType,
                  )
 
-    return tsutils.printiso(odo(r, pd.DataFrame))
+    return odo(r, pd.DataFrame)
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
+@mando.command('epa_wqp', formatter_class=HelpFormatter, doctype='numpy')
 @tsutils.doc(nwis_docstrings)
-def epa_wqp(
-            bBox=None,
-            lat=None,
-            lon=None,
-            within=None,
-            countrycode=None,
-            statecode=None,
-            countycode=None,
-            siteType=None,
-            organization=None,
-            siteid=None,
-            huc=None,
-            sampleMedia=None,
-            characteristicType=None,
-            characteristicName=None,
-            pCode=None,
-            activityId=None,
-            startDateLo=None,
-            startDateHi=None,
-            ):
+def epa_wqp_cli(bBox=None,
+                lat=None,
+                lon=None,
+                within=None,
+                countrycode=None,
+                statecode=None,
+                countycode=None,
+                siteType=None,
+                organization=None,
+                siteid=None,
+                huc=None,
+                sampleMedia=None,
+                characteristicType=None,
+                characteristicName=None,
+                pCode=None,
+                activityId=None,
+                startDateLo=None,
+                startDateHi=None):
     r"""Download from the EPA Water Quality Portal.
 
     All of the keywords could be considered as subtractive filters of the
@@ -2362,6 +2708,44 @@ def epa_wqp(
 
         Date of last desired data-collection activity.  A very wide range of
         date strings can be used but the closer to ISO 8601 the better."""
+    tsutils._printiso(epa_wqp(bBox=bBox,
+                              lat=lat,
+                              lon=lon,
+                              within=within,
+                              countrycode=countrycode,
+                              statecode=statecode,
+                              countycode=countycode,
+                              siteType=siteType,
+                              organization=organization,
+                              siteid=siteid,
+                              huc=huc,
+                              sampleMedia=sampleMedia,
+                              characteristicType=characteristicType,
+                              characteristicName=characteristicName,
+                              pCode=pCode,
+                              activityId=activityId,
+                              startDateLo=startDateLo,
+                              startDateHi=startDateHi))
+
+
+def epa_wqp(bBox=None,
+            lat=None,
+            lon=None,
+            within=None,
+            countrycode=None,
+            statecode=None,
+            countycode=None,
+            siteType=None,
+            organization=None,
+            siteid=None,
+            huc=None,
+            sampleMedia=None,
+            characteristicType=None,
+            characteristicName=None,
+            pCode=None,
+            activityId=None,
+            startDateLo=None,
+            startDateHi=None):
     from tsgettoolbox.services.epa import wqp as placeholder
 
     url = r'https://www.waterqualitydata.us/Result/search'
@@ -2386,4 +2770,4 @@ def epa_wqp(
                  startDateHi=startDateHi,
                  )
 
-    return tsutils.printiso(odo(r, pd.DataFrame))
+    return odo(r, pd.DataFrame)
