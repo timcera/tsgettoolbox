@@ -12,7 +12,7 @@ from __future__ import absolute_import
 
 import warnings
 
-from odo import odo, resource
+from tsgettoolbox.odo import odo, resource
 import pandas as pd
 import mando
 
