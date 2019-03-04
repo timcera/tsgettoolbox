@@ -974,7 +974,7 @@ def compile_copy_to_csv_sqlite(element, compiler, **kwargs):
 
 try:
     from sqlalchemy_redshift.dialect import UnloadFromSelect
-    from odo.backends.aws import S3, get_s3_connection
+    from tsgettoolbox.odo.backends.aws import S3, get_s3_connection
 except ImportError:
     pass
 else:

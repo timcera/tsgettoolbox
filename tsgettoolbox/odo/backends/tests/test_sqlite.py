@@ -8,7 +8,7 @@ sa = pytest.importorskip('sqlalchemy')
 
 from datashape import dshape, discover
 from odo import resource, odo
-from odo.utils import tmpfile, filetext
+from tsgettoolbox.odo.utils import tmpfile, filetext
 
 
 ds = dshape('var *  {a: int32, b: int32}')

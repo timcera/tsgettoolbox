@@ -11,11 +11,11 @@ from distutils.version import LooseVersion
 import h5py
 from contextlib import contextmanager
 
-from odo.backends.h5py import append, create, resource, discover, convert
-from odo.backends.h5py import unicode_dtype
+from tsgettoolbox.odo.backends.h5py import append, create, resource, discover, convert
+from tsgettoolbox.odo.backends.h5py import unicode_dtype
 
-from odo.utils import tmpfile, ignoring
-from odo.chunks import chunks
+from tsgettoolbox.odo.utils import tmpfile, ignoring
+from tsgettoolbox.odo.chunks import chunks
 from odo import into, append, convert, discover, drop, odo
 import datashape
 import h5py

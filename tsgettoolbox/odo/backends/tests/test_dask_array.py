@@ -5,11 +5,11 @@ import pytest
 pytest.importorskip('dask')
 
 from toolz import merge
-from odo.backends.dask import append
+from tsgettoolbox.odo.backends.dask import append
 from dask.array.core import insert_to_ooc, Array
 from dask import core
 from odo import convert, into, odo
-from odo.utils import tmpfile
+from tsgettoolbox.odo.utils import tmpfile
 import numpy as np
 
 

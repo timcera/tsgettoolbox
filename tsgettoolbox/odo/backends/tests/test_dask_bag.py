@@ -6,7 +6,7 @@ from operator import methodcaller
 
 from odo import chunks, TextFile, odo
 from dask.bag import Bag
-from odo.utils import filetexts
+from tsgettoolbox.odo.utils import filetexts
 
 
 def inc(x):

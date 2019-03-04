@@ -3,12 +3,12 @@ from __future__ import absolute_import, division, print_function
 import pytest
 pytest.importorskip('bcolz')
 
-from odo.backends.bcolz import (append, convert, ctable, carray, resource,
+from tsgettoolbox.odo.backends.bcolz import (append, convert, ctable, carray, resource,
                                  discover, drop)
-from odo.chunks import chunks
+from tsgettoolbox.odo.chunks import chunks
 from odo import append, convert, discover, into
 import numpy as np
-from odo.utils import tmpfile, ignoring, filetext
+from tsgettoolbox.odo.utils import tmpfile, ignoring, filetext
 from contextlib import contextmanager
 import shutil
 import os

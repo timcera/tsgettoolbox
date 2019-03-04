@@ -180,7 +180,7 @@ def compile_from_csv_postgres(element, compiler, **kwargs):
 
 try:
     import boto
-    from odo.backends.aws import S3
+    from tsgettoolbox.odo.backends.aws import S3
     from redshift_sqlalchemy.dialect import CopyCommand
 except ImportError:
     pass

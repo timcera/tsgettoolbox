@@ -17,8 +17,8 @@ import pandas as pd
 
 import datashape
 from odo import into, resource, S3, discover, CSV, drop, odo
-from odo.utils import tmpfile
-from odo.compatibility import urlopen
+from tsgettoolbox.odo.utils import tmpfile
+from tsgettoolbox.odo.compatibility import urlopen
 
 with closing(urlopen('http://httpbin.org/ip')) as url:
     public_ip = json.loads(url.read().decode())['origin']

@@ -8,8 +8,8 @@ import pandas as pd
 from collections import Iterator
 from sas7bdat import SAS7BDAT
 
-from odo.backends.sas import discover, sas_to_iterator
-from odo.utils import tmpfile, into_path
+from tsgettoolbox.odo.backends.sas import discover, sas_to_iterator
+from tsgettoolbox.odo.utils import tmpfile, into_path
 from odo import append, convert, resource, dshape
 
 

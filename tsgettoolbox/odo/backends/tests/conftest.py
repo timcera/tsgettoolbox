@@ -14,7 +14,7 @@ def sc():
 @pytest.yield_fixture(scope='session')
 def sqlctx(sc):
     pytest.importorskip('pyspark')
-    from odo.backends.sparksql import HiveContext
+    from tsgettoolbox.odo.backends.sparksql import HiveContext
 
     try:
         yield HiveContext(sc)

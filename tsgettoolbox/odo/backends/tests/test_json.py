@@ -9,10 +9,10 @@ import json
 from contextlib import contextmanager
 
 import numpy as np
-from odo.backends.json import json_dumps
-from odo.utils import tmpfile, ignoring
+from tsgettoolbox.odo.backends.json import json_dumps
+from tsgettoolbox.odo.utils import tmpfile, ignoring
 from odo import odo, discover, JSONLines, resource, JSON, convert, append, drop
-from odo.temp import Temp, _Temp
+from tsgettoolbox.odo.temp import Temp, _Temp
 
 from datashape import dshape
 

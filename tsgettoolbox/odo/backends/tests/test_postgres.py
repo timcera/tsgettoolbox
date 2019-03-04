@@ -15,10 +15,10 @@ from datashape.util.testing import assert_dshape_equal
 import numpy as np
 import pandas as pd
 
-from odo.backends.csv import CSV
-from odo.backends.sql import select_to_base
+from tsgettoolbox.odo.backends.csv import CSV
+from tsgettoolbox.odo.backends.sql import select_to_base
 from odo import odo, into, resource, drop, discover, convert
-from odo.utils import assert_allclose, tmpfile
+from tsgettoolbox.odo.utils import assert_allclose, tmpfile
 
 
 @pytest.fixture(scope='module')

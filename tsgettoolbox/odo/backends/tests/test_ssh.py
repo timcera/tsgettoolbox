@@ -9,13 +9,13 @@ import re
 import os
 import sys
 
-from odo.utils import tmpfile, filetext
-from odo.directory import _Directory, Directory
-from odo.backends.ssh import SSH, resource, ssh_pattern, sftp, drop, connect
-from odo.backends.csv import CSV
+from tsgettoolbox.odo.utils import tmpfile, filetext
+from tsgettoolbox.odo.directory import _Directory, Directory
+from tsgettoolbox.odo.backends.ssh import SSH, resource, ssh_pattern, sftp, drop, connect
+from tsgettoolbox.odo.backends.csv import CSV
 from odo import into, discover, CSV, JSONLines, JSON, convert
-from odo.temp import _Temp, Temp
-from odo.compatibility import ON_TRAVIS_CI
+from tsgettoolbox.odo.temp import _Temp, Temp
+from tsgettoolbox.odo.compatibility import ON_TRAVIS_CI
 import socket
 
 skipif = pytest.mark.skipif
@@ -136,7 +136,7 @@ def test_drop():
 
 
 def test_drop_of_csv_json_lines_use_ssh_version():
-    from odo.backends.ssh import drop_ssh
+    from tsgettoolbox.odo.backends.ssh import drop_ssh
     for typ in [CSV, JSON, JSONLines]:
         assert drop.dispatch(SSH(typ)) == drop_ssh
 

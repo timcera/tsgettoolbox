@@ -1,7 +1,7 @@
 from __future__ import absolute_import, division, print_function
 
 from datashape import dshape
-from tsgettoolbox.odo.chunks import *
+from tsgettoolbox.odo..chunks import *
 from toolz import first
 
 

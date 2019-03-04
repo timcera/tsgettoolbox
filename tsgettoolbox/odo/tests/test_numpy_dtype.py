@@ -2,7 +2,7 @@ from __future__ import absolute_import, division, print_function
 
 import pytest
 
-from tsgettoolbox.odo.numpy_dtype import dshape_to_pandas, unit_to_dtype, dshape_to_numpy
+from tsgettoolbox.odo..numpy_dtype import dshape_to_pandas, unit_to_dtype, dshape_to_numpy
 from datashape import dshape
 import numpy as np
 

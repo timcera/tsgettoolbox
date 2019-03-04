@@ -6,8 +6,8 @@ import pytest
 tb = pytest.importorskip('tables')
 
 from odo import into, odo
-from odo.utils import tmpfile
-from odo.backends.pytables import PyTables, discover
+from tsgettoolbox.odo.utils import tmpfile
+from tsgettoolbox.odo.backends.pytables import PyTables, discover
 import os
 
 

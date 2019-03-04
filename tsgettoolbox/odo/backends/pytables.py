@@ -104,7 +104,7 @@ def PyTables(path, datapath, dshape=None, **kwargs):
 
     Examples
     --------
-    >>> from odo.utils import tmpfile
+    >>> from tsgettoolbox.odo.utils import tmpfile
     >>> # create from scratch
     >>> with tmpfile('.h5') as f:
     ...     t = PyTables(filename, '/bar',

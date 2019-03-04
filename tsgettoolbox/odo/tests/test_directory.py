@@ -3,9 +3,9 @@ from __future__ import absolute_import, division, print_function
 import tempfile
 from contextlib import contextmanager
 import shutil
-from tsgettoolbox.odo.backends.csv import CSV
-from tsgettoolbox.odo.directory import Directory, discover, resource, _Directory
-from tsgettoolbox.odo import into
+from tsgettoolbox.odo..backends.csv import CSV
+from tsgettoolbox.odo..directory import Directory, discover, resource, _Directory
+from tsgettoolbox.odo. import into
 from datashape import dshape
 import os
 

@@ -1,4 +1,4 @@
-from tsgettoolbox.odo.utils import ext, iter_except, keywords, gentemp, records_to_tuples
+from tsgettoolbox.odo..utils import ext, iter_except, keywords, gentemp, records_to_tuples
 
 
 def test_ext():

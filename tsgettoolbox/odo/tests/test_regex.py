@@ -1,6 +1,6 @@
 from __future__ import absolute_import, division, print_function
 
-from tsgettoolbox.odo.regex import RegexDispatcher
+from tsgettoolbox.odo..regex import RegexDispatcher
 
 import re
 

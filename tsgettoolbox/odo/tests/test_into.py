@@ -4,9 +4,9 @@ import pytest
 
 import numpy as np
 
-from tsgettoolbox.odo import odo, into
-from tsgettoolbox.odo.utils import tmpfile, filetext
-from tsgettoolbox.odo.backends.csv import CSV
+from tsgettoolbox.odo. import odo, into
+from tsgettoolbox.odo..utils import tmpfile, filetext
+from tsgettoolbox.odo..backends.csv import CSV
 
 
 def test_into_convert():

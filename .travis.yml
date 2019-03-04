@@ -21,7 +21,8 @@ install:
   - pip install wheel
   - pip install scipy
   - pip install coveralls
-  - pip install .[extra]
+  - pip install -e .
+  - pip install -r etc/requirements_ci.txt
 
 script:
   - source activate $TRAVIS_PYTHON_VERSION

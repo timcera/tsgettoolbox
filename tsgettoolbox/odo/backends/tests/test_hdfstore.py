@@ -3,8 +3,8 @@ from __future__ import absolute_import, division, print_function
 import pytest
 
 from contextlib import contextmanager
-from odo.utils import tmpfile
-from odo.chunks import chunks
+from tsgettoolbox.odo.utils import tmpfile
+from tsgettoolbox.odo.chunks import chunks
 from odo import into, append, convert, resource, discover, odo
 import datashape
 import pandas as pd

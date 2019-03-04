@@ -29,11 +29,11 @@ import pandas as pd
 import sqlalchemy as sa
 
 from odo import convert, append, resource, into, odo, chunks
-from odo.backends.sql import (
+from tsgettoolbox.odo.backends.sql import (
     dshape_to_table, create_from_datashape, dshape_to_alchemy,
     discover_sqlalchemy_selectable
 )
-from odo.utils import tmpfile, raises
+from tsgettoolbox.odo.utils import tmpfile, raises
 
 from six import string_types
 

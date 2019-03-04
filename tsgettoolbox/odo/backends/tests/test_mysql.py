@@ -6,7 +6,7 @@ pymysql = pytest.importorskip('pymysql')
 
 from datashape import var, DataShape, Record, dshape
 import itertools
-from odo.backends.csv import CSV
+from tsgettoolbox.odo.backends.csv import CSV
 from odo import resource, odo
 import sqlalchemy
 import sqlalchemy as sa
@@ -15,7 +15,7 @@ import sys
 import csv as csv_module
 import getpass
 from odo import drop, discover
-from odo.utils import tmpfile
+from tsgettoolbox.odo.utils import tmpfile
 
 
 pytestmark = pytest.mark.skipif(sys.platform == 'win32',
