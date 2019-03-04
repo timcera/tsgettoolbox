@@ -7,7 +7,7 @@ from tsgettoolbox.odo.convert import (convert, list_to_numpy, iterator_to_numpy_
                          iterator_to_DataFrame_chunks)
 from tsgettoolbox.odo.chunks import chunks
 from datashape import discover, dshape
-from collections import Iterator
+from collections import Iterator, OrderedDict
 import datetime
 import datashape
 import numpy as np
@@ -164,7 +164,10 @@ def test_numpy_launders_python_types():
 
 
 def test_numpy_asserts_type_after_dataframe():
-    df = pd.DataFrame({'name': ['Alice'], 'amount': [100]})
+    b = OrderedDict()
+    b['name'] = ['Alice']
+    b['amount'] = [100]
+    df = pd.DataFrame(b)
     ds = datashape.dshape('1 * {name: string[10, "ascii"], amount: int32}')
     x = convert(np.ndarray, df, dshape=ds)
     assert discover(x) == ds

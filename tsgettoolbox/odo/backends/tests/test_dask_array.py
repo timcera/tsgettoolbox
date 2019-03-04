@@ -63,7 +63,7 @@ def test_insert_to_ooc():
     y = np.empty(shape=x.shape, dtype=x.dtype)
     a = convert(Array, x, chunks=(4, 5))
 
-    dsk = insert_to_ooc(y, a)
+    dsk = insert_to_ooc(a, y)
     core.get(merge(dsk, a.dask), list(dsk.keys()))
 
     assert eq(y, x)

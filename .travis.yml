@@ -21,12 +21,13 @@ install:
   - pip install wheel
   - pip install scipy
   - pip install coveralls
+  - pip install pytest
   - pip install -e .
   - pip install -r etc/requirements_ci.txt
 
 script:
   - source activate $TRAVIS_PYTHON_VERSION
-  - nosetests --with-doctest --with-coverage --cover-tests --cover-package=tsgettoolbox --cover-branches --cover-erase
+  - py.test -v --doctest-modules --doctest-ignore-import-errors -rs
 
 after_success:
   - coveralls

@@ -12,7 +12,10 @@ from functools import partial
 from distutils.spawn import find_executable
 
 import pandas as pd
-from pandas.io.formats.format import CSVFormatter
+try:
+    from pandas.io.formats.format import CSVFormatter
+except ImportError:
+    from pandas.formats.format import CSVFormatter
 import sqlalchemy as sa
 from sqlalchemy.ext.compiler import compiles
 from sqlalchemy.sql.elements import Executable, ClauseElement

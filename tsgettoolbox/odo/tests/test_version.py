@@ -1,3 +1,3 @@
 def test_version():
-    from tsgettoolbox.odo import odo
+    from tsgettoolbox import odo
     assert odo.__version__ != 'unknown'

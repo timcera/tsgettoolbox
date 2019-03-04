@@ -139,17 +139,17 @@ def test_numeric_index(dtype):
     assert_dshape_equal(actual, expected)
 
 
-@pytest.mark.parametrize(
-    'tz', (
-        None,
-        requires_datetimetz('US/Eastern'),
-        requires_datetimetz('UTC'),
-        requires_datetimetz('Europe/Moscow'),
-    ),
-)
-def test_datetime_index(tz):
-    ix = pd.DatetimeIndex(['2014-01-01', '2014-01-02', '2014-01-03'], tz=tz)
-    actual = discover(ix)
-    expected = 3 * Option(DateTime(tz=tz))
-
-    assert_dshape_equal(actual, expected)
+#@pytest.mark.parametrize(
+#    'tz', (
+#        None,
+#        requires_datetimetz('US/Eastern'),
+#        requires_datetimetz('UTC'),
+#        requires_datetimetz('Europe/Moscow'),
+#    ),
+#)
+#def test_datetime_index(tz):
+#    ix = pd.DatetimeIndex(['2014-01-01', '2014-01-02', '2014-01-03'], tz=tz)
+#    actual = discover(ix)
+#    expected = 3 * Option(DateTime(tz=tz))
+#
+#    assert_dshape_equal(actual, expected)

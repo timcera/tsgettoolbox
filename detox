@@ -5,7 +5,7 @@ program=tsgettoolbox
 pkgs="\
      setuptools \
      pip \
-     nose \
+     pytest \
      coverage \
      flake8 \
      "
@@ -14,6 +14,8 @@ envs=(~/python_ves/python-2.7.13
       ~/python_ves/python-3.5.2 \
       ~/python_ves/python-3.6.0)
 
+pytest_opts='--doctest-modules --ignore docsrc --mpl'
+
 for env in ${envs[@]}; do
     echo "${env}"
 
@@ -21,23 +23,18 @@ for env in ${envs[@]}; do
     pip install --upgrade pip
     pip install wheel
     pip install --upgrade --only-binary pandas,scipy ${pkgs}
+    pip install -r etc/requirements_ci.txt
     pip uninstall -y ${program}
     rm -rf build
     python setup.py develop
 
-    nosetests \
-        --with-coverage \
-        --cover-tests \
-        --cover-package=${program} \
-        --cover-branches \
-        --cover-erase \
-        -s
+    pytest ${pytest_opts}
     deactivate
 done
 
 source "${env}"/bin/activate
 coverage erase
-coverage run `which nosetests`
+coverage run `which pytest` ${pytest_opts}
 coverage report --include="${program}/*" --omit="tests/*"
 coverage html --include="${program}/*" --omit="tests/*"
 flake8 ${program}/__init__.py ${program}/${program}.py ${program}/tsutils.py ${program}/functions/*.py --exit-zero

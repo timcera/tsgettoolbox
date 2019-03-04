@@ -65,7 +65,7 @@ def test_sample_different_encoding():
 
 
 @pytest.mark.xfail(raises=HTTPError)
-@patch('odo.backends.url.urlopen')
+@patch('tsgettoolbox.odo.backends.url.urlopen')
 def test_failed_url(m):
     failed_url = "http://foo.com/myfile.csv"
     m.side_effect = HTTPError(failed_url, 404, 'Not found', None, None)
