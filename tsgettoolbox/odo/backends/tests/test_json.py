@@ -11,7 +11,7 @@ from contextlib import contextmanager
 import numpy as np
 from tsgettoolbox.odo.backends.json import json_dumps
 from tsgettoolbox.odo.utils import tmpfile, ignoring
-from odo import odo, discover, JSONLines, resource, JSON, convert, append, drop
+from tsgettoolbox.odo import odo, discover, JSONLines, resource, JSON, convert, append, drop
 from tsgettoolbox.odo.temp import Temp, _Temp
 
 from datashape import dshape
@@ -130,7 +130,7 @@ def test_tuples_to_json():
 
 
 def test_datetimes():
-    from odo import into
+    from tsgettoolbox.odo import into
     import numpy as np
     data = [{'a': 1, 'dt': datetime.datetime(2001, 1, 1)},
             {'a': 2, 'dt': datetime.datetime(2002, 2, 2)}]

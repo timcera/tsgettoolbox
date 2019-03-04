@@ -4,7 +4,7 @@ import pytest
 pymongo = pytest.importorskip('pymongo')
 
 import os
-from odo import discover, convert, append, resource, dshape, odo
+from tsgettoolbox.odo import discover, convert, append, resource, dshape, odo
 from toolz import pluck
 from copy import deepcopy
 from bson.objectid import ObjectId

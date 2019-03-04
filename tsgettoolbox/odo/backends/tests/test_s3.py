@@ -19,7 +19,7 @@ from datashape.util.testing import assert_dshape_equal
 import pandas as pd
 import pandas.util.testing as tm
 
-from odo import into, resource, S3, discover, CSV, drop, append, odo
+from tsgettoolbox.odo import into, resource, S3, discover, CSV, drop, append, odo
 from tsgettoolbox.odo.backends.aws import get_s3_connection
 from tsgettoolbox.odo.utils import tmpfile
 from tsgettoolbox.odo.compatibility import urlopen

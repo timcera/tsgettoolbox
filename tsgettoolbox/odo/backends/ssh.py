@@ -57,7 +57,7 @@ class _SSH(object):
     Examples
     --------
 
-    >>> from odo import SSH, CSV
+    >>> from tsgettoolbox.odo import SSH, CSV
     >>> s = SSH(CSV)('/path/to/file.csv', hostname='hostname', username='alice')
 
     Normally create through resource uris

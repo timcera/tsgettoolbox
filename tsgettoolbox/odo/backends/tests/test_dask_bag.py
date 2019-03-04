@@ -4,7 +4,7 @@ pytest.importorskip('dask.bag')
 
 from operator import methodcaller
 
-from odo import chunks, TextFile, odo
+from tsgettoolbox.odo import chunks, TextFile, odo
 from dask.bag import Bag
 from tsgettoolbox.odo.utils import filetexts
 

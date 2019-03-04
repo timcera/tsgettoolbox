@@ -18,7 +18,7 @@ import uuid
 from tsgettoolbox.odo.backends.hdfs import discover, HDFS, CSV, SSH, dialect_of, TableProxy
 from tsgettoolbox.odo.backends.sql import resource
 from tsgettoolbox.odo.backends.ssh import sftp
-from odo import into, drop, JSONLines, odo
+from tsgettoolbox.odo import into, drop, JSONLines, odo
 from tsgettoolbox.odo.utils import filetext, ignoring, tmpfile
 import sqlalchemy as sa
 from datashape import dshape

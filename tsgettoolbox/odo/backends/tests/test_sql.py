@@ -28,7 +28,7 @@ import numpy as np
 import pandas as pd
 import sqlalchemy as sa
 
-from odo import convert, append, resource, into, odo, chunks
+from tsgettoolbox.odo import convert, append, resource, into, odo, chunks
 from tsgettoolbox.odo.backends.sql import (
     dshape_to_table, create_from_datashape, dshape_to_alchemy,
     discover_sqlalchemy_selectable

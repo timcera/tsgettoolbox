@@ -12,7 +12,7 @@ import dask.dataframe as dd
 from datashape import var, Record, int64, float64, Categorical
 from datashape.util.testing import assert_dshape_equal
 
-from odo import convert, discover
+from tsgettoolbox.odo import convert, discover
 
 
 def test_discover():

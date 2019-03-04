@@ -15,7 +15,7 @@ class _Directory(Chunks):
     For typed containers see the ``Directory`` function which generates
     parametrized Directory classes.
 
-    >>> from odo import CSV
+    >>> from tsgettoolbox.odo import CSV
     >>> c = Directory(CSV)('path/to/data/')  # doctest: +SKIP
 
     Normal use through resource strings

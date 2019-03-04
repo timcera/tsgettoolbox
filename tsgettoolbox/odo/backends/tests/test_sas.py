@@ -10,7 +10,7 @@ from sas7bdat import SAS7BDAT
 
 from tsgettoolbox.odo.backends.sas import discover, sas_to_iterator
 from tsgettoolbox.odo.utils import tmpfile, into_path
-from odo import append, convert, resource, dshape
+from tsgettoolbox.odo import append, convert, resource, dshape
 
 
 test_path = into_path('backends', 'tests', 'airline.sas7bdat')

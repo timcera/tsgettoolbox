@@ -16,7 +16,7 @@ from tsgettoolbox.odo.backends.csv import (CSV, append, convert, resource,
                               csv_to_dataframe, CSV_to_chunks_of_dataframes,
                               infer_header)
 from tsgettoolbox.odo.utils import tmpfile, filetext, filetexts, raises
-from odo import (into, append, convert, resource, discover, dshape, Temp,
+from tsgettoolbox.odo import (into, append, convert, resource, discover, dshape, Temp,
                  chunks, odo)
 from tsgettoolbox.odo.temp import _Temp
 from tsgettoolbox.odo.compatibility import unicode

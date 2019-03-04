@@ -5,7 +5,7 @@ import datashape as ds
 import pytest
 tb = pytest.importorskip('tables')
 
-from odo import into, odo
+from tsgettoolbox.odo import into, odo
 from tsgettoolbox.odo.utils import tmpfile
 from tsgettoolbox.odo.backends.pytables import PyTables, discover
 import os

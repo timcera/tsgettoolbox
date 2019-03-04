@@ -12,7 +12,7 @@ import dask.bag as db
 from dask.compatibility import long
 import dask.dataframe as dd
 
-from odo import append, chunks, convert, discover, TextFile
+from tsgettoolbox.odo import append, chunks, convert, discover, TextFile
 from ..utils import filter_kwargs
 
 

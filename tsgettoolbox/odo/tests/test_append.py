@@ -1,6 +1,6 @@
 from __future__ import absolute_import, division, print_function
 
-from tsgettoolbox.odo..append import append
+from tsgettoolbox.odo.append import append
 
 def test_append_list():
     L = [1, 2, 3]

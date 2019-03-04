@@ -17,7 +17,7 @@ import pandas as pd
 
 from tsgettoolbox.odo.backends.csv import CSV
 from tsgettoolbox.odo.backends.sql import select_to_base
-from odo import odo, into, resource, drop, discover, convert
+from tsgettoolbox.odo import odo, into, resource, drop, discover, convert
 from tsgettoolbox.odo.utils import assert_allclose, tmpfile
 
 

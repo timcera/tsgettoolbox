@@ -7,7 +7,7 @@ from functools import partial
 import codecs
 import os
 
-from odo import odo, resource, URL, discover, CSV, TextFile, convert
+from tsgettoolbox.odo import odo, resource, URL, discover, CSV, TextFile, convert
 from tsgettoolbox.odo.backends.url import sample
 from tsgettoolbox.odo.temp import _Temp, Temp
 from tsgettoolbox.odo.utils import tmpfile, raises

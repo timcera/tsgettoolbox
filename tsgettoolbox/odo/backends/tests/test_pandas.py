@@ -21,7 +21,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from odo import odo
+from tsgettoolbox.odo import odo
 
 
 requires_datetimetz = pytest.mark.skipif(

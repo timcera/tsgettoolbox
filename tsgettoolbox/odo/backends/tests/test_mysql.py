@@ -7,14 +7,14 @@ pymysql = pytest.importorskip('pymysql')
 from datashape import var, DataShape, Record, dshape
 import itertools
 from tsgettoolbox.odo.backends.csv import CSV
-from odo import resource, odo
+from tsgettoolbox.odo import resource, odo
 import sqlalchemy
 import sqlalchemy as sa
 import os
 import sys
 import csv as csv_module
 import getpass
-from odo import drop, discover
+from tsgettoolbox.odo import drop, discover
 from tsgettoolbox.odo.utils import tmpfile
 
 

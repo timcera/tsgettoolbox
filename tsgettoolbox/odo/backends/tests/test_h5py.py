@@ -16,7 +16,7 @@ from tsgettoolbox.odo.backends.h5py import unicode_dtype
 
 from tsgettoolbox.odo.utils import tmpfile, ignoring
 from tsgettoolbox.odo.chunks import chunks
-from odo import into, append, convert, discover, drop, odo
+from tsgettoolbox.odo import into, append, convert, discover, drop, odo
 import datashape
 import h5py
 import numpy as np

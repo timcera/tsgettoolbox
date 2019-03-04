@@ -6,7 +6,7 @@ pytest.importorskip('bcolz')
 from tsgettoolbox.odo.backends.bcolz import (append, convert, ctable, carray, resource,
                                  discover, drop)
 from tsgettoolbox.odo.chunks import chunks
-from odo import append, convert, discover, into
+from tsgettoolbox.odo import append, convert, discover, into
 import numpy as np
 from tsgettoolbox.odo.utils import tmpfile, ignoring, filetext
 from contextlib import contextmanager

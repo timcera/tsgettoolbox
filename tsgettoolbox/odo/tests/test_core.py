@@ -1,7 +1,7 @@
 from __future__ import absolute_import, division, print_function
 import warnings
 
-from tsgettoolbox.odo..core import NetworkDispatcher, path, FailedConversionWarning
+from tsgettoolbox.odo.core import NetworkDispatcher, path, FailedConversionWarning
 from datashape import discover
 
 d = NetworkDispatcher('foo')

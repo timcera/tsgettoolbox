@@ -48,7 +48,7 @@ class _URL(object):
      Examples
     --------
 
-    >>> from odo import URL, CSV
+    >>> from tsgettoolbox.odo import URL, CSV
     >>> u = URL(CSV)('http://foo.com/myfile.csv')
 
     Normally create through resource uris

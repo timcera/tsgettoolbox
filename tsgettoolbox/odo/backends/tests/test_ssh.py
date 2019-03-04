@@ -13,7 +13,7 @@ from tsgettoolbox.odo.utils import tmpfile, filetext
 from tsgettoolbox.odo.directory import _Directory, Directory
 from tsgettoolbox.odo.backends.ssh import SSH, resource, ssh_pattern, sftp, drop, connect
 from tsgettoolbox.odo.backends.csv import CSV
-from odo import into, discover, CSV, JSONLines, JSON, convert
+from tsgettoolbox.odo import into, discover, CSV, JSONLines, JSON, convert
 from tsgettoolbox.odo.temp import _Temp, Temp
 from tsgettoolbox.odo.compatibility import ON_TRAVIS_CI
 import socket

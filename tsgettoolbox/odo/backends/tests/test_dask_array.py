@@ -8,7 +8,7 @@ from toolz import merge
 from tsgettoolbox.odo.backends.dask import append
 from dask.array.core import insert_to_ooc, Array
 from dask import core
-from odo import convert, into, odo
+from tsgettoolbox.odo import convert, into, odo
 from tsgettoolbox.odo.utils import tmpfile
 import numpy as np
 

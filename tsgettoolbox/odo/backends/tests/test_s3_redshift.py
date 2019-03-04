@@ -16,7 +16,7 @@ import itertools
 import pandas as pd
 
 import datashape
-from odo import into, resource, S3, discover, CSV, drop, odo
+from tsgettoolbox.odo import into, resource, S3, discover, CSV, drop, odo
 from tsgettoolbox.odo.utils import tmpfile
 from tsgettoolbox.odo.compatibility import urlopen
 

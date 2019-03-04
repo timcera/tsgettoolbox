@@ -1,8 +1,8 @@
 from __future__ import absolute_import, division, print_function
 
 import os
-from tsgettoolbox.odo..resource import resource
-from tsgettoolbox.odo..utils import raises
+from tsgettoolbox.odo.resource import resource
+from tsgettoolbox.odo.utils import raises
 
 
 def test_raises_not_implemented_error():

@@ -5,7 +5,7 @@ import pytest
 from contextlib import contextmanager
 from tsgettoolbox.odo.utils import tmpfile
 from tsgettoolbox.odo.chunks import chunks
-from odo import into, append, convert, resource, discover, odo
+from tsgettoolbox.odo import into, append, convert, resource, discover, odo
 import datashape
 import pandas as pd
 from datetime import datetime

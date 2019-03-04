@@ -30,7 +30,7 @@ import pandas.util.testing as tm
 
 import datashape
 from datashape import dshape
-from odo import odo, discover, Directory, JSONLines
+from tsgettoolbox.odo import odo, discover, Directory, JSONLines
 from tsgettoolbox.odo.utils import tmpfile, ignoring
 from tsgettoolbox.odo.backends.sparksql import schema_to_dshape, dshape_to_schema
 from tsgettoolbox.odo.backends.sparksql import SparkDataFrame
