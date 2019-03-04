@@ -1,4 +1,5 @@
 from __future__ import print_function
+from __future__ import absolute_import
 
 import datetime
 from base64 import b64decode
@@ -9,9 +10,9 @@ from builtins import object
 from io import StringIO
 from io import BytesIO
 
-from odo import convert
-from odo import odo
-from odo import resource
+from tsgetoolbox.odo.odo import convert
+from tsgetoolbox.odo.odo import odo
+from tsgetoolbox.odo.odo import resource
 
 import pandas as pd
 

@@ -7,6 +7,7 @@ This module provides direct access to `Climate Predicition Center`_.
 .. _Weekly Drought Index: http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
 """
 from __future__ import print_function
+from __future__ import absolute_import
 
 import pandas as pd
 

@@ -1,4 +1,5 @@
 from __future__ import print_function
+from __future__ import absolute_import
 
 import datetime
 import logging
@@ -11,9 +12,9 @@ from builtins import object
 from builtins import range
 from builtins import str
 
-from odo import convert
-from odo import odo
-from odo import resource
+from tsgettoolbox.odo.odo import convert
+from tsgettoolbox.odo.odo import odo
+from tsgettoolbox.odo.odo import resource
 
 import pandas as pd
 

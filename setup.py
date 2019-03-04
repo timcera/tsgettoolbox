@@ -24,7 +24,6 @@ install_requires = [
     # List your project dependencies here.
     # For more details, see:
     # http://packages.python.org/distribute/setuptools.html#declaring-dependencies
-    'odo',
     'tstoolbox >= 22.55.29.20',
     'requests',
     'zeep',
@@ -56,6 +55,7 @@ setup(name='tsgettoolbox',
                 'tsgettoolbox/services/usace',
                 'tsgettoolbox/services/usgs',
                 'tsgettoolbox/functions',
+                'tsgettoolbox/odo/odo',
                 ],
       package_data={'tsgettoolbox': 'tsgettoolbox/services/usgs/*.dat'},
       include_package_data=True,

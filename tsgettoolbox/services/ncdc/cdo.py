@@ -1,11 +1,13 @@
 
+from __future__ import absolute_import
+
 import logging
 import os
 import time
 
-from odo import convert
-from odo import odo
-from odo import resource
+from tsgettoolbox.odo.odo import convert
+from tsgettoolbox.odo.odo import odo
+from tsgettoolbox.odo.odo import resource
 
 import pandas as pd
 
