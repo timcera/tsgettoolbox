@@ -4,7 +4,7 @@ import os
 
 def test_create_pydot_image():
     try:
-        from odo.dot import dot_graph
+        from tsgettoolbox.odo.dot import dot_graph
         dot_graph()
     except:
         pass

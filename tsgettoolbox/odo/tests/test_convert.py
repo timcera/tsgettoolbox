@@ -1,11 +1,11 @@
 from __future__ import absolute_import, division, print_function
 
 import pytest
-from odo.convert import (convert, list_to_numpy, iterator_to_numpy_chunks,
+from tsgettoolbox.odo.convert import (convert, list_to_numpy, iterator_to_numpy_chunks,
                          dataframe_to_chunks_dataframe, numpy_to_chunks_numpy,
                          chunks_dataframe_to_dataframe,
                          iterator_to_DataFrame_chunks)
-from odo.chunks import chunks
+from tsgettoolbox.odo.chunks import chunks
 from datashape import discover, dshape
 from collections import Iterator
 import datetime

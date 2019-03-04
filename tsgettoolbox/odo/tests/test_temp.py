@@ -1,7 +1,7 @@
 from __future__ import absolute_import, division, print_function
 
-from odo.temp import Temp, _Temp
-from odo.drop import drop
+from tsgettoolbox.odo.temp import Temp, _Temp
+from tsgettoolbox.odo.drop import drop
 
 class Foo(object):
     pass

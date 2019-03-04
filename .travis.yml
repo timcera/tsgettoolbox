@@ -21,7 +21,7 @@ install:
   - pip install wheel
   - pip install scipy
   - pip install coveralls
-  - python setup.py install
+  - pip install .[extra]
 
 script:
   - source activate $TRAVIS_PYTHON_VERSION
