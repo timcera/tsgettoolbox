@@ -10,9 +10,9 @@ from builtins import object
 from io import StringIO
 from io import BytesIO
 
-from tsgetoolbox.odo.odo import convert
-from tsgetoolbox.odo.odo import odo
-from tsgetoolbox.odo.odo import resource
+from tsgettoolbox.odo import convert
+from tsgettoolbox.odo import odo
+from tsgettoolbox.odo import resource
 
 import pandas as pd
 

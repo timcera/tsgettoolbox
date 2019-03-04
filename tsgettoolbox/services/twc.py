@@ -10,7 +10,7 @@ from __future__ import print_function
 
 import pandas as pd
 
-from ulmo.twc.kbdi.core import get_data
+from tsgettoolbox.ulmo.twc.kbdi.core import get_data
 
 
 def ulmo_df(county=None,

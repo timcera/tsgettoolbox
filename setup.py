@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from itertools import chain
 import os
 import os.path
 import sys
@@ -24,12 +25,62 @@ install_requires = [
     # List your project dependencies here.
     # For more details, see:
     # http://packages.python.org/distribute/setuptools.html#declaring-dependencies
-    'tstoolbox >= 22.55.29.20',
-    'requests',
-    'zeep',
-    'ulmo',
+    'appdirs',
+    'beautifulsoup4',
+    'dask >= 0.11.1',
+    'datashape >= 0.5.0',
+    'future',
+    'geojson',
+    'html5lib<=0.9999999',
+    'isodate',
+    'lxml',
+    'multipledispatch >= 0.4.7',
+    'networkx >= 1.0',
     'networkx < 2.0',
+    'numpy >= 1.7',
+    'pandas >= 0.15.0',
+    'pytest',
+    'requests',
+    'suds-jurko',
+    'tables',
+    'toolz >= 0.7.3',
+    'tstoolbox >= 22.55.29.20',
+    'zeep',
 ]
+
+
+def read(filename):
+    with open(filename, 'r') as f:
+        return f.read()
+
+
+def read_reqs(filename):
+    return read(filename).strip().splitlines()
+
+
+def extras_require():
+    extras = {req: read_reqs('etc/requirements_%s.txt' % req)
+              for req in {'aws',
+                          'bcolz',
+                          'bokeh',
+                          'ci',
+                          'h5py',
+                          'mongo',
+                          'mysql',
+                          'postgres',
+                          'pytables',
+                          'sas',
+                          'ssh',
+                          'sql',
+                          'test'}}
+
+    extras['mysql'] += extras['sql']
+    extras['postgres'] += extras['sql']
+
+    # don't include the 'ci' or 'test' targets in 'all'
+    extras['all'] = list(chain.from_iterable(v for k, v in extras.items()
+                                             if k not in {'ci', 'test'}))
+    return extras
 
 
 setup(name='tsgettoolbox',
@@ -55,12 +106,14 @@ setup(name='tsgettoolbox',
                 'tsgettoolbox/services/usace',
                 'tsgettoolbox/services/usgs',
                 'tsgettoolbox/functions',
-                'tsgettoolbox/odo/odo',
+                'tsgettoolbox/odo',
+                'tsgettoolbox/ulmo',
                 ],
       package_data={'tsgettoolbox': 'tsgettoolbox/services/usgs/*.dat'},
       include_package_data=True,
       zip_safe=False,
       install_requires=install_requires,
+      extras_require=extras_require(),
       entry_points={
           'console_scripts':
               ['tsgettoolbox=tsgettoolbox.tsgettoolbox:main']

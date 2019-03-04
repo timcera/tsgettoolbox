@@ -14,8 +14,8 @@ of every byte and guarantees that all characters are printable.
 .. _Emergency Data Distribution Network: http://eddn.usgs.gov/
 .. _http://eddn.usgs.gov/dcpformat.html
 """
-from ulmo.usgs.eddn import decode
-from ulmo.usgs.eddn import get_data
+from tsgettoolbox.ulmo.usgs.eddn import decode
+from tsgettoolbox.ulmo.usgs.eddn import get_data
 
 # def get_data(
 #         dcp_address, start=None, end=None, networklist='', channel='',

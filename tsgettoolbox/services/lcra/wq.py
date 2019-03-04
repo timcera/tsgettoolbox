@@ -7,7 +7,7 @@ Access to data provided by the `Lower Colorado River Authority`_.
 """
 from __future__ import print_function
 
-from ulmo.lcra.waterquality.core import get_historical_data, get_recent_data
+from tsgettoolbox.ulmo.lcra.waterquality.core import get_historical_data, get_recent_data
 
 # def get_historical_data(site_code, start=None, end=None, as_dataframe=False):
 # def get_recent_data(site_code, as_dataframe=False):
@@ -42,7 +42,7 @@ if __name__ == '__main__':
     #    time.sleep(20)
 
     R = ulmo_df(6977,
-                historical=False,
+                historical=True,
                 start_date='2015-11-04',
                 end_date='2015-12-05')
 

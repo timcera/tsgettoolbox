@@ -11,7 +11,7 @@ from __future__ import absolute_import
 
 import pandas as pd
 
-from ulmo.cpc.drought.core import get_data
+from tsgettoolbox.ulmo.cpc.drought.core import get_data
 
 
 def ulmo_df(state=None,

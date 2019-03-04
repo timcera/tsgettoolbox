@@ -8,9 +8,9 @@ Provide access to data from the USACE `Rivergages`_ web site.
 """
 import pandas as pd
 
-from ulmo.usace.rivergages.core import get_station_data
-from ulmo.usace.rivergages.core import get_station_parameters
-from ulmo.usace.rivergages.core import get_stations
+from tsgettoolbox.ulmo.usace.rivergages.core import get_station_data
+from tsgettoolbox.ulmo.usace.rivergages.core import get_station_parameters
+from tsgettoolbox.ulmo.usace.rivergages.core import get_stations
 
 # def get_station_data(station_code, parameter, start=None, end=None,
 #         min_value=None, max_value=None):

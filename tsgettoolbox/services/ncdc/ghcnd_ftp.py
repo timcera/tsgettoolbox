@@ -1,9 +1,9 @@
 
 from __future__ import absolute_import
 
-from tsgettoolbox.odo.odo import convert
-from tsgettoolbox.odo.odo import odo
-from tsgettoolbox.odo.odo import resource
+from tsgettoolbox.odo import convert
+from tsgettoolbox.odo import odo
+from tsgettoolbox.odo import resource
 
 import pandas as pd
 

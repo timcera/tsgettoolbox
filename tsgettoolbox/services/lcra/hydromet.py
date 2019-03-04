@@ -13,8 +13,8 @@ from builtins import str
 
 import pandas as pd
 
-from ulmo.lcra.hydromet.core import get_current_data
-from ulmo.lcra.hydromet.core import get_site_data
+from tsgettoolbox.ulmo.lcra.hydromet.core import get_current_data
+from tsgettoolbox.ulmo.lcra.hydromet.core import get_site_data
 
 
 def ulmo_df(site_code,
