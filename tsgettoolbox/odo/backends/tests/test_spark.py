@@ -10,7 +10,7 @@ from tsgettoolbox.odo import odo, discover
 from tsgettoolbox.odo.backends.sparksql import SparkDataFrame
 from pyspark import RDD
 from pyspark.rdd import PipelinedRDD
-from pyspark.sql import Row, SchemaRDD
+from pyspark.sql import Row
 
 
 data = [['Alice', 100.0, 1],
@@ -38,7 +38,7 @@ def test_spark_into_context(sc):
 def test_rdd_into_schema_rdd(rdd):
     ds = dshape('var * {name: string, amount: float64, id: int64}')
     srdd = odo(rdd, SparkDataFrame, dshape=ds)
-    assert isinstance(srdd, (SparkDataFrame, SchemaRDD))
+    assert isinstance(srdd, SparkDataFrame)
     assert list(map(set, srdd.collect())) == list(map(set, rdd.collect()))
 
 
@@ -49,7 +49,7 @@ def test_pipelined_rdd_into_schema_rdd(rdd):
     srdd = odo(pipelined, SparkDataFrame,
                dshape=dshape('var * {amount: float64}'))
 
-    assert isinstance(srdd, (SparkDataFrame, SchemaRDD))
+    assert isinstance(srdd, SparkDataFrame)
     assert (list(map(set, srdd.collect())) ==
             list(map(set, pipelined.collect())))
 

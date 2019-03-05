@@ -27,7 +27,7 @@ install:
 
 script:
   - source activate $TRAVIS_PYTHON_VERSION
-  - py.test -v --doctest-modules --doctest-ignore-import-errors -rs
+  - py.test -v --doctest-modules --doctest-ignore-import-errors -rs --ignore docsrc
 
 after_success:
   - coveralls

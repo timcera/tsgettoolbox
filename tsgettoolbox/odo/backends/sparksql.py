@@ -17,7 +17,6 @@ from toolz.curried import get, map, memoize
 from toolz import pipe, concat, curry
 
 from pyspark import RDD, SQLContext, HiveContext
-from pyspark.sql import SchemaRDD
 from pyspark.rdd import PipelinedRDD
 
 import datashape
@@ -69,7 +68,7 @@ def jsonlines_to_sparksql(ctx, json, dshape=None, name=None, schema=None,
     return srdd
 
 
-@convert.register(list, (SparkDataFrame, SchemaRDD), cost=200.0)
+@convert.register(list, SparkDataFrame, cost=200.0)
 def sparksql_dataframe_to_list(df, dshape=None, **kwargs):
     result = df.collect()
     if (dshape is not None and iscollection(dshape) and
@@ -78,7 +77,7 @@ def sparksql_dataframe_to_list(df, dshape=None, **kwargs):
     return result
 
 
-@convert.register(base, (SparkDataFrame, SchemaRDD), cost=200.0)
+@convert.register(base, SparkDataFrame, cost=200.0)
 def spark_df_to_base(df, **kwargs):
     return df.collect()[0][0]
 
@@ -119,7 +118,7 @@ def discover_sqlcontext(ctx):
     return datashape.DataShape(datashape.Record(dshapes))
 
 
-@discover.register((SparkDataFrame, SchemaRDD))
+@discover.register(SparkDataFrame )
 def discover_spark_data_frame(df):
     schema = df.schema() if callable(df.schema) else df.schema
     return datashape.var * schema_to_dshape(schema)
@@ -140,7 +139,7 @@ def chunk_file(filename, chunksize):
             yield chunk
 
 
-@append.register(JSONLines, (SparkDataFrame, SchemaRDD))
+@append.register(JSONLines, SparkDataFrame)
 def spark_df_to_jsonlines(js, df,
                           pattern='part-*', chunksize=1 << 23,  # 8MB
                           **kwargs):
@@ -166,7 +165,7 @@ def spark_df_to_jsonlines(js, df,
     return js
 
 
-@convert.register((SparkDataFrame, SchemaRDD), (RDD, PipelinedRDD))
+@convert.register(SparkDataFrame, (RDD, PipelinedRDD))
 def rdd_to_spark_df_or_srdd(rdd, **kwargs):
     return append(HiveContext(rdd.context), rdd, **kwargs)
 
@@ -177,7 +176,7 @@ except ImportError:
     pass
 else:
     @append.register(HDFS(JSONLines),
-                     (Iterator, object, SparkDataFrame, SchemaRDD))
+                     (Iterator, object, SparkDataFrame))
     @append.register(HDFS(JSON), (list, object))
     @append.register(HDFS(CSV), (chunks(pd.DataFrame), pd.DataFrame, object))
     def append_spark_to_hdfs(target, source, **kwargs):
@@ -293,7 +292,7 @@ dshape_to_sparksql = {
     datashape.string: StringType()
 }
 
-ooc_types |= set([SparkDataFrame, SchemaRDD])
+ooc_types |= set([SparkDataFrame])
 
 SQLContext = memoize(SQLContext)
 HiveContext = memoize(HiveContext)
