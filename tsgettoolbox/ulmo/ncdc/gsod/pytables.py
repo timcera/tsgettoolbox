@@ -1,6 +1,7 @@
 from builtins import range
 from past.builtins import basestring
 import datetime
+import warnings
 
 import tables
 
@@ -10,7 +11,7 @@ from tsgettoolbox.ulmo import util
 # default hdf5 file path
 HDF5_FILE_PATH = util.get_default_h5file_path('default/')
 
-raise NotImplementedError("ncdc.gsod.pytables is still a work in progress")
+warnings.warn("ncdc.gsod.pytables is still a work in progress")
 
 
 class NCDCValue(tables.IsDescription):
