@@ -6,10 +6,8 @@ import os
 import os.path
 import sys
 
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
+from setuptools import find_packages
+from setuptools import setup
 
 version = open('VERSION').readline().strip()
 
@@ -99,16 +97,7 @@ setup(name='tsgettoolbox',
       author='Tim Cera, P.E.',
       author_email='tim@cerazone.net',
       url='http://timcera.bitbucket.io/tsgettoolbox/docsrc/index.html',
-      packages=['tsgettoolbox',
-                'tsgettoolbox/services',
-                'tsgettoolbox/services/lcra',
-                'tsgettoolbox/services/ncdc',
-                'tsgettoolbox/services/usace',
-                'tsgettoolbox/services/usgs',
-                'tsgettoolbox/functions',
-                'tsgettoolbox/odo',
-                'tsgettoolbox/ulmo',
-                ],
+      packages=find_packages(),
       package_data={'tsgettoolbox': 'tsgettoolbox/services/usgs/*.dat'},
       include_package_data=True,
       zip_safe=False,
