@@ -49,8 +49,9 @@ class Unavco(object):
 
 @resource.register(r'http://web-services.unavco.org:80/met/data.*',
                    priority=17)
-@resource.register(r'http://web-services.unavco.org:80/pore/data/temperature.*',
-                   priority=17)
+@resource.register(
+    r'http://web-services.unavco.org:80/pore/data/temperature.*',
+    priority=17)
 @resource.register(r'http://web-services.unavco.org:80/pore/data/pressure.*',
                    priority=17)
 @resource.register(r'http://web-services.unavco.org:80/tilt/data.*',

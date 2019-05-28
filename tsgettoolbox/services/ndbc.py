@@ -131,21 +131,21 @@ class NDBC(object):
                                    }
                           }
         self.rename = {
-                'WD': 'WDIR:degT',
-                'DIR': 'WDIR:degT',
-                'SPD': 'WSPD:m/s',
-                'GSP': 'GST:m/s',
-                'GMN': 'GTIME',
-                'BARO': 'PRES:hPa',
-                'H0': 'WVHT:m',
-                'DOMPD': 'DPD:s',
-                'AVP': 'APD:s',
-                'SRAD': 'SWRAD',
-                'SRAD2': 'SWRAD',
-                'LRAD': 'LWRAD',
-                'LRAD1': 'LWRAD',
-                'BAR': 'PRES:hPa',
-                }
+            'WD': 'WDIR:degT',
+            'DIR': 'WDIR:degT',
+            'SPD': 'WSPD:m/s',
+            'GSP': 'GST:m/s',
+            'GMN': 'GTIME',
+            'BARO': 'PRES:hPa',
+            'H0': 'WVHT:m',
+            'DOMPD': 'DPD:s',
+            'AVP': 'APD:s',
+            'SRAD': 'SWRAD',
+            'SRAD2': 'SWRAD',
+            'LRAD': 'LWRAD',
+            'LRAD1': 'LWRAD',
+            'BAR': 'PRES:hPa',
+        }
         for item in self.headermap:
             self.rename.update(self.headermap[item])
 

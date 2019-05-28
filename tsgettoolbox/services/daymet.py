@@ -1,6 +1,14 @@
 from __future__ import print_function
 from __future__ import absolute_import
 
+from tstoolbox import tsutils
+import pandas as pd
+from tsgettoolbox.odo import resource
+from tsgettoolbox.odo import odo
+from tsgettoolbox.odo import convert
+from builtins import str
+from builtins import range
+from builtins import object
 import datetime
 import logging
 import os
@@ -8,17 +16,7 @@ import os
 from future import standard_library
 
 standard_library.install_aliases()
-from builtins import object
-from builtins import range
-from builtins import str
 
-from tsgettoolbox.odo import convert
-from tsgettoolbox.odo import odo
-from tsgettoolbox.odo import resource
-
-import pandas as pd
-
-from tstoolbox import tsutils
 
 try:
     import urllib.parse as urlp

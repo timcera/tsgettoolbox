@@ -35,7 +35,7 @@ api_key = ReplaceThisStringWithYourKey
 
     try:
         api_key = inifile.get(service, 'api_key')
-    except:
+    except BaseException:
         with open(configfile, 'a') as fp:
             fp.write("""
 

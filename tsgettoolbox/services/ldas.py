@@ -157,14 +157,17 @@ class LDAS(object):
 #  http://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi?variable=NLDAS:NLDAS_FORA0125_H.002:APCPsfc&location=NLDAS:X304-Y071&startDate=2015-01-01T00&endDate=2015-06-20T23&type=asc2
 
 
-@resource.register(r'https://hydro1\.gesdisc\.eosdis\.nasa\.gov/daac-bin/access/timeseries\.cgi.*', priority=17)
+@resource.register(
+    r'https://hydro1\.gesdisc\.eosdis\.nasa\.gov/daac-bin/access/timeseries\.cgi.*',
+    priority=17)
 def resource_ldas(uri, **kwargs):
     return LDAS(uri, **kwargs)
 
 
 def _parse_ldas_dates(date, hour):
     try:
-        return pd.to_datetime(date) + pd.to_timedelta(pd.np.int(hour[:-1]), 'h')
+        return pd.to_datetime(
+            date) + pd.to_timedelta(pd.np.int(hour[:-1]), 'h')
     except (TypeError, ValueError):
         return pd.NaT
 
@@ -211,8 +214,7 @@ if __name__ == '__main__':
             variable=key,
             location='GEOM:POINT(-99.875, 31.125)',
             startDate='2010-06-01T09',
-            endDate='2011-05-04T21'
-        )
+            endDate='2011-05-04T21')
 
         as_df = odo(r, pd.DataFrame)
         print('LDAS', key)

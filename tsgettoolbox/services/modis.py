@@ -619,7 +619,7 @@ def modis_to_df(data, **kwargs):
                   ':' +
                   di['units']]
     if di['scale'] != 0:
-        df = df*di['scale']
+        df = df * di['scale']
     return df
 
 
@@ -631,8 +631,7 @@ if __name__ == '__main__':
         latitude=40.0,
         longitude=-110.0,
         startdate='2002-06-01T09',
-        enddate='2003-05-04T21'
-    )
+        enddate='2003-05-04T21')
 
     as_df = odo(r, pd.DataFrame)
     print('modis')
@@ -645,8 +644,7 @@ if __name__ == '__main__':
         latitude=29.65,
         longitude=-82.32,
         startdate='3 years ago',
-        enddate='2 years ago'
-    )
+        enddate='2 years ago')
 
     as_df = odo(r, pd.DataFrame)
     print('modis')

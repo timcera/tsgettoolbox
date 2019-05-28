@@ -172,9 +172,9 @@ def _read_rdb(data):
                           comment='#',
                           header=[0, 1],
                           sep='\t',
-                          dtype={'site_no':str,
-                                 'parameter_cd':str,
-                                 'ts_id':str},
+                          dtype={'site_no': str,
+                                 'parameter_cd': str,
+                                 'ts_id': str},
                           na_values='Dis')
         ndf.columns = [i[0] for i in ndf.columns]
     return ndf
