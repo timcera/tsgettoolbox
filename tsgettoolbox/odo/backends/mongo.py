@@ -45,7 +45,7 @@ def _into_iter_mongodb(coll, columns=None, dshape=None):
         item = next(seq)
         seq = concat([[item], seq])
         columns = sorted(item.keys())
-        columns.remove('_id')
+        columns.remove("_id")
     return columns, pluck(columns, seq)
 
 
@@ -56,7 +56,9 @@ def collection_to_iterator(coll, columns=None, dshape=None, **kwargs):
 
 
 @append.register(Collection, Iterator)
-def append_iterator_to_pymongo(coll, seq, columns=None, dshape=None, chunksize=1024, **kwargs):
+def append_iterator_to_pymongo(
+    coll, seq, columns=None, dshape=None, chunksize=1024, **kwargs
+):
     seq = iter(seq)
     item = next(seq)
     seq = concat([[item], seq])
@@ -65,8 +67,10 @@ def append_iterator_to_pymongo(coll, seq, columns=None, dshape=None, chunksize=1
         if not columns and dshape:
             columns = dshape.measure.names
         if not columns:
-            raise ValueError("Inputs must be dictionaries. "
-                "Or provide columns=[...] or dshape=DataShape(...) keyword")
+            raise ValueError(
+                "Inputs must be dictionaries. "
+                "Or provide columns=[...] or dshape=DataShape(...) keyword"
+            )
         seq = (dict(zip(columns, item)) for item in seq)
 
     for block in partition_all(1024, seq):
@@ -80,25 +84,27 @@ def append_anything_to_collection(coll, o, **kwargs):
     return append(coll, convert(Iterator, o, **kwargs), **kwargs)
 
 
-@resource.register(r'mongodb://\w*:\w*@\w*.*', priority=11)
+@resource.register(r"mongodb://\w*:\w*@\w*.*", priority=11)
 def resource_mongo_with_authentication(uri, collection_name=None, **kwargs):
-    pattern = r'mongodb://(?P<user>\w*):(?P<pass>\w*)@(?P<hostport>.*:?\d*)/(?P<database>\w+)'
+    pattern = (
+        r"mongodb://(?P<user>\w*):(?P<pass>\w*)@(?P<hostport>.*:?\d*)/(?P<database>\w+)"
+    )
     d = re.search(pattern, uri).groupdict()
     return _resource_mongo(d, collection_name)
 
 
-@resource.register(r'mongodb://.+')
+@resource.register(r"mongodb://.+")
 def resource_mongo(uri, collection_name=None, **kwargs):
-    pattern = r'mongodb://(?P<hostport>.*:?\d*)/(?P<database>\w+)'
+    pattern = r"mongodb://(?P<hostport>.*:?\d*)/(?P<database>\w+)"
     d = re.search(pattern, uri).groupdict()
     return _resource_mongo(d, collection_name)
 
 
 def _resource_mongo(d, collection_name=None):
-    client = pymongo.MongoClient(d['hostport'])
-    db = getattr(client, d['database'])
-    if d.get('user'):
-        db.authenticate(d['user'], d['pass'])
+    client = pymongo.MongoClient(d["hostport"])
+    db = getattr(client, d["database"])
+    if d.get("user"):
+        db.authenticate(d["user"], d["pass"])
     if collection_name is None:
         return db
     return getattr(db, collection_name)
@@ -107,8 +113,9 @@ def _resource_mongo(d, collection_name=None):
 @discover.register(pymongo.database.Database)
 def discover_mongo_database(db):
     names = db.collection_names()
-    return DataShape(Record(zip(names, (discover(getattr(db, name))
-                                        for name in names))))
+    return DataShape(
+        Record(zip(names, (discover(getattr(db, name)) for name in names)))
+    )
 
 
 ooc_types.add(Collection)

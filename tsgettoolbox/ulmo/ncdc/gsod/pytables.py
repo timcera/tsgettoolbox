@@ -9,7 +9,7 @@ from tsgettoolbox.ulmo.ncdc.gsod import core
 from tsgettoolbox.ulmo import util
 
 # default hdf5 file path
-HDF5_FILE_PATH = util.get_default_h5file_path('default/')
+HDF5_FILE_PATH = util.get_default_h5file_path("default/")
 
 warnings.warn("ncdc.gsod.pytables is still a work in progress")
 
@@ -21,20 +21,19 @@ class NCDCValue(tables.IsDescription):
     last_modified = tables.StringCol(26)
 
 
-def get_data(station_codes, start=None, end=None, parameters=None,
-        path=None):
+def get_data(station_codes, start=None, end=None, parameters=None, path=None):
     if isinstance(station_codes, basestring):
-        return _get_station_data(station_codes, start, end,
-                parameters)
+        return _get_station_data(station_codes, start, end, parameters)
     else:
         return_dict = {}
         for station_code in station_codes:
-            return_dict[station_code] = _get_station_data(station_codes,
-                    start, end, parameters)
+            return_dict[station_code] = _get_station_data(
+                station_codes, start, end, parameters
+            )
 
 
 def get_stations(update=True, path=None):
-    #XXX: we should have a fast pytables version of stations list
+    # XXX: we should have a fast pytables version of stations list
     return core.get_stations(update=update)
 
 
@@ -50,11 +49,13 @@ def update_data(station_codes=None, start_year=None, end_year=None, path=None):
 
     all_stations = get_stations()
     if station_codes:
-        stations = dict([
+        stations = dict(
+            [
                 (station_code, all_stations.get(station_code))
                 for station_code in station_codes
                 if station_code in all_stations
-        ])
+            ]
+        )
     else:
         stations = all_stations
 
@@ -77,53 +78,58 @@ def _get_value_table(h5file, station, variable):
     variable. If the value table already exists, it is returned. If it doesn't,
     it will be created.
     """
-    gsod_values_path = '/ncdc/gsod/values'
+    gsod_values_path = "/ncdc/gsod/values"
     station_code = core._station_code(station)
-    station_path = '/'.join((gsod_values_path, station_code))
-    util.get_or_create_group(h5file, station_path, "station %s" % station_code,
-            createparents=True)
+    station_path = "/".join((gsod_values_path, station_code))
+    util.get_or_create_group(
+        h5file, station_path, "station %s" % station_code, createparents=True
+    )
 
     value_table_name = variable
-    values_path = '/'.join([station_path, value_table_name])
+    values_path = "/".join([station_path, value_table_name])
 
     try:
         value_table = h5file.getNode(values_path)
     except tables.exceptions.NoSuchNodeError:
         value_table = util.get_or_create_table(
-            h5file, values_path, NCDCValue,
-            "Values for station: %s, variable: %s" % (station_code, variable))
+            h5file,
+            values_path,
+            NCDCValue,
+            "Values for station: %s, variable: %s" % (station_code, variable),
+        )
         value_table.cols.date.createCSIndex()
-        value_table.attrs.USAF = station['USAF']
-        value_table.attrs.WBAN = station['WBAN']
-        value_table.attrs.name = station['name']
+        value_table.attrs.USAF = station["USAF"]
+        value_table.attrs.WBAN = station["WBAN"]
+        value_table.attrs.name = station["name"]
 
     return value_table
 
 
 def _last_updated():
     """returns date of last update"""
-    #TODO: implement
+    # TODO: implement
     return datetime.datetime.now()
 
 
 def _update_station_data(station, station_data, path=None):
     if not path:
         path = HDF5_FILE_PATH
-    with util.open_h5file(path, mode='a') as h5file:
-        #XXX: assumes first dict is representative of all dicts
+    with util.open_h5file(path, mode="a") as h5file:
+        # XXX: assumes first dict is representative of all dicts
         variables = list(station_data[0].keys())
 
         for variable in variables:
             value_table = _get_value_table(h5file, station, variable)
-            util.update_or_append_sortable(value_table, station_data, 'date')
+            util.update_or_append_sortable(value_table, station_data, "date")
 
 
-if __name__ == '__main__':
-    test_path = '/Users/wilsaj/test/pyhis_test.h5'
+if __name__ == "__main__":
+    test_path = "/Users/wilsaj/test/pyhis_test.h5"
     stations = get_stations(update=False, path=test_path)
     texas_stations = [
-        code
-        for code, station in stations.items()
-        if station['state'] == 'TX']
+        code for code, station in stations.items() if station["state"] == "TX"
+    ]
     update_data(texas_stations, 2012, 2012, path=test_path)
-    import pdb; pdb.set_trace()
+    import pdb
+
+    pdb.set_trace()

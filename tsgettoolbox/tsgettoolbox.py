@@ -58,7 +58,7 @@ except ImportError:
 
 from tstoolbox import tsutils
 
-warnings.filterwarnings('ignore')
+warnings.filterwarnings("ignore")
 
 
 @mando.command()
@@ -69,10 +69,10 @@ def about():
 
 def main():
     r"""Main function."""
-    if not os.path.exists('debug_tsgettoolbox'):
+    if not os.path.exists("debug_tsgettoolbox"):
         sys.tracebacklimit = 0
     mando.main()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

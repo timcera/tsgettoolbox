@@ -30,23 +30,38 @@ import datashape
 from datashape.dispatch import dispatch
 from datashape.predicates import isdimension, isrecord, isscalar, isdatelike
 from datashape import (
-    DataShape, Record, Option, var, dshape, Map, discover,
-    datetime_, date_, float64, int64, int_, string, bytes_, float32,
+    DataShape,
+    Record,
+    Option,
+    var,
+    dshape,
+    Map,
+    discover,
+    datetime_,
+    date_,
+    float64,
+    int64,
+    int_,
+    string,
+    bytes_,
+    float32,
 )
 
-from toolz import (partition_all, keyfilter, valfilter, identity, concat,
-                   curry, merge, memoize)
+from toolz import (
+    partition_all,
+    keyfilter,
+    valfilter,
+    identity,
+    concat,
+    curry,
+    merge,
+    memoize,
+)
 from toolz.curried import pluck, map
 
 from ..compatibility import unicode, StringIO
 from ..directory import Directory
-from ..utils import (
-    keywords,
-    ignoring,
-    iter_except,
-    filter_kwargs,
-    literal_compile,
-)
+from ..utils import keywords, ignoring, iter_except, filter_kwargs, literal_compile
 from ..convert import convert, ooc_types
 from ..append import append
 from ..resource import resource
@@ -59,19 +74,19 @@ base = int, float, datetime, date, bool, str, decimal.Decimal, timedelta
 # http://docs.sqlalchemy.org/en/latest/core/types.html
 
 types = {
-    'int64': sa.BigInteger,
-    'int32': sa.Integer,
-    'int': sa.Integer,
-    'int16': sa.SmallInteger,
-    'float32': sa.REAL,
-    'float64': sa.FLOAT,
-    'float': sa.FLOAT,
-    'real': sa.FLOAT,
-    'string': sa.Text,
-    'date': sa.Date,
-    'time': sa.Time,
-    'datetime': sa.DateTime,
-    'bool': sa.Boolean,
+    "int64": sa.BigInteger,
+    "int32": sa.Integer,
+    "int": sa.Integer,
+    "int16": sa.SmallInteger,
+    "float32": sa.REAL,
+    "float64": sa.FLOAT,
+    "float": sa.FLOAT,
+    "real": sa.FLOAT,
+    "string": sa.Text,
+    "date": sa.Date,
+    "time": sa.Time,
+    "datetime": sa.DateTime,
+    "bool": sa.Boolean,
     "timedelta[unit='D']": sa.Interval(second_precision=0, day_precision=9),
     "timedelta[unit='h']": sa.Interval(second_precision=0, day_precision=0),
     "timedelta[unit='m']": sa.Interval(second_precision=0, day_precision=0),
@@ -94,29 +109,32 @@ revtypes = dict(map(reversed, types.items()))
 class MSSQLTimestamp(mssql.TIMESTAMP):
     pass
 
-# Assign the custom subclass as the type to use instead of `mssql.TIMESTAMP`.
-mssql.base.ischema_names['TIMESTAMP'] = MSSQLTimestamp
 
-revtypes.update({
-    sa.DATETIME: datetime_,
-    sa.TIMESTAMP: datetime_,
-    sa.FLOAT: float64,
-    sa.DATE: date_,
-    sa.BIGINT: int64,
-    sa.INTEGER: int_,
-    sa.BIGINT: int64,
-    sa.types.NullType: string,
-    sa.REAL: float32,
-    sa.Float: float64,
-    mssql.BIT: datashape.bool_,
-    mssql.DATETIMEOFFSET: string,
-    mssql.MONEY: float64,
-    mssql.SMALLMONEY: float32,
-    mssql.UNIQUEIDENTIFIER: string,
-    # The SQL Server TIMESTAMP value doesn't correspond to the ISO Standard
-    # It is instead just a binary(8) value with no relation to dates or times
-    MSSQLTimestamp: bytes_,
-})
+# Assign the custom subclass as the type to use instead of `mssql.TIMESTAMP`.
+mssql.base.ischema_names["TIMESTAMP"] = MSSQLTimestamp
+
+revtypes.update(
+    {
+        sa.DATETIME: datetime_,
+        sa.TIMESTAMP: datetime_,
+        sa.FLOAT: float64,
+        sa.DATE: date_,
+        sa.BIGINT: int64,
+        sa.INTEGER: int_,
+        sa.BIGINT: int64,
+        sa.types.NullType: string,
+        sa.REAL: float32,
+        sa.Float: float64,
+        mssql.BIT: datashape.bool_,
+        mssql.DATETIMEOFFSET: string,
+        mssql.MONEY: float64,
+        mssql.SMALLMONEY: float32,
+        mssql.UNIQUEIDENTIFIER: string,
+        # The SQL Server TIMESTAMP value doesn't correspond to the ISO Standard
+        # It is instead just a binary(8) value with no relation to dates or times
+        MSSQLTimestamp: bytes_,
+    }
+)
 
 # Types which can be specified on precision.
 # These are checked before checking membership in revtypes, because:
@@ -125,10 +143,7 @@ revtypes.update({
 # (DOUBLE_PRECISION(precision=53) != DOUBLE_PRECISION(precision=53)
 # 2) Precision types can be a instance of a type in revtypes.
 # isinstance(sa.Float(precision=53), sa.Float)
-precision_types = {
-    sa.Float,
-    postgresql.base.DOUBLE_PRECISION
-}
+precision_types = {sa.Float, postgresql.base.DOUBLE_PRECISION}
 
 
 def precision_to_dtype(precision):
@@ -165,16 +180,11 @@ def precision_to_dtype(precision):
 revtypes = valfilter(lambda x: not isinstance(x, sa.Interval), revtypes)
 
 
-units_of_power = {
-    0: 's',
-    3: 'ms',
-    6: 'us',
-    9: 'ns'
-}
+units_of_power = {0: "s", 3: "ms", 6: "us", 9: "ns"}
 
 # these aren't loaded by sqlalchemy by default
-sa.dialects.registry.load('oracle')
-sa.dialects.registry.load('postgresql')
+sa.dialects.registry.load("oracle")
+sa.dialects.registry.load("postgresql")
 
 
 def getbind(t, bind):
@@ -201,8 +211,9 @@ def batch(sel, chunksize=10000, bind=None):
     def rowiterator(sel, chunksize=chunksize):
         with getbind(sel, bind).connect() as conn:
             result = conn.execute(sel)
-            for rows in iter_except(curry(result.fetchmany, size=chunksize),
-                                    sa.exc.ResourceClosedError):
+            for rows in iter_except(
+                curry(result.fetchmany, size=chunksize), sa.exc.ResourceClosedError
+            ):
                 if rows:
                     yield rows
                 else:
@@ -227,18 +238,20 @@ def discover_oracle_interval(t):
 def discover_typeengine(typ):
     if isinstance(typ, sa.Interval):
         if typ.second_precision is None and typ.day_precision is None:
-            return datashape.TimeDelta(unit='us')
+            return datashape.TimeDelta(unit="us")
         elif typ.second_precision == 0 and typ.day_precision == 0:
-            return datashape.TimeDelta(unit='s')
+            return datashape.TimeDelta(unit="s")
 
         if typ.second_precision in units_of_power and not typ.day_precision:
             units = units_of_power[typ.second_precision]
         elif typ.day_precision > 0:
-            units = 'D'
+            units = "D"
         else:
-            raise ValueError('Cannot infer INTERVAL type with parameters'
-                             'second_precision=%d, day_precision=%d' %
-                             (typ.second_precision, typ.day_precision))
+            raise ValueError(
+                "Cannot infer INTERVAL type with parameters"
+                "second_precision=%d, day_precision=%d"
+                % (typ.second_precision, typ.day_precision)
+            )
         return datashape.TimeDelta(unit=units)
     if type(typ) in precision_types and typ.precision is not None:
         return precision_to_dtype(typ.precision)
@@ -249,12 +262,12 @@ def discover_typeengine(typ):
     if isinstance(typ, sa.Numeric):
         return datashape.Decimal(precision=typ.precision, scale=typ.scale)
     if isinstance(typ, (sa.String, sa.Unicode)):
-        return datashape.String(typ.length, 'U8')
+        return datashape.String(typ.length, "U8")
     else:
         for k, v in revtypes.items():
-            if isinstance(k, type) and (isinstance(typ, k) or
-                                        hasattr(typ, 'impl') and
-                                        isinstance(typ.impl, k)):
+            if isinstance(k, type) and (
+                isinstance(typ, k) or hasattr(typ, "impl") and isinstance(typ.impl, k)
+            ):
                 return v
             if k == typ:
                 return v
@@ -270,7 +283,7 @@ def discover_foreign_key_relationship(fk, parent, parent_measure=None):
 
 @discover.register(sa.sql.elements.ColumnClause)
 def discover_sqlalchemy_column(c):
-    meta = Option if getattr(c, 'nullable', True) else identity
+    meta = Option if getattr(c, "nullable", True) else identity
     return Record([(c.name, meta(discover(c.type)))])
 
 
@@ -278,8 +291,9 @@ def discover_sqlalchemy_column(c):
 def discover_sqlalchemy_selectable(t):
     ordering = {str(c): i for i, c in enumerate(c for c in t.columns.keys())}
     record = list(_process_columns(t.columns))
-    fkeys = [discover(fkey, t, parent_measure=Record(record))
-             for fkey in t.foreign_keys]
+    fkeys = [
+        discover(fkey, t, parent_measure=Record(record)) for fkey in t.foreign_keys
+    ]
     for name, column in merge(*fkeys).items():
         index = ordering[name]
         _, key_type = record[index]
@@ -325,8 +339,8 @@ def create_engine(uri, connect_args=None, **kwargs):
     """
     return (
         _create_engine_hashable_args
-        if uri == 'sqlite:///:memory:' else
-        _memoized_create_engine_hashable_args
+        if uri == "sqlite:///:memory:"
+        else _memoized_create_engine_hashable_args
     )(uri, connect_args=frozenset((connect_args or {}).items()), **kwargs)
 
 
@@ -334,11 +348,7 @@ def _create_engine_hashable_args(uri, connect_args=None, **kwargs):
     """Unpacks non-hashable args for ``sa.create_engine`` and puts that back
     into whatever structure is expected.
     """
-    return sa.create_engine(
-        uri,
-        connect_args=dict(connect_args or {}),
-        **kwargs
-    )
+    return sa.create_engine(uri, connect_args=dict(connect_args or {}), **kwargs)
 
 
 _memoized_create_engine_hashable_args = memoize(_create_engine_hashable_args)
@@ -349,8 +359,7 @@ def discover(engine, tablename):
     metadata = sa.MetaData(engine)
     if tablename not in metadata.tables:
         try:
-            metadata.reflect(engine,
-                             views=metadata.bind.dialect.supports_views)
+            metadata.reflect(engine, views=metadata.bind.dialect.supports_views)
         except NotImplementedError:
             metadata.reflect(engine)
     table = metadata.tables[tablename]
@@ -369,7 +378,7 @@ def discover(metadata):
     except NotImplementedError:
         metadata.reflect()
     pairs = []
-    for table in sorted(metadata.tables.values(), key=attrgetter('name')):
+    for table in sorted(metadata.tables.values(), key=attrgetter("name")):
         name = table.name
         try:
             pairs.append([name, discover(table)])
@@ -377,10 +386,7 @@ def discover(metadata):
             warnings.warn(
                 "Can not discover type of table {name}.\n"
                 "SQLAlchemy provided this error message:\n\t{msg}"
-                "\nSkipping.".format(
-                    name=name,
-                    msg=e.message,
-                ),
+                "\nSkipping.".format(name=name, msg=e.message),
                 stacklevel=3,
             )
         except NotImplementedError as e:
@@ -402,22 +408,25 @@ def validate_foreign_keys(ds, foreign_keys):
     # passed foreign_keys and column in dshape, but not a ForeignKey type
     for field in foreign_keys:
         if field not in ds.measure.names:
-            raise TypeError('Requested foreign key field %r is not a field in '
-                            'datashape %s' % (field, ds))
+            raise TypeError(
+                "Requested foreign key field %r is not a field in "
+                "datashape %s" % (field, ds)
+            )
     for field, typ in ds.measure.fields:
-        if field in foreign_keys and not isinstance(getattr(typ, 'ty', typ),
-                                                    Map):
-            raise TypeError('Foreign key %s passed in but not a Map '
-                            'datashape, got %s' % (field, typ))
+        if field in foreign_keys and not isinstance(getattr(typ, "ty", typ), Map):
+            raise TypeError(
+                "Foreign key %s passed in but not a Map "
+                "datashape, got %s" % (field, typ)
+            )
 
         if isinstance(typ, Map) and field not in foreign_keys:
-            raise TypeError('Map type %s found on column %s, but %r '
-                            "wasn't found in %s" %
-                            (typ, field, field, foreign_keys))
+            raise TypeError(
+                "Map type %s found on column %s, but %r "
+                "wasn't found in %s" % (typ, field, field, foreign_keys)
+            )
 
 
-def dshape_to_table(name, ds, metadata=None, foreign_keys=None,
-                    primary_key=None):
+def dshape_to_table(name, ds, metadata=None, foreign_keys=None, primary_key=None):
     """
     Create a SQLAlchemy table from a datashape and a name
 
@@ -431,9 +440,10 @@ def dshape_to_table(name, ds, metadata=None, foreign_keys=None,
     if isinstance(ds, str):
         ds = dshape(ds)
     if not isrecord(ds.measure):
-        raise TypeError('dshape measure must be a record type e.g., '
-                        '"{a: int64, b: int64}". Input measure is %r' %
-                        ds.measure)
+        raise TypeError(
+            "dshape measure must be a record type e.g., "
+            '"{a: int64, b: int64}". Input measure is %r' % ds.measure
+        )
     if metadata is None:
         metadata = sa.MetaData()
     if foreign_keys is None:
@@ -442,8 +452,10 @@ def dshape_to_table(name, ds, metadata=None, foreign_keys=None,
     validate_foreign_keys(ds, foreign_keys)
 
     cols = dshape_to_alchemy(ds, primary_key=primary_key or frozenset())
-    cols.extend(sa.ForeignKeyConstraint([column_name], [referent])
-                for column_name, referent in foreign_keys.items())
+    cols.extend(
+        sa.ForeignKeyConstraint([column_name], [referent])
+        for column_name, referent in foreign_keys.items()
+    )
     t = sa.Table(name, metadata, *cols, schema=metadata.schema)
     return attach_schema(t, t.schema)
 
@@ -454,14 +466,19 @@ def create_from_datashape(o, ds, **kwargs):
 
 
 @dispatch(sa.engine.base.Engine, DataShape)
-def create_from_datashape(engine, ds, schema=None, foreign_keys=None,
-                          primary_key=None, **kwargs):
-    assert isrecord(ds), 'datashape must be Record type, got %s' % ds
+def create_from_datashape(
+    engine, ds, schema=None, foreign_keys=None, primary_key=None, **kwargs
+):
+    assert isrecord(ds), "datashape must be Record type, got %s" % ds
     metadata = metadata_of_engine(engine, schema=schema)
     for name, sub_ds in ds[0].dict.items():
-        t = dshape_to_table(name, sub_ds, metadata=metadata,
-                            foreign_keys=foreign_keys,
-                            primary_key=primary_key)
+        t = dshape_to_table(
+            name,
+            sub_ds,
+            metadata=metadata,
+            foreign_keys=foreign_keys,
+            primary_key=primary_key,
+        )
         t.create()
     return engine
 
@@ -490,12 +507,15 @@ def dshape_to_alchemy(dshape, primary_key=frozenset()):
     if str(dshape) in types:
         return types[str(dshape)]
     if isinstance(dshape, datashape.Record):
-        return [sa.Column(name,
-                          dshape_to_alchemy(getattr(typ, 'ty', typ),
-                                            primary_key=primary_key),
-                          primary_key=name in primary_key,
-                          nullable=isinstance(typ[0], Option))
-                for name, typ in dshape.parameters[0]]
+        return [
+            sa.Column(
+                name,
+                dshape_to_alchemy(getattr(typ, "ty", typ), primary_key=primary_key),
+                primary_key=name in primary_key,
+                nullable=isinstance(typ[0], Option),
+            )
+            for name, typ in dshape.parameters[0]
+        ]
     if isinstance(dshape, datashape.DataShape):
         if isdimension(dshape[0]):
             return dshape_to_alchemy(dshape[1], primary_key=primary_key)
@@ -512,8 +532,7 @@ def dshape_to_alchemy(dshape, primary_key=frozenset()):
         return sa.DATETIME(timezone=dshape.tz is not None)
     if isinstance(dshape, datashape.Decimal):
         return sa.NUMERIC(dshape.precision, dshape.scale)
-    raise NotImplementedError("No SQLAlchemy dtype match for datashape: %s"
-                              % dshape)
+    raise NotImplementedError("No SQLAlchemy dtype match for datashape: %s" % dshape)
 
 
 @convert.register(Iterator, sa.Table, cost=300.0)
@@ -555,11 +574,13 @@ def append_iterator_to_table(t, rows, dshape=None, bind=None, **kwargs):
         if dshape and isinstance(dshape.measure, datashape.Record):
             names = dshape.measure.names
             if set(names) != set(discover(t).measure.names):
-                raise ValueError("Column names of incoming data don't match "
-                                 "column names of existing SQL table\n"
-                                 "Names in SQL table: %s\n"
-                                 "Names from incoming data: %s\n" %
-                                 (discover(t).measure.names, names))
+                raise ValueError(
+                    "Column names of incoming data don't match "
+                    "column names of existing SQL table\n"
+                    "Names in SQL table: %s\n"
+                    "Names from incoming data: %s\n"
+                    % (discover(t).measure.names, names)
+                )
         else:
             names = discover(t).measure.names
         rows = (dict(zip(names, row)) for row in rows)
@@ -594,16 +615,10 @@ def append_select_statement_to_sql_Table(t, o, bind=None, **kwargs):
     t_bind = getbind(t, bind)
     o_bind = getbind(o, bind)
     if t_bind != o_bind:
-        return append(
-            t,
-            convert(Iterator, o, bind=bind, **kwargs),
-            bind=bind,
-            **kwargs
-        )
+        return append(t, convert(Iterator, o, bind=bind, **kwargs), bind=bind, **kwargs)
     bind = t_bind
 
-    assert bind.has_table(t.name, t.schema), \
-        'tables must come from the same database'
+    assert bind.has_table(t.name, t.schema), "tables must come from the same database"
 
     query = t.insert().from_select(o.columns.keys(), o)
 
@@ -611,8 +626,9 @@ def append_select_statement_to_sql_Table(t, o, bind=None, **kwargs):
     return t
 
 
-def should_create_schema(ddl, target, bind, tables=None, state=None,
-                         checkfirst=None, **kwargs):
+def should_create_schema(
+    ddl, target, bind, tables=None, state=None, checkfirst=None, **kwargs
+):
     return ddl.element not in inspect(target.bind).get_schema_names()
 
 
@@ -621,27 +637,24 @@ def attach_schema(obj, schema):
         ddl = CreateSchema(schema, quote=True)
         event.listen(
             obj,
-            'before_create',
-            ddl.execute_if(
-                callable_=should_create_schema,
-                dialect='postgresql'
-            )
+            "before_create",
+            ddl.execute_if(callable_=should_create_schema, dialect="postgresql"),
         )
     return obj
 
 
-@resource.register(r'(.*sql.*|oracle|redshift)(\+\w+)?://.+')
+@resource.register(r"(.*sql.*|oracle|redshift)(\+\w+)?://.+")
 def resource_sql(uri, *args, **kwargs):
     engine = create_engine(
         uri,
         # roundtrip through a frozenset of tuples so we can cache the dict
-        connect_args=kwargs.pop('connect_args', {}),
+        connect_args=kwargs.pop("connect_args", {}),
         **filter_kwargs(sa.create_engine, kwargs)
     )
-    ds = kwargs.pop('dshape', None)
-    schema = kwargs.pop('schema', None)
-    foreign_keys = kwargs.pop('foreign_keys', None)
-    primary_key = kwargs.pop('primary_key', None)
+    ds = kwargs.pop("dshape", None)
+    schema = kwargs.pop("schema", None)
+    foreign_keys = kwargs.pop("foreign_keys", None)
+    primary_key = kwargs.pop("primary_key", None)
 
     # we were also given a table name
     if args and isinstance(args[0], (str, unicode)):
@@ -650,17 +663,16 @@ def resource_sql(uri, *args, **kwargs):
 
         with ignoring(sa.exc.NoSuchTableError):
             return attach_schema(
-                sa.Table(
-                    table_name,
-                    metadata,
-                    autoload_with=engine,
-                ),
-                schema,
+                sa.Table(table_name, metadata, autoload_with=engine), schema
             )
         if ds:
-            t = dshape_to_table(table_name, ds, metadata=metadata,
-                                foreign_keys=foreign_keys,
-                                primary_key=primary_key)
+            t = dshape_to_table(
+                table_name,
+                ds,
+                metadata=metadata,
+                foreign_keys=foreign_keys,
+                primary_key=primary_key,
+            )
             t.create()
             return t
         else:
@@ -668,12 +680,11 @@ def resource_sql(uri, *args, **kwargs):
 
     # We were not given a table name
     if ds:
-        create_from_datashape(engine, ds, schema=schema,
-                              foreign_keys=foreign_keys)
+        create_from_datashape(engine, ds, schema=schema, foreign_keys=foreign_keys)
     return engine
 
 
-@resource.register('impala://.+')
+@resource.register("impala://.+")
 def resource_impala(uri, *args, **kwargs):
     try:
         import impala.sqlalchemy
@@ -682,7 +693,7 @@ def resource_impala(uri, *args, **kwargs):
     return resource_sql(uri, *args, **kwargs)
 
 
-@resource.register('monetdb://.+')
+@resource.register("monetdb://.+")
 def resource_monet(uri, *args, **kwargs):
     try:
         import monetdb
@@ -691,29 +702,27 @@ def resource_monet(uri, *args, **kwargs):
     return resource_sql(uri, *args, **kwargs)
 
 
-@resource.register('hive://.+')
+@resource.register("hive://.+")
 def resource_hive(uri, *args, **kwargs):
     try:
         import pyhive
     except ImportError:
         raise ImportError("Please install the `PyHive` library.")
 
-    pattern = 'hive://((?P<user>[a-zA-Z_]\w*)@)?(?P<host>[\w.]+)(:(?P<port>\d*))?(/(?P<database>\w*))?'
-    d = re.search(pattern, uri.split('::')[0]).groupdict()
+    pattern = "hive://((?P<user>[a-zA-Z_]\w*)@)?(?P<host>[\w.]+)(:(?P<port>\d*))?(/(?P<database>\w*))?"
+    d = re.search(pattern, uri.split("::")[0]).groupdict()
 
-    defaults = {'port': '10000',
-                'user': 'hdfs',
-                'database': 'default'}
+    defaults = {"port": "10000", "user": "hdfs", "database": "default"}
     for k, v in d.items():
         if not v:
             d[k] = defaults[k]
 
-    if d['user']:
-        d['user'] += '@'
+    if d["user"]:
+        d["user"] += "@"
 
-    uri2 = 'hive://%(user)s%(host)s:%(port)s/%(database)s' % d
-    if '::' in uri:
-        uri2 += '::' + uri.split('::')[1]
+    uri2 = "hive://%(user)s%(host)s:%(port)s/%(database)s" % d
+    if "::" in uri:
+        uri2 += "::" + uri.split("::")[1]
 
     return resource_sql(uri2, *args, **kwargs)
 
@@ -726,7 +735,7 @@ def drop(table, bind=None):
     bind = getbind(table, bind)
     table.drop(bind=bind, checkfirst=True)
     if table.exists(bind=bind):
-        raise ValueError('table %r dropped but still exists' % table.name)
+        raise ValueError("table %r dropped but still exists" % table.name)
     metadata_of_engine(bind, schema=table.schema).remove(table)
 
 
@@ -738,7 +747,7 @@ def table_to_select(t, **kwargs):
 @convert.register(pd.DataFrame, (sa.sql.Select, sa.sql.Selectable), cost=300.0)
 def select_or_selectable_to_frame(el, bind=None, dshape=None, **kwargs):
     bind = getbind(el, bind)
-    if bind.dialect.name == 'postgresql':
+    if bind.dialect.name == "postgresql":
         buf = StringIO()
         append(CSV(None, buffer=buf), el, bind=bind, **kwargs)
         buf.seek(0)
@@ -756,7 +765,7 @@ def select_or_selectable_to_frame(el, bind=None, dshape=None, **kwargs):
             elif isinstance(dtype, Option):
                 ty = dtype.ty
                 if ty in datashape.integral:
-                    other_dtypes[field] = 'float64'
+                    other_dtypes[field] = "float64"
                 else:
                     other_dtypes[field] = ty.to_numpy_dtype()
                     if ty == string:
@@ -773,7 +782,7 @@ def select_or_selectable_to_frame(el, bind=None, dshape=None, **kwargs):
             parse_dates=datetime_fields,
             dtype=other_dtypes,
             skip_blank_lines=False,
-            escapechar=kwargs.get('escapechar', '\\'),
+            escapechar=kwargs.get("escapechar", "\\"),
         )
         # read_csv really wants missing values to be NaN, but for
         # string (object) columns, we want None to be missing
@@ -808,22 +817,22 @@ def select_or_selectable_to_frame(el, bind=None, dshape=None, **kwargs):
             except TypeError:
                 dtypes[field] = np.dtype(object)
 
-    return pd.DataFrame(np.array(list(map(tuple, rows)),
-                                 dtype=[(str(c), dtypes[c]) for c in columns]))
+    return pd.DataFrame(
+        np.array(list(map(tuple, rows)), dtype=[(str(c), dtypes[c]) for c in columns])
+    )
 
 
 class CopyToCSV(sa.sql.expression.Executable, sa.sql.ClauseElement):
-
     def __init__(
         self,
         element,
         path,
-        delimiter=',',
+        delimiter=",",
         quotechar='"',
-        lineterminator='\n',
-        escapechar='\\',
+        lineterminator="\n",
+        escapechar="\\",
         header=True,
-        na_value='',
+        na_value="",
         encoding=None,
         bind=None,
     ):
@@ -835,7 +844,7 @@ class CopyToCSV(sa.sql.expression.Executable, sa.sql.ClauseElement):
         self._bind = bind = getbind(element, bind)
 
         # mysql cannot write headers
-        self.header = header and bind.dialect.name != 'mysql'
+        self.header = header and bind.dialect.name != "mysql"
         self.escapechar = escapechar
         self.na_value = na_value
         self.encoding = encoding
@@ -850,37 +859,35 @@ try:
 except ImportError:
     pass
 else:
-    @partial(setattr, PGCompiler_psycopg2, 'visit_mod_binary')
+
+    @partial(setattr, PGCompiler_psycopg2, "visit_mod_binary")
     def _postgres_visit_mod_binary(self, binary, operator, **kw):
         """Patched visit mod binary to work with literal_binds.
 
         When https://github.com/zzzeek/sqlalchemy/pull/366 is merged we can
         remove this patch.
         """
-        literal_binds = kw.get('literal_binds', False)
-        if (getattr(self.preparer, '_double_percents', True) and
-                not literal_binds):
+        literal_binds = kw.get("literal_binds", False)
+        if getattr(self.preparer, "_double_percents", True) and not literal_binds:
 
-            return '{} %% {}'.format(
-                self.process(binary.left, **kw),
-                self.process(binary.right, **kw),
+            return "{} %% {}".format(
+                self.process(binary.left, **kw), self.process(binary.right, **kw)
             )
         else:
-            return '{} % {}'.format(
-                self.process(binary.left, **kw),
-                self.process(binary.right, **kw),
+            return "{} % {}".format(
+                self.process(binary.left, **kw), self.process(binary.right, **kw)
             )
 
 
-@compiles(CopyToCSV, 'postgresql')
+@compiles(CopyToCSV, "postgresql")
 def compile_copy_to_csv_postgres(element, compiler, **kwargs):
     selectable = element.element
     if isinstance(selectable, sa.Table):
         selectable_part = compiler.preparer.format_table(selectable)
     else:
-        selectable_part = '(%s)' % compiler.process(element.element, **kwargs)
+        selectable_part = "(%s)" % compiler.process(element.element, **kwargs)
 
-    return 'COPY %s TO STDOUT WITH (%s)' % (
+    return "COPY %s TO STDOUT WITH (%s)" % (
         selectable_part,
         compiler.process(
             sa.text(
@@ -892,23 +899,22 @@ def compile_copy_to_csv_postgres(element, compiler, **kwargs):
                 NULL :na_value,
                 ESCAPE :escapechar,
                 ENCODING :encoding
-                """,
+                """
             ).bindparams(
                 header=element.header,
                 delimiter=element.delimiter,
                 quotechar=element.quotechar,
                 na_value=element.na_value,
                 escapechar=element.escapechar,
-                encoding=element.encoding or element.bind.execute(
-                    'show client_encoding',
-                ).scalar(),
+                encoding=element.encoding
+                or element.bind.execute("show client_encoding").scalar(),
             ),
             **kwargs
         ),
     )
 
 
-@compiles(CopyToCSV, 'mysql')
+@compiles(CopyToCSV, "mysql")
 def compile_copy_to_csv_mysql(element, compiler, **kwargs):
     selectable = element.element
     return compiler.process(
@@ -922,54 +928,60 @@ def compile_copy_to_csv_mysql(element, compiler, **kwargs):
             """.format(
                 compiler.process(
                     selectable.select()
-                    if isinstance(selectable, sa.Table) else selectable,
+                    if isinstance(selectable, sa.Table)
+                    else selectable,
                     **kwargs
                 )
             )
         ).bindparams(
             path=element.path,
-            encoding=element.encoding or element.bind.execute(
-                'select @@character_set_client'
-            ).scalar(),
+            encoding=element.encoding
+            or element.bind.execute("select @@character_set_client").scalar(),
             delimiter=element.delimiter,
             quotechar=element.quotechar,
             escapechar=element.escapechar,
-            lineterminator=element.lineterminator
+            lineterminator=element.lineterminator,
         )
     )
 
 
-@compiles(CopyToCSV, 'sqlite')
+@compiles(CopyToCSV, "sqlite")
 def compile_copy_to_csv_sqlite(element, compiler, **kwargs):
     if element.encoding is not None:
         raise ValueError(
-            "'encoding' keyword argument not supported for "
-            "SQLite to CSV conversion"
+            "'encoding' keyword argument not supported for " "SQLite to CSV conversion"
         )
-    if not find_executable('sqlite3'):
+    if not find_executable("sqlite3"):
         raise MDNotImplementedError("Could not find sqlite executable")
 
     # we are sending a SQL string directorly to the SQLite process so we always
     # need to bind everything before sending it
-    kwargs['literal_binds'] = True
+    kwargs["literal_binds"] = True
 
     selectable = element.element
-    sql = compiler.process(
-        selectable.select() if isinstance(selectable, sa.Table) else selectable,
-        **kwargs
-    ) + ';'
-    sql = re.sub(r'\s{2,}', ' ', re.sub(r'\s*\n\s*', ' ', sql)).encode(
+    sql = (
+        compiler.process(
+            selectable.select() if isinstance(selectable, sa.Table) else selectable,
+            **kwargs
+        )
+        + ";"
+    )
+    sql = re.sub(r"\s{2,}", " ", re.sub(r"\s*\n\s*", " ", sql)).encode(
         sys.getfilesystemencoding()  # we send bytes to the process
     )
-    cmd = ['sqlite3', '-csv',
-           '-%sheader' % ('no' if not element.header else ''),
-           '-separator', element.delimiter,
-           selectable.bind.url.database]
-    with open(element.path, mode='at') as f:
+    cmd = [
+        "sqlite3",
+        "-csv",
+        "-%sheader" % ("no" if not element.header else ""),
+        "-separator",
+        element.delimiter,
+        selectable.bind.url.database,
+    ]
+    with open(element.path, mode="at") as f:
         subprocess.Popen(cmd, stdout=f, stdin=subprocess.PIPE).communicate(sql)
 
     # This will be a no-op since we're doing the write during the compile
-    return ''
+    return ""
 
 
 try:
@@ -978,20 +990,20 @@ try:
 except ImportError:
     pass
 else:
-    @resource.register('s3://.*/$')
+
+    @resource.register("s3://.*/$")
     def resource_s3_prefix(uri, **kwargs):
         return Directory(S3)(uri, **kwargs)
 
     @append.register(Directory(S3), sa.Table)
-    def redshit_to_s3_bucket(bucket, selectable, dshape=None, bind=None,
-                             **kwargs):
+    def redshit_to_s3_bucket(bucket, selectable, dshape=None, bind=None, **kwargs):
         s3_conn_kwargs = filter_kwargs(get_s3_connection, kwargs)
         s3 = get_s3_connection(**s3_conn_kwargs)
 
         unload_kwargs = filter_kwargs(UnloadFromSelect, kwargs)
-        unload_kwargs['unload_location'] = bucket.path
-        unload_kwargs['access_key_id'] = s3.access_key
-        unload_kwargs['secret_access_key'] = s3.secret_key
+        unload_kwargs["unload_location"] = bucket.path
+        unload_kwargs["access_key_id"] = s3.access_key
+        unload_kwargs["secret_access_key"] = s3.secret_key
 
         unload = UnloadFromSelect(selectable.select(), **unload_kwargs)
 
@@ -1002,8 +1014,7 @@ else:
 
 @append.register(CSV, sa.sql.Selectable)
 def append_table_to_csv(csv, selectable, dshape=None, bind=None, **kwargs):
-    kwargs = keyfilter(keywords(CopyToCSV).__contains__,
-                       merge(csv.dialect, kwargs))
+    kwargs = keyfilter(keywords(CopyToCSV).__contains__, merge(csv.dialect, kwargs))
     stmt = CopyToCSV(
         selectable,
         os.path.abspath(csv.path) if csv.path is not None else None,
@@ -1012,8 +1023,8 @@ def append_table_to_csv(csv, selectable, dshape=None, bind=None, **kwargs):
     )
 
     bind = getbind(selectable, bind)
-    if bind.dialect.name == 'postgresql':
-        with csv.open('ab+') as f:
+    if bind.dialect.name == "postgresql":
+        with csv.open("ab+") as f:
             with bind.begin() as conn:
                 conn.connection.cursor().copy_expert(literal_compile(stmt), f)
     else:
@@ -1027,6 +1038,7 @@ try:
 except ImportError:
     pass
 else:
+
     @append.register(HDFS(CSV), sa.sql.Selectable)
     def append_selectable_to_hdfs_csv(*args, **kwargs):
         raise MDNotImplementedError()

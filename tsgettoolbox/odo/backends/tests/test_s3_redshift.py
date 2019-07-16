@@ -2,13 +2,12 @@ import os
 import sys
 import pytest
 
-pytestmark = pytest.mark.skipif(sys.platform == 'win32',
-                                reason='Requires Mac or Linux')
+pytestmark = pytest.mark.skipif(sys.platform == "win32", reason="Requires Mac or Linux")
 
-sa = pytest.importorskip('sqlalchemy')
-boto = pytest.importorskip('boto')
-pytest.importorskip('psycopg2')
-pytest.importorskip('redshift_sqlalchemy')
+sa = pytest.importorskip("sqlalchemy")
+boto = pytest.importorskip("boto")
+pytest.importorskip("psycopg2")
+pytest.importorskip("redshift_sqlalchemy")
 
 from contextlib import closing
 import json
@@ -20,22 +19,20 @@ from tsgettoolbox.odo import into, resource, S3, discover, CSV, drop, odo
 from tsgettoolbox.odo.utils import tmpfile
 from tsgettoolbox.odo.compatibility import urlopen
 
-with closing(urlopen('http://httpbin.org/ip')) as url:
-    public_ip = json.loads(url.read().decode())['origin']
-cidrip = public_ip + '/32'
+with closing(urlopen("http://httpbin.org/ip")) as url:
+    public_ip = json.loads(url.read().decode())["origin"]
+cidrip = public_ip + "/32"
 
-_tmps = ('tmp%d' % i for i in itertools.count())
+_tmps = ("tmp%d" % i for i in itertools.count())
 
-df = pd.DataFrame({
-    'a': list('abc'),
-    'b': [1, 2, 3],
-    'c': [1.0, 2.0, 3.0]
-})[['a', 'b', 'c']]
+df = pd.DataFrame({"a": list("abc"), "b": [1, 2, 3], "c": [1.0, 2.0, 3.0]})[
+    ["a", "b", "c"]
+]
 
 is_authorized = tried = False
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def rs_auth():
     # if we aren't authorized and we've tried to authorize then skip, prevents
     # us from having to deal with timeouts
@@ -49,37 +46,36 @@ def rs_auth():
             try:
                 conn = boto.connect_redshift()
             except boto.exception.NoAuthHandlerFound as e:
-                pytest.skip('authorization to access redshift cluster failed '
-                            '%s' % e)
+                pytest.skip("authorization to access redshift cluster failed " "%s" % e)
             try:
-                conn.authorize_cluster_security_group_ingress('default',
-                                                              cidrip=cidrip)
+                conn.authorize_cluster_security_group_ingress("default", cidrip=cidrip)
             except boto.redshift.exceptions.AuthorizationAlreadyExists:
                 is_authorized = True
             except Exception as e:
-                pytest.skip('authorization to access redshift cluster failed '
-                            '%s' % e)
+                pytest.skip("authorization to access redshift cluster failed " "%s" % e)
             else:
                 is_authorized = True
             finally:
                 tried = True
         else:
-            pytest.skip('authorization to access redshift cluster failed')
+            pytest.skip("authorization to access redshift cluster failed")
 
 
 @pytest.fixture
 def db(rs_auth):
-    key = os.environ.get('REDSHIFT_DB_URI', None)
+    key = os.environ.get("REDSHIFT_DB_URI", None)
     if not key:
-        pytest.skip('Please define a non-empty environment variable called '
-                    'REDSHIFT_DB_URI to test redshift <- S3')
+        pytest.skip(
+            "Please define a non-empty environment variable called "
+            "REDSHIFT_DB_URI to test redshift <- S3"
+        )
     else:
         return key
 
 
 @pytest.yield_fixture
 def temp_tb(db):
-    t = '%s::%s' % (db, next(_tmps))
+    t = "%s::%s" % (db, next(_tmps))
     try:
         yield t
     finally:
@@ -88,13 +84,13 @@ def temp_tb(db):
 
 @pytest.yield_fixture
 def tmpcsv():
-    with tmpfile('.csv') as fn:
-        with open(fn, mode='w') as f:
+    with tmpfile(".csv") as fn:
+        with open(fn, mode="w") as f:
             df.to_csv(f, index=False)
         yield fn
 
 
-tips_uri = 's3://nyqpug/tips.csv'
+tips_uri = "s3://nyqpug/tips.csv"
 
 
 def test_s3_to_redshift(temp_tb):
@@ -106,7 +102,8 @@ def test_s3_to_redshift(temp_tb):
 
 
 def test_redshift_getting_started(temp_tb):
-    dshape = datashape.dshape("""var * {
+    dshape = datashape.dshape(
+        """var * {
         userid: int64,
         username: ?string[8],
         firstname: ?string[30],
@@ -125,8 +122,9 @@ def test_redshift_getting_started(temp_tb):
         likevegas: ?bool,
         likebroadway: ?bool,
         likemusicals: ?bool,
-    }""")
-    csv = S3(CSV)('s3://awssampledb/tickit/allusers_pipe.txt')
+    }"""
+    )
+    csv = S3(CSV)("s3://awssampledb/tickit/allusers_pipe.txt")
     table = into(temp_tb, csv, dshape=dshape)
 
     # make sure we have a non empty table
@@ -134,7 +132,8 @@ def test_redshift_getting_started(temp_tb):
 
 
 def test_redshift_dwdate(temp_tb):
-    dshape = datashape.dshape("""var * {
+    dshape = datashape.dshape(
+        """var * {
           key: int64,
           date: string[19],
           day_of_week: string[10],
@@ -152,15 +151,23 @@ def test_redshift_dwdate(temp_tb):
           last_day_in_month_fl: string[1],
           holiday_fl: string[1],
           weekday_fl: string[1]
-    }""")
+    }"""
+    )
     # we have to pass the separator here because the date column has a comma
     # TODO: see if we can provide a better error message by querying
     # stl_load_errors
-    assert odo(S3(CSV)('s3://awssampledb/ssbgz/dwdate'),
-               temp_tb,
-               delimiter='|',
-               compression='gzip',
-               dshape=dshape).count().scalar() == 2556
+    assert (
+        odo(
+            S3(CSV)("s3://awssampledb/ssbgz/dwdate"),
+            temp_tb,
+            delimiter="|",
+            compression="gzip",
+            dshape=dshape,
+        )
+        .count()
+        .scalar()
+        == 2556
+    )
 
 
 def test_csv_to_redshift(tmpcsv, temp_tb):

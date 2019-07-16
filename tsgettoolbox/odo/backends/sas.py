@@ -13,7 +13,7 @@ from ..convert import convert
 from ..resource import resource
 
 
-@resource.register('.+\.(sas7bdat)')
+@resource.register(".+\.(sas7bdat)")
 def resource_sas(uri, **kwargs):
     return SAS7BDAT(uri, **kwargs)
 
@@ -21,7 +21,7 @@ def resource_sas(uri, **kwargs):
 @discover.register(SAS7BDAT)
 def discover_sas(f, **kwargs):
     lines = f.readlines()
-    next(lines) # burn header
+    next(lines)  # burn header
     ln = next(lines)
     types = map(discover, ln)
     names = [col.name.decode("utf-8") for col in f.header.parent.columns]
@@ -33,7 +33,7 @@ def sas_to_DataFrame(s, dshape=None, **kwargs):
     df = s.to_data_frame()
     if any(typ in (date_, datetime_) for typ in dshape.measure.types):
         df = coerce_datetimes(df)
-    names = [col.decode('utf-8') for col in s.column_names]
+    names = [col.decode("utf-8") for col in s.column_names]
     df = df[names]  # Reorder names to match sasfile
     return df
 

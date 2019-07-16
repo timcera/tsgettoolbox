@@ -19,7 +19,7 @@ import datashape
 
 import shutil
 
-__all__ = ['PyTables']
+__all__ = ["PyTables"]
 
 
 @discover.register((tables.Array, tables.Table))
@@ -34,7 +34,7 @@ def discover_tables_node(n):
 
 @discover.register(tables.File)
 def discover_tables_node(f):
-    return discover(f.getNode('/'))
+    return discover(f.getNode("/"))
 
 
 @append.register((tables.Array, tables.Table), np.ndarray)
@@ -54,10 +54,11 @@ def pytables_to_numpy(t, **kwargs):
 
 
 @convert.register(chunks(np.ndarray), tables.Table, cost=3.0)
-def pytables_to_numpy_chunks(t, chunksize=2**20, **kwargs):
+def pytables_to_numpy_chunks(t, chunksize=2 ** 20, **kwargs):
     def load():
         for i in range(0, t.shape[0], chunksize):
-            yield t[i: i + chunksize]
+            yield t[i : i + chunksize]
+
     return chunks(np.ndarray)(load)
 
 
@@ -77,7 +78,7 @@ def dtype_to_pytables(dtype):
     for pos, name in enumerate(dtype.names):
         dt, _ = dtype.fields[name]
         if issubclass(dt.type, np.datetime64):
-            tdtype = tables.Description({name: tables.Time64Col(pos=pos)}),
+            tdtype = (tables.Description({name: tables.Time64Col(pos=pos)}),)
         else:
             tdtype = tables.descr_from_dtype(np.dtype([(name, dt)]))
         el = first(tdtype)
@@ -116,15 +117,17 @@ def PyTables(path, datapath, dshape=None, **kwargs):
     array([(100.3, b'mars'), (100.42, b'jupyter')],
           dtype=[('volume', '<f8'), ('planet', 'S10')])
     """
+
     def possibly_create_table(filename, dtype):
-        f = tables.open_file(filename, mode='a')
+        f = tables.open_file(filename, mode="a")
         try:
             if datapath not in f:
                 if dtype is None:
-                    raise ValueError('dshape cannot be None and datapath not'
-                                     ' in file')
+                    raise ValueError(
+                        "dshape cannot be None and datapath not" " in file"
+                    )
                 else:
-                    f.create_table('/', datapath.lstrip('/'), description=dtype)
+                    f.create_table("/", datapath.lstrip("/"), description=dtype)
         finally:
             f.close()
 
@@ -140,15 +143,15 @@ def PyTables(path, datapath, dshape=None, **kwargs):
     if os.path.exists(path):
         possibly_create_table(path, dtype)
     else:
-        with tmpfile('.h5') as filename:
+        with tmpfile(".h5") as filename:
             possibly_create_table(filename, dtype)
             shutil.copyfile(filename, path)
-    return tables.open_file(path, mode='a').get_node(datapath)
+    return tables.open_file(path, mode="a").get_node(datapath)
 
 
-@resource.register('pytables://.+', priority=11)
+@resource.register("pytables://.+", priority=11)
 def resource_pytables(path, datapath, **kwargs):
-    return PyTables(path[len('pytables://'):], datapath, **kwargs)
+    return PyTables(path[len("pytables://") :], datapath, **kwargs)
 
 
 @dispatch((tables.Table, tables.Array))

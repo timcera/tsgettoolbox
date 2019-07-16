@@ -8,6 +8,7 @@
     .. _CUAHSI WaterOneFlow: http://his.cuahsi.org/wofws.html
 """
 from future import standard_library
+
 standard_library.install_aliases()
 from builtins import str
 import io
@@ -53,19 +54,18 @@ def get_sites(wsdl_url, suds_cache=("default",), timeout=None):
     suds_client = _get_client(wsdl_url, suds_cache, timeout)
 
     waterml_version = _waterml_version(suds_client)
-    if waterml_version == '1.0':
-        response = suds_client.service.GetSitesXml('')
+    if waterml_version == "1.0":
+        response = suds_client.service.GetSitesXml("")
         response_buffer = io.BytesIO(util.to_bytes(response))
         sites = waterml.v1_0.parse_site_infos(response_buffer)
-    elif waterml_version == '1.1':
-        response = suds_client.service.GetSites('')
+    elif waterml_version == "1.1":
+        response = suds_client.service.GetSites("")
         response_buffer = io.BytesIO(util.to_bytes(response))
         sites = waterml.v1_1.parse_site_infos(response_buffer)
 
-    return dict([
-        (site['network'] + ':' + site['code'], site)
-        for site in list(sites.values())
-    ])
+    return dict(
+        [(site["network"] + ":" + site["code"], site) for site in list(sites.values())]
+    )
 
 
 def get_site_info(wsdl_url, site_code, suds_cache=("default",), timeout=None):
@@ -101,11 +101,11 @@ def get_site_info(wsdl_url, site_code, suds_cache=("default",), timeout=None):
     suds_client = _get_client(wsdl_url, suds_cache, timeout)
 
     waterml_version = _waterml_version(suds_client)
-    if waterml_version == '1.0':
+    if waterml_version == "1.0":
         response = suds_client.service.GetSiteInfo(site_code)
         response_buffer = io.BytesIO(util.to_bytes(response))
         sites = waterml.v1_0.parse_sites(response_buffer)
-    elif waterml_version == '1.1':
+    elif waterml_version == "1.1":
         response = suds_client.service.GetSiteInfo(site_code)
         response_buffer = io.BytesIO(util.to_bytes(response))
         sites = waterml.v1_1.parse_sites(response_buffer)
@@ -113,17 +113,28 @@ def get_site_info(wsdl_url, site_code, suds_cache=("default",), timeout=None):
     if len(sites) == 0:
         return {}
     site_info = list(sites.values())[0]
-    series_dict = dict([
-        (series['variable']['vocabulary'] + ':' + series['variable']['code'],
-            series)
-        for series in site_info['series']
-    ])
-    site_info['series'] = series_dict
+    series_dict = dict(
+        [
+            (
+                series["variable"]["vocabulary"] + ":" + series["variable"]["code"],
+                series,
+            )
+            for series in site_info["series"]
+        ]
+    )
+    site_info["series"] = series_dict
     return site_info
 
 
-def get_values(wsdl_url, site_code, variable_code, start=None, end=None, 
-               suds_cache=("default",), timeout=None):
+def get_values(
+    wsdl_url,
+    site_code,
+    variable_code,
+    start=None,
+    end=None,
+    suds_cache=("default",),
+    timeout=None,
+):
     """
     Retrieves site values from a WaterOneFlow service using a GetValues request.
 
@@ -185,13 +196,13 @@ def get_values(wsdl_url, site_code, variable_code, start=None, end=None,
 
     waterml_version = _waterml_version(suds_client)
     response = suds_client.service.GetValues(
-        site_code, variable_code, startDate=start_dt_isostr,
-        endDate=end_dt_isostr)
+        site_code, variable_code, startDate=start_dt_isostr, endDate=end_dt_isostr
+    )
 
     response_buffer = io.BytesIO(util.to_bytes(response))
-    if waterml_version == '1.0':
+    if waterml_version == "1.0":
         values = waterml.v1_0.parse_site_values(response_buffer)
-    elif waterml_version == '1.1':
+    elif waterml_version == "1.1":
         values = waterml.v1_1.parse_site_values(response_buffer)
 
     if not variable_code is None:
@@ -200,8 +211,9 @@ def get_values(wsdl_url, site_code, variable_code, start=None, end=None,
         return values
 
 
-def get_variable_info(wsdl_url, variable_code=None, 
-                      suds_cache=("default",), timeout=None):
+def get_variable_info(
+    wsdl_url, variable_code=None, suds_cache=("default",), timeout=None
+):
     """
     Retrieves site values from a WaterOneFlow service using a GetVariableInfo
     request.
@@ -241,29 +253,32 @@ def get_variable_info(wsdl_url, variable_code=None,
     response = suds_client.service.GetVariableInfo(variable_code)
     response_buffer = io.BytesIO(util.to_bytes(response))
 
-    if waterml_version == '1.0':
+    if waterml_version == "1.0":
         variable_info = waterml.v1_0.parse_variables(response_buffer)
-    elif waterml_version == '1.1':
+    elif waterml_version == "1.1":
         variable_info = waterml.v1_1.parse_variables(response_buffer)
 
     if not variable_code is None and len(variable_info) == 1:
         return list(variable_info.values())[0]
     else:
-        return dict([
-            ('%s:%s' % (var['vocabulary'], var['code']), var)
-            for var in list(variable_info.values())
-        ])
+        return dict(
+            [
+                ("%s:%s" % (var["vocabulary"], var["code"]), var)
+                for var in list(variable_info.values())
+            ]
+        )
 
 
 def _waterml_version(suds_client):
     tns_str = str(suds_client.wsdl.tns[1])
-    if tns_str == 'http://www.cuahsi.org/his/1.0/ws/':
-        return '1.0'
-    elif tns_str == 'http://www.cuahsi.org/his/1.1/ws/':
-        return '1.1'
+    if tns_str == "http://www.cuahsi.org/his/1.0/ws/":
+        return "1.0"
+    elif tns_str == "http://www.cuahsi.org/his/1.1/ws/":
+        return "1.1"
     else:
         raise NotImplementedError(
-            "only WaterOneFlow 1.0 and 1.1 are currently supported")
+            "only WaterOneFlow 1.0 and 1.1 are currently supported"
+        )
 
 
 def _get_client(wsdl_url, suds_cache=("default",), suds_timeout=None):
@@ -296,7 +311,11 @@ def _get_client(wsdl_url, suds_cache=("default",), suds_timeout=None):
     global _suds_client
 
     # Handle new or changed client request (create new client)
-    if _suds_client is None or _suds_client.wsdl.url != wsdl_url or not suds_timeout is None:
+    if (
+        _suds_client is None
+        or _suds_client.wsdl.url != wsdl_url
+        or not suds_timeout is None
+    ):
         _suds_client = suds.client.Client(wsdl_url)
         if suds_cache is None:
             _suds_client.set_options(cache=None)

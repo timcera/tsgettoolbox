@@ -2,7 +2,7 @@ from __future__ import absolute_import, division, print_function
 
 import pytest
 
-pymysql = pytest.importorskip('pymysql')
+pymysql = pytest.importorskip("pymysql")
 
 from datashape import var, DataShape, Record, dshape
 import itertools
@@ -18,15 +18,16 @@ from tsgettoolbox.odo import drop, discover
 from tsgettoolbox.odo.utils import tmpfile
 
 
-pytestmark = pytest.mark.skipif(sys.platform == 'win32',
-                                reason='not well tested on win32 mysql')
+pytestmark = pytest.mark.skipif(
+    sys.platform == "win32", reason="not well tested on win32 mysql"
+)
 
 username = getpass.getuser()
-url = 'mysql+pymysql://{0}@localhost:3306/test'.format(username)
+url = "mysql+pymysql://{0}@localhost:3306/test".format(username)
 
 
 def create_csv(data, file_name):
-    with open(file_name, 'w') as f:
+    with open(file_name, "w") as f:
         csv_writer = csv_module.writer(f)
         for row in data:
             csv_writer.writerow(row)
@@ -38,19 +39,19 @@ data_floats = [(1.02, 2.02), (102.02, 202.02), (1002.02, 2002.02)]
 
 @pytest.yield_fixture
 def csv():
-    with tmpfile('.csv') as fn:
+    with tmpfile(".csv") as fn:
         create_csv(data, fn)
         yield CSV(fn)
 
 
 @pytest.yield_fixture
 def fcsv():
-    with tmpfile('.csv') as fn:
+    with tmpfile(".csv") as fn:
         create_csv(data_floats, fn)
-        yield CSV(fn, columns=list('ab'))
+        yield CSV(fn, columns=list("ab"))
 
 
-names = ('tbl%d' % i for i in itertools.count())
+names = ("tbl%d" % i for i in itertools.count())
 
 
 @pytest.fixture
@@ -58,16 +59,16 @@ def name():
     return next(names)
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def engine():
     return sqlalchemy.create_engine(url)
 
 
 @pytest.yield_fixture
 def sql(engine, csv, name):
-    dshape = var * Record(list(zip('ab', discover(csv).measure.types)))
+    dshape = var * Record(list(zip("ab", discover(csv).measure.types)))
     try:
-        t = resource('%s::%s' % (url, name), dshape=dshape)
+        t = resource("%s::%s" % (url, name), dshape=dshape)
     except sqlalchemy.exc.OperationalError as e:
         pytest.skip(str(e))
     else:
@@ -79,9 +80,9 @@ def sql(engine, csv, name):
 
 @pytest.yield_fixture
 def fsql(engine, fcsv, name):
-    dshape = var * Record(list(zip('ab', discover(fcsv).measure.types)))
+    dshape = var * Record(list(zip("ab", discover(fcsv).measure.types)))
     try:
-        t = resource('%s::%s' % (url, name), dshape=dshape)
+        t = resource("%s::%s" % (url, name), dshape=dshape)
     except sqlalchemy.exc.OperationalError as e:
         pytest.skip(str(e))
     else:
@@ -93,9 +94,9 @@ def fsql(engine, fcsv, name):
 
 @pytest.yield_fixture
 def quoted_sql(engine, fcsv):
-    dshape = var * Record(list(zip('ab', discover(fcsv).measure.types)))
+    dshape = var * Record(list(zip("ab", discover(fcsv).measure.types)))
     try:
-        t = resource('%s::foo bar' % url, dshape=dshape)
+        t = resource("%s::foo bar" % url, dshape=dshape)
     except sqlalchemy.exc.OperationalError as e:
         pytest.skip(str(e))
     else:
@@ -107,13 +108,13 @@ def quoted_sql(engine, fcsv):
 
 @pytest.fixture
 def dcsv():
-    return CSV(os.path.join(os.path.dirname(__file__), 'dummydata.csv'))
+    return CSV(os.path.join(os.path.dirname(__file__), "dummydata.csv"))
 
 
 @pytest.yield_fixture
 def dsql(engine, dcsv, name):
     try:
-        t = resource('%s::%s' % (url, name), dshape=discover(dcsv))
+        t = resource("%s::%s" % (url, name), dshape=discover(dcsv))
     except sqlalchemy.exc.OperationalError as e:
         pytest.skip(str(e))
     else:
@@ -126,8 +127,10 @@ def dsql(engine, dcsv, name):
 @pytest.yield_fixture
 def decimal_sql(engine, name):
     try:
-        t = resource('%s::%s' % (url, name),
-                     dshape="var * {a: ?decimal[10, 3], b: decimal[11, 2]}")
+        t = resource(
+            "%s::%s" % (url, name),
+            dshape="var * {a: ?decimal[10, 3], b: decimal[11, 2]}",
+        )
     except sa.exc.OperationalError as e:
         pytest.skip(str(e))
     else:
@@ -137,16 +140,17 @@ def decimal_sql(engine, name):
             drop(t)
 
 
-
 def test_csv_mysql_load(sql, csv):
     engine = sql.bind
     conn = engine.raw_connection()
 
     cursor = conn.cursor()
     full_path = os.path.abspath(csv.path)
-    load = '''LOAD DATA INFILE '{0}' INTO TABLE {1} FIELDS TERMINATED BY ','
+    load = """LOAD DATA INFILE '{0}' INTO TABLE {1} FIELDS TERMINATED BY ','
         lines terminated by '\n'
-        '''.format(full_path, sql.name)
+        """.format(
+        full_path, sql.name
+    )
     cursor.execute(load)
     conn.commit()
 
@@ -161,16 +165,20 @@ def test_append(sql, csv):
     assert odo(sql, list) == [(1, 2), (10, 20), (100, 200)]
 
     odo(csv, sql, if_exists="append")
-    assert odo(sql, list) == [(1, 2), (10, 20), (100, 200),
-                              (1, 2), (10, 20), (100, 200)]
+    assert odo(sql, list) == [
+        (1, 2),
+        (10, 20),
+        (100, 200),
+        (1, 2),
+        (10, 20),
+        (100, 200),
+    ]
 
 
 def test_simple_float_into(fsql, fcsv):
     odo(fcsv, fsql, if_exists="replace")
 
-    assert odo(fsql, list) == [(1.02, 2.02),
-                               (102.02, 202.02),
-                               (1002.02, 2002.02)]
+    assert odo(fsql, list) == [(1.02, 2.02), (102.02, 202.02), (1002.02, 2002.02)]
 
 
 def test_tryexcept_into(sql, csv):
@@ -198,7 +206,7 @@ def test_complex_into(dsql, dcsv):
 
 def test_sql_to_csv(sql, csv):
     sql = odo(csv, sql)
-    with tmpfile('.csv') as fn:
+    with tmpfile(".csv") as fn:
         csv = odo(sql, fn)
         assert odo(csv, list) == data
 
@@ -209,7 +217,7 @@ def test_sql_to_csv(sql, csv):
 def test_sql_select_to_csv(sql, csv):
     sql = odo(csv, sql)
     query = sa.select([sql.c.a])
-    with tmpfile('.csv') as fn:
+    with tmpfile(".csv") as fn:
         csv = odo(query, fn)
         assert odo(csv, list) == [(x,) for x, _ in data]
 
@@ -217,35 +225,40 @@ def test_sql_select_to_csv(sql, csv):
 def test_csv_output_does_not_preserve_header(sql, csv):
     sql = odo(csv, sql)
     expected = "1,2\n10,20\n100,200\n"
-    with tmpfile('.csv') as fn:
+    with tmpfile(".csv") as fn:
         csv = odo(sql, fn)
-        with open(csv.path, 'rt') as f:
+        with open(csv.path, "rt") as f:
             result = f.read()
     assert result == expected
 
 
-@pytest.mark.xfail(raises=AssertionError,
-                   reason="Remove when all databases are being tested at once")
+@pytest.mark.xfail(
+    raises=AssertionError, reason="Remove when all databases are being tested at once"
+)
 def test_different_encoding(name):
-    encoding = 'latin1'
+    encoding = "latin1"
     try:
-        sql = odo(os.path.join(os.path.dirname(__file__), 'encoding.csv'),
-                  url + '::%s' % name,
-                  encoding=encoding)
+        sql = odo(
+            os.path.join(os.path.dirname(__file__), "encoding.csv"),
+            url + "::%s" % name,
+            encoding=encoding,
+        )
     except sa.exc.OperationalError as e:
         pytest.skip(str(e))
     else:
         try:
             result = odo(sql, list)
-            expected = [(u'1958.001.500131-1A', 1, None, u'', 899),
-                        (u'1958.001.500156-6', 1, None, u'', 899),
-                        (u'1958.001.500162-1', 1, None, u'', 899),
-                        (u'1958.001.500204-2', 1, None, u'', 899),
-                        (u'1958.001.500204-2A', 1, None, u'', 899),
-                        (u'1958.001.500204-2B', 1, None, u'', 899),
-                        (u'1958.001.500223-6', 1, None, u'', 9610),
-                        (u'1958.001.500233-9', 1, None, u'', 4703),
-                        (u'1909.017.000018-3', 1, 30.0, u'sumaria', 899)]
+            expected = [
+                (u"1958.001.500131-1A", 1, None, u"", 899),
+                (u"1958.001.500156-6", 1, None, u"", 899),
+                (u"1958.001.500162-1", 1, None, u"", 899),
+                (u"1958.001.500204-2", 1, None, u"", 899),
+                (u"1958.001.500204-2A", 1, None, u"", 899),
+                (u"1958.001.500204-2B", 1, None, u"", 899),
+                (u"1958.001.500223-6", 1, None, u"", 9610),
+                (u"1958.001.500233-9", 1, None, u"", 4703),
+                (u"1909.017.000018-3", 1, 30.0, u"sumaria", 899),
+            ]
             assert result == expected
         finally:
             drop(sql)
@@ -253,9 +266,7 @@ def test_different_encoding(name):
 
 def test_decimal(decimal_sql):
     t = sa.Table(decimal_sql.name, sa.MetaData(decimal_sql.bind), autoload=True)
-    assert discover(t) == dshape(
-        "var * {a: ?decimal[10, 3], b: decimal[11, 2]}"
-    )
+    assert discover(t) == dshape("var * {a: ?decimal[10, 3], b: decimal[11, 2]}")
     assert isinstance(t.c.a.type, sa.Numeric)
     assert isinstance(t.c.b.type, sa.Numeric)
 

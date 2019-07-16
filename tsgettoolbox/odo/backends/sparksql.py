@@ -35,13 +35,24 @@ from .csv import CSV
 
 from pyspark.sql import DataFrame as SparkDataFrame
 from pyspark.sql.types import (
-    ByteType, ShortType, IntegerType, LongType, FloatType, DoubleType,
-    StringType, BinaryType, BooleanType, TimestampType, DateType, ArrayType,
-    StructType, StructField
+    ByteType,
+    ShortType,
+    IntegerType,
+    LongType,
+    FloatType,
+    DoubleType,
+    StringType,
+    BinaryType,
+    BooleanType,
+    TimestampType,
+    DateType,
+    ArrayType,
+    StructType,
+    StructField,
 )
 
 base = int, float, datetime, date, bool, str
-_names = ('tmp%d' % i for i in itertools.count())
+_names = ("tmp%d" % i for i in itertools.count())
 
 
 @append.register(SQLContext, object)
@@ -56,13 +67,15 @@ def register_table(ctx, srdd, name=None):
 
 
 @append.register(SQLContext, (JSONLines, Directory(JSONLines)))
-def jsonlines_to_sparksql(ctx, json, dshape=None, name=None, schema=None,
-                          samplingRatio=0.25, **kwargs):
+def jsonlines_to_sparksql(
+    ctx, json, dshape=None, name=None, schema=None, samplingRatio=0.25, **kwargs
+):
     # if we're passing in schema, assume that we know what we're doing and
     # bypass any automated dshape inference
     if dshape is not None and schema is None:
-        schema = dshape_to_schema(dshape.measure
-                                  if isrecord(dshape.measure) else dshape)
+        schema = dshape_to_schema(
+            dshape.measure if isrecord(dshape.measure) else dshape
+        )
     srdd = ctx.jsonFile(json.path, schema=schema, samplingRatio=samplingRatio)
     register_table(ctx, srdd, name=name)
     return srdd
@@ -71,8 +84,7 @@ def jsonlines_to_sparksql(ctx, json, dshape=None, name=None, schema=None,
 @convert.register(list, SparkDataFrame, cost=200.0)
 def sparksql_dataframe_to_list(df, dshape=None, **kwargs):
     result = df.collect()
-    if (dshape is not None and iscollection(dshape) and
-            not isrecord(dshape.measure)):
+    if dshape is not None and iscollection(dshape) and not isrecord(dshape.measure):
         return list(map(get(0), result))
     return result
 
@@ -105,7 +117,7 @@ def scala_set_to_set(ctx, x):
     from py4j.java_gateway import java_import
 
     # import scala
-    java_import(ctx._jvm, 'scala')
+    java_import(ctx._jvm, "scala")
 
     # grab Scala's set converter and convert to a Python set
     return set(ctx._jvm.scala.collection.JavaConversions.setAsJavaSet(x))
@@ -118,7 +130,7 @@ def discover_sqlcontext(ctx):
     return datashape.DataShape(datashape.Record(dshapes))
 
 
-@discover.register(SparkDataFrame )
+@discover.register(SparkDataFrame)
 def discover_spark_data_frame(df):
     schema = df.schema() if callable(df.schema) else df.schema
     return datashape.var * schema_to_dshape(schema)
@@ -134,19 +146,17 @@ def chunk_file(filename, chunksize):
     chunksize : int
         Number of bytes to hold in memory at a single time
     """
-    with open(filename, mode='rb') as f:
-        for chunk in iter(partial(f.read, chunksize), b''):
+    with open(filename, mode="rb") as f:
+        for chunk in iter(partial(f.read, chunksize), b""):
             yield chunk
 
 
 @append.register(JSONLines, SparkDataFrame)
-def spark_df_to_jsonlines(js, df,
-                          pattern='part-*', chunksize=1 << 23,  # 8MB
-                          **kwargs):
+def spark_df_to_jsonlines(js, df, pattern="part-*", chunksize=1 << 23, **kwargs):  # 8MB
     tmpd = tempfile.mkdtemp()
     try:
         try:
-            df.save(tmpd, source='org.apache.spark.sql.json', mode='overwrite')
+            df.save(tmpd, source="org.apache.spark.sql.json", mode="overwrite")
         except AttributeError:
             shutil.rmtree(tmpd)
             df.toJSON().saveAsTextFile(tmpd)
@@ -154,12 +164,14 @@ def spark_df_to_jsonlines(js, df,
         raise
     else:
         files = glob.glob(os.path.join(tmpd, pattern))
-        with open(js.path, mode='ab') as f:
-            pipe(files,
-                 map(curry(chunk_file, chunksize=chunksize)),
-                 concat,
-                 map(f.write),
-                 toolz.count)
+        with open(js.path, mode="ab") as f:
+            pipe(
+                files,
+                map(curry(chunk_file, chunksize=chunksize)),
+                concat,
+                map(f.write),
+                toolz.count,
+            )
     finally:
         shutil.rmtree(tmpd)
     return js
@@ -175,8 +187,8 @@ try:
 except ImportError:
     pass
 else:
-    @append.register(HDFS(JSONLines),
-                     (Iterator, object, SparkDataFrame))
+
+    @append.register(HDFS(JSONLines), (Iterator, object, SparkDataFrame))
     @append.register(HDFS(JSON), (list, object))
     @append.register(HDFS(CSV), (chunks(pd.DataFrame), pd.DataFrame, object))
     def append_spark_to_hdfs(target, source, **kwargs):
@@ -203,21 +215,27 @@ def dshape_to_schema(ds):
     if isinstance(ds, str):
         return dshape_to_schema(dshape(ds))
     if isinstance(ds, Tuple):
-        raise TypeError('Please provide a Record dshape for these column '
-                        'types: %s' % (ds.dshapes,))
+        raise TypeError(
+            "Please provide a Record dshape for these column "
+            "types: %s" % (ds.dshapes,)
+        )
     if isinstance(ds, Record):
-        return StructType([
-            StructField(name,
-                        dshape_to_schema(deoption(typ)),
-                        isinstance(typ, datashape.Option))
-            for name, typ in ds.fields])
+        return StructType(
+            [
+                StructField(
+                    name,
+                    dshape_to_schema(deoption(typ)),
+                    isinstance(typ, datashape.Option),
+                )
+                for name, typ in ds.fields
+            ]
+        )
     if isinstance(ds, DataShape):
         if isdimension(ds[0]):
             elem = ds.subshape[0]
             if isinstance(elem, DataShape) and len(elem) == 1:
                 elem = elem[0]
-            return ArrayType(dshape_to_schema(deoption(elem)),
-                             isinstance(elem, Option))
+            return ArrayType(dshape_to_schema(deoption(elem)), isinstance(elem, Option))
         else:
             return dshape_to_schema(ds[0])
     if ds in dshape_to_sparksql:
@@ -230,15 +248,19 @@ def schema_to_dshape(schema):
         return sparksql_to_dshape[type(schema)]
     if isinstance(schema, ArrayType):
         dshape = schema_to_dshape(schema.elementType)
-        return datashape.var * (Option(dshape)
-                                if schema.containsNull else dshape)
+        return datashape.var * (Option(dshape) if schema.containsNull else dshape)
     if isinstance(schema, StructType):
-        fields = [(field.name, Option(schema_to_dshape(field.dataType))
-                  if field.nullable else schema_to_dshape(field.dataType))
-                  for field in schema.fields]
+        fields = [
+            (
+                field.name,
+                Option(schema_to_dshape(field.dataType))
+                if field.nullable
+                else schema_to_dshape(field.dataType),
+            )
+            for field in schema.fields
+        ]
         return datashape.dshape(Record(fields))
-    raise NotImplementedError('SparkSQL type not known %r' %
-                              type(schema).__name__)
+    raise NotImplementedError("SparkSQL type not known %r" % type(schema).__name__)
 
 
 def deoption(ds):
@@ -289,7 +311,7 @@ dshape_to_sparksql = {
     datashape.date_: DateType(),
     datashape.datetime_: TimestampType(),
     datashape.bool_: BooleanType(),
-    datashape.string: StringType()
+    datashape.string: StringType(),
 }
 
 ooc_types |= set([SparkDataFrame])

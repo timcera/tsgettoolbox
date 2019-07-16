@@ -1,4 +1,3 @@
-
 import mando
 
 try:
@@ -9,13 +8,11 @@ except ImportError:
 from tstoolbox import tsutils
 
 
-@mando.command('cdec', formatter_class=HelpFormatter, doctype='numpy')
+@mando.command("cdec", formatter_class=HelpFormatter, doctype="numpy")
 @tsutils.doc(tsutils.docstrings)
-def cdec_cli(station_id,
-             dur_code=None,
-             sensor_num=None,
-             start_date=None,
-             end_date=None):
+def cdec_cli(
+    station_id, dur_code=None, sensor_num=None, start_date=None, end_date=None
+):
     r"""Access data from the `California Department of Water Resources`_.
 
     The web site is called the `California Data Exchange Center`_.
@@ -131,20 +128,21 @@ def cdec_cli(station_id,
     {end_date}
 
     """
-    tsutils._printiso(cdec(station_id,
-                           dur_code=dur_code,
-                           sensor_num=sensor_num,
-                           start_date=start_date,
-                           end_date=end_date))
+    tsutils._printiso(
+        cdec(
+            station_id,
+            dur_code=dur_code,
+            sensor_num=sensor_num,
+            start_date=start_date,
+            end_date=end_date,
+        )
+    )
 
 
-def cdec(station_id,
-         dur_code=None,
-         sensor_num=None,
-         start_date=None,
-         end_date=None):
+def cdec(station_id, dur_code=None, sensor_num=None, start_date=None, end_date=None):
     r"""Access data from the `California Department of Water Resources`_."""
     from tsgettoolbox.services import cdec
+
     df = cdec.ulmo_df(
         station_id,
         dur_code=dur_code,

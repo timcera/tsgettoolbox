@@ -16,39 +16,46 @@ from tsgettoolbox.ulmo.usace.rivergages.core import get_stations
 #         min_value=None, max_value=None):
 
 
-def ulmo_df(station_code,
-            parameter,
-            start_date=None,
-            end_date=None):
+def ulmo_df(station_code, parameter, start_date=None, end_date=None):
     tstations = get_stations()
     if station_code not in tstations:
-        raise ValueError("""
+        raise ValueError(
+            """
 *
 *   Station code {0} not in available stations:
 *   {1}
 *
-""".format(station_code, tstations.keys))
+""".format(
+                station_code, tstations.keys
+            )
+        )
 
     tparameters = get_station_parameters(station_code)
     if parameter not in tparameters:
-        raise ValueError("""
+        raise ValueError(
+            """
 *
 *   Parameter code {0} not in available parameters at station {1}:
 *   {2}
 *
-""".format(parameter, station_code, tparameters))
-    df = get_station_data(station_code,
-                          parameter,
-                          start=pd.to_datetime(start_date),
-                          end=pd.to_datetime(end_date))
-    df = pd.DataFrame.from_dict(df, orient='index')
+""".format(
+                parameter, station_code, tparameters
+            )
+        )
+    df = get_station_data(
+        station_code,
+        parameter,
+        start=pd.to_datetime(start_date),
+        end=pd.to_datetime(end_date),
+    )
+    df = pd.DataFrame.from_dict(df, orient="index")
     df.sort_index(inplace=True)
-    df.index.name = 'Datetime'
-    df.columns = ['{0}_{1}'.format(station_code, parameter)]
+    df.index.name = "Datetime"
+    df.columns = ["{0}_{1}".format(station_code, parameter)]
     return df
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     #    import time
     #
     #    r = ulmo_df('blah',
@@ -57,10 +64,7 @@ if __name__ == '__main__':
     #    print('BIVOI_HL')
     #    print(r)
     #
-    r = ulmo_df('BIVO1',
-                'HL',
-                start_date='2015-11-04',
-                end_date='2015-12-05')
+    r = ulmo_df("BIVO1", "HL", start_date="2015-11-04", end_date="2015-12-05")
 
-    print('BIVOI HL')
+    print("BIVOI HL")
     print(r)

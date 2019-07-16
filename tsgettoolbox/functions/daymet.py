@@ -23,14 +23,11 @@ except ImportError:
 
 from tstoolbox import tsutils
 
-warnings.filterwarnings('ignore')
+warnings.filterwarnings("ignore")
 
 
-@mando.command('daymet', formatter_class=HelpFormatter, doctype='numpy')
-def daymet_cli(lat,
-               lon,
-               measuredParams=None,
-               year=None):
+@mando.command("daymet", formatter_class=HelpFormatter, doctype="numpy")
+def daymet_cli(lat, lon, measuredParams=None, year=None):
     r"""Download data from Daymet by the Oak Ridge National Laboratory.
 
     Detailed documentation is at http://daymet.ornl.gov/.  Since this is
@@ -82,20 +79,15 @@ def daymet_cli(lat,
 
         All years are returned by default.
     """
-    tsutils._printiso(daymet(lat,
-                             lon,
-                             measuredParams=measuredParams,
-                             year=year))
+    tsutils._printiso(daymet(lat, lon, measuredParams=measuredParams, year=year))
 
 
-def daymet(lat,
-           lon,
-           measuredParams=None,
-           year=None):
+def daymet(lat, lon, measuredParams=None, year=None):
     r"""Download data from Daymet by the Oak Ridge National Laboratory."""
     from tsgettoolbox.services import daymet as placeholder
+
     r = resource(
-        r'http://daymet.ornl.gov/data/send/saveData',
+        r"http://daymet.ornl.gov/data/send/saveData",
         measuredParams=measuredParams,
         lat=lat,
         lon=lon,

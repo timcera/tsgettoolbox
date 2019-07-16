@@ -22,25 +22,26 @@ from numpy import ndarray
 
 not_appendable_types = DataFrame, Series, ndarray, tuple
 
-__all__ = 'into',
+__all__ = ("into",)
 
 
-if 'into' not in namespace:
-    namespace['into'] = Dispatcher('into')
+if "into" not in namespace:
+    namespace["into"] = Dispatcher("into")
 
-into = namespace['into']
+into = namespace["into"]
 
 
 def validate(f):
     @functools.wraps(f)
     def wrapped(*args, **kwargs):
-        dshape = kwargs.pop('dshape', None)
+        dshape = kwargs.pop("dshape", None)
         if isinstance(dshape, (str, unicode)):
             dshape = datashape.dshape(dshape)
         if dshape is not None and not isinstance(dshape, datashape.DataShape):
-            raise TypeError('dshape argument is not an instance of DataShape')
-        kwargs['dshape'] = dshape
+            raise TypeError("dshape argument is not an instance of DataShape")
+        kwargs["dshape"] = dshape
         return f(*args, **kwargs)
+
     return wrapped
 
 
@@ -124,7 +125,9 @@ def into_object(target, source, dshape=None, **kwargs):
     if isinstance(source, (str, unicode)):
         source = resource(source, dshape=dshape, **kwargs)
     if type(target) in not_appendable_types:
-        raise TypeError('target of %s type does not support in-place append' % type(target))
+        raise TypeError(
+            "target of %s type does not support in-place append" % type(target)
+        )
     with ignoring(NotImplementedError):
         if dshape is None:
             dshape = discover(source)
@@ -154,4 +157,5 @@ def into_string_string(a, b, **kwargs):
 def into_curried(o, **kwargs1):
     def curried_into(other, **kwargs2):
         return into(o, other, **merge(kwargs2, kwargs1))
+
     return curried_into

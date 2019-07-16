@@ -3,19 +3,25 @@ from __future__ import absolute_import, division, print_function
 import pytest
 import os
 
-pywebhdfs = pytest.importorskip('pywebhdfs')
-pyhive = pytest.importorskip('pyhive')
+pywebhdfs = pytest.importorskip("pywebhdfs")
+pyhive = pytest.importorskip("pyhive")
 
-host = os.environ.get('HDFS_TEST_HOST')
-pytestmark = pytest.mark.skipif(host is None,
-                                reason='No HDFS_TEST_HOST envar defined')
+host = os.environ.get("HDFS_TEST_HOST")
+pytestmark = pytest.mark.skipif(host is None, reason="No HDFS_TEST_HOST envar defined")
 
 from pywebhdfs.webhdfs import PyWebHdfsClient
 
 import pandas as pd
 import numpy as np
 import uuid
-from tsgettoolbox.odo.backends.hdfs import discover, HDFS, CSV, SSH, dialect_of, TableProxy
+from tsgettoolbox.odo.backends.hdfs import (
+    discover,
+    HDFS,
+    CSV,
+    SSH,
+    dialect_of,
+    TableProxy,
+)
 from tsgettoolbox.odo.backends.sql import resource
 from tsgettoolbox.odo.backends.ssh import sftp
 from tsgettoolbox.odo import into, drop, JSONLines, odo
@@ -25,9 +31,9 @@ from datashape import dshape
 from tsgettoolbox.odo.directory import Directory
 from contextlib import contextmanager
 
-hdfs = PyWebHdfsClient(host=host, port='14000', user_name='hdfs')
-ds = dshape('var * {id: ?int64, name: ?string, amount: ?int64}')
-engine = resource('hive://hdfs@%s:10000/default' % host)
+hdfs = PyWebHdfsClient(host=host, port="14000", user_name="hdfs")
+ds = dshape("var * {id: ?int64, name: ?string, amount: ?int64}")
+engine = resource("hive://hdfs@%s:10000/default" % host)
 
 
 accounts_1_csv = """
@@ -51,20 +57,21 @@ id,name,amount
 10,Jane,1000
 """.strip()
 
+
 @contextmanager
 def accounts_data():
-    a = '/user/hive/test/accounts/accounts.1.csv'
-    b = '/user/hive/test/accounts/accounts.2.csv'
-    c = '/user/hive/test/accounts.3.csv'
-    hdfs.make_dir('user/hive/test/accounts')
-    hdfs.create_file(a.lstrip('/'), accounts_1_csv)
-    hdfs.create_file(b.lstrip('/'), accounts_2_csv)
-    hdfs.create_file(c.lstrip('/'), accounts_3_csv)
+    a = "/user/hive/test/accounts/accounts.1.csv"
+    b = "/user/hive/test/accounts/accounts.2.csv"
+    c = "/user/hive/test/accounts.3.csv"
+    hdfs.make_dir("user/hive/test/accounts")
+    hdfs.create_file(a.lstrip("/"), accounts_1_csv)
+    hdfs.create_file(b.lstrip("/"), accounts_2_csv)
+    hdfs.create_file(c.lstrip("/"), accounts_3_csv)
 
     A = HDFS(CSV)(a, hdfs=hdfs)
     B = HDFS(CSV)(b, hdfs=hdfs)
     C = HDFS(CSV)(c, hdfs=hdfs)
-    directory = HDFS(Directory(CSV))('/user/hive/test/accounts/', hdfs=hdfs)
+    directory = HDFS(Directory(CSV))("/user/hive/test/accounts/", hdfs=hdfs)
 
     try:
         yield (directory, (A, B, C))
@@ -73,6 +80,7 @@ def accounts_data():
         hdfs.delete_file_dir(b)
         hdfs.delete_file_dir(c)
 
+
 @contextmanager
 def accounts_ssh():
     """ Three csv files on the remote host in a directory """
@@ -80,17 +88,17 @@ def accounts_ssh():
     conn = sftp(**auth)
     conn.mkdir(dirname)
     with filetext(accounts_1_csv) as fn:
-        conn.put(fn, dirname + '/accounts.1.csv')
+        conn.put(fn, dirname + "/accounts.1.csv")
     with filetext(accounts_2_csv) as fn:
-        conn.put(fn, dirname + '/accounts.2.csv')
+        conn.put(fn, dirname + "/accounts.2.csv")
     with filetext(accounts_3_csv) as fn:
-        conn.put(fn, dirname + '/accounts.3.csv')
+        conn.put(fn, dirname + "/accounts.3.csv")
 
-    filenames = [dirname + '/accounts.%d.csv' % i for i in [1, 2, 3]]
-    uris = ['ssh://ubuntu@%s:%s' % (host, fn) for fn in filenames]
+    filenames = [dirname + "/accounts.%d.csv" % i for i in [1, 2, 3]]
+    uris = ["ssh://ubuntu@%s:%s" % (host, fn) for fn in filenames]
 
     try:
-        yield 'ssh://ubuntu@%s:%s/*.csv' % (host, dirname),  uris
+        yield "ssh://ubuntu@%s:%s/*.csv" % (host, dirname), uris
     finally:
         for fn in filenames:
             conn.remove(fn)
@@ -99,18 +107,22 @@ def accounts_ssh():
 
 def test_discover():
     with accounts_data() as (directory, (a, b, c)):
-        assert str(discover(a)).replace('?', '') == \
-                'var * {id: int64, name: string, amount: int64}'
+        assert (
+            str(discover(a)).replace("?", "")
+            == "var * {id: int64, name: string, amount: int64}"
+        )
 
-        assert str(discover(directory)).replace('?', '') == \
-                'var * {id: int64, name: string, amount: int64}'
+        assert (
+            str(discover(directory)).replace("?", "")
+            == "var * {id: int64, name: string, amount: int64}"
+        )
 
 
 @contextmanager
-def tmpfile_hdfs(ext=''):
+def tmpfile_hdfs(ext=""):
     fn = str(uuid.uuid1())
     if ext:
-        fn = fn + '.' + ext
+        fn = fn + "." + ext
 
     try:
         yield fn
@@ -120,7 +132,7 @@ def tmpfile_hdfs(ext=''):
 
 def test_copy_local_files_to_hdfs():
     with tmpfile_hdfs() as target:
-        with filetext('name,amount\nAlice,100\nBob,200') as source:
+        with filetext("name,amount\nAlice,100\nBob,200") as source:
             csv = CSV(source)
             scsv = HDFS(CSV)(target, hdfs=hdfs)
             into(scsv, csv, blocksize=10)  # 10 bytes per message
@@ -129,7 +141,7 @@ def test_copy_local_files_to_hdfs():
 
 
 def test_copy_hdfs_files_locally():
-    with tmpfile('csv') as target:
+    with tmpfile("csv") as target:
         with accounts_data() as (d, (a, b, c)):
             csv = into(target, a)
             with open(csv.path) as f:
@@ -142,39 +154,43 @@ def test_copy_hdfs_data_into_memory():
 
 
 def test_HDFS_constructor_allows_user_alternatives():
-    r = HDFS(CSV)('foo.csv', username='alice', host='host')
-    assert r.hdfs.user_name == 'alice'
+    r = HDFS(CSV)("foo.csv", username="alice", host="host")
+    assert r.hdfs.user_name == "alice"
 
 
 def test_hdfs_resource():
-    r = resource('hdfs://user@hostname:1234:/path/to/myfile.json')
+    r = resource("hdfs://user@hostname:1234:/path/to/myfile.json")
     assert isinstance(r, HDFS(JSONLines))
-    assert r.hdfs.user_name == 'user'
-    assert r.hdfs.host == 'hostname'
-    assert r.hdfs.port == '1234'
-    assert r.path == '/path/to/myfile.json'
+    assert r.hdfs.user_name == "user"
+    assert r.hdfs.host == "hostname"
+    assert r.hdfs.port == "1234"
+    assert r.path == "/path/to/myfile.json"
 
-    assert isinstance(resource('hdfs://path/to/myfile.csv',
-                                host='host', user='user', port=1234),
-                      HDFS(CSV))
-    assert isinstance(resource('hdfs://path/to/*.csv',
-                                host='host', user='user', port=1234),
-                      HDFS(Directory(CSV)))
+    assert isinstance(
+        resource("hdfs://path/to/myfile.csv", host="host", user="user", port=1234),
+        HDFS(CSV),
+    )
+    assert isinstance(
+        resource("hdfs://path/to/*.csv", host="host", user="user", port=1234),
+        HDFS(Directory(CSV)),
+    )
 
 
 def normalize(s):
-    return ' '.join(s.split())
+    return " ".join(s.split())
 
 
-auth = {'hostname': host,
-        'key_filename': os.path.expanduser('~/.ssh/cdh_testing.key'),
-        'username': 'ubuntu'}
+auth = {
+    "hostname": host,
+    "key_filename": os.path.expanduser("~/.ssh/cdh_testing.key"),
+    "username": "ubuntu",
+}
 
 
 @contextmanager
 def hive_table(host):
-    name = ('temp' + str(uuid.uuid1()).replace('-', ''))[:30]
-    uri = 'hive://hdfs@%s:10000/default::%s' % (host, name)
+    name = ("temp" + str(uuid.uuid1()).replace("-", ""))[:30]
+    uri = "hive://hdfs@%s:10000/default::%s" % (host, name)
 
     try:
         yield uri
@@ -210,7 +226,7 @@ def test_ssh_hive_creation():
 
 
 def test_hive_creation_from_local_file():
-    with filetext(accounts_1_csv, extension='csv') as fn:
+    with filetext(accounts_1_csv, extension="csv") as fn:
         with hive_table(host) as uri:
             t = into(uri, fn, **auth)
             assert isinstance(t, sa.Table)
@@ -233,65 +249,70 @@ def test_ssh_directory_hive_creation():
 def test_ssh_hive_creation_with_full_urls():
     with hive_table(host) as uri:
         with accounts_ssh() as (_, (remote, _, _)):
-            t = into(uri, remote,
-                     key_filename=os.path.expanduser('~/.ssh/cdh_testing.key'))
+            t = into(
+                uri, remote, key_filename=os.path.expanduser("~/.ssh/cdh_testing.key")
+            )
             assert isinstance(t, sa.Table)
             n = len(into(list, t))
             assert n > 0
 
             # Load it again
-            into(t, remote,
-                 key_filename=os.path.expanduser('~/.ssh/cdh_testing.key'))
+            into(t, remote, key_filename=os.path.expanduser("~/.ssh/cdh_testing.key"))
 
             # Doubles length
             assert len(into(list, t)) == 2 * n
 
 
 def test_hive_resource():
-    db = resource('hive://hdfs@%s:10000/default' % host)
+    db = resource("hive://hdfs@%s:10000/default" % host)
     assert isinstance(db, sa.engine.Engine)
 
-    db = resource('hive://%s/' % host)
+    db = resource("hive://%s/" % host)
     assert isinstance(db, sa.engine.Engine)
-    assert str(db.url) == 'hive://hdfs@%s:10000/default' % host
+    assert str(db.url) == "hive://hdfs@%s:10000/default" % host
 
 
 def test_append_object_to_HDFS_foo():
-    df = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})
-    with tmpfile_hdfs('json') as fn:
-        js = into('hdfs://%s:%s' % (host, fn), df, hdfs=hdfs)
+    df = pd.DataFrame({"a": [1, 2, 3], "b": [4, 5, 6]})
+    with tmpfile_hdfs("json") as fn:
+        js = into("hdfs://%s:%s" % (host, fn), df, hdfs=hdfs)
         assert (into(np.ndarray, js) == into(np.ndarray, df)).all()
 
 
 def test_dialect_of():
     with filetext(accounts_1_csv) as fn:
         d = dialect_of(CSV(fn))
-        assert d['delimiter'] == ','
-        assert d['has_header'] is True
+        assert d["delimiter"] == ","
+        assert d["has_header"] is True
 
     with accounts_data() as (directory, (a, b, c)):
         directory2 = HDFS(Directory(CSV))(directory.path, hdfs=directory.hdfs)
         d = dialect_of(directory2)
-        assert d['has_header'] is True
+        assert d["has_header"] is True
 
-        directory2 = HDFS(Directory(CSV))(directory.path, hdfs=directory.hdfs,
-                                          has_header=False)
+        directory2 = HDFS(Directory(CSV))(
+            directory.path, hdfs=directory.hdfs, has_header=False
+        )
         d = dialect_of(directory2)
-        assert d['has_header'] is False
+        assert d["has_header"] is False
 
 
 def test_hive_resource_with_internal_external():
     with hive_table(host) as uri:
-        r = resource(uri, external=False, stored_as='PARQUET',
-                     dshape='var * {name: string, balance: int32}')
+        r = resource(
+            uri,
+            external=False,
+            stored_as="PARQUET",
+            dshape="var * {name: string, balance: int32}",
+        )
         assert isinstance(r, sa.Table)
 
     with hive_table(host) as uri:
-        r = resource(uri, external=False, stored_as='PARQUET')
+        r = resource(uri, external=False, stored_as="PARQUET")
         assert not isinstance(r, sa.Table)
 
     with hive_table(host) as uri:
-        r = resource(uri, external=True, stored_as='PARQUET')
+        r = resource(uri, external=True, stored_as="PARQUET")
         assert not isinstance(r, sa.Table)
 
 
@@ -300,14 +321,16 @@ def test_copy_hive_csv_table_to_parquet():
         with accounts_ssh() as (_, (remote, _, _)):
             c = odo(remote, csv, **auth)
             with hive_table(host) as parquet:
-                p = odo(csv, parquet, stored_as='PARQUET', external=False)
+                p = odo(csv, parquet, stored_as="PARQUET", external=False)
                 assert odo(c, list) == odo(p, list)
 
             with hive_table(host) as parquet:
                 try:
-                    fn = '/home/hdfs/%s.parquet' % str(uuid.uuid1()).replace('-', '')[:20]
-                    p = odo(csv, parquet, stored_as='PARQUET',
-                            external=True, path=fn)
+                    fn = (
+                        "/home/hdfs/%s.parquet"
+                        % str(uuid.uuid1()).replace("-", "")[:20]
+                    )
+                    p = odo(csv, parquet, stored_as="PARQUET", external=True, path=fn)
                     assert odo(c, list) == odo(p, list)
                 finally:
                     hdfs.delete_file_dir(fn)

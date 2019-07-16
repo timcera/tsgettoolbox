@@ -21,7 +21,7 @@ from toolz import pluck, get, curry, keyfilter
 
 from .compatibility import unicode
 
-sample = Dispatcher('sample')
+sample = Dispatcher("sample")
 
 
 def iter_except(func, exception, first=None):
@@ -96,8 +96,8 @@ def expand_tuples(L):
 
 
 @contextmanager
-def tmpfile(extension='', dir=None):
-    extension = '.' + extension.lstrip('.')
+def tmpfile(extension="", dir=None):
+    extension = "." + extension.lstrip(".")
     handle, filename = tempfile.mkstemp(extension, dir=dir)
     os.close(handle)
     os.remove(filename)
@@ -131,14 +131,14 @@ def keywords(func):
 
 
 def cls_name(cls):
-    if 'builtin' in cls.__module__:
+    if "builtin" in cls.__module__:
         return cls.__name__
     else:
-        return cls.__module__.split('.')[0] + '.' + cls.__name__
+        return cls.__module__.split(".")[0] + "." + cls.__name__
 
 
 @contextmanager
-def filetext(text, extension='', open=open, mode='w'):
+def filetext(text, extension="", open=open, mode="w"):
     with tmpfile(extension=extension) as filename:
         f = open(filename, mode=mode)
         try:
@@ -167,7 +167,7 @@ def filetexts(d, open=open):
         a mapping from filename to text like {'a.csv': '1,1\n2,2'}
     """
     for filename, text in d.items():
-        f = open(filename, 'wt')
+        f = open(filename, "wt")
         try:
             f.write(text)
         finally:
@@ -286,6 +286,7 @@ def into_path(*path):
     '/home/user/odo/odo/backends/tests/myfile.csv'
     """
     import odo
+
     return os.path.join(os.path.dirname(odo.__file__), *path)
 
 
@@ -326,7 +327,7 @@ def write(triple, writer):
     every time.
     """
     i, filename, data = triple
-    with writer(filename, mode='wb') as f:
+    with writer(filename, mode="wb") as f:
         f.write(data)
     return i, filename
 
@@ -343,7 +344,7 @@ def gentemp(it, suffix=None, start=0):
         A integer indicating where to start the numbering of chunks in `it`.
     """
     for i, data in enumerate(it, start=start):  # aws needs parts to start at 1
-        with tmpfile('.into') as fn:
+        with tmpfile(".into") as fn:
             yield i, fn, data
 
 
@@ -363,10 +364,11 @@ def split(filename, nbytes, suffix=None, writer=open, start=0):
     writer : callable, optional
         Callable object to use to write the chunks of `filename`
     """
-    with open(filename, mode='rb') as f:
-        byte_chunks = iter(curry(f.read, nbytes), '')
-        return pmap(write(writer=writer),
-                    gentemp(byte_chunks, suffix=suffix, start=start))
+    with open(filename, mode="rb") as f:
+        byte_chunks = iter(curry(f.read, nbytes), "")
+        return pmap(
+            write(writer=writer), gentemp(byte_chunks, suffix=suffix, start=start)
+        )
 
 
 def filter_kwargs(f, kwargs):
@@ -408,11 +410,13 @@ def copydoc(from_, to):
     to.__doc__ = from_.__doc__
     return to
 
+
 def deprecated(replacement=None):
     """A decorator which can be used to mark functions as deprecated.
     replacement is a callable that will be called with the same args
     as the decorated function.
     """
+
     def outer(fun):
         msg = "{} is deprecated".format(fun.__name__)
         if replacement is not None:
@@ -426,6 +430,7 @@ def deprecated(replacement=None):
             return fun(*args, **kwargs)
 
         return inner
+
     return outer
 
 
@@ -442,4 +447,4 @@ def literal_compile(s):
     cs : str
         An equivalent sql string.
     """
-    return str(s.compile(compile_kwargs={'literal_binds': True}))
+    return str(s.compile(compile_kwargs={"literal_binds": True}))

@@ -24,8 +24,8 @@ except ImportError:
 def dshape_from_pandas(col):
     if isinstance(col.dtype, categorical):
         return Categorical(col.cat.categories.tolist())
-    elif col.dtype.kind == 'M':
-        tz = getattr(col.dtype, 'tz', None)
+    elif col.dtype.kind == "M":
+        tz = getattr(col.dtype, "tz", None)
         if tz is not None:
             # Pandas stores this as a pytz.tzinfo, but DataShape wants a
             # string.
@@ -39,8 +39,9 @@ def dshape_from_pandas(col):
 
 @discover.register(pd.DataFrame)
 def discover_dataframe(df):
-    return len(df) * datashape.Record([(k, dshape_from_pandas(df[k]))
-                                       for k in df.columns])
+    return len(df) * datashape.Record(
+        [(k, dshape_from_pandas(df[k])) for k in df.columns]
+    )
 
 
 @discover.register((pd.Series, pd.Index))
@@ -72,15 +73,16 @@ def coerce_datetimes(df):
     name            object
     dtype: object
     """
-    objects = df.select_dtypes(include=['object'])
+    objects = df.select_dtypes(include=["object"])
     # NOTE: In pandas < 0.17, pd.to_datetime(' ') == datetime(...), which is
     # not what we want.  So we have to remove columns with empty or
     # whitespace-only strings to prevent erroneous datetime coercion.
     columns = [
-        c for c in objects.columns
+        c
+        for c in objects.columns
         if not np.any(objects[c].str.isspace() | objects[c].str.isalpha())
     ]
-    df2 = objects[columns].apply(partial(pd.to_datetime, errors='ignore'))
+    df2 = objects[columns].apply(partial(pd.to_datetime, errors="ignore"))
 
     for c in df2.columns:
         df[c] = df2[c]

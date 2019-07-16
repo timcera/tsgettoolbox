@@ -5,9 +5,9 @@ from datashape.dispatch import namespace
 from .convert import convert
 
 
-if 'append' not in namespace:
-    namespace['append'] = Dispatcher('append')
-append = namespace['append']
+if "append" not in namespace:
+    namespace["append"] = Dispatcher("append")
+append = namespace["append"]
 
 
 @append.register(object, object)
@@ -22,8 +22,10 @@ def append_not_found(a, b, **kwargs):
     >>> data
     [1, 2, 3, 4, 5, 6]
     """
-    raise NotImplementedError("Don't know how to append datasets of type "
-            "%s on to type %s" % (type(b), type(a)))
+    raise NotImplementedError(
+        "Don't know how to append datasets of type "
+        "%s on to type %s" % (type(b), type(a))
+    )
 
 
 @append.register(list, list)

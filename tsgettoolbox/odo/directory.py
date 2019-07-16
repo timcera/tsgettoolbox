@@ -25,32 +25,36 @@ class _Directory(Chunks):
 
 
     """
+
     def __init__(self, path, **kwargs):
         self.path = path
         self.kwargs = kwargs
 
     def __iter__(self):
-        return (resource(os.path.join(self.path, fn), **self.kwargs)
-                    for fn in sorted(os.listdir(self.path)))
+        return (
+            resource(os.path.join(self.path, fn), **self.kwargs)
+            for fn in sorted(os.listdir(self.path))
+        )
 
 
 @memoize
 @copydoc(_Directory)
 def Directory(cls):
     """ Parametrized DirectoryClass """
-    return type('Directory(%s)' % cls.__name__, (_Directory, chunks(cls)), {})
+    return type("Directory(%s)" % cls.__name__, (_Directory, chunks(cls)), {})
 
 
 re_path_sep = os.path.sep
-if re_path_sep == '\\':
-    re_path_sep = '\\\\'
+if re_path_sep == "\\":
+    re_path_sep = "\\\\"
+
 
 @discover.register(_Directory)
 def discover_Directory(c, **kwargs):
     return var * discover(first(c)).subshape[0]
 
 
-@resource.register('.+' + re_path_sep + '\*\..+', priority=15)
+@resource.register(".+" + re_path_sep + "\*\..+", priority=15)
 def resource_directory(uri, **kwargs):
     path = uri.rsplit(os.path.sep, 1)[0]
     try:
@@ -61,7 +65,7 @@ def resource_directory(uri, **kwargs):
     return Directory(subtype)(path, **kwargs)
 
 
-@resource.register('.+' + re_path_sep, priority=9)
+@resource.register(".+" + re_path_sep, priority=9)
 def resource_directory_with_trailing_slash(uri, **kwargs):
     try:
         one_uri = os.listdir(uri)[0]

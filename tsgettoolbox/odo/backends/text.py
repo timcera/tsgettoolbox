@@ -17,14 +17,14 @@ from ..resource import resource
 
 
 class TextFile(object):
-    canonical_extension = 'txt'
+    canonical_extension = "txt"
 
     def __init__(self, path, **kwargs):
         self.path = path
 
     @property
     def open(self):
-        if self.path.split(os.path.extsep)[-1] == 'gz':
+        if self.path.split(os.path.extsep)[-1] == "gz":
             return gzip.open
         else:
             return open
@@ -44,15 +44,15 @@ def chunks_textfile_to_iterator(data, **kwargs):
 
 @discover.register((TextFile, Temp(TextFile)))
 def discover_textfile(data, **kwargs):
-    return dshape('var * string')
+    return dshape("var * string")
 
 
 @append.register((Temp(TextFile), TextFile), Iterator)
 def append_iterator_to_textfile(target, source, **kwargs):
-    with target.open(target.path, 'a') as f:
+    with target.open(target.path, "a") as f:
         for item in source:
             f.write(unicode(item))
-            f.write('\n')  # TODO: detect OS-level newline character
+            f.write("\n")  # TODO: detect OS-level newline character
     return target
 
 
@@ -68,7 +68,7 @@ def iterator_to_temp_textfile(seq, **kwargs):
     return append(txt, seq, **kwargs)
 
 
-@resource.register('.+\.(txt|log)(.gz)?')
+@resource.register(".+\.(txt|log)(.gz)?")
 def resource_sas(uri, **kwargs):
     return TextFile(uri)
 

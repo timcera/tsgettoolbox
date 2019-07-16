@@ -1,4 +1,3 @@
-
 from tsgettoolbox.odo import odo, resource
 import pandas as pd
 import mando
@@ -11,11 +10,8 @@ except ImportError:
 from tstoolbox import tsutils
 
 
-@mando.command('unavco', formatter_class=HelpFormatter, doctype='numpy')
-def unavco_cli(station,
-               database='met',
-               starttime=None,
-               endtime=None):
+@mando.command("unavco", formatter_class=HelpFormatter, doctype="numpy")
+def unavco_cli(station, database="met", starttime=None, endtime=None):
     r"""Download data from the Unavco web services.
 
     Detailed information at:
@@ -109,31 +105,24 @@ def unavco_cli(station,
     endtime
         End date in ISO8601 format.
     """
-    tsutils._printiso(unavco(station,
-                             database=database,
-                             starttime=starttime,
-                             endtime=endtime))
+    tsutils._printiso(
+        unavco(station, database=database, starttime=starttime, endtime=endtime)
+    )
 
 
-def unavco(station,
-           database='met',
-           starttime=None,
-           endtime=None):
+def unavco(station, database="met", starttime=None, endtime=None):
     r"""Download data from the Unavco web services."""
     from tsgettoolbox.services import unavco as placeholder
+
     map_db_to_url = {
-        'met': r'http://web-services.unavco.org:80/met/data',
-        'pore_temperaure': r'http://web-services.unavco.org:80'
-                           '/pore/data/temperature',
-        'pore_pressure': r'http://web-services.unavco.org:80'
-                         '/pore/data/pressure',
-        'tilt': r'http://web-services.unavco.org:80/tilt/data',
-        'strain': r'http://web-services.unavco.org:80/strain/data/L2',
+        "met": r"http://web-services.unavco.org:80/met/data",
+        "pore_temperaure": r"http://web-services.unavco.org:80"
+        "/pore/data/temperature",
+        "pore_pressure": r"http://web-services.unavco.org:80" "/pore/data/pressure",
+        "tilt": r"http://web-services.unavco.org:80/tilt/data",
+        "strain": r"http://web-services.unavco.org:80/strain/data/L2",
     }
     r = resource(
-        map_db_to_url[database],
-        station=station,
-        starttime=starttime,
-        endtime=endtime,
+        map_db_to_url[database], station=station, starttime=starttime, endtime=endtime
     )
     return odo(r, pd.DataFrame)

@@ -59,8 +59,8 @@ import re
 
 from tsgettoolbox.ulmo import util
 
-DEFAULT_START_DATE = '01/01/1901'
-DEFAULT_END_DATE = 'Now'
+DEFAULT_START_DATE = "01/01/1901"
+DEFAULT_END_DATE = "Now"
 
 
 def get_stations():
@@ -71,12 +71,12 @@ def get_stations():
     df : pandas DataFrame
         a pandas DataFrame (indexed on site id) with station information.
     """
-        # I haven't found a better list of stations, seems pretty janky
-        # to just have them in a file, and not sure if/when it is updated.
-    url = 'http://cdec.water.ca.gov/misc/all_stations.csv'
-        # the csv is malformed, so some rows think there are 7 fields
-    col_names = ['id','meta_url','name','num','lat','lon','junk']
-    df = pd.read_csv(url, names=col_names, header=None, quotechar="'",index_col=0)
+    # I haven't found a better list of stations, seems pretty janky
+    # to just have them in a file, and not sure if/when it is updated.
+    url = "http://cdec.water.ca.gov/misc/all_stations.csv"
+    # the csv is malformed, so some rows think there are 7 fields
+    col_names = ["id", "meta_url", "name", "num", "lat", "lon", "junk"]
+    df = pd.read_csv(url, names=col_names, header=None, quotechar="'", index_col=0)
 
     return df
 
@@ -104,9 +104,9 @@ def get_sensors(sensor_id=None):
         a python dict with site codes mapped to site information
     """
 
-    url = 'http://cdec.water.ca.gov/misc/senslist.html'
+    url = "http://cdec.water.ca.gov/misc/senslist.html"
     df = pd.read_html(url, header=0)[0]
-    df.set_index('Sensor No')
+    df.set_index("Sensor No")
 
     if sensor_id is None:
         return df
@@ -159,21 +159,32 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
         station_ids = get_stations().index
 
     for station_id in station_ids:
-        url = 'http://cdec.water.ca.gov/dynamicapp/staMeta?station_id=%s' % (station_id)
+        url = "http://cdec.water.ca.gov/dynamicapp/staMeta?station_id=%s" % (station_id)
 
         try:
-            sensor_list = pd.read_html(url, match='Sensor Description')[0]
+            sensor_list = pd.read_html(url, match="Sensor Description")[0]
         except:
             sensor_list = pd.read_html(url)[0]
 
         try:
-            sensor_list.columns = ['sensor_id', 'variable', 'resolution','timerange']
+            sensor_list.columns = ["sensor_id", "variable", "resolution", "timerange"]
         except:
-            sensor_list.columns = ['variable', 'sensor_id', 'resolution', 'varcode', 'method', 'timerange']
-        sensor_list[['variable', 'units']] = sensor_list.variable.str.split(',', 1, expand=True)
-        sensor_list.resolution = sensor_list.resolution.str.strip('()')
+            sensor_list.columns = [
+                "variable",
+                "sensor_id",
+                "resolution",
+                "varcode",
+                "method",
+                "timerange",
+            ]
+        sensor_list[["variable", "units"]] = sensor_list.variable.str.split(
+            ",", 1, expand=True
+        )
+        sensor_list.resolution = sensor_list.resolution.str.strip("()")
 
-        station_sensors[station_id] = _limit_sensor_list(sensor_list, sensor_ids, resolutions)
+        station_sensors[station_id] = _limit_sensor_list(
+            sensor_list, sensor_ids, resolutions
+        )
 
     return station_sensors
 
@@ -234,10 +245,16 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
         station_data = {}
 
         for index, row in sensor_list.iterrows():
-            res = row.loc['resolution']
-            var = row.loc['variable']
-            sensor_id = row.loc['sensor_id']
-            station_data[var] = _download_raw(station_id, sensor_id, _res_to_dur_code(res), start_date_str, end_date_str)
+            res = row.loc["resolution"]
+            var = row.loc["variable"]
+            sensor_id = row.loc["sensor_id"]
+            station_data[var] = _download_raw(
+                station_id,
+                sensor_id,
+                _res_to_dur_code(res),
+                start_date_str,
+                end_date_str,
+            )
         d[station_id] = station_data
 
     return d
@@ -256,28 +273,40 @@ def _limit_sensor_list(sensor_list, sensor_ids, resolution):
 
 def _download_raw(station_id, sensor_num, dur_code, start_date, end_date):
 
-    url = 'http://cdec.water.ca.gov/dynamicapp/req/CSVDataServlet' + \
-          '?Stations=' + station_id + \
-          '&dur_code=' + dur_code + \
-          '&SensorNums=' + str(sensor_num) + \
-          '&Start=' + start_date + \
-          '&End=' + end_date
+    url = (
+        "http://cdec.water.ca.gov/dynamicapp/req/CSVDataServlet"
+        + "?Stations="
+        + station_id
+        + "&dur_code="
+        + dur_code
+        + "&SensorNums="
+        + str(sensor_num)
+        + "&Start="
+        + start_date
+        + "&End="
+        + end_date
+    )
 
-    df = pd.read_csv(url, parse_dates=[4,5], index_col='DATE TIME', na_values='---')
-    df.columns = ['station_id', 'duration', 'sensor_number', 'sensor_type', 'obs_date', 'value', 'data_flag', 'units']
+    df = pd.read_csv(url, parse_dates=[4, 5], index_col="DATE TIME", na_values="---")
+    df.columns = [
+        "station_id",
+        "duration",
+        "sensor_number",
+        "sensor_type",
+        "obs_date",
+        "value",
+        "data_flag",
+        "units",
+    ]
 
     return df
 
 
 def _res_to_dur_code(res):
-    map = {
-        'hourly':'H',
-        'daily':'D',
-        'monthly':'M',
-        'event':'E'}
+    map = {"hourly": "H", "daily": "D", "monthly": "M", "event": "E"}
 
     return map[res]
 
 
 def _format_date(date):
-    return '%s/%s/%s' % (date.month, date.day, date.year)
+    return "%s/%s/%s" % (date.month, date.day, date.year)

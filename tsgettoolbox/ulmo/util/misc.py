@@ -1,4 +1,5 @@
 from future import standard_library
+
 standard_library.install_aliases()
 from builtins import zip
 from builtins import str
@@ -22,8 +23,8 @@ import requests
 
 
 # pre-compiled regexes for underscore conversion
-first_cap_re = re.compile('(.)([A-Z][a-z]+)')
-all_cap_re = re.compile('([a-z0-9])([A-Z])')
+first_cap_re = re.compile("(.)([A-Z][a-z]+)")
+all_cap_re = re.compile("([a-z0-9])([A-Z])")
 
 
 class DependencyError(Exception):
@@ -34,8 +35,8 @@ def camel_to_underscore(s):
     """converts camelCase to underscore, originally from
     http://stackoverflow.com/questions/1175208/elegant-python-function-to-convert-camelcase-to-camel-case
     """
-    first_sub = first_cap_re.sub(r'\1_\2', s)
-    return all_cap_re.sub(r'\1_\2', first_sub).lower()
+    first_sub = first_cap_re.sub(r"\1_\2", s)
+    return all_cap_re.sub(r"\1_\2", first_sub).lower()
 
 
 def convert_date(date):
@@ -64,7 +65,7 @@ def dir_list(url):
 
 def dict_from_dataframe(dataframe):
     if isinstance(dataframe.index, pandas.PeriodIndex):
-        dataframe.index = dataframe.index.to_timestamp().astype('str')
+        dataframe.index = dataframe.index.to_timestamp().astype("str")
     if isinstance(dataframe.index, pandas.DatetimeIndex):
         dataframe.index = [str(i) for i in dataframe.index]
 
@@ -72,12 +73,14 @@ def dict_from_dataframe(dataframe):
     # be done in a vectorized way, but as of 0.13, assigning None into a
     # dataframe, it gets converted to a nan object so this has to be done
     # rather inefficiently in a post-processing step
-    if pandas.__version__ < '0.13.0':
+    if pandas.__version__ < "0.13.0":
         for column_name in dataframe.columns:
             dataframe[column_name][pandas.isnull(dataframe[column_name])] = None
         df_dict = dataframe.T.to_dict()
     else:
-        df_dict = dataframe.where((pandas.notnull(dataframe)), None).to_dict(orient='index')
+        df_dict = dataframe.where((pandas.notnull(dataframe)), None).to_dict(
+            orient="index"
+        )
 
     return df_dict
 
@@ -92,16 +95,16 @@ def download_if_new(url, path, check_modified=True):
     if os.path.exists(path) and not check_modified:
         return
 
-    if parsed.scheme.startswith('ftp'):
+    if parsed.scheme.startswith("ftp"):
         _ftp_download_if_new(url, path, check_modified)
-    elif parsed.scheme.startswith('http'):
+    elif parsed.scheme.startswith("http"):
         _http_download_if_new(url, path, check_modified)
     else:
         raise NotImplementedError("only ftp and http urls are currently implemented")
 
 
 def get_ulmo_dir(sub_dir=None):
-    return_dir = appdirs.user_data_dir('ulmo', 'ulmo')
+    return_dir = appdirs.user_data_dir("ulmo", "ulmo")
     if sub_dir:
         return_dir = os.path.join(return_dir, sub_dir)
     mkdir_if_doesnt_exist(return_dir)
@@ -117,11 +120,14 @@ def mkdir_if_doesnt_exist(dir_path):
 def module_with_dependency_errors(method_names):
     class FakeModule(object):
         pass
+
     fake_module = FakeModule()
 
     for method_name in method_names:
+
         def f(*args, **kwargs):
             raise_dependency_error()
+
         f.__name__ = method_name
         setattr(fake_module, method_name, f)
     return fake_module
@@ -132,6 +138,7 @@ def module_with_deprecation_warnings(functions, warning_message):
 
     class DeprecatedModule(object):
         pass
+
     deprecated_module = DeprecatedModule()
 
     def warning_decorator(f):
@@ -139,6 +146,7 @@ def module_with_deprecation_warnings(functions, warning_message):
         def warning_wrapper(*args, **kwargs):
             warnings.warn(warning_message, DeprecationWarning)
             return f(*args, **kwargs)
+
         return warning_wrapper
 
     for function in functions:
@@ -159,7 +167,7 @@ def open_file_for_url(url, path, check_modified=True, use_file=None, use_bytes=N
     leave_open = False
 
     if use_file is not None:
-        if hasattr(use_file, 'read'):
+        if hasattr(use_file, "read"):
             leave_open = True
             yield use_file
         else:
@@ -169,9 +177,9 @@ def open_file_for_url(url, path, check_modified=True, use_file=None, use_bytes=N
         open_path = path
 
     if use_bytes is None:
-        open_file = open(open_path, 'r')
+        open_file = open(open_path, "r")
     else:
-        open_file = open(open_path, 'rb')
+        open_file = open(open_path, "rb")
 
     yield open_file
 
@@ -185,29 +193,39 @@ def parse_fwf(file_path, columns, na_values=None):
     Columns should be an iterable of lists/tuples with the format (column_name,
     start_value, end_value, converter). Returns a pandas dataframe.
     """
-    names, colspecs = list(zip(*[(name, (start, end))
-        for name, start, end, converter in columns]))
+    names, colspecs = list(
+        zip(*[(name, (start, end)) for name, start, end, converter in columns])
+    )
 
-    converters = dict([
-        (name, converter)
-        for name, start, end, converter in columns
-        if not converter is None
-    ])
+    converters = dict(
+        [
+            (name, converter)
+            for name, start, end, converter in columns
+            if not converter is None
+        ]
+    )
 
-    return pandas.io.parsers.read_fwf(file_path,
-        colspecs=colspecs, header=None, na_values=na_values, names=names,
-        converters=converters)
+    return pandas.io.parsers.read_fwf(
+        file_path,
+        colspecs=colspecs,
+        header=None,
+        na_values=na_values,
+        names=names,
+        converters=converters,
+    )
 
 
 def raise_dependency_error(*args, **kwargs):
-    raise DependencyError("Trying to do something that depends on pytables, "
-            "but pytables has not been installed.")
+    raise DependencyError(
+        "Trying to do something that depends on pytables, "
+        "but pytables has not been installed."
+    )
 
 
 def save_pretty_printed_xml(filename, response_buffer):
     """saves a nicely indented version of the xml contained in response_buffer
     to filename; handy for debugging or saving responses for to include in tests"""
-    with open(filename, 'w') as f:
+    with open(filename, "w") as f:
         response_buffer.seek(0)
         parsed = etree.parse(response_buffer)
         f.write(etree.tostring(parsed, pretty_print=True))
@@ -221,13 +239,13 @@ def to_bytes(s):
     if isinstance(s, bytes):
         return s
 
-    return s.encode('utf-8', 'ignore')
+    return s.encode("utf-8", "ignore")
 
 
 def _ftp_download_if_new(url, path, check_modified=True):
     parsed = urllib.parse.urlparse(url)
     ftp = ftplib.FTP(parsed.netloc, "anonymous")
-    directory, filename = parsed.path.rsplit('/', 1)
+    directory, filename = parsed.path.rsplit("/", 1)
     ftp_last_modified = _ftp_last_modified(ftp, parsed.path)
     ftp_file_size = _ftp_file_size(ftp, parsed.path)
 
@@ -238,28 +256,30 @@ def _ftp_download_if_new(url, path, check_modified=True):
 
 
 def _ftp_download_file(ftp, ftp_path, local_path):
-    with open(local_path, 'wb') as f:
+    with open(local_path, "wb") as f:
         ftp.retrbinary("RETR " + ftp_path, f.write)
 
 
 def _ftp_file_size(ftp, file_path):
-    ftp.sendcmd('TYPE I')
+    ftp.sendcmd("TYPE I")
     return ftp.size(file_path)
 
 
 def _ftp_last_modified(ftp, file_path):
     timestamp = ftp.sendcmd("MDTM " + file_path).split()[-1]
-    return datetime.datetime.strptime(timestamp, '%Y%m%d%H%M%S')
+    return datetime.datetime.strptime(timestamp, "%Y%m%d%H%M%S")
 
 
 def _http_download_file(url, path):
     # The Tulsa District USACE expects a 'User-Agent', the 'headers' option
     # supplies a fake one.  Shouldn't affect any other uses.
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3"
+    }
     request = requests.get(url, headers=headers)
     mkdir_if_doesnt_exist(os.path.dirname(path))
     chunk_size = 64 * 1024
-    with open(path, 'wb') as f:
+    with open(path, "wb") as f:
         for content in request.iter_content(chunk_size):
             f.write(content)
 
@@ -275,10 +295,7 @@ def _http_download_if_new(url, path, check_modified):
 def _nans_to_nones(nan_dict):
     """takes a dict and if any values are np.nan then it will replace them with
     None"""
-    return dict([
-        (k, v) if v is not np.nan else (k, None)
-        for k, v in nan_dict.items()
-    ])
+    return dict([(k, v) if v is not np.nan else (k, None) for k, v in nan_dict.items()])
 
 
 def _parse_rfc_1123_timestamp(timestamp_str):
@@ -297,7 +314,7 @@ def _path_last_modified(path):
 
 def _request_file_size_matches(request, path):
     """returns True if request content-length header matches file size"""
-    content_length = request.headers.get('content-length')
+    content_length = request.headers.get("content-length")
     if content_length and int(content_length) == os.path.getsize(path):
         return True
     else:
@@ -313,11 +330,16 @@ def _request_is_newer_than_file(request, path):
     if path_last_modified is None:
         return True
 
-    if not request.headers.get('last-modified'):
-        warnings.warn('no last-modified date for request: %s, downloading file again' % request.url)
+    if not request.headers.get("last-modified"):
+        warnings.warn(
+            "no last-modified date for request: %s, downloading file again"
+            % request.url
+        )
         return True
 
-    request_last_modified = _parse_rfc_1123_timestamp(request.headers.get('last-modified'))
+    request_last_modified = _parse_rfc_1123_timestamp(
+        request.headers.get("last-modified")
+    )
     if request_last_modified > path_last_modified:
         return True
     else:

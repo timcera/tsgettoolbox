@@ -1,4 +1,3 @@
-
 from tsgettoolbox.odo import odo, resource
 import pandas as pd
 import mando
@@ -11,14 +10,16 @@ except ImportError:
 from tstoolbox import tsutils
 
 
-@mando.command('ldas', formatter_class=HelpFormatter, doctype='numpy')
-def ldas_cli(lat=None,
-             lon=None,
-             xindex=None,
-             yindex=None,
-             variable=None,
-             startDate=None,
-             endDate=None):
+@mando.command("ldas", formatter_class=HelpFormatter, doctype="numpy")
+def ldas_cli(
+    lat=None,
+    lon=None,
+    xindex=None,
+    yindex=None,
+    variable=None,
+    startDate=None,
+    endDate=None,
+):
     r"""Download data from NLDAS or GLDAS.
 
     The time zone is always UTC.
@@ -178,35 +179,42 @@ def ldas_cli(lat=None,
 
         If startDate and endDate are None, returns the entire series.
     """
-    tsutils._printiso(ldas(lat=lat,
-                           lon=lon,
-                           xindex=xindex,
-                           yindex=yindex,
-                           variable=variable,
-                           startDate=startDate,
-                           endDate=endDate))
+    tsutils._printiso(
+        ldas(
+            lat=lat,
+            lon=lon,
+            xindex=xindex,
+            yindex=yindex,
+            variable=variable,
+            startDate=startDate,
+            endDate=endDate,
+        )
+    )
 
 
-def ldas(lat=None,
-         lon=None,
-         xindex=None,
-         yindex=None,
-         variable=None,
-         startDate=None,
-         endDate=None):
+def ldas(
+    lat=None,
+    lon=None,
+    xindex=None,
+    yindex=None,
+    variable=None,
+    startDate=None,
+    endDate=None,
+):
     r"""Download data from NLDAS or GLDAS."""
     from tsgettoolbox.services import ldas as placeholder
-    project = variable.split(':')[0]
+
+    project = variable.split(":")[0]
     if lat is not None:
-        location = 'GEOM:POINT({0}, {1})'.format(lon, lat)
+        location = "GEOM:POINT({0}, {1})".format(lon, lat)
     else:
-        if project == 'NLDAS':
-            location = '{0}:X{1:03d}-Y{2:03d}'.format(project, xindex, yindex)
+        if project == "NLDAS":
+            location = "{0}:X{1:03d}-Y{2:03d}".format(project, xindex, yindex)
         else:
-            location = '{0}:X{1:04d}-Y{2:03d}'.format(project, xindex, yindex)
+            location = "{0}:X{1:04d}-Y{2:03d}".format(project, xindex, yindex)
 
     r = resource(
-        r'https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi',
+        r"https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi",
         variable=variable,
         location=location,
         startDate=startDate,

@@ -36,13 +36,13 @@ from tsgettoolbox.ulmo import util
 from . import parsers
 
 # eddn query base url
-EDDN_URL = 'http://eddn.usgs.gov/cgi-bin/retrieveData.pl?%s'
+EDDN_URL = "http://eddn.usgs.gov/cgi-bin/retrieveData.pl?%s"
 
 # default file path (appended to default ulmo path)
-DEFAULT_FILE_PATH = 'usgs/eddn/'
+DEFAULT_FILE_PATH = "usgs/eddn/"
 
 # configure logging
-LOG_FORMAT = '%(message)s'
+LOG_FORMAT = "%(message)s"
 logging.basicConfig(format=LOG_FORMAT)
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
@@ -73,7 +73,7 @@ def decode(dataframe, parser, **kwargs):
     df = []
     for timestamp, data in dataframe.iterrows():
         parsed = parser(data, **kwargs)
-        parsed.dropna(how='all', inplace=True)
+        parsed.dropna(how="all", inplace=True)
         if not parsed.empty:
             df.append(parsed)
 
@@ -82,9 +82,23 @@ def decode(dataframe, parser, **kwargs):
 
 
 def get_data(
-        dcp_address, start=None, end=None, networklist='', channel='', spacecraft='Any', baud='Any',
-        electronic_mail='', dcp_bul='', glob_bul='', timing='', retransmitted='Y', daps_status='N',
-        use_cache=False, cache_path=None, as_dataframe=True):
+    dcp_address,
+    start=None,
+    end=None,
+    networklist="",
+    channel="",
+    spacecraft="Any",
+    baud="Any",
+    electronic_mail="",
+    dcp_bul="",
+    glob_bul="",
+    timing="",
+    retransmitted="Y",
+    daps_status="N",
+    use_cache=False,
+    cache_path=None,
+    as_dataframe=True,
+):
     """Fetches GOES Satellite DCP messages from USGS Emergency Data Distribution Network.
 
     Parameters
@@ -141,12 +155,12 @@ def get_data(
     """
 
     if isinstance(dcp_address, list):
-        dcp_address = ','.join(dcp_address)
+        dcp_address = ",".join(dcp_address)
 
     data = pd.DataFrame()
 
     if use_cache:
-        dcp_data_path = _get_store_path(cache_path, dcp_address + '.h5')
+        dcp_data_path = _get_store_path(cache_path, dcp_address + ".h5")
         if os.path.exists(dcp_data_path):
             data = pd.read_hdf(dcp_data_path, dcp_address)
 
@@ -154,39 +168,41 @@ def get_data(
         drs_since = _format_time(start)
     else:
         try:
-            drs_since = _format_time(data['message_timestamp_utc'][-1])
+            drs_since = _format_time(data["message_timestamp_utc"][-1])
         except:
-            drs_since = 'now -2 days'
+            drs_since = "now -2 days"
 
     if end:
         drs_until = _format_time(end)
     else:
-        drs_until = 'now'
+        drs_until = "now"
 
     params = {}
-    params['DCP_ADDRESS'] = dcp_address
-    params['DRS_SINCE'] = drs_since
-    params['DRS_UNTIL'] = drs_until
-    params['NETWORKLIST'] = networklist
-    params['CHANNEL'] = channel
-    params['BEFORE'] = '//START\n',
-    params['AFTER'] = '\n//END\n',
-    params['SPACECRAFT'] = spacecraft
-    params['BAUD'] = baud
-    params['ELECTRONIC_MAIL'] = electronic_mail
-    params['DCP_BUL'] = dcp_bul
-    params['GLOB_BUL'] = glob_bul
-    params['TIMING'] = timing
-    params['RETRANSMITTED'] = retransmitted
-    params['DAPS_STATUS'] = daps_status
+    params["DCP_ADDRESS"] = dcp_address
+    params["DRS_SINCE"] = drs_since
+    params["DRS_UNTIL"] = drs_until
+    params["NETWORKLIST"] = networklist
+    params["CHANNEL"] = channel
+    params["BEFORE"] = ("//START\n",)
+    params["AFTER"] = ("\n//END\n",)
+    params["SPACECRAFT"] = spacecraft
+    params["BAUD"] = baud
+    params["ELECTRONIC_MAIL"] = electronic_mail
+    params["DCP_BUL"] = dcp_bul
+    params["GLOB_BUL"] = glob_bul
+    params["TIMING"] = timing
+    params["RETRANSMITTED"] = retransmitted
+    params["DAPS_STATUS"] = daps_status
 
     data_limit_reached = True
     messages = []
     while data_limit_reached:
-        new_message, data_limit_reached =  _fetch_url(params)
+        new_message, data_limit_reached = _fetch_url(params)
         messages += new_message
         if data_limit_reached:
-            params['DRS_UNTIL'] = _format_time(_parse(new_message[-1])['message_timestamp_utc'])
+            params["DRS_UNTIL"] = _format_time(
+                _parse(new_message[-1])["message_timestamp_utc"]
+            )
 
     new_data = pd.DataFrame([_parse(row) for row in messages])
 
@@ -196,8 +212,8 @@ def get_data(
         data.sort_index(inplace=True)
 
         if use_cache:
-            #write to a tmp file and move to avoid ballooning h5 file
-            tmp = dcp_data_path + '.tmp'
+            # write to a tmp file and move to avoid ballooning h5 file
+            tmp = dcp_data_path + ".tmp"
             data.to_hdf(tmp, dcp_address)
             shutil.move(tmp, dcp_data_path)
 
@@ -208,14 +224,14 @@ def get_data(
             return {}
 
     if start:
-        if start.startswith('P'):
-            start = data['message_timestamp_utc'][-1] - isodate.parse_duration(start)
+        if start.startswith("P"):
+            start = data["message_timestamp_utc"][-1] - isodate.parse_duration(start)
 
         data = data[start:]
 
     if end:
-        if end.startswith('P'):
-            end = data['message_timestamp_utc'][-1] - isodate.parse_duration(end)
+        if end.startswith("P"):
+            end = data["message_timestamp_utc"][-1] - isodate.parse_duration(end)
 
         data = data[:end]
 
@@ -227,47 +243,54 @@ def get_data(
 
 def _fetch_url(params):
     r = requests.get(EDDN_URL, params=params)
-    log.info('data requested using url: %s\n' % r.url)
+    log.info("data requested using url: %s\n" % r.url)
     soup = BeautifulSoup(r.text, "lxml")
-    message = soup.find('pre').contents[0].replace('\n', '').replace('\r', ' ')
+    message = soup.find("pre").contents[0].replace("\n", "").replace("\r", " ")
 
     data_limit_reached = False
-    if 'Max data limit reached' in message:
+    if "Max data limit reached" in message:
         data_limit_reached = True
-        log.info('Max data limit reached, making new request for older data\n')
+        log.info("Max data limit reached, making new request for older data\n")
 
     if not message:
-        log.info('No data found\n')
+        log.info("No data found\n")
         message = []
     else:
-        message = [msg[1].strip() for msg in re.findall('(//START)(.*?)(//END)', message, re.M | re.S)]
+        message = [
+            msg[1].strip()
+            for msg in re.findall("(//START)(.*?)(//END)", message, re.M | re.S)
+        ]
 
     return message, data_limit_reached
 
 
 def _format_period(period):
-    days, hours, minutes = period.days, period.seconds // 3600, (period.seconds // 60) % 60
+    days, hours, minutes = (
+        period.days,
+        period.seconds // 3600,
+        (period.seconds // 60) % 60,
+    )
 
     if minutes:
-        return 'now -%s minutes' % period.seconds / 60
+        return "now -%s minutes" % period.seconds / 60
 
     if hours:
-        return 'now -%s hours' % period.seconds / 3600
+        return "now -%s hours" % period.seconds / 3600
 
     if days:
-        return 'now -%s days' % days
+        return "now -%s days" % days
 
 
 def _format_time(timestamp):
 
     if isinstance(timestamp, basestring):
-        if timestamp.startswith('P'):
+        if timestamp.startswith("P"):
             timestamp = isodate.parse_duration(timestamp)
         else:
             timestamp = isodate.parse_datetime(timestamp)
 
     if isinstance(timestamp, datetime):
-        return timestamp.strftime('%Y/%j %H:%M:%S')
+        return timestamp.strftime("%Y/%j %H:%M:%S")
     elif isinstance(timestamp, timedelta):
         return _format_period(timestamp)
 
@@ -284,16 +307,16 @@ def _get_store_path(path, default_file_name):
 
 def _parse(line):
     return {
-        'dcp_address': line[:8],
-        'message_timestamp_utc': datetime.strptime(line[8:19], '%y%j%H%M%S'),
-        'failure_code': line[19:20],
-        'signal_strength': line[20:22],
-        'frequency_offset': line[22:24],
-        'modulation_index': line[24:25],
-        'data_quality_indicator': line[25:26],
-        'goes_receive_channel': line[26:29],
-        'goes_spacecraft_indicator': line[29:30],
-        'uplink_carrier_status': line[30:32],
-        'message_data_length': line[32:37],
-        'dcp_message': line[37:],
+        "dcp_address": line[:8],
+        "message_timestamp_utc": datetime.strptime(line[8:19], "%y%j%H%M%S"),
+        "failure_code": line[19:20],
+        "signal_strength": line[20:22],
+        "frequency_offset": line[22:24],
+        "modulation_index": line[24:25],
+        "data_quality_indicator": line[25:26],
+        "goes_receive_channel": line[26:29],
+        "goes_spacecraft_indicator": line[29:30],
+        "uplink_carrier_status": line[30:32],
+        "message_data_length": line[32:37],
+        "dcp_message": line[37:],
     }

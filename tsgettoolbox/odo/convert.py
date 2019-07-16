@@ -14,7 +14,7 @@ from .utils import records_to_tuples
 from functools import partial
 
 
-convert = NetworkDispatcher('convert')
+convert = NetworkDispatcher("convert")
 
 
 @convert.register(np.ndarray, pd.DataFrame, cost=0.2)
@@ -31,20 +31,20 @@ def numpy_to_dataframe(x, dshape, **kwargs):
     dtype = x.dtype
     names = dtype.names
     if names is None:
-        if dtype.kind == 'm':
+        if dtype.kind == "m":
             # pandas does not do this conversion for us but doesn't work
             # with non 'ns' unit timedeltas
-            x = x.astype('m8[ns]')
+            x = x.astype("m8[ns]")
     else:
         fields = dtype.fields
         new_dtype = []
         should_astype = False
         for name in names:
             original_field_value = fields[name][0]
-            if original_field_value.kind == 'm':
+            if original_field_value.kind == "m":
                 # pandas does not do this conversion for us but doesn't work
                 # with non 'ns' unit timedeltas
-                new_dtype.append((name, 'm8[ns]'))
+                new_dtype.append((name, "m8[ns]"))
 
                 # perform the astype at the end of the loop
                 should_astype = True
@@ -54,7 +54,7 @@ def numpy_to_dataframe(x, dshape, **kwargs):
         if should_astype:
             x = x.astype(new_dtype)
 
-    df = pd.DataFrame(x, columns=getattr(dshape.measure, 'names', names))
+    df = pd.DataFrame(x, columns=getattr(dshape.measure, "names", names))
     return df
 
 
@@ -63,7 +63,7 @@ def numpy_to_series(x, **kwargs):
     names = x.dtype.names
     if names is not None:
         if len(names) > 1:
-            raise ValueError('passed in an ndarray with more than 1 column')
+            raise ValueError("passed in an ndarray with more than 1 column")
         name, = names
         return pd.Series(x[name], name=name)
     return pd.Series(x)
@@ -84,12 +84,13 @@ def series_to_dataframe(x, **kwargs):
 def ndarray_to_recarray(x, **kwargs):
     return x.view(np.recarray)
 
+
 @convert.register(np.ndarray, np.recarray, cost=0.0)
 def recarray_to_ndarray(x, **kwargs):
     return x.view(np.ndarray)
 
 
-higher_precision_freqs = frozenset(('ns', 'ps', 'fs', 'as'))
+higher_precision_freqs = frozenset(("ns", "ps", "fs", "as"))
 
 
 @convert.register(np.ndarray, pd.Series, cost=0.1)
@@ -101,9 +102,10 @@ def series_to_array(s, dshape=None, **kwargs):
     values = s.values
 
     # don't lose precision of datetime64 more precise than microseconds
-    if ((issubclass(sdtype.type, np.datetime64) and
-            np.datetime_data(sdtype)[0] in higher_precision_freqs) or
-            s.dtype == dtype):
+    if (
+        issubclass(sdtype.type, np.datetime64)
+        and np.datetime_data(sdtype)[0] in higher_precision_freqs
+    ) or s.dtype == dtype:
         return values
     try:
         return values.astype(dtype)
@@ -114,11 +116,13 @@ def series_to_array(s, dshape=None, **kwargs):
 @convert.register(list, np.ndarray, cost=10.0)
 def numpy_to_list(x, **kwargs):
     dt = None
-    if x.dtype == 'M8[ns]':
-        dt = 'M8[us]'  # lose precision when going to Python datetime
-    if x.dtype.fields and any(x.dtype[n] == 'M8[ns]' for n in x.dtype.names):
-        dt = [(n, 'M8[us]' if x.dtype[n] == 'M8[ns]' else x.dtype[n])
-              for n in x.dtype.names]
+    if x.dtype == "M8[ns]":
+        dt = "M8[us]"  # lose precision when going to Python datetime
+    if x.dtype.fields and any(x.dtype[n] == "M8[ns]" for n in x.dtype.names):
+        dt = [
+            (n, "M8[us]" if x.dtype[n] == "M8[ns]" else x.dtype[n])
+            for n in x.dtype.names
+        ]
     if dt:
         return x.astype(dt).tolist()
     else:
@@ -131,24 +135,27 @@ def numpy_chunks_to_numpy(c, **kwargs):
 
 
 @convert.register(chunks(np.ndarray), np.ndarray, cost=0.5)
-def numpy_to_chunks_numpy(x, chunksize=2**20, **kwargs):
+def numpy_to_chunks_numpy(x, chunksize=2 ** 20, **kwargs):
     return chunks(np.ndarray)(
-            lambda: (x[i:i+chunksize] for i in range(0, x.shape[0], chunksize)))
+        lambda: (x[i : i + chunksize] for i in range(0, x.shape[0], chunksize))
+    )
 
 
 @convert.register(pd.DataFrame, chunks(pd.DataFrame), cost=1.0)
 def chunks_dataframe_to_dataframe(c, **kwargs):
     c = list(c)
     if not c:  # empty case
-        return pd.DataFrame(columns=kwargs.get('dshape').measure.names)
+        return pd.DataFrame(columns=kwargs.get("dshape").measure.names)
     else:
         return pd.concat(c, axis=0, ignore_index=True)
 
 
 @convert.register(chunks(pd.DataFrame), pd.DataFrame, cost=0.5)
-def dataframe_to_chunks_dataframe(x, chunksize=2**20, **kwargs):
+def dataframe_to_chunks_dataframe(x, chunksize=2 ** 20, **kwargs):
     return chunks(pd.DataFrame)(
-            lambda: (x.iloc[i:i+chunksize] for i in range(0, x.shape[0], chunksize)))
+        lambda: (x.iloc[i : i + chunksize] for i in range(0, x.shape[0], chunksize))
+    )
+
 
 def ishashable(x):
     try:
@@ -192,8 +199,12 @@ def element_of(seq):
 def list_to_numpy(seq, dshape=None, **kwargs):
     if isinstance(element_of(seq), dict):
         seq = list(records_to_tuples(dshape, seq))
-    if (seq and isinstance(seq[0], Iterable) and not ishashable(seq[0]) and
-            not isscalar(dshape)):
+    if (
+        seq
+        and isinstance(seq[0], Iterable)
+        and not ishashable(seq[0])
+        and not isscalar(dshape)
+    ):
         seq = list(map(tuple, seq))
     return np.array(seq, dtype=dshape_to_numpy(dshape))
 
@@ -219,8 +230,10 @@ def iterator_to_numpy_chunks(seq, chunksize=1024, **kwargs):
     try:
         first, rest = next(seq2), seq2
     except StopIteration:  # seq is empty
+
         def _():
             yield convert(np.ndarray, [], **kwargs)
+
     else:
         x = convert(np.ndarray, first, **kwargs)
 
@@ -228,6 +241,7 @@ def iterator_to_numpy_chunks(seq, chunksize=1024, **kwargs):
             yield x
             for i in rest:
                 yield convert(np.ndarray, i, **kwargs)
+
     return chunks(np.ndarray)(_)
 
 
@@ -235,7 +249,7 @@ def iterator_to_numpy_chunks(seq, chunksize=1024, **kwargs):
 def iterator_to_DataFrame_chunks(seq, chunksize=1024, **kwargs):
     seq2 = partition_all(chunksize, seq)
 
-    add_index = kwargs.get('add_index', False)
+    add_index = kwargs.get("add_index", False)
     if not add_index:
         # Simple, we can dispatch to dask...
         f = lambda d: convert(pd.DataFrame, d, **kwargs)
@@ -250,8 +264,10 @@ def iterator_to_DataFrame_chunks(seq, chunksize=1024, **kwargs):
     try:
         first, rest = next(seq2), seq2
     except StopIteration:
+
         def _():
             yield convert(pd.DataFrame, [], **kwargs)
+
     else:
         df = convert(pd.DataFrame, first, **kwargs)
         df1, n1 = _add_index(df, 0)
@@ -263,11 +279,13 @@ def iterator_to_DataFrame_chunks(seq, chunksize=1024, **kwargs):
                 df = convert(pd.DataFrame, i, **kwargs)
                 df, n = _add_index(df, n)
                 yield df
+
     return chunks(pd.DataFrame)(_)
 
 
-def _add_index(df, start, _idx_type=getattr(pd, 'RangeIndex',
-                                            compose(pd.Index, np.arange))):
+def _add_index(
+    df, start, _idx_type=getattr(pd, "RangeIndex", compose(pd.Index, np.arange))
+):
     stop = start + len(df)
     idx = _idx_type(start=start, stop=stop)
     df.index = idx
@@ -281,28 +299,39 @@ def numpy_record_to_tuple(rec, **kwargs):
 
 @convert.register(chunks(np.ndarray), chunks(pd.DataFrame), cost=0.5)
 def chunked_pandas_to_chunked_numpy(c, **kwargs):
-    return chunks(np.ndarray)(lambda: (convert(np.ndarray, chunk, **kwargs) for chunk in c))
+    return chunks(np.ndarray)(
+        lambda: (convert(np.ndarray, chunk, **kwargs) for chunk in c)
+    )
+
 
 @convert.register(chunks(pd.DataFrame), chunks(np.ndarray), cost=0.5)
 def chunked_numpy_to_chunked_pandas(c, **kwargs):
-    return chunks(pd.DataFrame)(lambda: (convert(pd.DataFrame, chunk, **kwargs) for chunk in c))
+    return chunks(pd.DataFrame)(
+        lambda: (convert(pd.DataFrame, chunk, **kwargs) for chunk in c)
+    )
 
 
 @convert.register(chunks(np.ndarray), chunks(list), cost=10.0)
 def chunked_list_to_chunked_numpy(c, **kwargs):
-    return chunks(np.ndarray)(lambda: (convert(np.ndarray, chunk, **kwargs) for chunk in c))
+    return chunks(np.ndarray)(
+        lambda: (convert(np.ndarray, chunk, **kwargs) for chunk in c)
+    )
+
 
 @convert.register(chunks(list), chunks(np.ndarray), cost=10.0)
 def chunked_numpy_to_chunked_list(c, **kwargs):
     return chunks(list)(lambda: (convert(list, chunk, **kwargs) for chunk in c))
 
+
 @convert.register(chunks(Iterator), chunks(list), cost=0.1)
 def chunked_list_to_chunked_iterator(c, **kwargs):
     return chunks(Iterator)(c.data)
 
+
 @convert.register(chunks(list), chunks(Iterator), cost=0.1)
 def chunked_Iterator_to_chunked_list(c, **kwargs):
     return chunks(Iterator)(lambda: (convert(Iterator, chunk, **kwargs) for chunk in c))
+
 
 @convert.register(Iterator, chunks(Iterator), cost=0.1)
 def chunked_iterator_to_iterator(c, **kwargs):

@@ -1,4 +1,3 @@
-
 from tsgettoolbox.odo import odo, resource
 import pandas as pd
 import mando
@@ -11,13 +10,10 @@ except ImportError:
 from tstoolbox import tsutils
 
 
-@mando.command('darksky', formatter_class=HelpFormatter, doctype='numpy')
-def darksky_cli(latitude,
-                longitude,
-                time=None,
-                database='hourly',
-                extend=None,
-                lang='en'):
+@mando.command("darksky", formatter_class=HelpFormatter, doctype="numpy")
+def darksky_cli(
+    latitude, longitude, time=None, database="hourly", extend=None, lang="en"
+):
     r"""Data from the Dark Sky forecast service.
 
     Powered by Dark Sky https://darksky.net/poweredby/
@@ -282,42 +278,34 @@ def darksky_cli(latitude,
         +-------------+-------------------+
 
     """
-    tsutils._printiso(darksky(latitude,
-                              longitude,
-                              time=time,
-                              database=database,
-                              extend=extend,
-                              lang=lang))
+    tsutils._printiso(
+        darksky(
+            latitude, longitude, time=time, database=database, extend=extend, lang=lang
+        )
+    )
 
 
-def darksky(latitude,
-            longitude,
-            time=None,
-            database='hourly',
-            extend=None,
-            lang='en'):
+def darksky(latitude, longitude, time=None, database="hourly", extend=None, lang="en"):
     r"""Data from the Dark Sky forecast service."""
     from tsgettoolbox.services import darksky as placeholder
+
     r = resource(
-        r'https://api.darksky.net/forecast',
+        r"https://api.darksky.net/forecast",
         latitude=latitude,
         longitude=longitude,
         database=database,
         time=time,
         extend=extend,
-        units='si',
+        units="si",
         lang=lang,
     )
     return odo(r, pd.DataFrame)
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
-def forecast_io(latitude,
-                longitude,
-                time=None,
-                database='hourly',
-                extend=None,
-                lang='en'):
+@mando.command(formatter_class=HelpFormatter, doctype="numpy")
+def forecast_io(
+    latitude, longitude, time=None, database="hourly", extend=None, lang="en"
+):
     r"""DEPRECATED: please use 'darksky'.
 
     The forecast_io service changed names to 'darksky'.  See documentation
@@ -350,9 +338,6 @@ def forecast_io(latitude,
         service.
 
     """
-    return darksky(latitude,
-                   longitude,
-                   time=time,
-                   database=database,
-                   extend=extend,
-                   lang=lang)
+    return darksky(
+        latitude, longitude, time=time, database=database, extend=extend, lang=lang
+    )

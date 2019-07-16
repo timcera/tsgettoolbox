@@ -13,7 +13,7 @@ import suds.client
 from tsgettoolbox.ulmo import util
 
 
-HIS_CENTRAL_WSDL_URL = 'http://hiscentral.cuahsi.org/webservices/hiscentral.asmx?WSDL'
+HIS_CENTRAL_WSDL_URL = "http://hiscentral.cuahsi.org/webservices/hiscentral.asmx?WSDL"
 
 
 def get_services(bbox=None):
@@ -42,12 +42,10 @@ def get_services(bbox=None):
     else:
         x_min, y_min, x_max, y_max = bbox
         services = suds_client.service.GetServicesInBox2(
-            xmin=x_min, ymin=y_min, xmax=x_max, ymax=y_max)
+            xmin=x_min, ymin=y_min, xmax=x_max, ymax=y_max
+        )
 
-    services = [
-        _service_dict(service_info)
-        for service_info in services.ServiceInfo
-    ]
+    services = [_service_dict(service_info) for service_info in services.ServiceInfo]
     return services
 
 
@@ -67,23 +65,25 @@ def _cast_if_text(obj):
 def _service_dict(service_info):
     """converts a ServiceInfo etree object into a service info dict"""
     change_keys = [
-        #(old_key, new_key)
-        ('aabstract', 'abstract'),
-        ('maxx', 'max_x'),
-        ('maxy', 'max_y'),
-        ('minx', 'min_x'),
-        ('miny', 'min_y'),
-        ('orgwebsite', 'organization_website'),
-        ('serv_url', 'service_url'),
-        ('sitecount', 'site_count'),
-        ('valuecount', 'value_count'),
-        ('variablecount', 'variable_count'),
+        # (old_key, new_key)
+        ("aabstract", "abstract"),
+        ("maxx", "max_x"),
+        ("maxy", "max_y"),
+        ("minx", "min_x"),
+        ("miny", "min_y"),
+        ("orgwebsite", "organization_website"),
+        ("serv_url", "service_url"),
+        ("sitecount", "site_count"),
+        ("valuecount", "value_count"),
+        ("variablecount", "variable_count"),
     ]
 
-    service_dict = dict([
-        (util.camel_to_underscore(key), _cast_if_text(value))
-        for key, value in dict(service_info).items()
-    ])
+    service_dict = dict(
+        [
+            (util.camel_to_underscore(key), _cast_if_text(value))
+            for key, value in dict(service_info).items()
+        ]
+    )
 
     for old_key, new_key in change_keys:
         if old_key in service_dict:

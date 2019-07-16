@@ -4,13 +4,13 @@ from multipledispatch import Dispatcher
 import datashape
 import numpy as np
 
-create = Dispatcher('create')
+create = Dispatcher("create")
 
 
 @create.register(type)
 def create_type(cls, **kwargs):
-    if 'dshape' in kwargs:
-        kwargs['dshape'] = datashape.dshape(kwargs['dshape'])
+    if "dshape" in kwargs:
+        kwargs["dshape"] = datashape.dshape(kwargs["dshape"])
     func = create.dispatch(cls)
     return func(cls, **kwargs)
 

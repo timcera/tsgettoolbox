@@ -1,4 +1,3 @@
-
 from tsgettoolbox.odo import odo, resource
 import pandas as pd
 import mando
@@ -11,7 +10,7 @@ except ImportError:
 from tstoolbox import tsutils
 
 ncdc_ghcnd_docstrings = {
-    'info': r"""If you use this data, please read
+    "info": r"""If you use this data, please read
     ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt about "How to
     cite".
 
@@ -293,17 +292,15 @@ ncdc_ghcnd_docstrings = {
     |      | following values described above: 01, 03, 07, 18, and |
     |      | 20                                                    |
     +------+-------------------------------------------------------+""",
-    'station': r"""station
+    "station": r"""station
         The station id. from the first column of
-        ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt"""
-    }
+        ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt""",
+}
 
 
-@mando.command('ncdc_ghcnd_ftp', formatter_class=HelpFormatter, doctype='numpy')
+@mando.command("ncdc_ghcnd_ftp", formatter_class=HelpFormatter, doctype="numpy")
 @tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncdc_ghcnd_docstrings))
-def ncdc_ghcnd_ftp(station,
-                   start_date=None,
-                   end_date=None):
+def ncdc_ghcnd_ftp(station, start_date=None, end_date=None):
     r"""Download from the Global Historical Climatology Network - Daily.
 
     {info}
@@ -314,19 +311,16 @@ def ncdc_ghcnd_ftp(station,
     {start_date}
     {end_date}
     """
-    tsutils._printiso(ncdc_ghcnd_ftp(station,
-                                     start_date=start_date,
-                                     end_date=end_date))
+    tsutils._printiso(ncdc_ghcnd_ftp(station, start_date=start_date, end_date=end_date))
 
 
-def ncdc_ghcnd_ftp(station,
-                   start_date=None,
-                   end_date=None):
+def ncdc_ghcnd_ftp(station, start_date=None, end_date=None):
     r"""Download from the Global Historical Climatology Network - Daily."""
 
     from tsgettoolbox.services.ncdc import ghcnd as placeholder
+
     r = resource(
-        r'ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all',
+        r"ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all",
         station=station,
         start_date=start_date,
         end_date=end_date,
@@ -335,12 +329,9 @@ def ncdc_ghcnd_ftp(station,
 
 
 # 1763-01-01, 2016-11-05, Daily Summaries             , 1    , GHCND
-@mando.command('ncdc_ghcnd', formatter_class=HelpFormatter, doctype='numpy')
+@mando.command("ncdc_ghcnd", formatter_class=HelpFormatter, doctype="numpy")
 @tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncdc_ghcnd_docstrings))
-def ncdc_ghcnd_cli(stationid,
-                   datatypeid='',
-                   start_date='',
-                   end_date=''):
+def ncdc_ghcnd_cli(stationid, datatypeid="", start_date="", end_date=""):
     r"""Download from the Global Historical Climatology Network - Daily.
 
     Requires registration and free API key.
@@ -376,24 +367,22 @@ def ncdc_ghcnd_cli(stationid,
         available at that station for the time period requested.
     {start_date}
     {end_date}"""
-    tsutils._printiso(ncdc_ghcnd(stationid,
-                      datatypeid=datatypeid,
-                      start_date=start_date,
-                      end_date=end_date))
+    tsutils._printiso(
+        ncdc_ghcnd(
+            stationid, datatypeid=datatypeid, start_date=start_date, end_date=end_date
+        )
+    )
 
 
-def ncdc_ghcnd(stationid,
-               datatypeid='',
-               start_date='',
-               end_date=''):
+def ncdc_ghcnd(stationid, datatypeid="", start_date="", end_date=""):
     r"""Download from the Global Historical Climatology Network - Daily."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
-        r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
+        r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=start_date,
         enddate=end_date,
-        datasetid='GHCND',
+        datasetid="GHCND",
         stationid=stationid,
     )
 
@@ -402,12 +391,8 @@ def ncdc_ghcnd(stationid,
 
 # 1763-01-01, 2016-09-01, Global Summary of the Month , 1    , GSOM
 # 1763-01-01, 2016-01-01, Global Summary of the Year  , 1    , GSOY
-@mando.command('ncdc_gs', formatter_class=HelpFormatter, doctype='numpy')
-def ncdc_gs_cli(stationid,
-                database,
-                datatypeid='',
-                startdate='',
-                enddate=''):
+@mando.command("ncdc_gs", formatter_class=HelpFormatter, doctype="numpy")
+def ncdc_gs_cli(stationid, database, datatypeid="", startdate="", enddate=""):
     r"""Access NCDC Global Summary of Month (GSOM) and Year (GSOY).
 
     National Climatic Data Center Global Summary of the MONTH (GSOM)
@@ -890,23 +875,23 @@ def ncdc_gs_cli(stationid,
 
     enddate
         End date in ISO8601 format."""
-    tsutils._printiso(ncdc_gs(stationid,
-                      database,
-                      datatypeid=datatypeid,
-                      startdate=startdate,
-                      enddate=enddate))
-
-
-def ncdc_gs(stationid,
+    tsutils._printiso(
+        ncdc_gs(
+            stationid,
             database,
-            datatypeid='',
-            startdate='',
-            enddate=''):
+            datatypeid=datatypeid,
+            startdate=startdate,
+            enddate=enddate,
+        )
+    )
+
+
+def ncdc_gs(stationid, database, datatypeid="", startdate="", enddate=""):
     r"""Access NCDC Global Summary of Month (GSOM) and Year (GSOY)."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
-        r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
+        r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
         datasetid=database,
@@ -918,10 +903,7 @@ def ncdc_gs(stationid,
 
 # 1991-06-05, 2016-11-06, Weather Radar (Level II)    , 0.95 , NEXRAD2
 # @mando.command('ncdc_nexrad2', formatter_class=HelpFormatter, doctype='numpy')
-def ncdc_nexrad2_cli(stationid,
-                     datatypeid='',
-                     startdate='',
-                     enddate=''):
+def ncdc_nexrad2_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center NEXRAD Level II.
 
     Requires registration and free API key.
@@ -946,24 +928,22 @@ def ncdc_nexrad2_cli(stationid,
 
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing."""
-    tsutils._printiso(ncdc_nexrad2(stationid,
-                                   datatypeid=datatypeid,
-                                   startdate=startdate,
-                                   enddate=enddate))
+    tsutils._printiso(
+        ncdc_nexrad2(
+            stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate
+        )
+    )
 
 
-def ncdc_nexrad2(stationid,
-                 datatypeid='',
-                 startdate='',
-                 enddate=''):
+def ncdc_nexrad2(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center NEXRAD Level II."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
-        r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
+        r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
-        datasetid='NEXRAD2',
+        datasetid="NEXRAD2",
         stationid=stationid,
     )
 
@@ -972,10 +952,7 @@ def ncdc_nexrad2(stationid,
 
 # 1991-06-05, 2016-11-06, Weather Radar (Level III)   , 0.95 , NEXRAD3
 # @mando.command('ncdc_nexrad3',formatter_class=HelpFormatter, doctype='numpy')
-def ncdc_nexrad3_cli(stationid,
-                     datatypeid='',
-                     startdate='',
-                     enddate=''):
+def ncdc_nexrad3_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center NEXRAD Level III.
 
     Requires registration and free API key.
@@ -1000,24 +977,22 @@ def ncdc_nexrad3_cli(stationid,
 
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing."""
-    return tsutils._printiso(ncdc_nexrad3(stationid,
-                                          datatypeid=datatypeid,
-                                          startdate=startdate,
-                                          enddate=enddate))
+    return tsutils._printiso(
+        ncdc_nexrad3(
+            stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate
+        )
+    )
 
 
-def ncdc_nexrad3(stationid,
-                 datatypeid='',
-                 startdate='',
-                 enddate=''):
+def ncdc_nexrad3(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center NEXRAD Level III."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
-        r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
+        r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
-        datasetid='NEXRAD3',
+        datasetid="NEXRAD3",
         stationid=stationid,
     )
 
@@ -1025,11 +1000,8 @@ def ncdc_nexrad3(stationid,
 
 
 # 2010-01-01, 2010-01-01, Normals Annual/Seasonal     , 1    , NORMAL_ANN
-@mando.command('ncdc_normal_ann', formatter_class=HelpFormatter, doctype='numpy')
-def ncdc_normal_ann_cli(stationid,
-                        datatypeid='',
-                        startdate='',
-                        enddate=''):
+@mando.command("ncdc_normal_ann", formatter_class=HelpFormatter, doctype="numpy")
+def ncdc_normal_ann_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center annual normals.
 
     Requires registration and free API key.
@@ -2628,24 +2600,22 @@ def ncdc_normal_ann_cli(stationid,
     enddate
         Many different formats can be used here for the date
         string, however the closest to ISO8601, the better."""
-    tsutils._printiso(ncdc_normal_ann(stationid,
-                                      datatypeid=datetypeid,
-                                      startdate=startdate,
-                                      enddate=enddate))
+    tsutils._printiso(
+        ncdc_normal_ann(
+            stationid, datatypeid=datetypeid, startdate=startdate, enddate=enddate
+        )
+    )
 
 
-def ncdc_normal_ann(stationid,
-                    datatypeid='',
-                    startdate='',
-                    enddate=''):
+def ncdc_normal_ann(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center annual normals."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
-        r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
+        r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
-        datasetid='NORMAL_ANN',
+        datasetid="NORMAL_ANN",
         stationid=stationid,
     )
 
@@ -2653,11 +2623,8 @@ def ncdc_normal_ann(stationid,
 
 
 # 2010-01-01, 2010-12-31, Normals Daily               , 1    , NORMAL_DLY
-@mando.command('ncdc_normal_dly', formatter_class=HelpFormatter, doctype='numpy')
-def ncdc_normal_dly_cli(stationid,
-                        datatypeid='',
-                        startdate='',
-                        enddate=''):
+@mando.command("ncdc_normal_dly", formatter_class=HelpFormatter, doctype="numpy")
+def ncdc_normal_dly_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center Daily Normals.
 
     Requires registration and free API key.
@@ -2905,24 +2872,22 @@ def ncdc_normal_dly_cli(stationid,
 
     enddate
         End date in ISO8601 format."""
-    tsutils._printiso(ncdc_normal_dly_cli(stationid,
-                                          datatypeid=datetypeid,
-                                          startdate=startdate,
-                                          enddate=enddate))
+    tsutils._printiso(
+        ncdc_normal_dly_cli(
+            stationid, datatypeid=datetypeid, startdate=startdate, enddate=enddate
+        )
+    )
 
 
-def ncdc_normal_dly(stationid,
-                    datatypeid='',
-                    startdate='',
-                    enddate=''):
+def ncdc_normal_dly(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center Daily Normals. """
     from tsgettoolbox.services.ncdc import ncdc as placeholder
 
     r = resource(
-        r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
+        r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
-        datasetid='NORMAL_DLY',
+        datasetid="NORMAL_DLY",
         stationid=stationid,
     )
 
@@ -2930,11 +2895,8 @@ def ncdc_normal_dly(stationid,
 
 
 # 2010-01-01, 2010-12-31, Normals Hourly              , 1    , NORMAL_HLY
-@mando.command('ncdc_normal_hly', formatter_class=HelpFormatter, doctype='numpy')
-def ncdc_normal_hly_cli(stationid,
-                    datatypeid='',
-                    startdate='',
-                    enddate=''):
+@mando.command("ncdc_normal_hly", formatter_class=HelpFormatter, doctype="numpy")
+def ncdc_normal_hly_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center GHCND Monthly Summaries.
 
     Requires registration and free API key.
@@ -3027,24 +2989,22 @@ def ncdc_normal_hly_cli(stationid,
 
     enddate
         End date in ISO8601 format."""
-    tsutils._printiso(ncdc_normal_hly(stationid,
-                                      datatypeid=datatypeid,
-                                      startdate=startdate,
-                                      enddate=enddate))
+    tsutils._printiso(
+        ncdc_normal_hly(
+            stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate
+        )
+    )
 
 
-def ncdc_normal_hly(stationid,
-                    datatypeid='',
-                    startdate='',
-                    enddate=''):
+def ncdc_normal_hly(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center GHCND Monthly Summaries."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
-        r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
+        r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
-        datasetid='NORMAL_HLY',
+        datasetid="NORMAL_HLY",
         stationid=stationid,
     )
 
@@ -3052,11 +3012,8 @@ def ncdc_normal_hly(stationid,
 
 
 # 2010-01-01, 2010-12-01, Normals Monthly             , 1    , NORMAL_MLY
-@mando.command('ncdc_normal_ml', formatter_class=HelpFormatter, doctype='numpy')
-def ncdc_normal_mly(stationid,
-                    datatypeid='',
-                    startdate='',
-                    enddate=''):
+@mando.command("ncdc_normal_ml", formatter_class=HelpFormatter, doctype="numpy")
+def ncdc_normal_mly(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center GHCND Monthly Summaries.
 
     Requires registration and free API key.
@@ -3364,10 +3321,10 @@ def ncdc_normal_mly(stationid,
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
-        r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
+        r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
-        datasetid='NORMAL_MLY',
+        datasetid="NORMAL_MLY",
         stationid=stationid,
     )
 
@@ -3375,11 +3332,8 @@ def ncdc_normal_mly(stationid,
 
 
 # 1970-05-12, 2014-01-01, Precipitation 15 Minute     , 0.25 , PRECIP_15
-@mando.command('ncdc_precip_15', formatter_class=HelpFormatter, doctype='numpy')
-def ncdc_precip_15_cli(stationid,
-                       datatypeid='',
-                       startdate='',
-                       enddate=''):
+@mando.command("ncdc_precip_15", formatter_class=HelpFormatter, doctype="numpy")
+def ncdc_precip_15_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center 15 minute precipitation.
 
     Requires registration and free API key.
@@ -3427,24 +3381,22 @@ def ncdc_precip_15_cli(stationid,
     enddate
         End date in ISO8601
         format."""
-    tsutils._printiso(ncdc_precip_15_cli(stationid,
-                                         datatypeid=datatypeid,
-                                         startdate=startdate,
-                                         enddate=enddate))
+    tsutils._printiso(
+        ncdc_precip_15_cli(
+            stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate
+        )
+    )
 
 
-def ncdc_precip_15(stationid,
-                   datatypeid='',
-                   startdate='',
-                   enddate=''):
+def ncdc_precip_15(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center 15 minute precipitation."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
-        r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
+        r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
-        datasetid='PRECIP_15',
+        datasetid="PRECIP_15",
         stationid=stationid,
     )
 
@@ -3452,11 +3404,8 @@ def ncdc_precip_15(stationid,
 
 
 # 1900-01-01, 2014-01-01, Precipitation Hourly        , 1    , PRECIP_HLY
-@mando.command('ncdc_precip_hly',formatter_class=HelpFormatter, doctype='numpy')
-def ncdc_precip_hly_cli(stationid,
-                        datatypeid='',
-                        startdate='',
-                        enddate=''):
+@mando.command("ncdc_precip_hly", formatter_class=HelpFormatter, doctype="numpy")
+def ncdc_precip_hly_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center hourly precipitation.
 
     Requires registration and free API key.
@@ -3499,24 +3448,22 @@ def ncdc_precip_hly_cli(stationid,
 
     enddate
         End date in ISO8601 format."""
-    tsutils._printiso(ncdc_precip_hly(stationid,
-                                      datatypeid=datatypeid,
-                                      startdate=startdate,
-                                      enddate=enddate))
+    tsutils._printiso(
+        ncdc_precip_hly(
+            stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate
+        )
+    )
 
 
-def ncdc_precip_hly(stationid,
-                    datatypeid='',
-                    startdate='',
-                    enddate=''):
+def ncdc_precip_hly(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center hourly precipitation."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
-        r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
+        r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
-        datasetid='PRECIP_HLY',
+        datasetid="PRECIP_HLY",
         stationid=stationid,
     )
 
@@ -3524,11 +3471,8 @@ def ncdc_precip_hly(stationid,
 
 
 # ANNUAL
-@mando.command('ncdc_annual', formatter_class=HelpFormatter, doctype='numpy')
-def ncdc_annual_cli(stationid,
-                    datatypeid='',
-                    startdate='',
-                    enddate=''):
+@mando.command("ncdc_annual", formatter_class=HelpFormatter, doctype="numpy")
+def ncdc_annual_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center annual data summaries.
 
     Requires registration and free API key.
@@ -4429,24 +4373,18 @@ def ncdc_annual_cli(stationid,
 
     enddate
         End date in ISO8601 format."""
-    tsutils._printiso(ncdc_annual(stationid,
-                                  datatypeid='',
-                                  startdate='',
-                                  enddate=''))
+    tsutils._printiso(ncdc_annual(stationid, datatypeid="", startdate="", enddate=""))
 
 
-def ncdc_annual(stationid,
-                datatypeid='',
-                startdate='',
-                enddate=''):
+def ncdc_annual(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center annual data summaries."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
-        r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
+        r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
-        datasetid='ANNUAL',
+        datasetid="ANNUAL",
         stationid=stationid,
     )
 
@@ -4454,11 +4392,8 @@ def ncdc_annual(stationid,
 
 
 # GHCNDMS
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
-def ncdc_ghcndms(stationid,
-                 datatypeid='',
-                 startdate='',
-                 enddate=''):
+@mando.command(formatter_class=HelpFormatter, doctype="numpy")
+def ncdc_ghcndms(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center GHCND Monthly Summaries.
 
     Requires registration and free API key.
@@ -4847,24 +4782,22 @@ def ncdc_ghcndms(stationid,
     enddate
        End date in ISO8601
        format."""
-    tsutils._printiso(ncdc_ghcndms(stationid,
-                                   datatypeid=datatypeid,
-                                   startdate=startdate,
-                                   enddate=enddate))
+    tsutils._printiso(
+        ncdc_ghcndms(
+            stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate
+        )
+    )
 
 
-def ncdc_ghcndms(stationid,
-                 datatypeid='',
-                 startdate='',
-                 enddate=''):
+def ncdc_ghcndms(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center GHCND Monthly Summaries."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
-        r'http://www.ncdc.noaa.gov/cdo-web/api/v2/data',
+        r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
-        datasetid='GHCNDMS',
+        datasetid="GHCNDMS",
         stationid=stationid,
     )
 

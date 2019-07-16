@@ -18,8 +18,16 @@ from ..resource import resource
 from ..chunks import chunks
 
 
-h5py_attributes = ['chunks', 'compression', 'compression_opts', 'dtype',
-                   'fillvalue', 'fletcher32', 'maxshape', 'shape']
+h5py_attributes = [
+    "chunks",
+    "compression",
+    "compression_opts",
+    "dtype",
+    "fillvalue",
+    "fletcher32",
+    "maxshape",
+    "shape",
+]
 
 
 try:
@@ -47,7 +55,7 @@ def record_dshape_replace(dshape, old, new):
     >>> Record(list(record_dshape_replace(ds, object_, string)))
     dshape("{a: int64, b: 10 * {c: object}, d: int64}")
     """
-    assert isrecord(dshape), 'input dshape must be a record'
+    assert isrecord(dshape), "input dshape must be a record"
 
     for name, subshape in dshape.measure.fields:
         if subshape == old:
@@ -69,8 +77,9 @@ def discover_h5py_dataset(d):
             return DataShape(*args)
         return dshape
     else:
-        records = list(record_dshape_replace(measure, datashape.object_,
-                                             datashape.string))
+        records = list(
+            record_dshape_replace(measure, datashape.object_, datashape.string)
+        )
         args = shape + (datashape.Record(records),)
         return DataShape(*args)
 
@@ -93,7 +102,7 @@ def dtype_replace(dtype, old, new):
     """
     names = dtype.names
 
-    assert names is not None, 'dtype must be record-like'
+    assert names is not None, "dtype must be record-like"
 
     for name, subdtype in zip(names, map(dtype.__getitem__, names)):
         if subdtype == old:
@@ -133,8 +142,7 @@ def varlen_dtype(dt):
     elif dt.names is None:  # some kind of non record like dtype
         return dt
     else:
-        return np.dtype(list(dtype_replace(dt, np.dtype('object'),
-                                           unicode_dtype)))
+        return np.dtype(list(dtype_replace(dt, np.dtype("object"), unicode_dtype)))
 
 
 def dataset_from_dshape(file, datapath, ds, **kwargs):
@@ -148,8 +156,8 @@ def dataset_from_dshape(file, datapath, ds, **kwargs):
         raise ValueError("Don't know how to handle varlen nd shapes")
 
     if shape:
-        kwargs['chunks'] = kwargs.get('chunks', True)
-        kwargs['maxshape'] = kwargs.get('maxshape', (None,) + shape[1:])
+        kwargs["chunks"] = kwargs.get("chunks", True)
+        kwargs["maxshape"] = kwargs.get("maxshape", (None,) + shape[1:])
 
     kwargs2 = keyfilter(h5py_attributes.__contains__, kwargs)
     return file.require_dataset(datapath, shape=shape, dtype=dtype, **kwargs2)
@@ -163,7 +171,8 @@ def create_from_datashape(group, ds, name=None, **kwargs):
             "\tdshape: %s\n"
             "If you're using odo consider the following change\n"
             "\tBefore: odo(data, 'myfile.hdf5')\n"
-            "\tAfter:  odo(data, 'myfile.hdf5::/datapath')" % ds)
+            "\tAfter:  odo(data, 'myfile.hdf5::/datapath')" % ds
+        )
     if isinstance(ds, DataShape) and len(ds) == 1:
         ds = ds[0]
     for name, sub_ds in ds.dict.items():
@@ -171,9 +180,12 @@ def create_from_datashape(group, ds, name=None, **kwargs):
             g = group.require_group(name)
             create_from_datashape(g, sub_ds, **kwargs)
         else:
-            dataset_from_dshape(file=group.file,
-                                datapath='/'.join([group.name, name]),
-                                ds=sub_ds, **kwargs)
+            dataset_from_dshape(
+                file=group.file,
+                datapath="/".join([group.name, name]),
+                ds=sub_ds,
+                **kwargs
+            )
 
 
 @create.register(h5py.File)
@@ -190,7 +202,7 @@ def append_h5py(dset, x, **kwargs):
     shape = list(dset.shape)
     shape[0] += len(x)
     dset.resize(shape)
-    dset[-len(x):] = x
+    dset[-len(x) :] = x
     return dset
 
 
@@ -209,9 +221,13 @@ def append_h5py(dset, x, **kwargs):
 @convert.register(np.ndarray, h5py.Dataset, cost=3.0)
 def h5py_to_numpy(dset, force=False, **kwargs):
     if dset.size > 1e9:
-        raise MemoryError(("File size is large: %0.2f GB.\n"
-                           "Convert with flag force=True to force loading") %
-                          (dset.size / 1e9))
+        raise MemoryError(
+            (
+                "File size is large: %0.2f GB.\n"
+                "Convert with flag force=True to force loading"
+            )
+            % (dset.size / 1e9)
+        )
     else:
         return dset[:]
 
@@ -220,15 +236,15 @@ def h5py_to_numpy(dset, force=False, **kwargs):
 def h5py_to_numpy_chunks(dset, chunksize=2 ** 20, **kwargs):
     def load():
         for i in range(0, dset.shape[0], chunksize):
-            yield dset[i: i + chunksize]
+            yield dset[i : i + chunksize]
+
     return chunks(np.ndarray)(load)
 
 
-@resource.register('h5py://.+', priority=11)
-def resource_h5py(uri, datapath=None, dshape=None, expected_dshape=None,
-                  **kwargs):
-    if uri.startswith('h5py://'):
-        uri = uri[len('h5py://'):]
+@resource.register("h5py://.+", priority=11)
+def resource_h5py(uri, datapath=None, dshape=None, expected_dshape=None, **kwargs):
+    if uri.startswith("h5py://"):
+        uri = uri[len("h5py://") :]
     f = h5py.File(uri)
     olddatapath = datapath
     if datapath is not None and datapath in f:
@@ -240,7 +256,7 @@ def resource_h5py(uri, datapath=None, dshape=None, expected_dshape=None,
         ds = datashape.dshape(dshape)
         if datapath:
             while ds and datapath:
-                datapath, name = datapath.rsplit('/', 1)
+                datapath, name = datapath.rsplit("/", 1)
                 ds = Record([[name, ds]])
             ds = datashape.dshape(ds)
         f.close()
@@ -251,7 +267,7 @@ def resource_h5py(uri, datapath=None, dshape=None, expected_dshape=None,
         return f
 
 
-@resource.register(r'^(?!hdfstore).+\.(hdf5|h5)', priority=10)
+@resource.register(r"^(?!hdfstore).+\.(hdf5|h5)", priority=10)
 def resource_hdf5(uri, *args, **kwargs):
     return resource_h5py(uri, *args, **kwargs)
 

@@ -46,21 +46,26 @@ class _HDFS(object):
 
     >>> resource('hdfs://hdfs@54.91.255.255:/path/to/file.csv')  # doctest: +SKIP
     """
+
     def __init__(self, *args, **kwargs):
-        hdfs = kwargs.get('hdfs', None)
-        host = kwargs.get('host', None)
-        user = (kwargs.get('user_name') or
-                kwargs.get('user') or
-                kwargs.get('username') or None)
-        port = str(kwargs.get('port', 14000))
+        hdfs = kwargs.get("hdfs", None)
+        host = kwargs.get("host", None)
+        user = (
+            kwargs.get("user_name")
+            or kwargs.get("user")
+            or kwargs.get("username")
+            or None
+        )
+        port = str(kwargs.get("port", 14000))
         if not hdfs and (host and port and user):
-            hdfs = PyWebHdfsClient(host=host, port=str(port),
-                                   user_name=user)
+            hdfs = PyWebHdfsClient(host=host, port=str(port), user_name=user)
 
         if hdfs is None:
-            raise ValueError("No HDFS credentials found.\n"
-                    "Either supply a PyWebHdfsClient instance or keywords\n"
-                    "   host=, port=, user=")
+            raise ValueError(
+                "No HDFS credentials found.\n"
+                "Either supply a PyWebHdfsClient instance or keywords\n"
+                "   host=, port=, user="
+            )
         self.hdfs = hdfs
 
         self.subtype.__init__(self, *args, **kwargs)
@@ -68,15 +73,15 @@ class _HDFS(object):
 
 @memoize
 def HDFS(cls):
-    return type('HDFS(%s)' % cls.__name__, (_HDFS, cls), {'subtype':  cls})
+    return type("HDFS(%s)" % cls.__name__, (_HDFS, cls), {"subtype": cls})
 
 
 @sample.register(_HDFS)
 @contextmanager
 def sample_hdfs_csv(data, length=10000):
-    sample = data.hdfs.read_file(data.path.lstrip('/'), length=length)
+    sample = data.hdfs.read_file(data.path.lstrip("/"), length=length)
     with tmpfile(data.canonical_extension) as fn:
-        with open(fn, 'w') as f:
+        with open(fn, "w") as f:
             f.write(sample)
 
         yield fn
@@ -94,17 +99,22 @@ def discover_hdfs_file(data, **kwargs):
 @discover.register(HDFS(CSV))
 def discover_hdfs_csv(data, length=10000, **kwargs):
     with sample(data, length=length) as fn:
-        result = discover(CSV(fn, encoding=data.encoding,
-                                  dialect=data.dialect,
-                                  has_header=data.has_header))
+        result = discover(
+            CSV(
+                fn,
+                encoding=data.encoding,
+                dialect=data.dialect,
+                has_header=data.has_header,
+            )
+        )
     return result
 
 
 @sample.register(HDFS(Directory(CSV)))
 @contextmanager
 def sample_hdfs_directory_csv(data, **kwargs):
-    files = data.hdfs.list_dir(data.path.lstrip('/'))
-    one_file = data.path + '/' + files['FileStatuses']['FileStatus'][0]['pathSuffix']
+    files = data.hdfs.list_dir(data.path.lstrip("/"))
+    one_file = data.path + "/" + files["FileStatuses"]["FileStatus"][0]["pathSuffix"]
     csv = HDFS(CSV)(one_file, hdfs=data.hdfs)
     with sample(csv, **kwargs) as fn:
         yield fn
@@ -116,6 +126,7 @@ def discover_hdfs_directory(data, length=10000, **kwargs):
         o = data.container(fn, **data.kwargs)
         result = discover(o)
     return result
+
 
 """
 Hive Tables
@@ -133,7 +144,7 @@ This breaks the current odo model a bit because we usually create things with
 same time.  Enter a convenient hack, a token for a proxy table
 """
 
-TableProxy = namedtuple('TableProxy', 'engine,name,stored_as')
+TableProxy = namedtuple("TableProxy", "engine,name,stored_as")
 
 """
 resource('hive://...::tablename') now gives us one of these.  The
@@ -142,45 +153,52 @@ subsequent call to `append` does the actual creation.
 We're looking for better solutions.  For the moment, this works.
 """
 
-@resource.register('hive://.+::.+', priority=16)
-def resource_hive_table(uri, stored_as='TEXTFILE', external=True, dshape=None, **kwargs):
+
+@resource.register("hive://.+::.+", priority=16)
+def resource_hive_table(
+    uri, stored_as="TEXTFILE", external=True, dshape=None, **kwargs
+):
     if dshape:
         dshape = datashape.dshape(dshape)
-    uri, table = uri.split('::')
+    uri, table = uri.split("::")
     engine = resource(uri)
     metadata = metadata_of_engine(engine)
 
     # If table exists then return it
     with ignoring(sa.exc.NoSuchTableError):
-        return sa.Table(table, metadata, autoload=True,
-                        autoload_with=engine)
+        return sa.Table(table, metadata, autoload=True, autoload_with=engine)
 
     # Enough information to make an internal table
-    if dshape and (not external or external and kwargs.get('path')):
-        table_type = 'EXTERNAL' if external else ''
-        statement = create_hive_statement(table, dshape,
-                db_name=engine.url.database, stored_as=stored_as,
-                table_type=table_type, **kwargs)
+    if dshape and (not external or external and kwargs.get("path")):
+        table_type = "EXTERNAL" if external else ""
+        statement = create_hive_statement(
+            table,
+            dshape,
+            db_name=engine.url.database,
+            stored_as=stored_as,
+            table_type=table_type,
+            **kwargs
+        )
         with engine.connect() as conn:
             conn.execute(statement)
-        return sa.Table(table, metadata, autoload=True,
-                        autoload_with=engine)
+        return sa.Table(table, metadata, autoload=True, autoload_with=engine)
 
     else:
         return TableProxy(engine, table, stored_as)
 
 
 hive_types = {
-        ct.int8: 'TINYINT',
-        ct.int16: 'SMALLINT',
-        ct.int32: 'INT',
-        ct.int64: 'BIGINT',
-        ct.float32: 'FLOAT',
-        ct.float64: 'DOUBLE',
-        ct.date_: 'DATE',
-        ct.datetime_: 'TIMESTAMP',
-        ct.string: 'STRING',
-        ct.bool_: 'BOOLEAN'}
+    ct.int8: "TINYINT",
+    ct.int16: "SMALLINT",
+    ct.int32: "INT",
+    ct.int64: "BIGINT",
+    ct.float32: "FLOAT",
+    ct.float64: "DOUBLE",
+    ct.date_: "DATE",
+    ct.datetime_: "TIMESTAMP",
+    ct.string: "STRING",
+    ct.bool_: "BOOLEAN",
+}
 
 
 def dshape_to_hive(ds):
@@ -200,23 +218,32 @@ def dshape_to_hive(ds):
     if isinstance(ds, ct.DataShape):
         ds = ds.measure
     if isinstance(ds, ct.Record):
-        columns = [(name, dshape_to_hive(typ))
-                for name, typ in zip(ds.measure.names, ds.measure.types)]
-        return ['%s  %s' % col for col in columns]
+        columns = [
+            (name, dshape_to_hive(typ))
+            for name, typ in zip(ds.measure.names, ds.measure.types)
+        ]
+        return ["%s  %s" % col for col in columns]
     if isinstance(ds, ct.Option):
         ds = ds.ty
     if isinstance(ds, ct.String):
         if ds.fixlen:
-            return 'VARCHAR(%d)' % ds.fixlen
+            return "VARCHAR(%d)" % ds.fixlen
         else:
-            return 'STRING'
+            return "STRING"
     if ds in hive_types:
         return hive_types[ds]
     raise NotImplementedError("No Hive dtype known for %s" % ds)
 
 
-def create_hive_statement(tbl_name, dshape, path=None, table_type='',
-        db_name='default', stored_as='TEXTFILE', **kwargs):
+def create_hive_statement(
+    tbl_name,
+    dshape,
+    path=None,
+    table_type="",
+    db_name="default",
+    stored_as="TEXTFILE",
+    **kwargs
+):
     """ Generic CREATE TABLE statement for hive
 
     Parameters
@@ -275,16 +302,17 @@ def create_hive_statement(tbl_name, dshape, path=None, table_type='',
     STORED AS PARQUET
     """
     if db_name:
-        db_name = db_name + '.'
+        db_name = db_name + "."
 
     if not table_type:
-        table_type = ''
+        table_type = ""
 
     # Column names and types from datashape
     assert isinstance(dshape.measure, ct.Record)
     columns = dshape_to_hive(dshape)
-    column_text = ',\n    '.join('%20s  %s' % tuple(col.split())
-                                 for col in columns).lstrip()
+    column_text = ",\n    ".join(
+        "%20s  %s" % tuple(col.split()) for col in columns
+    ).lstrip()
 
     statement = """
         CREATE {table_type} TABLE {db_name}{tbl_name} (
@@ -292,7 +320,7 @@ def create_hive_statement(tbl_name, dshape, path=None, table_type='',
         )
         """
 
-    if 'delimiter' in kwargs:
+    if "delimiter" in kwargs:
         statement += """
         ROW FORMAT DELIMITED
             FIELDS TERMINATED BY '{delimiter}'
@@ -303,15 +331,21 @@ def create_hive_statement(tbl_name, dshape, path=None, table_type='',
         """
 
     if path:
-        statement = statement +"""
+        statement = (
+            statement
+            + """
         LOCATION '{path}'
         """
+        )
 
-    if kwargs.get('has_header'):
-        statement = statement + """
+    if kwargs.get("has_header"):
+        statement = (
+            statement
+            + """
         TBLPROPERTIES ("skip.header.line.count"="1")"""
+        )
 
-    return statement.format(**merge(kwargs, locals())).strip('\n')
+    return statement.format(**merge(kwargs, locals())).strip("\n")
 
 
 """
@@ -332,27 +366,31 @@ def create_new_hive_table_from_csv(tbl, data, dshape=None, path=None, **kwargs):
 
     Actually executes command.
     """
-    table_type = 'EXTERNAL'
+    table_type = "EXTERNAL"
 
     if not dshape:
         dshape = discover(data)
 
-    if tbl.engine.dialect.name == 'hive':
-        statement = create_hive_statement(tbl.name, dshape,
-                                path=data.path,
-                                db_name = str(tbl.engine.url).split('/')[-1],
-                                table_type=table_type,
-                                **dialect_of(data))
+    if tbl.engine.dialect.name == "hive":
+        statement = create_hive_statement(
+            tbl.name,
+            dshape,
+            path=data.path,
+            db_name=str(tbl.engine.url).split("/")[-1],
+            table_type=table_type,
+            **dialect_of(data)
+        )
     else:
-        raise NotImplementedError("Don't know how to migrate directory of csvs"
-                " on HDFS to database of dialect %s" % tbl.engine.dialect.name)
+        raise NotImplementedError(
+            "Don't know how to migrate directory of csvs"
+            " on HDFS to database of dialect %s" % tbl.engine.dialect.name
+        )
 
     with tbl.engine.connect() as conn:
         conn.execute(statement)
 
     metadata = metadata_of_engine(tbl.engine)
-    tbl2 = sa.Table(tbl.name, metadata, autoload=True,
-            autoload_with=tbl.engine)
+    tbl2 = sa.Table(tbl.name, metadata, autoload=True, autoload_with=tbl.engine)
     return tbl2
 
 
@@ -361,7 +399,8 @@ def create_new_hive_table_from_csv_file(tbl, data, dshape=None, path=None, **kwa
     raise ValueError(
         "Can not create a new Hive table from a single CSV file on HDFS.\n"
         "Instead try loading a complete directory or base your data outside of"
-        " HDFS")
+        " HDFS"
+    )
 
 
 @append.register(TableProxy, (SSH(CSV), SSH(Directory(CSV))))
@@ -369,20 +408,24 @@ def append_remote_csv_to_new_table(tbl, data, dshape=None, **kwargs):
     if not dshape:
         dshape = discover(data)
 
-    if tbl.engine.dialect.name == 'hive':
-        statement = create_hive_statement(tbl.name, dshape,
-                                db_name = str(tbl.engine.url).split('/')[-1],
-                                **dialect_of(data))
+    if tbl.engine.dialect.name == "hive":
+        statement = create_hive_statement(
+            tbl.name,
+            dshape,
+            db_name=str(tbl.engine.url).split("/")[-1],
+            **dialect_of(data)
+        )
     else:
-        raise NotImplementedError("Don't know how to migrate directory of csvs"
-                " on Local disk to database of dialect %s" % tbl.engine.dialect.name)
+        raise NotImplementedError(
+            "Don't know how to migrate directory of csvs"
+            " on Local disk to database of dialect %s" % tbl.engine.dialect.name
+        )
 
     with tbl.engine.connect() as conn:
         conn.execute(statement)
 
     metadata = metadata_of_engine(tbl.engine)
-    tbl2 = sa.Table(tbl.name, metadata, autoload=True,
-            autoload_with=tbl.engine)
+    tbl2 = sa.Table(tbl.name, metadata, autoload=True, autoload_with=tbl.engine)
 
     return append(tbl2, data, **kwargs)
 
@@ -398,15 +441,19 @@ def append_remote_csv_to_table(tbl, csv, **kwargs):
     Load Remote data into existing Hive table
     """
     path = csv.path
-    if path[0] != '/':
-        path = '/home/%s/%s' % (csv.auth['username'], csv.path)
+    if path[0] != "/":
+        path = "/home/%s/%s" % (csv.auth["username"], csv.path)
 
-    if tbl.bind.dialect.name == 'hive':
-        statement =('LOAD DATA LOCAL INPATH "%(path)s" INTO TABLE %(tablename)s'
-                     % {'path': path, 'tablename': tbl.name})
+    if tbl.bind.dialect.name == "hive":
+        statement = 'LOAD DATA LOCAL INPATH "%(path)s" INTO TABLE %(tablename)s' % {
+            "path": path,
+            "tablename": tbl.name,
+        }
     else:
-        raise NotImplementedError("Don't know how to migrate csvs on remote "
-                  "disk to database of dialect %s" % tbl.engine.dialect.name)
+        raise NotImplementedError(
+            "Don't know how to migrate csvs on remote "
+            "disk to database of dialect %s" % tbl.engine.dialect.name
+        )
     with tbl.bind.connect() as conn:
         conn.execute(statement)
     return tbl
@@ -417,23 +464,28 @@ def append_hdfs_csv_to_table(tbl, csv, **kwargs):
     """
     Load Remote data into existing Hive table
     """
-    if tbl.bind.dialect.name != 'hive':
-        raise NotImplementedError("Don't know how to migrate csvs on remote "
-                  "disk to database of dialect %s" % tbl.engine.dialect.name)
+    if tbl.bind.dialect.name != "hive":
+        raise NotImplementedError(
+            "Don't know how to migrate csvs on remote "
+            "disk to database of dialect %s" % tbl.engine.dialect.name
+        )
 
-    statement =('LOAD DATA INPATH "%(path)s" INTO TABLE %(tablename)s'
-                 % {'path': csv.path, 'tablename': tbl.name})
+    statement = 'LOAD DATA INPATH "%(path)s" INTO TABLE %(tablename)s' % {
+        "path": csv.path,
+        "tablename": tbl.name,
+    }
     with tbl.bind.connect() as conn:
         conn.execute(statement)
     return tbl
+
 
 @append.register(TextFile, HDFS(TextFile))
 @append.register(JSONLines, HDFS(JSONLines))
 @append.register(JSON, HDFS(JSON))
 @append.register(CSV, HDFS(CSV))
 def append_hdfs_file_to_local(target, source, **kwargs):
-    text = source.hdfs.read_file(source.path.lstrip('/'), **kwargs)
-    with open(target.path, 'w') as f:
+    text = source.hdfs.read_file(source.path.lstrip("/"), **kwargs)
+    with open(target.path, "w") as f:
         f.write(text)
     return target
 
@@ -443,8 +495,8 @@ def append_hdfs_file_to_local(target, source, **kwargs):
 @convert.register(Temp(JSON), HDFS(JSON))
 @convert.register(Temp(CSV), HDFS(CSV))
 def convert_hdfs_file_to_temp_local(source, **kwargs):
-    ext = os.path.splitext(source.path)[1].strip('.')
-    fn = '.%s.%s' % (str(uuid.uuid1()), ext)
+    ext = os.path.splitext(source.path)[1].strip(".")
+    fn = ".%s.%s" % (str(uuid.uuid1()), ext)
     tmp = Temp(source.subtype)(fn)
     return append(tmp, source, **kwargs)
 
@@ -454,26 +506,37 @@ def convert_hdfs_file_to_temp_local(source, **kwargs):
 @append.register(HDFS(JSON), JSON)
 @append.register(HDFS(CSV), (CSV, Temp(CSV)))
 def append_local_file_to_hdfs(target, source, blocksize=100000, **kwargs):
-    if raises(FileNotFound,
-              lambda: target.hdfs.list_dir(target.path.lstrip('/'))):
-        target.hdfs.create_file(target.path.lstrip('/'), '')
+    if raises(FileNotFound, lambda: target.hdfs.list_dir(target.path.lstrip("/"))):
+        target.hdfs.create_file(target.path.lstrip("/"), "")
 
-    with open(source.path, 'r') as f:
+    with open(source.path, "r") as f:
         blocks = partition_all(blocksize, f)
         for block in blocks:
-            target.hdfs.append_file(target.path.lstrip('/'), ''.join(block))
+            target.hdfs.append_file(target.path.lstrip("/"), "".join(block))
 
     return target
 
 
 import csv
+
 sniffer = csv.Sniffer()
 
 
 def dialect_of(data, **kwargs):
     """ CSV dialect of a CSV file stored in SSH, HDFS, or a Directory. """
-    keys = set(['delimiter', 'doublequote', 'escapechar', 'lineterminator',
-                'quotechar', 'quoting', 'skipinitialspace', 'strict', 'has_header'])
+    keys = set(
+        [
+            "delimiter",
+            "doublequote",
+            "escapechar",
+            "lineterminator",
+            "quotechar",
+            "quoting",
+            "skipinitialspace",
+            "strict",
+            "has_header",
+        ]
+    )
     if isinstance(data, (HDFS(CSV), SSH(CSV))):
         with sample(data) as fn:
             d = dialect_of(CSV(fn, **data.dialect))
@@ -486,7 +549,7 @@ def dialect_of(data, **kwargs):
         assert isinstance(data, CSV)
 
         # Get sample text
-        with open(data.path, 'r') as f:
+        with open(data.path, "r") as f:
             text = f.read()
 
         result = dict()
@@ -495,9 +558,9 @@ def dialect_of(data, **kwargs):
         d = dict((k, getattr(d, k)) for k in keys if hasattr(d, k))
 
         if data.has_header is None:
-            d['has_header'] = sniffer.has_header(text)
+            d["has_header"] = sniffer.has_header(text)
         else:
-            d['has_header'] = data.has_header
+            d["has_header"] = data.has_header
 
         d.update(data.dialect)
 
@@ -507,28 +570,27 @@ def dialect_of(data, **kwargs):
     return d
 
 
+types_by_extension = {"csv": CSV, "json": JSONLines, "txt": TextFile, "log": TextFile}
 
-types_by_extension = {'csv': CSV, 'json': JSONLines, 'txt': TextFile,
-                      'log': TextFile}
+hdfs_pattern = "(((?P<user>[a-zA-Z]\w*)@)?(?P<host>[\w.-]*)?(:(?P<port>\d+))?:)?(?P<path>[/\w.*-]+)"
 
-hdfs_pattern = '(((?P<user>[a-zA-Z]\w*)@)?(?P<host>[\w.-]*)?(:(?P<port>\d+))?:)?(?P<path>[/\w.*-]+)'
 
-@resource.register('hdfs://.*', priority=16)
+@resource.register("hdfs://.*", priority=16)
 def resource_hdfs(uri, **kwargs):
-    if 'hdfs://' in uri:
-        uri = uri[len('hdfs://'):]
+    if "hdfs://" in uri:
+        uri = uri[len("hdfs://") :]
 
     d = re.match(hdfs_pattern, uri).groupdict()
     d = dict((k, v) for k, v in d.items() if v is not None)
-    path = d.pop('path')
+    path = d.pop("path")
 
     kwargs.update(d)
 
     try:
-        subtype = types_by_extension[path.split('.')[-1]]
-        if '*' in path:
+        subtype = types_by_extension[path.split(".")[-1]]
+        if "*" in path:
             subtype = Directory(subtype)
-            path = path.rsplit('/', 1)[0] + '/'
+            path = path.rsplit("/", 1)[0] + "/"
     except KeyError:
         subtype = type(resource(path))
 

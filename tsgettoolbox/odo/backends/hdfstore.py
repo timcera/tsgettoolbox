@@ -17,9 +17,9 @@ def discover_hdfstore(f):
     d = dict()
     for key in f.keys():
         d2 = d
-        key2 = key.lstrip('/')
-        while '/' in key2:
-            group, key2 = key2.split('/', 1)
+        key2 = key.lstrip("/")
+        while "/" in key2:
+            group, key2 = key2.split("/", 1)
             if group not in d2:
                 d2[group] = dict()
             d2 = d2[group]
@@ -39,24 +39,23 @@ def discover_hdfstore_storer(storer):
 
 @convert.register(chunks(pd.DataFrame), pd.io.pytables.AppendableFrameTable)
 def hdfstore_to_chunks_dataframes(data, chunksize=100000, **kwargs):
-    if (isinstance(chunksize, (float, np.floating)) and
-            not chunksize.is_integer()):
-        raise TypeError('chunksize argument must be an integer, got %s' %
-                        chunksize)
+    if isinstance(chunksize, (float, np.floating)) and not chunksize.is_integer():
+        raise TypeError("chunksize argument must be an integer, got %s" % chunksize)
 
     chunksize = int(chunksize)
 
     def f():
         k = min(chunksize, 100)
         yield data.parent.select(data.pathname, start=0, stop=k)
-        for chunk in data.parent.select(data.pathname, chunksize=chunksize,
-                                        start=k):
+        for chunk in data.parent.select(data.pathname, chunksize=chunksize, start=k):
             yield chunk
+
     return chunks(pd.DataFrame)(f)
 
 
-@convert.register(pd.DataFrame, (pd.io.pytables.AppendableFrameTable,
-                                 pd.io.pytables.FrameFixed))
+@convert.register(
+    pd.DataFrame, (pd.io.pytables.AppendableFrameTable, pd.io.pytables.FrameFixed)
+)
 def hdfstore_to_chunks_dataframes(data, **kwargs):
     return data.read()
 
@@ -74,14 +73,15 @@ before you import projects like odo or into or blaze."""
 
 from collections import namedtuple
 
-EmptyHDFStoreDataset = namedtuple('EmptyHDFStoreDataset', 'parent,pathname,dshape')
+EmptyHDFStoreDataset = namedtuple("EmptyHDFStoreDataset", "parent,pathname,dshape")
 
-@resource.register('hdfstore://.+', priority=11)
+
+@resource.register("hdfstore://.+", priority=11)
 def resource_hdfstore(uri, datapath=None, dshape=None, **kwargs):
     # TODO:
     # 1. Support nested datashapes (e.g. groups)
     # 2. Try translating unicode to ascii?  (PyTables fails here)
-    fn = uri.split('://')[1]
+    fn = uri.split("://")[1]
     try:
         f = pd.HDFStore(fn, **filter_kwargs(pd.HDFStore, kwargs))
     except RuntimeError as e:
@@ -106,8 +106,7 @@ def append_dataframe_to_hdfstore(store, df, **kwargs):
     return store.parent.get_storer(store.pathname)
 
 
-@append.register((pd.io.pytables.Fixed, EmptyHDFStoreDataset),
-                 chunks(pd.DataFrame))
+@append.register((pd.io.pytables.Fixed, EmptyHDFStoreDataset), chunks(pd.DataFrame))
 def append_chunks_dataframe_to_hdfstore(store, c, **kwargs):
     parent = store.parent
     for chunk in c:

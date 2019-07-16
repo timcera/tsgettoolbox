@@ -23,8 +23,10 @@ class FailedConversionWarning(UserWarning):
         self.exc = exc
 
     def __str__(self):
-        return 'Failed on %s -> %s. Working around\nError message:\n%s' % (
-            self.src.__name__, self.dest.__name__, self.exc,
+        return "Failed on %s -> %s. Working around\nError message:\n%s" % (
+            self.src.__name__,
+            self.dest.__name__,
+            self.exc,
         )
 
 
@@ -43,11 +45,13 @@ class IterProxy(object):
         The iterable being proxied. This can be reassigned to change the
         underlying stream.
     """
+
     def __init__(self, it):
         self._it = iter(it)
 
     def __next__(self):
         return next(self.it)
+
     next = __next__  # py2 compat
 
     def __iter__(self):
@@ -74,6 +78,7 @@ class NetworkDispatcher(object):
             for a, b in sigs:
                 self.graph.add_edge(b, a, cost=cost, func=func)
             return func
+
         return _
 
     def path(self, *args, **kwargs):
@@ -83,21 +88,20 @@ class NetworkDispatcher(object):
         return _transform(self.graph, *args, **kwargs)
 
 
-def _transform(graph, target, source, excluded_edges=None, ooc_types=ooc_types,
-               **kwargs):
+def _transform(
+    graph, target, source, excluded_edges=None, ooc_types=ooc_types, **kwargs
+):
     """ Transform source to target type using graph of transformations """
     # take a copy so we can mutate without affecting the input
-    excluded_edges = (excluded_edges.copy()
-                      if excluded_edges is not None else
-                      set())
+    excluded_edges = excluded_edges.copy() if excluded_edges is not None else set()
 
     with ignoring(NotImplementedError):
-        if 'dshape' not in kwargs or kwargs['dshape'] is None:
-            kwargs['dshape'] = discover(source)
+        if "dshape" not in kwargs or kwargs["dshape"] is None:
+            kwargs["dshape"] = discover(source)
 
-    pth = path(graph, type(source), target,
-               excluded_edges=excluded_edges,
-               ooc_types=ooc_types)
+    pth = path(
+        graph, type(source), target, excluded_edges=excluded_edges, ooc_types=ooc_types
+    )
 
     x = source
     path_proxy = IterProxy(pth)
@@ -105,7 +109,7 @@ def _transform(graph, target, source, excluded_edges=None, ooc_types=ooc_types,
         try:
             x = f(x, excluded_edges=excluded_edges, **kwargs)
         except NotImplementedError as e:
-            if kwargs.get('raise_on_errors'):
+            if kwargs.get("raise_on_errors"):
                 raise
             warn(FailedConversionWarning(convert_from, convert_to, e))
 
@@ -114,17 +118,29 @@ def _transform(graph, target, source, excluded_edges=None, ooc_types=ooc_types,
 
             # compute the path from `source` to `target` excluding
             # the edge that broke
-            fresh_path = list(path(graph, type(source), target,
-                                   excluded_edges=excluded_edges,
-                                   ooc_types=ooc_types))
+            fresh_path = list(
+                path(
+                    graph,
+                    type(source),
+                    target,
+                    excluded_edges=excluded_edges,
+                    ooc_types=ooc_types,
+                )
+            )
             fresh_path_cost = path_cost(fresh_path)
 
             # compute the path from the current `convert_from` type
             # to the `target`
             try:
-                greedy_path = list(path(graph, convert_from, target,
-                                        excluded_edges=excluded_edges,
-                                        ooc_types=ooc_types))
+                greedy_path = list(
+                    path(
+                        graph,
+                        convert_from,
+                        target,
+                        excluded_edges=excluded_edges,
+                        ooc_types=ooc_types,
+                    )
+                )
             except nx.exception.NetworkXNoPath:
                 greedy_path_cost = np.inf
             else:
@@ -144,7 +160,7 @@ def _transform(graph, target, source, excluded_edges=None, ooc_types=ooc_types,
     return x
 
 
-PathPart = namedtuple('PathPart', 'convert_from convert_to func cost')
+PathPart = namedtuple("PathPart", "convert_from convert_to func cost")
 _virtual_superclasses = (Iterator,)
 
 
@@ -165,15 +181,14 @@ def path(graph, source, target, excluded_edges=None, ooc_types=ooc_types):
     if ooc_types:
         oocs = tuple(ooc_types)
         if issubclass(source, oocs) and issubclass(target, oocs):
-            graph = graph.subgraph([n for n in graph.nodes()
-                                    if issubclass(n, oocs)])
+            graph = graph.subgraph([n for n in graph.nodes() if issubclass(n, oocs)])
     with without_edges(graph, excluded_edges) as g:
-        pth = nx.shortest_path(g, source=source, target=target, weight='cost')
+        pth = nx.shortest_path(g, source=source, target=target, weight="cost")
         edge = adjacency(graph)
 
         def path_part(src, tgt):
             node = edge[src][tgt]
-            return PathPart(src, tgt, node['func'], node['cost'])
+            return PathPart(src, tgt, node["func"], node["cost"])
 
         return map(path_part, pth, pth[1:])
 

@@ -4,23 +4,24 @@ import shutil
 import pytest
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def sc():
-    pytest.importorskip('pyspark')
+    pytest.importorskip("pyspark")
     from pyspark import SparkContext
-    return SparkContext('local[*]', 'odo')
+
+    return SparkContext("local[*]", "odo")
 
 
-@pytest.yield_fixture(scope='session')
+@pytest.yield_fixture(scope="session")
 def sqlctx(sc):
-    pytest.importorskip('pyspark')
+    pytest.importorskip("pyspark")
     from tsgettoolbox.odo.backends.sparksql import HiveContext
 
     try:
         yield HiveContext(sc)
     finally:
-        dbpath = 'metastore_db'
-        logpath = 'derby.log'
+        dbpath = "metastore_db"
+        logpath = "derby.log"
         if os.path.exists(dbpath):
             assert os.path.isdir(dbpath)
             shutil.rmtree(dbpath)

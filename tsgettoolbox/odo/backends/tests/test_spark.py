@@ -2,7 +2,7 @@ from __future__ import print_function, absolute_import, division
 
 import pytest
 
-pytest.importorskip('pyspark')
+pytest.importorskip("pyspark")
 
 import pytest
 from datashape import dshape
@@ -13,9 +13,7 @@ from pyspark.rdd import PipelinedRDD
 from pyspark.sql import Row
 
 
-data = [['Alice', 100.0, 1],
-        ['Bob', 200.0, 2],
-        ['Alice', 50.0, 3]]
+data = [["Alice", 100.0, 1], ["Bob", 200.0, 2], ["Alice", 50.0, 3]]
 
 
 @pytest.fixture
@@ -36,7 +34,7 @@ def test_spark_into_context(sc):
 
 
 def test_rdd_into_schema_rdd(rdd):
-    ds = dshape('var * {name: string, amount: float64, id: int64}')
+    ds = dshape("var * {name: string, amount: float64, id: int64}")
     srdd = odo(rdd, SparkDataFrame, dshape=ds)
     assert isinstance(srdd, SparkDataFrame)
     assert list(map(set, srdd.collect())) == list(map(set, rdd.collect()))
@@ -46,12 +44,10 @@ def test_pipelined_rdd_into_schema_rdd(rdd):
     pipelined = rdd.map(lambda x: Row(amount=x[1]))
     assert isinstance(pipelined, PipelinedRDD)
 
-    srdd = odo(pipelined, SparkDataFrame,
-               dshape=dshape('var * {amount: float64}'))
+    srdd = odo(pipelined, SparkDataFrame, dshape=dshape("var * {amount: float64}"))
 
     assert isinstance(srdd, SparkDataFrame)
-    assert (list(map(set, srdd.collect())) ==
-            list(map(set, pipelined.collect())))
+    assert list(map(set, srdd.collect())) == list(map(set, pipelined.collect()))
 
 
 def test_discover_rdd(rdd):

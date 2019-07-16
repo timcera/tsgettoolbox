@@ -1,4 +1,3 @@
-
 from tsgettoolbox.odo import odo, resource
 import pandas as pd
 import mando
@@ -11,11 +10,8 @@ except ImportError:
 from tstoolbox import tsutils
 
 
-@mando.command(formatter_class=HelpFormatter, doctype='numpy')
-def ndbc(station,
-         table,
-         startUTC,
-         endUTC):
+@mando.command(formatter_class=HelpFormatter, doctype="numpy")
+def ndbc(station, table, startUTC, endUTC):
     r"""Download historical from the National Data Buoy Center.
 
     Download historical data from the National Data Buoy Center.
@@ -543,21 +539,15 @@ def ndbc(station,
         | REMCAP   | Remaining Battery Capacity (ampere-hours)            |
         +----------+------------------------------------------------------+
         """
-    tsutils._printiso(ndbc(station,
-                           table,
-                           startUTC,
-                           endUTC))
+    tsutils._printiso(ndbc(station, table, startUTC, endUTC))
 
 
-def ndbc(station,
-         table,
-         startUTC,
-         endUTC):
+def ndbc(station, table, startUTC, endUTC):
     r"""Download historical from the National Data Buoy Center."""
     from tsgettoolbox.services import ndbc as placeholder
 
     r = resource(
-        r'https://www.ndbc.noaa.gov/data/',
+        r"https://www.ndbc.noaa.gov/data/",
         table=table,
         station=station,
         startUTC=startUTC,

@@ -14,7 +14,7 @@ from ..resource import resource
 from ..drop import drop
 from ..chunks import chunks
 
-keywords = ['cparams', 'dflt', 'expectedlen', 'chunklen', 'rootdir']
+keywords = ["cparams", "dflt", "expectedlen", "chunklen", "rootdir"]
 
 
 @discover.register((ctable, carray))
@@ -58,17 +58,18 @@ def append_carray_with_chunks(a, c, **kwargs):
 
 
 @convert.register(chunks(np.ndarray), (ctable, carray), cost=1.2)
-def bcolz_to_numpy_chunks(x, chunksize=2**20, **kwargs):
+def bcolz_to_numpy_chunks(x, chunksize=2 ** 20, **kwargs):
     def load():
         first_n = min(1000, chunksize)
         first = x[:first_n]
         yield first
         for i in range(first_n, x.shape[0], chunksize):
-            yield x[i: i + chunksize]
+            yield x[i : i + chunksize]
+
     return chunks(np.ndarray)(load)
 
 
-@resource.register('.*\.bcolz/?')
+@resource.register(".*\.bcolz/?")
 def resource_bcolz(uri, dshape=None, expected_dshape=None, **kwargs):
     if os.path.exists(uri):
         try:
@@ -77,8 +78,9 @@ def resource_bcolz(uri, dshape=None, expected_dshape=None, **kwargs):
             return carray(rootdir=uri)
     else:
         if not dshape:
-            raise ValueError("Must specify either existing bcolz directory or"
-                             " valid datashape")
+            raise ValueError(
+                "Must specify either existing bcolz directory or" " valid datashape"
+            )
         dshape = datashape.dshape(dshape)
 
         dt = dshape_to_numpy(dshape)
@@ -91,11 +93,13 @@ def resource_bcolz(uri, dshape=None, expected_dshape=None, **kwargs):
         x = np.empty(shape=shape, dtype=dt)
 
         kwargs = keyfilter(keywords.__contains__, kwargs)
-        expectedlen = kwargs.pop('expectedlen',
-                                 int(expected_dshape[0])
-                                 if expected_dshape is not None and
-                                 isinstance(expected_dshape[0], datashape.Fixed)
-                                 else None)
+        expectedlen = kwargs.pop(
+            "expectedlen",
+            int(expected_dshape[0])
+            if expected_dshape is not None
+            and isinstance(expected_dshape[0], datashape.Fixed)
+            else None,
+        )
 
         if datashape.predicates.isrecord(dshape.measure):
             return ctable(x, rootdir=uri, expectedlen=expectedlen, **kwargs)

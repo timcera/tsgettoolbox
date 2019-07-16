@@ -2,7 +2,7 @@ from __future__ import absolute_import, division, print_function
 
 import pytest
 
-pytest.importorskip('dask')
+pytest.importorskip("dask")
 
 from toolz import merge
 from tsgettoolbox.odo.backends.dask import append
@@ -34,7 +34,7 @@ def test_convert_to_numpy_array():
 
 
 def test_append_to_array():
-    bcolz = pytest.importorskip('bcolz')
+    bcolz = pytest.importorskip("bcolz")
     x = np.arange(600).reshape((20, 30))
     a = into(Array, x, chunks=(4, 5))
     b = bcolz.zeros(shape=(0, 30), dtype=x.dtype)
@@ -42,14 +42,14 @@ def test_append_to_array():
     append(b, a)
     assert eq(b[:], x)
 
-    with tmpfile('.hdf5') as fn:
-        h = odo(a, fn + '::/data')
+    with tmpfile(".hdf5") as fn:
+        h = odo(a, fn + "::/data")
         assert eq(h[:], x)
         h.file.close()
 
 
 def test_into_inplace():
-    bcolz = pytest.importorskip('bcolz')
+    bcolz = pytest.importorskip("bcolz")
     x = np.arange(600).reshape((20, 30))
     a = into(Array, x, chunks=(4, 5))
     b = bcolz.zeros(shape=(20, 30), dtype=x.dtype)

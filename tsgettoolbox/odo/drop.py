@@ -28,8 +28,7 @@ def drop(rsrc):
     [('Alice', 100), ('Bob', 200)]
     >>> drop(sql)
     """
-    raise NotImplementedError("drop not implemented for type %r" %
-                              type(rsrc).__name__)
+    raise NotImplementedError("drop not implemented for type %r" % type(rsrc).__name__)
 
 
 @dispatch((str, unicode))

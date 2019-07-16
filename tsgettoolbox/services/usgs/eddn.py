@@ -24,22 +24,13 @@ from tsgettoolbox.ulmo.usgs.eddn import get_data
 #         use_cache=False, cache_path=None, as_dataframe=True):
 
 
-def ulmo_df(dcp_address,
-            parser,
-            start_date=None,
-            end_date=None):
-    first = get_data(dcp_address,
-                     start=start_date,
-                     end=end_date)
-    return decode(first,
-                  parser).sort_index()
+def ulmo_df(dcp_address, parser, start_date=None, end_date=None):
+    first = get_data(dcp_address, start=start_date, end=end_date)
+    return decode(first, parser).sort_index()
 
 
-if __name__ == '__main__':
-    r = ulmo_df('C5149430',
-                'twdb_sutron',
-                start_date='P5D',
-                end_date='P1D')
+if __name__ == "__main__":
+    r = ulmo_df("C5149430", "twdb_sutron", start_date="P5D", end_date="P1D")
 
-    print('FL EVERYTHING')
+    print("FL EVERYTHING")
     print(r)

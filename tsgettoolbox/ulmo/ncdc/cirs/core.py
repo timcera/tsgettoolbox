@@ -19,29 +19,34 @@ import pandas
 from tsgettoolbox.ulmo import util
 
 
-CIRS_DIR = util.get_ulmo_dir('ncdc/cirs')
+CIRS_DIR = util.get_ulmo_dir("ncdc/cirs")
 
 NO_DATA_VALUES = {
-    'cddc': '-9999.',
-    'hddc': '-9999.',
-    'pcpn': '-9.99',
-    'pdsi': '-99.99',
-    'phdi': '-99.99',
-    'pmdi': '-99.99',
-    'sp01': '-99.99',
-    'sp02': '-99.99',
-    'sp03': '-99.99',
-    'sp06': '-99.99',
-    'sp09': '-99.99',
-    'sp12': '-99.99',
-    'sp24': '-99.99',
-    'tmpc': '-99.90',
-    'zndx': '-99.99',
-
+    "cddc": "-9999.",
+    "hddc": "-9999.",
+    "pcpn": "-9.99",
+    "pdsi": "-99.99",
+    "phdi": "-99.99",
+    "pmdi": "-99.99",
+    "sp01": "-99.99",
+    "sp02": "-99.99",
+    "sp03": "-99.99",
+    "sp06": "-99.99",
+    "sp09": "-99.99",
+    "sp12": "-99.99",
+    "sp24": "-99.99",
+    "tmpc": "-99.90",
+    "zndx": "-99.99",
 }
 
 
-def get_data(elements=None, by_state=False, location_names='abbr', as_dataframe=False, use_file=None):
+def get_data(
+    elements=None,
+    by_state=False,
+    location_names="abbr",
+    as_dataframe=False,
+    use_file=None,
+):
     """Retrieves data.
 
     Parameters
@@ -99,21 +104,21 @@ def get_data(elements=None, by_state=False, location_names='abbr', as_dataframe=
         elements = [elements]
     elif elements is None:
         elements = [
-            'cddc',
-            'hddc',
-            'pcpn',
-            'pdsi',
-            'phdi',
-            'pmdi',
-            'sp01',
-            'sp02',
-            'sp03',
-            'sp06',
-            'sp09',
-            'sp12',
-            'sp24',
-            'tmpc',
-            'zndx',
+            "cddc",
+            "hddc",
+            "pcpn",
+            "pdsi",
+            "phdi",
+            "pmdi",
+            "sp01",
+            "sp02",
+            "sp03",
+            "sp06",
+            "sp09",
+            "sp12",
+            "sp24",
+            "tmpc",
+            "zndx",
         ]
 
     df = None
@@ -123,8 +128,8 @@ def get_data(elements=None, by_state=False, location_names='abbr', as_dataframe=
 
         element_df = _get_element_data(element, by_state, element_file, location_names)
 
-        keys = ['location_code', 'year', 'month']
-        for append_key in ['division', 'state', 'state_code']:
+        keys = ["location_code", "year", "month"]
+        for append_key in ["division", "state", "state_code"]:
             if append_key in element_df.columns:
                 keys.append(append_key)
         element_df.set_index(keys, inplace=True)
@@ -132,7 +137,7 @@ def get_data(elements=None, by_state=False, location_names='abbr', as_dataframe=
         if df is None:
             df = element_df
         else:
-            df = df.join(element_df, how='outer')
+            df = df.join(element_df, how="outer")
 
     df = df.reset_index()
     df = _resolve_location_names(df, location_names, by_state)
@@ -149,7 +154,7 @@ def _get_element_data(element, by_state, use_file, location_names):
         path = None
     else:
         url = _get_url(element, by_state)
-        filename = url.rsplit('/', 1)[-1]
+        filename = url.rsplit("/", 1)[-1]
         path = os.path.join(CIRS_DIR, filename)
 
     with util.open_file_for_url(url, path, use_file=use_file) as f:
@@ -160,13 +165,16 @@ def _get_element_data(element, by_state, use_file, location_names):
 
 def _get_element_file(use_file, element, elements, by_state):
     if isinstance(use_file, basestring):
-        if os.path.basename(use_file) == '':
+        if os.path.basename(use_file) == "":
             if len(elements) > 1:
                 assert ValueError(
                     "'use_file' must be a path to a directory if using "
-                    "'use_file' with multiple elements")
+                    "'use_file' with multiple elements"
+                )
 
-            return use_file + _get_filename(element, by_state, os.path.dirname(use_file))
+            return use_file + _get_filename(
+                element, by_state, os.path.dirname(use_file)
+            )
 
     return use_file
 
@@ -184,34 +192,33 @@ def _get_url(element, by_state):
 
 
 def _most_recent(files, element, by_state):
-    geographic_extent = 'st' if by_state else 'dv'
-    match_str = 'climdiv-{element}{geographic_extent}'.format(
-        element=element,
-        geographic_extent=geographic_extent,
+    geographic_extent = "st" if by_state else "dv"
+    match_str = "climdiv-{element}{geographic_extent}".format(
+        element=element, geographic_extent=geographic_extent
     )
     matches = [s for s in files if s.startswith(match_str)]
     return sorted(matches, key=_file_key)[0]
 
 
 def _file_key(filename):
-    version_str = filename.split('-')[2][1:]
+    version_str = filename.split("-")[2][1:]
     return distutils.version.StrictVersion(version_str)
 
 
 def _parse_values(file_handle, by_state, location_names, element):
     if by_state:
         id_columns = [
-            ('location_code', 0, 3, None),
-            #('division', 3, 3, None), # ignored in state files
-            #('element', 4, 6, None),  # element is redundant
-            ('year', 6, 10, None),
+            ("location_code", 0, 3, None),
+            # ('division', 3, 3, None), # ignored in state files
+            # ('element', 4, 6, None),  # element is redundant
+            ("year", 6, 10, None),
         ]
     else:
         id_columns = [
-            ('location_code', 0, 2, None),
-            ('division', 2, 4, None),
-            #('element', 4, 6, None),  # element is redundant
-            ('year', 6, 10, None),
+            ("location_code", 0, 2, None),
+            ("division", 2, 4, None),
+            # ('element', 4, 6, None),  # element is redundant
+            ("year", 6, 10, None),
         ]
 
     year_col_end = id_columns[-1][2]
@@ -227,17 +234,16 @@ def _parse_values(file_handle, by_state, location_names, element):
     parsed = util.parse_fwf(file_handle, columns, na_values=na_values)
 
     month_columns = [id_column[0] for id_column in id_columns]
-    melted = pandas.melt(parsed, id_vars=month_columns)\
-        .rename(columns={'variable': 'month'})
+    melted = pandas.melt(parsed, id_vars=month_columns).rename(
+        columns={"variable": "month"}
+    )
 
     melted.month = melted.month.astype(int)
 
     # throw away NaNs
-    melted = melted[melted['value'].notnull()]
+    melted = melted[melted["value"].notnull()]
 
-    data = melted.rename(columns={
-        'value': element,
-    })
+    data = melted.rename(columns={"value": element})
 
     return data
 
@@ -245,21 +251,20 @@ def _parse_values(file_handle, by_state, location_names, element):
 def _resolve_location_names(df, location_names, by_state):
     if location_names is None:
         return df
-    elif location_names not in ('abbr', 'full'):
-        raise ValueError("location_names should be set to either None, 'abbr' or 'full'")
+    elif location_names not in ("abbr", "full"):
+        raise ValueError(
+            "location_names should be set to either None, 'abbr' or 'full'"
+        )
     else:
         locations = _states_regions_dataframe()[location_names]
-        with_locations = df.join(locations, on='location_code')
+        with_locations = df.join(locations, on="location_code")
 
         if by_state:
-            return with_locations.rename(columns={
-                location_names: 'location',
-            })
+            return with_locations.rename(columns={location_names: "location"})
         else:
-            return with_locations.rename(columns={
-                location_names: 'state',
-                'location_code': 'state_code',
-            })
+            return with_locations.rename(
+                columns={location_names: "state", "location_code": "state_code"}
+            )
 
 
 def _states_regions_dataframe():
@@ -326,7 +331,6 @@ def _states_regions_dataframe():
         108: ("Northwest Region", "nwr"),
         109: ("West Region", "wr"),
         110: ("National (contiguous 48 States)", "national"),
-
         # The following are the range of code values for the National Weather Service Regions, river basins, and agricultural regions.
         111: ("NWS: Great Plains", "nws:gp"),
         115: ("NWS: Southern Plains and Gulf Coast", "nws:spgc"),
@@ -353,9 +357,10 @@ def _states_regions_dataframe():
         216: ("NWS: South Atlantic-Gulf Basin", "nws:sagb"),
         217: ("NWS: Mid-Atlantic Basin", "nws:mab"),
         218: ("NWS: New England Basin", "nws:neb"),
-        220: ("NWS: Mississippi River Basin & Tributaties (N. of Memphis, TN",
-              "nws:mrbt"),
-
+        220: (
+            "NWS: Mississippi River Basin & Tributaties (N. of Memphis, TN",
+            "nws:mrbt",
+        ),
         # below( codes are weighted by area)
         250: ("Area: Spring Wheat Belt", "area:swb"),
         255: ("Area: Primary Hard Red Winter Wheat Belt", "area:phrwwb"),
@@ -364,14 +369,12 @@ def _states_regions_dataframe():
         261: ("Area: Corn Belt", "area:cb"),
         262: ("Area: Soybean Belt", "area:sb"),
         265: ("Area: Cotton Belt", "area:cb"),
-
         # below( codes are weighted by productivity)
         350: ("Prod: Spring Wheat Belt", "prod:swb"),
         356: ("Prod: Winter Wheat Belt", "prod:wwb"),
         361: ("Prod: Corn Belt", "prod:cb"),
         362: ("Prod: Soybean Belt", "prod:sb"),
         365: ("Prod: Cotton Belt", "prod:cb"),
-
         # below( codes are for percent productivity in the Palmer Z Index categories)
         450: ("% Prod: Spring Wheat Belt", "%prod:swb"),
         456: ("% Prod: Winter Wheat Belt", "%prod:wwb"),
@@ -379,4 +382,4 @@ def _states_regions_dataframe():
         462: ("% Prod: Soybean Belt", "%prod:sb"),
         465: ("% Prod: Cotton Belt", "%prod:cb"),
     }
-    return pandas.DataFrame(STATES_REGIONS).T.rename(columns={0: 'full', 1: 'abbr'})
+    return pandas.DataFrame(STATES_REGIONS).T.rename(columns={0: "full", 1: "abbr"})

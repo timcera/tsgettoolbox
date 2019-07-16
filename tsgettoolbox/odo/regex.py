@@ -3,7 +3,7 @@ from __future__ import absolute_import, division, print_function
 import re
 
 
-_pattern_type = type(re.compile(''))
+_pattern_type = type(re.compile(""))
 
 
 def normalize(r):
@@ -22,7 +22,7 @@ def normalize(r):
     """
     if isinstance(r, _pattern_type):
         r = r.pattern
-    return re.compile('^' + r.lstrip('^').rstrip('$') + '$')
+    return re.compile("^" + r.lstrip("^").rstrip("$") + "$")
 
 
 class RegexDispatcher(object):
@@ -52,6 +52,7 @@ class RegexDispatcher(object):
     >>> type(f('123.456'))
     float
     """
+
     def __init__(self, name):
         self.name = name
         self.funcs = {}
@@ -78,9 +79,11 @@ class RegexDispatcher(object):
             A decorator that registers the function with this RegexDispatcher
             but otherwise returns the function unchanged.
         """
+
         def _(func):
             self.add(regex, func, priority)
             return func
+
         return _
 
     def dispatch(self, s):

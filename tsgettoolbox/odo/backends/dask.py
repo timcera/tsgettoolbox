@@ -46,6 +46,7 @@ else:
     def resize(x, shape):
         return x.resize(shape)
 
+
 try:
     import bcolz
 except ImportError:
@@ -58,15 +59,14 @@ else:
         return x.resize(size)
 
 
-@convert.register(Array, tuple(arrays), cost=1.)
+@convert.register(Array, tuple(arrays), cost=1.0)
 def array_to_dask(x, name=None, chunks=None, **kwargs):
     if chunks is None:
         raise ValueError("chunks cannot be None")
-    return from_array(x, chunks=chunks, name=name,
-                      **filter_kwargs(from_array, kwargs))
+    return from_array(x, chunks=chunks, name=name, **filter_kwargs(from_array, kwargs))
 
 
-@convert.register(np.ndarray, Array, cost=10.)
+@convert.register(np.ndarray, Array, cost=10.0)
 def dask_to_numpy(x, **kwargs):
     return np.array(x)
 
@@ -103,9 +103,10 @@ def bag_to_iterator(x, **kwargs):
     return db.from_sequence(x, **filter_kwargs(db.from_sequence, kwargs))
 
 
-@convert.register(dd.DataFrame, pd.DataFrame, cost=1.)
+@convert.register(dd.DataFrame, pd.DataFrame, cost=1.0)
 def pandas_dataframe_to_dask_dataframe(x, npartitions=None, **kwargs):
     if npartitions is None:
         raise ValueError("npartitions cannot be None")
-    return dd.from_pandas(x, npartitions=npartitions,
-                          **filter_kwargs(dd.from_pandas, kwargs))
+    return dd.from_pandas(
+        x, npartitions=npartitions, **filter_kwargs(dd.from_pandas, kwargs)
+    )

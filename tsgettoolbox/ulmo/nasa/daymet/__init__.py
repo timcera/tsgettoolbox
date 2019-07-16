@@ -8,7 +8,7 @@ from __future__ import absolute_import
 
 from . import core
 
-from .core import (get_daymet_singlepixel)
-from .core import (get_variables)
+from .core import get_daymet_singlepixel
+from .core import get_variables
 
 from tsgettoolbox.ulmo import util

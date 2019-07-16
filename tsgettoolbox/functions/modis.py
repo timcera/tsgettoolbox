@@ -1,4 +1,3 @@
-
 from tsgettoolbox.odo import odo, resource
 import pandas as pd
 import mando
@@ -11,13 +10,8 @@ except ImportError:
 from tstoolbox import tsutils
 
 
-@mando.command('modis', formatter_class=HelpFormatter, doctype='numpy')
-def modis_cli(lat,
-              lon,
-              product,
-              band,
-              startdate=None,
-              enddate=None):
+@mando.command("modis", formatter_class=HelpFormatter, doctype="numpy")
+def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
     r"""Download MODIS derived data.
 
     This data are derived data sets from MODIS satellite photos.
@@ -440,29 +434,22 @@ def modis_cli(lat,
     visualization and download page. Please modify it manually for
     multiple sites.
     """
-    tsutils._printiso(modis(lat,
-                            lon,
-                            product,
-                            band,
-                            startdate=startdate,
-                            enddate=enddate))
+    tsutils._printiso(
+        modis(lat, lon, product, band, startdate=startdate, enddate=enddate)
+    )
 
 
-def modis(lat,
-          lon,
-          product,
-          band,
-          startdate=None,
-          enddate=None):
+def modis(lat, lon, product, band, startdate=None, enddate=None):
     r"""Download MODIS derived data."""
     from tsgettoolbox.services import modis as placeholder
 
     r = resource(
-        r'https://modis.ornl.gov/cgi-bin/MODIS/soapservice/MODIS_soapservice.wsdl',
+        r"https://modis.ornl.gov/cgi-bin/MODIS/soapservice/MODIS_soapservice.wsdl",
         product=product,
         band=band,
         latitude=lat,
         longitude=lon,
         startdate=startdate,
-        enddate=enddate)
+        enddate=enddate,
+    )
     return odo(r, pd.DataFrame)

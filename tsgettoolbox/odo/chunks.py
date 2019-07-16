@@ -35,16 +35,14 @@ class Chunks(object):
     def __iter__(self):
         if callable(self.data):
             return self.data()
-        elif (isinstance(self.data, list) and
-              len(self.data) and
-              callable(self.data[0])):
+        elif isinstance(self.data, list) and len(self.data) and callable(self.data[0]):
             # If this is a set of callables, evaluate
             # them using dask before returning an iterator for them
             p = []
             dsk = {}
             for i, f in enumerate(self.data):
-                dsk['p%d'%i] = (f,)
-                p.append('p%d'%i)
+                dsk["p%d" % i] = (f,)
+                p.append("p%d" % i)
             self.data = dsk_get(dsk, p)
         return iter(self.data)
 
@@ -53,7 +51,7 @@ class Chunks(object):
 @copydoc(Chunks)
 def chunks(cls):
     """ Parametrized Chunks Class """
-    return type('chunks(%s)' % cls_name(cls), (Chunks,), {'container': cls})
+    return type("chunks(%s)" % cls_name(cls), (Chunks,), {"container": cls})
 
 
 @discover.register(Chunks)

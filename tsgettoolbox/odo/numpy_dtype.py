@@ -37,17 +37,17 @@ def unit_to_dtype(ds):
         ds = ds.measure
     if isinstance(ds, Option) and isscalar(ds) and isnumeric(ds):
         if isinstance(ds.ty, Decimal):
-            str_np_dtype = str(ds.ty.to_numpy_dtype()).replace('int', 'float')
-            if str_np_dtype == 'float8':  # not a valid dtype, so increase
-                str_np_dtype = 'float16'
+            str_np_dtype = str(ds.ty.to_numpy_dtype()).replace("int", "float")
+            if str_np_dtype == "float8":  # not a valid dtype, so increase
+                str_np_dtype = "float16"
             return unit_to_dtype(str_np_dtype)
-        return unit_to_dtype(str(ds).replace('int', 'float').replace('?', ''))
+        return unit_to_dtype(str(ds).replace("int", "float").replace("?", ""))
     if isinstance(ds, Option) and isinstance(
         ds.ty, (Date, DateTime, String, TimeDelta)
     ):
         ds = ds.ty
     if ds == string:
-        return np.dtype('O')
+        return np.dtype("O")
     return to_numpy_dtype(ds)
 
 
@@ -81,15 +81,13 @@ def dshape_to_numpy(ds):
     if isinstance(ds, DataShape):
         ds = ds.measure
     if isrecord(ds):
-        return np.dtype([
-            (str(name), unit_to_dtype(typ))
-            for name, typ in zip(ds.names, ds.types)
-        ])
+        return np.dtype(
+            [(str(name), unit_to_dtype(typ)) for name, typ in zip(ds.names, ds.types)]
+        )
     if isinstance(ds, Tuple):
-        return np.dtype([
-            ('f%d' % i, unit_to_dtype(typ))
-            for i, typ in enumerate(ds.parameters[0])
-        ])
+        return np.dtype(
+            [("f%d" % i, unit_to_dtype(typ)) for i, typ in enumerate(ds.parameters[0])]
+        )
     else:
         return unit_to_dtype(ds)
 
@@ -124,14 +122,10 @@ def dshape_to_pandas(ds):
         ds = ds[0]
 
     dtypes = {
-        name: (
-            np.dtype('object')
-            if isinstance(typ, String) else unit_to_dtype(typ)
-        )
-        for name, typ in ds.measure.dict.items() if 'date' not in str(typ)
+        name: (np.dtype("object") if isinstance(typ, String) else unit_to_dtype(typ))
+        for name, typ in ds.measure.dict.items()
+        if "date" not in str(typ)
     }
-    datetimes = [
-        name for name, typ in ds.measure.dict.items() if 'date' in str(typ)
-    ]
+    datetimes = [name for name, typ in ds.measure.dict.items() if "date" in str(typ)]
 
     return dtypes, datetimes

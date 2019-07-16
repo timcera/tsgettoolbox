@@ -22,7 +22,7 @@ import pandas
 from tsgettoolbox.ulmo import util
 
 
-GHCN_DAILY_DIR = os.path.join(util.get_ulmo_dir(), 'ncdc/ghcn_daily')
+GHCN_DAILY_DIR = os.path.join(util.get_ulmo_dir(), "ncdc/ghcn_daily")
 
 
 def get_data(station_id, elements=None, update=True, as_dataframe=False):
@@ -58,56 +58,66 @@ def get_data(station_id, elements=None, update=True, as_dataframe=False):
         elements = [elements]
 
     start_columns = [
-        ('year', 11, 15, int),
-        ('month', 15, 17, int),
-        ('element', 17, 21, str),
+        ("year", 11, 15, int),
+        ("month", 15, 17, int),
+        ("element", 17, 21, str),
     ]
     value_columns = [
-        ('value', 0, 5, float),
-        ('mflag', 5, 6, str),
-        ('qflag', 6, 7, str),
-        ('sflag', 7, 8, str),
+        ("value", 0, 5, float),
+        ("mflag", 5, 6, str),
+        ("qflag", 6, 7, str),
+        ("sflag", 7, 8, str),
     ]
-    columns = list(itertools.chain(start_columns, *[
-        [(name + str(n), start + 13 + (8 * n), end + 13 + (8 * n), converter)
-         for name, start, end, converter in value_columns]
-        for n in range(1, 32)
-    ]))
+    columns = list(
+        itertools.chain(
+            start_columns,
+            *[
+                [
+                    (name + str(n), start + 13 + (8 * n), end + 13 + (8 * n), converter)
+                    for name, start, end, converter in value_columns
+                ]
+                for n in range(1, 32)
+            ]
+        )
+    )
 
-    station_file_path = _get_ghcn_file(
-        station_id + '.dly', check_modified=update)
+    station_file_path = _get_ghcn_file(station_id + ".dly", check_modified=update)
     station_data = util.parse_fwf(station_file_path, columns, na_values=[-9999])
 
     dataframes = {}
 
-    for element_name, element_df in station_data.groupby('element'):
+    for element_name, element_df in station_data.groupby("element"):
         if not elements is None and element_name not in elements:
             continue
 
-        element_df['month_period'] = element_df.apply(
-                lambda x: pandas.Period('%s-%s' % (x['year'], x['month'])),
-                axis=1)
-        element_df = element_df.set_index('month_period')
+        element_df["month_period"] = element_df.apply(
+            lambda x: pandas.Period("%s-%s" % (x["year"], x["month"])), axis=1
+        )
+        element_df = element_df.set_index("month_period")
         monthly_index = element_df.index
 
         # here we're just using pandas' builtin resample logic to construct a daily
         # index for the timespan
         # 2018/11/27 johanneshorak: hotfix to get ncdc ghcn_daily working again
         # new resample syntax requires resample method to generate resampled index.
-        daily_index = element_df.resample('D').sum().index.copy()
+        daily_index = element_df.resample("D").sum().index.copy()
 
         # XXX: hackish; pandas support for this sort of thing will probably be
         # added soon
-        month_starts = (monthly_index - 1).asfreq('D') + 1
+        month_starts = (monthly_index - 1).asfreq("D") + 1
         dataframe = pandas.DataFrame(
-                columns=['value', 'mflag', 'qflag', 'sflag'], index=daily_index)
+            columns=["value", "mflag", "qflag", "sflag"], index=daily_index
+        )
 
         for day_of_month in range(1, 32):
-            dates = [date for date in (month_starts + day_of_month - 1)
-                    if date.day == day_of_month]
+            dates = [
+                date
+                for date in (month_starts + day_of_month - 1)
+                if date.day == day_of_month
+            ]
             if not len(dates):
                 continue
-            months = pandas.PeriodIndex([pandas.Period(date, 'M') for date in dates])
+            months = pandas.PeriodIndex([pandas.Period(date, "M") for date in dates])
             for column_name in dataframe.columns:
                 col = column_name + str(day_of_month)
                 dataframe[column_name][dates] = element_df[col][months]
@@ -117,14 +127,23 @@ def get_data(station_id, elements=None, update=True, as_dataframe=False):
     if as_dataframe:
         return dataframes
     else:
-        return dict([
-            (key, util.dict_from_dataframe(dataframe))
-            for key, dataframe in dataframes.items()
-        ])
+        return dict(
+            [
+                (key, util.dict_from_dataframe(dataframe))
+                for key, dataframe in dataframes.items()
+            ]
+        )
 
 
-def get_stations(country=None, state=None, elements=None, start_year=None,
-        end_year=None, update=True, as_dataframe=False):
+def get_stations(
+    country=None,
+    state=None,
+    elements=None,
+    start_year=None,
+    end_year=None,
+    update=True,
+    as_dataframe=False,
+):
     """Retrieves station information, optionally limited to specific parameters.
 
 
@@ -168,29 +187,29 @@ def get_stations(country=None, state=None, elements=None, start_year=None,
     """
 
     columns = [
-        ('country', 0, 2, None),
-        ('network', 2, 3, None),
-        ('network_id', 3, 11, None),
-        ('latitude', 12, 20, None),
-        ('longitude', 21, 30, None),
-        ('elevation', 31, 37, None),
-        ('state', 38, 40, None),
-        ('name', 41, 71, None),
-        ('gsn_flag', 72, 75, None),
-        ('hcn_flag', 76, 79, None),
-        ('wm_oid', 80, 85, None),
+        ("country", 0, 2, None),
+        ("network", 2, 3, None),
+        ("network_id", 3, 11, None),
+        ("latitude", 12, 20, None),
+        ("longitude", 21, 30, None),
+        ("elevation", 31, 37, None),
+        ("state", 38, 40, None),
+        ("name", 41, 71, None),
+        ("gsn_flag", 72, 75, None),
+        ("hcn_flag", 76, 79, None),
+        ("wm_oid", 80, 85, None),
     ]
 
-    stations_file = _get_ghcn_file('ghcnd-stations.txt', check_modified=update)
+    stations_file = _get_ghcn_file("ghcnd-stations.txt", check_modified=update)
     stations = util.parse_fwf(stations_file, columns)
 
     if not country is None:
-        stations = stations[stations['country'] == country]
+        stations = stations[stations["country"] == country]
     if not state is None:
-        stations = stations[stations['state'] == state]
+        stations = stations[stations["state"] == state]
 
     # set station id and index by it
-    stations['id'] = stations[['country', 'network', 'network_id']].T.apply(''.join)
+    stations["id"] = stations[["country", "network", "network_id"]].T.apply("".join)
 
     if not elements is None or not start_year is None or not end_year is None:
         inventory = _get_inventory(update=update)
@@ -200,31 +219,31 @@ def get_stations(country=None, state=None, elements=None, start_year=None,
 
             mask = np.zeros(len(inventory), dtype=bool)
             for element in elements:
-                mask += inventory['element'] == element
+                mask += inventory["element"] == element
             inventory = inventory[mask]
         if not start_year is None:
-            inventory = inventory[inventory['last_year'] >= start_year]
+            inventory = inventory[inventory["last_year"] >= start_year]
         if not end_year is None:
-            inventory = inventory[inventory['first_year'] <= end_year]
+            inventory = inventory[inventory["first_year"] <= end_year]
 
-        uniques = inventory['id'].unique()
-        ids = pandas.DataFrame(uniques, index=uniques, columns=['id'])
-        stations = pandas.merge(stations, ids).set_index('id', drop=False)
+        uniques = inventory["id"].unique()
+        ids = pandas.DataFrame(uniques, index=uniques, columns=["id"])
+        stations = pandas.merge(stations, ids).set_index("id", drop=False)
 
-    stations = stations.set_index('id', drop=False)
+    stations = stations.set_index("id", drop=False)
     # wm_oid gets convertidsed as a float, so cast it to str manually
     # pandas versions prior to 0.13.0 could use numpy's fix-width string type
     # to do this but that stopped working in pandas 0.13.0 - fortunately a
     # regex-based helper method was added then, too
-    if pandas.__version__ < '0.13.0':
-        stations['wm_oid'] = stations['wm_oid'].astype('|U5')
-        stations['wm_oid'][stations['wm_oid'] == 'nan'] = np.nan
+    if pandas.__version__ < "0.13.0":
+        stations["wm_oid"] = stations["wm_oid"].astype("|U5")
+        stations["wm_oid"][stations["wm_oid"] == "nan"] = np.nan
     else:
-        stations['wm_oid'] = stations['wm_oid'].astype('|U5').map(lambda x: x[:-2])
-        is_nan = stations['wm_oid'] == 'n'
-        is_empty = stations['wm_oid'] == ''
+        stations["wm_oid"] = stations["wm_oid"].astype("|U5").map(lambda x: x[:-2])
+        is_nan = stations["wm_oid"] == "n"
+        is_empty = stations["wm_oid"] == ""
         is_invalid = is_nan | is_empty
-        stations.loc[is_invalid, 'wm_oid'] = np.nan
+        stations.loc[is_invalid, "wm_oid"] = np.nan
 
     if as_dataframe:
         return stations
@@ -233,27 +252,26 @@ def get_stations(country=None, state=None, elements=None, start_year=None,
 
 
 def _get_ghcn_file(filename, check_modified=True):
-    base_url = 'http://www1.ncdc.noaa.gov/pub/data/ghcn/daily/'
-    if 'ghcnd-' in filename:
+    base_url = "http://www1.ncdc.noaa.gov/pub/data/ghcn/daily/"
+    if "ghcnd-" in filename:
         url = base_url + filename
     else:
-        url = base_url + 'all/' + filename
+        url = base_url + "all/" + filename
 
-    path = os.path.join(GHCN_DAILY_DIR, url.split('/')[-1])
+    path = os.path.join(GHCN_DAILY_DIR, url.split("/")[-1])
     util.download_if_new(url, path, check_modified=check_modified)
     return path
 
 
 def _get_inventory(update=True):
     columns = [
-        ('id', 0, 11, None),
-        ('latitude', 12, 20, None),
-        ('longitude', 21, 30, None),
-        ('element', 31, 35, None),
-        ('first_year', 36, 40, None),
-        ('last_year', 41, 45, None),
+        ("id", 0, 11, None),
+        ("latitude", 12, 20, None),
+        ("longitude", 21, 30, None),
+        ("element", 31, 35, None),
+        ("first_year", 36, 40, None),
+        ("last_year", 41, 45, None),
     ]
 
-    inventory_file = _get_ghcn_file('ghcnd-inventory.txt',
-            check_modified=update)
+    inventory_file = _get_ghcn_file("ghcnd-inventory.txt", check_modified=update)
     return util.parse_fwf(inventory_file, columns)

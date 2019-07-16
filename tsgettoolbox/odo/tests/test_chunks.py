@@ -38,6 +38,6 @@ def test_discover():
 
 def test_discover_no_consume():
     cl = CL(iter(([0, 1, 2], [3, 4, 5])))
-    assert discover(cl) == discover(cl) == dshape('var * int64')
+    assert discover(cl) == discover(cl) == dshape("var * int64")
     assert tuple(cl) == ([0, 1, 2], [3, 4, 5])
     assert tuple(cl) == ()

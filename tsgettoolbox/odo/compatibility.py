@@ -6,7 +6,7 @@ import os
 
 PY2 = sys.version_info[0] == 2
 PY3 = sys.version_info[0] == 3
-ON_TRAVIS_CI = 'TRAVIS_PYTHON_VERSION' in os.environ
+ON_TRAVIS_CI = "TRAVIS_PYTHON_VERSION" in os.environ
 
 if sys.version_info[0] >= 3:
     unicode = str
@@ -28,7 +28,9 @@ def skipif(cond, **kwargs):
             return None
         else:
             return func
+
     return _
+
 
 try:
     from urlparse import urlparse
@@ -41,9 +43,13 @@ except ImportError:
     from urllib.request import urlopen
 
 import networkx
-if networkx.__version__.startswith('1.'):
+
+if networkx.__version__.startswith("1."):
+
     def adjacency(g):
         return g.edge
+
+
 else:
     # NetworkX >=2.0
     def adjacency(g):

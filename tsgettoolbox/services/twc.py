@@ -13,17 +13,17 @@ import pandas as pd
 from tsgettoolbox.ulmo.twc.kbdi.core import get_data
 
 
-def ulmo_df(county=None,
-            start_date=None,
-            end_date=None):
+def ulmo_df(county=None, start_date=None, end_date=None):
 
-    return get_data(county=county,
-                    start=pd.to_datetime(start_date),
-                    end=pd.to_datetime(end_date),
-                    as_dataframe=True)
+    return get_data(
+        county=county,
+        start=pd.to_datetime(start_date),
+        end=pd.to_datetime(end_date),
+        as_dataframe=True,
+    )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     #    import time
     #
     #    r = ulmo_df('blah',
@@ -34,9 +34,7 @@ if __name__ == '__main__':
     #
     #    time.sleep(20)
 
-    r = ulmo_df(48001,
-                start_date='2015-11-04',
-                end_date='2015-12-05')
+    r = ulmo_df(48001, start_date="2015-11-04", end_date="2015-12-05")
 
-    print('UB EVERYTHING')
+    print("UB EVERYTHING")
     print(r)
