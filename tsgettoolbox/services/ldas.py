@@ -223,7 +223,10 @@ def ldas_to_df(data, **kwargs):
     unit = _UNITS_MAP[data.query_params["variable"]][1]
     df.columns = ["{0}:{1}".format(variable_name, unit)]
     df.index.name = "Datetime:UTC"
-    return df.tz_localize("UTC")
+    try:
+        return df.tz_localize("UTC")
+    except TypeError:  # Already UTC
+        return df
 
 
 if __name__ == "__main__":
