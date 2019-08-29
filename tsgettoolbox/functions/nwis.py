@@ -819,7 +819,7 @@ def nwis(
         statYearType=statYearType,
     )
 
-    return tsutils.printiso(odo(r, pd.DataFrame))
+    return tsutils._printiso(odo(r, pd.DataFrame))
 
 
 @mando.command("nwis_iv", formatter_class=HelpFormatter, doctype="numpy")
