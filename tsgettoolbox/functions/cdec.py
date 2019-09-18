@@ -13,12 +13,12 @@ from tstoolbox import tsutils
 def cdec_cli(
     station_id, dur_code=None, sensor_num=None, start_date=None, end_date=None
 ):
-    r"""Access data from the `California Department of Water Resources`_.
+    r"""Access data from the `California Department of Water Resources`.
 
-    The web site is called the `California Data Exchange Center`_.
+    The web site is called the `California Data Exchange Center`.
 
-    .. _California Department of Water Resources: http://www.water.ca.gov/
-    .. _California Data Exchange Center: http://cdec.water.ca.gov
+    California Department of Water Resources: http://www.water.ca.gov/
+    California Data Exchange Center: http://cdec.water.ca.gov
 
     Downloads data for a set of CDEC station and sensor ids. If either is not
     provided, all available data will be downloaded.
