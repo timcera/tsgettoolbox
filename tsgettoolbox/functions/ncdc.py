@@ -3012,7 +3012,7 @@ def ncdc_normal_hly(stationid, datatypeid="", startdate="", enddate=""):
 
 
 # 2010-01-01, 2010-12-01, Normals Monthly             , 1    , NORMAL_MLY
-@mando.command("ncdc_normal_ml", formatter_class=HelpFormatter, doctype="numpy")
+@mando.command("ncdc_normal_mly", formatter_class=HelpFormatter, doctype="numpy")
 def ncdc_normal_mly(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center GHCND Monthly Summaries.
 
