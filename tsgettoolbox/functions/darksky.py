@@ -341,3 +341,6 @@ def forecast_io(
     return darksky(
         latitude, longitude, time=time, database=database, extend=extend, lang=lang
     )
+
+
+darksky.__doc__ = darksky_cli.__doc__

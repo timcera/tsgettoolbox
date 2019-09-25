@@ -65,3 +65,6 @@ def usgs_eddn(dcp_address, parser, start_date=None, end_date=None):
     )
 
     return df
+
+
+usgs_eddn.__doc__ = usgs_eddn_cli.__doc__

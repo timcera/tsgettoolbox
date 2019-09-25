@@ -453,3 +453,6 @@ def modis(lat, lon, product, band, startdate=None, enddate=None):
         enddate=enddate,
     )
     return odo(r, pd.DataFrame)
+
+
+modis.__doc__ = modis_cli.__doc__

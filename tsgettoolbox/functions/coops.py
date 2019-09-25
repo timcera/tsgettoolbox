@@ -341,3 +341,6 @@ def coops(
         bin=bin,
     )
     return odo(r, pd.DataFrame)
+
+
+coops.__doc__ = coops_cli.__doc__

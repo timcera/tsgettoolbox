@@ -148,3 +148,7 @@ def lcra_wq(site_code, historical=True, start_date=None, end_date=None):
     )
 
     return df
+
+
+lcra_hydromet.__doc__ = lcra_hydromet_cli.__doc__
+lcra_wq.__doc__ = lcra_wq_cli.__doc__

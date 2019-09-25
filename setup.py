@@ -4,6 +4,7 @@
 from itertools import chain
 import os
 import os.path
+import shutil
 import sys
 
 from setuptools import find_packages

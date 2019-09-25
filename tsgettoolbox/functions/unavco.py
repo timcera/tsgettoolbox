@@ -126,3 +126,6 @@ def unavco(station, database="met", starttime=None, endtime=None):
         map_db_to_url[database], station=station, starttime=starttime, endtime=endtime
     )
     return odo(r, pd.DataFrame)
+
+
+unavco.__doc__ = unavco_cli.__doc__

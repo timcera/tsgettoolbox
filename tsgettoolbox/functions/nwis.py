@@ -2868,3 +2868,13 @@ def epa_wqp(
     )
 
     return odo(r, pd.DataFrame)
+
+
+nwis_iv.__doc__ = nwis_iv_cli.__doc__
+nwis_dv.__doc__ = nwis_dv_cli.__doc__
+nwis_site.__doc__ = nwis_site_cli.__doc__
+nwis_gwlevels.__doc__ = nwis_gwlevels_cli.__doc__
+nwis_measurements.__doc__ = nwis_measurements_cli.__doc__
+nwis_peak.__doc__ = nwis_peak_cli.__doc__
+nwis_stat.__doc__ = nwis_stat_cli.__doc__
+epa_wqp.__doc__ = epa_wqp_cli.__doc__

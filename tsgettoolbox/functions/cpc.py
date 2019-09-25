@@ -65,3 +65,6 @@ def cpc(state=None, climate_division=None, start_date=None, end_date=None):
         end_date=tsutils.parsedate(end_date),
     )
     return df
+
+
+cpc.__doc__ = cpc_cli.__doc__

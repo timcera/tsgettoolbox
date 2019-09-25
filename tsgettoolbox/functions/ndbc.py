@@ -10,8 +10,8 @@ except ImportError:
 from tstoolbox import tsutils
 
 
-@mando.command(formatter_class=HelpFormatter, doctype="numpy")
-def ndbc(station, table, startUTC, endUTC):
+@mando.command("ndbc", formatter_class=HelpFormatter, doctype="numpy")
+def ndbc_cli(station, table, startUTC, endUTC):
     r"""Download historical from the National Data Buoy Center.
 
     Download historical data from the National Data Buoy Center.
@@ -555,3 +555,6 @@ def ndbc(station, table, startUTC, endUTC):
     )
 
     return odo(r, pd.DataFrame)
+
+
+ndbc.__doc__  = ndbc_cli.__doc__

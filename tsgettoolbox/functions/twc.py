@@ -37,3 +37,6 @@ def twc(county, start_date=None, end_date=None):
     df = twc.ulmo_df(county=county, start_date=start_date, end_date=end_date)
 
     return df
+
+
+twc.__doc__ = twc_cli.__doc__

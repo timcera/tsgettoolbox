@@ -221,3 +221,6 @@ def ldas(
         endDate=endDate,
     )
     return odo(r, pd.DataFrame)
+
+
+ldas.__doc__ = ldas_cli.__doc__

@@ -300,7 +300,7 @@ ncdc_ghcnd_docstrings = {
 
 @mando.command("ncdc_ghcnd_ftp", formatter_class=HelpFormatter, doctype="numpy")
 @tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncdc_ghcnd_docstrings))
-def ncdc_ghcnd_ftp(station, start_date=None, end_date=None):
+def ncdc_ghcnd_ftp_cli(station, start_date=None, end_date=None):
     r"""Download from the Global Historical Climatology Network - Daily.
 
     {info}
@@ -2897,7 +2897,7 @@ def ncdc_normal_dly(stationid, datatypeid="", startdate="", enddate=""):
 # 2010-01-01, 2010-12-31, Normals Hourly              , 1    , NORMAL_HLY
 @mando.command("ncdc_normal_hly", formatter_class=HelpFormatter, doctype="numpy")
 def ncdc_normal_hly_cli(stationid, datatypeid="", startdate="", enddate=""):
-    r"""National Climatic Data Center GHCND Monthly Summaries.
+    r"""National Climatic Data Center GHCND Normal hourly.
 
     Requires registration and free API key.
 
@@ -2997,7 +2997,7 @@ def ncdc_normal_hly_cli(stationid, datatypeid="", startdate="", enddate=""):
 
 
 def ncdc_normal_hly(stationid, datatypeid="", startdate="", enddate=""):
-    r"""National Climatic Data Center GHCND Monthly Summaries."""
+    r"""National Climatic Data Center GHCND Normal hourly."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
@@ -3013,7 +3013,7 @@ def ncdc_normal_hly(stationid, datatypeid="", startdate="", enddate=""):
 
 # 2010-01-01, 2010-12-01, Normals Monthly             , 1    , NORMAL_MLY
 @mando.command("ncdc_normal_mly", formatter_class=HelpFormatter, doctype="numpy")
-def ncdc_normal_mly(stationid, datatypeid="", startdate="", enddate=""):
+def ncdc_normal_mly_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center GHCND Monthly Summaries.
 
     Requires registration and free API key.
@@ -3318,6 +3318,15 @@ def ncdc_normal_mly(stationid, datatypeid="", startdate="", enddate=""):
     enddate
         End date in ISO8601
         format."""
+    tsutils._printiso(
+        ncdc_normal_mly(
+            stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate
+        )
+    )
+
+
+def ncdc_normal_mly(stationid, datatypeid="", startdate="", enddate=""):
+    r"""National Climatic Data Center GHCND Normal monthly."""
     from tsgettoolbox.services.ncdc import cdo as placeholder
 
     r = resource(
@@ -4392,8 +4401,8 @@ def ncdc_annual(stationid, datatypeid="", startdate="", enddate=""):
 
 
 # GHCNDMS
-@mando.command(formatter_class=HelpFormatter, doctype="numpy")
-def ncdc_ghcndms(stationid, datatypeid="", startdate="", enddate=""):
+@mando.command("ncdc_ghcndms", formatter_class=HelpFormatter, doctype="numpy")
+def ncdc_ghcndms_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center GHCND Monthly Summaries.
 
     Requires registration and free API key.
@@ -4802,3 +4811,18 @@ def ncdc_ghcndms(stationid, datatypeid="", startdate="", enddate=""):
     )
 
     return odo(r, pd.DataFrame)
+
+
+ncdc_ghcnd_ftp.__doc__ = ncdc_ghcnd_ftp_cli.__doc__
+ncdc_ghcnd.__doc__ = ncdc_ghcnd_cli.__doc__
+ncdc_gs.__doc__ = ncdc_gs_cli.__doc__
+ncdc_nexrad2.__doc__ = ncdc_nexrad2_cli.__doc__
+ncdc_nexrad3.__doc__ = ncdc_nexrad3_cli.__doc__
+ncdc_normal_ann.__doc__ = ncdc_normal_ann_cli.__doc__
+ncdc_normal_dly.__doc__ = ncdc_normal_dly_cli.__doc__
+ncdc_normal_hly.__doc__ = ncdc_normal_hly_cli.__doc__
+ncdc_normal_mly.__doc__ = ncdc_normal_mly_cli.__doc__
+ncdc_precip_15.__doc__ = ncdc_precip_15_cli.__doc__
+ncdc_precip_hly.__doc__ = ncdc_precip_hly_cli.__doc__
+ncdc_annual.__doc__ = ncdc_annual_cli.__doc__
+ncdc_ghcndms.__doc__ = ncdc_ghcndms_cli.__doc__

@@ -151,3 +151,6 @@ def cdec(station_id, dur_code=None, sensor_num=None, start_date=None, end_date=N
         end_date=tsutils.parsedate(end_date),
     )
     return df
+
+
+cdec.__doc__ = cdec_cli.__doc__

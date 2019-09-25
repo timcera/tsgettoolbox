@@ -94,3 +94,6 @@ def daymet(lat, lon, measuredParams=None, year=None):
         year=year,
     )
     return odo(r, pd.DataFrame)
+
+
+daymet.__doc__ = daymet_cli.__doc__
