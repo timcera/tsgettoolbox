@@ -29,6 +29,19 @@ class ncdc_cdo_json(object):
         self.query_params["units"] = "metric"
 
 
+# poor documentation, but eventually CDO data access will be through
+# NCEI, for example:
+
+# https://www.ncei.noaa.gov/access/services/data/v1?
+#    dataset=global-summary-of-the-year&
+#    dataTypes=DP01,DP05,DP10,DSND,DSNW,DT00,DT32,DX32,DX70,DX90,SNOW,PRCP&
+#    stations=ASN00084027&
+#    startDate=1952-01-01&
+#    endDate=1970-12-31&
+#    includeAttributes=true&
+#    format=json
+
+
 @resource.register(r"http://www\.ncdc\.noaa\.gov/cdo-web/api/v2/datasets*", priority=17)
 @resource.register(
     r"http://www\.ncdc\.noaa\.gov/cdo-web/api/v2/datacategories*", priority=17
@@ -79,6 +92,7 @@ def ncdc_cdo_json_to_df(data, **kwargs):
         )
         prepped = ireq.prepare()
         dreq = s.send(prepped)
+        dreq.raise_for_status()
 
         sdate = pd.to_datetime(dreq.json()["mindate"])
         edate = pd.to_datetime(dreq.json()["maxdate"])

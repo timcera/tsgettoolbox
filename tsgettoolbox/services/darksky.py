@@ -64,18 +64,20 @@ def darksky_net_json_to_df(data, **kwargs):
     except ValueError:
         return pd.DataFrame()
 
-    if isinstance(ndfj.ix[0, 0], dict):
-        ndfj.ix[0, 0] = [ndfj.ix[0, 0]]
+    try:
+        if isinstance(ndfj.loc[data.include_db, 0], dict):
+            ndfj.loc[data.include_db, 0] = [ndfj.loc[data.include_db, 0]]
+    except KeyError:
+        return pd.DataFrame()
 
-    ndfj = pd.DataFrame(ndfj.ix[data.include_db, :])
+    ndfj = pd.DataFrame(ndfj.loc[data.include_db, :])
     ndfj = ndfj.transpose()
 
     ndfj.dropna(inplace=True, how="all")
-
     if data.include_db in ["minutely", "hourly", "daily"]:
-        ndfj = pd.DataFrame(ndfj.ix[data.include_db, "data"])
-    elif data.include_db in ["alerts"]:
-        ndfj = pd.DataFrame(ndfj.ix[data.include_db, 0])
+        ndfj = pd.DataFrame(ndfj.loc[data.include_db, 0][0]["data"])
+    elif data.include_db in ["alerts", "currently"]:
+        ndfj = pd.DataFrame(ndfj.loc[data.include_db, 0])
 
     if data.include_db != "flags":
         ndfj.index = pd.to_datetime(ndfj["time"], unit="s")

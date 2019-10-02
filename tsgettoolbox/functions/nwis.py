@@ -27,20 +27,135 @@ warnings.filterwarnings("ignore")
 
 
 nwis_docstrings = {
+    "filter_descriptions": r"""
+    Detailed documentation is available at http://waterdata.usgs.gov/nwis.
+
+    Site local time is output, even if multiple sites are requested and
+    sites are in different time zones.  Note that the measurement time
+    zone at a site may not be the same as the time zone actually in
+    effect at the site.
+
+    Every query requires a major filter. Pick the major filter
+    ('--sites', '--stateCd', '--huc', '--bBox', '--countyCd') that best
+    retrieves the data for the sites that you are interested in.  You
+    can have only one major filter per query. If you specify more than
+    one major filter, you will get an error.
+
+    **Major Filter**
+
+    Select ONE of::
+
+        '--sites',
+        '--stateCd',
+        '--huc',
+        '--bBox', or
+        '--countyCd'
+
+    **Minor Filters**
+
+    Additional filters can be applied after specifying a major filter.
+    This further reduces the set of expected results. Users are
+    encouraged to use minor filters because it allows more efficient use
+    of this service.
+
+    Use as many as desired to limit number of retrieved time series::
+
+        '--agencyCd',
+        '--altMax',
+        '--altMin',
+        '--aquiferCd',
+        '--drainAreaMax',
+        '--drainAreaMin',
+        '--holeDepthMax'
+        '--holeDepthMin',
+        '--localAquiferCd',
+        '--modifiedSince',
+        '--parameterCd',
+        '--siteStatus',
+        '--siteType',
+        '--wellDepthMax',
+        '--wellDepthMin',
+    """,
+    "results_ts": r"""
+    **Results**
+
+    The column name in the resulting table is made up of
+    "agencyCd_siteno_parameterCd", for example "USGS_02248380_00010".
+    The agency and parameter codes are described in the `agencyCd` and
+    `parameterCd` options below.
+
+    If `includeCodes` option is used, there will also be columns representing
+    the data quality codes named "agencyCd_siteno_parameterCd_cd".
+
+    +---------+--------------------------------------------------------+
+    | Code    |  Description                                           |
+    +=========+========================================================+
+    | e       | Value has been edited or estimated by USGS personnel   |
+    |         | and is write protected                                 |
+    +---------+--------------------------------------------------------+
+    | &       | Value was computed from affected unit values           |
+    +---------+--------------------------------------------------------+
+    | E       | Value was computed from estimated unit values.         |
+    +---------+--------------------------------------------------------+
+    | A       | Approved for publication -- Processing and review      |
+    |         | completed.                                             |
+    +---------+--------------------------------------------------------+
+    | P       | Provisional data subject to revision.                  |
+    +---------+--------------------------------------------------------+
+    | <       | The value is known to be less than reported value and  |
+    |         | is write protected.                                    |
+    +---------+--------------------------------------------------------+
+    | >       | The value is known to be greater than reported value   |
+    |         | and is write protected.                                |
+    +---------+--------------------------------------------------------+
+    | 1       | Value is write protected without any remark code to be |
+    |         | printed                                                |
+    +---------+--------------------------------------------------------+
+    | 2       | Remark is write protected without any remark code to   |
+    |         | be printed                                             |
+    +---------+--------------------------------------------------------+
+    |         | No remark (blank)                                      |
+    +---------+--------------------------------------------------------+
+    | Ssn     | Parameter monitored seasonally                         |
+    +---------+--------------------------------------------------------+
+    | Ice     | Ice affected                                           |
+    +---------+--------------------------------------------------------+
+    | Pr      | Partial-record site                                    |
+    +---------+--------------------------------------------------------+
+    | Rat     | Rating being developed or revised                      |
+    +---------+--------------------------------------------------------+
+    | Eqp     | Equipment malfunction                                  |
+    +---------+--------------------------------------------------------+
+    | Fld     | Flood damage                                           |
+    +---------+--------------------------------------------------------+
+    | Dis     | Data-collection discontinued                           |
+    +---------+--------------------------------------------------------+
+    | Dry     | Dry                                                    |
+    +---------+--------------------------------------------------------+
+    | --      | Parameter not determined                               |
+    +---------+--------------------------------------------------------+
+    | Mnt     | Maintenance in progress                                |
+    +---------+--------------------------------------------------------+
+    | ZFl     | Zero flow                                              |
+    +---------+--------------------------------------------------------+
+    | ``***`` | Temporarily unavailable                                |
+    +---------+--------------------------------------------------------+
+    """,
     "includeCodes": r"""includeCodes
         [optional, default is False]
 
-        Whether or not to include the metadata/quality code column.  Useful to
-        almost halve the size of the pandas DataFrame.  """,
+        Whether or not to include the metadata/quality code column.
+        Useful to almost halve the size of the pandas DataFrame.""",
     "sites": r"""sites : str
-        [optional, default is None]
+        [optional, default is None, major site filter]
 
-        Want to only query one site? Use sites as your major filter, and put
-        only one site number in the list.  Sites are comma separated. Sites may
-        be prefixed with an optional agency code followed by a colon. If you
-        do not know the site numbers you need, you can find relevant sites with
-        the NWIS Mapper (http://wdr.water.usgs.gov/nwisgmap/index.html) or on
-        the USGS Water Data for the Nation site.
+        Want to only query one site? Use sites as your major filter, and
+        put only one site number in the list.  Sites are comma
+        separated.  Sites may be prefixed with an optional agency code
+        followed by a colon. If you do not know the site numbers you
+        need, you can find relevant sites with the NWIS Mapper
+        (http://wdr.water.usgs.gov/nwisgmap/index.html) or on the USGS
+        Water Data for the Nation site.
         (http://waterdata.usgs.gov/nwis/)
 
         Can have from 1 to 100 comma separated site numbers::
@@ -48,60 +163,62 @@ nwis_docstrings = {
             --sites=USGS:01646500
             --sites=01646500,06306300""",
     "stateCd": r"""stateCd : str
-        [optional, default is None]
+        [optional, default is None, major site filter]
 
-        U.S. postal service (2-digit) state code.  Can have only 1 state code.
-        List is available at
+        U.S. postal service (2-digit) state code.  Can have only 1 state
+        code.  List is available at
         http://www.usps.com/ncsc/lookups/usps_abbreviations.html::
 
             --stateCd=NY""",
     "huc": r"""huc : str
-        [optional, default is None]
+        [optional, default is None, major site filter]
 
-        A list of hydrologic unit codes (HUC) or watersheds.  Only 1 major HUC
-        can be specified per request.  A major HUC has two digits. Minor HUCs
-        must be eight digits in length.  Can have 1 to 10 HUC codes.  List of
-        HUCs is available at http://water.usgs.gov/GIS/huc_name.html::
+        A list of hydrologic unit codes (HUC) or watersheds.  Only
+        1 major HUC can be specified per request.  A major HUC has two
+        digits. Minor HUCs must be eight digits in length.  Can have
+        1 to 10 HUC codes.  List of HUCs is available at
+        http://water.usgs.gov/GIS/huc_name.html::
 
             --huc=01,02070010""",
     "bBox": r"""bBox :
-        [optional, default is None]
+        [optional, default is None, major site filter]
 
-        A contiguous range of decimal latitude and longitude, starting with the
-        west longitude, then the south latitude, then the east longitude, and
-        then the north latitude with each value separated by a comma. The
-        product of the range of latitude and longitude cannot exceed 25
-        degrees. Whole or decimal degrees must be specified, up to six digits
-        of precision. Minutes and seconds are not allowed. Remember: western
-        longitude (which includes almost all of the United States) is specified
-        in negative degrees. Caution: many sites outside the continental US do
-        not have latitude and longitude referenced to NAD83 and therefore can
-        not be found using these arguments. Certain sites are not associated
-        with latitude and longitude due to homeland security concerns and
-        cannot be found using this filter.::
+        A contiguous range of decimal latitude and longitude, starting
+        with the west longitude, then the south latitude, then the east
+        longitude, and then the north latitude with each value separated
+        by a comma. The product of the range of latitude and longitude
+        cannot exceed 25 degrees. Whole or decimal degrees must be
+        specified, up to six digits of precision. Minutes and seconds
+        are not allowed. Remember: western longitude (which includes
+        almost all of the United States) is specified in negative
+        degrees. Caution: many sites outside the continental US do not
+        have latitude and longitude referenced to NAD83 and therefore
+        can not be found using these arguments. Certain sites are not
+        associated with latitude and longitude due to homeland security
+        concerns and cannot be found using this filter.::
 
             --bBox=-83,36.5,-81,38.5""",
     "countyCd": r"""countyCd :
-        [optional, default is None]
+        [optional, default is None, major site filter]
 
-        A list of county numbers, in a 5 digit numeric format. The first two
-        digits of a county's code are the FIPS State Code.  Can have from 1 to
-        20 county codes.  The first 2 digits are the FIPS State Code
-        (http://www.itl.nist.gov/fipspubs/fip5-2.htm) and the list of county
-        codes are at
+        A list of county numbers, in a 5 digit numeric format. The first
+        two digits of a county's code are the FIPS State Code.  Can have
+        from 1 to 20 county codes.  The first 2 digits are the FIPS
+        State Code (http://www.itl.nist.gov/fipspubs/fip5-2.htm) and the
+        list of county codes are at
         http://help.waterdata.usgs.gov/code/county_query?fmt=html::
 
             --countyCd=51059,51061""",
     "parameterCd": r"""parameterCd :
-        [optional, default is None]
+        [optional, default is None, minor site filter]
 
-        USGS time-series parameter code.  All parameter codes are numeric and
-        5 characters in length.  Parameter codes are used to identify the
-        constituent measured and the units of measure.  Popular codes include
-        stage (00065), discharge in cubic feet per second (00060) and water
-        temperature in degrees Celsius (00010). Can request from 1 to 100
-        "parameterCD"s.  Default: returns all regular time-series for the
-        requested sites.
+        USGS time-series parameter code.  All parameter codes are
+        numeric and 5 characters in length.  Parameter codes are used to
+        identify the constituent measured and the units of measure.
+        Popular codes include stage (00065), discharge in cubic feet per
+        second (00060) and water temperature in degrees Celsius (00010).
+        Can request from 1 to 100 "parameterCD"s.  Default: returns all
+        regular time-series for the requested sites.
 
         Complete list::
 
@@ -114,243 +231,250 @@ nwis_docstrings = {
                                       # and gage height in
                                       # feet""",
     "siteType": r"""siteType :
-        [optional, default is None]
+        [optional, default is None, minor site filter]
 
-        Restricts sites to those having one or more major and/or minor site
-        types.  If you request a major site type (ex: &siteType=ST) you will
-        get all sub-site types of the same major type as well (in this case,
-        ST-CA, ST-DCH and ST-TS).  Can have from 1 to an unlimited number of
-        siteType codes.  Default is to return all types.  List of valid site
-        types: http://help.waterdata.usgs.gov/site_tp_cd::
+        Restricts sites to those having one or more major and/or minor
+        site types.  If you request a major site type (ex: &siteType=ST)
+        you will get all sub-site types of the same major type as well
+        (in this case, ST-CA, ST-DCH and ST-TS).  Can have from 1 to an
+        unlimited number of siteType codes.  Default is to return all
+        types.  List of valid site types:
+        http://help.waterdata.usgs.gov/site_tp_cd::
 
             --siteType=ST       # Streams only
             --siteType=ST,LA-OU # Streams and Land Outcrops only""",
     "modifiedSince": r"""modifiedSince :
-        [optional, default is None]
+        [optional, default is None, minor site filter]
 
-        Returns all values for sites and period of record requested only if any
-        values have changed over the last modifiedSince period.  modifiedSince
-        is useful if you periodically need to poll a site but are only
-        interested in getting data if some of it has changed.  It is typically
-        be used with period, or startDT/endDT but does not have to be. In the
-        latter case, if any values were changed during the specified
-        modifiedSince period, only the most recent values would be retrieved
-        for those sites. This is a typical usage, since users typically are
-        polling a site and only want data if there are new or changed
-        measurements.  ISO-8601 duration format is always used.  There is no
-        default.  (http://en.wikipedia.org/wiki/ISO_8601#Durations)::
+        Returns all values for sites and period of record requested only
+        if any values have changed over the last modifiedSince period.
+        modifiedSince is useful if you periodically need to poll a site
+        but are only interested in getting data if some of it has
+        changed.  It is typically be used with period, or startDT/endDT
+        but does not have to be. In the latter case, if any values were
+        changed during the specified modifiedSince period, only the most
+        recent values would be retrieved for those sites. This is
+        a typical usage, since users typically are polling a site and
+        only want data if there are new or changed measurements.
+        ISO-8601 duration format is always used.  There is no default.
+        (http://en.wikipedia.org/wiki/ISO_8601#Durations)::
 
             --modifiedSince=PT2H
                    # Retrieves all values for sites and period of record
-                   # requested for any of the requested sites and parameters,
-                   # but only for sites where any of the values changed during
-                   # the last two hours.
+                   # requested for any of the requested sites and
+                   # parameters, but only for sites where any of the
+                   # values changed during the last two hours.
             --modifiedSince=PT2H --period=P1D
                    # Retrieve all values for sites and period of record
-                   # requested for the last 24 hours from now only for sites
-                   # and parameters that had any values that changed or were
-                   # added during the last two hours.
+                   # requested for the last 24 hours from now only for
+                   # sites and parameters that had any values that
+                   # changed or were added during the last two hours.
             --modifiedSince=PT2H --startDt=2010-11-01 --endDt=2010-11-02
                    # Retrieve all values for sites and period of record
-                   # requested for sites and parameters that had values change
-                   # between midnight site local time on Nov 1st, 2010 and
-                   # 23:59 on Nov 2nd, 2010 site local time, only if values
-                   # were changed or added within the last two hours.""",
+                   # requested for sites and parameters that had values
+                   # change between midnight site local time on Nov 1st,
+                   # 2010 and 23:59 on Nov 2nd, 2010 site local time,
+                   # only if values were changed or added within the
+                   # last two hours.""",
     "agencyCd": r"""agencyCd :
-        [optional, default is None]
+        [optional, default is None, minor site filter]
 
-        The list of sites returned are filtered to return only those with the
-        provided agency code. The agency code describes the organization that
-        maintains the site. Only one agency code is allowed and is optional.
-        An authoritative list of agency codes can be found here.  Default is to
-        return all sites regardless of agency code.  List:
+        The list of sites returned are filtered to return only those
+        with the provided agency code. The agency code describes the
+        organization that maintains the site. Only one agency code is
+        allowed and is optional.  An authoritative list of agency codes
+        can be found here.  Default is to return all sites regardless of
+        agency code.  List:
         http://help.waterdata.usgs.gov/code/agency_cd_query?fmt=html::
 
             --stateCd=il --agencyCd=USCE # Only US Army Corps
                                          # of Engineers sites
                                          # in Illinois""",
     "siteStatus": r"""siteStatus :
-        [optional, default is None]
+        [optional, default is None, minor site filter]
 
-        Selects sites based on whether or not they are active. If a site is
-        active, it implies that it is being actively maintained. A site is
-        considered active if: it has collected time-series (automated) data
-        within the last 183 days (6 months), or it has collected discrete
-        (manually collected) data within 397 days (13 months) If it does not
-        meet these criteria, it is considered inactive. Some exceptions apply.
-        If a site is flagged by a USGS water science center as discontinued, it
-        will show as inactive. A USGS science center can also flag a new site
-        as active even if it has not collected any data.  The default is all
-        (show both active and inactive sites).  Chose between, 'all', 'active',
-        or 'inactive'.  Default all - sites of any activity status are
+        Selects sites based on whether or not they are active. If a site
+        is active, it implies that it is being actively maintained.
+        A site is considered active if: it has collected time-series
+        (automated) data within the last 183 days (6 months), or it has
+        collected discrete (manually collected) data within 397 days (13
+        months) If it does not meet these criteria, it is considered
+        inactive. Some exceptions apply.  If a site is flagged by a USGS
+        water science center as discontinued, it will show as inactive.
+        A USGS science center can also flag a new site as active even if
+        it has not collected any data.  The default is all (show both
+        active and inactive sites).  Chose between, 'all', 'active', or
+        'inactive'.  Default all - sites of any activity status are
         returned.::
 
             --siteStatus='active'""",
     "altMin": r"""altMin : float
-        [optional, default is None]
+        [optional, default is None, minor site filter]
 
-        These arguments allows you to select instantaneous values sites where
-        the associated sites' altitude are within a desired altitude, expressed
-        in feet.  Altitude is based on the datum used at the site.  Providing
-        a value to altMin (minimum altitude) means you want sites that have or
-        exceed the altMin value.  You may specify decimal feet if precision is
-        critical If both the altMin and altMax are specified, sites at or
-        between the minimum and maximum altitude are returned.""",
+        These arguments allows you to select instantaneous values sites
+        where the associated sites' altitude are within a desired
+        altitude, expressed in feet.  Altitude is based on the datum
+        used at the site.  Providing a value to altMin (minimum
+        altitude) means you want sites that have or exceed the altMin
+        value.  You may specify decimal feet if precision is critical If
+        both the altMin and altMax are specified, sites at or between
+        the minimum and maximum altitude are returned.""",
     "altMax": r"""altMax : float
-        [optional, default is None]
+        [optional, default is None, minor site filter]
 
-        Providing a value to altMax (maximum altitude) means you want sites
-        that have or are less than the altMax value.::
+        Providing a value to altMax (maximum altitude) means you want
+        sites that have or are less than the altMax value.::
 
             --altMin=1000 --altMax=5000
-                  # Return sites where the altitude is 1000 feet or greater and
-                  # 5000 feet or less.
+                  # Return sites where the altitude is 1000 feet or
+                  # greater and 5000 feet or less.
             --altMin=12.5 --altMax=13
-                  # Return sites where the altitude is 12.5 feet or greater and
-                  # 13 feet or less.""",
+                  # Return sites where the altitude is 12.5 feet or
+                  # greater and 13 feet or less.""",
     "drainAreaMin": r"""drainAreaMin : float
-        [optional, default is None]
+        [optional, default is None, minor site filter]
 
         SURFACE WATER SITE ATTRIBUTE
 
-        These arguments allows you to select principally surface water sites
-        where the associated sites' drainage areas (watersheds) are within
-        a desired size, expressed in square miles or decimal fractions thereof.
-        Providing a value to drainAreaMin (minimum drainage area) means you
-        want sites that have or exceed the drainAreaMin value.  The values may
-        be expressed in decimals. If both the drainAreaMin and drainAreaMax are
-        specified, sites at or between the minimum and maximum drainage areas
-        values specified are returned Caution: not all sites are associated
-        with a drainage area.  Caution: drainage area generally only applies to
-        surface water sites.  Use with other site types, such as groundwater
-        sites, will likely retrieve no results.""",
+        These arguments allows you to select principally surface water
+        sites where the associated sites' drainage areas (watersheds)
+        are within a desired size, expressed in square miles or decimal
+        fractions thereof.  Providing a value to drainAreaMin (minimum
+        drainage area) means you want sites that have or exceed the
+        drainAreaMin value.  The values may be expressed in decimals. If
+        both the drainAreaMin and drainAreaMax are specified, sites at
+        or between the minimum and maximum drainage areas values
+        specified are returned Caution: not all sites are associated
+        with a drainage area.  Caution: drainage area generally only
+        applies to surface water sites.  Use with other site types, such
+        as groundwater sites, will likely retrieve no results.""",
     "drainAreaMax": r"""drainAreaMax:  float
-        [optional, default is None]
+        [optional, default is None, minor site filter]
 
         SURFACE WATER SITE ATTRIBUTE
 
-        Providing a value to drainAreaMax (maximum drainage area) means you
-        want sites that have or are less than the drainAreaMax value.::
+        Providing a value to drainAreaMax (maximum drainage area) means
+        you want sites that have or are less than the drainAreaMax
+        value.::
 
             --drainAreaMin=1000 --drainAreaMax=5000
-                                 # Return sites where the
-                                 # drainage area is 1000
-                                 # square miles or greater
-                                 # and is 5000 square miles
-                                 # or less.
+                                 # Return sites where the drainage area
+                                 # is 1000 square miles or greater and
+                                 # is 5000 square miles or less.
             --drainAreaMin=10.5 --drainAreaMax=10.7
-                                 # Return sites where the
-                                 # drainage area is 10.5
-                                 # square miles or greater
-                                 # and is 10.7 square miles
-                                 # or less.""",
+                                 # Return sites where the drainage area
+                                 # is 10.5 square miles or greater and
+                                 # is 10.7 square miles or less.""",
     "aquiferCd": r"""aquiferCd
-        [optional, default is None]
+        [optional, default is None, minor site filter]
 
         Used to filter sites to those that exist in specified national
         aquifers. Note: not all sites have been associated with national
-        aquifers.  Enter one or more national aquifer codes, separated by
-        commas.  A national aquifer code is exactly 10 characters.  You can
-        have up to 1000 aquiferCd codes.  Complete list:
+        aquifers.  Enter one or more national aquifer codes, separated
+        by commas.  A national aquifer code is exactly 10 characters.
+        You can have up to 1000 aquiferCd codes.  Complete list:
         http://water.usgs.gov/ogw/NatlAqCode-reflist.html::
 
             --aquiferCd=S500EDRTRN,N100HGHPLN
-                                  # returns groundwater sites
-                                  # for the Edwards-Trinity
-                                  # aquifer system and the
-                                  # High Plains national
+                                  # returns groundwater sites for the
+                                  # Edwards-Trinity aquifer system and
+                                  # the High Plains national
                                   # aquifers.""",
     "localAquiferCd": r"""localAquiferCd
-        [optional, default is None]
+        [optional, default is None, minor site filter]
 
-        Used to filter sites to those that exist in specified local aquifers.
-        Note: not all sites have been associated with local aquifers.  Enter
-        one or more local aquifer codes, separated by commas.  A local aquifer
-        code begins with a 2 character state abbreviation (such as TX for
-        Texas) followed by a colon followed by the 7 character aquifer code.
-        Can have 0 to 1000 comma delimited codes.  Complete list:
-        http://help.waterdata.usgs.gov/code/aqfr_cd_query?fmt=html To translate
-        state codes associated with the local aquifer you may need this
-        reference: http://www.itl.nist.gov/fipspubs/fip5-2.htm ::
+        Used to filter sites to those that exist in specified local
+        aquifers.  Note: not all sites have been associated with local
+        aquifers.  Enter one or more local aquifer codes, separated by
+        commas.  A local aquifer code begins with a 2 character state
+        abbreviation (such as TX for Texas) followed by a colon followed
+        by the 7 character aquifer code.  Can have 0 to 1000 comma
+        delimited codes.  Complete list:
+        http://help.waterdata.usgs.gov/code/aqfr_cd_query?fmt=html
+        To translate state codes associated with the local aquifer you
+        may need this reference:
+        http://www.itl.nist.gov/fipspubs/fip5-2.htm ::
 
             --localAquiferCd=AL:111RGLT,AL:111RSDM
-                    # returns sites for the Regolith and
-                    # Saprolite local aquifers in Alabama""",
+                    # returns sites for the Regolith and Saprolite local
+                    # aquifers in Alabama""",
     "wellDepthMin": r"""wellDepthMin : float
-        [optional, default is None]
+        [optional, default is None, minor site filter]
 
         GROUNDWATER SITE ATTRIBUTE
 
-        These arguments allows you to select groundwater sites serving data
-        recorded automatically where the associated sites' well depth are
-        within a desired depth, expressed in feet from the land surface datum.
-        Express well depth as a positive number.  Providing a value to
-        wellDepthMin (minimum well depth) means you want sites that have or
-        exceed the wellDepthMin value.  The values may be expressed in decimals
-        Caution: well depth applies to groundwater sites only.::
+        These arguments allows you to select groundwater sites serving
+        data recorded automatically where the associated sites' well
+        depth are within a desired depth, expressed in feet from the
+        land surface datum.  Express well depth as a positive number.
+        Providing a value to wellDepthMin (minimum well depth) means you
+        want sites that have or exceed the wellDepthMin value.  The
+        values may be expressed in decimals Caution: well depth applies
+        to groundwater sites only.::
 
              --wellDepthMin=100 --wellDepthMax=500
-                     # Return daily value sites where the well depth is 100
-                     # feet or greater and 500 feet or less.""",
+                     # Return daily value sites where the well depth is
+                     # 100 feet or greater and 500 feet or less.""",
     "wellDepthMax": r"""wellDepthMax : float
-        [optional, default is None]
+        [optional, default is None, minor site filter]
 
         GROUNDWATER SITE ATTRIBUTE
 
-        Providing a value to wellDepthMax (maximum well depth) means you want
-        sites that have or are less than the wellDepthMax value.::
+        Providing a value to wellDepthMax (maximum well depth) means you
+        want sites that have or are less than the wellDepthMax value.::
 
              --wellDepthMin=10.5 --wellDepthMax=10.7
-                     # Return daily value sites where the well depth is 10.5
-                     # feet or greater and 10.7 feet or less.
+                     # Return daily value sites where the well depth is
+                     # 10.5 feet or greater and 10.7 feet or less.
 
-        If both the wellDepthMin and wellDepthMax are specified, sites at or
-        between the minimum and maximum well depth values specified are
-        returned wellDepthMax should be greater than or equal to
-        wellDepthMin.""",
+        If both the wellDepthMin and wellDepthMax are specified, sites
+        at or between the minimum and maximum well depth values
+        specified are returned wellDepthMax should be greater than or
+        equal to wellDepthMin.""",
     "holeDepthMin": r"""holeDepthMin : float
-        [optional, default is None]
+        [optional, default is None, minor site filter]
 
         GROUNDWATER SITE ATTRIBUTE
 
-        These arguments allows you to select groundwater sites serving data
-        recorded automatically where the associated sites' hole depth are
-        within a desired depth, expressed in feet from the land surface datum.
-        Express hole depth as a positive number.  Providing a value to
-        holeDepthMin (minimum hole depth) means you want sites that have or
-        exceed the holeDepthMin value.  The values may be expressed in decimals
-        Caution: hole depth applies to groundwater sites only.""",
+        These arguments allows you to select groundwater sites serving
+        data recorded automatically where the associated sites' hole
+        depth are within a desired depth, expressed in feet from the
+        land surface datum.  Express hole depth as a positive number.
+        Providing a value to holeDepthMin (minimum hole depth) means you
+        want sites that have or exceed the holeDepthMin value.  The
+        values may be expressed in decimals Caution: hole depth applies
+        to groundwater sites only.""",
     "holeDepthMax": r"""holeDepthMax : float
-        [optional, default is None]
+        [optional, default is None, minor site filter]
 
         GROUNDWATER SITE ATTRIBUTE
 
-        Providing a value to holeDepthMax (maximum hole depth) means you want
-        sites that have or are less than the holeDepthMax value.::
+        Providing a value to holeDepthMax (maximum hole depth) means you
+        want sites that have or are less than the holeDepthMax value.::
 
             --holeDepthMin=100 --holeDepthMax=500
-                    # Return daily values sites where the hole depth is 100
-                    # feet or greater and 500 feet or less.
+                    # Return daily values sites where the hole depth is
+                    # 100 feet or greater and 500 feet or less.
 
             --holeDepthMin=10.5 --holeDepthMax=10.7
-                    # Return daily value sites where the hole depth is 10.5
-                    # feet or greater and 10.7 feet or less.
+                    # Return daily value sites where the hole depth is
+                    # 10.5 feet or greater and 10.7 feet or less.
 
-        If both the holeDepthMin and holeDepthMax are specified, sites at or
-        between the minimum and maximum hole depth values specified are
-        returned holeDepthMax should be greater than or equal to
-        holeDepthMin.""",
+        If both the holeDepthMin and holeDepthMax are specified, sites
+        at or between the minimum and maximum hole depth values
+        specified are returned holeDepthMax should be greater than or
+        equal to holeDepthMin.""",
     "period": r"""period
         [optional, default is None]
 
-        Get a range of values from now by specifying the period argument period
-        must be in ISO-8601 Duration format.
-        (http://en.wikipedia.org/wiki/ISO_8601#Durations) Negative periods (ex:
-        P-T2H) are not allowed.  Data are always returned up to the most recent
-        value, which in the case of a predictive gage might be in the future.
-        When specifying days from now, the first value will probably not be at
-        midnight of the first day, but somewhat before exactly 24 hours from
-        now.::
+        Get a range of values from now by specifying the period argument
+        period must be in ISO-8601 Duration format.
+        (http://en.wikipedia.org/wiki/ISO_8601#Durations) Negative
+        periods (ex: P-T2H) are not allowed.  Data are always returned
+        up to the most recent value, which in the case of a predictive
+        gage might be in the future.  When specifying days from now, the
+        first value will probably not be at midnight of the first day,
+        but somewhat before exactly 24 hours from now.::
 
             --period=PT2H
                   # Retrieve last two hours from now up to most recent
@@ -361,26 +485,27 @@ nwis_docstrings = {
     "startDT": r"""startDT
         [optional, default is None]
 
-        Get a range of values from an explicit begin or end date/time.  Use the
-        startDT and endDT arguments.  Site local time is output, even if
-        multiple sites are requested and sites are in different time zones.
-        Note that the measurement time zone at a site may not be the same as
-        the time zone actually in effect at the site.
+        Get a range of values from an explicit begin or end date/time.
+        Use the startDT and endDT arguments.  Site local time is output,
+        even if multiple sites are requested and sites are in different
+        time zones.  Note that the measurement time zone at a site may
+        not be the same as the time zone actually in effect at the site.
 
         Both startDt and endDt must be in ISO-8601 Date/Time format.
-        (http://en.wikipedia.org/wiki/ISO_8601#Dates) You can express the date
-        and time in a timezone other than site local time if you want as long
-        as it follows the ISO standard. For example, you can express the time
-        in Universal time: 2014-03-20T00:00Z.  If startDT is supplied and endDT
-        is not, endDT ends with the most recent instantaneous value. startDT
-        must be chronologically before endDT.
+        (http://en.wikipedia.org/wiki/ISO_8601#Dates) You can express
+        the date and time in a timezone other than site local time if
+        you want as long as it follows the ISO standard. For example,
+        you can express the time in Universal time: 2014-03-20T00:00Z.
+        If startDT is supplied and endDT is not, endDT ends with the
+        most recent instantaneous value. startDT must be chronologically
+        before endDT.
 
-        If startDt shows the date and not the time of day (ex: 2010-09-01) the
-        time of midnight site time is assumed (2010-09-01T00:00) If endDt shows
-        the date and not the time of day (ex: 2010-09-02) the last minute
-        before midnight site time is assumed (2010-09-02T23:59).  Remember,
-        only data from October 1, 2007 are currently available in the 'iv'
-        database.""",
+        If startDt shows the date and not the time of day (ex:
+        2010-09-01) the time of midnight site time is assumed
+        (2010-09-01T00:00) If endDt shows the date and not the time of
+        day (ex: 2010-09-02) the last minute before midnight site time
+        is assumed (2010-09-02T23:59).  Remember, only data from October
+        1, 2007 are currently available in the 'iv' database.""",
     "endDT": r"""endDT
         [optional, default is None]
 
@@ -395,8 +520,8 @@ nwis_docstrings = {
     "statReportType": r"""statReportType : str
         [optional, default is 'daily']
 
-        The type of statistics desired. Valid statistic report
-        types include:
+        The type of statistics desired. Valid statistic report types
+        include:
 
         +----------------+------------------------------------------+
         | statReportType | Description                              |
@@ -413,10 +538,10 @@ nwis_docstrings = {
         |                | assumed. (annual time-series)            |
         +----------------+------------------------------------------+""",
     "statType": r"""statType : str
-        [optional, default is None]
+        [optional, default is None, minor site filter]
 
-        Selects sites based on the statistics type(s) desired, such as minimum,
-        maximum or mean
+        Selects sites based on the statistics type(s) desired, such as
+        minimum, maximum or mean
 
         For all statReportType types include::
 
@@ -441,27 +566,27 @@ nwis_docstrings = {
     "missingData": r"""missingData
         [optional, default is None]
 
-        Used to indicate the rules to follow to generate statistics if there
-        are gaps in the period of record during the requested statistics
-        period. By default if there are any missing data for the report type,
-        the statistic is left blank or null.
+        Used to indicate the rules to follow to generate statistics if
+        there are gaps in the period of record during the requested
+        statistics period. By default if there are any missing data for
+        the report type, the statistic is left blank or null.
 
-        This option does not apply to daily statistics, but optionally can be
-        used with monthly and yearly statistics. If used with daily statistics,
-        an error will occur.
+        This option does not apply to daily statistics, but optionally
+        can be used with monthly and yearly statistics. If used with
+        daily statistics, an error will occur.
 
         Missing data can happen for various reasons including there was
         a technical problem with the gage for part of the time period.
 
-        Enabling this switch will attempt to provide a statistic if there is
-        enough data to create one.
+        Enabling this switch will attempt to provide a statistic if
+        there is enough data to create one.
 
         Choice is 'off' or 'on'.""",
     "statisticsCd": r"""statisticsCd
         [optional, default is None]
 
         The statisticsCd represents how the instantaneous values are
-        aggregated.  The statisticsCd js from the following table:
+        aggregated.  The statisticsCd is from the following table:
 
         +-------+------------------------------------+
         | Code  | Description                        |
@@ -511,50 +636,53 @@ nwis_docstrings = {
     "siteOutput": r"""siteOutput
         [optional, default is None]
 
-        If you would like to see expanded site information, check this box.
-        This argument is ignored for visually oriented output formats like
-        Mapper, Google Earth and Google Maps. The default is basic. Use
-        expanded to get expanded site information. Example:
-        &siteOutput=expanded. Note: for performance reasons,
-        &siteOutput=expanded cannot be used if seriesCatalogOutput=true or with
-        any values for outputDataTypeCd.""",
+        If you would like to see expanded site information, check this
+        box.  This argument is ignored for visually oriented output
+        formats like Mapper, Google Earth and Google Maps. The default
+        is basic. Use expanded to get expanded site information.
+        Example: &siteOutput=expanded. Note: for performance reasons,
+        &siteOutput=expanded cannot be used if seriesCatalogOutput=true
+        or with any values for outputDataTypeCd.""",
     "seriesCatalogOutput": r"""seriesCatalogOutput
         [optional, default is None]
 
-        This argument is ignored for visually oriented output formats like
-        Mapper, Google Earth and Google Maps. If you would like to see all the
-        period of record information for the sites selected, check this box.
-        You will see detailed information, such as a continuous range of dates
-        served by a site for one or more data types, for example, the begin and
-        end dates that streamflow (parameter 00060) was recorded at a site.
-        Note: if you select any data types for output (see below) the period of
-        record data will also appear. In that case specifying this argument is
-        unnecessary. The default is false. The only legal values for this
-        argument are true and false. Example: &seriesCatalogOutput=true.
-        &seriesCatalogOutput=true is equivalent to &outputDataTypeCd=all. Note:
-        for performance reasons, &siteOutput=expanded cannot be used if
+        This argument is ignored for visually oriented output formats
+        like Mapper, Google Earth and Google Maps. If you would like to
+        see all the period of record information for the sites selected,
+        check this box.  You will see detailed information, such as
+        a continuous range of dates served by a site for one or more
+        data types, for example, the begin and end dates that streamflow
+        (parameter 00060) was recorded at a site.  Note: if you select
+        any data types for output (see below) the period of record data
+        will also appear. In that case specifying this argument is
+        unnecessary. The default is false. The only legal values for
+        this argument are true and false. Example:
+        &seriesCatalogOutput=true.
+        &seriesCatalogOutput=true is equivalent to
+        &outputDataTypeCd=all. Note: for performance reasons,
+        &siteOutput=expanded cannot be used if
         seriesCatalogOutput=true.""",
     "outputDataTypeCd": r"""outputDataTypeCd
         [optional, default is None]
 
-        This will add period of record information to certain output formats
-        (GML, RDB and JSON) that summarize information about the data types
-        requested.  The default is all data types. Some output formats are
-        designed for visual use (Google Earth, Google Maps and Mapper).
-        Consequently with these formats you will not see data type code
-        information.
+        This will add period of record information to certain output
+        formats (GML, RDB and JSON) that summarize information about the
+        data types requested.  The default is all data types. Some
+        output formats are designed for visual use (Google Earth, Google
+        Maps and Mapper).  Consequently with these formats you will not
+        see data type code information.
 
-        Default information: If seriesCatalogOutput is true, all period of
-        record information is shown by default. If seriesCatalogOutput is
-        false, unless you override it using one of the values below, no period
-        of record information is shown.
+        Default information: If seriesCatalogOutput is true, all period
+        of record information is shown by default. If
+        seriesCatalogOutput is false, unless you override it using one
+        of the values below, no period of record information is shown.
 
-        Note: for performance reasons, &siteOutput=expanded cannot be used if
-        with any values for outputDataTypeCd.
+        Note: for performance reasons, &siteOutput=expanded cannot be
+        used if with any values for outputDataTypeCd.
 
-        Here are the various output data type codes available. These can be
-        selected individually or can be added as comma separated values if
-        desired.  Example: &outputDataTypeCd=iv,dv
+        Here are the various output data type codes available. These can
+        be selected individually or can be added as comma separated
+        values if desired.  Example: &outputDataTypeCd=iv,dv
 
         +-----+---------------------------------------------------------------+
         | all | default (see above for qualifications). This is equivalent to |
@@ -596,20 +724,21 @@ nwis_docstrings = {
         |     | Link}                                                         |
         +-----+---------------------------------------------------------------+""",
     "siteName": r"""siteName
-        [optional, default is None]
+        [optional, default is None, minor site filter]
 
-        This filter allows you to find a site by its name, using either the
-        exact site name or a partial site name. Note that a major filter is
-        still required. String matches are case insensitive, so if you specify
-        "Boulder" you will retrieve site names with "Boulder", "boulder",
-        "BOULDER" as well as many other variants.  To embed a space, you can
-        use single quotes. Examaple: --siteName='Boulder Creek'""",
+        This filter allows you to find a site by its name, using either
+        the exact site name or a partial site name. Note that a major
+        filter is still required. String matches are case insensitive,
+        so if you specify "Boulder" you will retrieve site names with
+        "Boulder", "boulder", "BOULDER" as well as many other variants.
+        To embed a space, you can use single quotes. Examaple:
+        --siteName='Boulder Creek'""",
     "siteNameMatchOperator": r"""siteNameMatchOperator
-        [optional, default is None]
+        [optional, default is None, minor site filter]
 
-        If used, this must be used with siteName. It determines how the pattern
-        matching for the site name behaves. Matches are case insensitive. The
-        options are::
+        If used, this must be used with siteName. It determines how the
+        pattern matching for the site name behaves. Matches are case
+        insensitive. The options are::
 
             start = The string must be at the start of the site name (default)
             any = The string must be contained somewhere in the site name
@@ -618,10 +747,11 @@ nwis_docstrings = {
 
         Example: &siteNameMatchOperator=any""",
     "hasDataTypeCd": r"""hasDataTypeCd
-        [optional, default is None]
+        [optional, default is None, minor site filter]
 
-        Default is all. Restricts results to those sites that collect certain
-        kinds of data. Separate values with commas. Allowed values are:
+        Default is all. Restricts results to those sites that collect
+        certain kinds of data. Separate values with commas. Allowed
+        values are:
 
         +-----+---------------------------------------------------------------+
         | all | default (see above for qualifications). This is equivalent to |
@@ -665,9 +795,9 @@ nwis_docstrings = {
     "statYearType": r"""statYearType
         [optional, default is None]
 
-        Indicates which kind of year statistics should be created against. This
-        only applies when requesting annual statistics, i.e.
-        statReportType=annual. Valid year types codes include:
+        Indicates which kind of year statistics should be created
+        against. This only applies when requesting annual statistics,
+        i.e.  statReportType=annual. Valid year types codes include:
 
         +----------+----------------------------------------------------------+
         | calendar | calendar year, i.e. January 1 through December 31        |
@@ -712,9 +842,9 @@ def nwis(
 ):
     r"""Deprecated: Use the ``nwis_*`` functions instead.
 
-    This function has been split up into individual functions for each source
-    database.  This allows for keywords and output to be tailored to each
-    specific web service.
+    This function has been split up into individual functions for each
+    source database.  This allows for keywords and output to be tailored
+    to each specific web service.
 
     +-------------------+-------------------------------+
     | New Function      | Database Name and Description |
@@ -737,8 +867,8 @@ def nwis(
     | nwis_gwlevels     | Ground water levels           |
     +-------------------+-------------------------------+
 
-    This function/sub-command will continue to work, however you should change
-    all scripts to use the split out functions.
+    This function/sub-command will continue to work, however you should
+    change all scripts to use the split out functions.
     """
     from tsgettoolbox.services.usgs import nwis as placeholder
 
@@ -749,8 +879,8 @@ def nwis(
 *   The 'database' option must be either 'iv' for instantaneous values,
 *   or 'dv' for daily values, or 'stat' for daily, monthly, or annual
 *   statistics, or 'measurements' for field measurements, 'peak' for
-*   peak stage and flow estimates, 'site' for site metadata, or 'gwlevels' for
-*   ground water levels.
+*   peak stage and flow estimates, 'site' for site metadata, or
+*   'gwlevels' for ground water levels.
 *   You gave {0}.
 *
 """.format(
@@ -831,9 +961,6 @@ def nwis_iv_cli(
     bBox=None,
     countyCd=None,
     parameterCd=None,
-    period=None,
-    startDT=None,
-    endDT=None,
     siteType=None,
     modifiedSince=None,
     agencyCd=None,
@@ -848,146 +975,39 @@ def nwis_iv_cli(
     wellDepthMax=None,
     holeDepthMin=None,
     holeDepthMax=None,
+    period=None,
+    startDT=None,
+    endDT=None,
     includeCodes=False,
 ):
     r"""Download from Instantaneous Values of the USGS NWIS.
-
-    Detailed documentation is available at http://waterdata.usgs.gov/nwis.
-
-    Site local time is output, even if multiple sites are requested and sites
-    are in different time zones.  Note that the measurement time zone at a site
-    may not be the same as the time zone actually in effect at the site.
-
-    Every query requires a major filter. Pick the major filter ('--sites',
-    '--stateCd', '--huc', '--bBox', '--countyCd') that best retrieves the data
-    for the sites that you are interested in.  You can have only one major
-    filter per query. If you specify more than one major filter, you will get
-    an error.
-
-    **Major Filter**
-
-    Select ONE of::
-
-        '--sites',
-        '--stateCd',
-        '--huc',
-        '--bBox', or
-        '--countyCd'
-
-    **Minor Filters**
-
-    Additional filters can be applied after specifying a major filter. This
-    further reduces the set of expected results. Users are encouraged to use
-    minor filters because it allows more efficient use of this service.
-
-    Use as many as desired to limit number of retrieved time series::
-
-        '--parameterCd',
-        '--siteType',
-        '--modifiedSince',
-        '--agencyCd',
-        '--siteStatus',
-        '--altMin',
-        '--altMax',
-        '--drainAreaMin',
-        '--drainAreaMax',
-        '--aquiferCd',
-        '--localAquiferCd',
-        '--wellDepthMin',
-        '--wellDepthMax',
-        '--holeDepthMin',
-        '--holeDepthMax'
-
-    **Results**
-
-    The column name in the resulting table is made up of
-    "agencyCd_siteno_parameterCd", for example "USGS_02248380_00010".  The
-    agency and parameter codes are described in the `agencyCd` and
-    `parameterCd` options below.
-
-    If `includeCodes` option is used, there will also be columns representing
-    the data quality codes named "agencyCd_siteno_parameterCd_cd".
-
-    +---------+--------------------------------------------------------+
-    | Code    |  Description                                           |
-    +=========+========================================================+
-    | e       | Value has been edited or estimated by USGS personnel   |
-    |         | and is write protected                                 |
-    +---------+--------------------------------------------------------+
-    | &       | Value was computed from affected unit values           |
-    +---------+--------------------------------------------------------+
-    | E       | Value was computed from estimated unit values.         |
-    +---------+--------------------------------------------------------+
-    | A       | Approved for publication -- Processing and review      |
-    |         | completed.                                             |
-    +---------+--------------------------------------------------------+
-    | P       | Provisional data subject to revision.                  |
-    +---------+--------------------------------------------------------+
-    | <       | The value is known to be less than reported value and  |
-    |         | is write protected.                                    |
-    +---------+--------------------------------------------------------+
-    | >       | The value is known to be greater than reported value   |
-    |         | and is write protected.                                |
-    +---------+--------------------------------------------------------+
-    | 1       | Value is write protected without any remark code to be |
-    |         | printed                                                |
-    +---------+--------------------------------------------------------+
-    | 2       | Remark is write protected without any remark code to   |
-    |         | be printed                                             |
-    +---------+--------------------------------------------------------+
-    |         | No remark (blank)                                      |
-    +---------+--------------------------------------------------------+
-    | Ssn     | Parameter monitored seasonally                         |
-    +---------+--------------------------------------------------------+
-    | Ice     | Ice affected                                           |
-    +---------+--------------------------------------------------------+
-    | Pr      | Partial-record site                                    |
-    +---------+--------------------------------------------------------+
-    | Rat     | Rating being developed or revised                      |
-    +---------+--------------------------------------------------------+
-    | Eqp     | Equipment malfunction                                  |
-    +---------+--------------------------------------------------------+
-    | Fld     | Flood damage                                           |
-    +---------+--------------------------------------------------------+
-    | Dis     | Data-collection discontinued                           |
-    +---------+--------------------------------------------------------+
-    | Dry     | Dry                                                    |
-    +---------+--------------------------------------------------------+
-    | --      | Parameter not determined                               |
-    +---------+--------------------------------------------------------+
-    | Mnt     | Maintenance in progress                                |
-    +---------+--------------------------------------------------------+
-    | ZFl     | Zero flow                                              |
-    +---------+--------------------------------------------------------+
-    | ``***`` | Temporarily unavailable                                |
-    +---------+--------------------------------------------------------+
-
+    {filter_descriptions}
+    {results_ts}
     Parameters
     ----------
     {sites}
+    {stateCd}
     {huc}
     {bBox}
     {countyCd}
-    {parameterCd}
     {agencyCd}
-    {stateCd}
-    {altMin}
     {altMax}
+    {altMin}
     {aquiferCd}
-    {endDT}
+    {drainAreaMax}
+    {drainAreaMin}
+    {holeDepthMax}
+    {holeDepthMin}
     {localAquiferCd}
     {modifiedSince}
     {parameterCd}
-    {period}
     {siteStatus}
     {siteType}
-    {startDT}
-    {drainAreaMin}
-    {drainAreaMax}
-    {holeDepthMin}
-    {holeDepthMax}
-    {wellDepthMin}
     {wellDepthMax}
+    {wellDepthMin}
+    {period}
+    {startDT}
+    {endDT}
     {includeCodes}"""
     tsutils._printiso(
         nwis_iv(
@@ -1088,166 +1108,57 @@ def nwis_dv_cli(
     huc=None,
     bBox=None,
     countyCd=None,
+    agencyCd=None,
+    altMax=None,
+    altMin=None,
+    aquiferCd=None,
+    drainAreaMax=None,
+    drainAreaMin=None,
+    holeDepthMax=None,
+    holeDepthMin=None,
+    localAquiferCd=None,
+    modifiedSince=None,
     parameterCd=None,
-    statisticsCd=None,
-    period=None,
+    siteStatus=None,
+    siteType=None,
+    wellDepthMax=None,
+    wellDepthMin=None,
     startDT=None,
     endDT=None,
-    siteType=None,
-    modifiedSince=None,
-    agencyCd=None,
-    siteStatus=None,
-    altMin=None,
-    altMax=None,
-    drainAreaMin=None,
-    drainAreaMax=None,
-    aquiferCd=None,
-    localAquiferCd=None,
-    wellDepthMin=None,
-    wellDepthMax=None,
-    holeDepthMin=None,
-    holeDepthMax=None,
+    period=None,
     includeCodes=False,
+    statisticsCd=None,
 ):
     r"""Download from the Daily Values database of the USGS NWIS.
-
-    Detailed documentation is available at http://waterdata.usgs.gov/nwis.
-
-    Site local time is output, even if multiple sites are requested and sites
-    are in different time zones.  Note that the measurement time zone at a site
-    may not be the same as the time zone actually in effect at the site.
-
-    Every query requires a major filter. Pick the major filter ('--sites',
-    '--stateCd', '--huc', '--bBox', '--countyCd') that best retrieves the data
-    for the sites that you are interested in.  You can have only one major
-    filter per query. If you specify more than one major filter, you will get
-    an error.
-
-    **Major Filter**
-
-    Select one of::
-
-        '--sites',
-        '--stateCd',
-        '--huc',
-        '--bBox', or
-        '--countyCd'
-
-    **Minor Filters**
-
-    Additional filters can be applied after specifying a major filter. This
-    further reduces the set of expected results. Users are encouraged to use
-    minor filters because it allows more efficient use of this service.
-
-    Use as many as desired to limit number of retrieved time series::
-
-        '--parameterCd',
-        '--siteType',
-        '--modifiedSince',
-        '--agencyCd',
-        '--siteStatus',
-        '--altMin',
-        '--altMax',
-        '--drainAreaMin',
-        '--drainAreaMax',
-        '--aquiferCd',
-        '--localAquiferCd',
-        '--wellDepthMin',
-        '--wellDepthMax',
-        '--holeDepthMin',
-        '--holeDepthMax'
-
-    **Results**
-
-    The column name in the resulting table is made up of
-    "USGS_SITE_CODE-parameterCd", for example
-    "02248380-00010".  The parameter code is described in the
-    "parameterCd" option below.
-
-    If `includeCodes` option is used, there will also be columns representing
-    the data quality codes named "agencyCd_siteno_parameterCd_cd".
-
-    +---------+--------------------------------------------------------+
-    | Code    |  Description                                           |
-    +=========+========================================================+
-    | e       | Value has been edited or estimated by USGS personnel   |
-    |         | and is write protected                                 |
-    +---------+--------------------------------------------------------+
-    | &       | Value was computed from affected unit values           |
-    +---------+--------------------------------------------------------+
-    | E       | Value was computed from estimated unit values.         |
-    +---------+--------------------------------------------------------+
-    | A       | Approved for publication -- Processing and review      |
-    |         | completed.                                             |
-    +---------+--------------------------------------------------------+
-    | P       | Provisional data subject to revision.                  |
-    +---------+--------------------------------------------------------+
-    | <       | The value is known to be less than reported value and  |
-    |         | is write protected.                                    |
-    +---------+--------------------------------------------------------+
-    | >       | The value is known to be greater than reported value   |
-    |         | and is write protected.                                |
-    +---------+--------------------------------------------------------+
-    | 1       | Value is write protected without any remark code to be |
-    |         | printed                                                |
-    +---------+--------------------------------------------------------+
-    | 2       | Remark is write protected without any remark code to   |
-    |         | be printed                                             |
-    +---------+--------------------------------------------------------+
-    |         | No remark (blank)                                      |
-    +---------+--------------------------------------------------------+
-    | Ssn     | Parameter monitored seasonally                         |
-    +---------+--------------------------------------------------------+
-    | Ice     | Ice affected                                           |
-    +---------+--------------------------------------------------------+
-    | Pr      | Partial-record site                                    |
-    +---------+--------------------------------------------------------+
-    | Rat     | Rating being developed or revised                      |
-    +---------+--------------------------------------------------------+
-    | Eqp     | Equipment malfunction                                  |
-    +---------+--------------------------------------------------------+
-    | Fld     | Flood damage                                           |
-    +---------+--------------------------------------------------------+
-    | Dis     | Data-collection discontinued                           |
-    +---------+--------------------------------------------------------+
-    | Dry     | Dry                                                    |
-    +---------+--------------------------------------------------------+
-    | --      | Parameter not determined                               |
-    +---------+--------------------------------------------------------+
-    | Mnt     | Maintenance in progress                                |
-    +---------+--------------------------------------------------------+
-    | ZFl     | Zero flow                                              |
-    +---------+--------------------------------------------------------+
-    | ``***`` | Temporarily unavailable                                |
-    +---------+--------------------------------------------------------+
-
+    {filter_descriptions}
+    {results_ts}
     Parameters
     ----------
     {sites}
+    {stateCd}
     {huc}
     {bBox}
     {countyCd}
     {agencyCd}
-    {stateCd}
-    {altMin}
     {altMax}
+    {altMin}
     {aquiferCd}
-    {endDT}
+    {drainAreaMax}
+    {drainAreaMin}
+    {holeDepthMax}
+    {holeDepthMin}
     {localAquiferCd}
     {modifiedSince}
     {parameterCd}
-    {statisticsCd}
-    {period}
     {siteStatus}
     {siteType}
-    {startDT}
-    {drainAreaMin}
-    {drainAreaMax}
-    {holeDepthMin}
-    {holeDepthMax}
-    {wellDepthMin}
     {wellDepthMax}
-    {includeCodes}"""
+    {wellDepthMin}
+    {period}
+    {startDT}
+    {endDT}
+    {includeCodes}
+    {statisticsCd}"""
     tsutils._printiso(
         nwis_dv(
             sites=sites,
@@ -1377,50 +1288,8 @@ def nwis_site_cli(
 ):
     r"""Download from the site database of the USGS NWIS.
 
-    Detailed documentation is available at http://waterdata.usgs.gov/nwis.
-
     This does not return a time-series, but a table of sites.
-
-    Every query requires a major filter. Pick the major filter ('--sites',
-    '--stateCd', '--huc', '--bBox', '--countyCd') that best retrieves the data
-    for the sites that you are interested in.  You can have only one major
-    filter per query. If you specify more than one major filter, you will get
-    an error.
-
-    **Major Filter**
-
-    Select one of::
-
-        '--sites',
-        '--stateCd',
-        '--huc',
-        '--bBox', or
-        '--countyCd'
-
-    **Minor Filters**
-
-    Additional filters can be applied after specifying a major filter. This
-    further reduces the set of expected results. Users are encouraged to use
-    minor filters because it allows more efficient use of this service.
-
-    Use as many as desired to limit number of retrieved time series::
-
-        '--parameterCd',
-        '--siteType',
-        '--modifiedSince',
-        '--agencyCd',
-        '--siteStatus',
-        '--altMin',
-        '--altMax',
-        '--drainAreaMin',
-        '--drainAreaMax',
-        '--aquiferCd',
-        '--localAquiferCd',
-        '--wellDepthMin',
-        '--wellDepthMax',
-        '--holeDepthMin',
-        '--holeDepthMax'
-
+    {filter_descriptions}
     **Results**
 
     +---------------------+----------------------------------+
@@ -1460,35 +1329,39 @@ def nwis_site_cli(
     Parameters
     ----------
     {sites}
+    {stateCd}
     {huc}
     {bBox}
     {countyCd}
+
+    {parameterCd}
+    {siteType}
+    {modifiedSince}
     {agencyCd}
-    {stateCd}
+    {siteStatus}
     {altMin}
     {altMax}
-    {aquiferCd}
-    {endDT}
-    {localAquiferCd}
-    {modifiedSince}
-    {parameterCd}
-    {statisticsCd}
-    {period}
-    {siteStatus}
-    {siteType}
-    {startDT}
     {drainAreaMin}
     {drainAreaMax}
-    {holeDepthMin}
-    {holeDepthMax}
+    {aquiferCd}
+    {localAquiferCd}
     {wellDepthMin}
     {wellDepthMax}
+    {holeDepthMin}
+    {holeDepthMax}
+
+    {period}
+    {startDT}
+    {endDT}
+    {includeCodes}
+
     {siteOutput}
     {seriesCatalogOutput}
     {outputDataTypeCd}
     {siteName}
     {siteNameMatchOperator}
     {hasDataTypeCd}"""
+
     tsutils._printiso(
         nwis_site(
             sites=sites,
@@ -1622,52 +1495,7 @@ def nwis_gwlevels_cli(
 ):
     r"""Download from the Groundwater Levels database of the USGS NWIS.
 
-    Detailed documentation is available at http://waterdata.usgs.gov/nwis.
-
-    Site local time is output, even if multiple sites are requested and sites
-    are in different time zones.  Note that the measurement time zone at a site
-    may not be the same as the time zone actually in effect at the site.
-
-    Every query requires a major filter. Pick the major filter ('--sites',
-    '--stateCd', '--huc', '--bBox', '--countyCd') that best retrieves the data
-    for the sites that you are interested in.  You can have only one major
-    filter per query. If you specify more than one major filter, you will get
-    an error.
-
-    **Major Filter**
-
-    Select one of::
-
-        '--sites',
-        '--stateCd',
-        '--huc',
-        '--bBox', or
-        '--countyCd'
-
-    **Minor Filters**
-
-    Additional filters can be applied after specifying a major filter. This
-    further reduces the set of expected results. Users are encouraged to use
-    minor filters because it allows more efficient use of this service.
-
-    Use as many as desired to limit number of retrieved time series::
-
-        '--parameterCd',
-        '--siteType',
-        '--modifiedSince',
-        '--agencyCd',
-        '--siteStatus',
-        '--altMin',
-        '--altMax',
-        '--drainAreaMin',
-        '--drainAreaMax',
-        '--aquiferCd',
-        '--localAquiferCd',
-        '--wellDepthMin',
-        '--wellDepthMax',
-        '--holeDepthMin',
-        '--holeDepthMax'
-
+    {filter_descriptions}
     **Results**
 
     +---------------+-------------------------------+
@@ -1829,52 +1657,7 @@ def nwis_measurements_cli(
 ):
     r"""Download from the Measurements database of the USGS NWIS.
 
-    Detailed documentation is available at http://waterdata.usgs.gov/nwis.
-
-    Site local time is output, even if multiple sites are requested and sites
-    are in different time zones.  Note that the measurement time zone at a site
-    may not be the same as the time zone actually in effect at the site.
-
-    Every query requires a major filter. Pick the major filter ('--sites',
-    '--stateCd', '--huc', '--bBox', '--countyCd') that best retrieves the data
-    for the sites that you are interested in.  You can have only one major
-    filter per query. If you specify more than one major filter, you will get
-    an error.
-
-    **Major Filter**
-
-    Select one of::
-
-        '--sites',
-        '--stateCd',
-        '--huc',
-        '--bBox', or
-        '--countyCd'
-
-    **Minor Filters**
-
-    Additional filters can be applied after specifying a major filter. This
-    further reduces the set of expected results. Users are encouraged to use
-    minor filters because it allows more efficient use of this service.
-
-    Use as many as desired to limit number of retrieved time series::
-
-        '--parameterCd',
-        '--siteType',
-        '--modifiedSince',
-        '--agencyCd',
-        '--siteStatus',
-        '--altMin',
-        '--altMax',
-        '--drainAreaMin',
-        '--drainAreaMax',
-        '--aquiferCd',
-        '--localAquiferCd',
-        '--wellDepthMin',
-        '--wellDepthMax',
-        '--holeDepthMin',
-        '--holeDepthMax'
-
+    {filter_descriptions}
     **Results**
 
     +---------------------------+-------------------------------------------+
@@ -2098,52 +1881,7 @@ def nwis_peak_cli(
 ):
     r"""Download from the Peak database of the USGS NWIS.
 
-    Detailed documentation is available at http://waterdata.usgs.gov/nwis.
-
-    Site local time is output, even if multiple sites are requested and sites
-    are in different time zones.  Note that the measurement time zone at a site
-    may not be the same as the time zone actually in effect at the site.
-
-    Every query requires a major filter. Pick the major filter ('--sites',
-    '--stateCd', '--huc', '--bBox', '--countyCd') that best retrieves the data
-    for the sites that you are interested in.  You can have only one major
-    filter per query. If you specify more than one major filter, you will get
-    an error.
-
-    **Major Filter**
-
-    Select one of::
-
-        '--sites',
-        '--stateCd',
-        '--huc',
-        '--bBox', or
-        '--countyCd'
-
-    **Minor Filters**
-
-    Additional filters can be applied after specifying a major filter. This
-    further reduces the set of expected results. Users are encouraged to use
-    minor filters because it allows more efficient use of this service.
-
-    Use as many as desired to limit number of retrieved time series::
-
-        '--parameterCd',
-        '--siteType',
-        '--modifiedSince',
-        '--agencyCd',
-        '--siteStatus',
-        '--altMin',
-        '--altMax',
-        '--drainAreaMin',
-        '--drainAreaMax',
-        '--aquiferCd',
-        '--localAquiferCd',
-        '--wellDepthMin',
-        '--wellDepthMax',
-        '--holeDepthMin',
-        '--holeDepthMax'
-
+    {filter_descriptions}
     **Results**
 
     +---------------+--------------------------------------------+
@@ -2374,48 +2112,7 @@ def nwis_stat_cli(
 ):
     r"""Download from the Statistic database of the USGS NWIS.
 
-    Detailed documentation is available at http://waterdata.usgs.gov/nwis.
-
-    Every query requires a major filter. Pick the major filter ('--sites',
-    '--stateCd', '--huc', '--bBox', '--countyCd') that best retrieves the data
-    for the sites that you are interested in.  You can have only one major
-    filter per query. If you specify more than one major filter, you will get
-    an error.
-
-    **Major Filter**
-
-    Select one of::
-
-        '--sites',
-        '--stateCd',
-        '--huc',
-        '--bBox', or
-        '--countyCd'
-
-    **Minor Filters**
-
-    Additional filters can be applied after specifying a major filter. This
-    further reduces the set of expected results. Users are encouraged to use
-    minor filters because it allows more efficient use of this service.
-
-    Use as many as desired to limit number of retrieved time series::
-
-        '--parameterCd',
-        '--siteType',
-        '--modifiedSince',
-        '--agencyCd',
-        '--siteStatus',
-        '--altMin',
-        '--altMax',
-        '--drainAreaMin',
-        '--drainAreaMax',
-        '--aquiferCd',
-        '--localAquiferCd',
-        '--wellDepthMin',
-        '--wellDepthMax',
-        '--holeDepthMin',
-        '--holeDepthMax'
-
+    {filter_descriptions}
     **Returns**
 
     This returns a pandas DataFrame if using the Python API, or a text table to

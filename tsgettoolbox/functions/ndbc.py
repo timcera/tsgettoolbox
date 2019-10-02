@@ -557,4 +557,4 @@ def ndbc(station, table, startUTC, endUTC):
     return odo(r, pd.DataFrame)
 
 
-ndbc.__doc__  = ndbc_cli.__doc__
+ndbc.__doc__ = ndbc_cli.__doc__
