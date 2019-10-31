@@ -1773,7 +1773,7 @@ def nwis_measurements_cli(
     {wellDepthMin}
     {wellDepthMax}"""
     tsutils._printiso(
-        nwis_measurements_cli(
+        nwis_measurements(
             sites=sites,
             stateCd=stateCd,
             huc=huc,

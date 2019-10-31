@@ -2873,7 +2873,7 @@ def ncdc_normal_dly_cli(stationid, datatypeid="", startdate="", enddate=""):
     enddate
         End date in ISO8601 format."""
     tsutils._printiso(
-        ncdc_normal_dly_cli(
+        ncdc_normal_dly(
             stationid, datatypeid=datetypeid, startdate=startdate, enddate=enddate
         )
     )
@@ -3391,7 +3391,7 @@ def ncdc_precip_15_cli(stationid, datatypeid="", startdate="", enddate=""):
         End date in ISO8601
         format."""
     tsutils._printiso(
-        ncdc_precip_15_cli(
+        ncdc_precip_15(
             stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate
         )
     )
