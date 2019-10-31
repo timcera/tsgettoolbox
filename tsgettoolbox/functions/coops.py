@@ -135,51 +135,52 @@ def coops_cli(
         Specify the observation requested.  If not specified will download all
         data from that station.
 
-        +------------------------+-------------------------------------+
-        | Option                 | Description                         |
-        +========================+=====================================+
-        | water_level            | Preliminary or verified water       |
-        |                        | levels, depending on availability.  |
-        +------------------------+-------------------------------------+
-        | air_temperature        | Air temperature                     |
-        +------------------------+-------------------------------------+
-        | water_temperature      | Water temperature                   |
-        +------------------------+-------------------------------------+
-        | wind                   | Wind speed, direction, and gusts    |
-        +------------------------+-------------------------------------+
-        | air_gap                | (distance between a bridge and the  |
-        |                        | water's surface)                    |
-        +------------------------+-------------------------------------+
-        | conductivity           | The water's conductivity            |
-        +------------------------+-------------------------------------+
-        | visibility             | Visibility from the station's       |
-        |                        | visibility sensor. A measure of     |
-        |                        | atmospheric clarity.                |
-        +------------------------+-------------------------------------+
-        | humidity               | Relative humidity                   |
-        +------------------------+-------------------------------------+
-        | salinity               | Salinity and specific gravity       |
-        +------------------------+-------------------------------------+
-        | hourly_height          | Verified hourly height water level  |
-        |                        | data                                |
-        +------------------------+-------------------------------------+
-        | high_low               | Verified high/low water level data  |
-        +------------------------+-------------------------------------+
-        | daily_mean             | Verified daily mean water level     |
-        |                        | data                                |
-        +------------------------+-------------------------------------+
-        | monthly_mean           | Verified monthly mean water level   |
-        |                        | data                                |
-        +------------------------+-------------------------------------+
-        | one_minute_water_level | One minute water level data         |
-        +------------------------+-------------------------------------+
-        | predictions            | 6 minute predictions water level    |
-        |                        | data                                |
-        +------------------------+-------------------------------------+
-        | datums                 | datums data                         |
-        +------------------------+-------------------------------------+
-        | currents               | Currents data                       |
-        +------------------------+-------------------------------------+
+        +------------------------+------------------------------------+
+        | Option                 | Description                        |
+        +========================+====================================+
+        | water_level            | Six minute preliminary or verified |
+        |                        | water levels, depending on         |
+        |                        | availability.                      |
+        +------------------------+------------------------------------+
+        | air_temperature        | Air temperature                    |
+        +------------------------+------------------------------------+
+        | water_temperature      | Water temperature                  |
+        +------------------------+------------------------------------+
+        | wind                   | Wind speed, direction, and gusts   |
+        +------------------------+------------------------------------+
+        | air_gap                | (distance between a bridge and the |
+        |                        | water's surface)                   |
+        +------------------------+------------------------------------+
+        | conductivity           | The water's conductivity           |
+        +------------------------+------------------------------------+
+        | visibility             | Visibility from the station's      |
+        |                        | visibility sensor. A measure of    |
+        |                        | atmospheric clarity.               |
+        +------------------------+------------------------------------+
+        | humidity               | Relative humidity                  |
+        +------------------------+------------------------------------+
+        | salinity               | Salinity and specific gravity      |
+        +------------------------+------------------------------------+
+        | hourly_height          | Verified hourly height water level |
+        |                        | data                               |
+        +------------------------+------------------------------------+
+        | high_low               | Verified high/low water level data |
+        +------------------------+------------------------------------+
+        | daily_mean             | Verified daily mean water level    |
+        |                        | data                               |
+        +------------------------+------------------------------------+
+        | monthly_mean           | Verified monthly mean water level  |
+        |                        | data                               |
+        +------------------------+------------------------------------+
+        | one_minute_water_level | One minute water level data        |
+        +------------------------+------------------------------------+
+        | predictions            | Six minute predictions water       |
+        |                        | level data                         |
+        +------------------------+------------------------------------+
+        | datums                 | datums data                        |
+        +------------------------+------------------------------------+
+        | currents               | Currents data                      |
+        +------------------------+------------------------------------+
 
         Possible water level height variables:
 
@@ -229,7 +230,7 @@ def coops_cli(
 
         Specify the datum that all water levels will be
         reported against.  Note! Datum is mandatory for all water level
-        products.
+        products and defaults to "NAVD".
 
         +--------+-------------------------------+
         | Option | Description                   |

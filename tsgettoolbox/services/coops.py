@@ -170,15 +170,32 @@ def nos_to_df(data, **kwargs):
     ]  # Currents data for
     # currents stations.
 
-    req = requests.get(data.url, params=data.query_params)
+    sdate = tsutils.parsedate(data.query_params["begin_date"])
+    edate = tsutils.parsedate(data.query_params["end_date"])
 
-    if os.path.exists("debug_tsgettoolbox"):
-        logging.warning(req.url)
-    req.raise_for_status()
+    ndf = pd.DataFrame()
+    testdate = sdate
+    while testdate < edate:
+        data.query_params["begin_date"] = testdate.strftime("%Y%m%d")
 
-    if b"Wrong " in req.content:
-        raise ValueError(
-            """
+        testdate = testdate + pd.Timedelta(days=31)
+        if testdate > edate:
+            testdate = edate
+
+        data.query_params["end_date"] = testdate.strftime("%Y%m%d")
+
+        req = requests.get(data.url, params=data.query_params)
+
+        if os.path.exists("debug_tsgettoolbox"):
+            logging.warning(req.url)
+        req.raise_for_status()
+
+        if b"Error: No data was found." in req.content:
+            continue
+
+        if b"Wrong " in req.content:
+            raise ValueError(
+                """
 *
 *   The server responded with the error:
 *   {0}
@@ -188,22 +205,23 @@ def nos_to_df(data, **kwargs):
             )
         )
 
-    df = pd.read_csv(BytesIO(req.content), index_col=0, parse_dates=True)
+        df = pd.read_csv(BytesIO(req.content), index_col=0, parse_dates=True)
+        ndf = ndf.combine_first(df)
     new_column_names = []
-    for icolumn_name in df.columns:
+    for icolumn_name in ndf.columns:
         ncolumn_name = icolumn_name.lower().strip().replace(" ", "_")
         units = settings_map[ncolumn_name][0][data.query_params["units"]]
         unitstr = ncolumn_name
         if units != "":
             unitstr = ":".join([ncolumn_name, units])
         new_column_names.append(("NOS", data.query_params["station"], unitstr))
-    df.columns = ["-".join(i).rstrip("-") for i in new_column_names]
+    ndf.columns = ["-".join(i).rstrip("-") for i in new_column_names]
     time_zone_name = data.query_params["time_zone"].upper()
     if time_zone_name == "GMT":
         time_zone_name = "UTC"
-    df = df.tz_localize(time_zone_name)
-    df.index.name = "Datetime:{0}".format(time_zone_name)
-    return df
+    ndf = ndf.tz_localize(time_zone_name)
+    ndf.index.name = "Datetime:{0}".format(time_zone_name)
+    return ndf
 
 
 if __name__ == "__main__":
