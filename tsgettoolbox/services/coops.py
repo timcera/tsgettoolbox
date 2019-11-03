@@ -34,18 +34,23 @@ from tstoolbox import tsutils
 class NOS(object):
     def __init__(self, url, **query_params):
         params = {}
-        params["interval"] = "h"
-        params["units"] = "metric"
-        params["time_zone"] = "gmt"
-        params["datum"] = "mllw"
+        # params["interval"] = "h"
+        # params["units"] = "metric"
+        # params["time_zone"] = "gmt"
+        # params["datum"] = "mllw"
         params.update(query_params)
-
-        params["begin_date"] = tsutils.parsedate(
-            query_params["begin_date"], strftime="%Y%m%d"
-        )
-        params["end_date"] = tsutils.parsedate(
-            query_params["end_date"], strftime="%Y%m%d"
-        )
+        try:
+            params["begin_date"] = tsutils.parsedate(
+                query_params["begin_date"], strftime="%Y%m%d"
+            )
+        except KeyError:
+            pass
+        try:
+            params["end_date"] = tsutils.parsedate(
+                query_params["end_date"], strftime="%Y%m%d"
+            )
+        except KeyError:
+            pass
         params["format"] = "csv"
         params["application"] = "tsgettoolbox"
         self.url = url
@@ -56,6 +61,22 @@ class NOS(object):
 @resource.register(r"http(s)?://tidesandcurrents\.noaa\.gov.*", priority=17)
 def resource_nos(uri, **kwargs):
     return NOS(uri, **kwargs)
+
+
+def core(data):
+    req = requests.get(data.url, params=data.query_params)
+
+    if os.path.exists("debug_tsgettoolbox"):
+        logging.warning(req.url)
+    req.raise_for_status()
+
+    if b"Error" in req.content or b"Wrong" in req.content:
+        df = pd.DataFrame()
+        error = req.content
+    else:
+        df = pd.read_csv(BytesIO(req.content), index_col=0, parse_dates=True)
+        error = ""
+    return df, error
 
 
 # Function to convert from NOS type to pd.DataFrame
@@ -170,43 +191,45 @@ def nos_to_df(data, **kwargs):
     ]  # Currents data for
     # currents stations.
 
-    sdate = tsutils.parsedate(data.query_params["begin_date"])
-    edate = tsutils.parsedate(data.query_params["end_date"])
+    if "date" in data.query_params:
+        ndf, error = core(data)
+    elif "range" in data.query_params and (
+        "begin_date" not in data.query_params or "end_date" not in data.query_params
+    ):
+        ndf, error = core(data)
+    elif "begin_date" in data.query_params and "range" in data.query_params:
+        ndf, error = core(data)
+    elif "begin_date" in data.query_params and "end_date" in data.query_params:
+        sdate = tsutils.parsedate(data.query_params["begin_date"])
+        edate = tsutils.parsedate(data.query_params["end_date"])
 
-    ndf = pd.DataFrame()
-    testdate = sdate
-    while testdate < edate:
-        data.query_params["begin_date"] = testdate.strftime("%Y%m%d")
+        ndf = pd.DataFrame()
+        testdate = sdate
+        while testdate < edate:
+            data.query_params["begin_date"] = testdate.strftime("%Y%m%d")
 
-        testdate = testdate + pd.Timedelta(days=31)
-        if testdate > edate:
-            testdate = edate
+            testdate = testdate + pd.Timedelta(days=31)
+            if testdate > edate:
+                testdate = edate
 
-        data.query_params["end_date"] = testdate.strftime("%Y%m%d")
+            data.query_params["end_date"] = testdate.strftime("%Y%m%d")
 
-        req = requests.get(data.url, params=data.query_params)
+            df, error = core(data)
+            ndf = ndf.combine_first(df)
+    elif "end_date" in data.query_params and "range" in data.query_params:
+        ndf, error = core(data)
 
-        if os.path.exists("debug_tsgettoolbox"):
-            logging.warning(req.url)
-        req.raise_for_status()
-
-        if b"Error: No data was found." in req.content:
-            continue
-
-        if b"Wrong " in req.content:
-            raise ValueError(
+    if len(ndf) == 0:
+        raise ValueError(
+            tsutils.error_wrapper(
                 """
-*
-*   The server responded with the error:
-*   {0}
-*
+COOPS service returned the error "{0}".
 """.format(
-                req.content
+                    error
+                )
             )
         )
 
-        df = pd.read_csv(BytesIO(req.content), index_col=0, parse_dates=True)
-        ndf = ndf.combine_first(df)
     new_column_names = []
     for icolumn_name in ndf.columns:
         ncolumn_name = icolumn_name.lower().strip().replace(" ", "_")
@@ -232,13 +255,93 @@ if __name__ == "__main__":
 
     r = resource(
         r"http://tidesandcurrents.noaa.gov/api/datagetter",
-        begin_date="01/10/2002",
-        end_date="2002-01-02",
-        range=1,
+        range=20,
         station="8720218",
         product="water_level",
+        interval="h",
+        units="metric",
+        time_zone="gmt",
+        datum="mllw",
     )
 
     as_df = odo(r, pd.DataFrame)
     print("tidesandcurrents")
     print(as_df)
+
+    r = resource(
+        r"http://tidesandcurrents.noaa.gov/api/datagetter",
+        begin_date="01/10/2002",
+        range=2,
+        station="8720218",
+        product="water_temperature",
+        interval="h",
+        units="metric",
+        time_zone="gmt",
+        datum="mllw",
+    )
+
+    as_df = odo(r, pd.DataFrame)
+    print("tidesandcurrents")
+    print(as_df)
+
+    r = resource(
+        r"http://tidesandcurrents.noaa.gov/api/datagetter",
+        begin_date="01/10/2002",
+        range=5,
+        station="8720218",
+        product="water_level",
+        interval="h",
+        units="metric",
+        time_zone="gmt",
+        datum="mllw",
+    )
+
+    as_df = odo(r, pd.DataFrame)
+    print("tidesandcurrents")
+    print(as_df)
+
+    r = resource(
+        r"http://tidesandcurrents.noaa.gov/api/datagetter",
+        end_date="01/10/2002",
+        range=3,
+        station="8720218",
+        product="air_temperature",
+        interval="h",
+        units="metric",
+        time_zone="gmt",
+        datum="mllw",
+    )
+
+    as_df = odo(r, pd.DataFrame)
+    print("tidesandcurrents")
+    print(as_df)
+
+    r = resource(
+        r"http://tidesandcurrents.noaa.gov/api/datagetter",
+        begin_date="01/10/2002",
+        end_date="2003-01-01",
+        station="8720218",
+        product="water_level",
+        interval="h",
+        units="metric",
+        time_zone="gmt",
+        datum="mllw",
+    )
+
+    as_df = odo(r, pd.DataFrame)
+    print("tidesandcurrents")
+    print(as_df)
+
+    try:
+        r = resource(
+            r"http://tidesandcurrents.noaa.gov/api/datagetter",
+            range=745,
+            station="8720218",
+            product="water_level",
+            units="metric",
+            time_zone="gmt",
+            datum="mllw",
+        )
+        as_df = odo(r, pd.DataFrame)
+    except ValueError:
+        print("Correct ValueError")
