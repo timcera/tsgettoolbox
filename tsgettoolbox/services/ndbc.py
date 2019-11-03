@@ -283,11 +283,11 @@ def ndbc_to_df(data, **kwargs):
 
     if len(df) == 0:
         raise ValueError(
-            """
-*
-*   No data collected/available within this time frame.
-*
+            tsutils.error_wrapper(
+                """
+No data collected/available within this time frame.
 """
+            )
         )
 
     if table == "wlevel":

@@ -8,6 +8,8 @@ Provide access to data from the USACE `Rivergages`_ web site.
 """
 import pandas as pd
 
+from tstoolbox import tsutils
+
 from tsgettoolbox.ulmo.usace.rivergages.core import get_station_data
 from tsgettoolbox.ulmo.usace.rivergages.core import get_station_parameters
 from tsgettoolbox.ulmo.usace.rivergages.core import get_stations
@@ -20,26 +22,26 @@ def ulmo_df(station_code, parameter, start_date=None, end_date=None):
     tstations = get_stations()
     if station_code not in tstations:
         raise ValueError(
-            """
-*
-*   Station code {0} not in available stations:
-*   {1}
-*
+            tsutils.error_wrapper(
+                """
+Station code {0} not in available stations:
+{1}
 """.format(
-                station_code, tstations.keys
+                    station_code, tstations.keys
+                )
             )
         )
 
     tparameters = get_station_parameters(station_code)
     if parameter not in tparameters:
         raise ValueError(
-            """
-*
-*   Parameter code {0} not in available parameters at station {1}:
-*   {2}
-*
+            tsutils.error_wrapper(
+                """
+Parameter code {0} not in available parameters at station {1}:
+{2}
 """.format(
-                parameter, station_code, tparameters
+                    parameter, station_code, tparameters
+                )
             )
         )
     df = get_station_data(

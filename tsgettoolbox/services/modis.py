@@ -548,29 +548,28 @@ def modis_to_df(data, **kwargs):
     products = client.service.getproducts()
     if data.query_params["product"] not in products:
         raise ValueError(
-            """
-*
-*   Available products at the current time are:
-*   {0}.
-*
-*   You gave me {1}.
-*
+            tsutils.error_wrapper(
+                """
+Available products at the current time are: {0}.
+
+You gave {1}.
 """.format(
-                products, data.query_params["product"]
+                    products, data.query_params["product"]
+                )
             )
         )
     bands = client.service.getbands(data.query_params["product"])
     if data.query_params["band"] not in bands:
         raise ValueError(
-            """
-*
-*   'band' argument must be in the following list for 'product' = {0}.
-*   {1}.
-*
-*   You gave me {2}.
-*
+            tsutils.error_wrapper(
+                """
+'band' argument must be in the following list for 'product' = {0}.
+{1}.
+
+You gave me {2}.
 """.format(
-                data.query_params["product"], bands, data.query_params["band"]
+                    data.query_params["product"], bands, data.query_params["band"]
+                )
             )
         )
 

@@ -420,12 +420,12 @@ class USGS_MEASUREMENTS_PEAK_RDB(object):
             url = url.replace("XX", statelookup[int(r.ix[1, u"state_cd"])].lower())
         except KeyError:
             raise ValueError(
-                """
-*
-*   No field measurements available.  Some states don't have any posted
-*   to NWIS.
-*
+                tsutils.error_wrapper(
+                    """
+No field measurements available.  Some states don't have any posted
+to NWIS.
 """
+                )
             )
 
         self.url = url

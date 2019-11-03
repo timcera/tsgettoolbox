@@ -55,13 +55,13 @@ class Daymet(object):
             for testparams in params["measuredParams"].split(","):
                 if testparams not in avail_params:
                     raise ValueError(
-                        """
-*
-*   The measuredParams must be 'tmax', 'tmin', 'srad', 'vp', 'swe', 'prcp',
-*   and 'dayl'.  You supplied {0}.
-*
+                        tsutils.error_wrapper(
+                            """
+The measuredParams must be 'tmax', 'tmin', 'srad', 'vp', 'swe', 'prcp',
+and 'dayl'.  You supplied {0}.
 """.format(
-                            testparams
+                                testparams
+                            )
                         )
                     )
 
@@ -76,24 +76,24 @@ class Daymet(object):
                     accumyear.append(iyear)
                 except ValueError:
                     raise ValueError(
-                        """
-*
-*   The year= option must contain a comma separated list of integers.  You
-*   supplied {0}.
-*
+                        tsutils.error_wrapper(
+                            """
+The year= option must contain a comma separated list of integers.  You
+supplied {0}.
 """.format(
-                            testyear
+                                testyear
+                            )
                         )
                     )
                 if iyear < 1980 or iyear > last_year:
                     raise ValueError(
-                        """
-*
-*   The year= option must contain values from 1980 up to and including the last
-*   calendar year.  You supplied {0}.
-*
+                        tsutils.error_wrapper(
+                            """
+The year= option must contain values from 1980 up to and including the last
+calendar year.  You supplied {0}.
 """.format(
-                            iyear
+                                iyear
+                            )
                         )
                     )
 

@@ -112,12 +112,12 @@ def ncdc_cdo_json_to_df(data, **kwargs):
 
     if sdate >= edate:
         raise ValueError(
-            """
-*
-*   The startdate of {0} is greater than, or equal to, the enddate of {1}.
-*
+            tsutils.error_wrapper(
+                """
+The startdate of {0} is greater than, or equal to, the enddate of {1}.
 """.format(
-                sdate, edate
+                    sdate, edate
+                )
             )
         )
 
@@ -156,26 +156,27 @@ def ncdc_cdo_json_to_df(data, **kwargs):
     if len(df) == 0:
         if "NORMAL_" in data.query_params["datasetid"]:
             raise ValueError(
-                """
-*
-*   No normalized statistics available for station {0}
-*
+                tsutils.error_wrapper(
+                    """
+No normalized statistics available for station {0}
 """.format(
-                    data.query_params["stationid"]
+                        data.query_params["stationid"]
+                    )
                 )
             )
         else:
             raise ValueError(
-                """
-*
-*   No data within {0} and {1}.
-*   There should be data between {2} and {3}.
-*
+                tsutils.error_wrapper(
+                    """
+No data within {0} and {1}.
+
+There should be data between {2} and {3}.
 """.format(
-                    data.query_params["startdate"],
-                    data.query_params["enddate"],
-                    pd.to_datetime(dreq.json()["mindate"]),
-                    pd.to_datetime(dreq.json()["maxdate"]),
+                        data.query_params["startdate"],
+                        data.query_params["enddate"],
+                        pd.to_datetime(dreq.json()["mindate"]),
+                        pd.to_datetime(dreq.json()["maxdate"]),
+                    )
                 )
             )
 
