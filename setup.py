@@ -58,7 +58,7 @@ install_requires = [
     "suds-jurko",
     "tables",
     "toolz >= 0.7.3",
-    "tstoolbox >= 40.87.42.28",
+    "tstoolbox >= 43.89.43.31",
     "zeep",
 ]
 
