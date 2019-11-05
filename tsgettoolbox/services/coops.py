@@ -70,7 +70,11 @@ def core(data):
         logging.warning(req.url)
     req.raise_for_status()
 
-    if b"Error" in req.content or b"Wrong" in req.content:
+    if (
+        b"Error" in req.content
+        or b"Wrong" in req.content
+        or b"Range limit" in req.content
+    ):
         df = pd.DataFrame()
         error = req.content
     else:
@@ -191,15 +195,23 @@ def nos_to_df(data, **kwargs):
     ]  # Currents data for
     # currents stations.
 
-    if "date" in data.query_params:
+    if data.query_params["date"] is not None:
         ndf, error = core(data)
-    elif "range" in data.query_params and (
-        "begin_date" not in data.query_params or "end_date" not in data.query_params
+    elif (
+        data.query_params["range"] is not None
+        and data.query_params["begin_date"] is None
+        and data.query_params["end_date"] is None
     ):
         ndf, error = core(data)
-    elif "begin_date" in data.query_params and "range" in data.query_params:
+    elif (
+        data.query_params["begin_date"] is not None
+        and data.query_params["range"] is not None
+    ):
         ndf, error = core(data)
-    elif "begin_date" in data.query_params and "end_date" in data.query_params:
+    elif (
+        data.query_params["begin_date"] is not None
+        and data.query_params["end_date"] is not None
+    ):
         sdate = tsutils.parsedate(data.query_params["begin_date"])
         edate = tsutils.parsedate(data.query_params["end_date"])
 
@@ -216,7 +228,10 @@ def nos_to_df(data, **kwargs):
 
             df, error = core(data)
             ndf = ndf.combine_first(df)
-    elif "end_date" in data.query_params and "range" in data.query_params:
+    elif (
+        data.query_params["end_date"] is not None
+        and data.query_params["range"] is not None
+    ):
         ndf, error = core(data)
 
     if len(ndf) == 0:
@@ -255,13 +270,16 @@ if __name__ == "__main__":
 
     r = resource(
         r"http://tidesandcurrents.noaa.gov/api/datagetter",
-        range=20,
         station="8720218",
         product="water_level",
         interval="h",
         units="metric",
         time_zone="gmt",
         datum="mllw",
+        range=20,
+        begin_date=None,
+        end_date=None,
+        date=None,
     )
 
     as_df = odo(r, pd.DataFrame)
@@ -270,14 +288,16 @@ if __name__ == "__main__":
 
     r = resource(
         r"http://tidesandcurrents.noaa.gov/api/datagetter",
-        begin_date="01/10/2002",
-        range=2,
         station="8720218",
         product="water_temperature",
         interval="h",
         units="metric",
         time_zone="gmt",
         datum="mllw",
+        begin_date="01/10/2002",
+        range=2,
+        end_date=None,
+        date=None,
     )
 
     as_df = odo(r, pd.DataFrame)
@@ -286,14 +306,16 @@ if __name__ == "__main__":
 
     r = resource(
         r"http://tidesandcurrents.noaa.gov/api/datagetter",
-        begin_date="01/10/2002",
-        range=5,
         station="8720218",
         product="water_level",
         interval="h",
         units="metric",
         time_zone="gmt",
         datum="mllw",
+        begin_date="01/10/2002",
+        range=5,
+        end_date=None,
+        date=None,
     )
 
     as_df = odo(r, pd.DataFrame)
@@ -302,14 +324,17 @@ if __name__ == "__main__":
 
     r = resource(
         r"http://tidesandcurrents.noaa.gov/api/datagetter",
-        end_date="01/10/2002",
-        range=3,
         station="8720218",
         product="air_temperature",
         interval="h",
         units="metric",
         time_zone="gmt",
         datum="mllw",
+        end_date="01/10/2002",
+        range=3,
+        begin_date=None,
+        end_date=None,
+        date=None,
     )
 
     as_df = odo(r, pd.DataFrame)
@@ -318,14 +343,16 @@ if __name__ == "__main__":
 
     r = resource(
         r"http://tidesandcurrents.noaa.gov/api/datagetter",
-        begin_date="01/10/2002",
-        end_date="2003-01-01",
         station="8720218",
         product="water_level",
         interval="h",
         units="metric",
         time_zone="gmt",
         datum="mllw",
+        begin_date="01/10/2002",
+        end_date="2003-01-01",
+        range=None,
+        date=None,
     )
 
     as_df = odo(r, pd.DataFrame)
@@ -335,12 +362,15 @@ if __name__ == "__main__":
     try:
         r = resource(
             r"http://tidesandcurrents.noaa.gov/api/datagetter",
-            range=745,
             station="8720218",
             product="water_level",
             units="metric",
             time_zone="gmt",
             datum="mllw",
+            begin_date=None,
+            end_date=None,
+            range=745,
+            date=None,
         )
         as_df = odo(r, pd.DataFrame)
     except ValueError:

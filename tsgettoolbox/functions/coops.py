@@ -271,7 +271,6 @@ def coops_cli(
         +-------+-------------------------------------------+
         | Field | Description                               |
         +=======+===========================================+
-        +-------+-------------------------------------------+
         | t     | Time - Date and time of the observation   |
         +-------+-------------------------------------------+
         | v     | Value - Measured water level height       |
@@ -486,13 +485,13 @@ def coops_cli(
         --product='water_level' or 1 minute intervals for
         --product='one_minute_water_level'.
 
-        +---------+----------------------------------------------------+
-        | Option  | Description                                        |
-        +=========+====================================================+
-        | h     | Hourly meteorological data                                |
-        +---------+----------------------------------------------------+
-        | hilo     | High/low predictions for subordinate stations |
-        +---------+----------------------------------------------------+
+        +--------+-----------------------------------------------+
+        | Option | Description                                   |
+        +========+===============================================+
+        | h      | Hourly meteorological data                    |
+        +--------+-----------------------------------------------+
+        | hilo   | High/low predictions for subordinate stations |
+        +--------+-----------------------------------------------+
 
     bin
         [optional, defaults to None]
