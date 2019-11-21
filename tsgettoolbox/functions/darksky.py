@@ -22,15 +22,16 @@ def darksky_cli(
 
     Registration: https://darksky.net/dev/register
 
-    The time zone of the returned data is dependent on the format of the "time"
-    option.  If there is an ISO8601 representation of the time zone in the
-    "time" option then that is the time zone of the returned data.  If "time"
-    is None or does not explicitly define a time zone, the returned data is in
-    the local time zone of the latitude and longitude.
+    The time zone of the returned data is dependent on the format of the
+    "time" option.  If there is an ISO8601 representation of the time
+    zone in the "time" option then that is the time zone of the returned
+    data.  If "time" is None or does not explicitly define a time zone,
+    the returned data is in the local time zone of the latitude and
+    longitude.
 
-    There isn't an absolutely consistent set of data returned for all areas, or
-    all databases.  The returned values will be some subset of the following
-    list:
+    There isn't an absolutely consistent set of data returned for all
+    areas, or all databases.  The returned values will be some subset of
+    the following list:
 
     summary::
 
@@ -39,20 +40,20 @@ def darksky_cli(
     icon::
 
      A machine-readable text summary of this data |point, suitable for
-     selecting an icon for display. If defined, this property will have one of
-     the following values: 'clear-day', 'clear-night', 'rain', 'snow', 'sleet',
-     'wind', 'fog', 'cloudy', 'partly-cloudy-day', or 'partly-cloudy-night'.
-     (Developers should ensure that a sensible default is defined, as
-     additional values, such as hail, thunderstorm, or tornado, may be defined
-     in the future.)
+     selecting an icon for display. If defined, this property will have
+     one of the following values: 'clear-day', 'clear-night', 'rain',
+     'snow', 'sleet', 'wind', 'fog', 'cloudy', 'partly-cloudy-day', or
+     'partly-cloudy-night'.  (Developers should ensure that a sensible
+     default is defined, as additional values, such as hail,
+     thunderstorm, or tornado, may be defined in the future.)
 
     precipIntensity::
 
      A numerical value representing the average expected intensity (in
      inches of liquid water per hour) of precipitation occurring at the
      given time conditional on probability (that is, assuming any
-     precipitation occurs at all). A very rough guide is that a value
-     of 0 in./hr. corresponds to no precipitation, 0.002 in./hr.
+     precipitation occurs at all). A very rough guide is that a value of
+     0 in./hr. corresponds to no precipitation, 0.002 in./hr.
      corresponds to very light precipitation, 0.017 in./hr. corresponds
      to light precipitation, 0.1 in./hr. corresponds to moderate
      precipitation, and 0.4 in./hr. corresponds to heavy precipitation.
@@ -202,40 +203,39 @@ def darksky_cli(
         longitude.
 
     time
-        TIME should either be a UNIX time (that is,
-        seconds since midnight GMT on 1 Jan 1970) or a string formatted
-        as follows: [YYYY]-[MM]-[DD]T[HH]:[MM]:[SS] (with an optional
-        time zone formatted as Z for GMT time or {+,-}[HH][MM] for an
-        offset in hours or minutes). For the latter format, if no
-        timezone is present, local time (at the provided latitude and
-        longitude) is assumed.  (This string format is a subset of ISO
-        8601 time. An as example, 2013-05-06T12:00:00-0400.)
+        TIME should either be a UNIX time (that is, seconds since
+        midnight GMT on 1 Jan 1970) or a string formatted as follows:
+        [YYYY]-[MM]-[DD]T[HH]:[MM]:[SS] (with an optional time zone
+        formatted as Z for GMT time or {+,-}[HH][MM] for an offset in
+        hours or minutes). For the latter format, if no timezone is
+        present, local time (at the provided latitude and longitude) is
+        assumed.  (This string format is a subset of ISO 8601 time. An
+        as example, 2013-05-06T12:00:00-0400.)
 
         The default is None, which uses the current time.
 
     database
-        The database to draw the data from.  This is
-        slightly different than the typical Forecast.io request, which
-        would normally send back all data from all databases.  Typically
-        though the 'tsgettoolbox' and siblings expect a single time
-        increment in a dataset.  This isn't a hard rule, just
-        a tradition.  So pick a database from 'currently', 'minutely',
-        'hourly', 'daily', 'alerts', or 'flags'.  The 'currently'
-        database is the default and is the current conditions.
-        'minutely' give minute by minute forecast from the current time
-        for the next hour, 'hourly' gives hourly forecast for the next
-        two days (unless --extend='hourly' option is given), and 'daily'
-        gives a forecast day by day for the next week.
+        The database to draw the data from.  This is slightly different
+        than the typical Forecast.io request, which would normally send
+        back all data from all databases.  Typically though the
+        'tsgettoolbox' and siblings expect a single time increment in
+        a dataset.  This isn't a hard rule, just a tradition.  So pick
+        a database from 'currently', 'minutely', 'hourly', 'daily',
+        'alerts', or 'flags'.  The 'currently' database is the default
+        and is the current conditions.  'minutely' give minute by minute
+        forecast from the current time for the next hour, 'hourly' gives
+        hourly forecast for the next two days (unless --extend='hourly'
+        option is given), and 'daily' gives a forecast day by day for
+        the next week.
 
     extend
-        If set to 'hourly' and --database='hourly'
-        then will get an hourly forecast for the next week.
+        If set to 'hourly' and --database='hourly' then will get an
+        hourly forecast for the next week.
 
     lang : str
-        Return text summaries in the desired language.
-        (Please be advised that units in the summary will be set
-        according to the units option, above, so be sure to set both
-        options as needed.)
+        Return text summaries in the desired language.  (Please be
+        advised that units in the summary will be set according to the
+        units option, above, so be sure to set both options as needed.)
 
         +-------------+-------------------+
         | lang= code  | Language          |
@@ -285,6 +285,44 @@ def darksky_cli(
     )
 
 
+@tsutils.validator(
+    latitude=[float, ["range", [-90.0, 90.0]], 1],
+    longitude=[float, ["range", [-180.0, 180.0]], 1],
+    time=[tsutils.parsedate, ["pass", []], 1],
+    database=[
+        str,
+        ["domain", ["currently", "minutely", "hourly", "daily", "alerts", "flags"]],
+        1,
+    ],
+    extend=[str, ["domain", ["hourly"]], 1],
+    lang=[
+        str,
+        [
+            "domain",
+            [
+                "ar",
+                "bs",
+                "de",
+                "en",
+                "es",
+                "fr",
+                "it",
+                "nl",
+                "pl",
+                "pt",
+                "ru",
+                "sk",
+                "sv",
+                "tet",
+                "tr",
+                "uk",
+                "x-pig-latin",
+                "zh",
+            ],
+        ],
+        1,
+    ],
+)
 def darksky(latitude, longitude, time=None, database="hourly", extend=None, lang="en"):
     r"""Data from the Dark Sky forecast service."""
     from tsgettoolbox.services import darksky as placeholder
