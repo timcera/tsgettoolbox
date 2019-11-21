@@ -175,7 +175,7 @@ def ldas_cli(
     endDate : str
         The end date of the time series.::
 
-            Example: --startDate=2001-01-05T05
+            Example: --endDate=2002-01-05T05
 
         If startDate and endDate are None, returns the entire series.
     """
@@ -192,6 +192,15 @@ def ldas_cli(
     )
 
 
+@tsutils.validator(
+    lat=[float, ["range", [-90.0, 90.0]], 1],
+    lon=[float, ["range", [-180.0, 180.0]], 1],
+    xindex=[int, ["range", [0,]], 1],
+    yindex=[int, ["range", [0,]], 1],
+    variable=[str, ["pass", []], None],
+    startDate=[tsutils.parsedate, ["pass", []], 1],
+    endDate=[tsutils.parsedate, ["pass", []], 1],
+)
 def ldas(
     lat=None,
     lon=None,
@@ -213,14 +222,18 @@ def ldas(
         else:
             location = "{0}:X{1:04d}-Y{2:03d}".format(project, xindex, yindex)
 
-    r = resource(
-        r"https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi",
-        variable=variable,
-        location=location,
-        startDate=startDate,
-        endDate=endDate,
-    )
-    return odo(r, pd.DataFrame)
+    ndf = pd.DataFrame()
+    for cnt, var in enumerate(tsutils.make_list(variable)):
+        r = resource(
+            r"https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi",
+            variable=var,
+            location=location,
+            startDate=startDate,
+            endDate=endDate,
+        )
+        ndf = ndf.join(odo(r, pd.DataFrame), how="outer", rsuffix="_{0}".format(cnt))
+
+    return ndf
 
 
 ldas.__doc__ = ldas_cli.__doc__
