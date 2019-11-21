@@ -312,7 +312,7 @@ if __name__ == "__main__":
         r"https://www.ndbc.noaa.gov/data/",
         table="stdmet",
         startUTC="2012-01-01T00:00Z",
-        endUTC="2012-04-01:00Z",
+        endUTC="2012-04-01T00:00Z",
         station="41012",
     )
 

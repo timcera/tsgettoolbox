@@ -137,8 +137,6 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
     |      | Value     | Value     | Value     | Value     | Value     |
     +------+-----------+-----------+-----------+-----------+-----------+
 
-
-
     Parameters
     ----------
     lat : float

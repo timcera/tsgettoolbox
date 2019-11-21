@@ -64,7 +64,7 @@ def numpy_to_series(x, **kwargs):
     if names is not None:
         if len(names) > 1:
             raise ValueError("passed in an ndarray with more than 1 column")
-        name, = names
+        (name,) = names
         return pd.Series(x[name], name=name)
     return pd.Series(x)
 

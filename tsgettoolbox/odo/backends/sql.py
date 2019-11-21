@@ -319,7 +319,7 @@ def _process_columns(columns):
         A record entry containing the name and type of each column.
     """
     for col in columns:
-        (name, dtype), = discover(col).fields
+        ((name, dtype),) = discover(col).fields
         yield str(name), dtype
 
 

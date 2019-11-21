@@ -333,7 +333,6 @@ if __name__ == "__main__":
         end_date="01/10/2002",
         range=3,
         begin_date=None,
-        end_date=None,
         date=None,
     )
 
