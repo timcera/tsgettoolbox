@@ -195,8 +195,8 @@ def ldas_cli(
 @tsutils.validator(
     lat=[float, ["range", [-90.0, 90.0]], 1],
     lon=[float, ["range", [-180.0, 180.0]], 1],
-    xindex=[int, ["range", [0,]], 1],
-    yindex=[int, ["range", [0,]], 1],
+    xindex=[int, ["range", [0, None]], 1],
+    yindex=[int, ["range", [0, None]], 1],
     variable=[str, ["pass", []], None],
     startDate=[tsutils.parsedate, ["pass", []], 1],
     endDate=[tsutils.parsedate, ["pass", []], 1],
