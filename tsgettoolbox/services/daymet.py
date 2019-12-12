@@ -135,8 +135,10 @@ def daymet_to_df(data, **kwargs):
         skipinitialspace=True,
         parse_dates=[[0, 1]],
     )
-    tmpcols = [i.split()[0] for i in df.columns]
-    df.columns = ["Daymet-{0}{1}".format(i, _units_map[i]) for i in tmpcols]
+    df.columns = [i.split()[0] for i in df.columns]
+    df = df[data.query_params["measuredParams"].split(",")]
+    df.columns = ["Daymet-{0}{1}".format(i, _units_map[i]) for i in
+                  df.columns]
     df.index.name = "Datetime"
     return df
 
