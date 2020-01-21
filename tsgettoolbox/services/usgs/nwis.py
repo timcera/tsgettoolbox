@@ -117,6 +117,10 @@ def _read_rdb(data):
         logging.warning(req.url)
     req.raise_for_status()
 
+    header = [0, 1]
+    if "/measurements/" in data.url:
+        header = [0]
+
     if "/iv/" in data.url or "/dv/" in data.url:
         # iv and dv results are stacked, a table for each site.  Have to split
         # the overall req.content into discrete tables for pd.read_csv to work.
@@ -135,7 +139,7 @@ def _read_rdb(data):
                 adf = pd.read_csv(
                     BytesIO(b"\n".join(site)),
                     comment="#",
-                    header=[0, 1],
+                    header=header,
                     sep="\t",
                     dtype={"site_no": str},
                     na_values="Dis",
@@ -175,7 +179,7 @@ def _read_rdb(data):
         ndf = pd.read_csv(
             BytesIO(req.content),
             comment="#",
-            header=[0, 1],
+            header=header,
             sep="\t",
             dtype={"site_no": str, "parameter_cd": str, "ts_id": str},
             na_values="Dis",
@@ -417,7 +421,7 @@ class USGS_MEASUREMENTS_PEAK_RDB(object):
             pd.DataFrame,
         )
         try:
-            url = url.replace("XX", statelookup[int(r.ix[1, u"state_cd"])].lower())
+            url = url.replace("XX", statelookup[int(r.ix[0, u"state_cd"])].lower())
         except KeyError:
             raise ValueError(
                 tsutils.error_wrapper(
