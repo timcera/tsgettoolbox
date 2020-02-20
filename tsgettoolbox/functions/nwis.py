@@ -809,8 +809,8 @@ nwis_docstrings = {
 }
 
 
-@mando.command(formatter_class=HelpFormatter, doctype="numpy")
-def nwis(
+@mando.command("nwis", formatter_class=HelpFormatter, doctype="numpy")
+def nwis_cli(
     sites=None,
     stateCd=None,
     huc=None,
@@ -842,9 +842,9 @@ def nwis(
 ):
     r"""Deprecated: Use the ``nwis_*`` functions instead.
 
-    This function has been split up into individual functions for each
-    source database.  This allows for keywords and output to be tailored
-    to each specific web service.
+    This "nwis" function has been split up into individual functions for each
+    source database.  This allows for keywords and output to be tailored to
+    each specific web service.
 
     +-------------------+-------------------------------+
     | New Function      | Database Name and Description |
@@ -870,36 +870,95 @@ def nwis(
     This function/sub-command will continue to work, however you should
     change all scripts to use the split out functions.
     """
+    tsutils._printiso(
+        nwis(
+            sites=sites,
+            stateCd=stateCd,
+            huc=huc,
+            bBox=bBox,
+            countyCd=countyCd,
+            parameterCd=parameterCd,
+            period=period,
+            startDT=startDT,
+            endDT=endDT,
+            siteType=siteType,
+            modifiedSince=modifiedSince,
+            agencyCd=agencyCd,
+            siteStatus=siteStatus,
+            altMin=altMin,
+            altMax=altMax,
+            drainAreaMin=drainAreaMin,
+            drainAreaMax=drainAreaMax,
+            aquiferCd=aquiferCd,
+            localAquiferCd=localAquiferCd,
+            wellDepthMin=wellDepthMin,
+            wellDepthMax=wellDepthMax,
+            holeDepthMin=holeDepthMin,
+            holeDepthMax=holeDepthMax,
+            database=database,
+            statReportType=statReportType,
+            statType=statType,
+            missingData=missingData,
+            statYearType=statYearType,
+        )
+    )
+
+
+def nwis(
+    sites=None,
+    stateCd=None,
+    huc=None,
+    bBox=None,
+    countyCd=None,
+    parameterCd=None,
+    period=None,
+    startDT=None,
+    endDT=None,
+    siteType=None,
+    modifiedSince=None,
+    agencyCd=None,
+    siteStatus=None,
+    altMin=None,
+    altMax=None,
+    drainAreaMin=None,
+    drainAreaMax=None,
+    aquiferCd=None,
+    localAquiferCd=None,
+    wellDepthMin=None,
+    wellDepthMax=None,
+    holeDepthMin=None,
+    holeDepthMax=None,
+    database="dv",
+    statReportType=None,
+    statType=None,
+    missingData=None,
+    statYearType=None,
+):
+    warnings.warn(tsutils.error_wrapper(nwis_cli.__doc__))
+
     from tsgettoolbox.services.usgs import nwis as placeholder
 
     if database not in ["iv", "dv", "stat", "measurements", "peak", "site", "gwlevels"]:
-        raise ValueError(
-            r"""
-*
-*   The 'database' option must be either 'iv' for instantaneous values,
-*   or 'dv' for daily values, or 'stat' for daily, monthly, or annual
-*   statistics, or 'measurements' for field measurements, 'peak' for
-*   peak stage and flow estimates, 'site' for site metadata, or
-*   'gwlevels' for ground water levels.
-*   You gave {0}.
-*
-""".format(
+        raise ValueError(tsutils.error_wrapper(r"""
+The 'database' option must be either 'iv' for instantaneous values, or 'dv' for
+daily values, or 'stat' for daily, monthly, or annual statistics, or
+'measurements' for field measurements, 'peak' for peak stage and flow
+estimates, 'site' for site metadata, or 'gwlevels' for ground water levels.
+
+You gave {0}.""".format(
                 database
-            )
+            ))
         )
     url = r"http://waterservices.usgs.gov/nwis/{0}/".format(database)
     if database in ["measurements", "peak", "gwlevels"]:
         words = sites.split(",")
         if len(words) != 1:
-            raise ValueError(
-                r"""
-*
-*   For the 'measurements', 'peak', and 'gwlevels' databases you can only
-*   collect data from one site, you listed {0}.
-*
+            raise ValueError(tsutils.error_wrapper(r"""
+For the 'measurements', 'peak', and 'gwlevels' databases you can only collect
+data from one site, you listed {0}.
 """.format(
                     len(words)
-                )
+                ))
             )
         if (
             stateCd is not None
@@ -907,14 +966,10 @@ def nwis(
             or bBox is not None
             or countyCd is not None
         ):
-            raise ValueError(
-                r"""
-*
-*   The 'measurements', 'peak', or 'gwlevels' databases can currently only
-*   accept one site using the 'site' keyword.
-*
-"""
-            )
+            raise ValueError(tsutils.error_wrapper(r"""
+The 'measurements', 'peak', or 'gwlevels' databases can currently only
+accept one site using the 'site' keyword.
+"""))
 
         if database in ["measurements", "peak"]:
             url = r"http://nwis.waterdata.usgs.gov/XX/nwis/{0}".format(database)
@@ -949,7 +1004,7 @@ def nwis(
         statYearType=statYearType,
     )
 
-    return tsutils._printiso(odo(r, pd.DataFrame))
+    return odo(r, pd.DataFrame)
 
 
 @mando.command("nwis_iv", formatter_class=HelpFormatter, doctype="numpy")
@@ -2566,6 +2621,8 @@ def epa_wqp(
 
     return odo(r, pd.DataFrame)
 
+
+nwis.__doc__ = nwis_cli.__doc__
 
 nwis_iv.__doc__ = nwis_iv_cli.__doc__
 nwis_dv.__doc__ = nwis_dv_cli.__doc__
