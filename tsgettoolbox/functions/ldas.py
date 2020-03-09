@@ -1,6 +1,7 @@
 from tsgettoolbox.odo import odo, resource
 import pandas as pd
 import mando
+from tabulate import tabulate as tb
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -9,8 +10,27 @@ except ImportError:
 
 from tstoolbox import tsutils
 
+from tsgettoolbox.services import ldas as placeholder
+
+new_units_table = [
+    [
+        "{0}\n{1}".format(i, placeholder._UNITS_MAP[i][0]),
+        "{0}".format(placeholder._UNITS_MAP[i][1]),
+    ]
+    for i in placeholder._UNITS_MAP
+]
+
+units_table = tb(
+    new_units_table,
+    tablefmt="grid",
+    headers=['LDAS "variable" string Description', "Units"],
+)
+
+units_table = "\n".join(["        {0}".format(i) for i in units_table.split("\n")])
+
 
 @mando.command("ldas", formatter_class=HelpFormatter, doctype="numpy")
+@tsutils.doc({"units_table": units_table})
 def ldas_cli(
     lat=None,
     lon=None,
@@ -20,7 +40,81 @@ def ldas_cli(
     startDate=None,
     endDate=None,
 ):
-    r"""Download data from NLDAS or GLDAS.
+    r"""Download data from LDAS.
+
+    Available data sources are:
+
+    +-------------------------------+----------+---------------+---------+
+    | Description/Name              | Interval | Spatial       | Version |
+    +===============================+==========+===============+=========+
+    | NLDAS Primary Forcing Data    | 1 hour   | 0.125 x 0.125 | V002    |
+    | NLDAS_FORA0125_H              |          | degree        |         |
+    +-------------------------------+----------+---------------+---------+
+    | NLDAS Noah Land Surface Model | 1 hour   | 0.125 x 0.125 | V002    |
+    | NLDAS_NOAH0125_H              |          | degree        |         |
+    +-------------------------------+----------+---------------+---------+
+    | GLDAS Noah Land Surface Model | 3 hour   | 0.25 x 0.25   | V2.1    |
+    | GLDAS_NOAH025_3H              |          | degree        |         |
+    +-------------------------------+----------+---------------+---------+
+    | AMSR-E/Aqua surface           | 1 day    | 25 x 25 km    | V002    |
+    | soil moisture                 |          |               |         |
+    +-------------------------------+----------+---------------+---------+
+    | AMSR-E/Aqua root zone         | 1 day    | 25 x 25 km    | V001    |
+    | soil moisture                 |          |               |         |
+    | LPRM_AMSRE_D_RZSM3            |          |               |         |
+    +-------------------------------+----------+---------------+---------+
+    | AMSR2/GCOM-W1 surface         | 1 day    | 25 x 25 km    | V001    |
+    | soil moisture                 |          |               |         |
+    | LPRM_AMSR2_A_SOILM3           |          |               |         |
+    +-------------------------------+----------+---------------+---------+
+    | AMSR2/GCOM-W1 surface         | 1 day    | 25 x 25 km    | V001    |
+    | soil moisture                 |          |               |         |
+    | LPRM_AMSR2_D_SOILM3           |          |               |         |
+    +-------------------------------+----------+---------------+---------+
+    | AMSR2/GCOM-W1 surface         | 1 day    | 10 x 10 km    | V001    |
+    | soil moisture                 |          |               |         |
+    | LPRM_AMSR2_DS_A_SOILM3        |          |               |         |
+    +-------------------------------+----------+---------------+---------+
+    | ASMR2/GCOM-W1 surface         | 1 day    | 10 x 10 km    | V001    |
+    | soil moisture                 |          |               |         |
+    | LPRM_AMSR2_DS_D_SOILM3        |          |               |         |
+    +-------------------------------+----------+---------------+---------+
+    | TMI/TRMM surface              | 1 day    | 25 x 25 km    | V001    |
+    | soil moisture                 |          |               |         |
+    | LPRM_TMI_NT_SOILM3            |          |               |         |
+    +-------------------------------+----------+---------------+---------+
+    | TMI/TRMM surface              | 1 day    | 25 x 25 km    | V001    |
+    | soil moisture                 |          |               |         |
+    | LPRM_TMI_DY_SOILM3            |          |               |         |
+    +-------------------------------+----------+---------------+---------+
+    | TRMM (TMPA) Rainfall Estimate | 3 hour   | 0.25 x 0.25   | V7      |
+    | TRMM_3B42                     |          | degree        |         |
+    +-------------------------------+----------+---------------+---------+
+    | Smerge-Noah-CCI root zone     | day      | 0.125 x 0.125 | V2.0    |
+    | soil moisture 0-40 cm         |          | degree        |         |
+    | SMERGE_RZSM0_40CM             |          |               |         |
+    +-------------------------------+----------+---------------+---------+
+    | Groundwater and Soil Moisture | 7 day    | 0.125 x 0.125 | V2.0    |
+    | Conditions from GRACE         |          | degree        |         |
+    | Data Assimilation             |          |               |         |
+    | GRACEDADM_CLSM0125US_7D       |          |               |         |
+    +-------------------------------+----------+---------------+---------+
+    | MERRA-2 2D, Instantaneous,    | 1 hour   |               | V5.12.4 |
+    | Land Surface Forcings         |          |               |         |
+    | M2I1NXLFO                     |          |               |         |
+    +-------------------------------+----------+---------------+---------+
+    | MERRA-2 2D, Time-averaged,    | 1 hour   |               | V5.12.4 |
+    | Surface Flux Diagnostics      |          |               |         |
+    | M2T1NXFLX                     |          |               |         |
+    +-------------------------------+----------+---------------+---------+
+    | MERRA-2 2D, Time-averaged,    | 1 hour   |               | V5.12.4 |
+    | Land Surface Forcings         |          |               |         |
+    | M2T1NXLFO                     |          |               |         |
+    +-------------------------------+----------+---------------+---------+
+    | MERRA 2D Incremental          | 1 hour   |               | V5.2.0  |
+    | Analysis Update               |          |               |         |
+    | MST1NXMLD                     |          |               |         |
+    +-------------------------------+----------+---------------+---------+
 
     The time zone is always UTC.
 
@@ -59,111 +153,7 @@ def ldas_cli(
     variable : str
         Use the variable codes from the following table:
 
-        +--------------------------------------------+-----------+
-        | LDAS "variable" string Description         | Units     |
-        +============================================+===========+
-        | NLDAS:NLDAS_FORA0125_H.002:APCPsfc         | kg/m^2    |
-        | Precipitation hourly total                 |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:DLWRFsfc        | W/m^2     |
-        | Surface DW longwave radiation flux         |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:DSWRFsfc        | W/m^2     |
-        | Surface DW shortwave radiation flux        |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:PEVAPsfc        | kg/m^2    |
-        | Potential evaporation                      |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:SPFH2m          | kg/kg     |
-        | 2-m above ground specific humidity         |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:TMP2m           | degK      |
-        | 2-m above ground temperature               |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:UGRD10m         | m/s       |
-        | 10-m above ground zonal wind               |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_FORA0125_H.002:VGRD10m         | m/s       |
-        | 10-m above ground meridional wind          |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:EVPsfc          | kg/m^2    |
-        | Total evapotranspiration                   |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:GFLUXsfc        | w/m^2     |
-        | Ground heat flux                           |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:LHTFLsfc        | w/m^2     |
-        | Latent heat flux                           |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SHTFLsfc        | w/m^2     |
-        | Sensible heat flux                         |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SSRUNsfc        | kg/m^2    |
-        | Surface runoff (non-infiltrating)          |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:BGRIUNdfc       | kg/m^2    |
-        | Subsurface runoff (baseflow)               |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SOILM0-10cm     | kg/m^2    |
-        | 0-10 cm soil moisture content              |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SOILM0-100cm    | kg/m^2    |
-        | 0-100 cm soil moisture content             |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SOILM0-200cm    | kg/m^2    |
-        | 0-200 cm soil moisture content             |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SOILM10-40cm    | kg/m^2    |
-        | 10-40 cm soil moisture content             |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SOILM40-100cm   | kg/m^2    |
-        | 40-100 cm soil moisture content            |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:SOILM100-200cm  | kg/m^2    |
-        | 100-200 cm soil moisture content           |           |
-        +--------------------------------------------+-----------+
-        | NLDAS:NLDAS_NOAH0125_H.002:TSOIL0-10cm     | degK      |
-        | 0-10 cm soil temperature                   |           |
-        +--------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Evap            | kg/m^2/s  |
-        | Evapotranspiration                         |           |
-        +--------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:precip          | kg/m^s/hr |
-        | Precipitation rate                         |           |
-        +--------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Rainf           | kg/m^2/s  |
-        | Rain rate                                  |           |
-        +--------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Snowf           | kg/m^2/s  |
-        | Snow rate                                  |           |
-        +--------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Qs              | kg/m^2/s  |
-        | Surface Runoff                             |           |
-        +--------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Qsb             | kg/m^2/s  |
-        | Subsurface Runoff                          |           |
-        +--------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:SOILM0-100cm    | kg/m^2    |
-        | 0-100 cm top 1 meter soil moisture content |           |
-        +--------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:SOILM0-10cm     | kg/m^2    |
-        | 0-10 cm layer 1 soil moisture content      |           |
-        +--------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:SOILM10-40cm    | kg/m^2    |
-        | 10-40 cm layer 2 soil moisture content     |           |
-        +--------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:SOILM40-100cm   | kg/m^2    |
-        | 40-100 cm layer 3 soil moisture content    |           |
-        +--------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Tair            | degK      |
-        | Near surface air temperature               |           |
-        +--------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:TSOIL0-10cm     | degK      |
-        | Average layer 1 soil temperature           |           |
-        +--------------------------------------------+-----------+
-        | GLDAS:GLDAS_NOAH025_3H.001:Wind            | m/s       |
-        | Near surface wind magnitude                |           |
-        +--------------------------------------------+-----------+
+{units_table}
 
     startDate : str
         The start date of the time series.::
@@ -211,10 +201,8 @@ def ldas(
     endDate=None,
 ):
     r"""Download data from NLDAS or GLDAS."""
-    from tsgettoolbox.services import ldas as placeholder
-
     project = variable.split(":")[0]
-    if lat is not None:
+    if lat is not None and lon is not None:
         location = "GEOM:POINT({0}, {1})".format(lon, lat)
     else:
         if project == "NLDAS":
