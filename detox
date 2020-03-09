@@ -10,9 +10,9 @@ pkgs="\
      flake8 \
      "
 
-envs=(~/python_ves/python-2.7.13
-      ~/python_ves/python-3.5.2 \
-      ~/python_ves/python-3.6.0)
+envs=(~/pythons/python-3.6.0  \
+      ~/pythons/python-3.7.0  \
+      ~/pythons/python-3.8.0)
 
 pytest_opts='--doctest-modules --ignore docsrc --mpl'
 
@@ -22,20 +22,16 @@ for env in ${envs[@]}; do
     source "${env}"/bin/activate
     pip install --upgrade pip
     pip install wheel
-    pip install --upgrade --only-binary pandas,scipy ${pkgs}
-    pip install -r etc/requirements_ci.txt
+    pip install --no-cache --upgrade --only-binary numpy,pandas,scipy ${pkgs}
     pip uninstall -y ${program}
     rm -rf build
-    python setup.py develop
-
+    pip install -e ../${program}
     pytest ${pytest_opts}
     deactivate
 done
 
-source "${env}"/bin/activate
 coverage erase
 coverage run `which pytest` ${pytest_opts}
 coverage report --include="${program}/*" --omit="tests/*"
 coverage html --include="${program}/*" --omit="tests/*"
-flake8 ${program}/__init__.py ${program}/${program}.py ${program}/tsutils.py ${program}/functions/*.py --exit-zero
-deactivate
+flake8 ${program}/*.py --exit-zero

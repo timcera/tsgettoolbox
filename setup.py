@@ -50,7 +50,6 @@ install_requires = [
     "lxml",
     "multipledispatch >= 0.4.7",
     "networkx >= 1.0",
-    "networkx < 2.0",
     "numpy >= 1.7",
     "pandas >= 0.15.0",
     "pytest",

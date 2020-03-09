@@ -939,26 +939,32 @@ def nwis(
     from tsgettoolbox.services.usgs import nwis as placeholder
 
     if database not in ["iv", "dv", "stat", "measurements", "peak", "site", "gwlevels"]:
-        raise ValueError(tsutils.error_wrapper(r"""
+        raise ValueError(
+            tsutils.error_wrapper(
+                r"""
 The 'database' option must be either 'iv' for instantaneous values, or 'dv' for
 daily values, or 'stat' for daily, monthly, or annual statistics, or
 'measurements' for field measurements, 'peak' for peak stage and flow
 estimates, 'site' for site metadata, or 'gwlevels' for ground water levels.
 
 You gave {0}.""".format(
-                database
-            ))
+                    database
+                )
+            )
         )
     url = r"http://waterservices.usgs.gov/nwis/{0}/".format(database)
     if database in ["measurements", "peak", "gwlevels"]:
         words = sites.split(",")
         if len(words) != 1:
-            raise ValueError(tsutils.error_wrapper(r"""
+            raise ValueError(
+                tsutils.error_wrapper(
+                    r"""
 For the 'measurements', 'peak', and 'gwlevels' databases you can only collect
 data from one site, you listed {0}.
 """.format(
-                    len(words)
-                ))
+                        len(words)
+                    )
+                )
             )
         if (
             stateCd is not None
@@ -966,10 +972,14 @@ data from one site, you listed {0}.
             or bBox is not None
             or countyCd is not None
         ):
-            raise ValueError(tsutils.error_wrapper(r"""
+            raise ValueError(
+                tsutils.error_wrapper(
+                    r"""
 The 'measurements', 'peak', or 'gwlevels' databases can currently only
 accept one site using the 'site' keyword.
-"""))
+"""
+                )
+            )
 
         if database in ["measurements", "peak"]:
             url = r"http://nwis.waterdata.usgs.gov/XX/nwis/{0}".format(database)
