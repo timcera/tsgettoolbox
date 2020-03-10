@@ -207,7 +207,9 @@ def ldas(
     elif project == "NLDAS" and xindex is not None and yindex is not None:
         location = "{0}:X{1:03d}-Y{2:03d}".format(project, xindex, yindex)
     else:
-        raise ValueError(tsutils.error_wrapper("""
+        raise ValueError(
+            tsutils.error_wrapper(
+                """
 There is a problem specifying the location.
 
 Both `lat` and `lon` need to be specified where you have "lat={lat}" and
@@ -216,7 +218,11 @@ Both `lat` and `lon` need to be specified where you have "lat={lat}" and
 Only for the NLDAS grid can you use `xindex` and `yindex` to specify the
 location.  You have the grid "{project}" and "xindex={xindex}" and
 "yindex={yindex}".
-""".format(**locals())))
+""".format(
+                    **locals()
+                )
+            )
+        )
 
     ndf = pd.DataFrame()
     for cnt, var in enumerate(tsutils.make_list(variable)):
