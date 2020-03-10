@@ -121,32 +121,32 @@ def ldas_cli(
     Parameters
     ----------
     lat :  float
-        Either 'lat' and 'lon', or 'xindex' and
-        'yindex' is required.
+        Should use 'lat' and 'lon' to specify location.
 
-        Latitude (required): Enter single geographic point by
-        latitude.::
+        Latitude (required): Enter single geographic point by latitude.::
 
             Example: --lat=43.1
 
+        If known, 'xindex' and 'yindex' can be used for the NLDAS grid only.
     lon : float
-        Either 'lat' and 'lon', or 'xindex' and
-        'yindex' is required.  Longitude (required): Enter single
-        geographic point by longitude::
+        Should use 'lat' and 'lon' to specify location.
+
+        Longitude (required): Enter single geographic point by longitude::
 
             Example: --lon=-85.3
 
+        If known, 'xindex' and 'yindex' can be used for the NLDAS grid only.
     xindex : int
-        Either 'lat' and 'lon', or 'xindex' and
-        'yindex' is required.  xindex (required if using xindex/yindex):
-        Enter the x index of the NLDAS or GLDAS grid.::
+        It `lat` or `lon` is None, then will try `xindex` and `yindex`.
+
+        Enter the x index of the NLDAS grid.::
 
             Example: --xindex=301
 
     yindex : int
-        Either 'lat' and 'lon', or 'xindex' and
-        'yindex' is required.  yindex (required if using xindex/yindex):
-        Enter the y index of the NLDAS or GLDAS grid.::
+        It `lat` or `lon` is None, then will try `xindex` and `yindex`.
+
+        Enter the y index of the NLDAS grid.::
 
             Example: --yindex=80
 
@@ -204,11 +204,19 @@ def ldas(
     project = variable.split(":")[0]
     if lat is not None and lon is not None:
         location = "GEOM:POINT({0}, {1})".format(lon, lat)
+    elif project == "NLDAS" and xindex is not None and yindex is not None:
+        location = "{0}:X{1:03d}-Y{2:03d}".format(project, xindex, yindex)
     else:
-        if project == "NLDAS":
-            location = "{0}:X{1:03d}-Y{2:03d}".format(project, xindex, yindex)
-        else:
-            location = "{0}:X{1:04d}-Y{2:03d}".format(project, xindex, yindex)
+        raise ValueError(tsutils.error_wrapper("""
+There is a problem specifying the location.
+
+Both `lat` and `lon` need to be specified where you have "lat={lat}" and
+"lon={lon}".
+
+Only for the NLDAS grid can you use `xindex` and `yindex` to specify the
+location.  You have the grid "{project}" and "xindex={xindex}" and
+"yindex={yindex}".
+""".format(**locals())))
 
     ndf = pd.DataFrame()
     for cnt, var in enumerate(tsutils.make_list(variable)):
