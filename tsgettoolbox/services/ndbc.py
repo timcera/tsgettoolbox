@@ -301,6 +301,8 @@ No data collected/available within this time frame.
     df = df.sort_index()
     df = df[~df.index.duplicated()]
 
+    df.columns = [i.replace(r"%", "PERCENT") for i in df.columns]
+
     return df.loc[sdate:edate, :]
 
 

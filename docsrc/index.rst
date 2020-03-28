@@ -9,7 +9,7 @@ This is the home page for tsgettoolbox.  tsgettoolbox is a small Python library
 for downloading and reformatting time-series data from various internet
 sources.
 
-tsgettoolbox will work with Python 2.6+ and 3.0+.
+tsgettoolbox will work with Python 3.6+.
 
 Table of Contents
 -----------------

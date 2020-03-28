@@ -91,41 +91,41 @@ def ndbc_cli(station, table, startUTC, endUTC):
 
         'ocean' Oceanographic Data
 
-        +----------+----------------------------------------------------------+
-        | Variable | Description                                              |
-        +----------+----------------------------------------------------------+
-        | DEPTH    | Depth (meters) at which measurements are taken.          |
-        +----------+----------------------------------------------------------+
-        | OTMP     | The direct measurement (Celsius) of the Ocean            |
-        |          | Temperature (as opposed to the indirect measurement (see |
-        |          | WTMP above)).                                            |
-        +----------+----------------------------------------------------------+
-        | COND     | Conductivity is a measure of the electrical conductivity |
-        |          | properties of seawater in milliSiemens per centimeter.   |
-        +----------+----------------------------------------------------------+
-        | SAL      | Salinity is computed by a known functional relationship  |
-        |          | between the measured electrical conductivity of seawater |
-        |          | (CON), temperature (OTMP) and pressure. Salinity is      |
-        |          | computed using the Practical Salinity Scale of 1978      |
-        |          | (PSS78) and reported in Practical Salinity Units.        |
-        +----------+----------------------------------------------------------+
-        | O2%%      | Dissolved oxygen as a percentage.                        |
-        +----------+----------------------------------------------------------+
-        | O2PPM    | Dissolved oxygen in parts per million.                   |
-        +----------+----------------------------------------------------------+
-        | CLCON    | Chlorophyll concentration in micrograms per liter        |
-        |          | (ug/l).                                                  |
-        +----------+----------------------------------------------------------+
-        | TURB     | Turbidity is an expression of the optical property that  |
-        |          | causes light to be scattered and absorbed rather than    |
-        |          | transmitted in straight lines through the sample (APHA   |
-        |          | 1980). Units are Formazine Turbidity Units (FTU).        |
-        +----------+----------------------------------------------------------+
-        | PH       | A measure of the acidity or alkalinity of the seawater.  |
-        +----------+----------------------------------------------------------+
-        | EH       | Redox (oxidation and reduction) potential of seawater in |
-        |          | millivolts.                                              |
-        +----------+----------------------------------------------------------+
+        +-----------+----------------------------------------------------------+
+        | Variable  | Description                                              |
+        +-----------+----------------------------------------------------------+
+        | DEPTH     | Depth (meters) at which measurements are taken.          |
+        +-----------+----------------------------------------------------------+
+        | OTMP      | The direct measurement (Celsius) of the Ocean            |
+        |           | Temperature (as opposed to the indirect measurement (see |
+        |           | WTMP above)).                                            |
+        +-----------+----------------------------------------------------------+
+        | COND      | Conductivity is a measure of the electrical conductivity |
+        |           | properties of seawater in milliSiemens per centimeter.   |
+        +-----------+----------------------------------------------------------+
+        | SAL       | Salinity is computed by a known functional relationship  |
+        |           | between the measured electrical conductivity of seawater |
+        |           | (CON), temperature (OTMP) and pressure. Salinity is      |
+        |           | computed using the Practical Salinity Scale of 1978      |
+        |           | (PSS78) and reported in Practical Salinity Units.        |
+        +-----------+----------------------------------------------------------+
+        | O2PERCENT | Dissolved oxygen as a percentage.                        |
+        +-----------+----------------------------------------------------------+
+        | O2PPM     | Dissolved oxygen in parts per million.                   |
+        +-----------+----------------------------------------------------------+
+        | CLCON     | Chlorophyll concentration in micrograms per liter        |
+        |           | (ug/l).                                                  |
+        +-----------+----------------------------------------------------------+
+        | TURB      | Turbidity is an expression of the optical property that  |
+        |           | causes light to be scattered and absorbed rather than    |
+        |           | transmitted in straight lines through the sample (APHA   |
+        |           | 1980). Units are Formazine Turbidity Units (FTU).        |
+        +-----------+----------------------------------------------------------+
+        | PH        | A measure of the acidity or alkalinity of the seawater.  |
+        +-----------+----------------------------------------------------------+
+        | EH        | Redox (oxidation and reduction) potential of seawater in |
+        |           | millivolts.                                              |
+        +-----------+----------------------------------------------------------+
 
         'srad' Shortwave Radiation
 
@@ -360,95 +360,97 @@ def ndbc_cli(station, table, startUTC, endUTC):
 
         Ocean Current Data (Expanded ADCP format)
 
-        +----------+----------------------------------------------------------+
-        | Variable | Description                                              |
-        +----------+----------------------------------------------------------+
-        | I        | Instrument Number: Stations may have more than one ADCP  |
-        |          | instrument. This field distinguishes these instruments   |
-        |          | by number.  Valid values are 0-9, with 0 being reserved  |
-        |          | for surface measurements.                                |
-        +----------+----------------------------------------------------------+
-        | Bin      | The bin number, ranging from 1 to 128, where 1 is the    |
-        |          | bin closest to the transducer head.                      |
-        +----------+----------------------------------------------------------+
-        | Depth    | The distance from the sea surface to the middle of the   |
-        |          | depth cells, or bins, measured in meters.                |
-        +----------+----------------------------------------------------------+
-        | Dir      | The direction the ocean current is flowing toward. 0-360 |
-        |          | degrees, 360 is due north, 0 means no measurable         |
-        |          | current.                                                 |
-        +----------+----------------------------------------------------------+
-        | Speed    | The speed of the ocean current measured in cm/s.         |
-        +----------+----------------------------------------------------------+
-        | ErrVl    | The error velocity measured in cm/s.                     |
-        +----------+----------------------------------------------------------+
-        | VerVl    | The vertical velocity of the ocean current measured in   |
-        |          | cm/s.                                                    |
-        +----------+----------------------------------------------------------+
-        | %%Good3   | The percentage of three-beam solutions that are good.    |
-        +----------+----------------------------------------------------------+
-        | %%Good4   | The percentage of four-beam solutions that are good.     |
-        +----------+----------------------------------------------------------+
-        | %%GoodE   | The percentage of transformations rejected.              |
-        +----------+----------------------------------------------------------+
-        | EI1      | The echo intensity values for the beam 1. Valid values   |
-        |          | are 0 to 255.                                            |
-        +----------+----------------------------------------------------------+
-        | EI2      | The echo intensity values for the beam 2. Valid values   |
-        |          | are 0 to 255.                                            |
-        +----------+----------------------------------------------------------+
-        | EI3      | The echo intensity values for the beam 3. Valid values   |
-        |          | are 0 to 255.                                            |
-        +----------+----------------------------------------------------------+
-        | EI4      | The echo intensity values for the beam 4. Valid values   |
-        |          | are 0 to 255.                                            |
-        +----------+----------------------------------------------------------+
-        | CM1      | The correlation magnitude values for the beam 1. Valid   |
-        |          | values are 0 to 255.                                     |
-        +----------+----------------------------------------------------------+
-        | CM2      | The correlation magnitude values for the beam 2. Valid   |
-        |          | values are 0 to 255.                                     |
-        +----------+----------------------------------------------------------+
-        | CM3      | The correlation magnitude values for the beam 3. Valid   |
-        |          | values are 0 to 255.                                     |
-        +----------+----------------------------------------------------------+
-        | CM4      | The correlation magnitude values for the beam 4. Valid   |
-        |          | values are 0 to 255.                                     |
-        +----------+----------------------------------------------------------+
-        | Flags    | The nine quality flags represent the results of the      |
-        |          | following quality tests based on their position in the   |
-        |          | flags field.                                             |
-        +----------+----------------------------------------------------------+
-        |          | Flag 1: overall bin status.                              |
-        +----------+----------------------------------------------------------+
-        |          | Flag 2: ADCP Built-In Test (BIT) status.                 |
-        +----------+----------------------------------------------------------+
-        |          | Flag 3: Error Velocity test status.                      |
-        +----------+----------------------------------------------------------+
-        |          | Flag 4: Percent Good test status.                        |
-        +----------+----------------------------------------------------------+
-        |          | Flag 5: Correlation Magnitude test status.               |
-        +----------+----------------------------------------------------------+
-        |          | Flag 6: Vertical Velocity test status.                   |
-        +----------+----------------------------------------------------------+
-        |          | Flag 7: North Horizontal Velocity test status.           |
-        +----------+----------------------------------------------------------+
-        |          | Flag 8: East Horizontal Velocity test status.            |
-        +----------+----------------------------------------------------------+
-        |          | Flag 9: Echo Intensity test status.                      |
-        +----------+----------------------------------------------------------+
-        |          | Valid values are:                                        |
-        +----------+----------------------------------------------------------+
-        |          | 0 = quality not evaluated;                               |
-        +----------+----------------------------------------------------------+
-        |          | 1 = failed quality test;                                 |
-        +----------+----------------------------------------------------------+
-        |          | 2 = questionable or suspect data;                        |
-        +----------+----------------------------------------------------------+
-        |          | 3 = good data/passed quality test; and                   |
-        +----------+----------------------------------------------------------+
-        |          | 9 = missing data.                                        |
-        +----------+----------------------------------------------------------+
+        +--------------+----------------------------------------------------+
+        | Variable     | Description                                        |
+        +--------------+----------------------------------------------------+
+        | I            | Instrument Number: Stations may have more than one |
+        |              | ADCP instrument. This field distinguishes these    |
+        |              | instruments by number.  Valid values are 0-9, with |
+        |              | 0 being reserved for surface measurements.         |
+        +--------------+----------------------------------------------------+
+        | Bin          | The bin number, ranging from 1 to 128, where 1 is  |
+        |              | the bin closest to the transducer head.            |
+        +--------------+----------------------------------------------------+
+        | Depth        | The distance from the sea surface to the middle of |
+        |              | the depth cells, or bins, measured in meters.      |
+        +--------------+----------------------------------------------------+
+        | Dir          | The direction the ocean current is flowing toward. |
+        |              | 0-360 degrees, 360 is due north, 0 means no        |
+        |              | measurable current.                                |
+        +--------------+----------------------------------------------------+
+        | Speed        | The speed of the ocean current measured in cm/s.   |
+        +--------------+----------------------------------------------------+
+        | ErrVl        | The error velocity measured in cm/s.               |
+        +--------------+----------------------------------------------------+
+        | VerVl        | The vertical velocity of the ocean current         |
+        |              | measured in cm/s.                                  |
+        +--------------+----------------------------------------------------+
+        | PERCENTGood3 | The percentage of three-beam solutions that are    |
+        |              | good.                                              |
+        +--------------+----------------------------------------------------+
+        | PERCENTGood4 | The percentage of four-beam solutions that are     |
+        |              | good.                                              |
+        +--------------+----------------------------------------------------+
+        | PERCENTGoodE | The percentage of transformations rejected.        |
+        +--------------+----------------------------------------------------+
+        | EI1          | The echo intensity values for the beam 1. Valid    |
+        |              | values are 0 to 255.                               |
+        +--------------+----------------------------------------------------+
+        | EI2          | The echo intensity values for the beam 2. Valid    |
+        |              | values are 0 to 255.                               |
+        +--------------+----------------------------------------------------+
+        | EI3          | The echo intensity values for the beam 3. Valid    |
+        |              | values are 0 to 255.                               |
+        +--------------+----------------------------------------------------+
+        | EI4          | The echo intensity values for the beam 4. Valid    |
+        |              | values are 0 to 255.                               |
+        +--------------+----------------------------------------------------+
+        | CM1          | The correlation magnitude values for the beam 1.   |
+        |              | Valid values are 0 to 255.                         |
+        +--------------+----------------------------------------------------+
+        | CM2          | The correlation magnitude values for the beam 2.   |
+        |              | Valid values are 0 to 255.                         |
+        +--------------+----------------------------------------------------+
+        | CM3          | The correlation magnitude values for the beam 3.   |
+        |              | Valid values are 0 to 255.                         |
+        +--------------+----------------------------------------------------+
+        | CM4          | The correlation magnitude values for the beam 4.   |
+        |              | Valid values are 0 to 255.                         |
+        +--------------+----------------------------------------------------+
+        | Flags        | The nine quality flags represent the results of    |
+        |              | the following quality tests based on their         |
+        |              | position in the flags field.                       |
+        +--------------+----------------------------------------------------+
+        |              | Flag 1: overall bin status.                        |
+        +--------------+----------------------------------------------------+
+        |              | Flag 2: ADCP Built-In Test (BIT) status.           |
+        +--------------+----------------------------------------------------+
+        |              | Flag 3: Error Velocity test status.                |
+        +--------------+----------------------------------------------------+
+        |              | Flag 4: Percent Good test status.                  |
+        +--------------+----------------------------------------------------+
+        |              | Flag 5: Correlation Magnitude test status.         |
+        +--------------+----------------------------------------------------+
+        |              | Flag 6: Vertical Velocity test status.             |
+        +--------------+----------------------------------------------------+
+        |              | Flag 7: North Horizontal Velocity test status.     |
+        +--------------+----------------------------------------------------+
+        |              | Flag 8: East Horizontal Velocity test status.      |
+        +--------------+----------------------------------------------------+
+        |              | Flag 9: Echo Intensity test status.                |
+        +--------------+----------------------------------------------------+
+        |              | Valid values are:                                  |
+        +--------------+----------------------------------------------------+
+        |              | 0 = quality not evaluated;                         |
+        +--------------+----------------------------------------------------+
+        |              | 1 = failed quality test;                           |
+        +--------------+----------------------------------------------------+
+        |              | 2 = questionable or suspect data;                  |
+        +--------------+----------------------------------------------------+
+        |              | 3 = good data/passed quality test; and             |
+        +--------------+----------------------------------------------------+
+        |              | 9 = missing data.                                  |
+        +--------------+----------------------------------------------------+
 
         Marsh-McBirney Current Measurements
 
