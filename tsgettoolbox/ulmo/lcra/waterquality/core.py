@@ -26,6 +26,7 @@ log = logging.getLogger(__name__)
 
 import requests
 
+import numpy as np
 import pandas as pd
 
 source_map = {
@@ -206,7 +207,7 @@ def get_recent_data(site_code, as_dataframe=False):
 
 def _nan_values(value):
     if value == -998.0 or value == "--":
-        return pd.np.nan
+        return np.nan
     else:
         return value
 

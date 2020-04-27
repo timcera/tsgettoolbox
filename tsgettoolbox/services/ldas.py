@@ -10,6 +10,7 @@ from tsgettoolbox.odo import convert
 from tsgettoolbox.odo import odo
 from tsgettoolbox.odo import resource
 
+import numpy as np
 import pandas as pd
 
 import requests
@@ -289,7 +290,7 @@ def resource_ldas(uri, **kwargs):
 
 def _parse_ldas_dates(date, hour):
     try:
-        return pd.to_datetime(date) + pd.to_timedelta(pd.np.int(hour[:-1]), "h")
+        return pd.to_datetime(date) + pd.to_timedelta(np.int(hour[:-1]), "h")
     except (TypeError, ValueError):
         return pd.NaT
 

@@ -8,6 +8,7 @@ from tsgettoolbox.odo import convert
 from tsgettoolbox.odo import resource
 from tsgettoolbox.odo import odo
 
+import numpy as np
 import pandas as pd
 
 from requests import Session
@@ -581,7 +582,7 @@ You gave me {2}.
         float(data.query_params["longitude"]),
         data.query_params["product"],
     )
-    dates = pd.np.array(dates)
+    dates = np.array(dates)
 
     dr = pd.DatetimeIndex([date_parser([i])[0] for i in dates])
 
