@@ -304,6 +304,8 @@ def ldas_to_df(data, **kwargs):
     if os.path.exists("debug_tsgettoolbox"):
         logging.warning(req.url)
     req.raise_for_status()
+    if b"ERROR" in req.content:
+        raise ValueError(req.content)
 
     df = pd.read_table(
         BytesIO(req.content),

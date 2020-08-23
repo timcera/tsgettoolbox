@@ -44,77 +44,95 @@ def ldas_cli(
 
     Available data sources are:
 
-    +-------------------------------+----------+---------------+---------+
-    | Description/Name              | Interval | Spatial       | Version |
-    +===============================+==========+===============+=========+
-    | NLDAS Primary Forcing Data    | 1 hour   | 0.125 x 0.125 | V002    |
-    | NLDAS_FORA0125_H              |          | degree        |         |
-    +-------------------------------+----------+---------------+---------+
-    | NLDAS Noah Land Surface Model | 1 hour   | 0.125 x 0.125 | V002    |
-    | NLDAS_NOAH0125_H              |          | degree        |         |
-    +-------------------------------+----------+---------------+---------+
-    | GLDAS Noah Land Surface Model | 3 hour   | 0.25 x 0.25   | V2.1    |
-    | GLDAS_NOAH025_3H              |          | degree        |         |
-    +-------------------------------+----------+---------------+---------+
-    | AMSR-E/Aqua surface           | 1 day    | 25 x 25 km    | V002    |
-    | soil moisture                 |          |               |         |
-    +-------------------------------+----------+---------------+---------+
-    | AMSR-E/Aqua root zone         | 1 day    | 25 x 25 km    | V001    |
-    | soil moisture                 |          |               |         |
-    | LPRM_AMSRE_D_RZSM3            |          |               |         |
-    +-------------------------------+----------+---------------+---------+
-    | AMSR2/GCOM-W1 surface         | 1 day    | 25 x 25 km    | V001    |
-    | soil moisture                 |          |               |         |
-    | LPRM_AMSR2_A_SOILM3           |          |               |         |
-    +-------------------------------+----------+---------------+---------+
-    | AMSR2/GCOM-W1 surface         | 1 day    | 25 x 25 km    | V001    |
-    | soil moisture                 |          |               |         |
-    | LPRM_AMSR2_D_SOILM3           |          |               |         |
-    +-------------------------------+----------+---------------+---------+
-    | AMSR2/GCOM-W1 surface         | 1 day    | 10 x 10 km    | V001    |
-    | soil moisture                 |          |               |         |
-    | LPRM_AMSR2_DS_A_SOILM3        |          |               |         |
-    +-------------------------------+----------+---------------+---------+
-    | ASMR2/GCOM-W1 surface         | 1 day    | 10 x 10 km    | V001    |
-    | soil moisture                 |          |               |         |
-    | LPRM_AMSR2_DS_D_SOILM3        |          |               |         |
-    +-------------------------------+----------+---------------+---------+
-    | TMI/TRMM surface              | 1 day    | 25 x 25 km    | V001    |
-    | soil moisture                 |          |               |         |
-    | LPRM_TMI_NT_SOILM3            |          |               |         |
-    +-------------------------------+----------+---------------+---------+
-    | TMI/TRMM surface              | 1 day    | 25 x 25 km    | V001    |
-    | soil moisture                 |          |               |         |
-    | LPRM_TMI_DY_SOILM3            |          |               |         |
-    +-------------------------------+----------+---------------+---------+
-    | TRMM (TMPA) Rainfall Estimate | 3 hour   | 0.25 x 0.25   | V7      |
-    | TRMM_3B42                     |          | degree        |         |
-    +-------------------------------+----------+---------------+---------+
-    | Smerge-Noah-CCI root zone     | day      | 0.125 x 0.125 | V2.0    |
-    | soil moisture 0-40 cm         |          | degree        |         |
-    | SMERGE_RZSM0_40CM             |          |               |         |
-    +-------------------------------+----------+---------------+---------+
-    | Groundwater and Soil Moisture | 7 day    | 0.125 x 0.125 | V2.0    |
-    | Conditions from GRACE         |          | degree        |         |
-    | Data Assimilation             |          |               |         |
-    | GRACEDADM_CLSM0125US_7D       |          |               |         |
-    +-------------------------------+----------+---------------+---------+
-    | MERRA-2 2D, Instantaneous,    | 1 hour   |               | V5.12.4 |
-    | Land Surface Forcings         |          |               |         |
-    | M2I1NXLFO                     |          |               |         |
-    +-------------------------------+----------+---------------+---------+
-    | MERRA-2 2D, Time-averaged,    | 1 hour   |               | V5.12.4 |
-    | Surface Flux Diagnostics      |          |               |         |
-    | M2T1NXFLX                     |          |               |         |
-    +-------------------------------+----------+---------------+---------+
-    | MERRA-2 2D, Time-averaged,    | 1 hour   |               | V5.12.4 |
-    | Land Surface Forcings         |          |               |         |
-    | M2T1NXLFO                     |          |               |         |
-    +-------------------------------+----------+---------------+---------+
-    | MERRA 2D Incremental          | 1 hour   |               | V5.2.0  |
-    | Analysis Update               |          |               |         |
-    | MST1NXMLD                     |          |               |         |
-    +-------------------------------+----------+---------------+---------+
+    +-------------------------------+--------+-------------+---------------+
+    | Description/Name              | Int    | Spatial     | Period        |
+    +===============================+========+=============+===============+
+    | NLDAS Primary Forcing Data    | 1 hour | 0.125x0.125 | 1979-01-01T13 |
+    | NLDAS_FORA0125_H              |        | degree      | til           |
+    | V002                          |        |             | recent        |
+    +-------------------------------+--------+-------------+---------------+
+    | NLDAS Noah Land Surface Model | 1 hour | 0.125x0.125 | 1979-01-01T13 |
+    | NLDAS_NOAH0125_H              |        | degree      | til           |
+    | V002                          |        |             | recent        |
+    +-------------------------------+--------+-------------+---------------+
+    | GLDAS Noah Land Surface Model | 3 hour | 0.25x0.25   |               |
+    | GLDAS_NOAH025_3H              |        | degree      |               |
+    | V2.1                          |        |             |               |
+    +-------------------------------+--------+-------------+---------------+
+    | AMSR-E/Aqua surface           | 1 day  | 25x25 km    |               |
+    | soil moisture                 |        |             |               |
+    | V002                          |        |             |               |
+    +-------------------------------+--------+-------------+---------------+
+    | AMSR-E/Aqua root zone         | 1 day  | 25x25 km    |               |
+    | soil moisture                 |        |             |               |
+    | LPRM_AMSRE_D_RZSM3            |        |             |               |
+    | V001                          |        |             |               |
+    +-------------------------------+--------+-------------+---------------+
+    | AMSR2/GCOM-W1 surface         | 1 day  | 25x25 km    |               |
+    | soil moisture                 |        |             |               |
+    | LPRM_AMSR2_A_SOILM3           |        |             |               |
+    | V001                          |        |             |               |
+    +-------------------------------+--------+-------------+---------------+
+    | AMSR2/GCOM-W1 surface         | 1 day  | 25x25 km    |               |
+    | soil moisture                 |        |             |               |
+    | LPRM_AMSR2_D_SOILM3           |        |             |               |
+    | V001                          |        |             |               |
+    +-------------------------------+--------+-------------+---------------+
+    | AMSR2/GCOM-W1 surface         | 1 day  | 10x10 km    |               |
+    | soil moisture                 |        |             |               |
+    | LPRM_AMSR2_DS_A_SOILM3        |        |             |               |
+    | V001                          |        |             |               |
+    +-------------------------------+--------+-------------+---------------+
+    | ASMR2/GCOM-W1 surface         | 1 day  | 10x10 km    |               |
+    | soil moisture                 |        |             |               |
+    | LPRM_AMSR2_DS_D_SOILM3        |        |             |               |
+    | V001                          |        |             |               |
+    +-------------------------------+--------+-------------+---------------+
+    | TMI/TRMM surface              | 1 day  | 25x25 km    |               |
+    | soil moisture                 |        |             |               |
+    | LPRM_TMI_NT_SOILM3            |        |             |               |
+    | V001                          |        |             |               |
+    +-------------------------------+--------+-------------+---------------+
+    | TMI/TRMM surface              | 1 day  | 25x25 km    |               |
+    | soil moisture                 |        |             |               |
+    | LPRM_TMI_DY_SOILM3            |        |             |               |
+    | V001                          |        |             |               |
+    +-------------------------------+--------+-------------+---------------+
+    | TRMM (TMPA) Rainfall Estimate | 3 hour | 0.25x0.25   |               |
+    | TRMM_3B42                     |        | degree      |               |
+    | V7                            |        |             |               |
+    +-------------------------------+--------+-------------+---------------+
+    | Smerge-Noah-CCI root zone     | day    | 0.125x0.125 |               |
+    | soil moisture 0-40 cm         |        | degree      |               |
+    | SMERGE_RZSM0_40CM             |        |             |               |
+    | V2.0                          |        |             |               |
+    +-------------------------------+--------+-------------+---------------+
+    | Groundwater and Soil Moisture | 7 day  | 0.125x0.125 |               |
+    | Conditions from GRACE         |        | degree      |               |
+    | Data Assimilation             |        |             |               |
+    | GRACEDADM_CLSM0125US_7D       |        |             |               |
+    | V2.0                          |        |             |               |
+    +-------------------------------+--------+-------------+---------------+
+    | MERRA-2 2D, Instantaneous,    | 1 hour |             |               |
+    | Land Surface Forcings         |        |             |               |
+    | M2I1NXLFO                     |        |             |               |
+    | V5.12.4                       |        |             |               |
+    +-------------------------------+--------+-------------+---------------+
+    | MERRA-2 2D, Time-averaged,    | 1 hour |             |               |
+    | Surface Flux Diagnostics      |        |             |               |
+    | M2T1NXFLX                     |        |             |               |
+    | V5.12.4                       |        |             |               |
+    +-------------------------------+--------+-------------+---------------+
+    | MERRA-2 2D, Time-averaged,    | 1 hour |             |               |
+    | Land Surface Forcings         |        |             |               |
+    | M2T1NXLFO                     |        |             |               |
+    | V5.12.4                       |        |             |               |
+    +-------------------------------+--------+-------------+---------------+
+    | MERRA 2D Incremental          | 1 hour |             |               |
+    | Analysis Update               |        |             |               |
+    | MST1NXMLD                     |        |             |               |
+    | V5.12.4                       |        |             |               |
+    +-------------------------------+--------+-------------+---------------+
 
     The time zone is always UTC.
 
