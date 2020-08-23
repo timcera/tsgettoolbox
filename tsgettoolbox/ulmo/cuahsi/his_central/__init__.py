@@ -1,9 +1,6 @@
 """
-    ulmo.cuahsi.his_central
-    ~~~~~~~~~~~~~~~~~~~~~~~
+    `CUAHSI HIS Central`_ catalog web services
 
-    `CUAHSI HIS Central`_ web services
-
-    .. _CUAHSI HIS Central: http://his.cuahsi.org/hiscentral.html
+    .. _CUAHSI HIS Central: http://hiscentral.cuahsi.org/
 """
 from .core import get_services

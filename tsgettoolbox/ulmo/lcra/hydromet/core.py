@@ -4,6 +4,7 @@
     This module provides access to hydrologic and climate data in the Colorado
     River Basin (Texas) provided by the `Lower Colorado River Authority`_
     `Hydromet`_ web site and web service.
+
     .. _Lower Colorado River Authority: http://www.lcra.org
     .. _Hydromet: http://hydromet.lcra.org
 """
@@ -23,8 +24,8 @@ logging.basicConfig(format=LOG_FORMAT)
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
-historical_data_url = "http://hydromet.lcra.org/chronhist.aspx"
-current_data_url = "http://hydrometdata.lcra.org"
+historical_data_url = "https://hydromet.lcra.org/chronhist.aspx"
+current_data_url = "https://hydrometdata.lcra.org"
 PARAMETERS = {
     "stage": "the level of water above a benchmark in feet",
     "flow": "streamflow in cubic feet per second",
@@ -51,17 +52,19 @@ dam_sites = ["1995", "1999", "2958", "2999", "3963", "3999"]
 
 def get_sites_by_type(site_type):
     """Gets list of the hydromet site codes and description for site.
-    Parameters:
-    -----------
+
+    Parameters
+    ----------
     site_type : str
         In all but lake sites, this is the parameter code collected at the site.
         For lake sites, it is 'lake'. See ``site_types`` and ``PARAMETERS``
+
     Returns
     -------
     sites_dict: dict
         A python dict with four char long site codes mapped to site information.
     """
-    sites_base_url = "http://hydromet.lcra.org/navgagelist.asp?Stype=%s"
+    sites_base_url = "https://hydromet.lcra.org/navgagelist.asp?Stype=%s"
     # the url doesn't provide list of sites for the following parameters but
     # they are available with the paired parameter. e.g., flow is available
     # at stage sites.
@@ -89,7 +92,7 @@ def get_sites_by_type(site_type):
 def get_all_sites():
     """Returns list of all LCRA hydromet sites as geojson featurecollection.
     """
-    sites_url = "http://hydromet.lcra.org/data/datafull.xml"
+    sites_url = "https://hydromet.lcra.org/data/datafull.xml"
     res = requests.get(sites_url)
     soup = BeautifulSoup(res.content, "xml")
     rows = soup.findAll("row")
@@ -101,6 +104,7 @@ def get_all_sites():
 def get_current_data(service, as_geojson=False):
     """fetches the current (near real-time) river stage and flow values from
     LCRA web service.
+
     Parameters
     ----------
     service : str
@@ -109,10 +113,11 @@ def get_current_data(service, as_geojson=False):
     as_geojson : 'True' or 'False' (default)
         If True the data is returned as geojson featurecollection and if False
         data is returned as list of dicts.
+
     Returns
     -------
-    current_values_dicts : a list of dicts or
-    current_values_geojson : a geojson featurecollection.
+        current_values_dicts : a list of dicts or
+        current_values_geojson : a geojson featurecollection.
     """
     request_body_template = (
         '<?xml version="1.0" encoding="utf-8"?>\n'
@@ -120,7 +125,7 @@ def get_current_data(service, as_geojson=False):
         'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
         'xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">\n '
         "  <soap12:Body>\n"
-        '    <%s xmlns="http://hydrometdata.lcra.org" />\n'
+        '    <%s xmlns="https://hydrometdata.lcra.org" />\n'
         "  </soap12:Body> \n"
         "</soap12:Envelope>"
     )
@@ -137,7 +142,7 @@ def get_current_data(service, as_geojson=False):
     if res.status_code != 200:
         log.info("http request failed with status code %s" % res.status_code)
         return {}
-    soup = BeautifulSoup(res.content, "lxml")
+    soup = BeautifulSoup(res.content)
     sites_els = soup.findAll("cls%s" % service.lower().replace("get", ""))
     current_values_dicts = [_parse_current_values(site_el) for site_el in sites_els]
     if as_geojson:
@@ -166,6 +171,7 @@ def get_site_data(
     dam_site_location="head",
 ):
     """Fetches site's parameter data
+
     Parameters
     ----------
     site_code : str
@@ -347,10 +353,7 @@ def _extract_headers_for_next_request(request):
             #
             continue
         # some tags don't have a value and are used w/ JS to toggle a set of checkboxes
-        try:
-            payload[tag_dict["name"]] = tag_dict.get("value")
-        except KeyError:
-            pass
+        payload[tag_dict["name"]] = tag_dict.get("value")
     return payload
 
 

@@ -5,7 +5,6 @@
     This module provides direct access to `USGS National Water Information
     System`_ web services.
 
-
     .. _USGS National Water Information System: http://waterdata.usgs.gov/nwis
 
 """
@@ -37,6 +36,8 @@ log.setLevel(logging.INFO)
 
 
 def get_sites(
+    service=None,
+    input_file=None,
     sites=None,
     state_code=None,
     huc=None,
@@ -44,66 +45,65 @@ def get_sites(
     county_code=None,
     parameter_code=None,
     site_type=None,
-    service=None,
-    input_file=None,
     **kwargs
 ):
-    """Fetches site information from USGS services. See the `USGS Site Service`_
-    documentation for a detailed description of options. For convenience, major
-    options have been included with pythonic names. Options that are not listed
-    below may be provided as extra kwargs (i.e. keyword='argument') and will be
-    passed along with the web services request. These extra keywords must match
+    """Fetches site information from USGS services.
+    See the `USGS Site Service`_ documentation for a detailed description of options.
+    For convenience, major options have been included with pythonic names.
+    At least one major filter must be specified. Options that are not listed
+    below may be provided as extra kwargs (i.e. keyword='argument') and will be 
+    passed along with the web services request. These extra keywords must match 
     the USGS names exactly. The `USGS Site Service`_ website describes available
-    keyword names and argument formats.
+    keyword names and argument formats. 
 
-    .. USGS Site Service:http://waterservices.usgs.gov/rest/Site-Service.html
+    .. _USGS Site Service: http://waterservices.usgs.gov/rest/Site-Service.html
 
     .. note::
-        Only the options listed below have been tested and you may have mixed
-        results retrieving data with extra options specified. Currently ulmo
-        requests and parses data in the waterml format. Some options are not
+        Only the options listed below have been tested and you may have mixed 
+        results retrieving data with extra options specified. Currently ulmo 
+        requests and parses data in the WaterML 1.x format. Some options are not
         available in this format.
 
     Parameters
-    ==========
+    ----------
     service : {``None``, 'instantaneous', 'iv', 'daily', 'dv'}
-        The service to use, either "instantaneous", "daily", or ``None``
+        The service to use, either "instantaneous", "daily", or `None`
         (default).  If set to ``None``, then both services are used.  The
         abbreviations "iv" and "dv" can be used for "instantaneous" and "daily",
         respectively.
-    input_file: ``None``, file path or file object
+    input_file : ``None``, file path or file object
         If ``None`` (default), then the NWIS web services will be queried, but
         if a file is passed then this file will be used instead of requesting
         data from the NWIS web services.
-
-    Major Filters (At least one filter must be specified)
-    -----------------------------------------------------
-        sites : str, iterable of strings or ``None``
-            The site(s) to use; lists will be joined by a ','.
-        state_code : str or ``None``
-            Two-letter state code used in stateCd parameter.
-        county_code : str, iterable of strings or ``None``
-            The 5 digit FIPS county code(s) used in the countyCd parameter; lists
-            will be joined by a ','.
-        huc : str, iterable of strings or ``None``
-            The hydrologic unit code(s) to use; lists will be joined by a ','.
-        bounding_box : str, iterable of strings or ``None``
-            This bounding box used in the bBox parameter. The format is westernmost
-            longitude, southernmost latitude, easternmost longitude, northernmost
-            latitude; lists will be joined by a ','.
-
-    Optional Filters Provided
-    -------------------------
-        parameter_code : str, iterable of strings or ``None``
-            Parameter code(s) that will be passed as the parameterCd parameter; lists will be joined by a ','.
-            This parameter represents the following usgs website input: Sites serving parameter codes
-        site_types : str, iterable of strings or ``None``
-            The type(s) of site used in siteType parameter; lists will be joined by a ','.
-
+    sites : str, iterable of strings or ``None``
+        A major filter. The site(s) to use; lists will be joined by a ','.
+        At least one major filter must be specified.
+    state_code : str or ``None``
+        A major filter. Two-letter state code used in ``stateCd`` parameter.
+        At least one major filter must be specified.
+    county_code : str, iterable of strings or ``None``
+        A major filter. The 5 digit FIPS county code(s) used in the countyCd parameter;
+        lists will be joined by a ','.
+        At least one major filter must be specified.
+    huc : str, iterable of strings or ``None``
+        A major filter. The hydrologic unit code(s) to use; lists will be joined by a ','.
+        At least one major filter must be specified.
+    bounding_box : str, iterable of strings or ``None``
+        A major filter. This bounding box used in the bBox parameter. The format is
+        westernmost longitude, southernmost latitude, easternmost longitude, northernmost
+        latitude; lists will be joined by a ','.
+        At least one major filter must be specified.
+    parameter_code : str, iterable of strings or ``None``
+        Optional filter. Parameter code(s) that will be passed as the ``parameterCd`` parameter;
+        lists will be joined by a ','. This parameter represents the following USGS website
+        input: Sites serving parameter codes
+    site_type : str, iterable of strings or ``None``
+        Optional filter. The type(s) of site used in ``siteType`` parameter;
+        lists will be joined by a ','.
 
     Returns
     -------
-    sites_dict : dict
+    return_sites : dict
         a python dict with site codes mapped to site information
     """
 
@@ -201,7 +201,6 @@ def get_site_data(
 ):
     """Fetches site data.
 
-
     Parameters
     ----------
     site_code : str
@@ -213,28 +212,29 @@ def get_site_data(
         respectively.
     parameter_code : str
         Parameter code(s) that will be passed as the parameterCd parameter.
-    statistic_code: str
+    statistic_code : str
         Statistic code(s) that will be passed as the statCd parameter
     start : ``None`` or datetime (see :ref:`dates-and-times`)
         Start of a date range for a query. This parameter is mutually exclusive
-        with period (you cannot use both).
+        with period (you cannot use both). It should not be older than
+        1910-1-1 for 'iv' and 1851-1-1 for 'dv' services.
     end : ``None`` or datetime (see :ref:`dates-and-times`)
         End of a date range for a query. This parameter is mutually exclusive
         with period (you cannot use both).
     period : {``None``, str, datetime.timedelta}
         Period of time to use for requesting data. This will be passed along as
         the period parameter. This can either be 'all' to signal that you'd like
-        the entire period of record, or string in ISO 8601 period format (e.g.
-        'P1Y2M21D' for a period of one year, two months and 21 days) or it can
-        be a datetime.timedelta object representing the period of time. This
-        parameter is mutually exclusive with start/end dates.
+        the entire period of record (down to 1910-1-1 for 'iv', 1851-1-1 for 'dv'),
+        or string in ISO 8601 period format (e.g. 'P1Y2M21D' for a period of one year,
+        two months and 21 days) or it can be a datetime.timedelta object representing
+        the period of time. This parameter is mutually exclusive with start/end dates.
     modified_since : ``None`` or datetime.timedelta
         Passed along as the modifiedSince parameter.
-    input_file: ``None``, file path or file object
+    input_file : ``None``, file path or file object
         If ``None`` (default), then the NWIS web services will be queried, but
         if a file is passed then this file will be used instead of requesting
         data from the NWIS web services.
-    methods: ``None``, str or Python dict
+    methods : ``None``, str or Python dict
         If ``None`` (default), it's assumed that there is a single method for
         each parameter. This raises an error if more than one method ids are
         encountered. If str, this is the method id for the requested
@@ -242,15 +242,16 @@ def get_site_data(
         dict, provide the parameter_code to method id mapping. Parameter's
         method id is specific to site.
 
-
     Returns
     -------
     data_dict : dict
         a python dict with parameter codes mapped to value dicts
     """
     url_params = {"format": "waterml", "site": site_code}
-    if parameter_code:
+    if type(parameter_code) is str:
         url_params["parameterCd"] = parameter_code
+    elif type(parameter_code) is list:
+        url_params["parameterCd"] = ",".join(parameter_code)
     if statistic_code:
         url_params["statCd"] = statistic_code
     if modified_since:
@@ -264,7 +265,7 @@ def get_site_data(
         if isinstance(period, basestring):
             if period == "all":
                 if service in ("iv", "instantaneous"):
-                    start = datetime.datetime(2007, 10, 1)
+                    start = datetime.datetime(1910, 1, 1)
                 elif service in ("dv", "daily"):
                     start = datetime.datetime(1851, 1, 1)
             else:

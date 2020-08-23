@@ -1,19 +1,19 @@
 """
     ulmo.wof.core
     ~~~~~~~~~~~~~
-
     This module provides direct access to `CUAHSI WaterOneFlow`_ web services.
-
 
     .. _CUAHSI WaterOneFlow: http://his.cuahsi.org/wofws.html
 """
 from future import standard_library
 
 standard_library.install_aliases()
+import os
 from builtins import str
 import io
 
 import suds.client
+from suds.cache import ObjectCache
 import isodate
 
 from tsgettoolbox.ulmo import util
@@ -23,7 +23,7 @@ from tsgettoolbox.ulmo import waterml
 _suds_client = None
 
 
-def get_sites(wsdl_url, suds_cache=("default",), timeout=None):
+def get_sites(wsdl_url, suds_cache=("default",), timeout=None, user_cache=False):
     """
     Retrieves information on the sites that are available from a WaterOneFlow
     service using a GetSites request.  For more detailed information including
@@ -36,7 +36,7 @@ def get_sites(wsdl_url, suds_cache=("default",), timeout=None):
         URL of a service's web service definition language (WSDL) description.
         All WaterOneFlow services publish a WSDL description and this url is the
         entry point to the service.
-    suds_cache : ``None`` or tuple
+    suds_cache : `None` or tuple
         SOAP local cache duration for WSDL description and client object.
         Pass a cache duration tuple like ('days', 3) to set a custom duration.
         Duration may be in months, weeks, days, hours, or seconds.
@@ -45,13 +45,16 @@ def get_sites(wsdl_url, suds_cache=("default",), timeout=None):
     timeout : int or float
         suds SOAP URL open timeout (seconds).
         If unspecified, the suds default (90 seconds) will be used.
+    user_cache : bool
+        If False (default), use the system temp location to store cache WSDL and
+        other files. Use the default user ulmo directory if True.
 
     Returns
     -------
     sites_dict : dict
         a python dict with site codes mapped to site information
     """
-    suds_client = _get_client(wsdl_url, suds_cache, timeout)
+    suds_client = _get_client(wsdl_url, suds_cache, timeout, user_cache)
 
     waterml_version = _waterml_version(suds_client)
     if waterml_version == "1.0":
@@ -68,7 +71,9 @@ def get_sites(wsdl_url, suds_cache=("default",), timeout=None):
     )
 
 
-def get_site_info(wsdl_url, site_code, suds_cache=("default",), timeout=None):
+def get_site_info(
+    wsdl_url, site_code, suds_cache=("default",), timeout=None, user_cache=False
+):
     """
     Retrieves detailed site information from a WaterOneFlow service using a
     GetSiteInfo request.
@@ -92,13 +97,16 @@ def get_site_info(wsdl_url, site_code, suds_cache=("default",), timeout=None):
     timeout : int or float
         suds SOAP URL open timeout (seconds).
         If unspecified, the suds default (90 seconds) will be used.
+    user_cache : bool
+        If False (default), use the system temp location to store cache WSDL and
+        other files. Use the default user ulmo directory if True.
 
     Returns
     -------
     site_info : dict
         a python dict containing site information
     """
-    suds_client = _get_client(wsdl_url, suds_cache, timeout)
+    suds_client = _get_client(wsdl_url, suds_cache, timeout, user_cache)
 
     waterml_version = _waterml_version(suds_client)
     if waterml_version == "1.0":
@@ -134,6 +142,7 @@ def get_values(
     end=None,
     suds_cache=("default",),
     timeout=None,
+    user_cache=False,
 ):
     """
     Retrieves site values from a WaterOneFlow service using a GetValues request.
@@ -153,11 +162,13 @@ def get_values(
         codes MUST contain the network and be of the form
         <vocabulary>:<variable_code>, as is required by WaterOneFlow.
     start : ``None`` or datetime (see :ref:`dates-and-times`)
-        Start of a date range for a query. If both start and end parameters are
-        omitted, the entire time series available will be returned.
+        Start of the query datetime range. If omitted, data from the start of
+        the time series to the ``end`` timestamp will be returned (but see caveat,
+        in note below).
     end : ``None`` or datetime (see :ref:`dates-and-times`)
-        End of a date range for a query. If both start and end parameters are
-        omitted, the entire time series available will be returned.
+        End of the query datetime range. If omitted, data from the ``start``
+        timestamp to end of the time series will be returned (but see caveat,
+        in note below).
     suds_cache : ``None`` or tuple
         SOAP local cache duration for WSDL description and client object.
         Pass a cache duration tuple like ('days', 3) to set a custom duration.
@@ -167,13 +178,26 @@ def get_values(
     timeout : int or float
         suds SOAP URL open timeout (seconds).
         If unspecified, the suds default (90 seconds) will be used.
+    user_cache : bool
+        If False (default), use the system temp location to store cache WSDL and
+        other files. Use the default user ulmo directory if True.
 
     Returns
     -------
     site_values : dict
         a python dict containing values
+
+    Notes
+    -----
+    If both ``start`` and ``end`` parameters are omitted, the entire time series
+    available will typically be returned. However, some service providers will return
+    an error if either start or end are omitted; this is specially true for services
+    hosted or redirected by CUAHSI via the CUAHSI HydroPortal, which have a 'WSDL' url
+    using the domain http://hydroportal.cuahsi.org. For HydroPortal, a start datetime
+    of '1753-01-01' has been known to return valid results while catching the oldest
+    start times, though the response may be broken up into chunks ('paged').
     """
-    suds_client = _get_client(wsdl_url, suds_cache, timeout)
+    suds_client = _get_client(wsdl_url, suds_cache, timeout, user_cache)
 
     # Note from Emilio:
     #   Not clear if WOF servers really do handle time zones (time offsets or
@@ -212,7 +236,11 @@ def get_values(
 
 
 def get_variable_info(
-    wsdl_url, variable_code=None, suds_cache=("default",), timeout=None
+    wsdl_url,
+    variable_code=None,
+    suds_cache=("default",),
+    timeout=None,
+    user_cache=False,
 ):
     """
     Retrieves site values from a WaterOneFlow service using a GetVariableInfo
@@ -239,6 +267,9 @@ def get_variable_info(
     timeout : int or float
         suds SOAP URL open timeout (seconds).
         If unspecified, the suds default (90 seconds) will be used.
+    user_cache : bool
+        If False (default), use the system temp location to store cache WSDL and
+        other files. Use the default user ulmo directory if True.
 
     Returns
     -------
@@ -247,7 +278,7 @@ def get_variable_info(
         `None` (default) then this will be a nested set of dicts keyed by
         <vocabulary>:<variable_code>
     """
-    suds_client = _get_client(wsdl_url, suds_cache, timeout)
+    suds_client = _get_client(wsdl_url, suds_cache, timeout, user_cache)
 
     waterml_version = _waterml_version(suds_client)
     response = suds_client.service.GetVariableInfo(variable_code)
@@ -281,7 +312,7 @@ def _waterml_version(suds_client):
         )
 
 
-def _get_client(wsdl_url, suds_cache=("default",), suds_timeout=None):
+def _get_client(wsdl_url, suds_cache=("default",), suds_timeout=None, user_cache=False):
     """
     Open and re-use (persist) a suds.client.Client instance _suds_client throughout
     the session, to minimize WOF server impact and improve performance.  _suds_client
@@ -302,6 +333,9 @@ def _get_client(wsdl_url, suds_cache=("default",), suds_timeout=None):
     suds_timeout : int or float
         suds SOAP URL open timeout (seconds).
         If unspecified, the suds default (90 seconds) will be used.
+    user_cache : bool
+        If False (default), use the system temp location to store cache WSDL and
+        other files. Use the default user ulmo directory if True.
 
     Returns
     -------
@@ -316,7 +350,15 @@ def _get_client(wsdl_url, suds_cache=("default",), suds_timeout=None):
         or _suds_client.wsdl.url != wsdl_url
         or not suds_timeout is None
     ):
-        _suds_client = suds.client.Client(wsdl_url)
+        if user_cache:
+            cache_dir = os.path.join(util.get_ulmo_dir(), "suds")
+            util.mkdir_if_doesnt_exist(cache_dir)
+            _suds_client = suds.client.Client(
+                wsdl_url, cache=ObjectCache(location=cache_dir)
+            )
+        else:
+            _suds_client = suds.client.Client(wsdl_url)
+
         if suds_cache is None:
             _suds_client.set_options(cache=None)
         else:

@@ -271,12 +271,7 @@ def _ftp_last_modified(ftp, file_path):
 
 
 def _http_download_file(url, path):
-    # The Tulsa District USACE expects a 'User-Agent', the 'headers' option
-    # supplies a fake one.  Shouldn't affect any other uses.
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3"
-    }
-    request = requests.get(url, headers=headers)
+    request = requests.get(url)
     mkdir_if_doesnt_exist(os.path.dirname(path))
     chunk_size = 64 * 1024
     with open(path, "wb") as f:

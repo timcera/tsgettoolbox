@@ -191,7 +191,9 @@ def _check_layer(layer):
         raise ValueError(err_msg)
 
 
-def _download_features(feature_ids, path=None, check_modified=False):
+def _download_features(
+    feature_ids, path=None, check_modified=False,
+):
     if path is None:
         path = os.path.join(util.get_ulmo_dir(), DEFAULT_FILE_PATH)
 

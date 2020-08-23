@@ -1,12 +1,11 @@
 """
     ulmo.nasa.daymet.core
-    ~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~
 
     This module provides direct access to `NASA EARTHDATA ORNL DAAC 
     Daymet`_ web services.
 
-
-    .. .. _NASA EARTHDATA ORNL DAAC Daymet: https://daymet.ornl.gov/dataaccess.html
+    .. _NASA EARTHDATA ORNL DAAC Daymet: https://daymet.ornl.gov/dataaccess.html
 
 """
 from future import standard_library
@@ -60,7 +59,7 @@ def get_variables():
 
     Returns
     -------
-        dictionary of variables with variable abreviations as keys 
+        dictionary of variables with variable abbreviations as keys
         and description as values
     """
     return VARIABLES
@@ -75,24 +74,22 @@ def get_daymet_singlepixel(
 ):
     """Fetches a time series of climate variables from the DAYMET single pixel extraction
 
-
     Parameters
     ----------
     latitude: float
         The latitude (WGS84), value between 52.0 and 14.5.
     longitude: float
         The longitude (WGS84), value between -131.0 and -53.0.
-    variables : List of str
-        Daymet parameters to fetch. 
+    variables : list of str
+        Daymet parameters to fetch. default = ['tmax', 'tmin', 'prcp'].
         Available options:
-            ``tmax`` - maximum temperature
-            ``tmin`` - minimum temperature
-            ``srad`` - shortwave radiation
-            ``vp`` - vapor pressure
-            ``swe`` - snow-water equivalent
-            ``prcp`` - precipitation
-            ``dayl`` - daylength
-        default = ['tmax', 'tmin', 'prcp']
+            * 'tmax': maximum temperature
+            * 'tmin': minimum temperature
+            * 'srad': shortwave radiation
+            * 'vp': vapor pressure
+            * 'swe': snow-water equivalent
+            * 'prcp': precipitation;
+            * 'dayl' : daylength.
     years: list of int
         List of years to return. 
         Daymet version 2 available 1980 to the latest full calendar year.
@@ -101,11 +98,11 @@ def get_daymet_singlepixel(
         if ``True`` return pandas dataframe
         if ``False`` return open file with contents in csv format
 
-    
     Returns
     -------
     single_pixel_timeseries : pandas dataframe or csv filename
     """
+
     _check_coordinates(latitude, longitude)
     _check_variables(variables)
     if not years is None:

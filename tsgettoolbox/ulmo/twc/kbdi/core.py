@@ -401,7 +401,12 @@ def _parse_text_file(data_file):
                 ...
     """
 
-    dtype = [("county", "|U15"), ("avg", "i4"), ("max", "i4"), ("min", "i4")]
+    dtype = [
+        ("county", "|U15"),
+        ("avg", "i4"),
+        ("max", "i4"),
+        ("min", "i4"),
+    ]
 
     if not data_file.readline().lower().startswith(b"county"):
         return pandas.DataFrame()

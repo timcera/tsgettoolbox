@@ -59,7 +59,7 @@ def decode(dataframe, parser, **kwargs):
         function that acts on dcp_message each row of the dataframe and returns a new dataframe
         containing several rows of decoded data. This returned dataframe may have different
         (but derived) timestamps than that the original row. If a string is passed then a matching
-        parser function is looked up from tsgettoolbox.ulmo.usgs.eddn.parsers
+        parser function is looked up from ulmo.usgs.eddn.parsers
 
     Returns
     -------
@@ -111,8 +111,8 @@ def get_data(
         If a timedelta or string in ISO 8601 period format (e.g 'P2D' for a period of 2 days) then
         'now' minus the timedelta will be used as the start.
         NOTE: The EDDN service does not specify how far back data is available. The service also imposes
-        a maximum data limit of 25000 character. If this is limit reached multiple requests will be made
-        until all available data is downloaded.
+        a maximum data limit of 25000 character. If this is limit reached multiple requests will be made 
+        until all available data is downloaded. 
     end : {``None``, str, datetime, datetime.timedelta}
         If ``None`` (default) then the end time is 'now'
         If a datetime or datetime like string is specified it will be used as the end date.
@@ -244,7 +244,7 @@ def get_data(
 def _fetch_url(params):
     r = requests.get(EDDN_URL, params=params)
     log.info("data requested using url: %s\n" % r.url)
-    soup = BeautifulSoup(r.text, "lxml")
+    soup = BeautifulSoup(r.text)
     message = soup.find("pre").contents[0].replace("\n", "").replace("\r", " ")
 
     data_limit_reached = False

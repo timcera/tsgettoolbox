@@ -44,7 +44,10 @@ def parse_site_values(content_io, namespace, query_isodate=None, methods=None):
                     )
                 values_element = values_elements[0]
                 values = _parse_values(values_element, namespace)
-                data_dict[code] = {"site": site_info, "variable": variable}
+                data_dict[code] = {
+                    "site": site_info,
+                    "variable": variable,
+                }
                 data_dict[code].update({"values": values})
                 metadata = _parse_metadata(values_element, metadata_elements, namespace)
                 data_dict[code].update(metadata)
@@ -84,7 +87,10 @@ def parse_site_values(content_io, namespace, query_isodate=None, methods=None):
                         metadata = _parse_metadata(
                             values_element, metadata_elements, namespace
                         )
-                        data_dict[code] = {"site": site_info, "variable": variable}
+                        data_dict[code] = {
+                            "site": site_info,
+                            "variable": variable,
+                        }
                         data_dict[code].update({"values": values})
                         data_dict[code].update(metadata)
                         if query_isodate:
@@ -421,7 +427,12 @@ def _parse_unit(unit_element, namespace):
     if "1.0" in namespace:
         return_dict["name"] = unit_element.text
 
-    keys = ["abbreviation", "code", "name", "type"]
+    keys = [
+        "abbreviation",
+        "code",
+        "name",
+        "type",
+    ]
     for key in keys:
         dict_key = tag_name + "_" + key
         if dict_key in unit_dict:

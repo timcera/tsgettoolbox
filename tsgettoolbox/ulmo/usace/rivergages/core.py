@@ -25,7 +25,7 @@ def get_stations():
     path = os.path.join(USACE_RIVERGAGES_DIR, "datamining_field_list.cfm")
 
     with util.open_file_for_url(URL, path, use_bytes=True) as f:
-        soup = BeautifulSoup(f, "lxml")
+        soup = BeautifulSoup(f)
         options = soup.find("select", id="fld_station").find_all("option")
         stations = _parse_options(options)
 
@@ -63,7 +63,7 @@ def get_station_data(
     }
 
     req = requests.post(URL, params=dict(sid=station_code), data=form_data)
-    soup = BeautifulSoup(req.content, "lxml")
+    soup = BeautifulSoup(req.content)
     data_table = soup.find("table").find_all("table")[-1]
 
     return dict([_parse_value(value_tr) for value_tr in data_table.find_all("tr")[2:]])
@@ -71,7 +71,7 @@ def get_station_data(
 
 def get_station_parameters(station_code):
     req = requests.get(URL, params=dict(sid=station_code))
-    soup = BeautifulSoup(req.content, "lxml")
+    soup = BeautifulSoup(req.content)
 
     options = soup.find("select", id="fld_parameter").find_all()
     parameters = _parse_options(options)

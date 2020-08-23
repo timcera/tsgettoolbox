@@ -51,25 +51,25 @@ def get_data(
 
     Parameters
     ----------
-    elements : ``None`, str or list
+    elements : ``None``, str or list
         The element(s) for which to get data for. If ``None`` (default), then
         all elements are used. An individual element is a string, but a list or
         tuple of them can be used to specify a set of elements.  Elements are:
-          * 'cddc': Cooling Degree Days
-          * 'hddc': Heating Degree Days
-          * 'pcpn': Precipitation
-          * 'pdsi': Palmer Drought Severity Index
-          * 'phdi': Palmer Hydrological Drought Index
-          * 'pmdi': Modified Palmer Drought Severity Index
-          * 'sp01': 1-month Standardized Precipitation Index
-          * 'sp02': 2-month Standardized Precipitation Index
-          * 'sp03': 3-month Standardized Precipitation Index
-          * 'sp06': 6-month Standardized Precipitation Index
-          * 'sp09': 9-month Standardized Precipitation Index
-          * 'sp12': 12-month Standardized Precipitation Index
-          * 'sp24': 24-month Standardized Precipitation Index
-          * 'tmpc': Temperature
-          * 'zndx': ZNDX
+            * 'cddc': Cooling Degree Days
+            * 'hddc': Heating Degree Days
+            * 'pcpn': Precipitation
+            * 'pdsi': Palmer Drought Severity Index
+            * 'phdi': Palmer Hydrological Drought Index
+            * 'pmdi': Modified Palmer Drought Severity Index
+            * 'sp01': 1-month Standardized Precipitation Index
+            * 'sp02': 2-month Standardized Precipitation Index
+            * 'sp03': 3-month Standardized Precipitation Index
+            * 'sp06': 6-month Standardized Precipitation Index
+            * 'sp09': 9-month Standardized Precipitation Index
+            * 'sp12': 12-month Standardized Precipitation Index
+            * 'sp24': 24-month Standardized Precipitation Index
+            * 'tmpc': Temperature
+            * 'zndx': ZNDX
     by_state : bool
         If False (default), divisional data will be retrieved. If True, then
         regional data will be retrieved.
@@ -91,7 +91,6 @@ def get_data(
         the web. If a file-like object or a file path string, then the file will
         be used to read data from. This is intended to be used for reading in
         previously-downloaded versions of the dataset.
-
 
     Returns
     -------
@@ -194,7 +193,7 @@ def _get_url(element, by_state):
 def _most_recent(files, element, by_state):
     geographic_extent = "st" if by_state else "dv"
     match_str = "climdiv-{element}{geographic_extent}".format(
-        element=element, geographic_extent=geographic_extent
+        element=element, geographic_extent=geographic_extent,
     )
     matches = [s for s in files if s.startswith(match_str)]
     return sorted(matches, key=_file_key)[0]
@@ -243,7 +242,7 @@ def _parse_values(file_handle, by_state, location_names, element):
     # throw away NaNs
     melted = melted[melted["value"].notnull()]
 
-    data = melted.rename(columns={"value": element})
+    data = melted.rename(columns={"value": element,})
 
     return data
 
@@ -260,19 +259,19 @@ def _resolve_location_names(df, location_names, by_state):
         with_locations = df.join(locations, on="location_code")
 
         if by_state:
-            return with_locations.rename(columns={location_names: "location"})
+            return with_locations.rename(columns={location_names: "location",})
         else:
             return with_locations.rename(
-                columns={location_names: "state", "location_code": "state_code"}
+                columns={location_names: "state", "location_code": "state_code",}
             )
 
 
 def _states_regions_dataframe():
     """returns a dataframe indexed by state/region code with columns for the
-    name and abbrevitation (abbr) to use
+    name and abbreviation (abbr) to use
     """
     STATES_REGIONS = {
-        # code: (full name, abbrevation)
+        # code: (full name, abbreviation)
         1: ("Alabama", "AL"),
         2: ("Arizona", "AZ"),
         3: ("Arkansas", "AR"),

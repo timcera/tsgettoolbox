@@ -1,5 +1,4 @@
 from datetime import timedelta
-import numpy as np
 import pandas as pd
 
 
@@ -20,9 +19,20 @@ def twdb_fts(df_row, drop_dcp_metadata=True):
     message = df_row["dcp_message"].lower()
     message_timestamp = df_row["message_timestamp_utc"]
 
-    lines = message.split(":")[1]
-    water_levels = [field.strip("+- ") for field in lines.split()[3:]]
-    df = _twdb_assemble_dataframe(message_timestamp, None, water_levels, reverse=False)
+    battery_voltage = pd.np.nan
+    for line in message.split(":"):
+        if line.split() != []:
+            line = line.split()
+            # grab water level data
+            if line[0] == "wl":
+                water_levels = [field.strip("+- ") for field in line[3:]]
+            # grab battery voltage
+            if line[0] == "vb":
+                battery_voltage = line[3].strip("+- ")
+
+    df = _twdb_assemble_dataframe(
+        message_timestamp, battery_voltage, water_levels, reverse=False
+    )
     return df
 
 
@@ -113,13 +123,14 @@ def _twdb_assemble_dataframe(
     try:
         battery_voltage = float(battery_voltage)
     except:
-        battery_voltage = np.nan
+        battery_voltage = pd.np.nan
 
     for hrs, water_level in enumerate(water_levels):
         timestamp = base_timestamp - timedelta(hours=hrs)
         try:
             water_level = float(water_level)
         except:
+            water_level = pd.np.nan
             water_level = np.nan
 
         if hrs == 0 and battery_voltage:

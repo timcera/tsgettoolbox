@@ -5,8 +5,8 @@
     This module provides direct access to `Climate Predicition Center`_ `Weekly
     Drought Index`_ dataset.
 
-    .. _Climate Prediction Center: http://www.cpc.ncep.noaa.gov/
-    .. _Weekly Drought Index: http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
+    .. _Climate Prediction Center: https://www.cpc.ncep.noaa.gov/
+    .. _Weekly Drought Index: https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
 """
 from __future__ import division
 from builtins import str
@@ -160,7 +160,7 @@ def get_data(
 
     # restrict results to date range
     period_index = pandas.PeriodIndex(data["period"])
-    periods_in_range = (period_index >= start_date) & (period_index <= end_date)
+    periods_in_range = (period_index >= start_date.isoformat()) & (period_index <= end_date.isoformat())
     data = data[periods_in_range]
 
     # this does what data.reset_index() should do, but at least as of 0.10.1, that sets
@@ -245,26 +245,26 @@ def _get_data_format(year):
 def _get_data_url(year):
     current_year, current_week = _week_number(datetime.date.today())
     if year == current_year:
-        return ("http://ftp.cpc.ncep.noaa.gov/htdocs/temp4/current.data", True)
+        return ("https://ftp.cpc.ncep.noaa.gov/htdocs/temp4/current.data", True)
     elif year == current_year - 1:
         url = (
-            "http://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer%s-PRELIM"
+            "https://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer%s-PRELIM"
             % str(year)[-2:],
             False,
         )
         if not _url_exists(url[0]):
-            url = ("http://ftp.cpc.ncep.noaa.gov/htdocs/temp4/current.data", True)
+            url = ("https://ftp.cpc.ncep.noaa.gov/htdocs/temp4/current.data", True)
         return url
     elif year <= 1985:
-        return ("http://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer73-85", False)
+        return ("https://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer73-85", False)
     else:
         url = (
-            "http://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer%s" % str(year)[-2:],
+            "https://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer%s" % str(year)[-2:],
             False,
         )
         if not _url_exists(url[0]):
             url = (
-                "http://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer%s-PRELIM"
+                "https://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer%s-PRELIM"
                 % str(year)[-2:],
                 False,
             )

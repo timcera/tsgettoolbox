@@ -64,7 +64,6 @@ def get_sites(path=None, complevel=None, complib=None):
         selected. If complevel argument is set to 0 then no compression will be
         used.
 
-
     Returns
     -------
     sites_dict : dict
@@ -107,7 +106,6 @@ def get_site(site_code, path=None, complevel=None, complib=None):
         selected. If complevel argument is set to 0 then no compression will be
         used.
 
-
     Returns
     -------
     site_dict : dict
@@ -142,7 +140,7 @@ def get_site_data(
     agency_code : ``None`` or str
         The agency code to get data for. This will need to be set if a site code
         is in use by multiple agencies (this is rare).
-    parameter_code : `None`, str, or list
+    parameter_code : ``None``, str, or list
         List of parameters to read. If ``None`` (default) read all parameters.
         Otherwise only read specified parameters. Parameters should be specified
         with statistic code, i.e. daily streamflow is '00060:00003'
@@ -160,9 +158,8 @@ def get_site_data(
         the best available compression library available on your system will be
         selected. If complevel argument is set to 0 then no compression will be
         used.
-    start: ``None`` or string formatted date like 2014-01-01
+    start : ``None`` or string formatted date like 2014-01-01
         Filter the dataset to return only data later that the start date
-
 
     Returns
     -------
