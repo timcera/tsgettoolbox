@@ -26,7 +26,7 @@ def coops_cli(
 ):
     r"""Download Center for Operational Oceanographic Products and Services.
 
-    CO-OPS web services is at http://tidesandcurrents.noaa.gov/api/.
+    CO-OPS web services is at https://tidesandcurrents.noaa.gov/api/.
     The time zone of the returned data depends on the setting of the
     "time_zone" option.  The default is "GMT" also known as "UTC".
 
@@ -39,7 +39,7 @@ def coops_cli(
             Example: '--station=9414290'
 
         Station listings for various products can be viewed at
-        http://tidesandcurrents.noaa.gov or viewed on a map at Tides
+        https://tidesandcurrents.noaa.gov or viewed on a map at Tides
         & Currents Station Map
 
     date : str
@@ -579,7 +579,7 @@ def coops(
     ndf = pd.DataFrame()
     for cnt, i in enumerate(tsutils.make_list(product)):
         r = resource(
-            r"http://tidesandcurrents.noaa.gov/api/datagetter",
+            r"https://tidesandcurrents.noaa.gov/api/datagetter",
             station=station,
             date=date,
             begin_date=begin_date,

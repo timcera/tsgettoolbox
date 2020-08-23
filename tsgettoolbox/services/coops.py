@@ -18,7 +18,7 @@ import requests
 from tstoolbox import tsutils
 
 # NOAA/NOS Tides and Currents
-# pd.read_csv('http://tidesandcurrents.noaa.gov/api/datagetter?
+# pd.read_csv('https://tidesandcurrents.noaa.gov/api/datagetter?
 # begin_date=20130101&
 # end_date=20130101&
 # station=8454000&
@@ -58,7 +58,7 @@ class NOS(object):
 
 
 # Function to make `resource` know about the new NOS type.
-@resource.register(r"http(s)?://tidesandcurrents\.noaa\.gov.*", priority=17)
+@resource.register(r"https://tidesandcurrents\.noaa\.gov.*", priority=17)
 def resource_nos(uri, **kwargs):
     return NOS(uri, **kwargs)
 
@@ -264,12 +264,12 @@ COOPS service returned the error "{0}".
 
 if __name__ == "__main__":
     """
-    http://tidesandcurrents.noaa.gov/api/datagetter?begin_date=20020101
+    https://tidesandcurrents.noaa.gov/api/datagetter?begin_date=20020101
     &end_date=20020102&range=1&station=8720218&product=water_level
     """
 
     r = resource(
-        r"http://tidesandcurrents.noaa.gov/api/datagetter",
+        r"https://tidesandcurrents.noaa.gov/api/datagetter",
         station="8720218",
         product="water_level",
         interval="h",
@@ -287,7 +287,7 @@ if __name__ == "__main__":
     print(as_df)
 
     r = resource(
-        r"http://tidesandcurrents.noaa.gov/api/datagetter",
+        r"https://tidesandcurrents.noaa.gov/api/datagetter",
         station="8720218",
         product="water_temperature",
         interval="h",
@@ -305,7 +305,7 @@ if __name__ == "__main__":
     print(as_df)
 
     r = resource(
-        r"http://tidesandcurrents.noaa.gov/api/datagetter",
+        r"https://tidesandcurrents.noaa.gov/api/datagetter",
         station="8720218",
         product="water_level",
         interval="h",
@@ -323,7 +323,7 @@ if __name__ == "__main__":
     print(as_df)
 
     r = resource(
-        r"http://tidesandcurrents.noaa.gov/api/datagetter",
+        r"https://tidesandcurrents.noaa.gov/api/datagetter",
         station="8720218",
         product="air_temperature",
         interval="h",
@@ -341,7 +341,7 @@ if __name__ == "__main__":
     print(as_df)
 
     r = resource(
-        r"http://tidesandcurrents.noaa.gov/api/datagetter",
+        r"https://tidesandcurrents.noaa.gov/api/datagetter",
         station="8720218",
         product="water_level",
         interval="h",
@@ -360,7 +360,7 @@ if __name__ == "__main__":
 
     try:
         r = resource(
-            r"http://tidesandcurrents.noaa.gov/api/datagetter",
+            r"https://tidesandcurrents.noaa.gov/api/datagetter",
             station="8720218",
             product="water_level",
             units="metric",
