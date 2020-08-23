@@ -13,6 +13,14 @@ import pandas as pd
 
 from tsgettoolbox.ulmo.cpc.drought.core import get_data
 
+unit_conv = {"precipitation": "precipitation:in",
+             "temperature": "temperature:degF",
+             "potential_evap": "potential_evap:in",
+             "runoff": "runoff:in",
+             "soil_moisture_upper": "soil_moisture_upper:in",
+             "soil_moisture_lower": "soil_moisture_lower:in",
+            }
+
 
 def ulmo_df(state=None, climate_division=None, start_date=None, end_date=None):
     df = get_data(
@@ -25,6 +33,7 @@ def ulmo_df(state=None, climate_division=None, start_date=None, end_date=None):
     df = df.set_index("period")
     df.index = pd.PeriodIndex(df.index)
     df.index.name = "Datetime"
+    df.columns = [unit_conv.get(i, i) for i in df.columns]
     return df
 
 
