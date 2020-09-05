@@ -101,11 +101,12 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
 
     """
     station_sensors = {}
-    unit_conv = {"INCHES": "in",
-                 "AF": "acre feet",
-                 "CFS": "cfs",
-                 "FEET": "ft",
-                }
+    unit_conv = {
+        "INCHES": "in",
+        "AF": "acre feet",
+        "CFS": "cfs",
+        "FEET": "ft",
+    }
 
     if station_ids is None:
         station_ids = get_stations().index
@@ -116,7 +117,14 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
         )
 
         sensor_list = pd.read_html(url)[1]
-        sensor_list.columns = ["sensor_description", "sensor_number", "duration", "plot", "data_collection", "data_available"]
+        sensor_list.columns = [
+            "sensor_description",
+            "sensor_number",
+            "duration",
+            "plot",
+            "data_collection",
+            "data_available",
+        ]
         v = list(sensor_list["sensor_description"].to_dict().values())
         split = [i.split(",") for i in v]
         var_names = ["_".join(x[:-1]).strip() for x in split]
@@ -126,7 +134,9 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
         var_resolution = [x[1:-1] for x in sensor_list["duration"]]
 
         sensor_list["resolution"] = var_resolution
-        sensor_list["variable"] = var_names  # [x + y for x, y in zip(var_names, var_resolution)]
+        sensor_list[
+            "variable"
+        ] = var_names  # [x + y for x, y in zip(var_names, var_resolution)]
 
         station_sensors[station_id] = _limit_sensor_list(
             sensor_list, sensor_ids, resolutions
@@ -207,10 +217,7 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
                 + end_date_str
             )
             station_data[var] = pd.read_csv(
-                url,
-                parse_dates=["DATE TIME"],
-                index_col="DATE TIME",
-                na_values="m",
+                url, parse_dates=["DATE TIME"], index_col="DATE TIME", na_values="m",
             )["VALUE"]
             station_data[var].columns = ["datetime", "value"]
 

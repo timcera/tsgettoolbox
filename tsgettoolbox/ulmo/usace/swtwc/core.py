@@ -76,7 +76,7 @@ def get_station_data(station_code, date=None, as_dataframe=False):
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36"
     }
     resp = requests.get(data_url, headers=headers)
-    soup = BeautifulSoup(resp.content)
+    soup = BeautifulSoup(resp.content, features="lxml")
     pre = soup.find("pre")
     if pre is None:
         error_msg = (

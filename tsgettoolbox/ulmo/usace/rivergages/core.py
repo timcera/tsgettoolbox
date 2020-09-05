@@ -17,7 +17,7 @@ from bs4 import BeautifulSoup
 from tsgettoolbox.ulmo import util
 
 USACE_RIVERGAGES_DIR = os.path.join(util.get_ulmo_dir(), "usace/rivergages/")
-URL = "http://rivergages.mvr.usace.army.mil/WaterControl/datamining2.cfm"
+URL = "https://rivergages.mvr.usace.army.mil/WaterControl/datamining2.cfm"
 DEFAULT_START_DATE = datetime.date(1800, 1, 1)
 
 

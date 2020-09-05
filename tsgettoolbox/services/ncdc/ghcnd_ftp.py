@@ -219,11 +219,11 @@ def ghcnd_to_df(data, **kwargs):
     codes.extend(["WV{0:02}".format(i) for i in [1, 3, 7, 18, 20]])
 
     for code in codes:
-        tmpdf = df.ix[df["code"] == code, :]
+        tmpdf = df.loc[df["code"] == code, :]
         if len(tmpdf) == 0:
             continue
         tmpdf.set_index(["year", "month"], inplace=True)
-        tmpdf = tmpdf.ix[:, list(range(2, 126, 4))].stack()
+        tmpdf = tmpdf.iloc[:, list(range(2, 126, 4))].stack()
         tmpdf.index = (
             tmpdf.index.get_level_values(0).astype(str).values
             + "-"
@@ -238,7 +238,7 @@ def ghcnd_to_df(data, **kwargs):
 
         tmpdf = pd.DataFrame(tmpdf)
         tmpdf.columns = [code]
-        tmpdf = tmpdf.ix[
+        tmpdf = tmpdf.loc[
             tsutils.parsedate(
                 data.query_params["start_date"], strftime="%Y-%m-%d"
             ) : tsutils.parsedate(data.query_params["end_date"], strftime="%Y-%m-%d"),

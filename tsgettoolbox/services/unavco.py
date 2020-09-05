@@ -79,6 +79,7 @@ def unavco_to_df(data, **kwargs):
         index_col=0,
         parse_dates=[0],
         comment=data.comment,
+        skiprows=5,
     )
     df.columns = [
         "unavco-{0}".format(
@@ -91,7 +92,7 @@ def unavco_to_df(data, **kwargs):
         for i in df.columns
     ]
     df.index.name = "Datetime:UTC"
-    return df.tz_localize("UTC")
+    return df
 
 
 if __name__ == "__main__":

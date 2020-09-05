@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 from __future__ import print_function
 
+import datetime
 from builtins import object
 from builtins import zip
 
@@ -514,13 +515,14 @@ class modis(object):
         else:
             query_params["startdate"] = tsutils.parsedate(query_params["startdate"])
         if query_params["enddate"] is None:
-            query_params["enddate"] = pd.datetime.now()
+            query_params["enddate"] = datetime.datetime.now()
         else:
             query_params["enddate"] = tsutils.parsedate(query_params["enddate"])
         self.query_params = query_params
 
 
 @resource.register(
+    # https://modis.ornl.gov/rst/api/v1/MOD11A2/subset?latitude=39.56499&longitude=-121.55527&band=LST_Day_1km&startDate=A2001001&endDate=A2001001&kmAboveBelow=1&kmLeftRight=1
     r"https://modis.ornl.gov/cgi-bin/MODIS/soapservice/MODIS_soapservice.wsdl",
     priority=17,
 )
@@ -530,8 +532,8 @@ def resource_modis(uri, **kwargs):
 
 def date_parser(strdates):
     return [
-        pd.datetime.fromordinal(
-            pd.datetime(int(i[1:5]), 1, 1).toordinal() + int(i[5:]) - 1
+        datetime.date.fromordinal(
+            datetime.datetime(int(i[1:5]), 1, 1).toordinal() + int(i[5:]) - 1
         )
         for i in strdates
     ]

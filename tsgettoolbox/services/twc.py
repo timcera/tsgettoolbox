@@ -15,12 +15,14 @@ from tsgettoolbox.ulmo.twc.kbdi.core import get_data
 
 def ulmo_df(county=None, start_date=None, end_date=None):
 
-    return get_data(
+    df = get_data(
         county=county,
         start=pd.to_datetime(start_date),
         end=pd.to_datetime(end_date),
         as_dataframe=True,
     )
+    df = df.set_index("date")
+    return df
 
 
 if __name__ == "__main__":

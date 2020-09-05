@@ -179,7 +179,7 @@ def date_parser(*x):
     x = [int(i) for i in x]
     if x[0] < 100:
         x[0] = x[0] + 1900
-    return pd.datetime(*x)
+    return datetime.datetime(*x)
 
 
 mapnumtoname = {
@@ -303,6 +303,7 @@ No data collected/available within this time frame.
 
     df.columns = [i.replace(r"%", "PERCENT") for i in df.columns]
 
+    df = df.tz_localize("UTC")
     return df.loc[sdate:edate, :]
 
 

@@ -307,7 +307,7 @@ def ldas_to_df(data, **kwargs):
     if b"ERROR" in req.content:
         raise ValueError(req.content)
 
-    df = pd.read_table(
+    df = pd.read_csv(
         BytesIO(req.content),
         skiprows=40,
         header=None,

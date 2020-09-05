@@ -160,7 +160,9 @@ def get_data(
 
     # restrict results to date range
     period_index = pandas.PeriodIndex(data["period"])
-    periods_in_range = (period_index >= start_date.isoformat()) & (period_index <= end_date.isoformat())
+    periods_in_range = (period_index >= start_date.isoformat()) & (
+        period_index <= end_date.isoformat()
+    )
     data = data[periods_in_range]
 
     # this does what data.reset_index() should do, but at least as of 0.10.1, that sets
