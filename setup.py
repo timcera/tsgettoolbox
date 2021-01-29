@@ -45,7 +45,6 @@ install_requires = [
     "datashape >= 0.5.0",
     "future",
     "geojson",
-    "html5lib<=0.9999999",
     "isodate",
     "lxml",
     "multipledispatch >= 0.4.7",

@@ -45,6 +45,8 @@ from .functions.darksky import darksky
 from .functions.cpc import cpc
 from .functions.coops import coops
 from .functions.cdec import cdec
+from .functions.fawn import fawn
+
 import os.path
 import sys
 import warnings
