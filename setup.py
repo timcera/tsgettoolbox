@@ -47,6 +47,7 @@ install_requires = [
     "geojson",
     "isodate",
     "lxml",
+    "mechanize",
     "multipledispatch >= 0.4.7",
     "networkx >= 1.0",
     "numpy >= 1.7",

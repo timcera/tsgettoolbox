@@ -1,3 +1,5 @@
+"""Download data from Florida Automated Weather Network (FAWN)."""
+
 import datetime
 
 import pandas as pd
@@ -61,9 +63,25 @@ locs__ = {
     311: ["dade city", "dade_city", "dadecity"],
     120: ["defuniak springs", "defuniak_springs", "defuniaksprings"],
     360: ["dover"],
-    420: ["fort lauderdale", "fort_lauderdale", "fortlauderdale"],
+    420: [
+        "fort lauderdale",
+        "fort_lauderdale",
+        "fortlauderdale",
+        "ft lauderdale",
+        "ft. lauderdale",
+        "ftlauderdale",
+        "ft.lauderdale",
+    ],
     390: ["frostproof"],
-    430: ["fort pierce", "fort_pierce", "fortpierce"],
+    430: [
+        "fort pierce",
+        "fort_pierce",
+        "fortpierce",
+        "ft. pierce",
+        "ft pierce",
+        "ftpierce",
+        "ft.pierce",
+    ],
     270: ["hastings"],
     440: ["homestead"],
     450: ["immokalee"],
@@ -83,9 +101,9 @@ locs__ = {
     303: ["okahumpka"],
     455: ["okeechobee"],
     380: ["ona"],
-    460: ["oalmdale"],
-    290: ["oierson"],
-    240: ["outnam hall", "putnam_hall", "putnamhall"],
+    460: ["palmdale"],
+    290: ["pierson"],
+    240: ["putnam hall", "putnam_hall", "putnamhall"],
     140: ["quincy"],
     470: ["sebring"],
     435: [
@@ -161,55 +179,55 @@ def fawn_cli(
     ----------
     stations :  str
 
-        At the command line can supply a comma separated list or codes or 
+        At the command line can supply a comma separated list or codes or
         names.  Using the Python API needs to be a Python list.
 
         The current complete list of FAWN stations.
 
         * 260  Alachua
-        * 320  Apopka               
-        * 490  Arcadia              
-        * 304  Avalon               
-        * 350  Balm                 
-        * 410  'Belle Glade'        
-        * 230  Bronson              
-        * 310  Brooksville          
-        * 150  Carrabelle           
-        * 250  Citra                
-        * 405  Clewiston            
-        * 311  'Dade City'          
-        * 120  'Defuniak Springs'   
-        * 360  Dover                
-        * 420  'Fort Lauderdale'    
-        * 390  Frostproof           
-        * 430  'Fort Pierce'        
-        * 270  Hastings             
-        * 440  Homestead            
-        * 450  Immokalee            
-        * 371  'Indian River'       
-        * 110  Jay                  
-        * 241  Joshua               
-        * 340  Kenansville          
-        * 330  'Lake Alfred'        
-        * 275  Lecanto              
-        * 170  'Live Oak'           
-        * 180  Macclenny            
-        * 130  Marianna             
-        * 121  May                  
-        * 160  Monticello           
-        * 480  'North Port'         
-        * 280  Ocklawaha            
-        * 303  Okahumpka            
-        * 455  Okeechobee           
-        * 380  Ona                  
-        * 460  Palmdale             
-        * 290  Pierson              
-        * 240  Putnam Hall          
-        * 140  Quincy               
-        * 470  Sebring              
-        * 435  'St. Lucie West'     
-        * 302  Umatilla             
-        * 425  Wellington           
+        * 320  Apopka
+        * 490  Arcadia
+        * 304  Avalon
+        * 350  Balm
+        * 410  'Belle Glade'
+        * 230  Bronson
+        * 310  Brooksville
+        * 150  Carrabelle
+        * 250  Citra
+        * 405  Clewiston
+        * 311  'Dade City'
+        * 120  'Defuniak Springs'
+        * 360  Dover
+        * 420  'Fort Lauderdale'
+        * 390  Frostproof
+        * 430  'Fort Pierce'
+        * 270  Hastings
+        * 440  Homestead
+        * 450  Immokalee
+        * 371  'Indian River'
+        * 110  Jay
+        * 241  Joshua
+        * 340  Kenansville
+        * 330  'Lake Alfred'
+        * 275  Lecanto
+        * 170  'Live Oak'
+        * 180  Macclenny
+        * 130  Marianna
+        * 121  May
+        * 160  Monticello
+        * 480  'North Port'
+        * 280  Ocklawaha
+        * 303  Okahumpka
+        * 455  Okeechobee
+        * 380  Ona
+        * 460  Palmdale
+        * 290  Pierson
+        * 240  Putnam Hall
+        * 140  Quincy
+        * 470  Sebring
+        * 435  'St. Lucie West'
+        * 302  Umatilla
+        * 425  Wellington
 
     variables : str
         At the command line can supply a comma separated list of variable
@@ -248,18 +266,20 @@ def fawn_cli(
         +-------------+-------------------------------------+--------+
 
         The 'ET' variable is only available when `reportType` is "daily" or
-        "monthly".    
+        "monthly".
     reportType : str
-        Interval of the data.  Can be one of "all" for 15 minute, "hourly", 
-        "daily", or "monthly".    
+        Interval of the data.  Can be one of "all" for 15 minute, "hourly",
+        "daily", or "monthly".
     {start_date}
-    {end_date}"""
+    {end_date}
+    """
     tsutils._printiso(
         fawn(stations, variables, reportType, start_date=start_date, end_date=end_date,)
     )
 
 
 def core(data):
+    """Download a chunk of data."""
     br = mechanize.Browser()
     br.open("https://fawn.ifas.ufl.edu/data/reports/")
     br.select_form(nr=0)
@@ -366,7 +386,7 @@ Variable {variable} is not available.
         raise ValueError(
             tsutils.error_wrapper(
                 """
-FAWN service returned no values for stations "{stations}", variables "{variables}" 
+FAWN service returned no values for stations "{stations}", variables "{variables}"
 between "{sdate}" and "{edate}".
 """.format(
                     **locals()
