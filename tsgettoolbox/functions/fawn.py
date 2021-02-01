@@ -121,8 +121,9 @@ locs__ = {
 rev_locs = {}
 for key in locs__:
     rev_locs[key] = key
+    rev_locs[str(key)] = key
     for i in locs__[key]:
-        rev_locs[i] = key
+        rev_locs[i.lower()] = key
 
 # variable names for stations are "loc__XXX" where XXX is one of the keys
 # above.
@@ -295,13 +296,13 @@ def core(data):
     br.form["toDate_d"] = [str(data["toDate_d"])]
     response = br.submit(nr=1)
 
-    df = pd.read_csv(response, index_col=1, parse_dates=True)
+    df = pd.read_csv(response, index_col=[0, 1], parse_dates=True)
     return df
 
 
 @tsutils.validator(
     stations=[
-        [str, ["domain", list(rev_locs.keys())], None],
+        [str.lower, ["domain", list(rev_locs.keys())], None],
         [int, ["domain", list(locs__.keys())], None],
     ],
     variables=[str, ["domain", list(vars__.keys()) + list(rev_vars.keys())], None],
@@ -329,7 +330,7 @@ def fawn(
             data["locs__{0}".format(rev_locs[station])] = "on"
         except KeyError:
             try:
-                data["locs__{0}".format(rev_locs[station.lower])] = "on"
+                data["locs__{0}".format(rev_locs[station.lower()])] = "on"
             except KeyError:
                 raise ValueError(
                     tsutils.error_wrapper(
@@ -380,7 +381,11 @@ Variable {variable} is not available.
         data["toDate_y"] = end_test_date.year
 
         df = core(data)
-        ndf = ndf.combine_first(df)
+        # With multi-index pandas won't combine_first with an empty ndf.
+        if len(ndf) == 0:
+            ndf = df
+        else:
+            ndf = ndf.combine_first(df)
 
     if len(ndf) == 0:
         raise ValueError(
@@ -405,8 +410,7 @@ between "{sdate}" and "{edate}".
         istr = istr.replace(")", ":")
         return istr
 
-    ndf = ndf[~ndf.index.duplicated(keep="first")]
-    ndf = ndf.pivot(columns="FAWN Station")
+    ndf = ndf.unstack(level="FAWN Station")
     ndf.rename(columns=renamer, inplace=True)
     ndf = ndf.swaplevel(axis="columns")
     ndf.columns = ["_".join(tup).rstrip("_") for tup in ndf.columns.values]
@@ -422,7 +426,7 @@ if __name__ == "__main__":
         variables="WindDir",
         reportType="daily",
         start_date="2000-01-01",
-        end_date="2001-01-01",
+        end_date="2003-01-01",
     )
     print(r)
 
@@ -432,5 +436,14 @@ if __name__ == "__main__":
         reportType="daily",
         start_date="2017-01-01",
         end_date="2020-01-01",
+    )
+    print(r)
+
+    r = fawn(
+        stations="Alachua,MacClenny",
+        variables="Rainfall,AirTemp9",
+        reportType="daily",
+        start_date="2000-01-01",
+        end_date="2003-01-01",
     )
     print(r)
