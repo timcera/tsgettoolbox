@@ -172,7 +172,11 @@ for key in vars__:
 @mando.command("fawn", formatter_class=HelpFormatter, doctype="numpy")
 @tsutils.doc(tsutils.docstrings)
 def fawn_cli(
-    stations, variables, reportType, start_date=None, end_date=None,
+    stations,
+    variables,
+    reportType,
+    start_date=datetime.datetime(1998, 1, 1),
+    end_date=datetime.datetime.now(),
 ):
     r"""Download data from Florida Automated Weather Network (FAWN).
 
@@ -275,7 +279,13 @@ def fawn_cli(
     {end_date}
     """
     tsutils._printiso(
-        fawn(stations, variables, reportType, start_date=start_date, end_date=end_date,)
+        fawn(
+            stations,
+            variables,
+            reportType,
+            start_date=start_date,
+            end_date=end_date,
+        )
     )
 
 
@@ -294,6 +304,7 @@ def core(data):
     br.form["toDate_y"] = [str(data["toDate_y"])]
     br.form["toDate_m"] = [str(data["toDate_m"])]
     br.form["toDate_d"] = [str(data["toDate_d"])]
+    br.form["reportType"] = [data["reportType"]]
     response = br.submit(nr=1)
 
     df = pd.read_csv(response, index_col=[0, 1], parse_dates=True)
@@ -306,24 +317,24 @@ def core(data):
         [int, ["domain", list(locs__.keys())], None],
     ],
     variables=[str, ["domain", list(vars__.keys()) + list(rev_vars.keys())], None],
-    reportType=[str, ["domain", ["all", "hourly", "daily", "monthly"]], 1],
+    reportType=[str, ["domain", ["all", "hourly", "daily", "monthly", "entire"]], 1],
     start_date=[tsutils.parsedate, ["pass", []], 1],
     end_date=[tsutils.parsedate, ["pass", []], 1],
 )
 def fawn(
-    stations, variables, reportType, start_date=None, end_date=None,
+    stations,
+    variables,
+    reportType,
+    start_date=datetime.datetime(1998, 1, 1),
+    end_date=datetime.datetime.now(),
 ):
     r"""Download data from FAWN."""
-    interval = {"all": 30, "hourly": 366, "daily": 732, "monthly": 3660}
+    interval = {"all": 10, "hourly": 40, "daily": 366, "monthly": 8000}
     data = {}
-    try:
-        data["start_date"] = tsutils.parsedate(start_date)
-    except KeyError:
-        data["start_date"] = datetime.datetime(1998, 1, 1)
-    try:
-        data["end_date"] = tsutils.parsedate(end_date)
-    except KeyError:
-        data["end_date"] = datetime.now()
+    data["start_date"] = tsutils.parsedate(start_date)
+    data["end_date"] = tsutils.parsedate(end_date)
+
+    data["reportType"] = reportType
 
     for station in tsutils.make_list(stations):
         try:
@@ -371,9 +382,12 @@ Variable {variable} is not available.
         data["fromDate_d"] = begin_test_date.day
         data["fromDate_y"] = begin_test_date.year
 
-        testdate = testdate + pd.Timedelta(days=interval[reportType])
-        if testdate > edate:
+        if reportType == "entire":
             testdate = edate
+        else:
+            testdate = testdate + pd.Timedelta(days=interval[reportType])
+            if testdate > edate:
+                testdate = edate
 
         end_test_date = tsutils.parsedate(testdate)
         data["toDate_m"] = end_test_date.month
@@ -414,6 +428,10 @@ between "{sdate}" and "{edate}".
     ndf.rename(columns=renamer, inplace=True)
     ndf = ndf.swaplevel(axis="columns")
     ndf.columns = ["_".join(tup).rstrip("_") for tup in ndf.columns.values]
+
+    if reportType != "entire":
+        mapfreqstr = {"daily": "D", "monthly": "M", "hourly": "H", "all": "15T"}
+        ndf.index = ndf.index.to_period(mapfreqstr[reportType])
     return ndf
 
 
@@ -442,8 +460,24 @@ if __name__ == "__main__":
     r = fawn(
         stations="Alachua,MacClenny",
         variables="Rainfall,AirTemp9",
-        reportType="daily",
-        start_date="2000-01-01",
-        end_date="2003-01-01",
+        reportType="monthly",
+    )
+    print(r)
+
+    r = fawn(
+        stations="Alachua,120,180,240",
+        variables="rainfall,winddir",
+        reportType="hourly",
+        start_date="2017-01-01",
+        end_date="2020-01-01",
+    )
+    print(r)
+
+    r = fawn(
+        stations="Alachua,120,180,240",
+        variables="rainfall,winddir",
+        reportType="all",
+        start_date="2017-01-01",
+        end_date="2020-01-01",
     )
     print(r)
