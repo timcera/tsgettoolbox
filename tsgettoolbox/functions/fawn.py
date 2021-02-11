@@ -307,6 +307,11 @@ def core(data):
     br.form["reportType"] = [data["reportType"]]
     response = br.submit(nr=1)
 
+    for line in response.readlines():
+        if b"Cancelled CSV output due to lack of data" in line:
+            return pd.DataFrame()
+
+    response.seek(0)
     df = pd.read_csv(response, index_col=[0, 1], parse_dates=True)
     return df
 
@@ -439,6 +444,13 @@ fawn.__doc__ = fawn_cli.__doc__
 
 
 if __name__ == "__main__":
+    r = fawn(
+        stations="260",
+        variables="Rainfall",
+        reportType="daily",
+    )
+    print(r)
+
     r = fawn(
         stations="260,120,180,240",
         variables="WindDir",

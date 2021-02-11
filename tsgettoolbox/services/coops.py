@@ -87,113 +87,113 @@ def core(data):
 @convert.register(pd.DataFrame, NOS)
 def nos_to_df(data, **kwargs):
     settings_map = defaultdict(lambda: [{"metric": "", "english": ""}])
+
+    # Preliminary or verified water levels, depending on availability.
     settings_map["water_level"] = [
         {"metric": "m", "english": "ft"},
         "h",
-    ]  # Preliminary or verified
-    # water levels, depending
-    # on availability.
+    ]
+
+    # Air temperature as measured at the station.
     settings_map["air_temperature"] = [
         {"metric": "degC", "english": "degF"},
         "h",
-    ]  # Air temperature
-    # as measured at
-    # the station.
+    ]
+
+    # Water temperature as measured at the station.
     settings_map["water_temperature"] = [
         {"metric": "degC", "english": "degF"},
         "h",
-    ]  # Water temperature
-    # as measured at
-    # the station.
-    settings_map["wind"] = [{"metric": "m/s", "english": "ft/s"}, "h"]  # Wind speed,
-    # direction, and gusts
-    # as measured at the
-    # station.
+    ]
+
+    # Wind speed, direction, and gusts as measured at the station.
+    settings_map["wind"] = [{"metric": "m/s", "english": "ft/s"}, "h"]
+
+    # Barometric pressure as measured at the station.
     settings_map["air_pressure"] = [
         {"metric": "mb", "english": "mb"},
         "h",
-    ]  # Barometric pressure as
-    # measured at the station.
+    ]
+
+    # Air Gap (distance between a bridge and the water's surface) at the
+    # station.
     settings_map["air_gap"] = [
         {"metric": "m", "english": "ft"},
         "h",
-    ]  # Air Gap (distance
-    # between a bridge and the
-    # water's surface) at the
-    # station.
+    ]
+
+    # The water's conductivity as measured at the station.
     settings_map["conductivity"] = [
         {"metric": "mS/cm", "english": "mS/cm"},
         "h",
-    ]  # The water's
-    # conductivity as
-    # measured at the
-    # station.
+    ]
+
+    # Visibility from the station's visibility sensor. A measure of atmospheric
+    # clarity.
     settings_map["visibility"] = [
         {"metric": "km", "english": "nm"},
         "h",
-    ]  # Visibility from the
-    # station's visibility
-    # sensor. A measure of
-    # atmospheric clarity.
+    ]
+
+    # Relative humidity as measured at the station.
     settings_map["humidity"] = [
         {"metric": "percent", "english": "percent"},
         "h",
-    ]  # Relative
-    # humidity as
-    # measured at
-    # the station.
+    ]
+
+    # Salinity and specific gravity data for the station.
     settings_map["salinity"] = [
         {"metric": "PSU", "english": "PSU"},
         "h",
-    ]  # Salinity and specific
-    # gravity data for the
-    # station.
+    ]
+
+    # Verified hourly height water level data for the station.
     settings_map["hourly_height"] = [
         {"metric": "m", "english": "ft"},
         "h",
-    ]  # Verified hourly height
-    # water level data for the
-    # station.
+    ]
+
+    # Verified high/low water level data for the station.
     settings_map["high_low"] = [
         {"metric": "m", "english": "ft"},
         None,
-    ]  # Verified high/low water
-    # level data for the
-    # station.
+    ]
+
+    # Verified daily mean water level data for the station.
     settings_map["daily_mean"] = [
         {"metric": "m", "english": "ft"},
         None,
-    ]  # Verified daily mean
-    # water level data for
-    # the station.
+    ]
+
+    # Verified monthly mean water level data for the station.
     settings_map["monthly_mean"] = [
         {"metric": "m", "english": "ft"},
         None,
-    ]  # Verified monthly mean
-    # water level data for
-    # the station.
+    ]
+
+    # One minute water level data for the station.
     settings_map["one_minute_water_level"] = [
         {"metric": "m", "english": "ft"},
         None,
-    ]  # One minute water level
-    # data for the station.
+    ]
+
+    # 6 minute predictions water level data for the station.
     settings_map["predictions"] = [
         {"metric": "m", "english": "ft"},
         "h",
-    ]  # 6 minute predictions
-    # water level data for the
-    # station.
+    ]
+
+    # datums data for the currents stations.
     settings_map["datums"] = [
         {"metric": "m", "english": "ft"},
         None,
-    ]  # datums data for the
-    # currents stations.
+    ]
 
+    # Currents data for currents stations.
     settings_map["currents"] = [
         {"metric": "m/s", "english": "ft/s"},
         "h",
-    ]  # Currents data for
-    # currents stations.
+    ]
 
     if data.query_params["date"] is not None:
         ndf, error = core(data)

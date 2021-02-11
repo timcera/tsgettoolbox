@@ -10,11 +10,14 @@ from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
 
+from io import BytesIO
+import logging
+import os
 import warnings
 
-from tsgettoolbox.odo import odo, resource
 import pandas as pd
 import mando
+import requests
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -809,6 +812,434 @@ nwis_docstrings = {
 }
 
 
+_NA_VALUES = ["Dis", "Eqp", "Rat"]
+
+# USGS
+
+
+# IV
+#
+# agency_cd
+# site_no
+# datetime
+# tz_cd
+# 30725_00060
+# 30725_00060_cd
+# 196788_00065
+# 196788_00065_cd
+#
+# DV
+#
+# agency_cd
+# site_no
+# datetime
+# 68479_00010_00001
+# 68479_00010_00001_cd
+# 68482_00010_00001
+# 68482_00010_00001_cd
+#
+# STAT
+#
+# agency_cd
+# site_no
+# station_nm
+# site_tp_cd
+# dec_lat_va
+# dec_long_va
+# coord_acy_cd
+# dec_coord_datum_cd
+# alt_va
+# alt_acy_va
+# alt_datum_cd
+# huc_cd
+#
+# GWLEVELS
+#
+# agency_cd
+# site_no
+# site_tp_cd
+# lev_dt
+# lev_tm
+# lev_tz_cd
+# lev_va
+# sl_lev_va
+# sl_datum_cd
+# lev_status_cd
+# lev_agency_cd
+# lev_dt_acy_cd
+# lev_acy_cd
+# lev_src_cd
+# lev_meth_cd
+# lev_age_cd
+#
+# STATS
+#
+# agency_cd
+# site_no
+# parameter_cd
+# ts_id
+# loc_web_ds
+# month_nu
+# day_nu
+# begin_yr
+# end_yr
+# count_nu
+# max_va_yr
+# max_va
+# min_va_yr
+# min_va
+# mean_va
+# p05_va
+# p10_va
+# p20_va
+# p25_va
+# p50_va
+# p75_va
+# p80_va
+# p90_va
+# p95_va
+
+
+def _read_rdb(url, data):
+
+    # parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
+    pmcodes = pd.read_csv(
+        os.path.join(os.path.dirname(__file__), "pmcodes.dat"),
+        comment="#",
+        header=0,
+        sep="\t",
+        dtype={0: str},
+        na_values=_NA_VALUES,
+    )
+    pmcodes.set_index("parameter_cd", inplace=True)
+
+    req = requests.get(url, params=data)
+    if os.path.exists("debug_tsgettoolbox"):
+        logging.warning(req.url)
+    req.raise_for_status()
+
+    header = [0, 1]
+    if "/measurements/" in url:
+        header = [0]
+
+    if "/iv/" in url or "/dv/" in url:
+        # iv and dv results are stacked, a table for each site.  Have to split
+        # the overall req.content into discrete tables for pd.read_csv to work.
+        list_of_sublists = []
+        n = 0
+        a_list = req.content.splitlines()
+        for i, elt in enumerate(a_list):
+            if i and elt[:9] == b"agency_cd":
+                list_of_sublists.append(a_list[n:i])
+                n = i
+        list_of_sublists.append(a_list[n:])
+
+        ndf = pd.DataFrame()
+        for site in list_of_sublists:
+            try:
+                adf = pd.read_csv(
+                    BytesIO(b"\n".join(site)),
+                    comment="#",
+                    header=header,
+                    sep="\t",
+                    dtype={"site_no": str},
+                    na_values=_NA_VALUES,
+                )
+            except pd.errors.EmptyDataError:
+                continue
+
+            adf.columns = [i[0] for i in adf.columns]
+
+            test_cnames = []
+            not_ts = []
+            for cname in adf.columns:
+                words = cname.split("_")
+                try:
+                    _ = int(words[0])
+                    if "cd" == words[-1]:
+                        test_cnames.append(cname)
+                    else:
+                        test_cnames.append(
+                            cname
+                            + ":{0}".format(pmcodes.loc[words[1], "parameter_units"])
+                        )
+                except ValueError:
+                    test_cnames.append(cname)
+                    not_ts.append(cname)
+
+            adf.columns = test_cnames
+            adf.set_index(not_ts, inplace=True)
+
+            if len(ndf) == 0:
+                ndf = adf
+            else:
+                ndf = ndf.join(adf, how="outer")
+
+        ndf.reset_index(inplace=True)
+    else:
+        ndf = pd.read_csv(
+            BytesIO(req.content),
+            comment="#",
+            header=header,
+            sep="\t",
+            dtype={"site_no": str, "parameter_cd": str, "ts_id": str},
+            na_values=_NA_VALUES,
+        )
+        ndf.columns = [i[0] for i in ndf.columns]
+    return ndf
+
+
+def _make_nice_names(ndf, reverse=False):
+    nnames = []
+    for col in ndf.columns.values:
+        strung = [str(i) for i in col]
+        if reverse is True:
+            strung = reversed(strung)
+        nnames.append("_".join(strung).strip())
+    return nnames
+
+
+tzmap = {
+    "EST": "America/New_York",
+    "EDT": "America/New_York",
+    "CST": "America/Chicago",
+    "CDT": "America/Chicago",
+    "MST": "America/Denver",
+    "MDT": "America/Denver",
+    "PST": "America/Los_Angeles",
+    "PDT": "America/Los_Angeles",
+}
+
+
+def normalize_tz(row, tz_cd):
+    """Assign the correct time zone to the data."""
+    try:
+        return row["Datetime"].tz_localize(tzmap[row[tz_cd]])
+    except KeyError:
+        return row["Datetime"]
+
+
+def usgs_iv_dv_rdb_to_df(url, **kwargs):
+    """Convert from USGS RDB type to pd.DataFrame."""
+    # Need to enforce RDB format
+    kwargs["format"] = "rdb"
+    kwargs["startDT"] = tsutils.parsedate(kwargs["startDT"], strftime="%Y-%m-%d")
+    kwargs["endDT"] = tsutils.parsedate(kwargs["endDT"], strftime="%Y-%m-%d")
+
+    includeCodes = True
+    if "includeCodes" in kwargs:
+        includeCodes = kwargs.pop("includeCodes")
+
+    ndf = _read_rdb(url, kwargs)
+    ndf["Datetime"] = pd.to_datetime(ndf["datetime"])
+    ndf.drop("datetime", axis="columns", inplace=True)
+    if "tz_cd" in ndf.columns:
+        ndf["Datetime"] = ndf.apply(normalize_tz, args=("tz_cd",), axis=1)
+        ndf.drop("tz_cd", axis="columns", inplace=True)
+
+    ndf.set_index(["agency_cd", "site_no", "Datetime"], inplace=True)
+    ndf = ndf.unstack(level=["site_no", "agency_cd"])
+
+    # Sometime in the near future figure out a better way because right now the
+    # ndf.unstack above can create a huge dataframe that is mostly NA.
+    # Workaround is to trim it down to size in next command.
+    ndf.dropna(axis="columns", how="all", inplace=True)
+
+    ndf.columns = _make_nice_names(ndf, reverse=True)
+
+    if includeCodes is False:
+        ndf.drop(
+            [i for i in ndf.columns if i[-3:] == "_cd"], axis="columns", inplace=True
+        )
+    return ndf
+
+
+def usgs_stat_rdb_to_df(url, **kwargs):
+    """Convert from USGS STAT_RDB type to pd.DataFrame."""
+    # set defaults.
+    for key, val in [
+        ["statYearType", "calendar"],
+        ["missingData", "off"],
+        ["statType", "all"],
+        ["statReportType", "daily"],
+    ]:
+        try:
+            if kwargs[key] is None:
+                kwargs[key] = val
+        except KeyError:
+            kwargs[key] = val
+
+    # Need to enforce rdb format
+    kwargs["format"] = "rdb"
+
+    if kwargs["statReportType"] != "annual":
+        kwargs["statYearType"] = None
+    if kwargs["statReportType"] == "daily":
+        kwargs["missingData"] = None
+
+    ndf = _read_rdb(url, kwargs)
+    if kwargs["statReportType"] == "daily":
+        ndf["Datetime"] = [
+            "{0:02d}-{1:02d}".format(int(i), int(j))
+            for i, j in zip(ndf["month_nu"], ndf["day_nu"])
+        ]
+        ndf.drop(["month_nu", "day_nu"], axis=1, inplace=True)
+    elif kwargs["statReportType"] == "monthly":
+        ndf["Datetime"] = pd.to_datetime(
+            [
+                "{0}-{1:02d}".format(i, int(j))
+                for i, j in zip(ndf["year_nu"], ndf["month_nu"])
+            ]
+        )
+        ndf.drop(["year_nu", "month_nu"], axis=1, inplace=True)
+    else:
+        if kwargs["statYearType"] == "water":
+            ndf["Datetime"] = pd.to_datetime(
+                ["{0}-10-01".format(int(i) - 1) for i in ndf["year_nu"]]
+            )
+        else:
+            ndf["Datetime"] = pd.to_datetime(ndf["year_nu"])
+        ndf.drop("year_nu", axis=1, inplace=True)
+    ndf.sort_values(
+        ["agency_cd", "site_no", "parameter_cd", "ts_id", "Datetime"], inplace=True
+    )
+    ndf.set_index(
+        ["agency_cd", "site_no", "parameter_cd", "ts_id", "Datetime"], inplace=True
+    )
+    ndf = ndf.unstack(level=["agency_cd", "site_no", "parameter_cd", "ts_id"])
+    ndf = ndf.reorder_levels([1, 2, 3, 4, 0], axis=1)
+
+    ndf.columns = _make_nice_names(ndf)
+
+    return ndf
+
+
+statelookup = {
+    1: "AL",  # Alabama
+    2: "AK",  # Alaska
+    4: "AZ",  # Arizona
+    5: "AR",  # Arkansas
+    6: "CA",  # California
+    8: "CO",  # Colorado
+    9: "CT",  # Connecticut
+    10: "DE",  # Delaware
+    11: "DC",  # District of Columbia
+    12: "FL",  # Florida
+    13: "GA",  # Georgia
+    15: "HI",  # Hawaii
+    16: "ID",  # Idaho
+    17: "IL",  # Illinois
+    18: "IN",  # Indiana
+    19: "IA",  # Iowa
+    20: "KS",  # Kansas
+    21: "KY",  # Kentucky
+    22: "LA",  # Louisiana
+    23: "ME",  # Maine
+    24: "MD",  # Maryland
+    25: "MA",  # Massachusetts
+    26: "MI",  # Michigan
+    27: "MN",  # Minnesota
+    28: "MS",  # Mississippi
+    29: "MO",  # Missouri
+    30: "MT",  # Montana
+    31: "NE",  # Nebraska
+    32: "NV",  # Nevada
+    33: "NH",  # New Hampshire
+    34: "NJ",  # New Jersey
+    35: "NM",  # New Mexico
+    36: "NY",  # New York
+    37: "NC",  # North Carolina
+    38: "ND",  # North Dakota
+    39: "OH",  # Ohio
+    40: "OK",  # Oklahoma
+    41: "OR",  # Oregon
+    42: "PA",  # Pennsylvania
+    44: "RI",  # Rhode Island
+    45: "SC",  # South Carolina
+    46: "SD",  # South Dakota
+    47: "TN",  # Tennessee
+    48: "TX",  # Texas
+    49: "UT",  # Utah
+    50: "VT",  # Vermont
+    51: "VA",  # Virginia
+    53: "WA",  # Washington
+    54: "WV",  # West Virginia
+    55: "WI",  # Wisconsin
+    56: "WY",  # Wyoming
+}
+
+
+def usgs_site_rdb_to_df(url, **kwargs):
+    """Convert from USGS RDB type to pd.DataFrame."""
+    # Need to enforce rdb format
+    kwargs["format"] = "rdb"
+    kwargs["siteOutput"] = "expanded"
+    kwargs["siteStatus"] = "all"
+
+    ndf = _read_rdb(url, kwargs)
+    return ndf
+
+
+def usgs_measurements_peak_rdb_to_df(url, **kwargs):
+    """Convert from USGS RDB type to pd.DataFrame."""
+    if "measurements" in url:
+        rdb_format = "rdb_expanded"
+    elif "peak" in url:
+        rdb_format = "rdb"
+
+    # Need to enforce rdb format
+    kwargs["format"] = rdb_format
+    kwargs["agency_cd"] = "USGS"
+    kwargs["site_no"] = kwargs["sites"]
+    kwargs.pop("sites")
+
+    # Get the state code and insert into URL
+    r = usgs_site_rdb_to_df(url, kwargs)
+    try:
+        url = url.replace("XX", statelookup[int(r.ix[0, u"state_cd"])].lower())
+    except KeyError:
+        raise ValueError(
+            tsutils.error_wrapper(
+                """
+No field measurements available.  Some states don't have any posted
+to NWIS.
+"""
+            )
+        )
+
+    ndf = _read_rdb(url, kwargs)
+    if "measurements" in kwargs:
+        dname = "measurement_dt"
+    elif "peak" in kwargs:
+        dname = "peak_dt"
+    ndf["Datetime"] = pd.to_datetime(ndf[dname], errors="coerce")
+    ndf.set_index(["Datetime"], inplace=True)
+    ndf.drop([dname, "agency_cd", "site_no"], axis=1, inplace=True)
+    return ndf
+
+
+def usgs_gwlevels_rdb_to_df(url, **kwargs):
+    """Convert from USGS RDB type to pd.DataFrame."""
+    # Need to enforce rdb format
+    kwargs["format"] = "rdb"
+
+    ndf = _read_rdb(url, kwargs)
+    # lev_dt    lev_tm  lev_tz_cd
+    ndf["Datetime"] = pd.to_datetime(
+        ndf["lev_dt"] + "T" + ndf["lev_tm"], errors="coerce"
+    )
+    mask = pd.isnull(ndf["Datetime"])
+    ndf.loc[mask, "Datetime"] = pd.to_datetime(ndf.loc[mask, "lev_dt"], errors="coerce")
+    ndf["Datetime"] = ndf.apply(normalize_tz, args=("lev_tz_cd",), axis=1)
+    ndf.set_index(["Datetime"], inplace=True)
+    try:
+        ndf.index.name = "Datetime:{0}".format(ndf.index.tz)
+    except AttributeError:
+        ndf.index.name = "Datetime"
+    ndf.drop(["lev_dt", "lev_tm", "lev_tz_cd", "site_no"], axis=1, inplace=True)
+    return ndf
+
+
 @mando.command("nwis", formatter_class=HelpFormatter, doctype="numpy")
 def nwis_cli(
     sites=None,
@@ -840,7 +1271,7 @@ def nwis_cli(
     missingData=None,
     statYearType=None,
 ):
-    r"""Deprecated: Use the ``nwis_*`` functions instead.
+    r"""Use the ``nwis_*`` functions instead.
 
     This "nwis" function has been split up into individual functions for each
     source database.  This allows for keywords and output to be tailored to
@@ -934,9 +1365,8 @@ def nwis(
     missingData=None,
     statYearType=None,
 ):
+    """Use the "nwis_*" functions."""
     warnings.warn(tsutils.error_wrapper(nwis_cli.__doc__))
-
-    from tsgettoolbox.services.usgs import nwis as placeholder
 
     if database not in ["iv", "dv", "stat", "measurements", "peak", "site", "gwlevels"]:
         raise ValueError(
@@ -952,7 +1382,9 @@ You gave {0}.""".format(
                 )
             )
         )
+
     url = r"http://waterservices.usgs.gov/nwis/{0}/".format(database)
+
     if database in ["measurements", "peak", "gwlevels"]:
         words = sites.split(",")
         if len(words) != 1:
@@ -983,38 +1415,171 @@ accept one site using the 'site' keyword.
 
         if database in ["measurements", "peak"]:
             url = r"http://nwis.waterdata.usgs.gov/XX/nwis/{0}".format(database)
-    r = resource(
-        url,
-        sites=sites,
-        stateCd=stateCd,
-        huc=huc,
-        bBox=bBox,
-        countyCd=countyCd,
-        parameterCd=parameterCd,
-        siteType=siteType,
-        modifiedSince=modifiedSince,
-        agencyCd=agencyCd,
-        siteStatus=siteStatus,
-        altMin=altMin,
-        altMax=altMax,
-        drainAreaMin=drainAreaMin,
-        drainAreaMax=drainAreaMax,
-        aquiferCd=aquiferCd,
-        localAquiferCd=localAquiferCd,
-        wellDepthMin=wellDepthMin,
-        wellDepthMax=wellDepthMax,
-        holeDepthMin=holeDepthMin,
-        holeDepthMax=holeDepthMax,
-        period=period,
-        startDT=startDT,
-        endDT=endDT,
-        statReportType=statReportType,
-        statType=statType,
-        missingData=missingData,
-        statYearType=statYearType,
-    )
 
-    return odo(r, pd.DataFrame)
+    if database in ["iv", "dv"]:
+        return usgs_iv_dv_rdb_to_df(
+            url,
+            sites=None,
+            stateCd=None,
+            huc=None,
+            bBox=None,
+            countyCd=None,
+            parameterCd=None,
+            period=None,
+            startDT=None,
+            endDT=None,
+            siteType=None,
+            modifiedSince=None,
+            agencyCd=None,
+            siteStatus=None,
+            altMin=None,
+            altMax=None,
+            drainAreaMin=None,
+            drainAreaMax=None,
+            aquiferCd=None,
+            localAquiferCd=None,
+            wellDepthMin=None,
+            wellDepthMax=None,
+            holeDepthMin=None,
+            holeDepthMax=None,
+            database="dv",
+            statReportType=None,
+            statType=None,
+            missingData=None,
+            statYearType=None,
+        )
+
+    if database == "stat":
+        return usgs_stat_rdb_to_df(
+            url,
+            sites=None,
+            stateCd=None,
+            huc=None,
+            bBox=None,
+            countyCd=None,
+            parameterCd=None,
+            period=None,
+            startDT=None,
+            endDT=None,
+            siteType=None,
+            modifiedSince=None,
+            agencyCd=None,
+            siteStatus=None,
+            altMin=None,
+            altMax=None,
+            drainAreaMin=None,
+            drainAreaMax=None,
+            aquiferCd=None,
+            localAquiferCd=None,
+            wellDepthMin=None,
+            wellDepthMax=None,
+            holeDepthMin=None,
+            holeDepthMax=None,
+            database="dv",
+            statReportType=None,
+            statType=None,
+            missingData=None,
+            statYearType=None,
+        )
+
+    if database in ["measurements", "peak"]:
+        return usgs_measurements_peak_rdb_to_df(
+            url,
+            sites=None,
+            stateCd=None,
+            huc=None,
+            bBox=None,
+            countyCd=None,
+            parameterCd=None,
+            period=None,
+            startDT=None,
+            endDT=None,
+            siteType=None,
+            modifiedSince=None,
+            agencyCd=None,
+            siteStatus=None,
+            altMin=None,
+            altMax=None,
+            drainAreaMin=None,
+            drainAreaMax=None,
+            aquiferCd=None,
+            localAquiferCd=None,
+            wellDepthMin=None,
+            wellDepthMax=None,
+            holeDepthMin=None,
+            holeDepthMax=None,
+            database="dv",
+            statReportType=None,
+            statType=None,
+            missingData=None,
+            statYearType=None,
+        )
+
+    if database == "site":
+        return usgs_site_rdb_to_df(
+            url,
+            sites=None,
+            stateCd=None,
+            huc=None,
+            bBox=None,
+            countyCd=None,
+            parameterCd=None,
+            period=None,
+            startDT=None,
+            endDT=None,
+            siteType=None,
+            modifiedSince=None,
+            agencyCd=None,
+            siteStatus=None,
+            altMin=None,
+            altMax=None,
+            drainAreaMin=None,
+            drainAreaMax=None,
+            aquiferCd=None,
+            localAquiferCd=None,
+            wellDepthMin=None,
+            wellDepthMax=None,
+            holeDepthMin=None,
+            holeDepthMax=None,
+            database="dv",
+            statReportType=None,
+            statType=None,
+            missingData=None,
+            statYearType=None,
+        )
+
+    if database == "gwlevels":
+        return usgs_gwlevels_rdb_to_df(
+            url,
+            sites=None,
+            stateCd=None,
+            huc=None,
+            bBox=None,
+            countyCd=None,
+            parameterCd=None,
+            period=None,
+            startDT=None,
+            endDT=None,
+            siteType=None,
+            modifiedSince=None,
+            agencyCd=None,
+            siteStatus=None,
+            altMin=None,
+            altMax=None,
+            drainAreaMin=None,
+            drainAreaMax=None,
+            aquiferCd=None,
+            localAquiferCd=None,
+            wellDepthMin=None,
+            wellDepthMax=None,
+            holeDepthMin=None,
+            holeDepthMax=None,
+            database="dv",
+            statReportType=None,
+            statType=None,
+            missingData=None,
+            statYearType=None,
+        )
 
 
 @mando.command("nwis_iv", formatter_class=HelpFormatter, doctype="numpy")
@@ -1046,8 +1611,10 @@ def nwis_iv_cli(
     includeCodes=False,
 ):
     r"""Download from Instantaneous Values of the USGS NWIS.
+
     {filter_descriptions}
     {results_ts}
+
     Parameters
     ----------
     {sites}
@@ -1073,7 +1640,8 @@ def nwis_iv_cli(
     {period}
     {startDT}
     {endDT}
-    {includeCodes}"""
+    {includeCodes}
+    """
     tsutils._printiso(
         nwis_iv(
             sites=sites,
@@ -1131,10 +1699,8 @@ def nwis_iv(
     includeCodes=False,
 ):
     r"""Download from Instantaneous Values of the USGS NWIS."""
-    from tsgettoolbox.services.usgs import nwis as placeholder
-
     url = r"http://waterservices.usgs.gov/nwis/iv/"
-    r = resource(
+    return usgs_iv_dv_rdb_to_df(
         url,
         sites=sites,
         stateCd=stateCd,
@@ -1161,8 +1727,6 @@ def nwis_iv(
         endDT=endDT,
         includeCodes=includeCodes,
     )
-
-    return odo(r, pd.DataFrame)
 
 
 @mando.command("nwis_dv", formatter_class=HelpFormatter, doctype="numpy")
@@ -1195,8 +1759,10 @@ def nwis_dv_cli(
     statisticsCd=None,
 ):
     r"""Download from the Daily Values database of the USGS NWIS.
+
     {filter_descriptions}
     {results_ts}
+
     Parameters
     ----------
     {sites}
@@ -1223,7 +1789,8 @@ def nwis_dv_cli(
     {startDT}
     {endDT}
     {includeCodes}
-    {statisticsCd}"""
+    {statisticsCd}
+    """
     tsutils._printiso(
         nwis_dv(
             sites=sites,
@@ -1283,10 +1850,8 @@ def nwis_dv(
     includeCodes=False,
 ):
     r"""Download from the Daily Values database of the USGS NWIS."""
-    from tsgettoolbox.services.usgs import nwis as placeholder
-
     url = r"http://waterservices.usgs.gov/nwis/dv/"
-    r = resource(
+    return usgs_iv_dv_rdb_to_df(
         url,
         sites=sites,
         stateCd=stateCd,
@@ -1314,8 +1879,6 @@ def nwis_dv(
         endDT=endDT,
         includeCodes=includeCodes,
     )
-
-    return odo(r, pd.DataFrame)
 
 
 @mando.command("nwis_site", formatter_class=HelpFormatter, doctype="numpy")
@@ -1425,8 +1988,8 @@ def nwis_site_cli(
     {outputDataTypeCd}
     {siteName}
     {siteNameMatchOperator}
-    {hasDataTypeCd}"""
-
+    {hasDataTypeCd}
+    """
     tsutils._printiso(
         nwis_site(
             sites=sites,
@@ -1494,10 +2057,8 @@ def nwis_site(
     hasDataTypeCd=None,
 ):
     r"""Download from the site database of the USGS NWIS."""
-    from tsgettoolbox.services.usgs import nwis as placeholder
-
     url = r"http://waterservices.usgs.gov/nwis/site/"
-    r = resource(
+    return usgs_site_rdb_to_df(
         url,
         sites=sites,
         stateCd=stateCd,
@@ -1529,8 +2090,6 @@ def nwis_site(
         siteNameMatchOperator=siteNameMatchOperator,
         hasDataTypeCd=hasDataTypeCd,
     )
-
-    return odo(r, pd.DataFrame)
 
 
 @mando.command("nwis_gwlevels", formatter_class=HelpFormatter, doctype="numpy")
@@ -1613,7 +2172,8 @@ def nwis_gwlevels_cli(
     {holeDepthMin}
     {holeDepthMax}
     {wellDepthMin}
-    {wellDepthMax}"""
+    {wellDepthMax}
+    """
     tsutils._printiso(
         nwis_gwlevels(
             sites=sites,
@@ -1664,10 +2224,9 @@ def nwis_gwlevels(
     holeDepthMin=None,
     holeDepthMax=None,
 ):
-    from tsgettoolbox.services.usgs import nwis as placeholder
-
+    """Collect NWIS groundwater levels."""
     url = r"http://waterservices.usgs.gov/nwis/gwlevels/"
-    r = resource(
+    return usgs_gwlevels_rdb_to_df(
         url,
         sites=sites,
         stateCd=stateCd,
@@ -1691,8 +2250,6 @@ def nwis_gwlevels(
         startDT=startDT,
         endDT=endDT,
     )
-
-    return odo(r, pd.DataFrame)
 
 
 @mando.command("nwis_measurements", formatter_class=HelpFormatter, doctype="numpy")
@@ -1836,7 +2393,8 @@ def nwis_measurements_cli(
     {holeDepthMin}
     {holeDepthMax}
     {wellDepthMin}
-    {wellDepthMax}"""
+    {wellDepthMax}
+    """
     tsutils._printiso(
         nwis_measurements(
             sites=sites,
@@ -1888,10 +2446,8 @@ def nwis_measurements(
     holeDepthMax=None,
 ):
     r"""Download from the Measurements database of the USGS NWIS."""
-    from tsgettoolbox.services.usgs import nwis as placeholder
-
     url = r"http://nwis.waterdata.usgs.gov/XX/nwis/measurements"
-    r = resource(
+    return usgs_measurements_peak_rdb_to_df(
         url,
         sites=sites,
         stateCd=stateCd,
@@ -1915,8 +2471,6 @@ def nwis_measurements(
         startDT=startDT,
         endDT=endDT,
     )
-
-    return odo(r, pd.DataFrame)
 
 
 @mando.command("nwis_peak", formatter_class=HelpFormatter, doctype="numpy")
@@ -2065,7 +2619,8 @@ def nwis_peak_cli(
     {holeDepthMin}
     {holeDepthMax}
     {wellDepthMin}
-    {wellDepthMax}"""
+    {wellDepthMax}
+    """
     tsutils._printiso(
         nwis_peak(
             sites=sites,
@@ -2117,10 +2672,8 @@ def nwis_peak(
     holeDepthMax=None,
 ):
     r"""Download from the Peak database of the USGS NWIS."""
-    from tsgettoolbox.services.usgs import nwis as placeholder
-
     url = r"http://nwis.waterdata.usgs.gov/XX/nwis/peak"
-    r = resource(
+    return usgs_measurements_peak_rdb_to_df(
         url,
         sites=sites,
         stateCd=stateCd,
@@ -2144,8 +2697,6 @@ def nwis_peak(
         startDT=startDT,
         endDT=endDT,
     )
-
-    return odo(r, pd.DataFrame)
 
 
 @mando.command("nwis_stat", formatter_class=HelpFormatter, doctype="numpy")
@@ -2280,7 +2831,8 @@ def nwis_stat_cli(
     {statReportType}
     {statType}
     {missingData}
-    {statYearType}"""
+    {statYearType}
+    """
     tsutils._printiso(
         nwis_stat(
             sites=sites,
@@ -2336,10 +2888,8 @@ def nwis_stat(
     statYearType=None,
 ):
     r"""Download from the Statistic database of the USGS NWIS."""
-    from tsgettoolbox.services.usgs import nwis as placeholder
-
     url = r"http://waterservices.usgs.gov/nwis/stat/"
-    r = resource(
+    return usgs_stat_rdb_to_df(
         url,
         sites=sites,
         parameterCd=parameterCd,
@@ -2365,8 +2915,6 @@ def nwis_stat(
         missingData=missingData,
         statYearType=statYearType,
     )
-
-    return odo(r, pd.DataFrame)
 
 
 @mando.command("epa_wqp", formatter_class=HelpFormatter, doctype="numpy")
@@ -2559,7 +3107,8 @@ def epa_wqp_cli(
         [optional, default is None]
 
         Date of last desired data-collection activity.  A very wide range of
-        date strings can be used but the closer to ISO 8601 the better."""
+        date strings can be used but the closer to ISO 8601 the better.
+    """
     tsutils._printiso(
         epa_wqp(
             bBox=bBox,
@@ -2604,32 +3153,49 @@ def epa_wqp(
     startDateLo=None,
     startDateHi=None,
 ):
-    from tsgettoolbox.services.epa import wqp as placeholder
-
+    """Download data from the EPA water quality portal."""
     url = r"https://www.waterqualitydata.us/Result/search"
-    r = resource(
-        url,
-        bBox=bBox,
-        lat=lat,
-        lon=lon,
-        within=within,
-        countrycode=countrycode,
-        statecode=statecode,
-        countycode=countycode,
-        siteType=siteType,
-        organization=organization,
-        siteid=siteid,
-        huc=huc,
-        sampleMedia=sampleMedia,
-        characteristicType=characteristicType,
-        characteristicName=characteristicName,
-        pCode=pCode,
-        activityId=activityId,
-        startDateLo=startDateLo,
-        startDateHi=startDateHi,
-    )
 
-    return odo(r, pd.DataFrame)
+    query_params = {}
+    query_params["bBox"] = bBox
+    query_params["lat"] = lat
+    query_params["lon"] = lon
+    query_params["within"] = within
+    query_params["countrycode"] = countrycode
+    query_params["siteType"] = siteType
+    query_params["organization"] = organization
+    query_params["siteid"] = siteid
+    query_params["huc"] = huc
+    query_params["sampleMedia"] = sampleMedia
+    query_params["characteristicType"] = characteristicType
+    query_params["characteristicName"] = characteristicName
+    query_params["pCode"] = pCode
+    query_params["activityId"] = activityId
+    query_params["startDateLo"] = startDateLo
+    query_params["startDateHi"] = startDateHi
+
+    # Need to enforce waterml format
+    query_params["mimeType"] = "csv"
+    try:
+        query_params["startDateLo"] = tsutils.parsedate(
+            query_params["startDateLo"], strftime="%m-%d-%Y"
+        )
+    except KeyError:
+        pass
+    try:
+        query_params["startDateHi"] = tsutils.parsedate(
+            query_params["startDateHi"], strftime="%m-%d-%Y"
+        )
+    except KeyError:
+        pass
+
+    req = requests.get(url, params=query_params)
+    if os.path.exists("debug_tsgettoolbox"):
+        logging.warning(req.url)
+    req.raise_for_status()
+
+    ndf = pd.read_csv(BytesIO(req.content))
+    return ndf
 
 
 nwis.__doc__ = nwis_cli.__doc__
@@ -2642,3 +3208,104 @@ nwis_measurements.__doc__ = nwis_measurements_cli.__doc__
 nwis_peak.__doc__ = nwis_peak_cli.__doc__
 nwis_stat.__doc__ = nwis_stat_cli.__doc__
 epa_wqp.__doc__ = epa_wqp_cli.__doc__
+
+if __name__ == "__main__":
+    R = usgs_gwlevels_rdb_to_df(
+        r"http://waterservices.usgs.gov/nwis/gwlevels/",
+        sites="375907091432201",
+        startDT="2017-01-01",
+        endDT="2017-12-30",
+    )
+    print("USGS_GWLEVELS single")
+    print(R)
+
+    R = usgs_gwlevels_rdb_to_df(
+        r"http://waterservices.usgs.gov/nwis/gwlevels/",
+        hucs="03110201",
+        startDT="2017-01-01",
+        endDT="2017-12-30",
+    )
+    print("USGS_GWLEVELS multiple")
+    print(R)
+
+    R = usgs_iv_dv_rdb_to_df(
+        r"http://waterservices.usgs.gov/nwis/iv/",
+        sites="02325000",
+        startDT="2015-07-01",
+        endDT="2015-07-30",
+    )
+    print("USGS_IV single")
+    print(R)
+
+    R = usgs_iv_dv_rdb_to_df(
+        r"http://waterservices.usgs.gov/nwis/iv/",
+        sites="02325000,02239501",
+        startDT="2015-07-01",
+        endDT="2015-07-30",
+    )
+    print("USGS_IV multiple")
+    print(R)
+
+    R = usgs_iv_dv_rdb_to_df(
+        r"http://waterservices.usgs.gov/nwis/dv/",
+        sites="02325000",
+        startDT="2015-07-01",
+        endDT="2015-07-30",
+    )
+    print("USGS_DV")
+    print(R)
+
+    R = usgs_iv_dv_rdb_to_df(
+        r"http://waterservices.usgs.gov/nwis/dv/",
+        sites="02325000,02239501",
+        startDT="2015-07-01",
+        endDT="2015-07-30",
+    )
+    print("USGS_DV multiple")
+    print(R)
+
+    R = usgs_stat_rdb_to_df(
+        r"http://waterservices.usgs.gov/nwis/stat/", sites="02325000"
+    )
+    print("USGS_DAILY_STAT single")
+    print(R)
+
+    R = usgs_stat_rdb_to_df(
+        r"http://waterservices.usgs.gov/nwis/stat/", sites="02325000,02239501"
+    )
+    print("USGS_DAILY_STAT multiple")
+    print(R)
+
+    R = usgs_stat_rdb_to_df(
+        r"http://waterservices.usgs.gov/nwis/stat/",
+        sites="01646500",
+        statReportType="monthly",
+    )
+    print("USGS_MONTHLY_STAT single")
+    print(R)
+
+    R = usgs_stat_rdb_to_df(
+        r"http://waterservices.usgs.gov/nwis/stat/",
+        sites="02325000,01646500",
+        statReportType="monthly",
+    )
+    print("USGS_MONTHLY_STAT multiple")
+    print(R)
+
+    R = usgs_stat_rdb_to_df(
+        r"http://waterservices.usgs.gov/nwis/stat/",
+        sites="01646500",
+        statReportType="annual",
+        statYearType="water",
+    )
+    print("USGS_ANNUAL_STAT single")
+    print(R)
+
+    R = usgs_stat_rdb_to_df(
+        r"http://waterservices.usgs.gov/nwis/stat/",
+        sites="01646500,02239501",
+        statReportType="annual",
+        statYearType="water",
+    )
+    print("USGS_ANNUAL_STAT multple")
+    print(R)
