@@ -1,6 +1,11 @@
+from collections import defaultdict
+from io import BytesIO
+import logging
+import os
+
 import mando
-from tsgettoolbox.odo import odo, resource
 import pandas as pd
+import requests
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -8,6 +13,116 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 from tstoolbox import tsutils
+
+
+_settings_map = defaultdict(lambda: [{"metric": "", "english": ""}])
+
+# Preliminary or verified water levels, depending on availability.
+_settings_map["water_level"] = [
+    {"metric": "m", "english": "ft"},
+    "h",
+]
+
+# Air temperature as measured at the station.
+_settings_map["air_temperature"] = [
+    {"metric": "degC", "english": "degF"},
+    "h",
+]
+
+# Water temperature as measured at the station.
+_settings_map["water_temperature"] = [
+    {"metric": "degC", "english": "degF"},
+    "h",
+]
+
+# Wind speed, direction, and gusts as measured at the station.
+_settings_map["wind"] = [{"metric": "m/s", "english": "ft/s"}, "h"]
+
+# Barometric pressure as measured at the station.
+_settings_map["air_pressure"] = [
+    {"metric": "mb", "english": "mb"},
+    "h",
+]
+
+# Air Gap (distance between a bridge and the water's surface) at the
+# station.
+_settings_map["air_gap"] = [
+    {"metric": "m", "english": "ft"},
+    "h",
+]
+
+# The water's conductivity as measured at the station.
+_settings_map["conductivity"] = [
+    {"metric": "mS/cm", "english": "mS/cm"},
+    "h",
+]
+
+# Visibility from the station's visibility sensor. A measure of atmospheric
+# clarity.
+_settings_map["visibility"] = [
+    {"metric": "km", "english": "nm"},
+    "h",
+]
+
+# Relative humidity as measured at the station.
+_settings_map["humidity"] = [
+    {"metric": "percent", "english": "percent"},
+    "h",
+]
+
+# Salinity and specific gravity data for the station.
+_settings_map["salinity"] = [
+    {"metric": "PSU", "english": "PSU"},
+    "h",
+]
+
+# Verified hourly height water level data for the station.
+_settings_map["hourly_height"] = [
+    {"metric": "m", "english": "ft"},
+    "h",
+]
+
+# Verified high/low water level data for the station.
+_settings_map["high_low"] = [
+    {"metric": "m", "english": "ft"},
+    None,
+]
+
+# Verified daily mean water level data for the station.
+_settings_map["daily_mean"] = [
+    {"metric": "m", "english": "ft"},
+    None,
+]
+
+# Verified monthly mean water level data for the station.
+_settings_map["monthly_mean"] = [
+    {"metric": "m", "english": "ft"},
+    None,
+]
+
+# One minute water level data for the station.
+_settings_map["one_minute_water_level"] = [
+    {"metric": "m", "english": "ft"},
+    None,
+]
+
+# 6 minute predictions water level data for the station.
+_settings_map["predictions"] = [
+    {"metric": "m", "english": "ft"},
+    "h",
+]
+
+# datums data for the currents stations.
+_settings_map["datums"] = [
+    {"metric": "m", "english": "ft"},
+    None,
+]
+
+# Currents data for currents stations.
+_settings_map["currents"] = [
+    {"metric": "m/s", "english": "ft/s"},
+    "h",
+]
 
 
 @mando.command("coops", formatter_class=HelpFormatter, doctype="numpy")
@@ -518,49 +633,131 @@ def coops_cli(
     )
 
 
-@tsutils.validator(
-    station=[str, ["pass", []], 1],
-    date=[str, ["domain", ["latest", "today", "recent"]], 1],
-    begin_date=[tsutils.parsedate, ["pass", []], 1],
-    end_date=[tsutils.parsedate, ["pass", []], 1],
-    range=[int, ["range", [0, None]], 1],
-    product=[
-        str,
-        [
-            "domain",
-            [
-                "water_level",
-                "air_temperature",
-                "water_temperature",
-                "wind",
-                "air_gap",
-                "conductivity",
-                "visibility",
-                "humidity",
-                "salinity",
-                "hourly_height",
-                "high_low",
-                "daily_mean",
-                "monthly_mean",
-                "one_minute_water_level",
-                "predictions",
-                "datums",
-                "currents",
-            ],
-        ],
-        None,
-    ],
-    datum=[
-        str,
-        ["domain", ["MHHW", "MHW", "MTL", "MSL", "MLW", "MLLW", "NAVD", "STND"]],
-        1,
-    ],
-    time_zone=[
-        str,
-        ["domain", ["gmt", "lst", "lst_ldt", "GMT", "UTC", "utc", "LST", "LST_LDT"]],
-        1,
-    ],
-)
+def core(query_params):
+    url = r"https://tidesandcurrents.noaa.gov/api/datagetter"
+    req = requests.get(url, params=query_params)
+
+    if os.path.exists("debug_tsgettoolbox"):
+        logging.warning(req.url)
+    req.raise_for_status()
+
+    if (
+        b"Error" in req.content
+        or b"Wrong" in req.content
+        or b"Range limit" in req.content
+    ):
+        df = pd.DataFrame()
+        error = req.content
+    else:
+        df = pd.read_csv(BytesIO(req.content), index_col=0, parse_dates=True)
+        error = ""
+    return df, error
+
+
+def precore(query_params):
+    if query_params["date"] is not None:
+        ndf, error = core(query_params)
+    elif (
+        query_params["range"] is not None
+        and query_params["begin_date"] is None
+        and query_params["end_date"] is None
+    ):
+        ndf, error = core(query_params)
+    elif query_params["begin_date"] is not None and query_params["range"] is not None:
+        ndf, error = core(query_params)
+    elif (
+        query_params["begin_date"] is not None and query_params["end_date"] is not None
+    ):
+        sdate = tsutils.parsedate(query_params["begin_date"])
+        edate = tsutils.parsedate(query_params["end_date"])
+
+        ndf = pd.DataFrame()
+        testdate = sdate
+        while testdate < edate:
+            query_params["begin_date"] = testdate.strftime("%Y%m%d")
+
+            testdate = testdate + pd.Timedelta(days=31)
+            if testdate > edate:
+                testdate = edate
+
+            query_params["end_date"] = testdate.strftime("%Y%m%d")
+
+            df, error = core(query_params)
+            ndf = ndf.combine_first(df)
+    elif query_params["end_date"] is not None and query_params["range"] is not None:
+        ndf, error = core(query_params)
+
+    if len(ndf) == 0:
+        raise ValueError(
+            tsutils.error_wrapper(
+                """
+COOPS service returned the error "{0}".
+""".format(
+                    error
+                )
+            )
+        )
+
+    new_column_names = []
+    for icolumn_name in ndf.columns:
+        ncolumn_name = icolumn_name.lower().strip().replace(" ", "_")
+        units = _settings_map[ncolumn_name][0][query_params["units"]]
+        unitstr = ncolumn_name
+        if units != "":
+            unitstr = ":".join([ncolumn_name, units])
+        new_column_names.append(("NOS", query_params["station"], unitstr))
+    ndf.columns = ["-".join(i).rstrip("-") for i in new_column_names]
+    time_zone_name = query_params["time_zone"].upper()
+    if time_zone_name == "GMT":
+        time_zone_name = "UTC"
+    ndf = ndf.tz_localize(time_zone_name)
+    ndf.index.name = "Datetime:{0}".format(time_zone_name)
+    return ndf
+
+
+# @tsutils.validator(
+#     station=[str, ["pass", []], 1],
+#     date=[str, ["domain", ["latest", "today", "recent"]], 1],
+#     begin_date=[tsutils.parsedate, ["pass", []], 1],
+#     end_date=[tsutils.parsedate, ["pass", []], 1],
+#     range=[int, ["range", [0, None]], 1],
+#     product=[
+#         str,
+#         [
+#             "domain",
+#             [
+#                 "water_level",
+#                 "air_temperature",
+#                 "water_temperature",
+#                 "wind",
+#                 "air_gap",
+#                 "conductivity",
+#                 "visibility",
+#                 "humidity",
+#                 "salinity",
+#                 "hourly_height",
+#                 "high_low",
+#                 "daily_mean",
+#                 "monthly_mean",
+#                 "one_minute_water_level",
+#                 "predictions",
+#                 "datums",
+#                 "currents",
+#             ],
+#         ],
+#         None,
+#     ],
+#     datum=[
+#         str,
+#         ["domain", ["MHHW", "MHW", "MTL", "MSL", "MLW", "MLLW", "NAVD", "STND"]],
+#         1,
+#     ],
+#     time_zone=[
+#         str,
+#         ["domain", ["gmt", "lst", "lst_ldt", "GMT", "UTC", "utc", "LST", "LST_LDT"]],
+#         1,
+#     ],
+# )
 def coops(
     station,
     date=None,
@@ -574,26 +771,129 @@ def coops(
     bin=None,
 ):
     r"""Download Center for Operational Oceanographic Products and Services."""
-    from tsgettoolbox.services import coops as placeholder
+    params = {}
+    params["station"] = station
+    params["date"] = date
+    params["range"] = range
+    params["product"] = product
+    params["bin"] = bin
+    params["interval"] = interval
+    params["units"] = "metric"
+    params["time_zone"] = time_zone
+    params["datum"] = datum
+    try:
+        params["begin_date"] = tsutils.parsedate(begin_date, strftime="%Y%m%d")
+    except ValueError:
+        params["begin_date"] = None
+    try:
+        params["end_date"] = tsutils.parsedate(end_date, strftime="%Y%m%d")
+    except ValueError:
+        params["end_date"] = None
+    params["format"] = "csv"
+    params["application"] = "tsgettoolbox"
 
     ndf = pd.DataFrame()
     for cnt, i in enumerate(tsutils.make_list(product)):
-        r = resource(
-            r"https://tidesandcurrents.noaa.gov/api/datagetter",
-            station=station,
-            date=date,
-            begin_date=begin_date,
-            end_date=end_date,
-            range=range,
-            product=i,
-            datum=datum,
-            units="metric",
-            time_zone=time_zone,
-            interval=interval,
-            bin=bin,
-        )
-        ndf = ndf.join(odo(r, pd.DataFrame), how="outer", rsuffix="_{0}".format(cnt))
+        r = precore(params)
+        ndf = ndf.join(r, how="outer", rsuffix="_{0}".format(cnt))
     return ndf
 
 
 coops.__doc__ = coops_cli.__doc__
+
+
+if __name__ == "__main__":
+    """
+    https://tidesandcurrents.noaa.gov/api/datagetter?begin_date=20020101
+    &end_date=20020102&range=1&station=8720218&product=water_level
+    """
+
+    r = coops(
+        station="8720218",
+        product="water_level",
+        interval="h",
+        time_zone="gmt",
+        datum="mllw",
+        range=20,
+        begin_date=None,
+        end_date=None,
+        date=None,
+    )
+
+    print("tidesandcurrents")
+    print(r)
+
+    r = coops(
+        station="8720218",
+        product="water_temperature",
+        interval="h",
+        time_zone="gmt",
+        datum="mllw",
+        begin_date="01/10/2002",
+        range=2,
+        end_date=None,
+        date=None,
+    )
+
+    print("tidesandcurrents")
+    print(r)
+
+    r = coops(
+        station="8720218",
+        product="water_level",
+        interval="h",
+        time_zone="gmt",
+        datum="mllw",
+        begin_date="01/10/2002",
+        range=5,
+        end_date=None,
+        date=None,
+    )
+
+    print("tidesandcurrents")
+    print(r)
+
+    r = coops(
+        station="8720218",
+        product="air_temperature",
+        interval="h",
+        time_zone="gmt",
+        datum="mllw",
+        end_date="01/10/2002",
+        range=3,
+        begin_date=None,
+        date=None,
+    )
+
+    print("tidesandcurrents")
+    print(r)
+
+    r = coops(
+        station="8720218",
+        product="water_level",
+        interval="h",
+        time_zone="gmt",
+        datum="mllw",
+        begin_date="01/10/2002",
+        end_date="2003-01-01",
+        range=None,
+        date=None,
+    )
+
+    print("tidesandcurrents")
+    print(r)
+
+    try:
+        r = coops(
+            station="8720218",
+            product="water_level",
+            time_zone="gmt",
+            datum="mllw",
+            begin_date=None,
+            end_date=None,
+            range=745,
+            date=None,
+        )
+        print(r)
+    except ValueError:
+        print("Correct ValueError")

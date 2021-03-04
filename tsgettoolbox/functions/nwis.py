@@ -3178,16 +3178,16 @@ def epa_wqp(
     query_params["mimeType"] = "csv"
     try:
         query_params["startDateLo"] = tsutils.parsedate(
-            query_params["startDateLo"], strftime="%m-%d-%Y"
+            startDateLo, strftime="%m-%d-%Y"
         )
-    except KeyError:
-        pass
+    except ValueError:
+        query_params["startDateLo"] = None
     try:
         query_params["startDateHi"] = tsutils.parsedate(
-            query_params["startDateHi"], strftime="%m-%d-%Y"
+            startDateHi, strftime="%m-%d-%Y"
         )
-    except KeyError:
-        pass
+    except ValueError:
+        query_params["startDateHo"] = None
 
     req = requests.get(url, params=query_params)
     if os.path.exists("debug_tsgettoolbox"):
@@ -3309,3 +3309,12 @@ if __name__ == "__main__":
     )
     print("USGS_ANNUAL_STAT multple")
     print(R)
+
+    r = epa_wqp(
+        characteristicName="Caffeine",
+        bBox="-92.8,44.2,-88.9,46.0",
+        startDateLo="10-01-2006",
+    )
+
+    print("Caffeine")
+    print(r)

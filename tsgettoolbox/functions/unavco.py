@@ -1,6 +1,10 @@
-from tsgettoolbox.odo import odo, resource
+from io import BytesIO
+import logging
+import os
+
 import pandas as pd
 import mando
+import requests
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -8,6 +12,54 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 from tstoolbox import tsutils
+
+
+def unavco_to_df(url, **query_params):
+    try:
+        station = query_params.pop("station")
+    except KeyError:
+        raise KeyError(
+            """
+*
+*   The station keyword is required.  You have given me
+*   {0}.
+*
+""".format(
+                query_params
+            )
+        )
+    url = "{0}/{1}/beta".format(url, station)
+    if "/met/" in url or "/strain/" in url:
+        comment = None
+    else:
+        comment = "#"
+    query_params["starttime"] = tsutils.parsedate(query_params["starttime"]).isoformat()
+    query_params["endtime"] = tsutils.parsedate(query_params["endtime"]).isoformat()
+    query_params["tsFormat"] = "iso8601"
+
+    req = requests.get(url, params=query_params)
+    if os.path.exists("debug_tsgettoolbox"):
+        logging.warning(req.url)
+    df = pd.read_csv(
+        BytesIO(req.content),
+        header=0,
+        index_col=0,
+        parse_dates=[0],
+        comment=comment,
+        skiprows=5,
+    )
+    df.columns = [
+        "unavco-{0}".format(
+            i.strip()
+            .replace(" ", "_")
+            .replace("(", ":")
+            .replace(")", "")
+            .replace("deg._C", "degC")
+        )
+        for i in df.columns
+    ]
+    df.index.name = "Datetime:UTC"
+    return df
 
 
 @mando.command("unavco", formatter_class=HelpFormatter, doctype="numpy")
@@ -112,8 +164,6 @@ def unavco_cli(station, database="met", starttime=None, endtime=None):
 
 def unavco(station, database="met", starttime=None, endtime=None):
     r"""Download data from the Unavco web services."""
-    from tsgettoolbox.services import unavco as placeholder
-
     map_db_to_url = {
         "met": r"http://web-services.unavco.org:80/met/data",
         "pore_temperaure": r"http://web-services.unavco.org:80"
@@ -122,10 +172,62 @@ def unavco(station, database="met", starttime=None, endtime=None):
         "tilt": r"http://web-services.unavco.org:80/tilt/data",
         "strain": r"http://web-services.unavco.org:80/strain/data/L2",
     }
-    r = resource(
+    df = unavco_to_df(
         map_db_to_url[database], station=station, starttime=starttime, endtime=endtime
     )
-    return odo(r, pd.DataFrame)
+    return df
 
 
 unavco.__doc__ = unavco_cli.__doc__
+
+
+if __name__ == "__main__":
+    df = unavco_to_df(
+        r"http://web-services.unavco.org:80/met/data",
+        station="P005",
+        starttime="2012-05-01T00:00:00",
+        endtime="2012-05-02T23:59:59",
+    )
+
+    print("Unavco_met")
+    print(df)
+
+    df = unavco_to_df(
+        r"http://web-services.unavco.org:80/pore/data/temperature",
+        station="B078",
+        starttime="2012-05-02T00:00:00",
+        endtime="2012-05-02T23:59:59",
+    )
+
+    print("Unavco_pore_temperature")
+    print(df)
+
+    df = unavco_to_df(
+        r"http://web-services.unavco.org:80/pore/data/pressure",
+        station="B078",
+        starttime="2012-05-02T00:00:00",
+        endtime="2012-05-02T23:59:59",
+    )
+
+    print("Unavco_pore_pressure")
+    print(df)
+
+    df = unavco_to_df(
+        r"http://web-services.unavco.org:80/tilt/data",
+        station="P693",
+        starttime="2012-05-01T00:00:00",
+        endtime="2012-05-01T01:00:00",
+    )
+
+    print("Unavco_tilt")
+    print(df)
+
+    df = unavco_to_df(
+        r"http://web-services.unavco.org:80/strain/data/L2",
+        station="B007",
+        starttime="2012-05-01T00:00:00",
+        endtime="2012-05-01T23:59:59",
+    )
+
+    print("Unavco_strain")
+    print(df)

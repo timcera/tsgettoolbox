@@ -10,9 +10,16 @@ from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
 
+import datetime
+import logging
+import os
+
+try:
+    import urllib.parse as urlp
+except ImportError:
+    import urllib as urlp
 import warnings
 
-from tsgettoolbox.odo import odo, resource
 import pandas as pd
 import mando
 
@@ -24,6 +31,22 @@ except ImportError:
 from tstoolbox import tsutils
 
 warnings.filterwarnings("ignore")
+
+_units_map = {
+    "tmax": ":degC",
+    "tmin": ":degC",
+    "srad": ":W/m2",
+    "vp": ":Pa",
+    "swe": ":kg/m2",
+    "prcp": ":mm",
+    "dayl": ":s",
+}
+
+
+def _daymet_date_parser(year, doy):
+    return pd.to_datetime(
+        "{}-{}".format(int(float(year)), int(float(doy))), format="%Y-%j"
+    )
 
 
 @mando.command("daymet", formatter_class=HelpFormatter, doctype="numpy")
@@ -84,16 +107,103 @@ def daymet_cli(lat, lon, measuredParams=None, year=None):
 
 def daymet(lat, lon, measuredParams=None, year=None):
     r"""Download data from Daymet by the Oak Ridge National Laboratory."""
-    from tsgettoolbox.services import daymet as placeholder
+    url = r"http://daymet.ornl.gov/data/send/saveData"
+    avail_params = ["tmax", "tmin", "srad", "vp", "swe", "prcp", "dayl"]
+    params = {}
+    params["lat"] = lat
+    params["lon"] = lon
+    if measuredParams is None:
+        params["measuredParams"] = ",".join(avail_params)
+    else:
+        for testparams in measuredParams.split(","):
+            if testparams not in avail_params:
+                raise ValueError(
+                    tsutils.error_wrapper(
+                        """
+The measuredParams should be a single string or a list of strings from
+{1}
+You supplied {0}.
+""".format(
+                            testparams, avail_params
+                        )
+                    )
+                )
+        params["measuredParams"] = measuredParams
 
-    r = resource(
-        r"http://daymet.ornl.gov/data/send/saveData",
-        measuredParams=measuredParams,
-        lat=lat,
-        lon=lon,
-        year=year,
+    last_year = datetime.datetime.now().year - 1
+    if year is None:
+        params["year"] = ",".join([str(i) for i in range(1980, last_year + 1)])
+    else:
+        accumyear = []
+        for testyear in year.split(","):
+            try:
+                iyear = int(tsutils.parsedate(testyear, strftime="%Y"))
+                accumyear.append(iyear)
+            except ValueError:
+                raise ValueError(
+                    tsutils.error_wrapper(
+                        """
+The year= option must contain a comma separated list of integers.  You
+supplied {0}.
+""".format(
+                            testyear
+                        )
+                    )
+                )
+            if iyear < 1980 or iyear > last_year:
+                raise ValueError(
+                    tsutils.error_wrapper(
+                        """
+The year= option must contain values from 1980 up to and including the last
+calendar year.  You supplied {0}.
+""".format(
+                            iyear
+                        )
+                    )
+                )
+
+        params["year"] = ",".join([str(i) for i in accumyear])
+
+    req = urlp.unquote("{}?{}".format(url, urlp.urlencode(params)))
+    if os.path.exists("debug_tsgettoolbox"):
+        logging.warning(req)
+    df = pd.read_csv(
+        req,
+        skiprows=7,
+        sep=",",
+        date_parser=_daymet_date_parser,
+        header=0,
+        index_col=0,
+        skipinitialspace=True,
+        parse_dates=[[0, 1]],
     )
-    return odo(r, pd.DataFrame)
+    df.columns = [i.split()[0] for i in df.columns]
+    df = df[params["measuredParams"].split(",")]
+    df.columns = ["Daymet-{0}{1}".format(i, _units_map[i]) for i in df.columns]
+    df.index.name = "Datetime"
+    return df
 
 
 daymet.__doc__ = daymet_cli.__doc__
+
+
+if __name__ == "__main__":
+    r = daymet(
+        measuredParams="tmax,tmin",
+        lat=43.1,
+        lon=-85.2,
+        year="2000,2001",
+    )
+
+    print("Daymet")
+    print(r)
+
+    r = daymet(
+        measuredParams=None,
+        lat=43.1,
+        lon=-85.2,
+        year="3 years ago,2 years ago",
+    )
+
+    print("Daymet")
+    print(r)

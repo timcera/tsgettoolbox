@@ -51,16 +51,16 @@ def get_sites(
     See the `USGS Site Service`_ documentation for a detailed description of options.
     For convenience, major options have been included with pythonic names.
     At least one major filter must be specified. Options that are not listed
-    below may be provided as extra kwargs (i.e. keyword='argument') and will be 
-    passed along with the web services request. These extra keywords must match 
+    below may be provided as extra kwargs (i.e. keyword='argument') and will be
+    passed along with the web services request. These extra keywords must match
     the USGS names exactly. The `USGS Site Service`_ website describes available
-    keyword names and argument formats. 
+    keyword names and argument formats.
 
     .. _USGS Site Service: http://waterservices.usgs.gov/rest/Site-Service.html
 
     .. note::
-        Only the options listed below have been tested and you may have mixed 
-        results retrieving data with extra options specified. Currently ulmo 
+        Only the options listed below have been tested and you may have mixed
+        results retrieving data with extra options specified. Currently ulmo
         requests and parses data in the WaterML 1.x format. Some options are not
         available in this format.
 
@@ -308,8 +308,7 @@ def get_site_data(
 
 
 def _as_str(arg):
-    """if arg is a list, convert to comma delimited string
-    """
+    """if arg is a list, convert to comma delimited string"""
     if isinstance(arg, basestring):
         return arg
     else:

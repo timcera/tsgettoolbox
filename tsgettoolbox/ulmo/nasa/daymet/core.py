@@ -91,7 +91,7 @@ def get_daymet_singlepixel(
             * 'prcp': precipitation;
             * 'dayl' : daylength.
     years: list of int
-        List of years to return. 
+        List of years to return.
         Daymet version 2 available 1980 to the latest full calendar year.
         If ``None`` (default), all years will be returned
     as_dataframe : ``True`` (default) or ``False``
@@ -133,8 +133,7 @@ def get_daymet_singlepixel(
 
 
 def _check_variables(variables):
-    """make sure all variables are in list
-    """
+    """make sure all variables are in list"""
     bad_variables = [v for v in variables if v not in VARIABLES.keys()]
     if bad_variables:
 
@@ -146,8 +145,7 @@ def _check_variables(variables):
 
 
 def _check_years(years):
-    """make sure all years are in available year range
-    """
+    """make sure all years are in available year range"""
     bad_years = [str(year) for year in years if not MIN_YEAR <= year <= MAX_Year]
     if bad_years:
         raise ValueError(
@@ -158,8 +156,7 @@ def _check_years(years):
 
 
 def _check_coordinates(lat, lon):
-    """make sure the passed coordinates are in the available data range
-    """
+    """make sure the passed coordinates are in the available data range"""
     bad_lat = not MIN_LAT <= lat <= MAX_LAT
     bad_lon = not MIN_LON <= lon <= MAX_LON
 
@@ -172,8 +169,7 @@ def _check_coordinates(lat, lon):
 
 
 def _as_str(arg):
-    """if arg is a list, convert to comma delimited string
-    """
+    """if arg is a list, convert to comma delimited string"""
     if isinstance(arg, basestring):
         return arg
     else:
@@ -181,8 +177,7 @@ def _as_str(arg):
 
 
 def _get_service_url(url_params):
-    """return formatted url
-    """
+    """return formatted url"""
     url = DAYMET_SINGLEPIXEL_URL.format(**url_params)
 
     if "years" in url_params:

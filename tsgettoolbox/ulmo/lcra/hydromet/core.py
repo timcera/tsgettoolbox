@@ -90,8 +90,7 @@ def get_sites_by_type(site_type):
 
 
 def get_all_sites():
-    """Returns list of all LCRA hydromet sites as geojson featurecollection.
-    """
+    """Returns list of all LCRA hydromet sites as geojson featurecollection."""
     sites_url = "https://hydromet.lcra.org/data/datafull.xml"
     res = requests.get(sites_url)
     soup = BeautifulSoup(res.content, "xml")

@@ -79,10 +79,11 @@ def get_station_data(station_code, date=None, as_dataframe=False):
     soup = BeautifulSoup(resp.content, features="lxml")
     pre = soup.find("pre")
     if pre is None:
-        error_msg = (
-            "no data could be found for station code %(station_code)s and date %(date)s (url: %(data_url)s)"
-            % {"date": date, "data_url": data_url, "station_code": station_code,}
-        )
+        error_msg = "no data could be found for station code %(station_code)s and date %(date)s (url: %(data_url)s)" % {
+            "date": date,
+            "data_url": data_url,
+            "station_code": station_code,
+        }
         raise ValueError(error_msg)
     sio = StringIO.StringIO(str(pre.text.strip()))
 

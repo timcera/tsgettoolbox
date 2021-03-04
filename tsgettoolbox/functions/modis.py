@@ -1,5 +1,5 @@
-from tsgettoolbox.odo import odo, resource
-import pandas as pd
+import datetime
+
 import mando
 
 try:
@@ -7,7 +7,22 @@ try:
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
+import numpy as np
+import pandas as pd
+from requests import Session
+from zeep import Client
+from zeep import Transport
+
 from tstoolbox import tsutils
+
+
+def date_parser(strdates):
+    return [
+        datetime.date.fromordinal(
+            datetime.datetime(int(i[1:5]), 1, 1).toordinal() + int(i[5:]) - 1
+        )
+        for i in strdates
+    ]
 
 
 @mando.command("modis", formatter_class=HelpFormatter, doctype="numpy")
@@ -439,18 +454,139 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
 
 def modis(lat, lon, product, band, startdate=None, enddate=None):
     r"""Download MODIS derived data."""
-    from tsgettoolbox.services import modis as placeholder
+    url = "https://modis.ornl.gov/cgi-bin/MODIS/soapservice/MODIS_soapservice.wsdl"
+    query_params = {}
+    query_params["latitude"] = lat
+    query_params["longitude"] = lon
+    if startdate is None:
+        query_params["startdate"] = pd.to_datetime("1900-01-01T00")
+    else:
+        query_params["startdate"] = tsutils.parsedate(startdate)
+    if enddate is None:
+        query_params["enddate"] = datetime.datetime.now()
+    else:
+        query_params["enddate"] = tsutils.parsedate(enddate)
+    query_params["product"] = product
+    query_params["band"] = band
 
-    r = resource(
-        r"https://modis.ornl.gov/cgi-bin/MODIS/soapservice/MODIS_soapservice.wsdl",
-        product=product,
-        band=band,
-        latitude=lat,
-        longitude=lon,
-        startdate=startdate,
-        enddate=enddate,
+    session = Session()
+    session.verify = True
+    transport = Transport(session=session)
+    client = Client(wsdl=url, transport=transport)
+    products = client.service.getproducts()
+    if query_params["product"] not in products:
+        raise ValueError(
+            tsutils.error_wrapper(
+                """
+Available products at the current time are: {0}.
+
+You gave {1}.
+""".format(
+                    products, query_params["product"]
+                )
+            )
+        )
+    bands = client.service.getbands(query_params["product"])
+    if query_params["band"] not in bands:
+        raise ValueError(
+            tsutils.error_wrapper(
+                """
+'band' argument must be in the following list for 'product' = {0}.
+{1}.
+
+You gave me {2}.
+""".format(
+                    query_params["product"], bands, query_params["band"]
+                )
+            )
+        )
+
+    startdate = query_params["startdate"]
+    enddate = query_params["enddate"]
+
+    dates = client.service.getdates(
+        float(query_params["latitude"]),
+        float(query_params["longitude"]),
+        query_params["product"],
     )
-    return odo(r, pd.DataFrame)
+    dates = np.array(dates)
+
+    dr = pd.DatetimeIndex([date_parser([i])[0] for i in dates])
+
+    teststartdate = dr[0]
+    if startdate <= teststartdate:
+        startdate = teststartdate
+
+    testenddate = dr[-1]
+    if enddate >= testenddate:
+        enddate = testenddate
+
+    tenddate = dates[-1]
+    mask = (dr >= startdate) & (dr <= enddate)
+    dates = dates[mask]
+    dateintervals = dates[::10].tolist()
+    if dateintervals[-1] != dates[-1]:
+        dateintervals.append(dates[-1])
+
+    datelist = []
+    valuelist = []
+    for idate, jdate in zip(dateintervals[:-1], dateintervals[1:]):
+        di = client.service.getsubset(
+            float(query_params["latitude"]),
+            float(query_params["longitude"]),
+            query_params["product"],
+            query_params["band"],
+            idate,
+            jdate,
+            0,
+            0,
+        )
+        try:
+            testv = di["subset"]["_value_1"]
+        except TypeError:
+            testv = di["subset"]
+
+        if testv is None:
+            continue
+        for d in testv:
+            _, _, d, _, _, v = d.split(",")
+            datelist.append(d)
+            valuelist.append(float(v.strip()))
+
+    df = pd.DataFrame(valuelist, index=date_parser(datelist))
+    df.index.name = "Datetime"
+    df.columns = [
+        query_params["product"] + "_" + query_params["band"] + ":" + di["units"]
+    ]
+    if di["scale"] != 0:
+        df = df * di["scale"]
+    return df
 
 
 modis.__doc__ = modis_cli.__doc__
+
+
+if __name__ == "__main__":
+    r = modis(
+        product="MOD13Q1",
+        band="250m_16_days_NDVI",
+        lat=40.0,
+        lon=-110.0,
+        startdate="2002-06-01T09",
+        enddate="2003-05-04T21",
+    )
+
+    print("modis")
+    print(r)
+
+    r = modis(
+        product="MOD15A2H",
+        band="LaiStdDev_500m",
+        lat=29.65,
+        lon=-82.32,
+        startdate="3 years ago",
+        enddate="2 years ago",
+    )
+
+    print("modis")
+    print(r)

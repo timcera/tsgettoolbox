@@ -41,8 +41,7 @@ log.setLevel(logging.INFO)
 
 
 def get_available_layers():
-    """return list of available data layers
-    """
+    """return list of available data layers"""
     return list(layer_dict.keys())
 
 
@@ -192,7 +191,9 @@ def _check_layer(layer):
 
 
 def _download_features(
-    feature_ids, path=None, check_modified=False,
+    feature_ids,
+    path=None,
+    check_modified=False,
 ):
     if path is None:
         path = os.path.join(util.get_ulmo_dir(), DEFAULT_FILE_PATH)

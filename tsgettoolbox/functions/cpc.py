@@ -1,4 +1,5 @@
 import mando
+import pandas as pd
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -6,6 +7,32 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 from tstoolbox import tsutils
+
+from tsgettoolbox.ulmo.cpc.drought.core import get_data
+
+unit_conv = {
+    "precipitation": "precipitation:in",
+    "temperature": "temperature:degF",
+    "potential_evap": "potential_evap:in",
+    "runoff": "runoff:in",
+    "soil_moisture_upper": "soil_moisture_upper:in",
+    "soil_moisture_lower": "soil_moisture_lower:in",
+}
+
+
+def ulmo_df(state=None, climate_division=None, start_date=None, end_date=None):
+    df = get_data(
+        state=state,
+        climate_division=climate_division,
+        start=start_date,
+        end=end_date,
+        as_dataframe=True,
+    )
+    df = df.set_index("period")
+    df.index = pd.PeriodIndex(df.index)
+    df.index.name = "Datetime"
+    df.columns = [unit_conv.get(i, i) for i in df.columns]
+    return df
 
 
 @mando.command("cpc", formatter_class=HelpFormatter, doctype="numpy")
@@ -56,8 +83,6 @@ def cpc_cli(state=None, climate_division=None, start_date=None, end_date=None):
 
 def cpc(state=None, climate_division=None, start_date=None, end_date=None):
     r"""Access Climate Prediction Center, Weekly Drought Index dataset."""
-    from tsgettoolbox.services import cpc
-
     df = cpc.ulmo_df(
         state=state,
         climate_division=climate_division,
@@ -68,3 +93,12 @@ def cpc(state=None, climate_division=None, start_date=None, end_date=None):
 
 
 cpc.__doc__ = cpc_cli.__doc__
+
+
+if __name__ == "__main__":
+    r = ulmo_df(
+        state="FL", climate_division=1, start_date="2017-01-01", end_date="2017-10-02"
+    )
+
+    print("FL EVERYTHING")
+    print(r)

@@ -316,16 +316,16 @@ def core(data):
     return df
 
 
-@tsutils.validator(
-    stations=[
-        [str.lower, ["domain", list(rev_locs.keys())], None],
-        [int, ["domain", list(locs__.keys())], None],
-    ],
-    variables=[str, ["domain", list(vars__.keys()) + list(rev_vars.keys())], None],
-    reportType=[str, ["domain", ["all", "hourly", "daily", "monthly", "entire"]], 1],
-    start_date=[tsutils.parsedate, ["pass", []], 1],
-    end_date=[tsutils.parsedate, ["pass", []], 1],
-)
+# @tsutils.validator(
+#    stations=[
+#        [str.lower, ["domain", list(rev_locs.keys())], None],
+#        [int, ["domain", list(locs__.keys())], None],
+#    ],
+#    variables=[str, ["domain", list(vars__.keys()) + list(rev_vars.keys())], None],
+#    reportType=[str, ["domain", ["all", "hourly", "daily", "monthly", "entire"]], 1],
+#    start_date=[tsutils.parsedate, ["pass", []], 1],
+#    end_date=[tsutils.parsedate, ["pass", []], 1],
+# )
 def fawn(
     stations,
     variables,
@@ -400,6 +400,9 @@ Variable {variable} is not available.
         data["toDate_y"] = end_test_date.year
 
         df = core(data)
+        if len(df) == 0:
+            continue
+
         # With multi-index pandas won't combine_first with an empty ndf.
         if len(ndf) == 0:
             ndf = df

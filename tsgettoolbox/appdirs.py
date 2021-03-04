@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Copyright (c) 2005-2010 ActiveState Software Inc.
 # Copyright (c) 2013 Eddy Petrișor
@@ -77,7 +76,7 @@ def user_data_dir(appname=None, appauthor=None, version=None, roaming=False):
     if system == "win32":
         if appauthor is None:
             appauthor = appname
-        const = roaming and "CSIDL_APPDATA" or "CSIDL_LOCAL_APPDATA"
+        const = "CSIDL_APPDATA" if roaming else "CSIDL_LOCAL_APPDATA"
         path = os.path.normpath(_get_win_folder(const))
         if appname:
             if appauthor is not False:
@@ -491,35 +490,6 @@ def _get_win_folder_from_registry(csidl_name):
     return dir
 
 
-def _get_win_folder_with_pywin32(csidl_name):
-    from win32com.shell import shellcon, shell
-
-    dir = shell.SHGetFolderPath(0, getattr(shellcon, csidl_name), 0, 0)
-    # Try to make this a unicode path because SHGetFolderPath does
-    # not return unicode strings when there is unicode data in the
-    # path.
-    try:
-        dir = unicode(dir)
-
-        # Downgrade to short path name if have highbit chars. See
-        # <http://bugs.activestate.com/show_bug.cgi?id=85099>.
-        has_high_char = False
-        for c in dir:
-            if ord(c) > 255:
-                has_high_char = True
-                break
-        if has_high_char:
-            try:
-                import win32api
-
-                dir = win32api.GetShortPathName(dir)
-            except ImportError:
-                pass
-    except UnicodeError:
-        pass
-    return dir
-
-
 def _get_win_folder_with_ctypes(csidl_name):
     import ctypes
 
@@ -580,23 +550,36 @@ def _get_win_folder_with_jna(csidl_name):
     return dir
 
 
+def _get_win_folder_from_environ(csidl_name):
+    env_var_name = {
+        "CSIDL_APPDATA": "APPDATA",
+        "CSIDL_COMMON_APPDATA": "ALLUSERSPROFILE",
+        "CSIDL_LOCAL_APPDATA": "LOCALAPPDATA",
+    }[csidl_name]
+
+    return os.environ[env_var_name]
+
+
 if system == "win32":
     try:
-        import win32com.shell
-
-        _get_win_folder = _get_win_folder_with_pywin32
+        from ctypes import windll
     except ImportError:
         try:
-            from ctypes import windll
-
-            _get_win_folder = _get_win_folder_with_ctypes
+            import com.sun.jna
         except ImportError:
             try:
-                import com.sun.jna
-
-                _get_win_folder = _get_win_folder_with_jna
+                if PY3:
+                    import winreg as _winreg
+                else:
+                    import _winreg
             except ImportError:
+                _get_win_folder = _get_win_folder_from_environ
+            else:
                 _get_win_folder = _get_win_folder_from_registry
+        else:
+            _get_win_folder = _get_win_folder_with_jna
+    else:
+        _get_win_folder = _get_win_folder_with_ctypes
 
 
 # ---- self test code

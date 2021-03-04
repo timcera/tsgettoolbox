@@ -5,7 +5,23 @@ try:
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
+import pandas as pd
+
 from tstoolbox import tsutils
+
+from tsgettoolbox.ulmo.twc.kbdi.core import get_data
+
+
+def twc_ulmo_df(county=None, start_date=None, end_date=None):
+
+    df = get_data(
+        county=county,
+        start=pd.to_datetime(start_date),
+        end=pd.to_datetime(end_date),
+        as_dataframe=True,
+    )
+    df = df.set_index("date")
+    return df
 
 
 @mando.command("twc", formatter_class=HelpFormatter, doctype="numpy")
@@ -32,11 +48,26 @@ def twc_cli(county, start_date=None, end_date=None):
 
 def twc(county, start_date=None, end_date=None):
     r"""Download Texas Weather Connection (TWC) data."""
-    from tsgettoolbox.services import twc
-
-    df = twc.ulmo_df(county=county, start_date=start_date, end_date=end_date)
+    df = twc_ulmo_df(county=county, start_date=start_date, end_date=end_date)
 
     return df
 
 
 twc.__doc__ = twc_cli.__doc__
+
+
+if __name__ == "__main__":
+    #    import time
+    #
+    #    r = ulmo_df('blah',
+    #                'upperbasin')
+    #
+    #    print('UB EVERYTHING')
+    #    print(r)
+    #
+    #    time.sleep(20)
+
+    r = twc_ulmo_df(48001, start_date="2015-11-04", end_date="2015-12-05")
+
+    print("UB EVERYTHING")
+    print(r)

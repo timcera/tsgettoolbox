@@ -182,7 +182,7 @@ def get_recent_data(site_code, as_dataframe=False):
         The bay site to fetch data for. see `real_time_sites`
     as_dataframe : bool
         This determines what format values are returned as. If ``False``
-        (default), the values will be list of value dicts. If ``True`` then 
+        (default), the values will be list of value dicts. If ``True`` then
         values are returned as pandas.DataFrame.
 
     Returns

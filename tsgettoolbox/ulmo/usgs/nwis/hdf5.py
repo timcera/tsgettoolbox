@@ -312,7 +312,7 @@ def update_site_list(
     path=None,
     **kwargs
 ):
-    """Update cached site information. 
+    """Update cached site information.
 
     See ulmo.usgs.nwis.core.get_sites() for description of regular parameters, only
     extra parameters used for caching are listed below.

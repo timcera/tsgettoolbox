@@ -233,8 +233,7 @@ def save_pretty_printed_xml(filename, response_buffer):
 
 
 def to_bytes(s):
-    """convert str to bytes for py 2/3 compat
-    """
+    """convert str to bytes for py 2/3 compat"""
 
     if isinstance(s, bytes):
         return s
