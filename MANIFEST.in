@@ -5,4 +5,3 @@ include CONTRIBUTING.rst
 include LICENSE.txt
 include README.rst
 include tsgettoolbox/services/usgs/pmcodes.dat
-include etc/*
