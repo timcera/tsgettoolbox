@@ -8,6 +8,7 @@ except ImportError:
 import pandas as pd
 
 from tstoolbox import tsutils
+import typic
 
 from tsgettoolbox.ulmo.twc.kbdi.core import get_data
 
@@ -46,7 +47,8 @@ def twc_cli(county, start_date=None, end_date=None):
     tsutils._printiso(twc(county, start_date=start_date, end_date=end_date))
 
 
-def twc(county, start_date=None, end_date=None):
+@typic.al
+def twc(county: int, start_date=None, end_date=None):
     r"""Download Texas Weather Connection (TWC) data."""
     df = twc_ulmo_df(county=county, start_date=start_date, end_date=end_date)
 
@@ -67,7 +69,7 @@ if __name__ == "__main__":
     #
     #    time.sleep(20)
 
-    r = twc_ulmo_df(48001, start_date="2015-11-04", end_date="2015-12-05")
+    r = twc_ulmo_df(48501, start_date="2015-11-04", end_date="2015-12-05")
 
     print("UB EVERYTHING")
     print(r)

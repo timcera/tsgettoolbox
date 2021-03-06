@@ -13,6 +13,7 @@ from __future__ import absolute_import
 import datetime
 import logging
 import os
+from typing import List, Optional, Union
 
 try:
     import urllib.parse as urlp
@@ -22,6 +23,7 @@ import warnings
 
 import pandas as pd
 import mando
+import typic
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -105,7 +107,14 @@ def daymet_cli(lat, lon, measuredParams=None, year=None):
     tsutils._printiso(daymet(lat, lon, measuredParams=measuredParams, year=year))
 
 
-def daymet(lat, lon, measuredParams=None, year=None):
+@tsutils.transform_args(measuredParams=tsutils.make_list, year=tsutils.make_list)
+@typic.al
+def daymet(
+    lat: float,
+    lon: float,
+    measuredParams: Optional[Union[List[str], str]] = None,
+    year: Optional[Union[List[int], int]] = None,
+):
     r"""Download data from Daymet by the Oak Ridge National Laboratory."""
     url = r"http://daymet.ornl.gov/data/send/saveData"
     avail_params = ["tmax", "tmin", "srad", "vp", "swe", "prcp", "dayl"]
@@ -113,9 +122,9 @@ def daymet(lat, lon, measuredParams=None, year=None):
     params["lat"] = lat
     params["lon"] = lon
     if measuredParams is None:
-        params["measuredParams"] = ",".join(avail_params)
+        params["measuredParams"] = avail_params
     else:
-        for testparams in measuredParams.split(","):
+        for testparams in measuredParams:
             if testparams not in avail_params:
                 raise ValueError(
                     tsutils.error_wrapper(
@@ -135,7 +144,7 @@ You supplied {0}.
         params["year"] = ",".join([str(i) for i in range(1980, last_year + 1)])
     else:
         accumyear = []
-        for testyear in year.split(","):
+        for testyear in year:
             try:
                 iyear = int(tsutils.parsedate(testyear, strftime="%Y"))
                 accumyear.append(iyear)
@@ -178,7 +187,7 @@ calendar year.  You supplied {0}.
         parse_dates=[[0, 1]],
     )
     df.columns = [i.split()[0] for i in df.columns]
-    df = df[params["measuredParams"].split(",")]
+    df = df[params["measuredParams"]]
     df.columns = ["Daymet-{0}{1}".format(i, _units_map[i]) for i in df.columns]
     df.index.name = "Datetime"
     return df

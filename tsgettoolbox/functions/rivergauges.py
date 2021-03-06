@@ -6,6 +6,10 @@ Provide access to data from the USACE `Rivergages`_ web site.
 .. _United States Army Corps of Engineers: http://www.usace.army.mil/
 .. _Rivergages: http://rivergages.mvr.usace.army.mil/WaterControl/new/layout.cfm
 """
+import warnings
+
+warnings.filterwarnings("ignore")
+
 import pandas as pd
 
 from tstoolbox import tsutils

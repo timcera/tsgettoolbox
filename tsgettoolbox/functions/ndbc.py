@@ -7,7 +7,6 @@ import os
 
 import pandas as pd
 import mando
-import requests
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -15,6 +14,7 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 from tstoolbox import tsutils
+from tsgettoolbox import utils
 
 
 _lmap = {
@@ -209,7 +209,8 @@ def ndbc_to_df(url, **query_params):
             )
 
     for filename in filenames:
-        req = requests.get(url + filename)
+        session = utils.requests_retry_session()
+        req = session.get(url + filename)
 
         if os.path.exists("debug_tsgettoolbox"):
             logging.warning(req.url)

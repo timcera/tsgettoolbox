@@ -111,11 +111,11 @@ def get_data(
         A dict or pandas.DataFrame representing the data. See the
         ``as_dataframe`` parameter for more.
     """
-    if not start is None:
+    if start is not None:
         start_date = util.convert_date(start)
     else:
         start_date = None
-    if not end is None:
+    if end is not None:
         end_date = util.convert_date(end)
     else:
         end_date = None
@@ -127,7 +127,6 @@ def get_data(
 
     start_year, start_week = _week_number(start_date)
     end_year, end_week = _week_number(end_date)
-
     if state:
         state_code = STATE_CODES.get(state.upper())
     else:
@@ -146,7 +145,6 @@ def get_data(
             year_data = year_data[year_data["state_code"] == state_code]
         if climate_division:
             year_data = year_data[year_data["climate_division"] == climate_division]
-
         year_data = _reindex_data(year_data)
 
         if data is None:

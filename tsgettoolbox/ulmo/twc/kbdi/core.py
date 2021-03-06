@@ -72,6 +72,8 @@ def get_data(county=None, start=None, end=None, as_dataframe=False, data_dir=Non
         ignore_index=True,
     )
     fips_df = _fips_dataframe()
+    print(df)
+    print(fips_df)
     df = pandas.merge(df, fips_df, left_on="county", right_on="name")
     del df["name"]
 

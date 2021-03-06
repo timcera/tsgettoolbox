@@ -17,7 +17,6 @@ import warnings
 
 import pandas as pd
 import mando
-import requests
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -25,6 +24,7 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 from tstoolbox import tsutils
+from tsgettoolbox import utils
 
 warnings.filterwarnings("ignore")
 
@@ -913,7 +913,8 @@ def _read_rdb(url, data):
     )
     pmcodes.set_index("parameter_cd", inplace=True)
 
-    req = requests.get(url, params=data)
+    session = utils.requests_retry_session()
+    req = session.get(url, params=data)
     if os.path.exists("debug_tsgettoolbox"):
         logging.warning(req.url)
     req.raise_for_status()
@@ -3189,7 +3190,8 @@ def epa_wqp(
     except ValueError:
         query_params["startDateHo"] = None
 
-    req = requests.get(url, params=query_params)
+    session = utils.requests_retry_session()
+    req = session.get(url, params=query_params)
     if os.path.exists("debug_tsgettoolbox"):
         logging.warning(req.url)
     req.raise_for_status()

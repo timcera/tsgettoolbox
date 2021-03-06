@@ -270,7 +270,7 @@ def _ftp_last_modified(ftp, file_path):
 
 
 def _http_download_file(url, path):
-    request = requests.get(url)
+    request = requests.get(url, verify=False)
     mkdir_if_doesnt_exist(os.path.dirname(path))
     chunk_size = 64 * 1024
     with open(path, "wb") as f:
@@ -279,7 +279,7 @@ def _http_download_file(url, path):
 
 
 def _http_download_if_new(url, path, check_modified):
-    head = requests.head(url)
+    head = requests.head(url, verify=False)
     if not os.path.exists(path) or not _request_file_size_matches(head, path):
         _http_download_file(url, path)
     elif check_modified and _request_is_newer_than_file(head, path):

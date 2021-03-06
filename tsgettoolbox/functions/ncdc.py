@@ -11,12 +11,13 @@ try:
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
-from requests import Request, Session
+from requests import Request
 from requests.utils import unquote
 
 from tsgettoolbox import utils
 from tstoolbox import tsutils
 from tstoolbox import tstoolbox
+from tsgettoolbox import utils
 
 
 ncdc_ghcnd_docstrings = {
@@ -566,7 +567,7 @@ def ncdc_cdo_json_to_df(url, **query_params):
         delta = pd.Timedelta(days=367)
     elif "stationid" in query_params:
         # Get startdate and/or enddate information
-        s = Session()
+        s = utils.requests_retry_session()
         ireq = Request(
             "GET",
             r"http://www.ncdc.noaa.gov/cdo-web/api/v2/stations/{0}".format(
@@ -616,7 +617,7 @@ The startdate of {0} is greater than, or equal to, the enddate of {1}.
 
         query_params["enddate"] = testdate.strftime("%Y-%m-%d")
 
-        s = Session()
+        s = utils.requests_retry_session()
         ireq = Request("GET", url, params=query_params, headers=headers)
         prepped = ireq.prepare()
         prepped.url = unquote(prepped.url)

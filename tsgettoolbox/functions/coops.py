@@ -2,10 +2,12 @@ from collections import defaultdict
 from io import BytesIO
 import logging
 import os
+from typing import List, Literal, Optional, Union
 
 import mando
 import pandas as pd
 import requests
+import typic
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -13,6 +15,7 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 from tstoolbox import tsutils
+from tsgettoolbox import utils
 
 
 _settings_map = defaultdict(lambda: [{"metric": "", "english": ""}])
@@ -633,9 +636,15 @@ def coops_cli(
     )
 
 
-def core(query_params):
+def core(params):
+    if params["end_date"] is not None:
+        params["end_date"] = params["end_date"].strftime("%Y%m%d")
+    if params["begin_date"] is not None:
+        params["begin_date"] = params["begin_date"].strftime("%Y%m%d")
+
     url = r"https://tidesandcurrents.noaa.gov/api/datagetter"
-    req = requests.get(url, params=query_params)
+    session = utils.requests_retry_session()
+    req = session.get(url, params=params)
 
     if os.path.exists("debug_tsgettoolbox"):
         logging.warning(req.url)
@@ -654,7 +663,7 @@ def core(query_params):
     return df, error
 
 
-def precore(query_params):
+def precore(query_params, i):
     if query_params["date"] is not None:
         ndf, error = core(query_params)
     elif (
@@ -668,20 +677,16 @@ def precore(query_params):
     elif (
         query_params["begin_date"] is not None and query_params["end_date"] is not None
     ):
-        sdate = tsutils.parsedate(query_params["begin_date"])
-        edate = tsutils.parsedate(query_params["end_date"])
-
         ndf = pd.DataFrame()
+        sdate = query_params["begin_date"]
+        edate = query_params["end_date"]
         testdate = sdate
         while testdate < edate:
-            query_params["begin_date"] = testdate.strftime("%Y%m%d")
-
-            testdate = testdate + pd.Timedelta(days=31)
+            query_params["begin_date"] = testdate
+            testdate = testdate + pd.Timedelta(days=deltas[i])
             if testdate > edate:
                 testdate = edate
-
-            query_params["end_date"] = testdate.strftime("%Y%m%d")
-
+            query_params["end_date"] = testdate
             df, error = core(query_params)
             ndf = ndf.combine_first(df)
     elif query_params["end_date"] is not None and query_params["range"] is not None:
@@ -715,58 +720,64 @@ COOPS service returned the error "{0}".
     return ndf
 
 
-# @tsutils.validator(
-#     station=[str, ["pass", []], 1],
-#     date=[str, ["domain", ["latest", "today", "recent"]], 1],
-#     begin_date=[tsutils.parsedate, ["pass", []], 1],
-#     end_date=[tsutils.parsedate, ["pass", []], 1],
-#     range=[int, ["range", [0, None]], 1],
-#     product=[
-#         str,
-#         [
-#             "domain",
-#             [
-#                 "water_level",
-#                 "air_temperature",
-#                 "water_temperature",
-#                 "wind",
-#                 "air_gap",
-#                 "conductivity",
-#                 "visibility",
-#                 "humidity",
-#                 "salinity",
-#                 "hourly_height",
-#                 "high_low",
-#                 "daily_mean",
-#                 "monthly_mean",
-#                 "one_minute_water_level",
-#                 "predictions",
-#                 "datums",
-#                 "currents",
-#             ],
-#         ],
-#         None,
-#     ],
-#     datum=[
-#         str,
-#         ["domain", ["MHHW", "MHW", "MTL", "MSL", "MLW", "MLLW", "NAVD", "STND"]],
-#         1,
-#     ],
-#     time_zone=[
-#         str,
-#         ["domain", ["gmt", "lst", "lst_ldt", "GMT", "UTC", "utc", "LST", "LST_LDT"]],
-#         1,
-#     ],
-# )
+deltas = {
+    "water_level": 31,
+    "air_temperature": 31,
+    "water_temperature": 31,
+    "wind": 31,
+    "air_gap": 31,
+    "conductivity": 31,
+    "visibility": 31,
+    "humidity": 31,
+    "salinity": 31,
+    "hourly_height": 365,
+    "high_low": 365,
+    "daily_mean": 3650,
+    "monthly_mean": 3650,
+    "one_minute_water_level": 31,
+    "predictions": 31,
+    "datums": 31,
+    "currents": 31,
+}
+
+
+@tsutils.transform_args(
+    product=tsutils.make_list,
+    time_zone=str.upper,
+    datum=str.upper,
+    begin_date=tsutils.parsedate,
+    end_date=tsutils.parsedate,
+)
+@typic.al
 def coops(
-    station,
-    date=None,
-    begin_date=None,
-    end_date=None,
-    range=None,
-    product="water_level",
-    datum="NAVD",
-    time_zone="GMT",
+    station: str,
+    date: Literal["latest", "today", "recent"] = None,
+    begin_date: Optional[pd.Timestamp] = None,
+    end_date: Optional[pd.Timestamp] = None,
+    range: Optional[int] = None,
+    product: List[
+        Literal[
+            "water_level",
+            "air_temperature",
+            "water_temperature",
+            "wind",
+            "air_gap",
+            "conductivity",
+            "visibility",
+            "humidity",
+            "salinity",
+            "hourly_height",
+            "high_low",
+            "daily_mean",
+            "monthly_mean",
+            "one_minute_water_level",
+            "predictions",
+            "datums",
+            "currents",
+        ]
+    ] = "water_level",
+    datum: Literal["MHHW", "MHW", "MTL", "MSL", "MLW", "MLLW", "NAVD", "STND"] = "NAVD",
+    time_zone: Literal["GMT", "UTC", "LST", "LST_LDT"] = "GMT",
     interval="h",
     bin=None,
 ):
@@ -782,19 +793,19 @@ def coops(
     params["time_zone"] = time_zone
     params["datum"] = datum
     try:
-        params["begin_date"] = tsutils.parsedate(begin_date, strftime="%Y%m%d")
+        params["begin_date"] = begin_date
     except ValueError:
         params["begin_date"] = None
     try:
-        params["end_date"] = tsutils.parsedate(end_date, strftime="%Y%m%d")
+        params["end_date"] = end_date
     except ValueError:
         params["end_date"] = None
     params["format"] = "csv"
     params["application"] = "tsgettoolbox"
 
     ndf = pd.DataFrame()
-    for cnt, i in enumerate(tsutils.make_list(product)):
-        r = precore(params)
+    for cnt, i in enumerate(product):
+        r = precore(params, i)
         ndf = ndf.join(r, how="outer", rsuffix="_{0}".format(cnt))
     return ndf
 

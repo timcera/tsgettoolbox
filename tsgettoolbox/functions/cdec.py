@@ -1,5 +1,6 @@
 import mando
 import pandas as pd
+from typing import Literal, Optional, Union
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -248,7 +249,6 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
         url = "http://cdec.water.ca.gov/dynamicapp/staMeta?station_id={0}".format(
             station_id
         )
-
         sensor_list = pd.read_html(url)[1]
         sensor_list.columns = [
             "sensor_description",
@@ -413,7 +413,13 @@ def ulmo_df(station_id, sensor_num=None, dur_code=None, start_date=None, end_dat
     return nd
 
 
-def cdec(station_id, dur_code=None, sensor_num=None, start_date=None, end_date=None):
+def cdec(
+    station_id: str,
+    dur_code: Optional[Union[list, str]] = None,
+    sensor_num=None,
+    start_date=None,
+    end_date=None,
+):
     r"""Access data from the `California Department of Water Resources`_."""
     df = ulmo_df(
         station_id,

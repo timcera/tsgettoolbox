@@ -1,10 +1,13 @@
 import mando
 import pandas as pd
+from typing import Optional
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
+
+import typic
 
 from tstoolbox import tsutils
 
@@ -41,15 +44,25 @@ def cpc_cli(state=None, climate_division=None, start_date=None, end_date=None):
     r"""Access Climate Prediction Center, Weekly Drought Index dataset.
 
     Climate Prediction Center: http://www.cpc.ncep.noaa.gov/
-    Weekly Drought Index: http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
+    Weekly Drought Index:
+        http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
+
+    The `climate_division` integer value identifies a portion of the
+    desired `state` divided along county boundaries. Maps of the climate
+    divisions within each state are at:
+        https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/regional_monitoring/CLIM_DIVS/states_counties_climate-divisions.shtml
+
+    The only way to get a time-series is to specify both `state` and
+    `climate_division` keywords.
 
     Command Line ::
 
-        tsgettoolbox cpc --state=FL --start_date 2017-01-01
+        tsgettoolbox cpc --state=FL --climate_division=1 --start_date 2017-01-01
 
     Python API ::
 
-        df = tsgettoolbox.cpc("FL",
+        df = tsgettoolbox.cpc(state="FL",
+                              climate_division=1,
                               start_date="2017-01-01",
                               end_date="2017-02-01")
 
@@ -81,9 +94,15 @@ def cpc_cli(state=None, climate_division=None, start_date=None, end_date=None):
     )
 
 
-def cpc(state=None, climate_division=None, start_date=None, end_date=None):
+@typic.al
+def cpc(
+    state: Optional[str] = None,
+    climate_division: Optional[int] = None,
+    start_date=None,
+    end_date=None,
+):
     r"""Access Climate Prediction Center, Weekly Drought Index dataset."""
-    df = cpc.ulmo_df(
+    df = ulmo_df(
         state=state,
         climate_division=climate_division,
         start_date=tsutils.parsedate(start_date),
