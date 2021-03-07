@@ -10,9 +10,7 @@ pkgs="\
      flake8 \
      "
 
-envs=(~/pythons/python-3.6.0  \
-      ~/pythons/python-3.7.0  \
-      ~/pythons/python-3.8.0)
+envs=`find ~/pythons -maxdepth 1 -mindepth 1 -type d`
 
 pytest_opts='--doctest-modules --ignore docsrc --mpl'
 

@@ -1,6 +1,11 @@
 import mando
 import pandas as pd
-from typing import Literal, Optional, Union
+from typing import Optional, Union
+
+try:
+    from typing import Literal
+except ImportError:
+    from typing_extensions import Literal
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter

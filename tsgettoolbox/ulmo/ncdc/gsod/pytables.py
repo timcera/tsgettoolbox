@@ -8,9 +8,9 @@ from tsgettoolbox.ulmo.ncdc.gsod import core
 from tsgettoolbox.ulmo import util
 
 # default hdf5 file path
-HDF5_FILE_PATH = util.get_default_h5file_path()
+HDF5_FILE_PATH = util.get_default_h5file_path("tmp.hdf5")
 
-raise NotImplementedError("ncdc.gsod.pytables is still a work in progress")
+#raise NotImplementedError("ncdc.gsod.pytables is still a work in progress")
 
 
 class NCDCValue(tables.IsDescription):

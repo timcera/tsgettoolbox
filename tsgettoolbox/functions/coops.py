@@ -2,7 +2,11 @@ from collections import defaultdict
 from io import BytesIO
 import logging
 import os
-from typing import List, Literal, Optional, Union
+from typing import List, Optional, Union
+try:
+    from typing import Literal
+except ImportError:
+    from typing_extensions import Literal
 
 import mando
 import pandas as pd
