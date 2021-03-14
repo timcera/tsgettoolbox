@@ -546,7 +546,6 @@ location.  You have the grid "{project}" and "xindex={xindex}" and
             # New style where can leave off first ":" separated field.
             nvariable = ":".join([_varmap[words[0]]] + words)
 
-
         query_params = {}
         query_params["type"] = "asc2"
         query_params["startDate"] = tsutils.parsedate(startDate, strftime="%Y-%m-%dT%H")
@@ -587,8 +586,8 @@ location.  You have the grid "{project}" and "xindex={xindex}" and
         try:
             return df.tz_localize("UTC")
         except TypeError:  # Already UTC
-            return df
-        ndf = ndf.join(df, how="outer", rsuffix="_{0}".format(cnt))
+            pass
+        ndf = ndf.join(df, how="outer")
 
     return ndf
 
