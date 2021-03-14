@@ -52,7 +52,7 @@ install_requires = [
     "requests",
     "suds-jurko",
     "tables",
-    "tstoolbox >= 43.89.43.31",
+    "tstoolbox >= 102, < 103",
     "zeep",
 ]
 
@@ -68,8 +68,9 @@ setup(
         "Intended Audience :: Science/Research",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
     ],
     keywords="time_series uri url web_services rest",
     author="Tim Cera, P.E.",
@@ -82,4 +83,5 @@ setup(
     install_requires=install_requires,
     entry_points={"console_scripts": ["tsgettoolbox=tsgettoolbox.tsgettoolbox:main"]},
     test_suite="tests",
+    python_requires=">=3.7.1",
 )
