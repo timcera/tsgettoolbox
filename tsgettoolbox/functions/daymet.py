@@ -122,7 +122,7 @@ def daymet(
     params["lat"] = lat
     params["lon"] = lon
     if measuredParams is None:
-        params["measuredParams"] = avail_params
+        measuredParams = avail_params
     else:
         for testparams in measuredParams:
             if testparams not in avail_params:
@@ -137,7 +137,6 @@ You supplied {0}.
                         )
                     )
                 )
-        params["measuredParams"] = measuredParams
 
     last_year = datetime.datetime.now().year - 1
     if year is None:
@@ -173,6 +172,8 @@ calendar year.  You supplied {0}.
 
         params["year"] = ",".join([str(i) for i in accumyear])
 
+    params["measuredParams"] = ",".join(measuredParams)
+
     req = urlp.unquote("{}?{}".format(url, urlp.urlencode(params)))
     if os.path.exists("debug_tsgettoolbox"):
         logging.warning(req)
@@ -187,7 +188,7 @@ calendar year.  You supplied {0}.
         parse_dates=[[0, 1]],
     )
     df.columns = [i.split()[0] for i in df.columns]
-    df = df[params["measuredParams"]]
+    df = df[measuredParams]
     df.columns = ["Daymet-{0}{1}".format(i, _units_map[i]) for i in df.columns]
     df.index.name = "Datetime"
     return df

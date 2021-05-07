@@ -3,6 +3,7 @@ from io import BytesIO
 import logging
 import os
 from typing import List, Optional, Union
+
 try:
     from typing import Literal
 except ImportError:

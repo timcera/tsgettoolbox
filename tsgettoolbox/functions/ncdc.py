@@ -16,7 +16,6 @@ from requests.utils import unquote
 
 from tsgettoolbox import utils
 from tstoolbox import tsutils
-from tstoolbox import tstoolbox
 from tsgettoolbox import utils
 
 
@@ -545,6 +544,8 @@ def ncdc_ghcnd_ftp(station, start_date=None, end_date=None):
 
 
 def ncdc_cdo_json_to_df(url, **query_params):
+    from tstoolbox import tstoolbox
+
     delta = pd.Timedelta(days=365)
     if query_params["datasetid"] in ["ANNUAL", "GSOM", "GSOY", "GHCNDMS"]:
         delta = pd.Timedelta(days=3650)

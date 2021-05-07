@@ -62,7 +62,9 @@ def get_station_data(
         "hdn_excel": "",
     }
 
-    req = requests.post(URL, params=dict(sid=station_code), data=form_data, verify=False)
+    req = requests.post(
+        URL, params=dict(sid=station_code), data=form_data, verify=False
+    )
     soup = BeautifulSoup(req.content, features="lxml")
     data_table = soup.find("table").find_all("table")[-1]
 

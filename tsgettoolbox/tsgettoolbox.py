@@ -15,6 +15,7 @@ from .functions.cpc import cpc
 from .functions.daymet import daymet
 from .functions.fawn import fawn
 from .functions.ldas import ldas
+from .functions.metdata import metdata
 from .functions.modis import modis
 from .functions.ncdc import ncdc_annual
 from .functions.ncdc import ncdc_ghcnd
@@ -54,14 +55,14 @@ try:
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
-from tstoolbox import tsutils
-
 warnings.filterwarnings("ignore")
 
 
 @mando.command()
 def about():
     r"""Print out information about tsgettoolbox and the system."""
+    from tstoolbox import tsutils
+
     tsutils.about(__name__)
 
 

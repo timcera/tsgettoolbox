@@ -50,10 +50,10 @@ install_requires = [
     "pandas >= 0.15.0",
     "pytest",
     "requests",
-    "suds-jurko",
     "tables",
-    "tstoolbox >= 102, < 103",
+    "tstoolbox >= 103",
     "zeep",
+    "xarray",
 ]
 
 
