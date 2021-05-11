@@ -31,7 +31,7 @@ _vars = {
 def metdata_cli(
     lat,
     lon,
-    variables,
+    variables=None,
     start_date=None,
     end_date=None,
 ):
@@ -181,7 +181,7 @@ def metdata_cli(
         metdata(
             lat,
             lon,
-            variables,
+            variables=variables,
             start_date=start_date,
             end_date=end_date,
         )
@@ -200,7 +200,7 @@ def opendap(variables, lat, lon, start_date=None, end_date=None):
 
     # Get and subset the data.
     dataset = (
-        xr.open_dataset(url)
+        xr.open_dataset(url, engine="pydap")
         .sel(lat=lat, lon=lon, method="nearest")[nvars]
         .sel(day=slice(start_date, end_date))
         .drop_vars(["lat", "lon"])
@@ -224,11 +224,14 @@ def opendap(variables, lat, lon, start_date=None, end_date=None):
 def metdata(
     lat,
     lon,
-    variables,
+    variables=None,
     start_date=None,
     end_date=None,
 ):
     r"""Download METDATA data from CIDA."""
+    if variables is None:
+        variables = _vars.keys()
+
     df = opendap(variables, lat, lon, start_date=start_date, end_date=end_date)
 
     if len(df.dropna(how="all")) == 0:
