@@ -200,10 +200,10 @@ def opendap(variables, lat, lon, start_date=None, end_date=None):
 
     # Get and subset the data.
     dataset = (
-        xr.open_dataset(url, engine="pydap")
+        xr.open_dataset(url, engine="pydap", cache=True, mask_and_scale=True)
         .sel(lat=lat, lon=lon, method="nearest")[nvars]
-        .sel(day=slice(start_date, end_date))
         .drop_vars(["lat", "lon"])
+        .sel(day=slice(start_date, end_date))
     )
 
     # Rename the columns to include units of the form "name:unit".
