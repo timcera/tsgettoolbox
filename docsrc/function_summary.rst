@@ -10,12 +10,11 @@ Python API Function Summary
     tsgettoolbox.tsgettoolbox.cdec
     tsgettoolbox.tsgettoolbox.coops
     tsgettoolbox.tsgettoolbox.cpc
-    tsgettoolbox.tsgettoolbox.darksky
     tsgettoolbox.tsgettoolbox.daymet
     tsgettoolbox.tsgettoolbox.epa_wqp
-    tsgettoolbox.tsgettoolbox.lcra_hydromet
-    tsgettoolbox.tsgettoolbox.lcra_wq
+    tsgettoolbox.tsgettoolbox.fawn
     tsgettoolbox.tsgettoolbox.ldas
+    tsgettoolbox.tsgettoolbox.metdata
     tsgettoolbox.tsgettoolbox.modis
     tsgettoolbox.tsgettoolbox.ncdc_annual
     tsgettoolbox.tsgettoolbox.ncdc_ghcnd

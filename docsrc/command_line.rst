@@ -23,10 +23,6 @@ cpc
 ~~~
 .. program-output:: tsgettoolbox cpc --help
 
-darksky
-~~~~~~~
-.. program-output:: tsgettoolbox darksky --help
-
 daymet
 ~~~~~~
 .. program-output:: tsgettoolbox daymet --help
@@ -35,17 +31,17 @@ epa_wqp
 ~~~~~~~
 .. program-output:: tsgettoolbox epa_wqp --help
 
-lcra_hydromet
-~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox lcra_hydromet --help
-
-lcra_wq
-~~~~~~~
-.. program-output:: tsgettoolbox lcra_wq --help
+fawn
+~~~~
+.. program-output:: tsgettoolbox fawn --help
 
 ldas
 ~~~~
 .. program-output:: tsgettoolbox ldas --help
+
+metdata
+~~~~~~~
+.. program-output:: tsgettoolbox metdata --help
 
 modis
 ~~~~~
