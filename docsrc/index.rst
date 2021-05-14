@@ -28,5 +28,3 @@ Table of Contents
 Other Projects
 --------------
 http://timcera.bitbucket.io
-
-

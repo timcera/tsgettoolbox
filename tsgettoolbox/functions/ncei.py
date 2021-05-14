@@ -19,7 +19,7 @@ from tstoolbox import tsutils
 from tsgettoolbox import utils
 
 
-ncdc_ghcnd_docstrings = {
+ncei_ghcnd_docstrings = {
     "info": r"""If you use this data, please read
     ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt about "How to
     cite".
@@ -307,10 +307,12 @@ ncdc_ghcnd_docstrings = {
         ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt""",
 }
 
+# https://www.ncei.noaa.gov/data/global-summary-of-the-day/access/
 
-@mando.command("ncdc_ghcnd_ftp", formatter_class=HelpFormatter, doctype="numpy")
-@tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncdc_ghcnd_docstrings))
-def ncdc_ghcnd_ftp_cli(station, start_date=None, end_date=None):
+
+@mando.command("ncei_ghcnd_ftp", formatter_class=HelpFormatter, doctype="numpy")
+@tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncei_ghcnd_docstrings))
+def ncei_ghcnd_ftp_cli(station, start_date=None, end_date=None):
     r"""Download from the Global Historical Climatology Network - Daily.
 
     {info}
@@ -321,10 +323,10 @@ def ncdc_ghcnd_ftp_cli(station, start_date=None, end_date=None):
     {start_date}
     {end_date}
     """
-    tsutils._printiso(ncdc_ghcnd_ftp(station, start_date=start_date, end_date=end_date))
+    tsutils._printiso(ncei_ghcnd_ftp(station, start_date=start_date, end_date=end_date))
 
 
-def ncdc_ghcnd_ftp(station, start_date=None, end_date=None):
+def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
     r"""Download from the Global Historical Climatology Network - Daily."""
     params = {"station": station, "start_date": start_date, "end_date": end_date}
 
@@ -543,17 +545,17 @@ def ncdc_ghcnd_ftp(station, start_date=None, end_date=None):
     return ndf
 
 
-def ncdc_cdo_json_to_df(url, **query_params):
+def ncei_cdo_json_to_df(url, **query_params):
     from tstoolbox import tstoolbox
 
-    delta = pd.Timedelta(days=365)
+    delta = pd.Timedelta(days=150)
     if query_params["datasetid"] in ["ANNUAL", "GSOM", "GSOY", "GHCNDMS"]:
         delta = pd.Timedelta(days=3650)
 
     query_params["units"] = "metric"
 
     # Read in API key
-    api_key = utils.read_api_key("ncdc_cdo")
+    api_key = utils.read_api_key("ncei_cdo")
 
     headers = {"token": api_key}
 
@@ -606,17 +608,15 @@ The startdate of {0} is greater than, or equal to, the enddate of {1}.
 
     df = pd.DataFrame()
 
+    query_params["limit"] = 1000
+
     testdate = sdate
+    oldtestdate = sdate
     while testdate < edate:
         time.sleep(1)
 
         query_params["startdate"] = testdate.strftime("%Y-%m-%d")
-
-        testdate = testdate + delta
-        if testdate > edate:
-            testdate = edate
-
-        query_params["enddate"] = testdate.strftime("%Y-%m-%d")
+        query_params["enddate"] = (testdate + delta).strftime("%Y-%m-%d")
 
         s = utils.requests_retry_session()
         ireq = Request("GET", url, params=query_params, headers=headers)
@@ -630,10 +630,18 @@ The startdate of {0} is greater than, or equal to, the enddate of {1}.
         try:
             tdf = pd.io.json.json_normalize(req.json()["results"])
         except KeyError:
+            testdate = testdate + delta
             continue
 
         tdf.set_index("date", inplace=True)
         tdf.index = pd.to_datetime(tdf.index)
+
+        testdate = tdf.index[-1]
+
+        if testdate == oldtestdate:
+            testdate = testdate + delta
+        oldtestdate = testdate
+
         df = df.combine_first(tdf)
 
     if len(df) == 0:
@@ -651,9 +659,7 @@ No normalized statistics available for station {0}
             raise ValueError(
                 tsutils.error_wrapper(
                     """
-No data within {0} and {1}.
-
-There should be data between {2} and {3}.
+There should be data between {2} and {3}, however there is no data between {0} and {1}.
 """.format(
                         query_params["startdate"],
                         query_params["enddate"],
@@ -662,16 +668,15 @@ There should be data between {2} and {3}.
                     )
                 )
             )
-
     df = df.drop("station", axis="columns")
     df = tstoolbox.unstack("datatype", input_ts=df)
     return df
 
 
 # 1763-01-01, 2016-11-05, Daily Summaries             , 1    , GHCND
-@mando.command("ncdc_ghcnd", formatter_class=HelpFormatter, doctype="numpy")
-@tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncdc_ghcnd_docstrings))
-def ncdc_ghcnd_cli(stationid, datatypeid="", start_date="", end_date=""):
+@mando.command("ncei_ghcnd", formatter_class=HelpFormatter, doctype="numpy")
+@tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncei_ghcnd_docstrings))
+def ncei_ghcnd_cli(stationid, datatypeid="", start_date="", end_date=""):
     r"""Download from the Global Historical Climatology Network - Daily.
 
     Requires registration and free API key.
@@ -708,16 +713,16 @@ def ncdc_ghcnd_cli(stationid, datatypeid="", start_date="", end_date=""):
     {start_date}
     {end_date}"""
     tsutils._printiso(
-        ncdc_ghcnd(
+        ncei_ghcnd(
             stationid, datatypeid=datatypeid, start_date=start_date, end_date=end_date
         )
     )
 
 
-def ncdc_ghcnd(stationid, datatypeid="", start_date="", end_date=""):
+def ncei_ghcnd(stationid, datatypeid="", start_date="", end_date=""):
     r"""Download from the Global Historical Climatology Network - Daily."""
 
-    df = ncdc_cdo_json_to_df(
+    df = ncei_cdo_json_to_df(
         r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=start_date,
         enddate=end_date,
@@ -730,9 +735,9 @@ def ncdc_ghcnd(stationid, datatypeid="", start_date="", end_date=""):
 
 # 1763-01-01, 2016-09-01, Global Summary of the Month , 1    , GSOM
 # 1763-01-01, 2016-01-01, Global Summary of the Year  , 1    , GSOY
-@mando.command("ncdc_gs", formatter_class=HelpFormatter, doctype="numpy")
-def ncdc_gs_cli(stationid, database, datatypeid="", startdate="", enddate=""):
-    r"""Access NCDC Global Summary of Month (GSOM) and Year (GSOY).
+@mando.command("ncei_gs", formatter_class=HelpFormatter, doctype="numpy")
+def ncei_gs_cli(stationid, database, datatypeid="", startdate="", enddate=""):
+    r"""Access ncei Global Summary of Month (GSOM) and Year (GSOY).
 
     National Climatic Data Center Global Summary of the MONTH (GSOM)
     https://gis.ncdc.noaa.gov/all-records/catalog/search/resource/details.page
@@ -741,7 +746,7 @@ def ncdc_gs_cli(stationid, database, datatypeid="", startdate="", enddate=""):
     Centers for Environmental Information. DOI:10.7289/V5QV3JJ5
 
     National Climatic Data Center Global Summary of the YEAR (GSOY)
-    https://gis.ncdc.noaa.gov/all-records/catalog/search/resource/details.page?id=gov.noaa.ncdc:C00947
+    https://gis.ncdc.noaa.gov/all-records/catalog/search/resource/details.page?id=gov.noaa.ncei:C00947
     Cite this dataset when used as a source: Lawrimore, Jay (2016). Global
     Summary of the Year, Version 1.0. [indicate subset used]. NOAA National
     Centers for Environmental Information
@@ -767,7 +772,7 @@ def ncdc_gs_cli(stationid, database, datatypeid="", startdate="", enddate=""):
     global summaries data set also contains a yearly (GSOY) resolution of
     meteorological elements. See associated resources for more information.
     This data is not to be confused with "GHCN-Monthly", "Annual Summaries" or
-    "NCDC Summary of the Month". There are unique elements that are produced
+    "ncei Summary of the Month". There are unique elements that are produced
     globally within the GSOM and GSOY data files.  There are also bias
     corrected temperature data in GHCN-Monthly, which will not be available in
     GSOM and GSOY. The GSOM and GSOY data set is going to replace the legacy
@@ -795,7 +800,7 @@ def ncdc_gs_cli(stationid, database, datatypeid="", startdate="", enddate=""):
     Parameters
     ----------
     stationid
-        This is the NCDC
+        This is the ncei
         station ID.
 
     database : str
@@ -1215,7 +1220,7 @@ def ncdc_gs_cli(stationid, database, datatypeid="", startdate="", enddate=""):
     enddate
         End date in ISO8601 format."""
     tsutils._printiso(
-        ncdc_gs(
+        ncei_gs(
             stationid,
             database,
             datatypeid=datatypeid,
@@ -1225,9 +1230,9 @@ def ncdc_gs_cli(stationid, database, datatypeid="", startdate="", enddate=""):
     )
 
 
-def ncdc_gs(stationid, database, datatypeid="", startdate="", enddate=""):
-    r"""Access NCDC Global Summary of Month (GSOM) and Year (GSOY)."""
-    df = ncdc_cdo_json_to_df(
+def ncei_gs(stationid, database, datatypeid="", startdate="", enddate=""):
+    r"""Access ncei Global Summary of Month (GSOM) and Year (GSOY)."""
+    df = ncei_cdo_json_to_df(
         r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
@@ -1239,8 +1244,8 @@ def ncdc_gs(stationid, database, datatypeid="", startdate="", enddate=""):
 
 
 # 1991-06-05, 2016-11-06, Weather Radar (Level II)    , 0.95 , NEXRAD2
-# @mando.command('ncdc_nexrad2', formatter_class=HelpFormatter, doctype='numpy')
-def ncdc_nexrad2_cli(stationid, datatypeid="", startdate="", enddate=""):
+# @mando.command('ncei_nexrad2', formatter_class=HelpFormatter, doctype='numpy')
+def ncei_nexrad2_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center NEXRAD Level II.
 
     Requires registration and free API key.
@@ -1266,15 +1271,15 @@ def ncdc_nexrad2_cli(stationid, datatypeid="", startdate="", enddate=""):
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing."""
     tsutils._printiso(
-        ncdc_nexrad2(
+        ncei_nexrad2(
             stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate
         )
     )
 
 
-def ncdc_nexrad2(stationid, datatypeid="", startdate="", enddate=""):
+def ncei_nexrad2(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center NEXRAD Level II."""
-    df = ncdc_cdo_json_to_df(
+    df = ncei_cdo_json_to_df(
         r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
@@ -1286,8 +1291,8 @@ def ncdc_nexrad2(stationid, datatypeid="", startdate="", enddate=""):
 
 
 # 1991-06-05, 2016-11-06, Weather Radar (Level III)   , 0.95 , NEXRAD3
-# @mando.command('ncdc_nexrad3',formatter_class=HelpFormatter, doctype='numpy')
-def ncdc_nexrad3_cli(stationid, datatypeid="", startdate="", enddate=""):
+# @mando.command('ncei_nexrad3',formatter_class=HelpFormatter, doctype='numpy')
+def ncei_nexrad3_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center NEXRAD Level III.
 
     Requires registration and free API key.
@@ -1313,15 +1318,15 @@ def ncdc_nexrad3_cli(stationid, datatypeid="", startdate="", enddate=""):
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing."""
     return tsutils._printiso(
-        ncdc_nexrad3(
+        ncei_nexrad3(
             stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate
         )
     )
 
 
-def ncdc_nexrad3(stationid, datatypeid="", startdate="", enddate=""):
+def ncei_nexrad3(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center NEXRAD Level III."""
-    df = ncdc_cdo_json_to_df(
+    df = ncei_cdo_json_to_df(
         r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
@@ -1333,8 +1338,8 @@ def ncdc_nexrad3(stationid, datatypeid="", startdate="", enddate=""):
 
 
 # 2010-01-01, 2010-01-01, Normals Annual/Seasonal     , 1    , NORMAL_ANN
-@mando.command("ncdc_normal_ann", formatter_class=HelpFormatter, doctype="numpy")
-def ncdc_normal_ann_cli(stationid, datatypeid="", startdate="", enddate=""):
+@mando.command("ncei_normal_ann", formatter_class=HelpFormatter, doctype="numpy")
+def ncei_normal_ann_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center annual normals.
 
     Requires registration and free API key.
@@ -1396,7 +1401,7 @@ def ncdc_normal_ann_cli(stationid, datatypeid="", startdate="", enddate=""):
     Parameters
     ----------
     stationid
-        The is the NCDC
+        The is the ncei
         station ID.
 
     datatypeid : str
@@ -2934,15 +2939,15 @@ def ncdc_normal_ann_cli(stationid, datatypeid="", startdate="", enddate=""):
         Many different formats can be used here for the date
         string, however the closest to ISO8601, the better."""
     tsutils._printiso(
-        ncdc_normal_ann(
+        ncei_normal_ann(
             stationid, datatypeid=datetypeid, startdate=startdate, enddate=enddate
         )
     )
 
 
-def ncdc_normal_ann(stationid, datatypeid="", startdate="", enddate=""):
+def ncei_normal_ann(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center annual normals."""
-    df = ncdc_cdo_json_to_df(
+    df = ncei_cdo_json_to_df(
         r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
@@ -2954,8 +2959,8 @@ def ncdc_normal_ann(stationid, datatypeid="", startdate="", enddate=""):
 
 
 # 2010-01-01, 2010-12-31, Normals Daily               , 1    , NORMAL_DLY
-@mando.command("ncdc_normal_dly", formatter_class=HelpFormatter, doctype="numpy")
-def ncdc_normal_dly_cli(stationid, datatypeid="", startdate="", enddate=""):
+@mando.command("ncei_normal_dly", formatter_class=HelpFormatter, doctype="numpy")
+def ncei_normal_dly_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center Daily Normals.
 
     Requires registration and free API key.
@@ -3204,15 +3209,15 @@ def ncdc_normal_dly_cli(stationid, datatypeid="", startdate="", enddate=""):
     enddate
         End date in ISO8601 format."""
     tsutils._printiso(
-        ncdc_normal_dly(
-            stationid, datatypeid=datetypeid, startdate=startdate, enddate=enddate
+        ncei_normal_dly(
+            stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate
         )
     )
 
 
-def ncdc_normal_dly(stationid, datatypeid="", startdate="", enddate=""):
-    r"""National Climatic Data Center Daily Normals. """
-    df = ncdc_cdo_json_to_df(
+def ncei_normal_dly(stationid, datatypeid="", startdate="", enddate=""):
+    r"""National Climatic Data Center Daily Normals."""
+    df = ncei_cdo_json_to_df(
         r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
@@ -3224,8 +3229,8 @@ def ncdc_normal_dly(stationid, datatypeid="", startdate="", enddate=""):
 
 
 # 2010-01-01, 2010-12-31, Normals Hourly              , 1    , NORMAL_HLY
-@mando.command("ncdc_normal_hly", formatter_class=HelpFormatter, doctype="numpy")
-def ncdc_normal_hly_cli(stationid, datatypeid="", startdate="", enddate=""):
+@mando.command("ncei_normal_hly", formatter_class=HelpFormatter, doctype="numpy")
+def ncei_normal_hly_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center GHCND Normal hourly.
 
     Requires registration and free API key.
@@ -3319,15 +3324,15 @@ def ncdc_normal_hly_cli(stationid, datatypeid="", startdate="", enddate=""):
     enddate
         End date in ISO8601 format."""
     tsutils._printiso(
-        ncdc_normal_hly(
+        ncei_normal_hly(
             stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate
         )
     )
 
 
-def ncdc_normal_hly(stationid, datatypeid="", startdate="", enddate=""):
+def ncei_normal_hly(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center GHCND Normal hourly."""
-    df = ncdc_cdo_json_to_df(
+    df = ncei_cdo_json_to_df(
         r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
@@ -3339,8 +3344,8 @@ def ncdc_normal_hly(stationid, datatypeid="", startdate="", enddate=""):
 
 
 # 2010-01-01, 2010-12-01, Normals Monthly             , 1    , NORMAL_MLY
-@mando.command("ncdc_normal_mly", formatter_class=HelpFormatter, doctype="numpy")
-def ncdc_normal_mly_cli(stationid, datatypeid="", startdate="", enddate=""):
+@mando.command("ncei_normal_mly", formatter_class=HelpFormatter, doctype="numpy")
+def ncei_normal_mly_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center GHCND Monthly Summaries.
 
     Requires registration and free API key.
@@ -3646,15 +3651,15 @@ def ncdc_normal_mly_cli(stationid, datatypeid="", startdate="", enddate=""):
         End date in ISO8601
         format."""
     tsutils._printiso(
-        ncdc_normal_mly(
+        ncei_normal_mly(
             stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate
         )
     )
 
 
-def ncdc_normal_mly(stationid, datatypeid="", startdate="", enddate=""):
+def ncei_normal_mly(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center GHCND Normal monthly."""
-    df = ncdc_cdo_json_to_df(
+    df = ncei_cdo_json_to_df(
         r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
@@ -3666,8 +3671,8 @@ def ncdc_normal_mly(stationid, datatypeid="", startdate="", enddate=""):
 
 
 # 1970-05-12, 2014-01-01, Precipitation 15 Minute     , 0.25 , PRECIP_15
-@mando.command("ncdc_precip_15", formatter_class=HelpFormatter, doctype="numpy")
-def ncdc_precip_15_cli(stationid, datatypeid="", startdate="", enddate=""):
+@mando.command("ncei_precip_15", formatter_class=HelpFormatter, doctype="numpy")
+def ncei_precip_15_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center 15 minute precipitation.
 
     Requires registration and free API key.
@@ -3716,15 +3721,15 @@ def ncdc_precip_15_cli(stationid, datatypeid="", startdate="", enddate=""):
         End date in ISO8601
         format."""
     tsutils._printiso(
-        ncdc_precip_15(
+        ncei_precip_15(
             stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate
         )
     )
 
 
-def ncdc_precip_15(stationid, datatypeid="", startdate="", enddate=""):
+def ncei_precip_15(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center 15 minute precipitation."""
-    df = ncdc_cdo_json_to_df(
+    df = ncei_cdo_json_to_df(
         r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
@@ -3736,8 +3741,8 @@ def ncdc_precip_15(stationid, datatypeid="", startdate="", enddate=""):
 
 
 # 1900-01-01, 2014-01-01, Precipitation Hourly        , 1    , PRECIP_HLY
-@mando.command("ncdc_precip_hly", formatter_class=HelpFormatter, doctype="numpy")
-def ncdc_precip_hly_cli(stationid, datatypeid="", startdate="", enddate=""):
+@mando.command("ncei_precip_hly", formatter_class=HelpFormatter, doctype="numpy")
+def ncei_precip_hly_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center hourly precipitation.
 
     Requires registration and free API key.
@@ -3781,15 +3786,15 @@ def ncdc_precip_hly_cli(stationid, datatypeid="", startdate="", enddate=""):
     enddate
         End date in ISO8601 format."""
     tsutils._printiso(
-        ncdc_precip_hly(
+        ncei_precip_hly(
             stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate
         )
     )
 
 
-def ncdc_precip_hly(stationid, datatypeid="", startdate="", enddate=""):
+def ncei_precip_hly(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center hourly precipitation."""
-    df = ncdc_cdo_json_to_df(
+    df = ncei_cdo_json_to_df(
         r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
@@ -3801,8 +3806,8 @@ def ncdc_precip_hly(stationid, datatypeid="", startdate="", enddate=""):
 
 
 # ANNUAL
-@mando.command("ncdc_annual", formatter_class=HelpFormatter, doctype="numpy")
-def ncdc_annual_cli(stationid, datatypeid="", startdate="", enddate=""):
+@mando.command("ncei_annual", formatter_class=HelpFormatter, doctype="numpy")
+def ncei_annual_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center annual data summaries.
 
     Requires registration and free API key.
@@ -4703,12 +4708,12 @@ def ncdc_annual_cli(stationid, datatypeid="", startdate="", enddate=""):
 
     enddate
         End date in ISO8601 format."""
-    tsutils._printiso(ncdc_annual(stationid, datatypeid="", startdate="", enddate=""))
+    tsutils._printiso(ncei_annual(stationid, datatypeid="", startdate="", enddate=""))
 
 
-def ncdc_annual(stationid, datatypeid="", startdate="", enddate=""):
+def ncei_annual(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center annual data summaries."""
-    df = ncdc_cdo_json_to_df(
+    df = ncei_cdo_json_to_df(
         r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
@@ -4720,8 +4725,8 @@ def ncdc_annual(stationid, datatypeid="", startdate="", enddate=""):
 
 
 # GHCNDMS
-@mando.command("ncdc_ghcndms", formatter_class=HelpFormatter, doctype="numpy")
-def ncdc_ghcndms_cli(stationid, datatypeid="", startdate="", enddate=""):
+@mando.command("ncei_ghcndms", formatter_class=HelpFormatter, doctype="numpy")
+def ncei_ghcndms_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center GHCND Monthly Summaries.
 
     Requires registration and free API key.
@@ -5111,15 +5116,15 @@ def ncdc_ghcndms_cli(stationid, datatypeid="", startdate="", enddate=""):
        End date in ISO8601
        format."""
     tsutils._printiso(
-        ncdc_ghcndms(
+        ncei_ghcndms(
             stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate
         )
     )
 
 
-def ncdc_ghcndms(stationid, datatypeid="", startdate="", enddate=""):
+def ncei_ghcndms(stationid, datatypeid="", startdate="", enddate=""):
     r"""National Climatic Data Center GHCND Monthly Summaries."""
-    df = ncdc_cdo_json_to_df(
+    df = ncei_cdo_json_to_df(
         r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate=startdate,
         enddate=enddate,
@@ -5130,23 +5135,23 @@ def ncdc_ghcndms(stationid, datatypeid="", startdate="", enddate=""):
     return df
 
 
-ncdc_ghcnd_ftp.__doc__ = ncdc_ghcnd_ftp_cli.__doc__
-ncdc_ghcnd.__doc__ = ncdc_ghcnd_cli.__doc__
-ncdc_gs.__doc__ = ncdc_gs_cli.__doc__
-ncdc_nexrad2.__doc__ = ncdc_nexrad2_cli.__doc__
-ncdc_nexrad3.__doc__ = ncdc_nexrad3_cli.__doc__
-ncdc_normal_ann.__doc__ = ncdc_normal_ann_cli.__doc__
-ncdc_normal_dly.__doc__ = ncdc_normal_dly_cli.__doc__
-ncdc_normal_hly.__doc__ = ncdc_normal_hly_cli.__doc__
-ncdc_normal_mly.__doc__ = ncdc_normal_mly_cli.__doc__
-ncdc_precip_15.__doc__ = ncdc_precip_15_cli.__doc__
-ncdc_precip_hly.__doc__ = ncdc_precip_hly_cli.__doc__
-ncdc_annual.__doc__ = ncdc_annual_cli.__doc__
-ncdc_ghcndms.__doc__ = ncdc_ghcndms_cli.__doc__
+ncei_ghcnd_ftp.__doc__ = ncei_ghcnd_ftp_cli.__doc__
+ncei_ghcnd.__doc__ = ncei_ghcnd_cli.__doc__
+ncei_gs.__doc__ = ncei_gs_cli.__doc__
+ncei_nexrad2.__doc__ = ncei_nexrad2_cli.__doc__
+ncei_nexrad3.__doc__ = ncei_nexrad3_cli.__doc__
+ncei_normal_ann.__doc__ = ncei_normal_ann_cli.__doc__
+ncei_normal_dly.__doc__ = ncei_normal_dly_cli.__doc__
+ncei_normal_hly.__doc__ = ncei_normal_hly_cli.__doc__
+ncei_normal_mly.__doc__ = ncei_normal_mly_cli.__doc__
+ncei_precip_15.__doc__ = ncei_precip_15_cli.__doc__
+ncei_precip_hly.__doc__ = ncei_precip_hly_cli.__doc__
+ncei_annual.__doc__ = ncei_annual_cli.__doc__
+ncei_ghcndms.__doc__ = ncei_ghcndms_cli.__doc__
 
 
 if __name__ == "__main__":
-    r = ncdc_ghcnd_ftp(
+    r = ncei_ghcnd_ftp(
         station="ASN00075020",
         start_date="2000-01-01",
         end_date="2001-01-01",
@@ -5155,7 +5160,7 @@ if __name__ == "__main__":
     print("ghcnd")
     print(r)
 
-    r = ncdc_ghcnd_ftp(
+    r = ncei_ghcnd_ftp(
         station="ASN00075020",
         start_date="10 years ago",
         end_date="9 years ago",
@@ -5168,7 +5173,7 @@ if __name__ == "__main__":
     #  datasetid=PRECIP_15&
     #  stationid=COOP:010008&
     #  units=metric&startdate=2010-05-01&enddate=2010-05-31
-    r = ncdc_cdo_json_to_df(
+    r = ncei_cdo_json_to_df(
         r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
         startdate="2010-05-01",
         enddate="2010-05-31",
@@ -5200,7 +5205,7 @@ if __name__ == "__main__":
         if "PRECIP_" in did:
             startdate = "2009-01-01"
 
-        r = ncdc_cdo_json_to_df(
+        r = ncei_cdo_json_to_df(
             r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
             startdate=startdate,
             stationid=sid,

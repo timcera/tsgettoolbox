@@ -42,10 +42,10 @@ Just run 'tsgettoolbox --help' to get a list of subcommands.  To get detailed
 help for a particular sub-command, for instance 'coops', type 'tsgettoolbox
 coops --help'.
 
-    about               
+    about
                 Print out information about tsgettoolbox and the system.
 
-    cdec        
+    cdec
                 This module provides access to data provided by the California
                 Department of Water Resources: California Data Exchange
                 Center web site.
@@ -56,7 +56,7 @@ coops --help'.
                 the National Ocean Service CO-OPS web services is at
                 http://tidesandcurrents.noaa.gov/api/
 
-    cpc         
+    cpc
                 This module provides direct access to Climate Prediction
                 Center, Weekly Drought Index dataset.
 
@@ -74,7 +74,7 @@ coops --help'.
     lcra_hydromet
                 Fetches site parameter data
 
-    lcra_wq     
+    lcra_wq
                 Fetches historical or near real-time (for some sites) data
 
     ldas
@@ -149,7 +149,7 @@ coops --help'.
                 |         | L4 Global                                         |
                 +---------+---------------------------------------------------+
 
-    ncdc_ghcnd  
+    ncdc_ghcnd
                 Download from the Global Historical Climatology Network
                 - Daily. Requires registration and free API key.
 
@@ -170,7 +170,7 @@ coops --help'.
 
     ncdc_gs
                 National Climatic Data Center Global Summary of the Month
-                (GSOM) or Global Summary of the Year (GSOY). 
+                (GSOM) or Global Summary of the Year (GSOY).
                 Requires registration and free API key.
 
     ncdc_normal_ann
@@ -217,7 +217,7 @@ coops --help'.
                 Detailed documentation is available at
                 http://waterdata.usgs.gov/nwis
 
-    twc                 
+    twc
                 Fetches Texas weather data
 
     unavco
@@ -227,7 +227,7 @@ coops --help'.
                 Returns 'met', 'pore_temperature', 'pore_pressure', 'tilt',
                 'strain', or 'positional' data for UNAVCO stations.
 
-    usgs_eddn   
+    usgs_eddn
                 Download from the USGS Emergency Data Distribution Network
 
 Usage Summary - Python Library

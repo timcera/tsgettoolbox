@@ -835,7 +835,7 @@ ndbc.__doc__ = ndbc_cli.__doc__
 
 
 if __name__ == "__main__":
-    """"""
+    """ """
 
     df = ndbc_to_df(
         r"https://www.ndbc.noaa.gov/data/",
