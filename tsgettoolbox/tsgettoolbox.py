@@ -43,6 +43,7 @@ from .functions.nwis import nwis_stat
 from .functions.twc import twc
 from .functions.unavco import unavco
 from .functions.usgs_eddn import usgs_eddn
+from .functions.usgs_whets import usgs_whets
 
 import os.path
 import sys

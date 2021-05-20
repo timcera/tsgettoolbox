@@ -96,7 +96,7 @@ locs__ = {
     130: ["marianna"],
     121: ["mayo"],
     160: ["monticello"],
-    480: ["north port"],
+    480: ["north port", "north_port"],
     280: ["ocklawaha"],
     303: ["okahumpka"],
     455: ["okeechobee"],
@@ -430,6 +430,7 @@ between "{sdate}" and "{edate}".
         istr = istr.replace(" ", "")
         istr = istr.replace("(", ":")
         istr = istr.replace(")", ":")
+        istr = istr.replace(":F", ":degF")
         return istr
 
     ndf = ndf.unstack(level="FAWN Station")
