@@ -904,7 +904,7 @@ def _read_rdb(url, data):
 
     # parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
     pmcodes = pd.read_csv(
-        os.path.join(os.path.dirname(__file__), "pmcodes.dat"),
+        os.path.join(os.path.dirname(__file__), "../station_metadata/nwis_pmcodes.dat"),
         comment="#",
         header=0,
         sep="\t",
@@ -3155,7 +3155,7 @@ def epa_wqp(
     startDateHi=None,
 ):
     """Download data from the EPA water quality portal."""
-    url = r"https://www.waterqualitydata.us/Result/search"
+    url = r"https://www.waterqualitydata.us/data/Result/search"
 
     query_params = {}
     query_params["bBox"] = bBox
@@ -3191,6 +3191,8 @@ def epa_wqp(
         query_params["startDateHo"] = None
 
     session = utils.requests_retry_session()
+    if os.path.exists("debug_tsgettoolbox"):
+        logging.warning(url, query_params)
     req = session.get(url, params=query_params)
     if os.path.exists("debug_tsgettoolbox"):
         logging.warning(req.url)

@@ -307,8 +307,6 @@ ncei_ghcnd_docstrings = {
         ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt""",
 }
 
-# https://www.ncei.noaa.gov/data/global-summary-of-the-day/access/
-
 
 @mando.command("ncei_ghcnd_ftp", formatter_class=HelpFormatter, doctype="numpy")
 @tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncei_ghcnd_docstrings))
@@ -545,55 +543,32 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
     return ndf
 
 
-def ncei_cdo_json_to_df(url, **query_params):
-    from tstoolbox import tstoolbox
+def get_por(query_params, headers):
+    # Get startdate and/or enddate information
+    s = utils.requests_retry_session()
+    ireq = Request(
+        "GET",
+        r"http://www.ncdc.noaa.gov/cdo-web/api/v2/stations/{0}".format(
+            query_params["stationid"]
+        ),
+        headers=headers,
+    )
+    prepped = ireq.prepare()
+    dreq = s.send(prepped)
+    dreq.raise_for_status()
 
-    delta = pd.Timedelta(days=360)
-    if query_params["datasetid"] in ["ANNUAL", "GSOM", "GSOY", "GHCNDMS"]:
-        delta = pd.Timedelta(days=3650)
+    sdate = pd.to_datetime(dreq.json()["mindate"])
+    edate = pd.to_datetime(dreq.json()["maxdate"])
 
-    query_params["units"] = "metric"
+    if "startdate" in query_params:
+        tdate = tsutils.parsedate(query_params["startdate"])
+        if tdate > sdate:
+            sdate = tdate
 
-    # Read in API key
-    api_key = utils.read_api_key("ncei_cdo")
-
-    headers = {"token": api_key}
-
-    sdate = datetime.datetime(1900, 1, 1)
-    td = datetime.datetime.today()
-    edate = datetime.datetime(td.year, td.month, td.day) + pd.Timedelta(days=1)
-    if "NORMAL_" in query_params["datasetid"]:
-        # All the NORMAL_* datasets must have a startdate/endate of
-        # 2010-01-01/2010-12-31
-        sdate = datetime.datetime(2010, 1, 1)
-        edate = datetime.datetime(2010, 12, 31)
-        delta = pd.Timedelta(days=367)
-    elif "stationid" in query_params:
-        # Get startdate and/or enddate information
-        s = utils.requests_retry_session()
-        ireq = Request(
-            "GET",
-            r"http://www.ncdc.noaa.gov/cdo-web/api/v2/stations/{0}".format(
-                query_params["stationid"]
-            ),
-            headers=headers,
-        )
-        prepped = ireq.prepare()
-        dreq = s.send(prepped)
-        dreq.raise_for_status()
-
-        sdate = pd.to_datetime(dreq.json()["mindate"])
-        edate = pd.to_datetime(dreq.json()["maxdate"])
-
-        if "startdate" in query_params:
-            tdate = tsutils.parsedate(query_params["startdate"])
-            if tdate > sdate:
-                sdate = tdate
-
-        if "enddate" in query_params:
-            tdate = tsutils.parsedate(query_params["enddate"])
-            if tdate < edate:
-                edate = tdate
+    if "enddate" in query_params:
+        tdate = tsutils.parsedate(query_params["enddate"])
+        if tdate < edate:
+            edate = tdate
 
     if sdate >= edate:
         raise ValueError(
@@ -605,6 +580,33 @@ The startdate of {0} is greater than, or equal to, the enddate of {1}.
                 )
             )
         )
+    return sdate, edate
+
+
+def ncei_cdo_json_to_df(url, **query_params):
+    from tstoolbox import tstoolbox
+
+    delta = pd.Timedelta(days=360)
+    if query_params["datasetid"] in ["ANNUAL", "GSOM", "GSOY", "GHCNDMS"]:
+        delta = pd.Timedelta(days=3650)
+
+    query_params["units"] = "metric"
+
+    # Read in API key
+    api_key = utils.read_api_key("ncei_cdo")
+    headers = {"token": api_key}
+
+    sdate = datetime.datetime(1900, 1, 1)
+    td = datetime.datetime.today()
+    edate = datetime.datetime(td.year, td.month, td.day) + pd.Timedelta(days=1)
+    if "NORMAL_" in query_params["datasetid"]:
+        # All the NORMAL_* datasets must have a startdate/endate of
+        # 2010-01-01/2010-12-31
+        sdate = datetime.datetime(2010, 1, 1)
+        edate = datetime.datetime(2010, 12, 31)
+        delta = pd.Timedelta(days=370)
+    elif "stationid" in query_params:
+        sdate, edate = get_por(query_params, headers)
 
     df = pd.DataFrame()
 
@@ -616,7 +618,11 @@ The startdate of {0} is greater than, or equal to, the enddate of {1}.
         time.sleep(1)
 
         query_params["startdate"] = testdate.strftime("%Y-%m-%d")
-        query_params["enddate"] = (testdate + delta).strftime("%Y-%m-%d")
+
+        if testdate + delta > edate:
+            query_params["enddate"] = edate.strftime("%Y-%m-%d")
+        else:
+            query_params["enddate"] = (testdate + delta).strftime("%Y-%m-%d")
 
         s = utils.requests_retry_session()
         ireq = Request("GET", url, params=query_params, headers=headers)
@@ -630,7 +636,6 @@ The startdate of {0} is greater than, or equal to, the enddate of {1}.
         try:
             tdf = pd.io.json.json_normalize(req.json()["results"])
         except KeyError:
-            testdate = testdate + delta
             continue
 
         tdf.set_index("date", inplace=True)
@@ -733,11 +738,9 @@ def ncei_ghcnd(stationid, datatypeid="", start_date="", end_date=""):
     return df
 
 
-# 1763-01-01, 2016-09-01, Global Summary of the Month , 1    , GSOM
-# 1763-01-01, 2016-01-01, Global Summary of the Year  , 1    , GSOY
-@mando.command("ncei_gs", formatter_class=HelpFormatter, doctype="numpy")
-def ncei_gs_cli(stationid, database, datatypeid="", startdate="", enddate=""):
-    r"""Access ncei Global Summary of Month (GSOM) and Year (GSOY).
+@mando.command("ncei_gsod", formatter_class=HelpFormatter, doctype="numpy")
+def ncei_gsod_cli(stationid, datatypeid="", startdate="", enddate=""):
+    r"""Access ncei Global Summary of the Day.
 
     National Centers for Environmental Information (NCEI) Global Summary of the MONTH (GSOM)
     https://gis.ncdc.noaa.gov/all-records/catalog/search/resource/details.page
@@ -1220,9 +1223,8 @@ def ncei_gs_cli(stationid, database, datatypeid="", startdate="", enddate=""):
     enddate
         End date in ISO8601 format."""
     tsutils._printiso(
-        ncei_gs(
+        ncei_gsod(
             stationid,
-            database,
             datatypeid=datatypeid,
             startdate=startdate,
             enddate=enddate,
@@ -1230,21 +1232,27 @@ def ncei_gs_cli(stationid, database, datatypeid="", startdate="", enddate=""):
     )
 
 
-def ncei_gs(stationid, database, datatypeid="", startdate="", enddate=""):
-    r"""Access ncei Global Summary of Month (GSOM) and Year (GSOY)."""
-    df = ncei_cdo_json_to_df(
-        r"http://www.ncdc.noaa.gov/cdo-web/api/v2/data",
-        startdate=startdate,
-        enddate=enddate,
-        datasetid=database,
-        stationid=stationid,
-    )
+# https://www.ncei.noaa.gov/data/global-summary-of-the-day/access/
+# GSOD
+def ncei_gsod(stationid, datatypeid="", startdate="", enddate=""):
+    r"""Access NCEI Global Summary of the Day."""
+    # Read in API key
+    api_key = utils.read_api_key("ncei_cdo")
+    headers = {"token": api_key}
 
+    sdate, edate = get_por(
+        {"stationid": stationid, "startdate": startdate, "enddate": enddate}, headers
+    )
+    df = pd.DataFrame()
+    for year in range(sdate.year, edate.year + 1):
+        ndf = pd.read_csv(
+            f"https://www.ncei.noaa.gov/data/global-summary-of-the-day/access/{year}/{stationid}.csv"
+        )
+        df = df.join(ndf)
     return df
 
 
 # 1763-01-01, 2016-09-01, Global Summary of the Month , 1    , GSOM
-# 1763-01-01, 2016-01-01, Global Summary of the Year  , 1    , GSOY
 @mando.command("ncei_gsom", formatter_class=HelpFormatter, doctype="numpy")
 def ncei_gsom_cli(stationid, datatypeid="", startdate="", enddate=""):
     r"""Access NCEI Global Summary of Month.
@@ -1748,7 +1756,6 @@ def ncei_gsom(stationid, datatypeid="", startdate="", enddate=""):
     return df
 
 
-# 1763-01-01, 2016-09-01, Global Summary of the Month , 1    , GSOM
 # 1763-01-01, 2016-01-01, Global Summary of the Year  , 1    , GSOY
 @mando.command("ncei_gsoy", formatter_class=HelpFormatter, doctype="numpy")
 def ncei_gsoy_cli(stationid, datatypeid="", startdate="", enddate=""):
@@ -2226,7 +2233,7 @@ def ncei_gsoy_cli(stationid, datatypeid="", startdate="", enddate=""):
     enddate
         End date in ISO8601 format."""
     tsutils._printiso(
-        ncei_gs(
+        ncei_gsoy(
             stationid,
             datatypeid=datatypeid,
             startdate=startdate,
@@ -6142,7 +6149,9 @@ def ncei_ghcndms(stationid, datatypeid="", startdate="", enddate=""):
 
 ncei_ghcnd_ftp.__doc__ = ncei_ghcnd_ftp_cli.__doc__
 ncei_ghcnd.__doc__ = ncei_ghcnd_cli.__doc__
-ncei_gs.__doc__ = ncei_gs_cli.__doc__
+ncei_gsod.__doc__ = ncei_gsod_cli.__doc__
+ncei_gsom.__doc__ = ncei_gsom_cli.__doc__
+ncei_gsoy.__doc__ = ncei_gsoy_cli.__doc__
 ncei_nexrad2.__doc__ = ncei_nexrad2_cli.__doc__
 ncei_nexrad3.__doc__ = ncei_nexrad3_cli.__doc__
 ncei_normal_ann.__doc__ = ncei_normal_ann_cli.__doc__

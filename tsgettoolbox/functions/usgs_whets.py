@@ -201,5 +201,5 @@ usgs_whets.__doc__ = usgs_whets_cli.__doc__
 
 
 if __name__ == "__main__":
-    r = metdata(29.6, 82.3, "precipitation_amount")
+    r = usgs_whets(29.6, -82.3)
     print(r)

@@ -257,5 +257,5 @@ metdata.__doc__ = metdata_cli.__doc__
 
 
 if __name__ == "__main__":
-    r = metdata(29.6, 82.3, "precipitation_amount")
+    r = metdata(29.6, -82.3, "precipitation_amount")
     print(r)

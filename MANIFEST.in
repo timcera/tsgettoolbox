@@ -4,4 +4,4 @@ include AUTHORS.rst
 include CONTRIBUTING.rst
 include LICENSE.txt
 include README.rst
-include tsgettoolbox/functions/pmcodes.dat
+include tsgettoolbox/station_metadata/*.dat

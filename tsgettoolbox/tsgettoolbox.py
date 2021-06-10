@@ -21,7 +21,7 @@ from .functions.ncei import ncei_annual
 from .functions.ncei import ncei_ghcnd
 from .functions.ncei import ncei_ghcnd_ftp
 from .functions.ncei import ncei_ghcndms
-from .functions.ncei import ncei_gs
+from .functions.ncei import ncei_gsod
 from .functions.ncei import ncei_nexrad2
 from .functions.ncei import ncei_nexrad3
 from .functions.ncei import ncei_normal_ann

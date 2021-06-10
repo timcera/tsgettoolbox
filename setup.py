@@ -89,7 +89,7 @@ setup(
     author_email="tim@cerazone.net",
     url="http://timcera.bitbucket.io/tsgettoolbox/docsrc/index.html",
     packages=find_packages(),
-    package_data={"tsgettoolbox": ["tsgettoolbox/services/usgs/*.dat"]},
+    package_data={"tsgettoolbox": ["tsgettoolbox/station_metadata/*.dat"]},
     include_package_data=True,
     zip_safe=False,
     install_requires=install_requires,
