@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .misc import (
     camel_to_underscore,
     convert_date,
@@ -15,12 +16,11 @@ from .misc import (
     save_pretty_printed_xml,
     to_bytes,
 )
-
 from .raster import (
-    extract_from_zip,
-    mosaic_and_clip,
     download_tiles,
+    extract_from_zip,
     generate_raster_uid,
+    mosaic_and_clip,
 )
 
 try:

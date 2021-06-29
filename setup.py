@@ -1,14 +1,12 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from itertools import chain
 import os
 import os.path
 import shutil
 import sys
+from itertools import chain
 
-from setuptools import find_packages
-from setuptools import setup
+from setuptools import find_packages, setup
 
 pkg_name = "tsgettoolbox"
 version = open("VERSION").readline().strip()

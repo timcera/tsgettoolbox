@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     `CUAHSI HIS Central`_ catalog web services
 

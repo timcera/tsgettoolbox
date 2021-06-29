@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     ulmo.usgs.ned.core
     ~~~~~~~~~~~~~~~~~~~~~
@@ -11,14 +12,15 @@
 
 """
 from __future__ import print_function
-from past.builtins import basestring
 
-from geojson import Feature, FeatureCollection, Polygon
 import logging
 import os
-import requests
-from tsgettoolbox.ulmo import util
 
+import requests
+from geojson import Feature, FeatureCollection, Polygon
+from past.builtins import basestring
+
+from tsgettoolbox.ulmo import util
 
 # NED ftp url.
 NED_FTP_URL = "ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/NED/<layer>/IMG/"

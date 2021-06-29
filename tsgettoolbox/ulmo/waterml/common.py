@@ -1,5 +1,5 @@
+# -*- coding: utf-8 -*-
 import isodate
-
 from lxml import etree
 from past.builtins import basestring
 

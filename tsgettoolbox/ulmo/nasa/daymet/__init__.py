@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     `NASA EARTHDATA ORNL DAAC Daymet`_ web services
 
@@ -6,9 +7,7 @@
 """
 from __future__ import absolute_import
 
-from . import core
-
-from .core import get_daymet_singlepixel
-from .core import get_variables
-
 from tsgettoolbox.ulmo import util
+
+from . import core
+from .core import get_daymet_singlepixel, get_variables

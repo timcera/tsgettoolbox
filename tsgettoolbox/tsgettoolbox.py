@@ -1,13 +1,17 @@
-#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 r"""
 tsgettoolbox command line/library tools to retrieve time series.
 
 This program is a collection of utilities to download data from various
 web services.
 """
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+from __future__ import absolute_import, division, print_function
+
+import os.path
+import sys
+import warnings
+
+import mando
 
 from .functions.cdec import cdec
 from .functions.coops import coops
@@ -17,39 +21,37 @@ from .functions.fawn import fawn
 from .functions.ldas import ldas
 from .functions.metdata import metdata
 from .functions.modis import modis
-from .functions.ncei import ncei_annual
-from .functions.ncei import ncei_ghcnd
-from .functions.ncei import ncei_ghcnd_ftp
-from .functions.ncei import ncei_ghcndms
-from .functions.ncei import ncei_gsod
-from .functions.ncei import ncei_nexrad2
-from .functions.ncei import ncei_nexrad3
-from .functions.ncei import ncei_normal_ann
-from .functions.ncei import ncei_normal_dly
-from .functions.ncei import ncei_normal_hly
-from .functions.ncei import ncei_normal_mly
-from .functions.ncei import ncei_precip_15
-from .functions.ncei import ncei_precip_hly
+from .functions.ncei import (
+    ncei_annual,
+    ncei_ghcnd,
+    ncei_ghcnd_ftp,
+    ncei_ghcndms,
+    ncei_gsod,
+    ncei_nexrad2,
+    ncei_nexrad3,
+    ncei_normal_ann,
+    ncei_normal_dly,
+    ncei_normal_hly,
+    ncei_normal_mly,
+    ncei_precip_15,
+    ncei_precip_hly,
+)
 from .functions.ndbc import ndbc
-from .functions.nwis import epa_wqp
-from .functions.nwis import nwis
-from .functions.nwis import nwis_dv
-from .functions.nwis import nwis_gwlevels
-from .functions.nwis import nwis_iv
-from .functions.nwis import nwis_measurements
-from .functions.nwis import nwis_peak
-from .functions.nwis import nwis_site
-from .functions.nwis import nwis_stat
+from .functions.nwis import (
+    epa_wqp,
+    nwis,
+    nwis_dv,
+    nwis_gwlevels,
+    nwis_iv,
+    nwis_measurements,
+    nwis_peak,
+    nwis_site,
+    nwis_stat,
+)
 from .functions.twc import twc
 from .functions.unavco import unavco
 from .functions.usgs_eddn import usgs_eddn
 from .functions.usgs_whets import usgs_whets
-
-import os.path
-import sys
-import warnings
-
-import mando
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter

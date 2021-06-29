@@ -1,23 +1,22 @@
-from builtins import map
-from builtins import zip
-from past.builtins import basestring
+# -*- coding: utf-8 -*-
 import contextlib
 import copy
-from datetime import datetime
 import os
 import shutil
 import sys
 import tempfile
 import warnings
+from builtins import map, zip
+from datetime import datetime
 
 import numpy as np
 import pandas
 import tables
+from past.builtins import basestring
 from tables.scripts import ptrepack
 
 from tsgettoolbox.ulmo import util
 from tsgettoolbox.ulmo.usgs.nwis import core
-
 
 # default hdf5 file path
 DEFAULT_HDF5_FILE_PATH = util.get_default_h5file_path("usgs/")

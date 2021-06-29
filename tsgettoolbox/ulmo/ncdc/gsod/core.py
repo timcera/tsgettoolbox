@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     ulmo.ncdc.gsod.core
     ~~~~~~~~~~~~~~~~~~~
@@ -8,18 +9,17 @@
     .. _National Climatic Data Center: http://www.ncdc.noaa.gov
     .. _Global Summary of the Day: http://www.ncdc.noaa.gov/oa/gsod.html
 """
-from builtins import str
-from builtins import range
-from past.builtins import basestring
-from contextlib import contextmanager
 import csv
 import datetime
 import gzip
 import itertools
 import os
 import tarfile
+from builtins import range, str
+from contextlib import contextmanager
 
 import numpy as np
+from past.builtins import basestring
 
 from tsgettoolbox.ulmo import util
 

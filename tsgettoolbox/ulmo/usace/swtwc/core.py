@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     ulmo.usace.swtwc.core
     ~~~~~~~~~~~~~~~~~~~~~
@@ -12,16 +13,14 @@
 from future import standard_library
 
 standard_library.install_aliases()
-from builtins import str
-from builtins import zip
-from builtins import range
 import datetime
 import os.path
+from builtins import range, str, zip
 
-from bs4 import BeautifulSoup
 import numpy as np
-import requests
 import pandas
+import requests
+from bs4 import BeautifulSoup
 
 from tsgettoolbox.ulmo import util
 

@@ -1,3 +1,2 @@
-from . import eddn
-from . import ned
-from . import nwis
+# -*- coding: utf-8 -*-
+from . import eddn, ned, nwis

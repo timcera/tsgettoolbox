@@ -1,2 +1,2 @@
-from . import wof
-from . import his_central
+# -*- coding: utf-8 -*-
+from . import his_central, wof

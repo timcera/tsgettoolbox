@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import mando
 
 try:
@@ -6,9 +7,8 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 import pandas as pd
-
-from tstoolbox import tsutils
 import typic
+from tstoolbox import tsutils
 
 from tsgettoolbox.ulmo.twc.kbdi.core import get_data
 

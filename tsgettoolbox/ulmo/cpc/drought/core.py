@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     ulmo.cpc.drought.core
     ~~~~~~~~~~~~~~~~~~~~~
@@ -9,16 +10,15 @@
     .. _Weekly Drought Index: https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
 """
 from __future__ import division
-from builtins import str
-from builtins import range
-from past.utils import old_div
 
 import datetime
 import os
-import requests
+from builtins import range, str
 
 import numpy as np
 import pandas
+import requests
+from past.utils import old_div
 
 from tsgettoolbox.ulmo import util
 

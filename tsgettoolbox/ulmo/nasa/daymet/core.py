@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     ulmo.nasa.daymet.core
     ~~~~~~~~~~~~~~~~~~~~~
@@ -11,16 +12,13 @@
 from future import standard_library
 
 standard_library.install_aliases()
-from builtins import str
-from past.builtins import basestring
-import contextlib
-import io
-import datetime
-import time
 import logging
+import time
+from builtins import str
 
-import requests
 import pandas as pd
+import requests
+from past.builtins import basestring
 
 from tsgettoolbox.ulmo import util
 

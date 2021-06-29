@@ -1,11 +1,7 @@
+# -*- coding: utf-8 -*-
 from future import standard_library
 
 standard_library.install_aliases()
-from builtins import zip
-from builtins import str
-from past.builtins import basestring
-from builtins import object
-from contextlib import contextmanager
 import datetime
 import email.utils
 import ftplib
@@ -14,13 +10,15 @@ import os
 import re
 import urllib.parse
 import warnings
+from builtins import object, str, zip
+from contextlib import contextmanager
 
 import appdirs
-from lxml import etree
 import numpy as np
 import pandas
 import requests
-
+from lxml import etree
+from past.builtins import basestring
 
 # pre-compiled regexes for underscore conversion
 first_cap_re = re.compile("(.)([A-Z][a-z]+)")

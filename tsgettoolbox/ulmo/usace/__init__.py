@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import
-from . import rivergages
-from . import swtwc
+
+from . import rivergages, swtwc

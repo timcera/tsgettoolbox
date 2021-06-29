@@ -1,16 +1,16 @@
-from io import BytesIO
+# -*- coding: utf-8 -*-
 import logging
 import os
 import textwrap
 import time
-
-import pandas as pd
-import mando
-from tabulate import tabulate as tb
-
 from argparse import RawTextHelpFormatter as HelpFormatter
+from io import BytesIO
 
+import mando
+import pandas as pd
+from tabulate import tabulate as tb
 from tstoolbox import tsutils
+
 from tsgettoolbox import utils
 
 _UNITS_MAP = {

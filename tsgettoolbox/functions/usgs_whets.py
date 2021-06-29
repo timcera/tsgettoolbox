@@ -1,18 +1,17 @@
+# -*- coding: utf-8 -*-
 """Download data from Florida Automated Weather Network (FAWN)."""
 
-import datetime
 
-import pandas as pd
 import mando
+import pandas as pd
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
-from tstoolbox import tsutils
-
 import xarray as xr
+from tstoolbox import tsutils
 
 _vars = {
     "ret": "ETo",
@@ -157,6 +156,11 @@ def opendap(variables, lat, lon, start_date=None, end_date=None):
             unit_label = "degC"
         else:
             unit_label = dataset[i].attrs["units"]
+        unit_label = unit_label.replace(" per ", "/")
+        unit_label = unit_label.replace("millimeters", "mm")
+        unit_label = unit_label.replace("square meter", "m^2")
+        unit_label = unit_label.replace("meters", "m")
+        unit_label = unit_label.replace("second", "s")
         rename[i] = "{0}:{1}".format(i, unit_label)
     ndf = dataset.to_dataframe().rename(rename, axis="columns")
 
@@ -172,7 +176,7 @@ def usgs_whets(
     start_date=None,
     end_date=None,
 ):
-    r"""Download METDATA data from CIDA."""
+    r"""Download USGS WATERS data from CIDA."""
     if variables is None:
         variables = _vars.keys()
 
@@ -186,7 +190,7 @@ def usgs_whets(
         raise ValueError(
             tsutils.error_wrapper(
                 """
-USGS-CIDA returned no METDATA data for lat/lon "{lat}/{lon}", variables "{variables}"
+USGS-CIDA returned no USGS WATERS data for lat/lon "{lat}/{lon}", variables "{variables}"
 between {start_date} and {end_date}.
 """.format(
                     **locals()

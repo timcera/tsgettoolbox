@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     `USGS National Water Information System`_ web services
 
@@ -6,11 +7,10 @@
 """
 from __future__ import absolute_import
 
-from . import core
-
-from .core import get_sites, get_site_data
-
 from tsgettoolbox.ulmo import util
+
+from . import core
+from .core import get_site_data, get_sites
 
 try:
     from . import hdf5

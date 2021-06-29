@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     LCRA Hydromet Data
     ~~~~~~~~~~~~~~~~~~
@@ -8,4 +9,4 @@
     .. _Lower Colorado River Authority: http://www.lcra.org
     .. _Hydromet: http://hydromet.lcra.org
 """
-from .core import get_sites_by_type, get_site_data, get_all_sites, get_current_data
+from .core import get_all_sites, get_current_data, get_site_data, get_sites_by_type

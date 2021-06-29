@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
    ulmo.util.raster
    ~~~~~~~~~~~~~~~~
@@ -5,19 +6,22 @@
    Collection of useful functions for raster manipulation
 """
 from __future__ import print_function
-from past.builtins import basestring
 
 import contextlib
 import hashlib
-from .misc import download_if_new, mkdir_if_doesnt_exist
 import os
 import zipfile
 
+from past.builtins import basestring
+
+from .misc import download_if_new, mkdir_if_doesnt_exist
+
 
 def mosaic_and_clip(raster_tiles, xmin, ymin, xmax, ymax, output_path):
-    from pyproj import Proj
-    import rasterio
     import subprocess
+
+    import rasterio
+    from pyproj import Proj
 
     print("Mosaic and clip to bounding box extents")
     output_vrt = os.path.splitext(output_path)[0] + ".vrt"

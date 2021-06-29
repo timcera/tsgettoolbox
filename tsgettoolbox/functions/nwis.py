@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 r"""
 tsgettoolbox command line/library tools to retrieve time series.
 
@@ -6,17 +6,15 @@ This program is a collection of utilities to download data from various
 web services.
 """
 
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
+from __future__ import absolute_import, division, print_function
 
-from io import BytesIO
 import logging
 import os
 import warnings
+from io import BytesIO
 
-import pandas as pd
 import mando
+import pandas as pd
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -24,6 +22,7 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 from tstoolbox import tsutils
+
 from tsgettoolbox import utils
 
 warnings.filterwarnings("ignore")

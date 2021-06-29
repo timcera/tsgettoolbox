@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Provide access to data from the USACE `Rivergages`_ web site.
 
@@ -11,12 +12,13 @@ import warnings
 warnings.filterwarnings("ignore")
 
 import pandas as pd
-
 from tstoolbox import tsutils
 
-from tsgettoolbox.ulmo.usace.rivergages.core import get_station_data
-from tsgettoolbox.ulmo.usace.rivergages.core import get_station_parameters
-from tsgettoolbox.ulmo.usace.rivergages.core import get_stations
+from tsgettoolbox.ulmo.usace.rivergages.core import (
+    get_station_data,
+    get_station_parameters,
+    get_stations,
+)
 
 # def get_station_data(station_code, parameter, start=None, end=None,
 #         min_value=None, max_value=None):

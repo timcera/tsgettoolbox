@@ -1,4 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import
-from . import cirs
-from . import ghcn_daily
-from . import gsod
+
+from . import cirs, ghcn_daily, gsod

@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
+from typing import Optional
+
 import mando
 import pandas as pd
-from typing import Optional
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -8,7 +10,6 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 import typic
-
 from tstoolbox import tsutils
 
 from tsgettoolbox.ulmo.cpc.drought.core import get_data

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Provides data from the `Emergency Data Distribution Network`.
 
@@ -14,10 +15,9 @@ of every byte and guarantees that all characters are printable.
 .. _Emergency Data Distribution Network: http://eddn.usgs.gov/
 .. _http://eddn.usgs.gov/dcpformat.html
 """
-from tsgettoolbox.ulmo.usgs.eddn import decode
-from tsgettoolbox.ulmo.usgs.eddn import get_data
-
 import mando
+
+from tsgettoolbox.ulmo.usgs.eddn import decode, get_data
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -25,7 +25,6 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 from tstoolbox import tsutils
-
 
 # def get_data(
 #         dcp_address, start=None, end=None, networklist='', channel='',

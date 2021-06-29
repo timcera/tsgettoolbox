@@ -1,12 +1,13 @@
+# -*- coding: utf-8 -*-
 """
    ulmo.util
    ~~~~~~~~~~
 
    Collection of useful functions for common use cases
 """
-from contextlib import contextmanager
 import os
 import warnings
+from contextlib import contextmanager
 
 import tables
 

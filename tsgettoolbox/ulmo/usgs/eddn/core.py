@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     ulmo.usgs.eddn.core
     ~~~~~~~~~~~~~~~~~~~~~
@@ -20,17 +21,18 @@
     .. _http://eddn.usgs.gov/dcpformat.html
 
 """
-from past.builtins import basestring
-
-from bs4 import BeautifulSoup
-from datetime import datetime, timedelta
-import isodate
 import logging
 import os
-import pandas as pd
 import re
-import requests
 import shutil
+from datetime import datetime, timedelta
+
+import isodate
+import pandas as pd
+import requests
+from bs4 import BeautifulSoup
+from past.builtins import basestring
+
 from tsgettoolbox.ulmo import util
 
 from . import parsers

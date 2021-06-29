@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     Access to data provided by the `United States Army
     Corps of Engineers`_ - `Tulsa District Water Control`_ web site.

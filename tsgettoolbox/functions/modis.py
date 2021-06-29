@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import datetime
 
 import mando
@@ -10,10 +11,8 @@ except ImportError:
 import numpy as np
 import pandas as pd
 from requests import Session
-from zeep import Client
-from zeep import Transport
-
 from tstoolbox import tsutils
+from zeep import Client, Transport
 
 
 def date_parser(strdates):

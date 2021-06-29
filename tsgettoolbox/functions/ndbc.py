@@ -1,12 +1,12 @@
+# -*- coding: utf-8 -*-
 import datetime
-from gzip import GzipFile
-from io import BytesIO
-from io import StringIO
 import logging
 import os
+from gzip import GzipFile
+from io import BytesIO, StringIO
 
-import pandas as pd
 import mando
+import pandas as pd
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -14,8 +14,8 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 from tstoolbox import tsutils
-from tsgettoolbox import utils
 
+from tsgettoolbox import utils
 
 _lmap = {
     "stdmet": "h",

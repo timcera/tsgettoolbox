@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 import datetime
 import logging
 import os
 import time
 
-import pandas as pd
 import mando
+import pandas as pd
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -13,11 +14,9 @@ except ImportError:
 
 from requests import Request
 from requests.utils import unquote
-
-from tsgettoolbox import utils
 from tstoolbox import tsutils
-from tsgettoolbox import utils
 
+from tsgettoolbox import utils
 
 ncei_ghcnd_docstrings = {
     "info": r"""If you use this data, please read

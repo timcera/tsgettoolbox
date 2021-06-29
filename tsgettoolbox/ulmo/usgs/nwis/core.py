@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     ulmo.usgs.core
     ~~~~~~~~~~~~~~
@@ -11,19 +12,18 @@
 from future import standard_library
 
 standard_library.install_aliases()
-from builtins import str
-from past.builtins import basestring
 import contextlib
-import io
 import datetime
+import io
 import logging
+from builtins import str
 
 import isodate
 import requests
+from past.builtins import basestring
 
 from tsgettoolbox.ulmo import util
 from tsgettoolbox.ulmo.waterml import v1_1 as wml
-
 
 INSTANTANEOUS_URL = "http://waterservices.usgs.gov/nwis/iv/"
 DAILY_URL = "http://waterservices.usgs.gov/nwis/dv/"

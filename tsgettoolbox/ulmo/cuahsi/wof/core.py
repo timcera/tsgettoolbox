@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     ulmo.wof.core
     ~~~~~~~~~~~~~
@@ -8,17 +9,15 @@
 from future import standard_library
 
 standard_library.install_aliases()
+import io
 import os
 from builtins import str
-import io
 
+import isodate
 import suds.client
 from suds.cache import ObjectCache
-import isodate
 
-from tsgettoolbox.ulmo import util
-from tsgettoolbox.ulmo import waterml
-
+from tsgettoolbox.ulmo import util, waterml
 
 _suds_client = None
 

@@ -1,18 +1,18 @@
+# -*- coding: utf-8 -*-
 """Download data from Florida Automated Weather Network (FAWN)."""
 
 import datetime
 
-import pandas as pd
 import mando
+import pandas as pd
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
-from tstoolbox import tsutils
-
 import mechanize
+from tstoolbox import tsutils
 
 #  "referrer": "https://fawn.ifas.ufl.edu/data/reports/?res",
 #  "referrerPolicy": "no-referrer-when-downgrade",

@@ -1,9 +1,10 @@
-from io import BytesIO
+# -*- coding: utf-8 -*-
 import logging
 import os
+from io import BytesIO
 
-import pandas as pd
 import mando
+import pandas as pd
 import requests
 
 try:

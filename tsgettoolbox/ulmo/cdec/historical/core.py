@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     ulmo.cdec.historical.core
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -51,11 +52,10 @@
     M    monthly
 
 """
-from builtins import str
-from builtins import zip
+import re
+from builtins import str, zip
 
 import pandas as pd
-import re
 
 from tsgettoolbox.ulmo import util
 

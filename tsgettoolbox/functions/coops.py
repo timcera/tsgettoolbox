@@ -1,8 +1,9 @@
-from collections import defaultdict
-from io import BytesIO
+# -*- coding: utf-8 -*-
 import logging
 import os
-from typing import List, Optional, Union
+from collections import defaultdict
+from io import BytesIO
+from typing import List, Optional
 
 try:
     from typing import Literal
@@ -20,8 +21,8 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 from tstoolbox import tsutils
-from tsgettoolbox import utils
 
+from tsgettoolbox import utils
 
 _settings_map = defaultdict(lambda: [{"metric": "", "english": ""}])
 

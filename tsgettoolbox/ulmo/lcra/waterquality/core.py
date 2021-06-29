@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     ulmo.lcra.waterquality.core
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -7,28 +8,28 @@
     .. _Lower Colorado River Authority: http://www.lcra.org
     .. _Water Quality: http://waterquality.lcra.org/
 """
-from bs4 import BeautifulSoup
 import logging
-from geojson import Point, Feature, FeatureCollection
-
-# import unicode
-
-from tsgettoolbox.ulmo import util
-
-import dateutil
 
 # import datetime
 import os.path as op
+
+import dateutil
+from bs4 import BeautifulSoup
+from geojson import Feature, FeatureCollection, Point
+
+from tsgettoolbox.ulmo import util
+
+# import unicode
+
 
 LCRA_WATERQUALITY_DIR = op.join(util.get_ulmo_dir(), "lcra/waterquality")
 
 
 log = logging.getLogger(__name__)
 
-import requests
-
 import numpy as np
 import pandas as pd
+import requests
 
 source_map = {
     "LCRA": "Lower Colorado River Authority",

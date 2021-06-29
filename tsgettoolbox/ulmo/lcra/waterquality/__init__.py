@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     LCRA Water Quality Data
     ~~~~~~~~~~~~~~~~~~~~~~~
@@ -8,4 +9,4 @@
     .. _Lower Colorado River Authority: http://www.lcra.org
     .. _Water Quality: http://waterquality.lcra.org/
 """
-from .core import get_sites, get_historical_data, get_recent_data, get_site_info
+from .core import get_historical_data, get_recent_data, get_site_info, get_sites

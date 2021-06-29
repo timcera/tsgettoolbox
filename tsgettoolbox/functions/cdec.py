@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
+from typing import Optional, Union
+
 import mando
 import pandas as pd
-from typing import Optional, Union
 
 try:
     from typing import Literal

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     `National Climatic Data Center`_ `Global Summary of the Day`_ dataset
 

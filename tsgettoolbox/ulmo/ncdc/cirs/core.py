@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     ulmo.ncdc.cirs.core
     ~~~~~~~~~~~~~~~~~~~
@@ -8,16 +9,14 @@
     .. _National Climatic Data Center: http://www.ncdc.noaa.gov
     .. _Climate Index Reference Sequential (CIRS): http://www1.ncdc.noaa.gov/pub/data/cirs/
 """
-from builtins import str
-from builtins import range
-from past.builtins import basestring
 import distutils
 import os.path
+from builtins import range, str
 
 import pandas
+from past.builtins import basestring
 
 from tsgettoolbox.ulmo import util
-
 
 CIRS_DIR = util.get_ulmo_dir("ncdc/cirs")
 

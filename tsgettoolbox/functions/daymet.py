@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 r"""
 tsgettoolbox command line/library tools to retrieve time series.
 
@@ -6,9 +6,7 @@ This program is a collection of utilities to download data from various
 web services.
 """
 
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
+from __future__ import absolute_import, division, print_function
 
 import datetime
 import logging
@@ -19,10 +17,11 @@ try:
     import urllib.parse as urlp
 except ImportError:
     import urllib as urlp
+
 import warnings
 
-import pandas as pd
 import mando
+import pandas as pd
 import typic
 
 try:

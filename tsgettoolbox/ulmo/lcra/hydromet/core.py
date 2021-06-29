@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     ulmo.lcra.hydromet.core
     ~~~~~~~~~~~~~~~~~~~~~~~
@@ -8,13 +9,14 @@
     .. _Lower Colorado River Authority: http://www.lcra.org
     .. _Hydromet: http://hydromet.lcra.org
 """
-from bs4 import BeautifulSoup
 import datetime
-from dateutil.relativedelta import relativedelta
-from geojson import Point, Feature, FeatureCollection
 import logging
-import requests
+
 import pandas
+import requests
+from bs4 import BeautifulSoup
+from dateutil.relativedelta import relativedelta
+from geojson import Feature, FeatureCollection, Point
 
 from tsgettoolbox.ulmo import util
 

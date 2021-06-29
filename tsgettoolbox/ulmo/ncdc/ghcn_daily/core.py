@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     ulmo.ncdc.ghcn_daily.core
     ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -10,17 +11,15 @@
     .. _Global Historical Climate Network - Daily: http://www.ncdc.noaa.gov/oa/climate/ghcn-daily/
 
 """
-from builtins import str
-from builtins import range
-from past.builtins import basestring
 import itertools
 import os
+from builtins import range, str
 
 import numpy as np
 import pandas
+from past.builtins import basestring
 
 from tsgettoolbox.ulmo import util
-
 
 GHCN_DAILY_DIR = os.path.join(util.get_ulmo_dir(), "ncdc/ghcn_daily")
 
