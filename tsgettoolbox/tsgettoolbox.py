@@ -48,6 +48,7 @@ from .functions.nwis import (
     nwis_site,
     nwis_stat,
 )
+from .functions.terraclimate import terraclimate
 from .functions.twc import twc
 from .functions.unavco import unavco
 from .functions.usgs_eddn import usgs_eddn

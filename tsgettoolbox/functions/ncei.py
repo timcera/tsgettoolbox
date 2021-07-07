@@ -3,6 +3,7 @@ import datetime
 import logging
 import os
 import time
+from collections import OrderedDict
 
 import mando
 import pandas as pd
@@ -62,11 +63,11 @@ ncei_ghcnd_docstrings = {
     +------+----------------------------------------------------------+
     | Code | Description                                              |
     +======+==========================================================+
-    | TMAX | Temperature MAX (1/10 degree C)                          |
+    | TMAX | Temperature MAX (degree C)                               |
     +------+----------------------------------------------------------+
-    | TMIN | Temperature MIN (1/10 degree C)                          |
+    | TMIN | Temperature MIN (degree C)                               |
     +------+----------------------------------------------------------+
-    | PRCP | PReCiPitation (tenths of mm)                             |
+    | PRCP | PReCiPitation (mm)                                       |
     +------+----------------------------------------------------------+
     | SNOW | SNOWfall (mm)                                            |
     +------+----------------------------------------------------------+
@@ -92,7 +93,7 @@ ncei_ghcnd_docstrings = {
     +------+----------------------------------------------------------+
     | AWDR | Average daily wind direction (degrees)                   |
     +------+----------------------------------------------------------+
-    | AWND | Average daily wind speed (tenths of meters per second)   |
+    | AWND | Average daily wind speed (meters per second)             |
     +------+----------------------------------------------------------+
     | DAEV | Number of days included in the multiday evaporation      |
     |      | total (MDEV)                                             |
@@ -115,7 +116,7 @@ ncei_ghcnd_docstrings = {
     | DWPR | Number of days with non-zero precipitation included in   |
     |      | multiday precipitation total (MDPR)                      |
     +------+----------------------------------------------------------+
-    | EVAP | Evaporation of water from evaporation pan (tenths of mm) |
+    | EVAP | Evaporation of water from evaporation pan (mm)           |
     +------+----------------------------------------------------------+
     | FMTM | Time of fastest mile or fastest 1-minute wind (hours and |
     |      | minutes, i.e., HHMM)                                     |
@@ -128,39 +129,39 @@ ncei_ghcnd_docstrings = {
     +------+----------------------------------------------------------+
     | GAHT | Difference between river and gauge height (cm)           |
     +------+----------------------------------------------------------+
-    | MDEV | Multiday evaporation total (tenths of mm; use with DAEV) |
+    | MDEV | Multiday evaporation total (use with DAEV)               |
     +------+----------------------------------------------------------+
-    | MDPR | Multiday precipitation total (tenths of mm; use with     |
+    | MDPR | Multiday precipitation total (mm; use with               |
     |      | DAPR and DWPR, if available)                             |
     +------+----------------------------------------------------------+
     | MDSF | Multiday snowfall total                                  |
     +------+----------------------------------------------------------+
-    | MDTN | Multiday minimum temperature (tenths of degrees C; use   |
+    | MDTN | Multiday minimum temperature (degrees C; use             |
     |      | with DATN)                                               |
     +------+----------------------------------------------------------+
-    | MDTX | Multiday maximum temperature (tenths of degress C; use   |
+    | MDTX | Multiday maximum temperature (degrees C; use             |
     |      | with DATX)                                               |
     +------+----------------------------------------------------------+
     | MDWM | Multiday wind movement (km)                              |
     +------+----------------------------------------------------------+
     | MNPN | Daily minimum temperature of water in an evaporation pan |
-    |      | (tenths of degrees C)                                    |
+    |      | (degrees C)                                              |
     +------+----------------------------------------------------------+
     | MXPN | Daily maximum temperature of water in an evaporation pan |
-    |      | (tenths of degrees C)                                    |
+    |      | (degrees C)                                              |
     +------+----------------------------------------------------------+
     | PGTM | Peak gust time (hours and minutes, i.e., HHMM)           |
     +------+----------------------------------------------------------+
     | PSUN | Daily percent of possible sunshine (percent)             |
     +------+----------------------------------------------------------+
-    | TAVG | Average temperature (tenths of degrees C) [Note that     |
+    | TAVG | Average temperature (degrees C) [Note that               |
     |      | TAVG from source 'S' corresponds to an average for the   |
     |      | period ending at 2400 UTC rather than local midnight]    |
     +------+----------------------------------------------------------+
-    | THIC | Thickness of ice on water (tenths of mm)                 |
+    | THIC | Thickness of ice on water (mm)                           |
     +------+----------------------------------------------------------+
-    | TOBS | Temperature at the time of observation (tenths of        |
-    |      | degrees C)                                               |
+    | TOBS | Temperature at the time of observation                   |
+    |      | (degrees C)                                              |
     +------+----------------------------------------------------------+
     | TSUN | Daily total sunshine (minutes)                           |
     +------+----------------------------------------------------------+
@@ -178,31 +179,31 @@ ncei_ghcnd_docstrings = {
     +------+----------------------------------------------------------+
     | WDMV | 24-hour wind movement (km)                               |
     +------+----------------------------------------------------------+
-    | WESD | Water equivalent of snow on the ground (tenths of mm)    |
+    | WESD | Water equivalent of snow on the ground (mm)              |
     +------+----------------------------------------------------------+
-    | WESF | Water equivalent of snowfall (tenths of mm)              |
+    | WESF | Water equivalent of snowfall (mm)                        |
     +------+----------------------------------------------------------+
-    | WSF1 | Fastest 1-minute wind speed (tenths of meters per        |
+    | WSF1 | Fastest 1-minute wind speed (meters per                  |
     |      | second)                                                  |
     +------+----------------------------------------------------------+
-    | WSF2 | Fastest 2-minute wind speed (tenths of meters per        |
+    | WSF2 | Fastest 2-minute wind speed (meters per                  |
     |      | second)                                                  |
     +------+----------------------------------------------------------+
-    | WSF5 | Fastest 5-second wind speed (tenths of meters per        |
+    | WSF5 | Fastest 5-second wind speed (meters per                  |
     |      | second)                                                  |
     +------+----------------------------------------------------------+
-    | WSFG | Peak gust wind speed (tenths of meters per second)       |
+    | WSFG | Peak gust wind speed (meters per second)                 |
     +------+----------------------------------------------------------+
-    | WSFI | Highest instantaneous wind speed (tenths of meters per   |
+    | WSFI | Highest instantaneous wind speed (meters per             |
     |      | second)                                                  |
     +------+----------------------------------------------------------+
-    | WSFM | Fastest mile wind speed (tenths of meters per second)    |
+    | WSFM | Fastest mile wind speed (meters per second)              |
     +------+----------------------------------------------------------+
 
     SNXY and SXXY Table
 
     +-------+------------------------------------------------------------+
-    | SNXY  | Minimum soil temperature (tenths of degrees C) where 'X'   |
+    | SNXY  | Minimum soil temperature (degrees C) where 'X'             |
     |       | corresponds to a code for ground cover and 'Y' corresponds |
     |       | to a code for soil depth.                                  |
     +=======+============================================================+
@@ -242,7 +243,7 @@ ncei_ghcnd_docstrings = {
     +-------+------------------------------------------------------------+
     | Y = 7 | 180 cm                                                     |
     +-------+------------------------------------------------------------+
-    | SXXY  | Maximum soil temperature (tenths of degrees C) where the   |
+    | SXXY  | Maximum soil temperature (degrees C) where the             |
     |       | second 'X' corresponds to a code for ground cover and 'Y'  |
     |       | corresponds to a code for soil depth. See SNXY for ground  |
     |       | cover and depth codes.                                     |
@@ -325,6 +326,7 @@ def ncei_ghcnd_ftp_cli(station, start_date=None, end_date=None):
 
 def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
     r"""Download from the Global Historical Climatology Network - Daily."""
+    station = station.split(":")[-1]
     params = {"station": station, "start_date": start_date, "end_date": end_date}
 
     url = r"ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all"
@@ -537,8 +539,43 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
         except NameError:
             ndf = tmpdf
 
+    # Some columns are 1/10 degree C.  The next section of code multiplies
+    # those columns by 10.
+    mcols = []
+    for i in ndf.columns:
+        if i in [
+            "TMAX",
+            "TMIN",
+            "MDTN",
+            "MDTX",
+            "MNPN",
+            "MXPN",
+            "TAVG",
+            "TOBS",
+            "PRCP",
+            "AWND",
+            "EVAP",
+            "MDEV",
+            "MDPR",
+            "THIC",
+            "WESD",
+            "WESF",
+            "WSF1",
+            "WSF2",
+            "WSF5",
+            "WSFG",
+            "WSFI",
+            "WSFM",
+            "SNXY",
+            "SXXY",
+        ]:
+            mcols.append(i)
+    if mcols:
+        ndf.loc[:, mcols] = ndf.loc[:, mcols] * 10.0
+
     ndf.index.name = "Datetime"
     ndf.replace(to_replace=[-9999], value=[None], inplace=True)
+    ndf.rename(columns=add_units(ndf.columns), inplace=True)
     return ndf
 
 
@@ -580,6 +617,112 @@ The startdate of {0} is greater than, or equal to, the enddate of {1}.
             )
         )
     return sdate, edate
+
+
+_units = OrderedDict(
+    {
+        "CLDD": "day",
+        "DUTR": "day",
+        "GRDD": "day",
+        "HTDD": "day",
+        "TMAX": "degC",
+        "TMIN": "degC",
+        "TAVG": "degC",
+        "EMXT": "degC",
+        "EMNT": "degC",
+        "DX": "day",
+        "DT": "day",
+        "DP": "day",
+        "DSNW": "day",
+        "DSND": "day",
+        "PRCP": "mm",
+        "SNOW": "mm",
+        "EMSN": "mm",
+        "EMSD": "mm",
+        "SNWD": "mm",
+        "EVAP": "mm",
+        "FRGB": "cm",
+        "FRGT": "cm",
+        "FRTH": "cm",
+        "GAHT": "cm",
+        "MDEV": "cm",
+        "MDPR": "cm",
+        "MDSF": "cm",
+        "MDTN": "degC",
+        "MDTX": "degC",
+        "MDWM": "km",
+        "MNPN": "degC",
+        "MXPN": "degC",
+        "PSUN": "percent",
+        "MNPN": "degC",
+        "MXPN": "degC",
+        "TSUN": "minute",
+        "PSUN": "percent",
+        "ACMC": "percent",
+        "ACMH": "percent",
+        "ACSC": "percent",
+        "ACSH": "percent",
+        "AWDR": "degree",
+        "WDFM": "degree",
+        "WDF": "degree",
+        "AWND": "m/s",
+        "WSFM": "m/s",
+        "WSF": "m/s",
+        "DAEV": "day",
+        "DAPR": "day",
+        "DASF": "day",
+        "DATN": "day",
+        "DATX": "day",
+        "DAWM": "day",
+        "DWPR": "day",
+        "HDSD": "day",
+        "CDSD": "day",
+        "MX": "degC",
+        "MN": "degC",
+        "HX": "degC",
+        "HN": "degC",
+        "LX": "degC",
+        "LN": "degC",
+        "THIC": "mm",
+        "TOBS": "degC",
+        "TSUN": "minute",
+        "WDMV": "km",
+        "WESD": "mm",
+        "WESF": "mm",
+        "SN": "degC",
+        "SX": "degC",
+        "DUTR-NORMAL": "degC",
+        "DUTR-STDDEV": "degC",
+        "AVGNDS": "day",
+        "TPCP": "mm",
+        "QGAG": "mm",
+        "QPCP": "mm",
+        "HPCP": "mm",
+        "-CLDH-": "hour",
+        "-CLOD-": "percent",
+        "-DEWP-": "degC",
+        "-HTDH-": "hour",
+        "-TEMP-": "degC",
+        "-WCHL-": "degC",
+        "-AVGSPD": "m/s",
+        "-1STDIR": "degree",
+        "-2NDDIR": "degree",
+        "-1STPCT": "percent",
+        "-2NDPCT": "percent",
+        "-PCTCLM": "percent",
+        "-VCTDIR": "percent",
+        "-VCTSPD": "m/s",
+    }
+)
+
+
+def add_units(dfcols):
+    ncols = {}
+    for col in dfcols:
+        for key, value in _units.items():
+            if (key in col and "value_" in col) or key == col:
+                ncols[col] = f"{col}:{value}"
+    return ncols
 
 
 def ncei_cdo_json_to_df(url, **query_params):
@@ -674,7 +817,7 @@ There should be data between {2} and {3}, however there is no data between {0} a
             )
     df = df.drop("station", axis="columns")
     df = tstoolbox.unstack("datatype", input_ts=df)
-    return df
+    return df.rename(columns=add_units(df.columns))
 
 
 # 1763-01-01, 2016-11-05, Daily Summaries             , 1    , GHCND
@@ -1248,7 +1391,7 @@ def ncei_gsod(stationid, datatypeid="", startdate="", enddate=""):
             f"https://www.ncei.noaa.gov/data/global-summary-of-the-day/access/{year}/{stationid}.csv"
         )
         df = df.join(ndf)
-    return df
+    return df.rename(columns=add_units(df.columns))
 
 
 # 1763-01-01, 2016-09-01, Global Summary of the Month , 1    , GSOM

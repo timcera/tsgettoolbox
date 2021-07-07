@@ -45,7 +45,7 @@ def usgs_whets_cli(
     version: 1.1
 
     acknowledgement: U.S. Geological Survey, Caribbean-Florida Water Science Center,
-    https://www.usgs.gov/centers/car-fl-water
+    www.usgs.gov/centers/car-fl-water
 
     Metadata_Conventions: Unidata Dataset Discovery v1.0
 
@@ -62,11 +62,11 @@ def usgs_whets_cli(
 
     creator_name: Jason Bellino
 
-    creator_email: jbellino@usgs.gov
+    creator_email: jbellino at usgs.gov
 
     publisher_name: U.S. Geological Survey
 
-    publisher_url: https://www.usgs.gov
+    publisher_url: www.usgs.gov
 
     time_coverage_start: 2019-01-01T00:00:00-05:00
 

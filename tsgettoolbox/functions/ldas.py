@@ -17,11 +17,11 @@ _UNITS_MAP = {
     "NLDAS:NLDAS_FORA0125_H.002:APCPsfc": ["Precipitation hourly total", "mm"],
     "NLDAS:NLDAS_FORA0125_H.002:DLWRFsfc": [
         "Surface DW longwave radiation flux",
-        "W/m2",
+        "W/m**2",
     ],
     "NLDAS:NLDAS_FORA0125_H.002:DSWRFsfc": [
         "Surface DW shortwave radiation flux",
-        "W/m2",
+        "W/m**2",
     ],
     "NLDAS:NLDAS_FORA0125_H.002:PEVAPsfc": ["Potential evaporation", "mm"],
     "NLDAS:NLDAS_FORA0125_H.002:SPFH2m": [
@@ -32,9 +32,9 @@ _UNITS_MAP = {
     "NLDAS:NLDAS_FORA0125_H.002:UGRD10m": ["10-m above ground zonal wind", "m/s"],
     "NLDAS:NLDAS_FORA0125_H.002:VGRD10m": ["10-m above ground meridional wind", "m/s"],
     "NLDAS:NLDAS_NOAH0125_H.002:EVPsfc": ["Total evapotranspiration", "mm"],
-    "NLDAS:NLDAS_NOAH0125_H.002:GFLUXsfc": ["Ground heat flux", "W/m2"],
-    "NLDAS:NLDAS_NOAH0125_H.002:LHTFLsfc": ["Latent heat flux", "W/m2"],
-    "NLDAS:NLDAS_NOAH0125_H.002:SHTFLsfc": ["Sensible heat flux", "W/m2"],
+    "NLDAS:NLDAS_NOAH0125_H.002:GFLUXsfc": ["Ground heat flux", "W/m**2"],
+    "NLDAS:NLDAS_NOAH0125_H.002:LHTFLsfc": ["Latent heat flux", "W/m**2"],
+    "NLDAS:NLDAS_NOAH0125_H.002:SHTFLsfc": ["Sensible heat flux", "W/m**2"],
     "NLDAS:NLDAS_NOAH0125_H.002:SSRUNsfc": [
         "Surface runoff (non-infiltrating)",
         "mm",
@@ -240,19 +240,19 @@ _UNITS_MAP = {
     "MERRA:M2T1NXFLX.5124:VLML": ["Surface northward wind:average", "m/s"],
     "MERRA:M2T1NXLFO.5124:LWGAB": [
         "Surface absorbed longwave radiation:average",
-        "W/m2",
+        "W/m**2",
     ],
     "MERRA:M2T1NXLFO.5124:SWGDN": [
         "Incident shortwave radiation land:average",
-        "W/m2",
+        "W/m**2",
     ],
     "MERRA:MST1NXMLD.520:BASEFLOW": ["Baseflow", "mm/s"],
-    "MERRA:MST1NXMLD.520:LHLAND": ["Latent heat flux from land", "W/m2"],
+    "MERRA:MST1NXMLD.520:LHLAND": ["Latent heat flux from land", "W/m**2"],
     "MERRA:MST1NXMLD.520:PRECSNO": ["Surface snowfall", "mm/s"],
     "MERRA:MST1NXMLD.520:PRECTOT": ["Total surface precipitation", "mm/s"],
     "MERRA:MST1NXMLD.520:RUNOFF": ["Overland runoff", "mm/s"],
     "MERRA:MST1NXMLD.520:SFMC": ["Top soil layer soil moisture content", "m3/m3"],
-    "MERRA:MST1NXMLD.520:SHLAND": ["Sensible heat flux from land", "W/m2"],
+    "MERRA:MST1NXMLD.520:SHLAND": ["Sensible heat flux from land", "W/m**2"],
     "MERRA:MST1NXMLD.520:TSOIL1": ["Soil temperature in layer 1", "K"],
 }
 
@@ -289,7 +289,7 @@ new_units_table = [
 units_table = tb(
     new_units_table,
     tablefmt="grid",
-    headers=['LDAS "variable" string Description', "Units"],
+    headers=['LDAS "variables" string Description', "Units"],
 )
 
 units_table = textwrap.indent(units_table, "            ")
@@ -302,9 +302,10 @@ def ldas_cli(
     lon=None,
     xindex=None,
     yindex=None,
-    variable=None,
+    variables=None,
     startDate=None,
     endDate=None,
+    variable=None,
 ):
     """Download data from the Land Data Assimilation System (LDAS).
 
@@ -461,7 +462,7 @@ def ldas_cli(
 
                 Example: --yindex=80
 
-        variable : str
+        variables : str
             Use the variable codes from the following table:
 
     {units_table}
@@ -479,6 +480,9 @@ def ldas_cli(
                 Example: --endDate=2002-01-05T05
 
             If startDate and endDate are None, returns the entire series.
+        variable : str
+            DEPRECATED: use "variables" instead to be consistent across
+            "tsgettoolbox".
     """
     tsutils._printiso(
         ldas(
@@ -486,9 +490,10 @@ def ldas_cli(
             lon=lon,
             xindex=xindex,
             yindex=yindex,
-            variable=variable,
+            variables=variables,
             startDate=startDate,
             endDate=endDate,
+            variable=variable,
         )
     )
 
@@ -502,17 +507,27 @@ def ldas_cli(
 #    startDate=[tsutils.parsedate, ["pass", []], 1],
 #    endDate=[tsutils.parsedate, ["pass", []], 1],
 # )
-@tsutils.transform_args(variable=tsutils.make_list)
+@tsutils.transform_args(variables=tsutils.make_list, variable=tsutils.make_list)
 def ldas(
     lat=None,
     lon=None,
     xindex=None,
     yindex=None,
-    variable=None,
+    variables=None,
     startDate=None,
     endDate=None,
+    variable=None,
 ):
     r"""Download data from NLDAS or GLDAS."""
+    if variable is not None:
+        raise ValueError(
+            tsutils.error_wrapper(
+                """
+The 'variable' keyword is deprecated. Please use 'variables' instead to be
+consistent with other services in tsgettoolbox."""
+            )
+        )
+
     if lat is not None and lon is not None:
         location = "GEOM:POINT({0}, {1})".format(lon, lat)
     elif project == "NLDAS" and xindex is not None and yindex is not None:
@@ -538,7 +553,7 @@ location.  You have the grid "{project}" and "xindex={xindex}" and
     url = r"https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi"
 
     ndf = pd.DataFrame()
-    for var in variable:
+    for var in variables:
         words = var.split(":")
         project = words[0]
         nvariable = var
@@ -599,7 +614,7 @@ if __name__ == "__main__":
     for key in _UNITS_MAP:
         print("LDAS", key)
         r = ldas(
-            variable=key,
+            variables=key,
             lon=-100,
             lat=31,
             startDate="2013-06-01T09",
@@ -608,7 +623,7 @@ if __name__ == "__main__":
         print(r)
         time.sleep(2)
         r = ldas(
-            variable=key[key.index(":") + 1 :],
+            variables=key[key.index(":") + 1 :],
             lon=-100,
             lat=31,
             startDate="2013-06-01T09",
@@ -618,7 +633,7 @@ if __name__ == "__main__":
         time.sleep(2)
 
     r = ldas(
-        variable="GLDAS2:GLDAS_NOAH025_3H_v2.1:SoilMoi10_40cm_inst",
+        variables="GLDAS2:GLDAS_NOAH025_3H_v2.1:SoilMoi10_40cm_inst",
         lon=100,
         lat=30,
         startDate="2016-01-01T00",
@@ -629,7 +644,7 @@ if __name__ == "__main__":
     print(r)
 
     r = ldas(
-        variable="GLDAS2:GLDAS_NOAH025_3H_v2.1:SoilMoi10_40cm_inst",
+        variables="GLDAS2:GLDAS_NOAH025_3H_v2.1:SoilMoi10_40cm_inst",
         lon=100,
         lat=34,
         startDate="5 years ago",

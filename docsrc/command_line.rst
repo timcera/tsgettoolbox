@@ -47,49 +47,49 @@ modis
 ~~~~~
 .. program-output:: tsgettoolbox modis --help
 
-ncdc_annual
+ncei_annual
 ~~~~~~~~~~~
-.. program-output:: tsgettoolbox ncdc_annual --help
+.. program-output:: tsgettoolbox ncei_annual --help
 
-ncdc_ghcnd
+ncei_ghcnd
 ~~~~~~~~~~
-.. program-output:: tsgettoolbox ncdc_ghcnd --help
+.. program-output:: tsgettoolbox ncei_ghcnd --help
 
-ncdc_ghcnd_ftp
+ncei_ghcnd_ftp
 ~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox ncdc_ghcnd_ftp --help
+.. program-output:: tsgettoolbox ncei_ghcnd_ftp --help
 
-ncdc_ghcndms
+ncei_ghcndms
 ~~~~~~~~~~~~
-.. program-output:: tsgettoolbox ncdc_ghcndms --help
+.. program-output:: tsgettoolbox ncei_ghcndms --help
 
-ncdc_gs
-~~~~~~~
-.. program-output:: tsgettoolbox ncdc_gs --help
+ncei_gsod
+~~~~~~~~~
+.. program-output:: tsgettoolbox ncei_gsod --help
 
-ncdc_normal_ann
+ncei_normal_ann
 ~~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox ncdc_normal_ann --help
+.. program-output:: tsgettoolbox ncei_normal_ann --help
 
-ncdc_normal_dly
+ncei_normal_dly
 ~~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox ncdc_normal_dly --help
+.. program-output:: tsgettoolbox ncei_normal_dly --help
 
-ncdc_normal_hly
+ncei_normal_hly
 ~~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox ncdc_normal_hly --help
+.. program-output:: tsgettoolbox ncei_normal_hly --help
 
-ncdc_normal_mly
+ncei_normal_mly
 ~~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox ncdc_normal_mly --help
+.. program-output:: tsgettoolbox ncei_normal_mly --help
 
-ncdc_precip_15
+ncei_precip_15
 ~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox ncdc_precip_15 --help
+.. program-output:: tsgettoolbox ncei_precip_15 --help
 
-ncdc_precip_hly
+ncei_precip_hly
 ~~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox ncdc_precip_hly --help
+.. program-output:: tsgettoolbox ncei_precip_hly --help
 
 ndbc
 ~~~~

@@ -16,17 +16,17 @@ Python API Function Summary
     tsgettoolbox.tsgettoolbox.ldas
     tsgettoolbox.tsgettoolbox.metdata
     tsgettoolbox.tsgettoolbox.modis
-    tsgettoolbox.tsgettoolbox.ncdc_annual
-    tsgettoolbox.tsgettoolbox.ncdc_ghcnd
-    tsgettoolbox.tsgettoolbox.ncdc_ghcnd_ftp
-    tsgettoolbox.tsgettoolbox.ncdc_ghcndms
-    tsgettoolbox.tsgettoolbox.ncdc_gs
-    tsgettoolbox.tsgettoolbox.ncdc_normal_ann
-    tsgettoolbox.tsgettoolbox.ncdc_normal_dly
-    tsgettoolbox.tsgettoolbox.ncdc_normal_hly
-    tsgettoolbox.tsgettoolbox.ncdc_normal_mly
-    tsgettoolbox.tsgettoolbox.ncdc_precip_15
-    tsgettoolbox.tsgettoolbox.ncdc_precip_hly
+    tsgettoolbox.tsgettoolbox.ncei_annual
+    tsgettoolbox.tsgettoolbox.ncei_ghcnd
+    tsgettoolbox.tsgettoolbox.ncei_ghcnd_ftp
+    tsgettoolbox.tsgettoolbox.ncei_ghcndms
+    tsgettoolbox.tsgettoolbox.ncei_gsod
+    tsgettoolbox.tsgettoolbox.ncei_normal_ann
+    tsgettoolbox.tsgettoolbox.ncei_normal_dly
+    tsgettoolbox.tsgettoolbox.ncei_normal_hly
+    tsgettoolbox.tsgettoolbox.ncei_normal_mly
+    tsgettoolbox.tsgettoolbox.ncei_precip_15
+    tsgettoolbox.tsgettoolbox.ncei_precip_hly
     tsgettoolbox.tsgettoolbox.ndbc
     tsgettoolbox.tsgettoolbox.nwis_dv
     tsgettoolbox.tsgettoolbox.nwis_iv
