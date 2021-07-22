@@ -3,8 +3,9 @@
 
 Python API Function Summary
 ===========================
+
 .. autosummary::
-    :toctree: _function_summary
+    :toctree: _function_autosummary
 
     tsgettoolbox.tsgettoolbox.about
     tsgettoolbox.tsgettoolbox.cdec
@@ -21,6 +22,8 @@ Python API Function Summary
     tsgettoolbox.tsgettoolbox.ncei_ghcnd_ftp
     tsgettoolbox.tsgettoolbox.ncei_ghcndms
     tsgettoolbox.tsgettoolbox.ncei_gsod
+    tsgettoolbox.tsgettoolbox.ncei_gsom
+    tsgettoolbox.tsgettoolbox.ncei_gsoy
     tsgettoolbox.tsgettoolbox.ncei_normal_ann
     tsgettoolbox.tsgettoolbox.ncei_normal_dly
     tsgettoolbox.tsgettoolbox.ncei_normal_hly
@@ -35,6 +38,8 @@ Python API Function Summary
     tsgettoolbox.tsgettoolbox.nwis_measurements
     tsgettoolbox.tsgettoolbox.nwis_peak
     tsgettoolbox.tsgettoolbox.nwis_stat
+    tsgettoolbox.tsgettoolbox.terraclimate
     tsgettoolbox.tsgettoolbox.twc
     tsgettoolbox.tsgettoolbox.unavco
     tsgettoolbox.tsgettoolbox.usgs_eddn
+    tsgettoolbox.tsgettoolbox.usgs_whets

@@ -161,11 +161,12 @@ def get_data(
     periods_in_range = (period_index >= start_date.isoformat()) & (
         period_index <= end_date.isoformat()
     )
+    period_index = period_index[periods_in_range]
     data = data[periods_in_range]
 
     # this does what data.reset_index() should do, but at least as of 0.10.1, that sets
     # will cast period objects to ints
-    data.index = np.arange(len(data))
+    data.index = period_index.to_timestamp()  # np.arange(len(data))
     if as_dataframe:
         return data
     else:
