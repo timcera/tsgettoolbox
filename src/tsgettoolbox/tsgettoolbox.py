@@ -27,6 +27,8 @@ from .functions.ncei import (
     ncei_ghcnd_ftp,
     ncei_ghcndms,
     ncei_gsod,
+    ncei_gsom,
+    ncei_gsoy,
     ncei_nexrad2,
     ncei_nexrad3,
     ncei_normal_ann,
@@ -53,11 +55,6 @@ from .functions.twc import twc
 from .functions.unavco import unavco
 from .functions.usgs_eddn import usgs_eddn
 from .functions.usgs_whets import usgs_whets
-
-try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-except ImportError:
-    from argparse import RawTextHelpFormatter as HelpFormatter
 
 warnings.filterwarnings("ignore")
 

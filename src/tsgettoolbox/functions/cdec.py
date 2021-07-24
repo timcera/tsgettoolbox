@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from typing import Optional, Union
 
-import mando
 import pandas as pd
+from mando import command
+from tstoolbox import tsutils
 
 try:
     from typing import Literal
@@ -14,10 +15,8 @@ try:
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
-from tstoolbox import tsutils
 
-
-@mando.command("cdec", formatter_class=HelpFormatter, doctype="numpy")
+@command("cdec", formatter_class=HelpFormatter, doctype="numpy")
 @tsutils.doc(tsutils.docstrings)
 def cdec_cli(
     station_id, dur_code=None, sensor_num=None, start_date=None, end_date=None
@@ -177,14 +176,6 @@ def get_sensors(sensor_id=None):
 
     Can be limited by a list of numbers.
 
-    Usage example::
-
-        from ulmo import cdec
-        # to get all available sensor info
-        sensors = cdec.historical.get_sensors()
-        # or to get just one sensor
-        sensor = cdec.historical.get_sensors([1])
-
     Parameters
     ----------
     sites : iterable of integers or ``None``
@@ -215,12 +206,6 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
     if you already know what you want. If none of the provided sensors or
     resolutions are available, an empty DataFrame will be returned for that
     station.
-
-    Usage example::
-
-        from ulmo import cdec
-        # to get all available sensors
-        available_sensors = cdec.historical.get_station_sensors(['NEW'])
 
     Parameters
     ----------
@@ -291,11 +276,6 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
     If either is not provided, all available data will be downloaded. Be really
     careful with choosing hourly resolution as the data sets are big, and
     CDEC's servers are slow as molasses in winter.
-
-    Usage example::
-
-        from ulmo import cdec
-        dat = cdec.historical.get_data(['PRA'],resolutions=['daily'])
 
     Parameters
     ----------
@@ -383,7 +363,9 @@ def _limit_sensor_list(sensor_list, sensor_ids, resolution):
 res_to_dur_code_map = {"hourly": "H", "daily": "D", "monthly": "M", "event": "E"}
 
 
-def ulmo_df(station_id, sensor_num=None, dur_code=None, start_date=None, end_date=None):
+def download_data(
+    station_id, sensor_num=None, dur_code=None, start_date=None, end_date=None
+):
 
     if isinstance(sensor_num, (str, bytes)):
         sensor_num = [int(i) for i in sensor_num.split(".")]
@@ -428,7 +410,7 @@ def cdec(
     end_date=None,
 ):
     r"""Access data from the `California Department of Water Resources`_."""
-    df = ulmo_df(
+    df = download_data(
         station_id,
         dur_code=dur_code,
         sensor_num=sensor_num,
@@ -442,7 +424,7 @@ cdec.__doc__ = cdec_cli.__doc__
 
 
 if __name__ == "__main__":
-    r = ulmo_df(
+    r = download_data(
         "PAR",
         start_date="2017-01-01",
         end_date="2017-10-02",
@@ -453,7 +435,7 @@ if __name__ == "__main__":
     print("PAR PRECIPITATION")
     print(r)
 
-    r = ulmo_df(
+    r = download_data(
         "PAR",
         start_date="2017-01-01",
         end_date="2017-10-02",
@@ -464,12 +446,14 @@ if __name__ == "__main__":
     print("PAR RESERVOIR VOLUME")
     print(r)
 
-    r = ulmo_df("PAR", start_date="2017-01-01", end_date="2017-10-02", dur_code="H")
+    r = download_data(
+        "PAR", start_date="2017-01-01", end_date="2017-10-02", dur_code="H"
+    )
 
     print("PAR HOURLY")
     print(r)
 
-    r = ulmo_df("PAR", start_date="2017-01-01", end_date="2017-10-02")
+    r = download_data("PAR", start_date="2017-01-01", end_date="2017-10-02")
 
     print("PAR EVERYTHING")
     print(r)

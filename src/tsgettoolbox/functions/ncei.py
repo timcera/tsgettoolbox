@@ -726,8 +726,6 @@ def add_units(dfcols):
 
 
 def ncei_cdo_json_to_df(url, **query_params):
-    from tstoolbox import tstoolbox
-
     delta = pd.Timedelta(days=360)
     if query_params["datasetid"] in ["ANNUAL", "GSOM", "GSOY", "GHCNDMS"]:
         delta = pd.Timedelta(days=3650)
@@ -815,8 +813,21 @@ There should be data between {2} and {3}, however there is no data between {0} a
                     )
                 )
             )
+
     df = df.drop("station", axis="columns")
-    df = tstoolbox.unstack("datatype", input_ts=df)
+    df = df.pivot_table(
+        index=df.index,
+        values=df.columns.drop("datatype"),
+        columns="datatype",
+        aggfunc="first",
+    )
+
+    df.index.name = "Datetime"
+
+    df.columns = [
+        "_".join(tuple(map(str, col))).rstrip("_") for col in df.columns.values
+    ]
+
     return df.rename(columns=add_units(df.columns))
 
 
