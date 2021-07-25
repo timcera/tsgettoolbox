@@ -46,12 +46,14 @@ def cpc_cli(state=None, climate_division=None, start_date=None, end_date=None):
 
     Climate Prediction Center: http://www.cpc.ncep.noaa.gov/
     Weekly Drought Index:
-        http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
+
+    http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
 
     The `climate_division` integer value identifies a portion of the
     desired `state` divided along county boundaries. Maps of the climate
     divisions within each state are at:
-        https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/regional_monitoring/CLIM_DIVS/states_counties_climate-divisions.shtml
+
+    https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/regional_monitoring/CLIM_DIVS/states_counties_climate-divisions.shtml
 
     The only way to get a time-series is to specify both `state` and
     `climate_division` keywords.

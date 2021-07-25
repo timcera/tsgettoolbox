@@ -14,7 +14,6 @@ try:
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
-from netCDF4 import Dataset, num2date
 from tstoolbox import tsutils
 
 _vars = {
@@ -185,6 +184,8 @@ def terraclimate_cli(
 
 
 def opendap(variables, lat, lon, start_date=None, end_date=None):
+    from netCDF4 import Dataset, num2date
+
     turl = "http://thredds.northwestknowledge.net:8080/thredds/dodsC/agg_terraclimate_{0}_1958_CurrentYear_GLOBE.nc"
 
     if not variables:

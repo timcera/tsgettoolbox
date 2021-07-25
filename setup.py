@@ -42,7 +42,7 @@ install_requires = [
     "zeep",
     "xarray",
     "suds-jurko",
-    "netcdf4",
+    "netCDF4",
 ]
 
 extras_require = {
