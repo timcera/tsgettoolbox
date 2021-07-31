@@ -35,7 +35,6 @@ USACE_SWTWC_DIR = os.path.join(util.get_ulmo_dir(), "usace/swtwc")
 def get_station_data(station_code, date=None, as_dataframe=False):
     """Fetches data for a station at a given date.
 
-
     Parameters
     ----------
     station_code: str
@@ -50,7 +49,6 @@ def get_station_data(station_code, date=None, as_dataframe=False):
         to a dict of gauge variables and values. If ``True`` then the values
         dict will be a pandas.DataFrame object containing the equivalent
         information.
-
 
     Returns
     -------
@@ -78,11 +76,11 @@ def get_station_data(station_code, date=None, as_dataframe=False):
     soup = BeautifulSoup(resp.content, features="lxml")
     pre = soup.find("pre")
     if pre is None:
-        error_msg = "no data could be found for station code %(station_code)s and date %(date)s (url: %(data_url)s)" % {
-            "date": date,
-            "data_url": data_url,
-            "station_code": station_code,
-        }
+        error_msg = "no data could be found for station code {station_code} and date {date} (url: {data_url})".format(
+            date=date,
+            data_url=data_url,
+            station_code=station_code,
+        )
         raise ValueError(error_msg)
     sio = StringIO.StringIO(str(pre.text.strip()))
 
@@ -111,24 +109,18 @@ def get_station_data(station_code, date=None, as_dataframe=False):
     variable_units = _split_line(sio.readline()[11:], 10)
     variable_sources = _split_line(sio.readline()[11:], 10)
 
-    station_dict["variables"] = dict(
-        [
-            (name, {"unit": unit, "source": source})
-            for name, unit, source in zip(
-                variable_names, variable_units, variable_sources
-            )
-        ]
-    )
+    station_dict["variables"] = {
+        name: {"unit": unit, "source": source}
+        for name, unit, source in zip(variable_names, variable_units, variable_sources)
+    }
 
     station_dict["timezone"] = sio.readline().strip().strip("()")
     column_names = ["datetime"] + variable_names
     widths = [14] + ([10] * len(variable_names))
-    converters = dict(
-        [
-            (variable_name, lambda x: float(x) if x != "----" else np.nan)
-            for variable_name in variable_names
-        ]
-    )
+    converters = {
+        variable_name: lambda x: float(x) if x != "----" else np.nan
+        for variable_name in variable_names
+    }
     date_parser = lambda x: _convert_datetime(x, year)
     dataframe = pandas.read_fwf(
         sio,
@@ -171,7 +163,7 @@ def get_stations():
     links = pre.find_all("a")
     stations = [_parse_station_link(link) for link in links]
 
-    return dict([(station["code"], station) for station in stations])
+    return {station["code"]: station for station in stations}
 
 
 def _convert_datetime(s, year):

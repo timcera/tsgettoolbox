@@ -35,11 +35,11 @@ def get_parameters():
 
     Parameters
     ----------
-        None
+    None
 
     Returns
     -------
-        dictionary of variables with parameter codes as keys
+    dictionary of variables with parameter codes as keys
         and GSOD codes as values.
     """
 
@@ -73,7 +73,6 @@ def get_parameters():
 def get_data(station_codes, start=None, end=None, parameters=None):
     """Retrieves data for a set of stations.
 
-
     Parameters
     ----------
     station_codes : str or list
@@ -84,7 +83,6 @@ def get_data(station_codes, start=None, end=None, parameters=None):
         If specified, data are limited to values before this date.
     parameters : ``None``, str or list
         If specified, data are limited to this set of parameter codes.
-
 
     Returns
     -------
@@ -110,7 +108,7 @@ def get_data(station_codes, start=None, end=None, parameters=None):
     # note: opening tar files and parsing the headers and such is a relatively
     # lengthy operation so you don't want to do it too often, hence try to
     # grab all stations at the same time per tarfile
-    data_dict = dict([(station_code, None) for station_code in station_codes])
+    data_dict = {station_code: None for station_code in station_codes}
 
     for year in range(start_date.year, end_date.year + 1):
         tar_path = _get_gsod_file(year)
@@ -153,7 +151,6 @@ def get_data(station_codes, start=None, end=None, parameters=None):
 def get_stations(country=None, state=None, start=None, end=None, update=True):
     """Retrieve information on the set of available stations.
 
-
     Parameters
     ----------
     country : {``None``, str, or iterable}
@@ -173,7 +170,6 @@ def get_stations(country=None, state=None, start=None, end=None, update=True):
         download if it is newer the previously downloaded copy. If ``False``,
         then a new stations file will only be downloaded if a previously
         downloaded file cannot be found.
-
 
     Returns
     -------
@@ -221,7 +217,7 @@ def get_stations(country=None, state=None, start=None, end=None, update=True):
                 )
             ]
 
-        stations = dict([(_station_code(row), _process_station(row)) for row in rows])
+        stations = {_station_code(row): _process_station(row) for row in rows}
     return stations
 
 
@@ -236,7 +232,7 @@ def _convert_date_string(date_string):
 
 
 def _get_gsod_file(year):
-    url = "http://www1.ncdc.noaa.gov/pub/data/gsod/%s/gsod_%s.tar" % (year, year)
+    url = "http://www1.ncdc.noaa.gov/pub/data/gsod/{}/gsod_{}.tar".format(year, year)
     filename = url.split("/")[-1]
     path = os.path.join(NCDC_GSOD_DIR, filename)
     util.download_if_new(url, path, check_modified=True)
@@ -348,7 +344,7 @@ def _read_gsod_file(gsod_tar, station, year):
 def _record_array_to_value_dicts(record_array):
     names = record_array.dtype.names
     value_dicts = [
-        dict([(name, value[name_index]) for name_index, name in enumerate(names)])
+        {name: value[name_index] for name_index, name in enumerate(names)}
         for value in record_array
     ]
     return value_dicts

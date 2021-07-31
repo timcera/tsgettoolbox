@@ -27,7 +27,6 @@ GHCN_DAILY_DIR = os.path.join(util.get_ulmo_dir(), "ncdc/ghcn_daily")
 def get_data(station_id, elements=None, update=True, as_dataframe=False):
     """Retrieves data for a given station.
 
-
     Parameters
     ----------
     station_id : str
@@ -45,7 +44,6 @@ def get_data(station_id, elements=None, update=True, as_dataframe=False):
         pandas.DataFrame objects will be returned. The pandas dataframe is used
         internally, so setting this to ``True`` is a little bit faster as it
         skips a serialization step.
-
 
     Returns
     -------
@@ -90,7 +88,7 @@ def get_data(station_id, elements=None, update=True, as_dataframe=False):
             continue
 
         element_df["month_period"] = element_df.apply(
-            lambda x: pandas.Period("%s-%s" % (x["year"], x["month"])), axis=1
+            lambda x: pandas.Period("{}-{}".format(x["year"], x["month"])), axis=1
         )
         element_df = element_df.set_index("month_period")
         monthly_index = element_df.index
@@ -126,12 +124,10 @@ def get_data(station_id, elements=None, update=True, as_dataframe=False):
     if as_dataframe:
         return dataframes
     else:
-        return dict(
-            [
-                (key, util.dict_from_dataframe(dataframe))
-                for key, dataframe in dataframes.items()
-            ]
-        )
+        return {
+            key: util.dict_from_dataframe(dataframe)
+            for key, dataframe in dataframes.items()
+        }
 
 
 def get_stations(
@@ -144,7 +140,6 @@ def get_stations(
     as_dataframe=False,
 ):
     """Retrieves station information, optionally limited to specific parameters.
-
 
     Parameters
     ----------
@@ -176,7 +171,6 @@ def get_stations(
         is returned. If ``True``, a single pandas.DataFrame object will be
         returned. The pandas dataframe is used internally, so setting this to
         ``True`` is a little bit faster as it skips a serialization step.
-
 
     Returns
     -------

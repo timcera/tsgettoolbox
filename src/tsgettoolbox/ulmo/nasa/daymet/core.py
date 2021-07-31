@@ -57,7 +57,7 @@ def get_variables():
 
     Returns
     -------
-        dictionary of variables with variable abbreviations as keys
+    dictionary of variables with variable abbreviations as keys
         and description as values
     """
     return VARIABLES

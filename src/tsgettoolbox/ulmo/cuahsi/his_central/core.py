@@ -88,12 +88,10 @@ def _service_dict(service_info):
         ("variablecount", "variable_count"),
     ]
 
-    service_dict = dict(
-        [
-            (util.camel_to_underscore(key), _cast_if_text(value))
-            for key, value in dict(service_info).items()
-        ]
-    )
+    service_dict = {
+        util.camel_to_underscore(key): _cast_if_text(value)
+        for key, value in dict(service_info).items()
+    }
 
     for old_key, new_key in change_keys:
         if old_key in service_dict:

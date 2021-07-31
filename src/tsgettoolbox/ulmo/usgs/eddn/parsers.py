@@ -196,7 +196,7 @@ def _twdb_stevens_or_dot(df_row, reverse, drop_dcp_metadata=True):
         fields = message.strip(fmt).lstrip().replace(": ", ":").split()
         water_levels = [_parse_value(field.strip(fmt).lstrip()) for field in fields]
         if len(water_levels) and isinstance(water_levels[0], tuple):
-            wells = list(set([val[0] for val in water_levels]))
+            wells = list({val[0] for val in water_levels})
             combined = pd.DataFrame()
             for well in wells:
                 values = [

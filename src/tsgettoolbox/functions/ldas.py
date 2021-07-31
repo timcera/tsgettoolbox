@@ -280,8 +280,8 @@ _varmap = {
 
 new_units_table = [
     [
-        "{0}\n{1}".format(i[i.index(":") + 1 :], _UNITS_MAP[i][0]),
-        "{0}".format(_UNITS_MAP[i][1]),
+        "{}\n{}".format(i[i.index(":") + 1 :], _UNITS_MAP[i][0]),
+        "{}".format(_UNITS_MAP[i][1]),
     ]
     for i in _UNITS_MAP
 ]
@@ -309,180 +309,183 @@ def ldas_cli(
 ):
     """Download data from the Land Data Assimilation System (LDAS).
 
-            This will download data from a set of water cycle related variables
-            (Table 1) from the North American and Global Land Data Assimilation
-            Systems (NLDAS and GLDAS, respectively), the Land Parameter
-            Parameter Model (LPRM), the Tropical Rainfall Measuring Mission
-            (TRMM), and Gravity Recovery and Climate Experiment (GRACE) data
-            assimilation. In addition to their access provided by the hydrology
-            community tools, selected data rods variables can be searched and
-            accessed through the GES DISC search and access user interface, and
-            all data rods variables can be accessed via Web services developed
-            by the GES DISC.
+    This will download data from a set of water cycle related variables
+    (Table 1) from the North American and Global Land Data Assimilation
+    Systems (NLDAS and GLDAS, respectively), the Land Parameter
+    Parameter Model (LPRM), the Tropical Rainfall Measuring Mission
+    (TRMM), and Gravity Recovery and Climate Experiment (GRACE) data
+    assimilation. In addition to their access provided by the hydrology
+    community tools, selected data rods variables can be searched and
+    accessed through the GES DISC search and access user interface, and
+    all data rods variables can be accessed via Web services developed
+    by the GES DISC.
 
-            +-------------------------------+-------------+---------------+
-            | Description/Name              | Spatial     | Time          |
-            +===============================+=============+===============+
-            | NLDAS Primary Forcing Data    | 0.125x0.125 | 1 hour        |
-            | NLDAS_FORA0125_H              | degree      |               |
-            | V002                          |             |               |
-            |                               | -125,25 to  | 1979-01-01T13 |
-            |                               |  -67,53     | til recent    |
-            +-------------------------------+-------------+---------------+
-            | NLDAS Noah Land Surface Model | 0.125x0.125 | 1 hour        |
-            | NLDAS_NOAH0125_H              | degree      |               |
-            | V002                          |             |               |
-            |                               | -125,25 to  | 1979-01-01T13 |
-            |                               |  -67,53     | til recent    |
-            +-------------------------------+-------------+---------------+
-            | GLDAS Noah Land Surface Model | 0.25x0.25   | 3 hour        |
-            | GLDAS_NOAH025_3H              | degree      |               |
-            | V2.1                          |             |               |
-            |                               | -180,-60 to | 2000-01-01 to |
-            |                               |  180, 90    | recent        |
-            +-------------------------------+-------------+---------------+
-            | AMSR-E/Aqua surface           | 25x25 km    | 1 day         |
-            | soil moisture                 |             |               |
-            | V002                          | -180,-90 to | 2002-06-19 to |
-            |                               |  180, 90    | 2011-10-03    |
-            +-------------------------------+-------------+---------------+
-            | AMSR-E/Aqua root zone         | 25x25 km    | 1 day         |
-            | soil moisture                 |             |               |
-            | LPRM_AMSRE_D_RZSM3            | -180,-60 to | 2002-06-20 to |
-            | V001                          |  180, 60    | 2010-12-31    |
-            +-------------------------------+-------------+---------------+
-            | AMSR2/GCOM-W1 surface         | 25x25 km    | 1 day         |
-            | soil moisture                 |             |               |
-            | LPRM_AMSR2_A_SOILM3           | -180,-90 to | 2012-07-19 to |
-            | V001                          |  180, 90    | recent        |
-            +-------------------------------+-------------+---------------+
-            | AMSR2/GCOM-W1 surface         | 25x25 km    | 1 day         |
-            | soil moisture                 |             |               |
-            | LPRM_AMSR2_D_SOILM3           | -180,-90 to | 2012-07-19 to |
-            | V001                          |  180, 90    | recent        |
-            +-------------------------------+-------------+---------------+
-            | AMSR2/GCOM-W1 surface         | 10x10 km    | 1 day         |
-            | soil moisture                 |             |               |
-            | LPRM_AMSR2_DS_A_SOILM3        | -180,-90 to | 2012-07-19 to |
-            | V001                          |  180, 90    | recent        |
-            +-------------------------------+-------------+---------------+
-            | ASMR2/GCOM-W1 surface         | 10x10 km    | 1 day         |
-            | soil moisture                 |             |               |
-            | LPRM_AMSR2_DS_D_SOILM3        | -180,-90 to | 2012-07-19 to |
-            | V001                          |  180, 90    | recent        |
-            +-------------------------------+-------------+---------------+
-            | TMI/TRMM surface              | 25x25 km    | 1 day         |
-            | soil moisture                 |             |               |
-            | LPRM_TMI_NT_SOILM3            | -180,-40 to | 1997-12-07 to |
-            | V001                          |  180, 40    | 2015-04-08    |
-            +-------------------------------+-------------+---------------+
-            | TMI/TRMM surface              | 25x25 km    | 1 day         |
-            | soil moisture                 |             |               |
-            | LPRM_TMI_DY_SOILM3            | -180,-40 to | 1997-12-07 to |
-            | V001                          |  180, 40    | 2015-04-08    |
-            +-------------------------------+-------------+---------------+
-            | TRMM (TMPA) Rainfall Estimate | 0.25x0.25   | 3 hour        |
-            | TRMM_3B42                     | degree      |               |
-            | V7                            |             |               |
-            |                               | -180,-50 to | 1997-12-31 to |
-            |                               |  180, 50    | recent        |
-            +-------------------------------+-------------+---------------+
-            | Smerge-Noah-CCI root zone     | 0.125x0.125 | 1 day         |
-            | soil moisture 0-40 cm         | degree      |               |
-            | SMERGE_RZSM0_40CM             |             |               |
-            | V2.0                          | -125, 25 to | 1979-01-02 to |
-            |                               |  -67, 53    | recent        |
-            +-------------------------------+-------------+---------------+
-            | Groundwater and Soil Moisture | 0.125x0.125 | 7 day         |
-            | Conditions from GRACE         | degree      |               |
-            | Data Assimilation             |             |               |
-            | GRACEDADM_CLSM0125US_7D       | -125, 25 to | 2002-10-04 to |
-            | V4.0                          |  -67, 53    | recent        |
-            +-------------------------------+-------------+---------------+
-            | MERRA-2 2D, Instantaneous,    | 0.5x0.625   | 1 hour        |
-            | Land Surface Forcings         | degree      |               |
-            | M2I1NXLFO                     |             |               |
-            | V5.12.4                       | -180,-90 to | 1980-01-01 to |
-            |                               |  180, 90    | recent        |
-            +-------------------------------+-------------+---------------+
-            | MERRA-2 2D, Time-averaged,    | 0.5x0.625   | 1 hour        |
-            | Surface Flux Diagnostics      | degree      |               |
-            | M2T1NXFLX                     |             |               |
-            | V5.12.4                       | -180,-90 to | 1980-01-01 to |
-            |                               |  180, 90    | recent        |
-            +-------------------------------+-------------+---------------+
-            | MERRA-2 2D, Time-averaged,    | 0.5x0.625   | 1 hour        |
-            | Land Surface Forcings         | degree      |               |
-            | M2T1NXLFO                     |             |               |
-            | V5.12.4                       | -180,-90 to | 1980-01-01 to |
-            |                               |  180, 90    | recent        |
-            +-------------------------------+-------------+---------------+
-            | MERRA 2D Incremental          | 0.5x0.667   | 1 hour        |
-            | Analysis Update               | degree      |               |
-            | MST1NXMLD                     |             |               |
-            | V5.12.4                       | -180,-90 to | 1980-01-01 to |
-            |                               |  180, 90    | 2016-02-29    |
-            +-------------------------------+-------------+---------------+
+    +-------------------------------+-------------+---------------+
+    | Description/Name              | Spatial     | Time          |
+    +===============================+=============+===============+
+    | NLDAS Primary Forcing Data    | 0.125x0.125 | 1 hour        |
+    | NLDAS_FORA0125_H              | degree      |               |
+    | V002                          |             |               |
+    |                               | -125,25 to  | 1979-01-01T13 |
+    |                               |  -67,53     | til recent    |
+    +-------------------------------+-------------+---------------+
+    | NLDAS Noah Land Surface Model | 0.125x0.125 | 1 hour        |
+    | NLDAS_NOAH0125_H              | degree      |               |
+    | V002                          |             |               |
+    |                               | -125,25 to  | 1979-01-01T13 |
+    |                               |  -67,53     | til recent    |
+    +-------------------------------+-------------+---------------+
+    | GLDAS Noah Land Surface Model | 0.25x0.25   | 3 hour        |
+    | GLDAS_NOAH025_3H              | degree      |               |
+    | V2.1                          |             |               |
+    |                               | -180,-60 to | 2000-01-01 to |
+    |                               |  180, 90    | recent        |
+    +-------------------------------+-------------+---------------+
+    | AMSR-E/Aqua surface           | 25x25 km    | 1 day         |
+    | soil moisture                 |             |               |
+    | V002                          | -180,-90 to | 2002-06-19 to |
+    |                               |  180, 90    | 2011-10-03    |
+    +-------------------------------+-------------+---------------+
+    | AMSR-E/Aqua root zone         | 25x25 km    | 1 day         |
+    | soil moisture                 |             |               |
+    | LPRM_AMSRE_D_RZSM3            | -180,-60 to | 2002-06-20 to |
+    | V001                          |  180, 60    | 2010-12-31    |
+    +-------------------------------+-------------+---------------+
+    | AMSR2/GCOM-W1 surface         | 25x25 km    | 1 day         |
+    | soil moisture                 |             |               |
+    | LPRM_AMSR2_A_SOILM3           | -180,-90 to | 2012-07-19 to |
+    | V001                          |  180, 90    | recent        |
+    +-------------------------------+-------------+---------------+
+    | AMSR2/GCOM-W1 surface         | 25x25 km    | 1 day         |
+    | soil moisture                 |             |               |
+    | LPRM_AMSR2_D_SOILM3           | -180,-90 to | 2012-07-19 to |
+    | V001                          |  180, 90    | recent        |
+    +-------------------------------+-------------+---------------+
+    | AMSR2/GCOM-W1 surface         | 10x10 km    | 1 day         |
+    | soil moisture                 |             |               |
+    | LPRM_AMSR2_DS_A_SOILM3        | -180,-90 to | 2012-07-19 to |
+    | V001                          |  180, 90    | recent        |
+    +-------------------------------+-------------+---------------+
+    | ASMR2/GCOM-W1 surface         | 10x10 km    | 1 day         |
+    | soil moisture                 |             |               |
+    | LPRM_AMSR2_DS_D_SOILM3        | -180,-90 to | 2012-07-19 to |
+    | V001                          |  180, 90    | recent        |
+    +-------------------------------+-------------+---------------+
+    | TMI/TRMM surface              | 25x25 km    | 1 day         |
+    | soil moisture                 |             |               |
+    | LPRM_TMI_NT_SOILM3            | -180,-40 to | 1997-12-07 to |
+    | V001                          |  180, 40    | 2015-04-08    |
+    +-------------------------------+-------------+---------------+
+    | TMI/TRMM surface              | 25x25 km    | 1 day         |
+    | soil moisture                 |             |               |
+    | LPRM_TMI_DY_SOILM3            | -180,-40 to | 1997-12-07 to |
+    | V001                          |  180, 40    | 2015-04-08    |
+    +-------------------------------+-------------+---------------+
+    | TRMM (TMPA) Rainfall Estimate | 0.25x0.25   | 3 hour        |
+    | TRMM_3B42                     | degree      |               |
+    | V7                            |             |               |
+    |                               | -180,-50 to | 1997-12-31 to |
+    |                               |  180, 50    | recent        |
+    +-------------------------------+-------------+---------------+
+    | Smerge-Noah-CCI root zone     | 0.125x0.125 | 1 day         |
+    | soil moisture 0-40 cm         | degree      |               |
+    | SMERGE_RZSM0_40CM             |             |               |
+    | V2.0                          | -125, 25 to | 1979-01-02 to |
+    |                               |  -67, 53    | recent        |
+    +-------------------------------+-------------+---------------+
+    | Groundwater and Soil Moisture | 0.125x0.125 | 7 day         |
+    | Conditions from GRACE         | degree      |               |
+    | Data Assimilation             |             |               |
+    | GRACEDADM_CLSM0125US_7D       | -125, 25 to | 2002-10-04 to |
+    | V4.0                          |  -67, 53    | recent        |
+    +-------------------------------+-------------+---------------+
+    | MERRA-2 2D, Instantaneous,    | 0.5x0.625   | 1 hour        |
+    | Land Surface Forcings         | degree      |               |
+    | M2I1NXLFO                     |             |               |
+    | V5.12.4                       | -180,-90 to | 1980-01-01 to |
+    |                               |  180, 90    | recent        |
+    +-------------------------------+-------------+---------------+
+    | MERRA-2 2D, Time-averaged,    | 0.5x0.625   | 1 hour        |
+    | Surface Flux Diagnostics      | degree      |               |
+    | M2T1NXFLX                     |             |               |
+    | V5.12.4                       | -180,-90 to | 1980-01-01 to |
+    |                               |  180, 90    | recent        |
+    +-------------------------------+-------------+---------------+
+    | MERRA-2 2D, Time-averaged,    | 0.5x0.625   | 1 hour        |
+    | Land Surface Forcings         | degree      |               |
+    | M2T1NXLFO                     |             |               |
+    | V5.12.4                       | -180,-90 to | 1980-01-01 to |
+    |                               |  180, 90    | recent        |
+    +-------------------------------+-------------+---------------+
+    | MERRA 2D Incremental          | 0.5x0.667   | 1 hour        |
+    | Analysis Update               | degree      |               |
+    | MST1NXMLD                     |             |               |
+    | V5.12.4                       | -180,-90 to | 1980-01-01 to |
+    |                               |  180, 90    | 2016-02-29    |
+    +-------------------------------+-------------+---------------+
 
-            The time zone is always UTC.
+    The time zone is always UTC.
 
-            Parameters
-            ----------
-            lat :  float
-                Should use 'lat' and 'lon' to specify location.
+    Parameters
+    ----------
+    lat : float
+        Should use 'lat' and 'lon' to specify location.
 
-                Latitude (required): Enter single geographic point by
-                latitude.::
+        Latitude (required): Enter single geographic point by
+        latitude.::
 
-                    Example: --lat=43.1
+            Example: --lat=43.1
 
-                If known, 'xindex' and 'yindex' can be used for the NLDAS grid
-                only.
-            lon : float
-                Should use 'lat' and 'lon' to specify location.
+        If known, 'xindex' and 'yindex' can be used for the NLDAS grid
+        only.
 
-                Longitude (required): Enter single geographic point by
-                longitude::
+    lon : float
+        Should use 'lat' and 'lon' to specify location.
 
-                    Example: --lon=-85.3
+        Longitude (required): Enter single geographic point by
+        longitude::
 
-                If known, 'xindex' and 'yindex' can be used for the NLDAS grid
-                only.
-            xindex : int
-                It `lat` or `lon` is None, then will try `xindex` and `yindex`.
+            Example: --lon=-85.3
 
-                Enter the x index of the NLDAS grid.::
+        If known, 'xindex' and 'yindex' can be used for the NLDAS grid
+        only.
 
-                    Example: --xindex=301
+    xindex : int
+        It `lat` or `lon` is None, then will try `xindex` and `yindex`.
 
-            yindex : int
-                It `lat` or `lon` is None, then will try `xindex` and `yindex`.
+        Enter the x index of the NLDAS grid.::
 
-                Enter the y index of the NLDAS grid.::
+            Example: --xindex=301
 
-                    Example: --yindex=80
+    yindex : int
+        It `lat` or `lon` is None, then will try `xindex` and `yindex`.
 
-            variables : str
-                Use the variable codes from the following table:
+        Enter the y index of the NLDAS grid.::
+
+            Example: --yindex=80
+
+    variables : str
+        Use the variable codes from the following table:
 
     {units_table}
 
-            startDate : str
-                The start date of the time series.::
+    startDate : str
+        The start date of the time series.::
 
-                    Example: --startDate=2001-01-01T05
+            Example: --startDate=2001-01-01T05
 
-                If startDate and endDate are None, returns the entire series.
+        If startDate and endDate are None, returns the entire series.
 
-            endDate : str
-                The end date of the time series.::
+    endDate : str
+        The end date of the time series.::
 
-                    Example: --endDate=2002-01-05T05
+            Example: --endDate=2002-01-05T05
 
-                If startDate and endDate are None, returns the entire series.
-            variable : str
-                DEPRECATED: use "variables" instead to be consistent across
-                "tsgettoolbox".
+        If startDate and endDate are None, returns the entire series.
+
+    variable : str
+        DEPRECATED: use "variables" instead to be consistent across
+        "tsgettoolbox".
     """
     tsutils._printiso(
         ldas(
@@ -529,9 +532,9 @@ consistent with other services in tsgettoolbox."""
         )
 
     if lat is not None and lon is not None:
-        location = "GEOM:POINT({0}, {1})".format(lon, lat)
+        location = "GEOM:POINT({}, {})".format(lon, lat)
     elif project == "NLDAS" and xindex is not None and yindex is not None:
-        location = "{0}:X{1:03d}-Y{2:03d}".format(project, xindex, yindex)
+        location = "{}:X{:03d}-Y{:03d}".format(project, xindex, yindex)
     else:
         raise ValueError(
             tsutils.error_wrapper(
@@ -596,7 +599,7 @@ location.  You have the grid "{project}" and "xindex={xindex}" and
             df.set_index(0, inplace=True)
         variable_name = query_params["variable"].split(":")[-1]
         unit = _UNITS_MAP[query_params["variable"]][1]
-        df.columns = ["{0}:{1}".format(variable_name, unit)]
+        df.columns = ["{}:{}".format(variable_name, unit)]
         df.index.name = "Datetime:UTC"
         try:
             return df.tz_localize("UTC")

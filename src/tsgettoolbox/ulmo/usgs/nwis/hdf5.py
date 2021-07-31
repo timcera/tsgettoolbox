@@ -175,26 +175,20 @@ def get_site_data(
             return {}
 
         if parameter_code:
-            site_data = dict(
-                [
-                    (
-                        variable_group._v_pathname.rsplit("/", 1)[-1],
-                        _variable_group_to_dict(store, variable_group, start=start),
-                    )
-                    for variable_group in site_group
-                    if variable_group._v_pathname.rsplit("/", 1)[-1] in parameter_code
-                ]
-            )
+            site_data = {
+                variable_group._v_pathname.rsplit("/", 1)[-1]: _variable_group_to_dict(
+                    store, variable_group, start=start
+                )
+                for variable_group in site_group
+                if variable_group._v_pathname.rsplit("/", 1)[-1] in parameter_code
+            }
         else:
-            site_data = dict(
-                [
-                    (
-                        variable_group._v_pathname.rsplit("/", 1)[-1],
-                        _variable_group_to_dict(store, variable_group, start=start),
-                    )
-                    for variable_group in site_group
-                ]
-            )
+            site_data = {
+                variable_group._v_pathname.rsplit("/", 1)[-1]: _variable_group_to_dict(
+                    store, variable_group, start=start
+                )
+                for variable_group in site_group
+            }
     return site_data
 
 
@@ -224,7 +218,9 @@ def remove_values(
         site_group = store.get_node(site_code)
         if site_group is None:
             core.log.warning(
-                "No site group found for site %s in %s" % (site_code, site_data_path)
+                "No site group found for site {} in {}".format(
+                    site_code, site_data_path
+                )
             )
             return
 
@@ -253,7 +249,9 @@ def remove_values(
 
             else:
                 core.log.warning(
-                    "Values path %s not found in %s." % (values_path, site_data_path)
+                    "Values path {} not found in {}.".format(
+                        values_path, site_data_path
+                    )
                 )
                 continue
 
@@ -427,7 +425,6 @@ def update_site_data(
         default of True conserves disk space because untamed file growth can
         become quite destructive.  If you set this to False, you can manually
         repack files with repack().
-
 
     Returns
     -------
@@ -623,7 +620,7 @@ def _sites_df_to_dict(df):
     df = _nest_dataframe_dicts(df, "location", ["latitude", "longitude", "srs"])
     for tz_type in ["default_tz", "dst_tz"]:
         tz_keys = ["abbreviation", "offset"]
-        rename_dict = dict([(tz_type + "_" + key, key) for key in tz_keys])
+        rename_dict = {tz_type + "_" + key: key for key in tz_keys}
         df = df.rename(columns=rename_dict)
         df = _nest_dataframe_dicts(df, tz_type, tz_keys)
     df = _nest_dataframe_dicts(
@@ -642,7 +639,7 @@ def _sites_dict_to_df(sites_dict):
     for tz_type in ["default_tz", "dst_tz"]:
         tz_keys = ["abbreviation", "offset"]
         df = _unnest_dataframe_dicts(df, tz_type, tz_keys)
-        rename_dict = dict([(key, tz_type + "_" + key) for key in tz_keys])
+        rename_dict = {key: tz_type + "_" + key for key in tz_keys}
         df = df.rename(columns=rename_dict)
 
     return df
@@ -691,7 +688,7 @@ def _values_df_to_dicts(values_df):
 
 def _variable_group_to_dict(store, variable_group, start=None):
     _v_attrs = variable_group._v_attrs
-    variable_dict = dict([(key, getattr(_v_attrs, key)) for key in _v_attrs._f_list()])
+    variable_dict = {key: getattr(_v_attrs, key) for key in _v_attrs._f_list()}
     values_path = variable_group._v_pathname + "/values"
     values_df = store[values_path]
     if start:

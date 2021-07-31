@@ -23,13 +23,13 @@ def unavco_to_df(url, **query_params):
             """
 *
 *   The station keyword is required.  You have given me
-*   {0}.
+*   {}.
 *
 """.format(
                 query_params
             )
         )
-    url = "{0}/{1}/beta".format(url, station)
+    url = "{}/{}/beta".format(url, station)
     if "/met/" in url or "/strain/" in url:
         comment = None
     else:
@@ -50,7 +50,7 @@ def unavco_to_df(url, **query_params):
         skiprows=5,
     )
     df.columns = [
-        "unavco-{0}".format(
+        "unavco-{}".format(
             i.strip()
             .replace(" ", "_")
             .replace("(", ":")

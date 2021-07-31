@@ -182,8 +182,7 @@ def fawn_cli(
 
     Parameters
     ----------
-    stations :  str
-
+    stations : str
         At the command line can supply a comma separated list or codes or
         names.  Using the Python API needs to be a Python list.
 
@@ -272,10 +271,13 @@ def fawn_cli(
 
         The 'ET' variable is only available when `reportType` is "daily" or
         "monthly".
+
     reportType : str
         Interval of the data.  Can be one of "all" for 15 minute, "hourly",
         "daily", or "monthly".
+
     {start_date}
+
     {end_date}
     """
     tsutils._printiso(
@@ -343,10 +345,10 @@ def fawn(
 
     for station in tsutils.make_list(stations):
         try:
-            data["locs__{0}".format(rev_locs[station])] = "on"
+            data["locs__{}".format(rev_locs[station])] = "on"
         except KeyError:
             try:
-                data["locs__{0}".format(rev_locs[station.lower()])] = "on"
+                data["locs__{}".format(rev_locs[station.lower()])] = "on"
             except KeyError:
                 raise ValueError(
                     tsutils.error_wrapper(
@@ -360,7 +362,7 @@ Station {station} is not in the list of stations.
 
     for variable in tsutils.make_list(variables):
         try:
-            data["vars__{0}".format(rev_vars[variable])] = "on"
+            data["vars__{}".format(rev_vars[variable])] = "on"
         except KeyError:
             raise ValueError(
                 tsutils.error_wrapper(

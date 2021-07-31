@@ -64,7 +64,9 @@ def download_tiles(path, tile_urls, tile_fmt, check_modified=False):
 
     for i, url in enumerate(tile_urls):
         filename = os.path.split(url)[-1]
-        print("... downloading tile %s of %s from %s" % (i + 1, len(tile_urls), url))
+        print(
+            "... downloading tile {} of {} from {}".format(i + 1, len(tile_urls), url)
+        )
         mkdir_if_doesnt_exist(path)
         mkdir_if_doesnt_exist(os.path.join(path, "zip"))
         tile_path = os.path.join(path, filename)
@@ -86,7 +88,7 @@ def extract_from_zip(zip_path, tile_path, tile_fmt):
         fname = [x for x in z.namelist() if tile_fmt in x[-4:]][0]
         with open(tile_path, "wb") as f:
             f.write(z.read(fname))
-            print("... ... %s format raster saved at %s" % (tile_fmt, tile_path))
+            print("... ... {} format raster saved at {}".format(tile_fmt, tile_path))
 
     return tile_path
 

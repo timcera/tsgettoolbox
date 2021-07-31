@@ -337,7 +337,7 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
     newcols = ["station", "year", "month", "code"]
     for day in list(range(1, 32)):
         for col in ["", "m", "q", "s"]:
-            newcols.append("{0}{1:02}".format(col, day))
+            newcols.append("{}{:02}".format(col, day))
     df.columns = newcols
     codes = [
         "TMAX",  # Temperature MAX (1/10 degree C)
@@ -462,7 +462,7 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
     #        7 = 180 cm
     for i in range(9):
         for j in range(1, 8):
-            codes.append("SN{0}{1}".format(i, j))
+            codes.append("SN{}{}".format(i, j))
 
     # SX*# = Maximum soil temperature (tenths of degrees C)
     #        where * corresponds to a code for ground cover
@@ -470,7 +470,7 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
     #        See SN*# for ground cover and depth codes.
     for i in range(9):
         for j in range(1, 8):
-            codes.append("SX{0}{1}".format(i, j))
+            codes.append("SX{}{}".format(i, j))
 
     # WT** = Weather Type where ** has one of the following values:
     #
@@ -498,7 +498,7 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
     #        19 = Unknown source of precipitation
     #        21 = Ground fog
     #        22 = Ice fog or freezing fog
-    codes.extend(["WT{0:02}".format(i) for i in range(1, 23)])
+    codes.extend(["WT{:02}".format(i) for i in range(1, 23)])
 
     # WV** = Weather in the Vicinity where ** has one of the following values:
     #        01 = Fog, ice fog, or freezing fog (may include heavy fog)
@@ -506,7 +506,7 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
     #        07 = Ash, dust, sand, or other blowing obstruction
     #        18 = Snow or ice crystals
     #        20 = Rain or snow shower
-    codes.extend(["WV{0:02}".format(i) for i in [1, 3, 7, 18, 20]])
+    codes.extend(["WV{:02}".format(i) for i in [1, 3, 7, 18, 20]])
 
     for code in codes:
         tmpdf = df.loc[df["code"] == code, :]
@@ -584,7 +584,7 @@ def get_por(query_params, headers):
     s = utils.requests_retry_session()
     ireq = Request(
         "GET",
-        r"http://www.ncdc.noaa.gov/cdo-web/api/v2/stations/{0}".format(
+        r"http://www.ncdc.noaa.gov/cdo-web/api/v2/stations/{}".format(
             query_params["stationid"]
         ),
         headers=headers,
@@ -610,7 +610,7 @@ def get_por(query_params, headers):
         raise ValueError(
             tsutils.error_wrapper(
                 """
-The startdate of {0} is greater than, or equal to, the enddate of {1}.
+The startdate of {} is greater than, or equal to, the enddate of {}.
 """.format(
                     sdate, edate
                 )
@@ -794,7 +794,7 @@ def ncei_cdo_json_to_df(url, **query_params):
             raise ValueError(
                 tsutils.error_wrapper(
                     """
-No normalized statistics available for station {0}
+No normalized statistics available for station {}
 """.format(
                         query_params["stationid"]
                     )
@@ -868,7 +868,9 @@ def ncei_ghcnd_cli(stationid, datatypeid="", start_date="", end_date=""):
         See the tables above for available datatypeid for the 'ghcnd'
         dataset.  If the datatypeid is not given defaults to getting all data
         available at that station for the time period requested.
+
     {start_date}
+
     {end_date}"""
     tsutils._printiso(
         ncei_ghcnd(
@@ -6274,12 +6276,12 @@ def ncei_ghcndms_cli(stationid, datatypeid="", startdate="", enddate=""):
         +------+-------------------------------------------------------+
 
     startdate
-       Start date in ISO8601
-       format.
+        Start date in ISO8601
+        format.
 
     enddate
-       End date in ISO8601
-       format."""
+        End date in ISO8601
+        format."""
     tsutils._printiso(
         ncei_ghcndms(
             stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate

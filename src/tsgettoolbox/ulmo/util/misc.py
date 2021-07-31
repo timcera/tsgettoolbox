@@ -195,13 +195,11 @@ def parse_fwf(file_path, columns, na_values=None):
         zip(*[(name, (start, end)) for name, start, end, converter in columns])
     )
 
-    converters = dict(
-        [
-            (name, converter)
-            for name, start, end, converter in columns
-            if not converter is None
-        ]
-    )
+    converters = {
+        name: converter
+        for name, start, end, converter in columns
+        if not converter is None
+    }
 
     return pandas.io.parsers.read_fwf(
         file_path,

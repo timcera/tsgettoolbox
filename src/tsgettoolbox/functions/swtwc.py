@@ -25,7 +25,7 @@ def ulmo_df(station_code, date=None):
     alldict = get_station_data(station_code, date=date, as_dataframe=True)
     df = alldict["values"]
     df.columns = [
-        "{0}:{1}".format(i, alldict["variables"][i]["unit"]) for i in df.columns
+        "{}:{}".format(i, alldict["variables"][i]["unit"]) for i in df.columns
     ]
     df.columns = [i.replace("  ", "_").replace(" ", "_") for i in df.columns]
     df = df.tz_localize(alldict["timezone"])

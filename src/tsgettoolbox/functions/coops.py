@@ -702,7 +702,7 @@ def precore(query_params, i):
         raise ValueError(
             tsutils.error_wrapper(
                 """
-COOPS service returned the error "{0}".
+COOPS service returned the error "{}".
 """.format(
                     error
                 )
@@ -722,7 +722,7 @@ COOPS service returned the error "{0}".
     if time_zone_name == "GMT":
         time_zone_name = "UTC"
     ndf = ndf.tz_localize(time_zone_name)
-    ndf.index.name = "Datetime:{0}".format(time_zone_name)
+    ndf.index.name = "Datetime:{}".format(time_zone_name)
     return ndf
 
 
@@ -812,7 +812,7 @@ def coops(
     ndf = pd.DataFrame()
     for cnt, i in enumerate(product):
         r = precore(params, i)
-        ndf = ndf.join(r, how="outer", rsuffix="_{0}".format(cnt))
+        ndf = ndf.join(r, how="outer", rsuffix="_{}".format(cnt))
     return ndf
 
 

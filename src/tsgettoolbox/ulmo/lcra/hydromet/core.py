@@ -86,7 +86,7 @@ def get_sites_by_type(site_type):
         site.text.replace("&nbsp", "").replace(u"\xa0", "")
         for site in soup.findAll("a")
     ]
-    sites_dict = dict([(s[:4], s[7:]) for s in sites_str])
+    sites_dict = {s[:4]: s[7:] for s in sites_str}
 
     return sites_dict
 
@@ -117,7 +117,7 @@ def get_current_data(service, as_geojson=False):
 
     Returns
     -------
-        current_values_dicts : a list of dicts or
+    current_values_dicts : a list of dicts or
         current_values_geojson : a geojson featurecollection.
     """
     request_body_template = (

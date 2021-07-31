@@ -84,7 +84,6 @@ def get_data(
 ):
     """Retreives data.
 
-
     Parameters
     ----------
     state : ``None`` or str
@@ -103,7 +102,6 @@ def get_data(
         then a pandas.DataFrame object will be returned.  The pandas dataframe
         is used internally, so setting this to ``True`` is a little bit faster
         as it skips a serialization step.
-
 
     Returns
     -------

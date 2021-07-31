@@ -961,7 +961,7 @@ def _read_rdb(url, data):
                     else:
                         test_cnames.append(
                             cname
-                            + ":{0}".format(pmcodes.loc[words[1], "parameter_units"])
+                            + ":{}".format(pmcodes.loc[words[1], "parameter_units"])
                         )
                 except ValueError:
                     test_cnames.append(cname)
@@ -1080,14 +1080,14 @@ def usgs_stat_rdb_to_df(url, **kwargs):
     ndf = _read_rdb(url, kwargs)
     if kwargs["statReportType"] == "daily":
         ndf["Datetime"] = [
-            "{0:02d}-{1:02d}".format(int(i), int(j))
+            "{:02d}-{:02d}".format(int(i), int(j))
             for i, j in zip(ndf["month_nu"], ndf["day_nu"])
         ]
         ndf.drop(["month_nu", "day_nu"], axis=1, inplace=True)
     elif kwargs["statReportType"] == "monthly":
         ndf["Datetime"] = pd.to_datetime(
             [
-                "{0}-{1:02d}".format(i, int(j))
+                "{}-{:02d}".format(i, int(j))
                 for i, j in zip(ndf["year_nu"], ndf["month_nu"])
             ]
         )
@@ -1095,7 +1095,7 @@ def usgs_stat_rdb_to_df(url, **kwargs):
     else:
         if kwargs["statYearType"] == "water":
             ndf["Datetime"] = pd.to_datetime(
-                ["{0}-10-01".format(int(i) - 1) for i in ndf["year_nu"]]
+                ["{}-10-01".format(int(i) - 1) for i in ndf["year_nu"]]
             )
         else:
             ndf["Datetime"] = pd.to_datetime(ndf["year_nu"])
@@ -1233,7 +1233,7 @@ def usgs_gwlevels_rdb_to_df(url, **kwargs):
     ndf["Datetime"] = ndf.apply(normalize_tz, args=("lev_tz_cd",), axis=1)
     ndf.set_index(["Datetime"], inplace=True)
     try:
-        ndf.index.name = "Datetime:{0}".format(ndf.index.tz)
+        ndf.index.name = "Datetime:{}".format(ndf.index.tz)
     except AttributeError:
         ndf.index.name = "Datetime"
     ndf.drop(["lev_dt", "lev_tm", "lev_tz_cd", "site_no"], axis=1, inplace=True)
@@ -1377,13 +1377,13 @@ daily values, or 'stat' for daily, monthly, or annual statistics, or
 'measurements' for field measurements, 'peak' for peak stage and flow
 estimates, 'site' for site metadata, or 'gwlevels' for ground water levels.
 
-You gave {0}.""".format(
+You gave {}.""".format(
                     database
                 )
             )
         )
 
-    url = r"http://waterservices.usgs.gov/nwis/{0}/".format(database)
+    url = r"http://waterservices.usgs.gov/nwis/{}/".format(database)
 
     if database in ["measurements", "peak", "gwlevels"]:
         words = sites.split(",")
@@ -1392,7 +1392,7 @@ You gave {0}.""".format(
                 tsutils.error_wrapper(
                     r"""
 For the 'measurements', 'peak', and 'gwlevels' databases you can only collect
-data from one site, you listed {0}.
+data from one site, you listed {}.
 """.format(
                         len(words)
                     )
@@ -1414,7 +1414,7 @@ accept one site using the 'site' keyword.
             )
 
         if database in ["measurements", "peak"]:
-            url = r"http://nwis.waterdata.usgs.gov/XX/nwis/{0}".format(database)
+            url = r"http://nwis.waterdata.usgs.gov/XX/nwis/{}".format(database)
 
     if database in ["iv", "dv"]:
         return usgs_iv_dv_rdb_to_df(
@@ -1961,7 +1961,6 @@ def nwis_site_cli(
     {huc}
     {bBox}
     {countyCd}
-
     {parameterCd}
     {siteType}
     {modifiedSince}
@@ -1977,12 +1976,10 @@ def nwis_site_cli(
     {wellDepthMax}
     {holeDepthMin}
     {holeDepthMax}
-
     {period}
     {startDT}
     {endDT}
     {includeCodes}
-
     {siteOutput}
     {seriesCatalogOutput}
     {outputDataTypeCd}
@@ -2948,6 +2945,7 @@ def epa_wqp_cli(
     Parameters
     ----------
     {bBox}
+
     lat : float
         [optional, default is None]
 

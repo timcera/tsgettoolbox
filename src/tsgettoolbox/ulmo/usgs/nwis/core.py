@@ -179,9 +179,9 @@ def get_sites(
     with _open_input_file(input_file) as content_io:
         return_sites = wml.parse_site_infos(content_io)
 
-    return_sites = dict(
-        [(code, _extract_site_properties(site)) for code, site in return_sites.items()]
-    )
+    return_sites = {
+        code: _extract_site_properties(site) for code, site in return_sites.items()
+    }
 
     return return_sites
 

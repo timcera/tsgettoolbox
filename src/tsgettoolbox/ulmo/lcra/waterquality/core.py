@@ -194,7 +194,7 @@ def get_recent_data(site_code, as_dataframe=False):
     if site_code not in real_time_sites.keys():
         log.info("%s is not in the list of LCRA real time salinity sites" % site_code)
         return {}
-    data_url = "http://waterquality.lcra.org/salinity.aspx?sNum=%s&name=%s" % (
+    data_url = "http://waterquality.lcra.org/salinity.aspx?sNum={}&name={}".format(
         site_code,
         real_time_sites[site_code],
     )
@@ -204,7 +204,7 @@ def get_recent_data(site_code, as_dataframe=False):
     data = data.applymap(_nan_values)
     data.dropna(how="all", axis=0, inplace=True)
     data.dropna(how="all", axis=1, inplace=True)
-    columns = dict([(column, _beautify_header(column)) for column in data.columns])
+    columns = {column: _beautify_header(column) for column in data.columns}
     data.rename(columns=columns, inplace=True)
     data = data.astype(float)
 

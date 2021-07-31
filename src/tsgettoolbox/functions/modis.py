@@ -413,7 +413,6 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
     39.497N,107.3028W, time period: 2000-02-18 to 2015-07-28, and subset
     size: 0.25 x 0.25 km. http://dx.doi.org/10.3334/ORNLDAAC/1241
 
-
     Citation: Multiple Sites
 
     Format (multiple sites, clustered together):
@@ -477,9 +476,9 @@ def modis(lat, lon, product, band, startdate=None, enddate=None):
         raise ValueError(
             tsutils.error_wrapper(
                 """
-Available products at the current time are: {0}.
+Available products at the current time are: {}.
 
-You gave {1}.
+You gave {}.
 """.format(
                     products, query_params["product"]
                 )
@@ -490,10 +489,10 @@ You gave {1}.
         raise ValueError(
             tsutils.error_wrapper(
                 """
-'band' argument must be in the following list for 'product' = {0}.
-{1}.
+'band' argument must be in the following list for 'product' = {}.
+{}.
 
-You gave me {2}.
+You gave me {}.
 """.format(
                     query_params["product"], bands, query_params["band"]
                 )

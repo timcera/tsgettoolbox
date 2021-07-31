@@ -49,13 +49,11 @@ def update_data(station_codes=None, start_year=None, end_year=None, path=None):
 
     all_stations = get_stations()
     if station_codes:
-        stations = dict(
-            [
-                (station_code, all_stations.get(station_code))
-                for station_code in station_codes
-                if station_code in all_stations
-            ]
-        )
+        stations = {
+            station_code: all_stations.get(station_code)
+            for station_code in station_codes
+            if station_code in all_stations
+        }
     else:
         stations = all_stations
 
@@ -95,7 +93,7 @@ def _get_value_table(h5file, station, variable):
             h5file,
             values_path,
             NCDCValue,
-            "Values for station: %s, variable: %s" % (station_code, variable),
+            "Values for station: {}, variable: {}".format(station_code, variable),
         )
         value_table.cols.date.createCSIndex()
         value_table.attrs.USAF = station["USAF"]

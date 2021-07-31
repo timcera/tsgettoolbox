@@ -87,7 +87,6 @@ def usgs_whets_cli(
     {lon}
 
     variables : str
-
         At the command line can supply a comma separated list of variable
         names.  Using the Python API needs to be a Python list of strings.
 
@@ -118,6 +117,7 @@ def usgs_whets_cli(
         +--------+----------------------------------+-----------+
 
     {start_date}
+
     {end_date}
     """
     tsutils._printiso(
@@ -161,7 +161,7 @@ def opendap(variables, lat, lon, start_date=None, end_date=None):
         unit_label = unit_label.replace("square meter", "m^2")
         unit_label = unit_label.replace("meters", "m")
         unit_label = unit_label.replace("second", "s")
-        rename[i] = "{0}:{1}".format(i, unit_label)
+        rename[i] = "{}:{}".format(i, unit_label)
     ndf = dataset.to_dataframe().rename(rename, axis="columns")
 
     ndf.index.name = "Datetime"

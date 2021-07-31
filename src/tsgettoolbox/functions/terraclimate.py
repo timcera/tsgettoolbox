@@ -133,7 +133,6 @@ def terraclimate_cli(
     {lon}
 
     variables : str
-
         At the command line can supply a comma separated list of variable
         names.  Using the Python API needs to be a Python list of strings.
 
@@ -170,6 +169,7 @@ def terraclimate_cli(
         +--------+----------------------------------+-----------+
 
     {start_date}
+
     {end_date}
     """
     tsutils._printiso(

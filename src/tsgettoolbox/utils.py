@@ -27,7 +27,7 @@ def read_api_key(service):
             fp.write(
                 """
 
-[{0}]
+[{}]
 api_key = ReplaceThisStringWithYourKey
 
 """.format(
@@ -47,7 +47,7 @@ api_key = ReplaceThisStringWithYourKey
             fp.write(
                 """
 
-[{0}]
+[{}]
 api_key = ReplaceThisStringWithYourKey
 
 """.format(
@@ -62,8 +62,8 @@ api_key = ReplaceThisStringWithYourKey
         raise ValueError(
             """
 *
-*   Need to edit {0}
-*   to add your API key that you got from {1}.
+*   Need to edit {}
+*   to add your API key that you got from {}.
 *
 """.format(
                 configfile, service

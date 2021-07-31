@@ -30,8 +30,8 @@ def ulmo_df(station_code, parameter, start_date=None, end_date=None):
         raise ValueError(
             tsutils.error_wrapper(
                 """
-Station code {0} not in available stations:
-{1}
+Station code {} not in available stations:
+{}
 """.format(
                     station_code, tstations.keys
                 )
@@ -43,8 +43,8 @@ Station code {0} not in available stations:
         raise ValueError(
             tsutils.error_wrapper(
                 """
-Parameter code {0} not in available parameters at station {1}:
-{2}
+Parameter code {} not in available parameters at station {}:
+{}
 """.format(
                     parameter, station_code, tparameters
                 )
@@ -59,7 +59,7 @@ Parameter code {0} not in available parameters at station {1}:
     df = pd.DataFrame.from_dict(df, orient="index")
     df.sort_index(inplace=True)
     df.index.name = "Datetime"
-    df.columns = ["{0}_{1}".format(station_code, parameter)]
+    df.columns = ["{}_{}".format(station_code, parameter)]
     return df
 
 

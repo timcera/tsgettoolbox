@@ -21,9 +21,9 @@ except ImportError:
 def cdec_cli(
     station_id, dur_code=None, sensor_num=None, start_date=None, end_date=None
 ):
-    r"""Access data from the `California Department of Water Resources`.
+    r"""Access data from the 'California Department of Water Resources'.
 
-    The web site is called the `California Data Exchange Center`.
+    The web site is called the 'California Data Exchange Center'.
 
     California Department of Water Resources: http://www.water.ca.gov/
     California Data Exchange Center: http://cdec.water.ca.gov
@@ -210,11 +210,9 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
     Parameters
     ----------
     station_ids : iterable of strings or ``None``
-
     sensor_ids : iterable of integers or ``None``
         check out  or use the ``get_sensors()`` function to see a list of
         available sensor numbers
-
     resolutions : iterable of strings or ``None``
         Possible values are 'event', 'hourly', 'daily', and 'monthly' but not
         all of these time resolutions are available at every station.
@@ -238,7 +236,7 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
         station_ids = get_stations().index
 
     for station_id in station_ids:
-        url = "http://cdec.water.ca.gov/dynamicapp/staMeta?station_id={0}".format(
+        url = "http://cdec.water.ca.gov/dynamicapp/staMeta?station_id={}".format(
             station_id
         )
         sensor_list = pd.read_html(url)[1]
@@ -280,11 +278,9 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
     Parameters
     ----------
     station_ids : iterable of strings or ``None``
-
     sensor_ids : iterable of integers or ``None``
         check out  or use the ``get_sensors()`` function to see a list of
         available sensor numbers
-
     resolutions : iterable of strings or ``None``
         Possible values are 'event', 'hourly', 'daily', and 'monthly' but not
         all of these time resolutions are available at every station.

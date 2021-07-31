@@ -115,7 +115,7 @@ def parse_site_infos(content_io, namespace, site_info_names):
             _parse_site_info(site_info_element, namespace)
             for site_info_element in site_info_elements
         ]
-        site_infos.update(dict([(d["code"], d) for d in site_info_dicts]))
+        site_infos.update({d["code"]: d for d in site_info_dicts})
     return site_infos
 
 
@@ -132,7 +132,7 @@ def parse_sites(content_io, namespace):
     site_dicts = [
         _parse_site(site_element, namespace) for site_element in site_elements
     ]
-    sites = dict([(site_dict["code"], site_dict) for site_dict in site_dicts])
+    sites = {site_dict["code"]: site_dict for site_dict in site_dicts}
     return sites
 
 
@@ -150,9 +150,9 @@ def parse_variables(content_io, namespace):
         _parse_variable(variable_element, namespace)
         for variable_element in variable_elements
     ]
-    variables = dict(
-        [(variable_dict["code"], variable_dict) for variable_dict in variable_dicts]
-    )
+    variables = {
+        variable_dict["code"]: variable_dict for variable_dict in variable_dicts
+    }
     return variables
 
 
@@ -179,18 +179,13 @@ def _element_dict(element, exclude_children=None, prepend_attributes=True):
         element_dict[element_name] = element.text
 
     element_dict.update(
-        dict(
-            [
-                (
-                    _element_dict_attribute_name(
-                        key, element_name, prepend_element_name=prepend_attributes
-                    ),
-                    value,
-                )
-                for key, value in element.attrib.items()
-                if value.split(":")[0] not in ["xsd", "xsi"]
-            ]
-        )
+        {
+            _element_dict_attribute_name(
+                key, element_name, prepend_element_name=prepend_attributes
+            ): value
+            for key, value in element.attrib.items()
+            if value.split(":")[0] not in ["xsd", "xsi"]
+        }
     )
 
     for child in element.iterchildren():
@@ -251,9 +246,7 @@ def _parse_metadata(values_element, metadata_elements, namespace):
             for element in values_element.findall(namespace + tag)
         ]
         if len([x for x in collection if len(x)]):
-            collection_dict = dict(
-                [(item[key], item) for item in collection if key in item]
-            )
+            collection_dict = {item[key]: item for item in collection if key in item}
             metadata[collection_name] = collection_dict
     return metadata
 
@@ -330,25 +323,20 @@ def _parse_site_info(site_info, namespace):
         return_dict["elevation_m"] = elevation_m.text
 
     # WaterML 1.0 notes
-    notes = dict(
-        [
-            (util.camel_to_underscore(note.attrib["title"].replace(" ", "")), note.text)
-            for note in site_info.findall(namespace + "note")
-        ]
-    )
+    notes = {
+        util.camel_to_underscore(note.attrib["title"].replace(" ", "")): note.text
+        for note in site_info.findall(namespace + "note")
+    }
     if notes:
         return_dict["notes"] = notes
 
     # WaterML 1.1 siteProperties
-    site_properties = dict(
-        [
-            (
-                util.camel_to_underscore(site_property.attrib["name"].replace(" ", "")),
-                site_property.text,
-            )
-            for site_property in site_info.findall(namespace + "siteProperty")
-        ]
-    )
+    site_properties = {
+        util.camel_to_underscore(
+            site_property.attrib["name"].replace(" ", "")
+        ): site_property.text
+        for site_property in site_info.findall(namespace + "siteProperty")
+    }
     if site_properties:
         return_dict["site_property"] = site_properties
 
@@ -517,4 +505,4 @@ def _parse_variable(variable_element, namespace):
 
 def _scrub_prefix(element_dict, prefix):
     "returns a dict with prefix scrubbed from the keys"
-    return dict([(k.split(prefix + "_")[-1], v) for k, v in element_dict.items()])
+    return {k.split(prefix + "_")[-1]: v for k, v in element_dict.items()}

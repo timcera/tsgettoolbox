@@ -95,7 +95,8 @@ def daymet_cli(lat, lon, measuredParams=None, year=None):
         Example: --measuredParams=tmax,tmin
 
         All variables are returned by default.
-    year :  CommaSeparatedYears (optional):
+
+    year : CommaSeparatedYears (optional):
         Current Daymet product (version 2) is available from 1980 to the latest
         full calendar year.::
 
@@ -151,7 +152,7 @@ You supplied {0}.
                     tsutils.error_wrapper(
                         """
 The year= option must contain a comma separated list of integers.  You
-supplied {0}.
+supplied {}.
 """.format(
                             testyear
                         )
@@ -162,7 +163,7 @@ supplied {0}.
                     tsutils.error_wrapper(
                         """
 The year= option must contain values from 1980 up to and including the last
-calendar year.  You supplied {0}.
+calendar year.  You supplied {}.
 """.format(
                             iyear
                         )
@@ -188,7 +189,7 @@ calendar year.  You supplied {0}.
     )
     df.columns = [i.split()[0] for i in df.columns]
     df = df[measuredParams]
-    df.columns = ["Daymet-{0}{1}".format(i, _units_map[i]) for i in df.columns]
+    df.columns = ["Daymet-{}{}".format(i, _units_map[i]) for i in df.columns]
     df.index.name = "Datetime"
     return df
 

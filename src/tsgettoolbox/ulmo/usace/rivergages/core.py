@@ -82,17 +82,15 @@ def get_station_parameters(station_code):
 
 
 def _format_date(date):
-    return "%s/%s/%s" % (date.month, date.day, date.year)
+    return "{}/{}/{}".format(date.month, date.day, date.year)
 
 
 def _parse_options(options):
-    return dict(
-        [
-            (option.attrs.get("value"), option.text.strip())
-            for option in options
-            if option.attrs.get("value") != ""
-        ]
-    )
+    return {
+        option.attrs.get("value"): option.text.strip()
+        for option in options
+        if option.attrs.get("value") != ""
+    }
 
 
 def _parse_value(value_tr):

@@ -47,7 +47,6 @@ def get_data(county=None, start=None, end=None, as_dataframe=False, data_dir=Non
         will be used (the directory will depend on the platform/operating
         system).
 
-
     Returns
     -------
     data : dict or pandas.Dataframe

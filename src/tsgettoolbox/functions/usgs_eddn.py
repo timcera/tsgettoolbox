@@ -67,7 +67,6 @@ def usgs_eddn_cli(dcp_address, parser, start_date=None, end_date=None):
     dcp_address
         DCP address or list of DCP addresses to be fetched; lists will be
         joined by a ','.
-
     parser
         Function that acts on dcp_message, where each row of the dataframe is
         processed and returns a new dataframe containing several rows of
@@ -76,9 +75,7 @@ def usgs_eddn_cli(dcp_address, parser, start_date=None, end_date=None):
         a matching parser function is looked up from ulmo.usgs.eddn.parser.
         The prebuilt functions are "twdb_dot", "twdb_stevens", "twdb_sutron",
         and "twdb_texuni".
-
     {start_date}
-
     {end_date}
     """
     tsutils._printiso(

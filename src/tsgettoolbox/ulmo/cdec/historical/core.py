@@ -132,19 +132,15 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
         # to get all available sensors
         available_sensors = cdec.historical.get_station_sensors(['NEW'])
 
-
     Parameters
     ----------
     station_ids : iterable of strings or ``None``
-
     sensor_ids : iterable of integers or ``None``
         check out  or use the ``get_sensors()`` function to see a list of
         available sensor numbers
-
     resolutions : iterable of strings or ``None``
         Possible values are 'event', 'hourly', 'daily', and 'monthly' but not
         all of these time resolutions are available at every station.
-
 
     Returns
     -------
@@ -196,7 +192,6 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
     choosing hourly resolution as the data sets are big, and CDEC's servers
     are slow as molasses in winter.
 
-
     Usage example::
 
         from tsgettoolbox.ulmo import cdec
@@ -205,15 +200,12 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
     Parameters
     ----------
     station_ids : iterable of strings or ``None``
-
     sensor_ids : iterable of integers or ``None``
         check out  or use the ``get_sensors()`` function to see a list of
         available sensor numbers
-
     resolutions : iterable of strings or ``None``
         Possible values are 'event', 'hourly', 'daily', and 'monthly' but not
         all of these time resolutions are available at every station.
-
 
     Returns
     -------
@@ -309,4 +301,4 @@ def _res_to_dur_code(res):
 
 
 def _format_date(date):
-    return "%s/%s/%s" % (date.month, date.day, date.year)
+    return "{}/{}/{}".format(date.month, date.day, date.year)
