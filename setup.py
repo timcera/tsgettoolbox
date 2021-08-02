@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-import os.path
-import shutil
 import sys
-from itertools import chain
 
 from setuptools import find_packages, setup
 
@@ -56,6 +53,13 @@ extras_require = {
         "pytest-cov",
         "pytest-mpl",
         "pre-commit",
+        "black-nbconvert",
+        "blacken-docs",
+        "velin",
+        "isort",
+        "pyroma",
+        "pyupgrade",
+        "commitizen",
     ]
 }
 

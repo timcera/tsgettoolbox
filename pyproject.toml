@@ -1,0 +1,11 @@
+
+[tool.check-manifest]
+ignore = [".travis.yml",
+          "docs/_function_autosummary/*"]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "23.15.7"
+tag_format = "v$version"
+version_files = ["VERSION"]
+update_changelog_on_bump = true
