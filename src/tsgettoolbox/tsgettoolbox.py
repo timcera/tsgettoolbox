@@ -54,7 +54,7 @@ from .functions.terraclimate import terraclimate
 from .functions.twc import twc
 from .functions.unavco import unavco
 from .functions.usgs_eddn import usgs_eddn
-from .functions.usgs_whets import usgs_whets
+from .functions.usgs_flet import usgs_flet_narr, usgs_flet_stns
 
 warnings.filterwarnings("ignore")
 
