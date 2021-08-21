@@ -243,4 +243,4 @@ Development
 Development is managed on bitbucket at
 https://bitbucket.org/timcera/tsgettoolbox/overview.
 
-.. _tsgettoolbox_documentation: https://timcera.bitbucket.io/tsgettoolbox/docsrc/index.html#tsgettoolbox-documentation
+.. _tsgettoolbox_documentation: https://timcera.bitbucket.io/tsgettoolbox/docs/index.html#tsgettoolbox-documentation

@@ -86,7 +86,7 @@ setup(
     keywords="time_series uri url web_services rest",
     author="Tim Cera, PE",
     author_email="tim@cerazone.net",
-    url="http://timcera.bitbucket.io/{pkg_name}/docsrc/index.html".format(**locals()),
+    url="http://timcera.bitbucket.io/{pkg_name}/docs/index.html".format(**locals()),
     license="BSD",
     packages=find_packages("src"),
     package_dir={"": "src"},
