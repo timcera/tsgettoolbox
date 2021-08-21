@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Download data from Florida Automated Weather Network (FAWN)."""
 
+from typing import Callable
 
 import mando
 import pandas as pd
@@ -27,30 +28,21 @@ _vars = {
 }
 
 
-@mando.command("usgs_whets", formatter_class=HelpFormatter, doctype="numpy")
-@tsutils.doc(tsutils.docstrings)
-def usgs_whets_cli(
-    lat,
-    lon,
-    variables=None,
-    start_date=None,
-    end_date=None,
-):
-    r"""Download daily data from Florida USGS PET/RET projet.
+docs = r"""
 
-    Daily reference and potential evapotranspiration, and supporting meteorological,
-    solar insolation, and blue-sky albedo data, Florida, 2019 (ver. 1.1) subtitle:
-    Meteorological data from the NCEP North American Regional Reanalysis (NARR).
+    Daily reference and potential evapotranspiration, and supporting
+    meteorological, solar insolation, and blue-sky albedo data, Florida, 2019
+    (ver. 1.1)
 
     version: 1.1
 
-    acknowledgement: U.S. Geological Survey, Caribbean-Florida Water Science Center,
-    www.usgs.gov/centers/car-fl-water
+    acknowledgement: U.S. Geological Survey, Caribbean-Florida Water Science
+    Center, www.usgs.gov/centers/car-fl-water
 
     Metadata_Conventions: Unidata Dataset Discovery v1.0
 
-    keywords: Evapotranspiration, Atmospheric Temperature, Humidity, Surface Winds,
-    Albedo, Incoming Solar Radiation
+    keywords: Evapotranspiration, Atmospheric Temperature, Humidity, Surface
+    Winds, Albedo, Incoming Solar Radiation
 
     keywords_vocabulary: GCMD Science Keywords
 
@@ -67,10 +59,6 @@ def usgs_whets_cli(
     publisher_name: U.S. Geological Survey
 
     publisher_url: www.usgs.gov
-
-    time_coverage_start: 2019-01-01T00:00:00-05:00
-
-    time_coverage_end: 2019-12-31T00:00:00-05:00
 
     time_coverage_resolution: Daily
 
@@ -111,7 +99,7 @@ def usgs_whets_cli(
         +--------+----------------------------------+-----------+
         | rhmax  | maximum relative humidity        | percent   |
         +--------+----------------------------------+-----------+
-        | winds  | wind_speed                       | m/s       |
+        | ws     | wind_speed                       | m/s       |
         +--------+----------------------------------+-----------+
         | qcode  | solar radiation quality code     |           |
         +--------+----------------------------------+-----------+
@@ -119,20 +107,24 @@ def usgs_whets_cli(
     {start_date}
 
     {end_date}
-    """
-    tsutils._printiso(
-        usgs_whets(
-            lat,
-            lon,
-            variables=variables,
-            start_date=start_date,
-            end_date=end_date,
-        )
-    )
+    """.format(
+    **tsutils.docstrings
+)
 
 
-def opendap(variables, lat, lon, start_date=None, end_date=None):
-    url = "https://cida.usgs.gov/thredds/dodsC/flet_narr"
+def assign_docstring(indocstring: str) -> Callable:
+    """Assign docstring."""
+
+    def f(fn):
+        fn.__doc__ = fn.__doc__ + "\n" + indocstring
+        return fn
+
+    return f
+
+
+def opendap(url, variables, lat, lon, start_date=None, end_date=None):
+    if variables is None:
+        variables = _vars.keys()
 
     if not variables:
         variables = _vars.keys()
@@ -166,23 +158,7 @@ def opendap(variables, lat, lon, start_date=None, end_date=None):
 
     ndf.index.name = "Datetime"
 
-    return ndf
-
-
-def usgs_whets(
-    lat,
-    lon,
-    variables=None,
-    start_date=None,
-    end_date=None,
-):
-    r"""Download USGS WATERS data from CIDA."""
-    if variables is None:
-        variables = _vars.keys()
-
-    df = opendap(variables, lat, lon, start_date=start_date, end_date=end_date)
-
-    if len(df.dropna(how="all")) == 0:
+    if len(ndf.dropna(how="all")) == 0:
         if start_date is None:
             start_date = "beginning of record"
         if end_date is None:
@@ -190,20 +166,97 @@ def usgs_whets(
         raise ValueError(
             tsutils.error_wrapper(
                 """
-USGS-CIDA returned no USGS WATERS data for lat/lon "{lat}/{lon}", variables "{variables}"
-between {start_date} and {end_date}.
+USGS-CIDA returned no USGS WATERS data for lat/lon "{lat}/{lon}", variables
+"{variables}" between {start_date} and {end_date}.
 """.format(
                     **locals()
                 )
             )
         )
 
+    return ndf
+
+
+@mando.command("usgs_flet_narr", formatter_class=HelpFormatter, doctype="numpy")
+@assign_docstring(docs)
+def usgs_flet_narr_cli(
+    lat,
+    lon,
+    variables=None,
+    start_date=None,
+    end_date=None,
+):
+    """USGS FL ET data from NARR meteorologic data."""
+    tsutils._printiso(
+        usgs_flet_narr(
+            lat,
+            lon,
+            variables=variables,
+            start_date=start_date,
+            end_date=end_date,
+        )
+    )
+
+
+def usgs_flet_narr(
+    lat,
+    lon,
+    variables=None,
+    start_date=None,
+    end_date=None,
+):
+    r"""Download USGS WATERS data from CIDA."""
+    url = "https://cida.usgs.gov/thredds/dodsC/flet_narr"
+    df = opendap(url, variables, lat, lon, start_date=start_date, end_date=end_date)
+
     return df
 
 
-usgs_whets.__doc__ = usgs_whets_cli.__doc__
+usgs_flet_narr.__doc__ = usgs_flet_narr_cli.__doc__
+
+
+@mando.command("usgs_flet_stns", formatter_class=HelpFormatter, doctype="numpy")
+@assign_docstring(docs)
+def usgs_flet_stns_cli(
+    lat,
+    lon,
+    variables=None,
+    start_date=None,
+    end_date=None,
+):
+    """USGS FL ET data from station interpolated meteorologic data."""
+    tsutils._printiso(
+        usgs_flet_stns(
+            lat,
+            lon,
+            variables=variables,
+            start_date=start_date,
+            end_date=end_date,
+        )
+    )
+
+
+def usgs_flet_stns(
+    lat,
+    lon,
+    variables=None,
+    start_date=None,
+    end_date=None,
+):
+    r"""Download USGS WATERS data from CIDA."""
+    url = "https://cida.usgs.gov/thredds/dodsC/flet_stns"
+    df = opendap(url, variables, lat, lon, start_date=start_date, end_date=end_date)
+
+    return df
+
+
+usgs_flet_stns.__doc__ = usgs_flet_stns_cli.__doc__
 
 
 if __name__ == "__main__":
-    r = usgs_whets(29.6, -82.3)
+    print("flet_narr")
+    r = usgs_flet_narr(29.6, -82.3)
+    print(r)
+    print("flet_stns")
+    r = usgs_flet_stns(29.6, -82.3)
     print(r)
