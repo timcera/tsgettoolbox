@@ -22,7 +22,7 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/psf/black
-    rev: 21.7b0  # Replace by any tag/version: https://github.com/psf/black/tags
+    rev: 21.8b0  # Replace by any tag/version: https://github.com/psf/black/tags
     hooks:
       - id: black
         language_version: python  # Should be a command that runs python3.6+
@@ -48,12 +48,12 @@ repos:
       - id: black_nbconvert
 
   - repo: https://github.com/asottile/blacken-docs
-    rev: v1.10.0
+    rev: v1.11.0
     hooks:
       - id: blacken-docs
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.23.1
+    rev: v2.25.0
     hooks:
       - id: pyupgrade
 
@@ -76,7 +76,7 @@ repos:
       - id: pyroma
 
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v2.17.13
+    rev: v2.18.0
     hooks:
       - id: commitizen
         stages: [commit-msg]

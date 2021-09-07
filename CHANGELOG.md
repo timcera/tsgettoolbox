@@ -1,3 +1,21 @@
+## v23.16.1 (2021-09-07)
+
+### Fix
+
+- reset version numbers so 'cz bump' works
+
+## v23.16.0 (2021-09-07)
+
+### Fix
+
+- **MANIFEST.in**: added correct path to include pmcodes.dat which is required by nwis_* subcommands
+
+## vusgs_flet (2021-08-21)
+
+### Feat
+
+- **usgs_flet.py**: renamed usgs_whets and split into usgs_flet_stns and usgs_flet_narr
+
 ## v23.15.8 (2021-08-01)
 
 ## v23.15.7 (2021-07-25)

@@ -32,3 +32,7 @@ __pycache__/*
 .tox
 .tox/*
 .ropeproject/
+.gitmodules/*
+*/.ipynb_checkpoints/*
+docs/_function_autosummary/*
+.spyproject/*
