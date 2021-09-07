@@ -1,3 +1,9 @@
+## v23.16.1 (2021-09-07)
+
+### Fix
+
+- reset version numbers so 'cz bump' works
+
 ## v23.16.0 (2021-09-07)
 
 ### Fix
