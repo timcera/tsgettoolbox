@@ -1,3 +1,15 @@
+## v23.18.1 (2021-10-05)
+
+### Fix
+
+- **epa_wqp**: countycode and statecode included in epa_wqp function
+
+## vv23.18.0 (2021-09-07)
+
+### Fix
+
+- reset version number in pyproject.toml so the 'cz bump' would work correctly
+
 ## v23.16.1 (2021-09-07)
 
 ### Fix
