@@ -3154,12 +3154,64 @@ def epa_wqp(
     """Download data from the EPA water quality portal."""
     url = r"https://www.waterqualitydata.us/data/Result/search"
 
+    if not (
+        bBox
+        or lat
+        or lon
+        or within
+        or countrycode
+        or statecode
+        or countycode
+        or siteType
+        or organization
+        or siteid
+        or huc
+        or sampleMedia
+        or characteristicType
+        or characteristicName
+        or pCode
+        or activityId
+    ):
+        raise (
+            ValueError(
+                tsutils.error_wrapper(
+                    """
+Must have at least one of bBox, lat, lon, within, countrycode, statecode,
+countycode, siteType,,ganization, siteid, huc, sampleMedia, characteristicType,
+characteristicName, pCode, or activityId to filter available stations."""
+                )
+            )
+        )
+
+    if statecode and not countrycode:
+        # Default to "US"
+        countrycode = "US"
+
+    if countycode and not statecode:
+        raise (
+            ValueError(
+                tsutils.error_wrapper(
+                    """
+If specifying "countycode", requires "statecode".  "countrycode" will default
+to "US".  """
+                )
+            )
+        )
+
+    if countycode:
+        countycode = ":".join([countrycode, statecode, countycode])
+
+    if statecode:
+        statecode = ":".join([countrycode, statecode])
+
     query_params = {}
     query_params["bBox"] = bBox
     query_params["lat"] = lat
     query_params["lon"] = lon
     query_params["within"] = within
     query_params["countrycode"] = countrycode
+    query_params["statecode"] = statecode
+    query_params["countycode"] = countycode
     query_params["siteType"] = siteType
     query_params["organization"] = organization
     query_params["siteid"] = siteid
@@ -3172,20 +3224,16 @@ def epa_wqp(
     query_params["startDateLo"] = startDateLo
     query_params["startDateHi"] = startDateHi
 
-    # Need to enforce waterml format
+    # Need to enforce csv format
     query_params["mimeType"] = "csv"
-    try:
+    if startDateLo:
         query_params["startDateLo"] = tsutils.parsedate(
             startDateLo, strftime="%m-%d-%Y"
         )
-    except ValueError:
-        query_params["startDateLo"] = None
-    try:
+    if startDateHi:
         query_params["startDateHi"] = tsutils.parsedate(
             startDateHi, strftime="%m-%d-%Y"
         )
-    except ValueError:
-        query_params["startDateHo"] = None
 
     session = utils.requests_retry_session()
     if os.path.exists("debug_tsgettoolbox"):
