@@ -21,105 +21,70 @@ _avail_vars = {
         "lname": "actual_et",
         "standard_name": "aet",
         "units": "mm",
-        "vname": "TERRACLIMATE Actual Evapotranspiration 1958_CurrentYear Aggregated - Monthly",
+        "vname": "TerraClimate19611990_aet.nc",
     },
     "def": {
         "sname": "def",
         "lname": "climate_water_deficit",
         "standard_name": "def",
         "units": "mm",
-        "vname": "TERRACLIMATE Climatic Water Deficit 1958_CurrentYear Aggregated - Monthly",
+        "vname": "TerraClimate19611990_def.nc",
     },
     "pet": {
         "sname": "pet",
         "lname": "potential_et",
         "standard_name": "pet",
         "units": "mm",
-        "vname": "TERRACLIMATE Reference Evapotranspiration 1958_CurrentYear Aggregated - Monthly",
+        "vname": "TerraClimate19611990_pet.nc",
     },
     "ppt": {
         "sname": "ppt",
         "lname": "precipitation",
         "standard_name": "ppt",
         "units": "mm",
-        "vname": "TERRACLIMATE Precipitation 1958_CurrentYear Aggregated - Monthly",
-    },
-    "PDSI": {
-        "sname": "PDSI",
-        "lname": "palmer_drought_severity_index",
-        "standard_name": "PDSI",
-        "units": "",
-        "vname": "TERRACLIMATE Palmer Drought Severity Index 1958_CurrentYear Aggregated - Monthly",
+        "vname": "TerraClimate19611990_ppt.nc",
     },
     "q": {
         "sname": "q",
         "lname": "runoff",
         "standard_name": "q",
         "units": "mm",
-        "vname": "TERRACLIMATE Runoff 1958_CurrentYear Aggregated - Monthly",
+        "vname": "TerraClimate19611990_q.nc",
     },
     "soil": {
         "sname": "soil",
         "lname": "soil_moisture",
         "standard_name": "soil",
         "units": "mm",
-        "vname": "TERRACLIMATE Soil Moisture 1958_CurrentYear Aggregated - Monthly",
-    },
-    "srad": {
-        "sname": "srad",
-        "lname": "downward_shortwave_radiation",
-        "standard_name": "srad",
-        "units": "W/m**2",
-        "vname": "TERRACLIMATE Downward Shortwave Radiation 1958_CurrentYear Aggregated - Monthly",
+        "vname": "TerraClimate19611990_soil.nc",
     },
     "swe": {
         "sname": "swe",
         "lname": "snow_water_equivalent",
         "standard_name": "swe",
         "units": "mm",
-        "vname": "TERRACLIMATE Snow Water Equivalent 1958_CurrentYear Aggregated - Monthly",
+        "vname": "TerraClimate19611990_swe.nc",
     },
     "tmin": {
         "sname": "tmin",
         "lname": "minimum_daily_temperature",
         "standard_name": "tmin",
         "units": "degC",
-        "vname": "TERRACLIMATE Minimum Temperature 1958_CurrentYear Aggregated - Monthly",
+        "vname": "TerraClimate19611990_tmin.nc",
     },
     "tmax": {
         "sname": "tmax",
         "lname": "maximum_daily_temperature",
         "standard_name": "tmax",
         "units": "degC",
-        "vname": "TERRACLIMATE Maximum Temperature 1958_CurrentYear Aggregated - Monthly",
-    },
-    "vap": {
-        "sname": "vap",
-        "lname": "vapor_pressure",
-        "standard_name": "vap",
-        "units": "kPa",
-        "vname": "TERRACLIMATE Vapor Pressure 1958_CurrentYear Aggregated - Monthly",
-    },
-    "vpd": {
-        "sname": "vpd",
-        "lname": "vapor_pressure_deficit",
-        "standard_name": "vpd",
-        "units": "kPa",
-        "vname": "TERRACLIMATE Vapor Pressure Deficit 1958_CurrentYear Aggregated - Monthly",
-    },
-    "ws": {
-        "sname": "ws",
-        "lname": "wind_speed_2m",
-        "standard_name": "ws",
-        "units": "m/s",
-        "vname": "TERRACLIMATE Wind Speed 1958_CurrentYear Aggregated - Monthly",
+        "vname": "TerraClimate19611990_tmax.nc",
     },
 }
 
 
-@mando.command("terraclimate", formatter_class=HelpFormatter, doctype="numpy")
+@mando.command("terraclimate19611990", formatter_class=HelpFormatter, doctype="numpy")
 @tsutils.doc(tsutils.docstrings)
-def terraclimate_cli(
+def terraclimate19611990_cli(
     lat: float,
     lon: float,
     variables=None,
@@ -150,12 +115,14 @@ def terraclimate_cli(
     precipitation, temperature, and interpolated plant extractable soil water
     capacity.
 
+    method: These layers from TerraClimate were creating using climatically
+    aided interpolation of monthly anomalies from the CRU Ts4.0 and Japanese
+    55-year Reanalysis (JRA-55) datasets with WorldClim v2.0 climatologies.
+
     keywords: WORLDCLIM,global,monthly,
     temperature,precipitation,wind,radiation,vapor
     pressure,evapotranspiration,water balance,soil water capacity,snow water
     equivalent,runoff
-
-    naming_authority: edu.uidaho.nkn
 
     history: Created by John Abatzoglou, University of California Merced
 
@@ -228,15 +195,11 @@ def terraclimate_cli(
         +--------+----------------------------------+-----------+
         | def    | Climate water deficit            | mm        |
         +--------+----------------------------------+-----------+
-        | PDSI   | Palmer Drought Severity Index    |           |
-        +--------+----------------------------------+-----------+
         | pet    | Reference ET                     | mm        |
         +--------+----------------------------------+-----------+
         | q      | Runoff                           | mm        |
         +--------+----------------------------------+-----------+
         | soil   | Soil moisture                    | mm        |
-        +--------+----------------------------------+-----------+
-        | srad   | Downwelling solar shortwave      | W/m^2     |
         +--------+----------------------------------+-----------+
         | swe    | Snow water equivalence           | mm        |
         +--------+----------------------------------+-----------+
@@ -256,7 +219,7 @@ def terraclimate_cli(
     {end_date}
     """
     tsutils._printiso(
-        terraclimate(
+        terraclimate19611990(
             lat,
             lon,
             variables=variables,
@@ -267,7 +230,7 @@ def terraclimate_cli(
 
 
 @tsutils.transform_args(start_date=pd.to_datetime, end_date=pd.to_datetime)
-def terraclimate(
+def terraclimate19611990(
     lat: float,
     lon: float,
     variables=None,
@@ -275,7 +238,7 @@ def terraclimate(
     end_date=None,
 ):
     r"""Download terraclimate data."""
-    turl = "http://thredds.northwestknowledge.net:8080/thredds/ncss/grid/agg_terraclimate_{var}_1958_CurrentYear_GLOBE.nc/"
+    turl = "http://thredds.northwestknowledge.net:8080/thredds/ncss/grid/TERRACLIMATE_ALL/summaries/TerraClimate19611990_{var}.nc/"
 
     df = utils.opendap(
         turl,
@@ -296,7 +259,7 @@ def terraclimate(
         raise ValueError(
             tsutils.error_wrapper(
                 """
-Terraclimate returned no data for lat/lon "{lat}/{lon}", variables "{variables}"
+terraclimate19611990 returned no data for lat/lon "{lat}/{lon}", variables "{variables}"
 between {start_date} and {end_date}.
 """.format(
                     **locals()
@@ -307,7 +270,7 @@ between {start_date} and {end_date}.
     return df
 
 
-terraclimate.__doc__ = terraclimate_cli.__doc__
+terraclimate19611990.__doc__ = terraclimate19611990_cli.__doc__
 
 
 if __name__ == "__main__":

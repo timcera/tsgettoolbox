@@ -1,67 +1,274 @@
 # -*- coding: utf-8 -*-
 """Download data from Florida Automated Weather Network (FAWN)."""
 
-import asyncio
-
 import mando
-import pandas as pd
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
-import xarray as xr
 from tstoolbox import tsutils
 
-_vars = {
-    "pr": "precipitation_amount",
-    "rmin": "daily_minimum_relative_humidity",
-    "rmax": "daily_maximum_relative_humidity",
-    "sph": "daily_mean_specific_humidity",
-    "srad": "daily_mean_shortwave_radiation_at_surface",
-    "tmmn": "daily_minimum_temperature",
-    "tmmx": "daily_maximum_temperature",
-    "vs": "daily_mean_wind_speed",
-    "th": "daily_mean_wind_direction",
-    "bi": "daily_mean_burning_index_g",
-    "fm100": "dead_fuel_moisture_100hr",
-    "fm1000": "dead_fuel_moisture_1000hr",
-    "erc": "daily_mean_energy_release_component-g",
-    "pdsi": "daily_mean_palmer_drought_severity_index",
-    "etr": "daily_mean_reference_evapotranspiration_alfalfa",
-    "pet": "daily_mean_reference_evapotranspiration_grass",
-    "vpd": "daily_mean_vapor_pressure_deficit",
-    "spi14d": "standardized_precipitation_index_14_day",
-    "spi30d": "standardized_precipitation_index_30_day",
-    "spi90d": "standardized_precipitation_index_90_day",
-    "spi180d": "standardized_precipitation_index_180_day",
-    "spi270d": "standardized_precipitation_index_270_day",
-    "spi1y": "standardized_precipitation_index_1_year",
-    "spi2y": "standardized_precipitation_index_2_year",
-    "spi5y": "standardized_precipitation_index_5_year",
-    "spei14d": "standardized_et_precipitation_index_14_day",
-    "spei30d": "standardized_et_precipitation_index_30_day",
-    "spei90d": "standardized_et_precipitation_index_90_day",
-    "spei180d": "standardized_et_precipitation_index_180_day",
-    "spei270d": "standardized_et_precipitation_index_270_day",
-    "spei1y": "standardized_et_precipitation_index_1_year",
-    "spei2y": "standardized_et_precipitation_index_2_year",
-    "spei5y": "standardized_et_precipitation_index_5_year",
-    "eddi14d": "evaporative_drought_demand_index_14_day",
-    "eddi30d": "evaporative_drought_demand_index_30_day",
-    "eddi90d": "evaporative_drought_demand_index_90_day",
-    "eddi180d": "evaporative_drought_demand_index_180_day",
-    "eddi270d": "evaporative_drought_demand_index_270_day",
-    "eddi1y": "evaporative_drought_demand_index_1_year",
-    "eddi2y": "evaporative_drought_demand_index_2_year",
-    "eddi5y": "evaporative_drought_demand_index_5_year",
-    "z": "daily_mean_palmer_z_index",
+from .. import utils
+
+_avail_vars = {
+    "pr": {
+        "sname": "pr",
+        "lname": "precipitation_amount",
+        "standard_name": "precipitation_amount",
+        "vname": "METDATA (GRIDMET) Precipitation - Daily",
+    },
+    "rmin": {
+        "sname": "rmin",
+        "lname": "daily_minimum_relative_humidity",
+        "standard_name": "daily_minimum_relative_humidity",
+        "vname": "METDATA (GRIDMET) Minimum Relative Humidity - Daily",
+    },
+    "rmax": {
+        "sname": "rmax",
+        "lname": "daily_maximum_relative_humidity",
+        "standard_name": "daily_maximum_relative_humidity",
+        "vname": "METDATA (GRIDMET) Maximum Relative Humidity - Daily",
+    },
+    "sph": {
+        "sname": "sph",
+        "lname": "daily_mean_specific_humidity",
+        "standard_name": "daily_mean_specific_humidity",
+        "vname": "METDATA (GRIDMET) Specific Humidity - Daily",
+    },
+    "srad": {
+        "sname": "srad",
+        "lname": "daily_mean_shortwave_radiation_at_surface",
+        "standard_name": "daily_mean_shortwave_radiation_at_surface",
+        "vname": "METDATA (GRIDMET) Surface Radiation - Daily",
+    },
+    "tmmn": {
+        "sname": "tmmn",
+        "lname": "daily_minimum_temperature",
+        "standard_name": "daily_minimum_temperature",
+        "vname": "METDATA (GRIDMET) Minimum Air Temperature - Daily",
+    },
+    "tmmx": {
+        "sname": "tmmx",
+        "lname": "daily_maximum_temperature",
+        "standard_name": "daily_maximum_temperature",
+        "vname": "METDATA (GRIDMET) Maximum Air Temperature - Daily",
+    },
+    "vs": {
+        "sname": "vs",
+        "lname": "daily_mean_wind_speed",
+        "standard_name": "daily_mean_wind_speed",
+        "vname": "METDATA (GRIDMET) Wind Speed - Daily",
+    },
+    "th": {
+        "sname": "th",
+        "lname": "daily_mean_wind_direction",
+        "standard_name": "daily_mean_wind_direction",
+        "vname": "METDATA (GRIDMET) Wind Direction - Daily",
+    },
+    "bi": {
+        "sname": "bi",
+        "lname": "daily_mean_burning_index_g",
+        "standard_name": "daily_mean_burning_index_g",
+        "vname": "METDATA (GRIDMET) Burning Index - Daily",
+    },
+    "fm100": {
+        "sname": "fm100",
+        "lname": "dead_fuel_moisture_100hr",
+        "standard_name": "dead_fuel_moisture_100hr",
+        "vname": "METDATA (GRIDMET) Fuel Moisture (100-hr) - Daily",
+    },
+    "fm1000": {
+        "sname": "fm1000",
+        "lname": "dead_fuel_moisture_1000hr",
+        "standard_name": "dead_fuel_moisture_1000hr",
+        "vname": "METDATA (GRIDMET) Fuel Moisture (1000-hr) - Daily",
+    },
+    "erc": {
+        "sname": "erc",
+        "lname": "daily_mean_energy_release_component-g",
+        "standard_name": "daily_mean_energy_release_component-g",
+        "vname": "METDATA (GRIDMET) Energy Release Component - Daily",
+    },
+    "pdsi": {
+        "sname": "pdsi",
+        "lname": "daily_mean_palmer_drought_severity_index",
+        "standard_name": "daily_mean_palmer_drought_severity_index",
+        "vname": "METDATA (GRIDMET) Palmer Drought Severity Index(PDSI) - Pentad",
+    },
+    "etr": {
+        "sname": "etr",
+        "lname": "daily_mean_reference_evapotranspiration_alfalfa",
+        "standard_name": "daily_mean_reference_evapotranspiration_alfalfa",
+        "vname": "METDATA (GRIDMET) Reference Evapotranspiration (Alfalfa) - Daily",
+    },
+    "pet": {
+        "sname": "pet",
+        "lname": "daily_mean_reference_evapotranspiration_grass",
+        "standard_name": "daily_mean_reference_evapotranspiration_grass",
+        "vname": "METDATA (GRIDMET) Reference Evapotranspiration (Grass) - Daily",
+    },
+    "vpd": {
+        "sname": "vpd",
+        "lname": "daily_mean_vapor_pressure_deficit",
+        "standard_name": "daily_mean_vapor_pressure_deficit",
+        "vname": "METDATA (GRIDMET) Vapor Pressure Deficit - Daily",
+    },
+    "spi14d": {
+        "sname": "spi",
+        "lname": "standard_precipitation_index_14_day",
+        "standard_name": "spi",
+        "vname": "METDATA (GRIDMET) 14 Day Standardized Precipitation Index(SPI) - Pentad",
+    },
+    "spi30d": {
+        "sname": "spi",
+        "lname": "standard_precipitation_index_30_day",
+        "standard_name": "spi",
+        "vname": "METDATA (GRIDMET) 30 Day Standardized Precipitation Index(SPI) - Pentad",
+    },
+    "spi90d": {
+        "sname": "spi",
+        "lname": "standard_precipitation_index_90_day",
+        "standard_name": "spi",
+        "vname": "METDATA (GRIDMET) 90 Day Standardized Precipitation Index(SPI) - Pentad",
+    },
+    "spi180d": {
+        "sname": "spi",
+        "lname": "standard_precipitation_index_180_day",
+        "standard_name": "spi",
+        "vname": "METDATA (GRIDMET) 180 Day Standardized Precipitation Index(SPI) - Pentad",
+    },
+    "spi270d": {
+        "sname": "spi",
+        "lname": "standard_precipitation_index_270_day",
+        "standard_name": "spi",
+        "vname": "METDATA (GRIDMET) 270 Day Standardized Precipitation Index(SPI) - Pentad",
+    },
+    "spi1y": {
+        "sname": "spi",
+        "lname": "standard_precipitation_index_1_year",
+        "standard_name": "spi",
+        "vname": "METDATA (GRIDMET) 1 Year Standardized Precipitation Index(SPI) - Pentad",
+    },
+    "spi2y": {
+        "sname": "spi",
+        "lname": "standard_precipitation_index_2_year",
+        "standard_name": "spi",
+        "vname": "METDATA (GRIDMET) 2 Year Standardized Precipitation Index(SPI) - Pentad",
+    },
+    "spi5y": {
+        "sname": "spi",
+        "lname": "standard_precipitation_index_5_year",
+        "standard_name": "spi",
+        "vname": "METDATA (GRIDMET) 5 Year Standardized Precipitation Index(SPI) - Pentad",
+    },
+    "spei14d": {
+        "sname": "spei",
+        "lname": "standard_precipitation_evapotranspiration_index_14_day",
+        "standard_name": "spei",
+        "vname": "METDATA (GRIDMET) 14 Day Standardized Precipitation Evapotranspiration Index(SPEI) - Pentad",
+    },
+    "spei30d": {
+        "sname": "spei",
+        "lname": "standard_precipitation_evapotranspiration_index_30_day",
+        "standard_name": "spei",
+        "vname": "METDATA (GRIDMET) 30 Day Standardized Precipitation Evapotranspiration Index(SPEI) - Pentad",
+    },
+    "spei90d": {
+        "sname": "spei",
+        "lname": "standard_precipitation_evapotranspiration_index_90_day",
+        "standard_name": "spei",
+        "vname": "METDATA (GRIDMET) 90 Day Standardized Precipitation Evapotranspiration Index(SPEI) - Pentad",
+    },
+    "spei180d": {
+        "sname": "spei",
+        "lname": "standard_precipitation_evapotranspiration_index_180_day",
+        "standard_name": "spei",
+        "vname": "METDATA (GRIDMET) 180 Day Standardized Precipitation Evapotranspiration Index(SPEI) - Pentad",
+    },
+    "spei270d": {
+        "sname": "spei",
+        "lname": "standard_precipitation_evapotranspiration_index_270_day",
+        "standard_name": "spei",
+        "vname": "METDATA (GRIDMET) 270 Day Standardized Precipitation Evapotranspiration Index(SPEI) - Pentad",
+    },
+    "spei1y": {
+        "sname": "spei",
+        "lname": "standard_precipitation_evapotranspiration_index_1_year",
+        "standard_name": "spei",
+        "vname": "METDATA (GRIDMET) 1 Year Standardized Precipitation Evapotranspiration Index(SPEI) - Pentad",
+    },
+    "spei2y": {
+        "sname": "spei",
+        "lname": "standard_precipitation_evapotranspiration_index_2_year",
+        "standard_name": "spei",
+        "vname": "METDATA (GRIDMET) 2 Year Standardized Precipitation Evapotranspiration Index(SPEI) - Pentad",
+    },
+    "spei5y": {
+        "sname": "spei",
+        "lname": "standard_precipitation_evapotranspiration_index_5_year",
+        "standard_name": "spei",
+        "vname": "METDATA (GRIDMET) 5 Year Standardized Precipitation Evapotranspiration Index(SPEI) - Pentad",
+    },
+    "eddi14d": {
+        "sname": "eddi",
+        "lname": "evaporative_drought_demand_index_14_day",
+        "standard_name": "eddi",
+        "vname": "METDATA (GRIDMET) 14 Day Evaporative Drought Demand Index(EDDI) - Pentad",
+    },
+    "eddi30d": {
+        "sname": "eddi",
+        "lname": "evaporative_drought_demand_index_30_day",
+        "standard_name": "eddi",
+        "vname": "METDATA (GRIDMET) 30 Day Evaporative Drought Demand Index(EDDI) - Pentad",
+    },
+    "eddi90d": {
+        "sname": "eddi",
+        "lname": "evaporative_drought_demand_index_90_day",
+        "standard_name": "eddi",
+        "vname": "METDATA (GRIDMET) 90 Day Evaporative Drought Demand Index(EDDI) - Pentad",
+    },
+    "eddi180d": {
+        "sname": "eddi",
+        "lname": "evaporative_drought_demand_index_180_day",
+        "standard_name": "eddi",
+        "vname": "METDATA (GRIDMET) 180 Day Evaporative Drought Demand Index(EDDI) - Pentad",
+    },
+    "eddi270d": {
+        "sname": "eddi",
+        "lname": "evaporative_drought_demand_index_270_day",
+        "standard_name": "eddi",
+        "vname": "METDATA (GRIDMET) 270 Day Evaporative Drought Demand Index(EDDI) - Pentad",
+    },
+    "eddi1y": {
+        "sname": "eddi",
+        "lname": "evaporative_drought_demand_index_1_year",
+        "standard_name": "eddi",
+        "vname": "METDATA (GRIDMET) 1 Year Evaporative Drought Demand Index(EDDI) - Pentad",
+    },
+    "eddi2y": {
+        "sname": "eddi",
+        "lname": "evaporative_drought_demand_index_2_year",
+        "standard_name": "eddi",
+        "vname": "METDATA (GRIDMET) 2 Year Evaporative Drought Demand Index(EDDI) - Pentad",
+    },
+    "eddi5y": {
+        "sname": "eddi",
+        "lname": "evaporative_drought_demand_index_5_year",
+        "standard_name": "eddi",
+        "vname": "METDATA (GRIDMET) 5 Year Evaporative Drought Demand Index(EDDI) - Pentad",
+    },
+    "z": {
+        "sname": "z",
+        "lname": "daily_mean_palmer_z_index",
+        "standard_name": "daily_mean_palmer_z_index",
+        "vname": "METDATA (GRIDMET) Palmer Z Index(Z) - Pentad",
+    },
 }
 
-_inv_vars = {v: k for k, v in _vars.items()}
 
-tsutils.docstrings.update(_vars)
+tsutils.docstrings.update({k: v["standard_name"] for k, v in _avail_vars.items()})
 
 
 @mando.command("metdata", formatter_class=HelpFormatter, doctype="numpy")
@@ -298,86 +505,6 @@ def metdata_cli(
     )
 
 
-async def dapdownloader(url, lat, lon, vname, vr, start_date, end_date):
-    try:
-        dataset = (
-            xr.open_dataset(url, engine="pydap", cache=True, mask_and_scale=True)
-            .sel(lat=lat, lon=lon, method="nearest")[vname]
-            .drop_vars(["lat", "lon"])
-            .sel(day=slice(start_date, end_date))
-        )
-    except AttributeError:
-        return pd.DataFrame()
-    dataset = dataset.rename(_vars[vr])
-    ndf = dataset.to_dataframe()
-    ndf.columns = [f"{ndf.columns[0]}:{dataset.attrs['units']}"]
-    return ndf
-
-
-async def opendap(variables, lat, lon, start_date=None, end_date=None):
-
-    tasks = []
-
-    if not variables:
-        variables = _vars.keys()
-
-    variables = tsutils.make_list(variables)
-
-    nvars = []
-    for i in variables:
-        aval = ""
-        if i in _vars:
-            aval = i
-        elif i in _inv_vars:
-            aval = _inv_vars[i]
-        if aval:
-            nvars.append(aval)
-        else:
-            raise ValueError(
-                tsutils.error_wrapper(
-                    f"""
-The variable {i} must be in {_vars.keys()} or in {_inv_vars.keys()}."""
-                )
-            )
-
-    ndf = pd.DataFrame()
-    for vr in nvars:
-        # Get and subset the data.
-        vname = _vars[vr]
-        testname = vr.rstrip("0123456789dy")
-        if testname in ["spi", "spei", "eddi"]:
-            vname = testname
-        url = f"http://thredds.northwestknowledge.net:8080/thredds/dodsC/agg_met_{vr}_1979_CurrentYear_CONUS.nc"
-        tasks.append(
-            asyncio.create_task(
-                dapdownloader(url, lat, lon, vname, vr, start_date, end_date)
-            )
-        )
-
-    results = await asyncio.gather(*tasks)
-
-    ndf = pd.concat(results, axis="columns", join="outer")
-
-    # Rename the columns to include units of the form "name:unit".
-    rename = []
-    for name_unit in ndf.columns:
-        name, unit = name_unit.split(":")
-        if name in ["min_air_temperature", "max_air_temperature"]:
-            unit_label = "degK"
-        else:
-            unit_label = unit
-        if unit_label == "Unitless":
-            unit_label = ""
-        if unit_label == "K":
-            unit_label = "degK"
-        rename.append("{}:{}".format(name, unit_label))
-    ndf.columns = rename
-
-    ndf.index.name = "Datetime"
-
-    return ndf
-
-
 def metdata(
     lat,
     lon,
@@ -386,13 +513,23 @@ def metdata(
     end_date=None,
 ):
     r"""Download METDATA data from CIDA."""
-    if variables is None:
-        variables = _vars.keys()
 
-    df = asyncio.run(
-        opendap(variables, lat, lon, start_date=start_date, end_date=end_date)
+    turl = [
+        "http://thredds.northwestknowledge.net:8080/thredds/ncss/grid/agg_met_{var}_1979_CurrentYear_CONUS.nc/",
+        "http://thredds.northwestknowledge.net:8080/thredds/ncss/grid/agg_met_{var}_CONUS.nc/",
+    ]
+
+    df = utils.opendap(
+        turl,
+        variables,
+        lat,
+        lon,
+        _avail_vars,
+        start_date=start_date,
+        end_date=end_date,
+        all_vars_at_url=False,
     )
-    print(df)
+
     if len(df.dropna(how="all")) == 0:
         if start_date is None:
             start_date = "beginning of record"
@@ -401,7 +538,7 @@ def metdata(
         raise ValueError(
             tsutils.error_wrapper(
                 """
-USGS-CIDA returned no METDATA data for lat/lon "{lat}/{lon}", variables "{variables}"
+GRIDMET returned no data for lat/lon "{lat}/{lon}", variables "{variables}"
 between {start_date} and {end_date}.
 """.format(
                     **locals()

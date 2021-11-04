@@ -11,20 +11,71 @@ try:
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
-import xarray as xr
 from tstoolbox import tsutils
 
-_vars = {
-    "ret": "ETo",
-    "pet": "PET",
-    "srad": "Solar",
-    "albedo": "Albedo",
-    "tmin": "Tmin",
-    "tmax": "Tmax",
-    "rhmin": "RHmin",
-    "rhmax": "RHmax",
-    "ws": "ws2m",
-    "qcode": "SolarCode",
+from .. import utils
+
+_vars_narr = {
+    "ret": {
+        "sname": "ret",
+        "lname": "reference_et",
+        "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
+        "standard_name": "ETo",
+    },
+    "pet": {
+        "sname": "pet",
+        "lname": "potential_et",
+        "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
+        "standard_name": "PET",
+    },
+    "srad": {
+        "sname": "srad",
+        "lname": "shortwave_radiation",
+        "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
+        "standard_name": "Solar",
+    },
+    "albedo": {
+        "sname": "albedo",
+        "lname": "albedo",
+        "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
+        "standard_name": "Albedo",
+    },
+    "tmin": {
+        "sname": "tmin",
+        "lname": "minimum_daily_temperature",
+        "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
+        "standard_name": "Tmin",
+    },
+    "tmax": {
+        "sname": "tmax",
+        "lname": "maximum_daily_temperature",
+        "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
+        "standard_name": "Tmax",
+    },
+    "rhmin": {
+        "sname": "rhmin",
+        "lname": "minimum_daily_relative_humidity",
+        "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
+        "standard_name": "RHmin",
+    },
+    "rhmax": {
+        "sname": "rhmax",
+        "lname": "maximum_daily_relative_humidity",
+        "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
+        "standard_name": "RHmax",
+    },
+    "ws": {
+        "sname": "ws",
+        "lname": "wind_speed",
+        "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
+        "standard_name": "ws2m",
+    },
+    "qcode": {
+        "sname": "qcode",
+        "lname": "qcode",
+        "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
+        "standard_name": "Solar",
+    },
 }
 
 
@@ -122,61 +173,6 @@ def assign_docstring(indocstring: str) -> Callable:
     return f
 
 
-def opendap(url, variables, lat, lon, start_date=None, end_date=None):
-    if variables is None:
-        variables = _vars.keys()
-
-    if not variables:
-        variables = _vars.keys()
-
-    variables = tsutils.make_list(variables)
-
-    nvars = [_vars.get(i, i) for i in variables]
-
-    # Get and subset the data.
-    dataset = (
-        xr.open_dataset(url, engine="pydap", cache=True, mask_and_scale=True)
-        .sel(lat=lat, lon=lon, method="nearest")[nvars]
-        .drop_vars(["lat", "lon"])
-        .sel(time=slice(start_date, end_date))
-    )
-
-    # Rename the columns to include units of the form "name:unit".
-    rename = {}
-    for i in nvars:
-        if i in ["Tmin", "Tmax"]:
-            unit_label = "degC"
-        else:
-            unit_label = dataset[i].attrs["units"]
-        unit_label = unit_label.replace(" per ", "/")
-        unit_label = unit_label.replace("millimeters", "mm")
-        unit_label = unit_label.replace("square meter", "m^2")
-        unit_label = unit_label.replace("meters", "m")
-        unit_label = unit_label.replace("second", "s")
-        rename[i] = "{}:{}".format(i, unit_label)
-    ndf = dataset.to_dataframe().rename(rename, axis="columns")
-
-    ndf.index.name = "Datetime"
-
-    if len(ndf.dropna(how="all")) == 0:
-        if start_date is None:
-            start_date = "beginning of record"
-        if end_date is None:
-            end_date = "end of record"
-        raise ValueError(
-            tsutils.error_wrapper(
-                """
-USGS-CIDA returned no USGS WATERS data for lat/lon "{lat}/{lon}", variables
-"{variables}" between {start_date} and {end_date}.
-""".format(
-                    **locals()
-                )
-            )
-        )
-
-    return ndf
-
-
 @mando.command("usgs_flet_narr", formatter_class=HelpFormatter, doctype="numpy")
 @assign_docstring(docs)
 def usgs_flet_narr_cli(
@@ -206,8 +202,10 @@ def usgs_flet_narr(
     end_date=None,
 ):
     r"""Download USGS WATERS data from CIDA."""
-    url = "https://cida.usgs.gov/thredds/dodsC/flet_narr"
-    df = opendap(url, variables, lat, lon, start_date=start_date, end_date=end_date)
+    url = "https://cida.usgs.gov/thredds/ncss/flet_narr/"
+    df = utils.opendap(
+        url, variables, lat, lon, _vars_narr, start_date=start_date, end_date=end_date
+    )
 
     return df
 
@@ -244,8 +242,10 @@ def usgs_flet_stns(
     end_date=None,
 ):
     r"""Download USGS WATERS data from CIDA."""
-    url = "https://cida.usgs.gov/thredds/dodsC/flet_stns"
-    df = opendap(url, variables, lat, lon, start_date=start_date, end_date=end_date)
+    url = "https://cida.usgs.gov/thredds/ncss/flet_stns/"
+    df = utils.opendap(
+        url, variables, lat, lon, _vars_narr, start_date=start_date, end_date=end_date
+    )
 
     return df
 

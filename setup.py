@@ -37,9 +37,8 @@ install_requires = [
     "tables",
     "tstoolbox >= 103",
     "zeep",
-    "xarray",
     "suds-jurko",
-    "netCDF4",
+    "siphon",
 ]
 
 extras_require = {
