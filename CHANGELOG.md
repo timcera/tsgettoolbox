@@ -1,3 +1,11 @@
+## v23.19.0 (2021-11-15)
+
+### Feat
+
+- **ncei**: parallelized downloads for all NCEI CDO sources
+- replaced xarray/pydap with siphon and made opendap downloads multi-threaded
+- **metdata**: added many new observation datasets by using thredds.northwestknowledge.net instead of usgs cida
+
 ## v23.18.1 (2021-10-05)
 
 ### Fix
