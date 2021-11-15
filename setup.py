@@ -39,6 +39,7 @@ install_requires = [
     "zeep",
     "suds-jurko",
     "siphon",
+    "requests-futures",
 ]
 
 extras_require = {

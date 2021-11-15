@@ -7,6 +7,8 @@ from collections import OrderedDict
 
 import mando
 import pandas as pd
+from requests import Session
+from requests_futures.sessions import FuturesSession
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -726,7 +728,7 @@ def add_units(dfcols):
 
 
 def ncei_cdo_json_to_df(url, **query_params):
-    delta = pd.Timedelta(days=360)
+    delta = pd.Timedelta(days=60)
     if query_params["datasetid"] in ["ANNUAL", "GSOM", "GSOY", "GHCNDMS"]:
         delta = pd.Timedelta(days=3650)
 
@@ -753,10 +755,8 @@ def ncei_cdo_json_to_df(url, **query_params):
     query_params["limit"] = 1000
 
     testdate = sdate
-    oldtestdate = sdate
+    urls = []
     while testdate < edate:
-        time.sleep(1)
-
         query_params["startdate"] = testdate.strftime("%Y-%m-%d")
 
         if testdate + delta > edate:
@@ -764,30 +764,36 @@ def ncei_cdo_json_to_df(url, **query_params):
         else:
             query_params["enddate"] = (testdate + delta).strftime("%Y-%m-%d")
 
-        s = utils.requests_retry_session()
         ireq = Request("GET", url, params=query_params, headers=headers)
         prepped = ireq.prepare()
+
         prepped.url = unquote(prepped.url)
         if os.path.exists("debug_tsgettoolbox"):
             logging.warning(prepped.url)
-        req = s.send(prepped)
-        req.raise_for_status()
 
+        urls.append(prepped.url)
+
+        testdate = testdate + delta
+
+    request_session = utils.requests_retry_session()
+    request_session.headers["token"] = api_key
+
+    session = FuturesSession(session=request_session)
+    futures = [session.get(url) for url in urls]
+    results = [future.result() for future in futures]
+
+    df = pd.DataFrame()
+    tdf = []
+    for res in results:
+        ndf = pd.json_normalize(res.json())
         try:
-            tdf = pd.io.json.json_normalize(req.json()["results"])
+            ndf = pd.DataFrame(ndf.loc[0, "results"])
         except KeyError:
             continue
-
-        tdf.set_index("date", inplace=True)
-        tdf.index = pd.to_datetime(tdf.index)
-
-        testdate = tdf.index[-1]
-
-        if testdate == oldtestdate:
-            testdate = testdate + delta
-        oldtestdate = testdate
-
-        df = df.combine_first(tdf)
+        ndf.set_index("date", inplace=True)
+        ndf.index = pd.to_datetime(ndf.index)
+        tdf.append(ndf)
+    df = pd.concat(tdf)
 
     if len(df) == 0:
         if "NORMAL_" in query_params["datasetid"]:
@@ -804,12 +810,9 @@ No normalized statistics available for station {}
             raise ValueError(
                 tsutils.error_wrapper(
                     """
-There should be data between {2} and {3}, however there is no data between {0} and {1}.
+No data available for stations {}
 """.format(
-                        query_params["startdate"],
-                        query_params["enddate"],
-                        pd.to_datetime(dreq.json()["mindate"]),
-                        pd.to_datetime(dreq.json()["maxdate"]),
+                        query_params["stationid"]
                     )
                 )
             )
