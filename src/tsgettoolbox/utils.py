@@ -2,9 +2,11 @@
 from __future__ import absolute_import, division, print_function
 
 import datetime
+import io
 import multiprocessing
 import os
 import xml
+from multiprocessing import Pool
 from random import randint
 from time import sleep
 
@@ -84,8 +86,8 @@ api_key = ReplaceThisStringWithYourKey
 
 def requests_retry_session(
     retries=3,
-    backoff_factor=0.5,
-    status_forcelist=(500, 502, 503, 504),
+    backoff_factor=0.1,
+    status_forcelist=(429, 500, 502, 503, 504),
     session=None,
 ):
     session = session or requests.Session()
@@ -100,6 +102,48 @@ def requests_retry_session(
     session.mount("http://", adapter)
     session.mount("https://", adapter)
     return session
+
+
+def read_csv(filename):
+    sleep(randint(1, 5))
+    req = requests_retry_session().get(filename)
+    try:
+        req.raise_for_status()
+        return pd.read_csv(
+            io.StringIO(req.content.decode("utf-8")), low_memory=False, parse_dates=True
+        )
+    except requests.exceptions.HTTPError:
+        return pd.DataFrame()
+
+
+def file_downloader(baseurl, station, startdate=None, enddate=None):
+    """Generic NCEI/NOAA file downloader."""
+    if startdate is None:
+        startdate = datetime.datetime(1901, 1, 1)
+    else:
+        startdate = pd.to_datetime(startdate)
+    if enddate is None:
+        enddate = datetime.datetime.now()
+    else:
+        enddate = pd.to_datetime(enddate)
+
+    station = station.split(":")[-1]
+
+    urls = []
+    for year in range(startdate.year, enddate.year + 1):
+        urls.append(baseurl.format(**locals()))
+
+    with Pool(processes=os.cpu_count()) as pool:
+        # have your pool map the file names to dataframes
+        df_list = pool.map(read_csv, urls)
+
+    # reduce the list of dataframes to a single dataframe
+    final = pd.concat(df_list)
+    final = final.set_index("DATE")
+    final.index.name = "Datetime"
+    final.index = pd.to_datetime(final.index)
+    final = final.sort_index()
+    return final[startdate:enddate]
 
 
 def dapdownloader(url, lat, lon, var, avail_vars, start_date, end_date):

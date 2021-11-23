@@ -39,7 +39,7 @@ install_requires = [
     "zeep",
     "suds-jurko",
     "siphon",
-    "requests-futures",
+    "cdo-api-py",
 ]
 
 extras_require = {

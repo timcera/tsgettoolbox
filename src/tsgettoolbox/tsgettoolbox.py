@@ -29,6 +29,7 @@ from .functions.ncei import (
     ncei_gsod,
     ncei_gsom,
     ncei_gsoy,
+    ncei_ish,
     ncei_nexrad2,
     ncei_nexrad3,
     ncei_normal_ann,
