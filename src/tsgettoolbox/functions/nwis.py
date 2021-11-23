@@ -1228,15 +1228,17 @@ def usgs_gwlevels_rdb_to_df(url, **kwargs):
     ndf["Datetime"] = pd.to_datetime(
         ndf["lev_dt"] + "T" + ndf["lev_tm"], errors="coerce"
     )
+    # If "lev_tm" is null then just use "lev_dt"
     mask = pd.isnull(ndf["Datetime"])
     ndf.loc[mask, "Datetime"] = pd.to_datetime(ndf.loc[mask, "lev_dt"], errors="coerce")
+
     ndf["Datetime"] = ndf.apply(normalize_tz, args=("lev_tz_cd",), axis=1)
-    ndf.set_index(["Datetime"], inplace=True)
-    try:
-        ndf.index.name = "Datetime:{}".format(ndf.index.tz)
-    except AttributeError:
-        ndf.index.name = "Datetime"
-    ndf.drop(["lev_dt", "lev_tm", "lev_tz_cd", "site_no"], axis=1, inplace=True)
+    ndf.drop(["lev_dt", "lev_tm", "lev_tz_cd"], axis=1, inplace=True)
+
+    ndf.set_index(["site_no", "Datetime"], inplace=True)
+    ndf = ndf.unstack(level="site_no")
+    ndf.columns = _make_nice_names(ndf)
+
     return ndf
 
 
