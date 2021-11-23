@@ -1,3 +1,9 @@
+## v23.20.0 (2021-11-22)
+
+### Feat
+
+- added ncei_ish and improved ncei download using the cdo-api-py library
+
 ## v23.19.0 (2021-11-15)
 
 ### Feat
