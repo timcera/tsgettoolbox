@@ -1,3 +1,12 @@
+## v23.20.1 (2021-11-24)
+
+### Fix
+
+- misc import fixes and removal of zeep and tables dependencies
+- minor edits while going through code to make sure "tables" package isn't used
+- **usgs_eddn**: removed usgs_eddn since no longer available
+- **nwis_gwlevels**: unstacked on "site_no" and no longer set time zone name in "Datetime" title
+
 ## v23.20.0 (2021-11-22)
 
 ### Feat
