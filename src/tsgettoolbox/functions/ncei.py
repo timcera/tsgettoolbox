@@ -309,7 +309,7 @@ ncei_ghcnd_docstrings = {
 
 @mando.command("ncei_ghcnd_ftp", formatter_class=HelpFormatter, doctype="numpy")
 @tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncei_ghcnd_docstrings))
-def ncei_ghcnd_ftp_cli(station, startdate=None, enddate=None):
+def ncei_ghcnd_ftp_cli(station, start_date=None, end_date=None):
     r"""Download from the Global Historical Climatology Network - Daily.
 
     {info}
@@ -317,16 +317,18 @@ def ncei_ghcnd_ftp_cli(station, startdate=None, enddate=None):
     Parameters
     ----------
     {station}
-    {startdate}
-    {enddate}
+    {start_date}
+    {end_date}
     """
-    tsutils._printiso(ncei_ghcnd_ftp(station, startdate=startdate, enddate=enddate))
+    tsutils._printiso(
+        ncei_ghcnd_ftp(station, start_date=start_date, end_date=end_date),
+    )
 
 
-def ncei_ghcnd_ftp(station, startdate=None, enddate=None):
+def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
     r"""Download from the Global Historical Climatology Network - Daily."""
     station = station.split(":")[-1]
-    params = {"station": station, "startdate": startdate, "enddate": enddate}
+    params = {"station": station, "start_date": start_date, "end_date": end_date}
 
     url = r"ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all"
     df = pd.read_fwf(
@@ -529,8 +531,8 @@ def ncei_ghcnd_ftp(station, startdate=None, enddate=None):
         tmpdf.columns = [code]
         tmpdf = tmpdf.loc[
             tsutils.parsedate(
-                params["startdate"], strftime="%Y-%m-%d"
-            ) : tsutils.parsedate(params["enddate"], strftime="%Y-%m-%d"),
+                params["start_date"], strftime="%Y-%m-%d"
+            ) : tsutils.parsedate(params["end_date"], strftime="%Y-%m-%d"),
             :,
         ]
         try:
@@ -685,7 +687,7 @@ def add_units(dfcols):
 
 
 def ncei_cdo_json_to_df(
-    datasetid, stationid, datatypeid=None, startdate=None, enddate=None
+    datasetid, stationid, datatypeid=None, start_date=None, end_date=None
 ):
     # Read in API key
     token = utils.read_api_key("ncei_cdo")
@@ -696,16 +698,19 @@ def ncei_cdo_json_to_df(
     df = my_client.get_data_by_station(
         datasetid=datasetid,
         stationid=stationid,
-        startdate=pd.to_datetime(startdate),
-        enddate=pd.to_datetime(enddate),
+        startdate=pd.to_datetime(start_date),
+        enddate=pd.to_datetime(end_date),
         return_dateframe=True,
     )
+
+    df.columns = list(df.columns)
 
     if "station" in df.columns:
         df = df.drop("station", axis="columns")
     if "date" in df.columns:
         df = df.set_index("date")
-    df.index.name = "Datetime"
+        df.index.name = "Datetime"
+        df.index = pd.to_datetime(df.index)
 
     if datatypeid:
         df = df[tsutils.make_list(datatypeid)]
@@ -716,7 +721,7 @@ def ncei_cdo_json_to_df(
 # 1763-01-01, 2016-11-05, Daily Summaries             , 1    , GHCND
 @mando.command("ncei_ghcnd", formatter_class=HelpFormatter, doctype="numpy")
 @tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncei_ghcnd_docstrings))
-def ncei_ghcnd_cli(stationid, datatypeid=None, startdate="", enddate=""):
+def ncei_ghcnd_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""Download from the Global Historical Climatology Network - Daily.
 
     Requires registration and free API key.
@@ -751,30 +756,35 @@ def ncei_ghcnd_cli(stationid, datatypeid=None, startdate="", enddate=""):
         dataset.  If the datatypeid is not given defaults to getting all data
         available at that station for the time period requested.
 
-    {startdate}
+    {start_date}
 
-    {enddate}"""
+    {end_date}"""
+    ndf = ncei_ghcnd(
+        stationid, datatypeid=None, start_date=start_date, end_date=end_date
+    )
     tsutils._printiso(
-        ncei_ghcnd(stationid, datatypeid=None, startdate=startdate, enddate=enddate)
+        ncei_ghcnd(
+            stationid, datatypeid=None, start_date=start_date, end_date=end_date
+        ),
     )
 
 
-def ncei_ghcnd(stationid, datatypeid=None, startdate="", enddate=""):
+def ncei_ghcnd(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""Download from the Global Historical Climatology Network - Daily."""
     stationid = stationid.replace("-", "")
     df = ncei_cdo_json_to_df(
         "GHCND",
         stationid,
         datatypeid=datatypeid,
-        startdate=startdate,
-        enddate=enddate,
+        start_date=start_date,
+        end_date=end_date,
     )
 
     return df
 
 
 @mando.command("ncei_gsod", formatter_class=HelpFormatter, doctype="numpy")
-def ncei_gsod_cli(stationid, datatypeid=None, startdate=None, enddate=None):
+def ncei_gsod_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""Access ncei Global Summary of the Day.
 
     National Centers for Environmental Information (NCEI) Global Summary of the
@@ -1251,21 +1261,21 @@ def ncei_gsod_cli(stationid, datatypeid=None, startdate=None, enddate=None):
         +------+-------------------------------------------------------+
     """
     tsutils._printiso(
-        ncei_gsod(stationid, datatypeid=datetypeid, startdate=None, enddate=None)
+        ncei_gsod(stationid, datatypeid=datatypeid, start_date=None, end_date=None),
     )
 
 
 # https://www.ncei.noaa.gov/data/global-summary-of-the-day/access/
 # GSOD
-def ncei_gsod(stationid, datatypeid=None, startdate=None, enddate=None):
+def ncei_gsod(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""Access NCEI Global Summary of the Day."""
     stationid = stationid.replace("-", "")
     df = ncei_cdo_json_to_df(
         "GSOD",
         stationid,
         datatypeid=datatypeid,
-        startdate=startdate,
-        enddate=enddate,
+        start_date=start_date,
+        end_date=end_date,
     )
 
     return df.rename(columns=add_units(df.columns))
@@ -1273,7 +1283,7 @@ def ncei_gsod(stationid, datatypeid=None, startdate=None, enddate=None):
 
 # 1763-01-01, 2016-09-01, Global Summary of the Month , 1    , GSOM
 @mando.command("ncei_gsom", formatter_class=HelpFormatter, doctype="numpy")
-def ncei_gsom_cli(stationid, datatypeid=None, startdate=None, enddate=None):
+def ncei_gsom_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""Access NCEI Global Summary of Month.
 
     National Centers for Environmental Information (NCEI) Global Summary of the MONTH (GSOM)
@@ -1750,22 +1760,22 @@ def ncei_gsom_cli(stationid, datatypeid=None, startdate=None, enddate=None):
     tsutils._printiso(
         ncei_gsom(
             stationid,
-            startdate=startdate,
-            enddate=enddate,
+            start_date=start_date,
+            end_date=end_date,
             datatypeid=datatypeid,
-        )
+        ),
     )
 
 
-def ncei_gsom(stationid, datatypeid=None, startdate=None, enddate=None):
+def ncei_gsom(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""Access ncei Global Summary of Month (GSOM)."""
     stationid = stationid.replace("-", "")
     df = ncei_cdo_json_to_df(
         "GSOM",
         stationid,
         datatypeid=datatypeid,
-        startdate=startdate,
-        enddate=enddate,
+        start_date=start_date,
+        end_date=end_date,
     )
 
     return df
@@ -1773,7 +1783,7 @@ def ncei_gsom(stationid, datatypeid=None, startdate=None, enddate=None):
 
 # 1763-01-01, 2016-01-01, Global Summary of the Year  , 1    , GSOY
 @mando.command("ncei_gsoy", formatter_class=HelpFormatter, doctype="numpy")
-def ncei_gsoy_cli(stationid, datatypeid=None, startdate=None, enddate=None):
+def ncei_gsoy_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""Access ncei Global Summary of Year (GSOY).
 
     National Centers for Environmental Information (NCEI) Global Summary of the YEAR
@@ -2246,20 +2256,20 @@ def ncei_gsoy_cli(stationid, datatypeid=None, startdate=None, enddate=None):
         ncei_gsoy(
             stationid,
             datatypeid=datatypeid,
-            startdate=startdate,
-            enddate=enddate,
-        )
+            start_date=start_date,
+            end_date=end_date,
+        ),
     )
 
 
-def ncei_gsoy(stationid, datatypeid=None, startdate=None, enddate=None):
+def ncei_gsoy(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""Access NCEI Global Summary of Year (GSOY)."""
     df = ncei_cdo_json_to_df(
         "GSOY",
         stationid,
         datatypeid=datatypeid,
-        startdate=startdate,
-        enddate=enddate,
+        start_date=start_date,
+        end_date=end_date,
     )
 
     return df
@@ -2267,7 +2277,7 @@ def ncei_gsoy(stationid, datatypeid=None, startdate=None, enddate=None):
 
 # 1991-06-05, 2016-11-06, Weather Radar (Level II)    , 0.95 , NEXRAD2
 # @mando.command('ncei_nexrad2', formatter_class=HelpFormatter, doctype='numpy')
-def ncei_nexrad2_cli(stationid, startdate="", enddate=""):
+def ncei_nexrad2_cli(stationid, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (NCEI) NEXRAD Level II.
 
     Requires registration and free API key.
@@ -2292,16 +2302,18 @@ def ncei_nexrad2_cli(stationid, startdate="", enddate=""):
 
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing."""
-    tsutils._printiso(ncei_nexrad2(stationid, startdate=startdate, enddate=enddate))
+    tsutils._printiso(
+        ncei_nexrad2(stationid, start_date=start_date, end_date=end_date),
+    )
 
 
-def ncei_nexrad2(stationid, datatypeid=None, startdate="", enddate=""):
+def ncei_nexrad2(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (NCEI) NEXRAD Level II."""
     df = ncei_cdo_json_to_df(
         "NEXRAD2",
         stationid,
-        startdate=startdate,
-        enddate=enddate,
+        start_date=start_date,
+        end_date=end_date,
     )
 
     return df
@@ -2309,7 +2321,7 @@ def ncei_nexrad2(stationid, datatypeid=None, startdate="", enddate=""):
 
 # 1991-06-05, 2016-11-06, Weather Radar (Level III)   , 0.95 , NEXRAD3
 # @mando.command('ncei_nexrad3',formatter_class=HelpFormatter, doctype='numpy')
-def ncei_nexrad3_cli(stationid, startdate="", enddate=""):
+def ncei_nexrad3_cli(stationid, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (NCEI) NEXRAD Level III.
 
     Requires registration and free API key.
@@ -2335,17 +2347,17 @@ def ncei_nexrad3_cli(stationid, startdate="", enddate=""):
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing."""
     return tsutils._printiso(
-        ncei_nexrad3(stationid, startdate=startdate, enddate=enddate)
+        ncei_nexrad3(stationid, start_date=start_date, end_date=end_date),
     )
 
 
-def ncei_nexrad3(stationid, datatypeid=None, startdate="", enddate=""):
+def ncei_nexrad3(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (NCEI) NEXRAD Level III."""
     df = ncei_cdo_json_to_df(
         "NEXRAD3",
         stationid,
-        startdate=startdate,
-        enddate=enddate,
+        start_date=start_date,
+        end_date=end_date,
     )
 
     return df
@@ -3945,11 +3957,11 @@ def ncei_normal_ann_cli(stationid, datatypeid=None):
         |                         | minimum temperature                |
         +-------------------------+------------------------------------+
 
-    startdate
+    start_date
         Many different formats can be used here for the date
         string, however the closest to ISO8601, the better.
 
-    enddate
+    end_date
         Many different formats can be used here for the date
         string, however the closest to ISO8601, the better."""
     tsutils._printiso(ncei_normal_ann(stationid, datatypeid))
@@ -4211,10 +4223,10 @@ def ncei_normal_dly_cli(stationid, datatypeid=None):
         |                         | snowfall totals                    |
         +-------------------------+------------------------------------+
 
-    startdate
+    start_date
         Start date in ISO8601 format.
 
-    enddate
+    end_date
         End date in ISO8601 format."""
     tsutils._printiso(ncei_normal_dly(stationid, datatypeid=datatypeid))
 
@@ -4320,10 +4332,10 @@ def ncei_normal_hly_cli(stationid, datatypeid=None):
         | HLY-WIND-VCTSPD | Mean wind vector magnitude         |
         +-----------------+------------------------------------+
 
-    startdate
+    start_date
         Start date in ISO8601 format.
 
-    enddate
+    end_date
         End date in ISO8601 format."""
     tsutils._printiso(ncei_normal_hly(stationid, datatypeid=datatypeid))
 
@@ -4639,11 +4651,11 @@ def ncei_normal_mly_cli(stationid, datatypeid=None):
         |                         | monthly minimum temperature        |
         +-------------------------+------------------------------------+
 
-    startdate
+    start_date
         Start date in ISO8601
         format.
 
-    enddate
+    end_date
         End date in ISO8601
         format."""
     tsutils._printiso(ncei_normal_mly(stationid, datatypeid=None))
@@ -4662,7 +4674,7 @@ def ncei_normal_mly(stationid, datatypeid=None):
 
 # 1970-05-12, 2014-01-01, Precipitation 15 Minute     , 0.25 , PRECIP_15
 @mando.command("ncei_precip_15", formatter_class=HelpFormatter, doctype="numpy")
-def ncei_precip_15_cli(stationid, datatypeid=None, startdate="", enddate=""):
+def ncei_precip_15_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (NCEI) 15 minute precipitation.
 
     Requires registration and free API key.
@@ -4703,28 +4715,28 @@ def ncei_precip_15_cli(stationid, datatypeid=None, startdate="", enddate=""):
         | QPCP | Precipitation |
         +------+---------------+
 
-    startdate
+    start_date
         Start date in ISO8601
         format.
 
-    enddate
+    end_date
         End date in ISO8601
         format."""
     tsutils._printiso(
         ncei_precip_15(
-            stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate
-        )
+            stationid, datatypeid=datatypeid, start_date=start_date, end_date=end_date
+        ),
     )
 
 
-def ncei_precip_15(stationid, datatypeid=None, startdate="", enddate=""):
+def ncei_precip_15(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (NCEI) 15 minute precipitation."""
     df = ncei_cdo_json_to_df(
         "PRECIP_15",
         stationid,
         datatypeid=datatypeid,
-        startdate=startdate,
-        enddate=enddate,
+        start_date=start_date,
+        end_date=end_date,
     )
 
     return df
@@ -4732,7 +4744,7 @@ def ncei_precip_15(stationid, datatypeid=None, startdate="", enddate=""):
 
 # 1900-01-01, 2014-01-01, Precipitation Hourly        , 1    , PRECIP_HLY
 @mando.command("ncei_precip_hly", formatter_class=HelpFormatter, doctype="numpy")
-def ncei_precip_hly_cli(stationid, datatypeid=None, startdate="", enddate=""):
+def ncei_precip_hly_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (NCEI) hourly precipitation.
 
     Requires registration and free API key.
@@ -4770,26 +4782,26 @@ def ncei_precip_hly_cli(stationid, datatypeid=None, startdate="", enddate=""):
         | HPCP | Precipitation |
         +------+---------------+
 
-    startdate
+    start_date
         Start date in ISO8601 format.
 
-    enddate
+    end_date
         End date in ISO8601 format."""
     tsutils._printiso(
         ncei_precip_hly(
-            stationid, datatypeid=None, startdate=startdate, enddate=enddate
-        )
+            stationid, datatypeid=None, start_date=start_date, end_date=end_date
+        ),
     )
 
 
-def ncei_precip_hly(stationid, datatypeid=None, startdate="", enddate=""):
+def ncei_precip_hly(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (NCEI) hourly precipitation."""
     df = ncei_cdo_json_to_df(
         "PRECIP_HLY",
         stationid,
         datatypeid=datatypeid,
-        startdate=startdate,
-        enddate=enddate,
+        start_date=start_date,
+        end_date=end_date,
     )
 
     return df
@@ -4797,7 +4809,7 @@ def ncei_precip_hly(stationid, datatypeid=None, startdate="", enddate=""):
 
 # ANNUAL
 @mando.command("ncei_annual", formatter_class=HelpFormatter, doctype="numpy")
-def ncei_annual_cli(stationid, datatypeid=None, startdate="", enddate=""):
+def ncei_annual_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (NCEI) annual data summaries.
 
     Requires registration and free API key.
@@ -5693,26 +5705,26 @@ def ncei_annual_cli(stationid, datatypeid=None, startdate="", enddate=""):
         | TWND   | Total monthly wind movement over evaporation pan.   |
         +--------+-----------------------------------------------------+
 
-    startdate
+    start_date
         Start date in ISO8601 format.
 
-    enddate
+    end_date
         End date in ISO8601 format."""
     tsutils._printiso(
         ncei_annual(
-            stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate
-        )
+            stationid, datatypeid=datatypeid, start_date=start_date, end_date=end_date
+        ),
     )
 
 
-def ncei_annual(stationid, datatypeid=None, startdate="", enddate=""):
+def ncei_annual(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (NCEI) annual data summaries."""
     df = ncei_cdo_json_to_df(
         "ANNUAL",
         stationid,
         datatypeid=datatypeid,
-        startdate=startdate,
-        enddate=enddate,
+        start_date=start_date,
+        end_date=end_date,
     )
 
     return df
@@ -5720,7 +5732,7 @@ def ncei_annual(stationid, datatypeid=None, startdate="", enddate=""):
 
 # GHCNDMS
 @mando.command("ncei_ghcndms", formatter_class=HelpFormatter, doctype="numpy")
-def ncei_ghcndms_cli(stationid, datatypeid=None, startdate="", enddate=""):
+def ncei_ghcndms_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (NCEI) GHCND Monthly Summaries.
 
     Requires registration and free API key.
@@ -6102,28 +6114,28 @@ def ncei_ghcndms_cli(stationid, datatypeid=None, startdate="", enddate=""):
         | WV20 | Rain or snow shower                                   |
         +------+-------------------------------------------------------+
 
-    startdate
+    start_date
         Start date in ISO8601
         format.
 
-    enddate
+    end_date
         End date in ISO8601
         format."""
     tsutils._printiso(
         ncei_ghcndms(
-            stationid, datatypeid=datatypeid, startdate=startdate, enddate=enddate
-        )
+            stationid, datatypeid=datatypeid, start_date=start_date, end_date=end_date
+        ),
     )
 
 
-def ncei_ghcndms(stationid, datatypeid=None, startdate="", enddate=""):
+def ncei_ghcndms(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (NCEI) GHCND Monthly Summaries."""
     df = ncei_cdo_json_to_df(
         "GHCNDMS",
         stationid,
         datatypeid=datatypeid,
-        startdate=startdate,
-        enddate=enddate,
+        start_date=start_date,
+        end_date=end_date,
     )
 
     return df
@@ -6131,7 +6143,7 @@ def ncei_ghcndms(stationid, datatypeid=None, startdate="", enddate=""):
 
 @mando.command("ncei_ish", formatter_class=HelpFormatter, doctype="numpy")
 @tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncei_ghcnd_docstrings))
-def ncei_ish_cli(stations, datatypeid=None, startdate=None, enddate=None):
+def ncei_ish_cli(stations, datatypeid=None, start_date=None, end_date=None):
     r"""Download from the Global Historical Climatology Network - Daily.
 
     {info}
@@ -6139,22 +6151,24 @@ def ncei_ish_cli(stations, datatypeid=None, startdate=None, enddate=None):
     Parameters
     ----------
     {stations}
-    {startdate}
-    {enddate}
+    {start_date}
+    {end_date}
     """
     tsutils._printiso(
-        ncei_ish(stations, datatypeid=datatypeid, startdate=startdate, enddate=enddate)
+        ncei_ish(
+            stations, datatypeid=datatypeid, start_date=start_date, end_date=end_date
+        ),
     )
 
 
-def ncei_ish(station, datatypeid=None, startdate=None, enddate=None):
+def ncei_ish(station, datatypeid=None, start_date=None, end_date=None):
     r"""Download from the Global Historical Climatology Network - Daily."""
     station = station.replace("-", "")
     final = utils.file_downloader(
         "https://www.ncei.noaa.gov/data/global-hourly/access/{year}/{station}.csv",
         station,
-        startdate=startdate,
-        enddate=enddate,
+        startdate=start_date,
+        enddate=end_date,
     )
 
     if "WND" in final.columns:
@@ -6224,8 +6238,8 @@ if __name__ == "__main__":
 
     r = ncei_ghcnd_ftp(
         station="ASN00075020",
-        startdate="2000-01-01",
-        enddate="2001-01-01",
+        start_date="2000-01-01",
+        end_date="2001-01-01",
     )
 
     print("ghcnd")
@@ -6233,8 +6247,8 @@ if __name__ == "__main__":
 
     r = ncei_ghcnd_ftp(
         station="ASN00075020",
-        startdate="10 years ago",
-        enddate="9 years ago",
+        start_date="10 years ago",
+        end_date="9 years ago",
     )
 
     print("ghcnd")
@@ -6243,11 +6257,11 @@ if __name__ == "__main__":
     # http://www.ncdc.noaa.gov/cdo-web/api/v2/data?
     #  datasetid=PRECIP_15&
     #  stationid=COOP:010008&
-    #  units=metric&startdate=2010-05-01&enddate=2010-05-31
+    #  units=metric&start_date=2010-05-01&end_date=2010-05-31
     r = ncei_precip_15(
         "COOP:010008",
-        startdate="2010-05-01",
-        enddate="2010-05-31",
+        start_date="2010-05-01",
+        end_date="2010-05-31",
     )
     print("precip_15")
     print(r)
@@ -6267,54 +6281,54 @@ if __name__ == "__main__":
         # ['ANNUAL', 'GHCND:US1MOLN0006'],
         # ["GHCNDMS", "GHCND:US1FLAL0004"],
     ]
-    startdate = "2010-01-01"
-    enddate = "2013-01-01"
+    start_date = "2010-01-01"
+    end_date = "2013-01-01"
 
     print("GHCND")
     r = ncei_ghcnd(
         "GHCND:AE000041196",
-        startdate=startdate,
-        enddate=enddate,
+        start_date=start_date,
+        end_date=end_date,
     )
     print(r)
 
     print("GHCND")
     r = ncei_ghcnd(
         "GHCND:USR0000GCOO",
-        startdate=startdate,
-        enddate=enddate,
+        start_date=start_date,
+        end_date=end_date,
     )
     print(r)
 
     print("GSOM")
     r = ncei_gsom(
         "GHCND:US1FLAL0004",
-        startdate=startdate,
-        enddate=enddate,
+        start_date=start_date,
+        end_date=end_date,
     )
     print(r)
 
     print("GSOY")
     r = ncei_gsoy(
         "GHCND:USW00012816",
-        startdate=startdate,
-        enddate=enddate,
+        start_date=start_date,
+        end_date=end_date,
     )
     print(r)
 
     print("NEXRAD2")
     r = ncei_nexrad2(
         "NEXRAD:KJAX",
-        startdate=startdate,
-        enddate=enddate,
+        start_date=start_date,
+        end_date=end_date,
     )
     print(r)
 
     print("NEXRAD3")
     r = ncei_nexrad3(
         "NEXRAD:KJAX",
-        startdate=startdate,
-        enddate=enddate,
+        start_date=start_date,
+        end_date=end_date,
     )
     print(r)
 
@@ -6345,16 +6359,16 @@ if __name__ == "__main__":
     print("PRECIP_15")
     r = ncei_precip_15(
         "COOP:087440",
-        startdate=startdate,
-        enddate=enddate,
+        start_date=start_date,
+        end_date=end_date,
     )
     print(r)
 
     print("PRECIP_HLY")
     r = ncei_precip_hly(
         "COOP:087440",
-        startdate=startdate,
-        enddate=enddate,
+        start_date=start_date,
+        end_date=end_date,
     )
     print(r)
 

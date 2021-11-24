@@ -174,7 +174,7 @@ calendar year.  You supplied {}.
 
     params["measuredParams"] = ",".join(measuredParams)
 
-    req = urlp.unquote("{}?{}".format(url, urlp.urlencode(params)))
+    req = urlp.unquote(f"{url}?{urlp.urlencode(params)}")
     if os.path.exists("debug_tsgettoolbox"):
         logging.warning(req)
     df = pd.read_csv(
@@ -189,7 +189,7 @@ calendar year.  You supplied {}.
     )
     df.columns = [i.split()[0] for i in df.columns]
     df = df[measuredParams]
-    df.columns = ["Daymet-{}{}".format(i, _units_map[i]) for i in df.columns]
+    df.columns = [f"Daymet-{i}{_units_map[i]}" for i in df.columns]
     df.index.name = "Datetime"
     return df
 
@@ -212,7 +212,7 @@ if __name__ == "__main__":
         measuredParams=None,
         lat=43.1,
         lon=-85.2,
-        year="3 years ago,2 years ago",
+        year="2010,2011",
     )
 
     print("Daymet")

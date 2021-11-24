@@ -13,7 +13,7 @@ except ImportError:
 
 from tstoolbox import tsutils
 
-from .. import utils
+from tsgettoolbox import utils
 
 _vars_narr = {
     "ret": {

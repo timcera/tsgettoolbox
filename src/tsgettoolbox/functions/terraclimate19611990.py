@@ -6,7 +6,7 @@
 import mando
 import pandas as pd
 
-from .. import utils
+from tsgettoolbox import utils
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -274,5 +274,5 @@ terraclimate19611990.__doc__ = terraclimate19611990_cli.__doc__
 
 
 if __name__ == "__main__":
-    r = terraclimate(29.6, -82.3)
+    r = terraclimate19611990(29.6, -82.3)
     print(r)

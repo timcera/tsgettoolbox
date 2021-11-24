@@ -6,7 +6,7 @@
 import mando
 import pandas as pd
 
-from .. import utils
+from tsgettoolbox import utils
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
