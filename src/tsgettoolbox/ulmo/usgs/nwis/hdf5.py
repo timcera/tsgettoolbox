@@ -6,13 +6,10 @@ import shutil
 import sys
 import tempfile
 import warnings
-from builtins import map, zip
-from datetime import datetime
 
 import numpy as np
 import pandas
 import tables
-from past.builtins import basestring
 from tables.scripts import ptrepack
 
 from tsgettoolbox.ulmo import util
@@ -569,7 +566,7 @@ def _get_store(path, **kwargs):
 def _get_store_path(path, default_file_name):
     if path is None:
         path = DEFAULT_HDF5_FILE_PATH
-    if isinstance(path, basestring) and (path.endswith("/") or path.endswith("\\")):
+    if isinstance(path, str) and (path.endswith("/") or path.endswith("\\")):
         return os.path.join(path, default_file_name)
     else:
         return path

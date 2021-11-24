@@ -8,7 +8,6 @@
     .. _CUAHSI HIS Central: http://hiscentral.cuahsi.org/
 """
 import os
-from builtins import str
 
 import suds.client
 from suds.cache import ObjectCache

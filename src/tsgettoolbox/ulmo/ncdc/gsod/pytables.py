@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
-from builtins import range
 
 import tables
-from past.builtins import basestring
 
 from tsgettoolbox.ulmo import util
 from tsgettoolbox.ulmo.ncdc.gsod import core
@@ -22,7 +20,7 @@ class NCDCValue(tables.IsDescription):
 
 
 def get_data(station_codes, start=None, end=None, parameters=None, path=None):
-    if isinstance(station_codes, basestring):
+    if isinstance(station_codes, str):
         return _get_station_data(station_codes, start, end, parameters)
     else:
         return_dict = {}

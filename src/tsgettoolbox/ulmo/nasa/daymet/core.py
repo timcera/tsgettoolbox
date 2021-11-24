@@ -9,18 +9,11 @@
     .. _NASA EARTHDATA ORNL DAAC Daymet: https://daymet.ornl.gov/dataaccess.html
 
 """
-from future import standard_library
 
-standard_library.install_aliases()
 import logging
 import time
-from builtins import str
 
 import pandas as pd
-import requests
-from past.builtins import basestring
-
-from tsgettoolbox.ulmo import util
 
 VARIABLES = {
     "tmax": "maximum temperature",
@@ -103,7 +96,7 @@ def get_daymet_singlepixel(
 
     _check_coordinates(latitude, longitude)
     _check_variables(variables)
-    if not years is None:
+    if years is not None:
         _check_years(years)
 
     url_params = {"lat": latitude, "lon": longitude, "vars": _as_str(variables)}
@@ -168,7 +161,7 @@ def _check_coordinates(lat, lon):
 
 def _as_str(arg):
     """if arg is a list, convert to comma delimited string"""
-    if isinstance(arg, basestring):
+    if isinstance(arg, str):
         return arg
     else:
         return ",".join([str(a) for a in arg])

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import isodate
 from lxml import etree
-from past.builtins import basestring
 
 from tsgettoolbox.ulmo import util
 
@@ -27,7 +26,7 @@ def parse_site_values(content_io, namespace, query_isodate=None, methods=None):
             variable = _parse_variable(var_element, namespace)
             values_elements = ele.findall(namespace + "values")
             code = variable["code"]
-            if isinstance(methods, basestring):
+            if isinstance(methods, str):
                 method = methods
             elif isinstance(methods, dict):
                 method = methods.get(code, None)

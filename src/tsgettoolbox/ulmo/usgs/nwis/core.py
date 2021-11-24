@@ -9,18 +9,14 @@
     .. _USGS National Water Information System: http://waterdata.usgs.gov/nwis
 
 """
-from future import standard_library
 
-standard_library.install_aliases()
 import contextlib
 import datetime
 import io
 import logging
-from builtins import str
 
 import isodate
 import requests
-from past.builtins import basestring
 
 from tsgettoolbox.ulmo import util
 from tsgettoolbox.ulmo.waterml import v1_1 as wml
@@ -262,7 +258,7 @@ def get_site_data(
             "must use either a date range with start/end OR a " "period, but not both"
         )
     if period is not None:
-        if isinstance(period, basestring):
+        if isinstance(period, str):
             if period == "all":
                 if service in ("iv", "instantaneous"):
                     start = datetime.datetime(1910, 1, 1)
@@ -309,7 +305,7 @@ def get_site_data(
 
 def _as_str(arg):
     """if arg is a list, convert to comma delimited string"""
-    if isinstance(arg, basestring):
+    if isinstance(arg, str):
         return arg
     else:
         return ",".join(arg)
@@ -387,7 +383,7 @@ def _open_input_file(input_file):
     file handler, closing it afterwards. If input_file is already a file handler
     then it just yields the same file handler without closing.
     """
-    if isinstance(input_file, basestring):
+    if isinstance(input_file, str):
         with open(input_file, "rb") as content_io:
             yield content_io
     elif hasattr(input_file, "read"):

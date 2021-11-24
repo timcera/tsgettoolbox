@@ -11,10 +11,8 @@
 """
 import distutils
 import os.path
-from builtins import range, str
 
 import pandas
-from past.builtins import basestring
 
 from tsgettoolbox.ulmo import util
 
@@ -98,7 +96,7 @@ def get_data(
         the ``as_dataframe`` parameter for more.
     """
 
-    if isinstance(elements, basestring):
+    if isinstance(elements, str):
         elements = [elements]
     elif elements is None:
         elements = [
@@ -162,7 +160,7 @@ def _get_element_data(element, by_state, use_file, location_names):
 
 
 def _get_element_file(use_file, element, elements, by_state):
-    if isinstance(use_file, basestring):
+    if isinstance(use_file, str):
         if os.path.basename(use_file) == "":
             if len(elements) > 1:
                 assert ValueError(

@@ -31,7 +31,6 @@ import isodate
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
-from past.builtins import basestring
 
 from tsgettoolbox.ulmo import util
 
@@ -69,7 +68,7 @@ def decode(dataframe, parser, **kwargs):
         pandas dataframe, the format and parameters in the returned dataframe depend wholly on the parser used
 
     """
-    if isinstance(parser, basestring):
+    if isinstance(parser, str):
         parser = getattr(parsers, parser)
 
     df = []
@@ -285,7 +284,7 @@ def _format_period(period):
 
 def _format_time(timestamp):
 
-    if isinstance(timestamp, basestring):
+    if isinstance(timestamp, str):
         if timestamp.startswith("P"):
             timestamp = isodate.parse_duration(timestamp)
         else:

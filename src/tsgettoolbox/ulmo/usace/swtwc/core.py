@@ -10,12 +10,9 @@
     .. _Tulsa District Water Control: http://www.swt-wc.usace.army.mil/
 
 """
-from future import standard_library
 
-standard_library.install_aliases()
 import datetime
 import os.path
-from builtins import range, str, zip
 
 import numpy as np
 import pandas

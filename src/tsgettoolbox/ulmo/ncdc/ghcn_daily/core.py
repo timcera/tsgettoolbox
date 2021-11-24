@@ -13,11 +13,9 @@
 """
 import itertools
 import os
-from builtins import range, str
 
 import numpy as np
 import pandas
-from past.builtins import basestring
 
 from tsgettoolbox.ulmo import util
 
@@ -51,7 +49,7 @@ def get_data(station_id, elements=None, update=True, as_dataframe=False):
         A dict with element codes as keys, mapped to collections of values. See
         the ``as_dataframe`` parameter for more.
     """
-    if isinstance(elements, basestring):
+    if isinstance(elements, str):
         elements = [elements]
 
     start_columns = [
@@ -207,7 +205,7 @@ def get_stations(
     if not elements is None or not start_year is None or not end_year is None:
         inventory = _get_inventory(update=update)
         if not elements is None:
-            if isinstance(elements, basestring):
+            if isinstance(elements, str):
                 elements = [elements]
 
             mask = np.zeros(len(inventory), dtype=bool)

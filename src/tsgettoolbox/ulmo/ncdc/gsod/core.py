@@ -15,11 +15,8 @@ import gzip
 import itertools
 import os
 import tarfile
-from builtins import range, str
-from contextlib import contextmanager
 
 import numpy as np
-from past.builtins import basestring
 
 from tsgettoolbox.ulmo import util
 
@@ -97,12 +94,12 @@ def get_data(station_codes, start=None, end=None, parameters=None):
         end_date = util.convert_date(end)
     else:
         end_date = datetime.date.today()
-    if isinstance(parameters, basestring):
+    if isinstance(parameters, str):
         parameters = [parameters]
     if parameters and not "date" in parameters:
         # add date to list of parameters if it's not there already
         parameters.insert(0, "date")
-    if isinstance(station_codes, basestring):
+    if isinstance(station_codes, str):
         station_codes = [station_codes]
 
     # note: opening tar files and parsing the headers and such is a relatively
@@ -185,9 +182,9 @@ def get_stations(country=None, state=None, start=None, end=None, update=True):
     else:
         end_date = None
 
-    if isinstance(country, basestring):
+    if isinstance(country, str):
         country = [country]
-    if isinstance(state, basestring):
+    if isinstance(state, str):
         state = [state]
 
     stations_url = "http://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv"

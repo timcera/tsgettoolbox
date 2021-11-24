@@ -7,12 +7,9 @@
 """
 from __future__ import print_function
 
-import contextlib
 import hashlib
 import os
 import zipfile
-
-from past.builtins import basestring
 
 from .misc import download_if_new, mkdir_if_doesnt_exist
 
@@ -59,7 +56,7 @@ def mosaic_and_clip(raster_tiles, xmin, ymin, xmax, ymax, output_path):
 def download_tiles(path, tile_urls, tile_fmt, check_modified=False):
     raster_tiles = []
 
-    if isinstance(tile_urls, basestring):
+    if isinstance(tile_urls, str):
         tile_urls = [tile_urls]
 
     for i, url in enumerate(tile_urls):

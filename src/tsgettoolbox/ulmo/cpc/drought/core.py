@@ -13,12 +13,10 @@ from __future__ import division
 
 import datetime
 import os
-from builtins import range, str
 
 import numpy as np
 import pandas
 import requests
-from past.utils import old_div
 
 from tsgettoolbox.ulmo import util
 
@@ -381,4 +379,4 @@ def _week_number(date):
     if date_ts < first_sunday_ts:
         first_sunday_ts = pandas.Timestamp(_first_sunday(date.year - 1))
     days_since_first_sunday = (date_ts - first_sunday_ts).days
-    return (first_sunday_ts.year, (old_div(days_since_first_sunday, 7)) + 1)
+    return (first_sunday_ts.year, (days_since_first_sunday // 7) + 1)

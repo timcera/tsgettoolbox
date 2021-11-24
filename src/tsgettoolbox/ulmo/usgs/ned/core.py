@@ -18,7 +18,6 @@ import os
 
 import requests
 from geojson import Feature, FeatureCollection, Polygon
-from past.builtins import basestring
 
 from tsgettoolbox.ulmo import util
 
@@ -200,7 +199,7 @@ def _download_features(
     if path is None:
         path = os.path.join(util.get_ulmo_dir(), DEFAULT_FILE_PATH)
 
-    if isinstance(feature_ids, basestring):
+    if isinstance(feature_ids, str):
         feature_ids = [feature_ids]
 
     tiles = []

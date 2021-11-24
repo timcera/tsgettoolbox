@@ -6,12 +6,8 @@
 
     .. _CUAHSI WaterOneFlow: http://his.cuahsi.org/wofws.html
 """
-from future import standard_library
-
-standard_library.install_aliases()
 import io
 import os
-from builtins import str
 
 import isodate
 import suds.client
@@ -221,7 +217,7 @@ def get_values(
     elif waterml_version == "1.1":
         values = waterml.v1_1.parse_site_values(response_buffer)
 
-    if not variable_code is None:
+    if variable_code is not None:
         return list(values.values())[0]
     else:
         return values
@@ -281,7 +277,7 @@ def get_variable_info(
     elif waterml_version == "1.1":
         variable_info = waterml.v1_1.parse_variables(response_buffer)
 
-    if not variable_code is None and len(variable_info) == 1:
+    if variable_code is not None and len(variable_info) == 1:
         return list(variable_info.values())[0]
     else:
         return {
@@ -338,7 +334,7 @@ def _get_client(wsdl_url, suds_cache=("default",), suds_timeout=None, user_cache
     if (
         _suds_client is None
         or _suds_client.wsdl.url != wsdl_url
-        or not suds_timeout is None
+        or suds_timeout is not None
     ):
         if user_cache:
             cache_dir = os.path.join(util.get_ulmo_dir(), "suds")
@@ -359,7 +355,7 @@ def _get_client(wsdl_url, suds_cache=("default",), suds_timeout=None, user_cache
             else:
                 cache.setduration(**dict([suds_cache]))
 
-        if not suds_timeout is None:
+        if suds_timeout is not None:
             _suds_client.set_options(timeout=suds_timeout)
 
     return _suds_client

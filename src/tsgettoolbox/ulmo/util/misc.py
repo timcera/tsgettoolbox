@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from future import standard_library
 
-standard_library.install_aliases()
 import datetime
 import email.utils
 import ftplib
@@ -10,7 +8,6 @@ import os
 import re
 import urllib.parse
 import warnings
-from builtins import object, str, zip
 from contextlib import contextmanager
 
 import appdirs
@@ -18,7 +15,6 @@ import numpy as np
 import pandas
 import requests
 from lxml import etree
-from past.builtins import basestring
 
 # pre-compiled regexes for underscore conversion
 first_cap_re = re.compile("(.)([A-Z][a-z]+)")
@@ -198,7 +194,7 @@ def parse_fwf(file_path, columns, na_values=None):
     converters = {
         name: converter
         for name, start, end, converter in columns
-        if not converter is None
+        if converter is not None
     }
 
     return pandas.io.parsers.read_fwf(

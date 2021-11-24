@@ -52,8 +52,6 @@
     M    monthly
 
 """
-import re
-from builtins import str, zip
 
 import pandas as pd
 
