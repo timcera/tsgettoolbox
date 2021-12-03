@@ -28,16 +28,17 @@ install_requires = [
     # http://packages.python.org/distribute/setuptools.html#declaring-dependencies
     "appdirs",
     "beautifulsoup4",
+    "cdo-api-py",
     "future",
     "geojson",
     "isodate",
     "lxml",
     "mechanize",
     "requests",
-    "tstoolbox >= 103",
-    "suds-jurko",
     "siphon",
-    "cdo-api-py",
+    "suds-community",
+    "tstoolbox >= 103",
+    "zeep",
 ]
 
 extras_require = {
