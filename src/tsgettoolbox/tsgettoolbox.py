@@ -51,6 +51,8 @@ from .functions.nwis import (
     nwis_site,
     nwis_stat,
 )
+from .functions.rivergages import rivergages
+from .functions.swtwc import swtwc
 from .functions.terraclimate import terraclimate
 from .functions.terraclimate2C import terraclimate2C
 from .functions.terraclimate4C import terraclimate4C
