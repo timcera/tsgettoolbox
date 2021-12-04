@@ -21,9 +21,12 @@ except ImportError:
 def cdec_cli(
     station_id, dur_code=None, sensor_num=None, start_date=None, end_date=None
 ):
-    r"""Access data from the 'California Department of Water Resources'.
+    r"""station: California Department of Water Resources
 
-    The web site is called the 'California Data Exchange Center'.
+    The primary function of the California Data Exchange Center (CDEC) is to
+    facilitate the collection, storage, and exchange of hydrologic and climate
+    information to support real-time flood management and water supply needs in
+    California.
 
     California Department of Water Resources: http://www.water.ca.gov/
     California Data Exchange Center: http://cdec.water.ca.gov

@@ -285,7 +285,7 @@ No data collected/available within this time frame.
 
 @mando.command("ndbc", formatter_class=HelpFormatter, doctype="numpy")
 def ndbc_cli(station, table, startUTC, endUTC):
-    r"""Download historical from the National Data Buoy Center.
+    r"""station: Download historical from the National Data Buoy Center.
 
     Download historical data from the National Data Buoy Center.
 

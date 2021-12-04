@@ -307,7 +307,7 @@ def ldas_cli(
     endDate=None,
     variable=None,
 ):
-    """Download data from the Land Data Assimilation System (LDAS).
+    """gridded: Land Data Assimilation System (NLDAS, GLDAS2, TRMM, SMERGE, GRACE, MERRA)
 
         This will download data from a set of water cycle related variables
         (Table 1) from the North American and Global Land Data Assimilation

@@ -28,7 +28,7 @@ def twc_ulmo_df(county=None, start_date=None, end_date=None):
 @mando.command("twc", formatter_class=HelpFormatter, doctype="numpy")
 @tsutils.doc(tsutils.docstrings)
 def twc_cli(county, start_date=None, end_date=None):
-    r"""Download Texas Weather Connection (TWC) data.
+    r"""station: Download Texas Weather Connection (TWC) data.
 
     This module provides direct access to `Texas Weather Connection`_ `Daily
     Keetch-Byram Drought Index (KBDI)`_ dataset.

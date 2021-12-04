@@ -12,7 +12,6 @@ except ImportError:
 
 import mando
 import pandas as pd
-import requests
 import typic
 
 try:
@@ -148,7 +147,7 @@ def coops_cli(
     interval="h",
     bin=None,
 ):
-    r"""Download Center for Operational Oceanographic Products and Services.
+    r"""station: Center for Operational Oceanographic Products and Services
 
     CO-OPS web services is at https://tidesandcurrents.noaa.gov/api/.
     The time zone of the returned data depends on the setting of the

@@ -26,7 +26,7 @@ def date_parser(strdates):
 
 @mando.command("modis", formatter_class=HelpFormatter, doctype="numpy")
 def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
-    r"""Download MODIS derived data.
+    r"""gridded: Download MODIS derived data.
 
     This data are derived data sets from MODIS satellite photos.
 

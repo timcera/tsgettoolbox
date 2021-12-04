@@ -280,7 +280,7 @@ def metdata_cli(
     start_date=None,
     end_date=None,
 ):
-    r"""Download daily data from METDATA.
+    r"""gridded: Download daily data from METDATA.
 
     This archive contains daily surface meteorological (METDATA) data for the
     Continental United States at 4-km (1/24-deg) resolution. The meteorological

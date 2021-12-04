@@ -178,7 +178,7 @@ def fawn_cli(
     start_date=datetime.datetime(1998, 1, 1),
     end_date=datetime.datetime.now(),
 ):
-    r"""Download data from Florida Automated Weather Network (FAWN).
+    r"""station: Florida Automated Weather Network (FAWN)
 
     Parameters
     ----------

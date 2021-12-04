@@ -91,7 +91,7 @@ def terraclimate19611990_cli(
     start_date=None,
     end_date=None,
 ):
-    r"""Download monthly data from Terraclimate.
+    r"""gridded: Download monthly data from Terraclimate.
 
     method: These layers from TerraClimate were derived from the essential
     climate variables of TerraClimate. Water balance variables, actual

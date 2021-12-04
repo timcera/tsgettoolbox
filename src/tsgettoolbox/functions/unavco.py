@@ -65,7 +65,7 @@ def unavco_to_df(url, **query_params):
 
 @mando.command("unavco", formatter_class=HelpFormatter, doctype="numpy")
 def unavco_cli(station, database="met", starttime=None, endtime=None):
-    r"""Download data from the Unavco web services.
+    r"""station: Download data from the Unavco web services.
 
     Detailed information at:
     http://www.unavco.com/data/web-services/web-services.html

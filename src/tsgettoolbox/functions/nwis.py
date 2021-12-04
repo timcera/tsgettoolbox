@@ -1273,7 +1273,7 @@ def nwis_cli(
     missingData=None,
     statYearType=None,
 ):
-    r"""Use the ``nwis_*`` functions instead.
+    r"""station: Use the ``nwis_*`` functions instead.
 
     This "nwis" function has been split up into individual functions for each
     source database.  This allows for keywords and output to be tailored to
@@ -1612,7 +1612,7 @@ def nwis_iv_cli(
     endDT=None,
     includeCodes=False,
 ):
-    r"""Download from Instantaneous Values of the USGS NWIS.
+    r"""station: USGS NWIS Instantaneous Values
 
     {filter_descriptions}
     {results_ts}
@@ -1760,7 +1760,7 @@ def nwis_dv_cli(
     includeCodes=False,
     statisticsCd=None,
 ):
-    r"""Download from the Daily Values database of the USGS NWIS.
+    r"""station: USGS NWIS Daily Values
 
     {filter_descriptions}
     {results_ts}
@@ -1916,7 +1916,7 @@ def nwis_site_cli(
     siteNameMatchOperator=None,
     hasDataTypeCd=None,
 ):
-    r"""Download from the site database of the USGS NWIS.
+    r"""station: USGS NWIS Site Database
 
     This does not return a time-series, but a table of sites.
     {filter_descriptions}
@@ -2116,7 +2116,7 @@ def nwis_gwlevels_cli(
     holeDepthMin=None,
     holeDepthMax=None,
 ):
-    r"""Download from the Groundwater Levels database of the USGS NWIS.
+    r"""station: USGS NWIS Groundwater Levels
 
     {filter_descriptions}
     **Results**
@@ -2276,7 +2276,7 @@ def nwis_measurements_cli(
     holeDepthMin=None,
     holeDepthMax=None,
 ):
-    r"""Download from the Measurements database of the USGS NWIS.
+    r"""station: USGS NWIS Measurements
 
     {filter_descriptions}
     **Results**
@@ -2497,7 +2497,7 @@ def nwis_peak_cli(
     holeDepthMin=None,
     holeDepthMax=None,
 ):
-    r"""Download from the Peak database of the USGS NWIS.
+    r"""station: USGS NWIS Peak
 
     {filter_descriptions}
     **Results**
@@ -2725,7 +2725,7 @@ def nwis_stat_cli(
     missingData=None,
     statYearType=None,
 ):
-    r"""Download from the Statistic database of the USGS NWIS.
+    r"""station: USGS NWIS Statistic
 
     {filter_descriptions}
     **Returns**
@@ -2938,7 +2938,7 @@ def epa_wqp_cli(
     startDateLo=None,
     startDateHi=None,
 ):
-    r"""Download from the EPA Water Quality Portal.
+    r"""station: EPA Water Quality Portal.
 
     All of the keywords could be considered as subtractive filters of the
     stations.  Some of the keywords can result in very large number of stations
