@@ -59,7 +59,7 @@ def get_variables():
 def get_daymet_singlepixel(
     latitude,
     longitude,
-    variables=["tmax", "tmin", "prcp"],
+    variables=None,
     years=None,
     as_dataframe=True,
 ):
@@ -93,6 +93,8 @@ def get_daymet_singlepixel(
     -------
     single_pixel_timeseries : pandas dataframe or csv filename
     """
+    if variables is None:
+        variables = ["tmax", "tmin", "prcp"]
 
     _check_coordinates(latitude, longitude)
     _check_variables(variables)
