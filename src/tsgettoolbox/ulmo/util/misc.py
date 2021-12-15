@@ -303,8 +303,7 @@ def _request_file_size_matches(request, path):
     content_length = request.headers.get("content-length")
     if content_length and int(content_length) == os.path.getsize(path):
         return True
-    else:
-        return False
+    return False
 
 
 def _request_is_newer_than_file(request, path):
@@ -328,5 +327,4 @@ def _request_is_newer_than_file(request, path):
     )
     if request_last_modified > path_last_modified:
         return True
-    else:
-        return False
+    return False

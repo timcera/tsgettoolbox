@@ -108,8 +108,7 @@ def get_sensors(sensor_id=None):
 
     if sensor_id is None:
         return df
-    else:
-        return df.loc[sensor_id]
+    return df.loc[sensor_id]
 
 
 def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):

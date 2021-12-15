@@ -82,8 +82,7 @@ def get_data(county=None, start=None, end=None, as_dataframe=False, data_dir=Non
 
     if as_dataframe:
         return df
-    else:
-        return _as_data_dict(df)
+    return _as_data_dict(df)
 
 
 def _as_data_dict(df):

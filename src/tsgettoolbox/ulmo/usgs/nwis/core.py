@@ -307,8 +307,7 @@ def _as_str(arg):
     """if arg is a list, convert to comma delimited string"""
     if isinstance(arg, str):
         return arg
-    else:
-        return ",".join(arg)
+    return ",".join(arg)
 
 
 def _extract_site_properties(site):
@@ -335,12 +334,11 @@ def _extract_site_properties(site):
 def _get_service_url(service):
     if service in ("daily", "dv"):
         return DAILY_URL
-    elif service in ("instantaneous", "iv"):
+    if service in ("instantaneous", "iv"):
         return INSTANTANEOUS_URL
-    else:
-        raise ValueError(
-            "service must be either 'daily' ('dv') or " "'instantaneous' ('iv')"
-        )
+    raise ValueError(
+        "service must be either 'daily' ('dv') or " "'instantaneous' ('iv')"
+    )
 
 
 def _get_site_values(service, url_params, input_file=None, methods=None):
