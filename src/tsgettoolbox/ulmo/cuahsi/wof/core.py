@@ -219,8 +219,7 @@ def get_values(
 
     if variable_code is not None:
         return list(values.values())[0]
-    else:
-        return values
+    return values
 
 
 def get_variable_info(
@@ -279,23 +278,21 @@ def get_variable_info(
 
     if variable_code is not None and len(variable_info) == 1:
         return list(variable_info.values())[0]
-    else:
-        return {
-            "{}:{}".format(var["vocabulary"], var["code"]): var
-            for var in list(variable_info.values())
-        }
+    return {
+        "{}:{}".format(var["vocabulary"], var["code"]): var
+        for var in list(variable_info.values())
+    }
 
 
 def _waterml_version(suds_client):
     tns_str = str(suds_client.wsdl.tns[1])
     if tns_str == "http://www.cuahsi.org/his/1.0/ws/":
         return "1.0"
-    elif tns_str == "http://www.cuahsi.org/his/1.1/ws/":
+    if tns_str == "http://www.cuahsi.org/his/1.1/ws/":
         return "1.1"
-    else:
-        raise NotImplementedError(
-            "only WaterOneFlow 1.0 and 1.1 are currently supported"
-        )
+    raise NotImplementedError(
+        "only WaterOneFlow 1.0 and 1.1 are currently supported"
+    )
 
 
 def _get_client(wsdl_url, suds_cache=("default",), suds_timeout=None, user_cache=False):

@@ -200,8 +200,7 @@ def _element_dict_attribute_name(
     attribute_only = util.camel_to_underscore(attribute_name.split("}")[-1])
     if attribute_only.startswith(element_name) or not prepend_element_name:
         return attribute_only
-    else:
-        return element_name + "_" + attribute_only
+    return element_name + "_" + attribute_only
 
 
 def _find_unit(element, namespace):

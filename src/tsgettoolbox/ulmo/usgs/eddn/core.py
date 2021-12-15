@@ -221,8 +221,7 @@ def get_data(
     if data.empty:
         if as_dataframe:
             return data
-        else:
-            return {}
+        return {}
 
     if start:
         if start.startswith("P"):
@@ -292,7 +291,7 @@ def _format_time(timestamp):
 
     if isinstance(timestamp, datetime):
         return timestamp.strftime("%Y/%j %H:%M:%S")
-    elif isinstance(timestamp, timedelta):
+    if isinstance(timestamp, timedelta):
         return _format_period(timestamp)
 
 

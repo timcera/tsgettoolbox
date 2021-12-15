@@ -568,8 +568,7 @@ def _get_store_path(path, default_file_name):
         path = DEFAULT_HDF5_FILE_PATH
     if isinstance(path, str) and (path.endswith("/") or path.endswith("\\")):
         return os.path.join(path, default_file_name)
-    else:
-        return path
+    return path
 
 
 def _nans_to_none(df):
