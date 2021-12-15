@@ -59,7 +59,7 @@ def get_variables():
 def get_daymet_singlepixel(
     latitude,
     longitude,
-    variables=["tmax", "tmin", "prcp"],
+    variables=None,
     years=None,
     as_dataframe=True,
 ):
@@ -93,6 +93,8 @@ def get_daymet_singlepixel(
     -------
     single_pixel_timeseries : pandas dataframe or csv filename
     """
+    if variables is None:
+        variables = ["tmax", "tmin", "prcp"]
 
     _check_coordinates(latitude, longitude)
     _check_variables(variables)
@@ -115,12 +117,11 @@ def get_daymet_singlepixel(
     df.columns = [c[: c.index("(")].strip() if "(" in c else c for c in df.columns]
     if as_dataframe:
         return df
-    else:
-        results = {}
-        for key in df.columns:
-            if key not in ["yday", "year"]:
-                results[key] = dict(zip(df[key].index.format(), df[key]))
-        return results
+    results = {}
+    for key in df.columns:
+        if key not in ["yday", "year"]:
+            results[key] = dict(zip(df[key].index.format(), df[key]))
+    return results
 
 
 def _check_variables(variables):
@@ -163,8 +164,7 @@ def _as_str(arg):
     """if arg is a list, convert to comma delimited string"""
     if isinstance(arg, str):
         return arg
-    else:
-        return ",".join([str(a) for a in arg])
+    return ",".join([str(a) for a in arg])
 
 
 def _get_service_url(url_params):

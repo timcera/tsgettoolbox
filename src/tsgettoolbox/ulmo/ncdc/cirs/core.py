@@ -140,8 +140,7 @@ def get_data(
 
     if as_dataframe:
         return df
-    else:
-        return list(df.T.to_dict().values())
+    return list(df.T.to_dict().values())
 
 
 def _get_element_data(element, by_state, use_file, location_names):
@@ -252,7 +251,7 @@ def _parse_values(file_handle, by_state, location_names, element):
 def _resolve_location_names(df, location_names, by_state):
     if location_names is None:
         return df
-    elif location_names not in ("abbr", "full"):
+    if location_names not in ("abbr", "full"):
         raise ValueError(
             "location_names should be set to either None, 'abbr' or 'full'"
         )
@@ -266,13 +265,12 @@ def _resolve_location_names(df, location_names, by_state):
                     location_names: "location",
                 }
             )
-        else:
-            return with_locations.rename(
-                columns={
-                    location_names: "state",
-                    "location_code": "state_code",
-                }
-            )
+        return with_locations.rename(
+            columns={
+                location_names: "state",
+                "location_code": "state_code",
+            }
+        )
 
 
 def _states_regions_dataframe():
