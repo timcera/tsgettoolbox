@@ -16,6 +16,59 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 
+dur_code_map = {
+    "daily": "D",
+    "event": "E",
+    "hourly": "H",
+    "monthly": "M",
+    "d": "D",
+    "e": "E",
+    "h": "H",
+    "m": "M",
+}
+
+sensor_num_map = {
+    "river stage": 1,
+    "stage": 1,
+    "precipitation": 2,
+    "swe": 3,
+    "snow water equivalent": 3,
+    "air temperature": 4,
+    "ec": 5,
+    "reservoir elevation": 6,
+    "reservoir scheduled release": 7,
+    "full natural flow:cfs": 8,
+    "reservoir storage": 15,
+    "flow": 20,
+    "reservoir storage change": 22,
+    "reservoir outflow": 23,
+    "evapotranspiration": 24,
+    "water temperature": 25,
+    "water turbidity": 27,
+    "turbidity": 27,
+    "chlorophyll": 28,
+    "flow daily": 41,
+    "precipitation incremental": 45,
+    "runoff volume": 46,
+    "dissolved oxygen": 61,
+    "water dissolved oxygen": 61,
+    "do": 61,
+    "ph": 62,
+    "pan evaporation": 64,
+    "full natural flow: acre ft": 65,
+    "flow monthly": 66,
+    "accretions": 67,
+    "spillway discharge": 71,
+    "spillway flow": 71,
+    "lake evaporation": 74,
+    "evaporation": 74,
+    "reservoir inflow": 76,
+    "control regulating discharge": 85,
+    "top conservation storage": 94,
+    "water ec": 100,
+}
+
+
 @command("cdec", formatter_class=HelpFormatter, doctype="numpy")
 @tsutils.doc(tsutils.docstrings)
 def cdec_cli(
@@ -295,6 +348,11 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
         containing all of the sensor/resolution combinations.
 
     """
+    if sensor_ids:
+        sensor_ids = [
+            sensor_num_map.get(str(i).lower(), i) for i in tsutils.make_list(sensor_ids)
+        ]
+
     if start is None:
         start_date = pd.Timestamp(DEFAULT_START_DATE).date()
     else:
@@ -327,7 +385,7 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
                 + "?Stations="
                 + station_id
                 + "&dur_code="
-                + res_to_dur_code_map[res]
+                + dur_code_map[res]
                 + "&SensorNums="
                 + str(sensor_id)
                 + "&Start="
@@ -359,29 +417,26 @@ def _limit_sensor_list(sensor_list, sensor_ids, resolution):
     return sensor_list
 
 
-res_to_dur_code_map = {"hourly": "H", "daily": "D", "monthly": "M", "event": "E"}
-
-
 def download_data(
     station_id, sensor_num=None, dur_code=None, start_date=None, end_date=None
 ):
 
     if isinstance(sensor_num, (str, bytes)):
-        sensor_num = [int(i) for i in sensor_num.split(".")]
+        sensor_num = [
+            int(sensor_num_map.get(i.lower(), i)) for i in sensor_num.split(".")
+        ]
     elif isinstance(sensor_num, int):
         sensor_num = [sensor_num]
 
     if isinstance(dur_code, (str, bytes)):
         dur_code = dur_code.split(",")
 
-        mapd = {"D": "daily", "E": "event", "H": "hourly", "M": "monthly"}
-
-        dur_code = [mapd[i] for i in dur_code]
+        dur_code = [dur_code_map.get(i.lower(), i) for i in dur_code]
 
     d = get_data(
         [station_id],
-        sensor_ids=sensor_num,
-        resolutions=dur_code,
+        sensor_ids=tsutils.make_list(sensor_num),
+        resolutions=tsutils.make_list(dur_code),
         start=start_date,
         end=end_date,
     )
@@ -423,18 +478,18 @@ cdec.__doc__ = cdec_cli.__doc__
 
 
 if __name__ == "__main__":
-    r = download_data(
+    r = cdec(
         "PAR",
         start_date="2017-01-01",
         end_date="2017-10-02",
-        dur_code="D",
+        dur_code="hourly",
         sensor_num=45,
     )
 
     print("PAR PRECIPITATION")
     print(r)
 
-    r = download_data(
+    r = cdec(
         "PAR",
         start_date="2017-01-01",
         end_date="2017-10-02",
@@ -442,17 +497,15 @@ if __name__ == "__main__":
         sensor_num=6,
     )
 
-    print("PAR RESERVOIR VOLUME")
+    print("PAR RESERVOIR ELEVATION")
     print(r)
 
-    r = download_data(
-        "PAR", start_date="2017-01-01", end_date="2017-10-02", dur_code="H"
-    )
+    r = cdec("PAR", start_date="2017-01-01", end_date="2017-10-02", dur_code="H")
 
     print("PAR HOURLY")
     print(r)
 
-    r = download_data("PAR", start_date="2017-01-01", end_date="2017-10-02")
+    r = cdec("PAR", start_date="2017-01-01", end_date="2017-10-02")
 
     print("PAR EVERYTHING")
     print(r)

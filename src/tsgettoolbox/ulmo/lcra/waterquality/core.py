@@ -13,7 +13,6 @@ import logging
 # import datetime
 import os.path as op
 
-import dateutil
 from bs4 import BeautifulSoup
 from geojson import Feature, FeatureCollection, Point
 
@@ -67,7 +66,7 @@ def get_sites(source_agency=None):
     sites_geojson : geojson FeatureCollection
     """
     sites_url = "http://waterquality.lcra.org/"
-    response = requests.get(sites_url)
+    response = requests.get(sites_url, verify=False)
     lines = response.content.decode("utf-8").split("\n")
     sites_unprocessed = [
         line.strip().strip("createMarker").strip("(").strip(")").split(",")

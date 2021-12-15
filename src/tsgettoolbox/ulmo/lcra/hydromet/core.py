@@ -201,7 +201,7 @@ def get_site_data(
     if parameter_code.lower() not in PARAMETERS.keys():
         log.info("%s is not an LCRA parameter" % parameter_code)
         return None
-    initial_request = requests.get(historical_data_url)
+    initial_request = requests.get(historical_data_url, verify=False)
     if initial_request.status_code != 200:
         return None
     list_request_headers = {

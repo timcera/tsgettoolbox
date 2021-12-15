@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
-from time import sleep
 
 import mando
 import numpy as np
@@ -12,11 +11,10 @@ try:
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
-from requests import Request
-from requests.utils import unquote
 from tstoolbox import tsutils
 
 from tsgettoolbox import utils
+from tsgettoolbox.ulmo.ncdc.cirs.core import get_data
 
 ncei_ghcnd_docstrings = {
     "info": r"""If you use this data, please read
@@ -6212,6 +6210,81 @@ def ncei_ish(station, datatypeid=None, start_date=None, end_date=None):
     return final
 
 
+# @mando.command("ncei_cirs", formatter_class=HelpFormatter, doctype="numpy")
+def ncei_cirs_cli(elements=None, by_state=False, location_names="abbr"):
+    """station: Retrieves climate indices
+
+    Parameters
+    ----------
+    elements
+        The element(s) for which to get data for. If None (default), then all
+        elements are used. An individual element is a string, but a list or
+        tuple of them can be used to specify a set of elements. Elements are:
+
+        +------+-------------------------------------------+
+        | Code | Description                               |
+        +======+===========================================+
+        | cddc | Cooling Degree Days                       |
+        +------+-------------------------------------------+
+        | hddc | Heating Degree Days                       |
+        +------+-------------------------------------------+
+        | pcpn | Precipitation                             |
+        +------+-------------------------------------------+
+        | pdsi | Palmer Drought Severity Index             |
+        +------+-------------------------------------------+
+        | phdi | Palmer Hydrological Drought Index         |
+        +------+-------------------------------------------+
+        | pmdi | Modified Palmer Drought Severity Index    |
+        +------+-------------------------------------------+
+        | sp01 | 1-month Standardized Precipitation Index  |
+        +------+-------------------------------------------+
+        | sp02 | 2-month Standardized Precipitation Index  |
+        +------+-------------------------------------------+
+        | sp03 | 3-month Standardized Precipitation Index  |
+        +------+-------------------------------------------+
+        | sp06 | 6-month Standardized Precipitation Index  |
+        +------+-------------------------------------------+
+        | sp09 | 9-month Standardized Precipitation Index  |
+        +------+-------------------------------------------+
+        | sp12 | 12-month Standardized Precipitation Index |
+        +------+-------------------------------------------+
+        | sp24 | 24-month Standardized Precipitation Index |
+        +------+-------------------------------------------+
+        | tmpc | Temperature                               |
+        +------+-------------------------------------------+
+        | zndx | ZNDX                                      |
+        +------+-------------------------------------------+
+
+    by_state
+        If False (default), divisional data will be retrieved. If True, then
+        regional data will be retrieved.
+
+    location_names:
+        This parameter defines what (if any) type of names will be added to the
+        values. If set to ‘abbr’ (default), then abbreviated location names
+        will be used. If ‘full’, then full location names will be used. If set
+        to None, then no location name will be added and the only identifier
+        will be the location_codes (this is the most memory-conservative
+        option)."""
+    tsutils._printiso(
+        ncei_cirs(elements=elements, by_state=by_state, location_names=location_names)
+    )
+
+
+def ncei_cirs(elements=None, by_state=False, location_names="abbr"):
+    df = get_data(
+        elements=elements,
+        by_state=by_state,
+        location_names=location_names,
+        as_dataframe=True,
+    )
+    # df = df.set_index("period")
+    # df.index = pd.PeriodIndex(df.index)
+    # df.index.name = "Datetime"
+    # df.columns = [unit_conv.get(i, i) for i in df.columns]
+    return df
+
+
 ncei_ghcnd_ftp.__doc__ = ncei_ghcnd_ftp_cli.__doc__
 ncei_ghcnd.__doc__ = ncei_ghcnd_cli.__doc__
 ncei_gsod.__doc__ = ncei_gsod_cli.__doc__
@@ -6228,9 +6301,12 @@ ncei_precip_15.__doc__ = ncei_precip_15_cli.__doc__
 ncei_precip_hly.__doc__ = ncei_precip_hly_cli.__doc__
 ncei_annual.__doc__ = ncei_annual_cli.__doc__
 ncei_ghcndms.__doc__ = ncei_ghcndms_cli.__doc__
+ncei_cirs.__doc__ = ncei_cirs_cli.__doc__
 
 
 if __name__ == "__main__":
+    # r = ncei_cirs()
+    # print(r)
 
     r = ncei_ghcnd_ftp(
         station="ASN00075020",
