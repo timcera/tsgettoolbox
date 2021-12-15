@@ -126,6 +126,3 @@ if __name__ == "__main__":
         code for code, station in stations.items() if station["state"] == "TX"
     ]
     update_data(texas_stations, 2012, 2012, path=test_path)
-    import pdb
-
-    pdb.set_trace()
