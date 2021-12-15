@@ -28,13 +28,6 @@ Installation
 At the command line::
 
     $ pip install tsgettoolbox
-    # OR
-    $ easy_install tsgettoolbox
-
-Or, if you have virtualenvwrapper installed::
-
-    $ mkvirtualenv tsgettoolbox
-    $ pip install tsgettoolbox
 
 Usage Summary - Command Line
 ----------------------------
@@ -42,205 +35,158 @@ Just run 'tsgettoolbox --help' to get a list of subcommands.  To get detailed
 help for a particular sub-command, for instance 'coops', type 'tsgettoolbox
 coops --help'.
 
-    about
-                Print out information about tsgettoolbox and the system.
-
     cdec
-                This module provides access to data provided by the California
-                Department of Water Resources: California Data Exchange
-                Center web site.
+        station: California Department of Water Resources
 
     coops
-                Download data from Center for Operational Oceanographic
-                Products and Services (CO-OPS). Detailed documentation about
-                the National Ocean Service CO-OPS web services is at
-                http://tidesandcurrents.noaa.gov/api/
+        station: Center for Operational Oceanographic Products and Services
 
     cpc
-                This module provides direct access to Climate Prediction
-                Center, Weekly Drought Index dataset.
-
-    darksky
-                Download data from http://api.darksky.net. Detailed
-                documentation about the Forecast.io service is at
-                https://darksky.net/dev/docs. You have to get an API
-                key from https://darksky.net/dev/register
+        station: Climate Prediction Center, Weekly Drought Index
 
     daymet
-                Download data from the Daymet dataset created by the Oak Ridge
-                National Laboratory. Detailed documentation is at
-                http://daymet.ornl.gov/
+        gridded: Daymet, daily meteorology by the Oak Ridge National Laboratory
 
-    lcra_hydromet
-                Fetches site parameter data
-
-    lcra_wq
-                Fetches historical or near real-time (for some sites) data
+    fawn
+        station: Florida Automated Weather Network (FAWN)
 
     ldas
-                Download data from the Land Data Assimilation Service (LDAS).
-                Two projects are available, the National LDAS (0.125x0.125
-                degree hourly) and the Global LDAS (0.25x0.25 degree 3 hourly).
+        gridded: Land Data Assimilation System (NLDAS, GLDAS2,
+        TRMM, SMERGE, GRACE, MERRA)
+
+    metdata
+        gridded: Download daily data from METDATA.
 
     modis
-                Download datasets developed using the MODIS satellite imagery.
+        gridded: Download MODIS derived data.
 
-                Documentation: https://modis.ornl.gov/documentation.html
+    ncei_ghcnd_ftp
+        station: NCEI Global Historical Climatology Network - Daily (GHCND)
 
-                Policies: https://lpdaac.usgs.gov/products/modis_policies
+    ncei_ghcnd
+        station: Global Historical Climatology Network - Daily (GHCND)
 
-                Citation: https://lpdaac.usgs.gov/citing_our_data
+    ncei_gsod
+        station: NCEI Global Summary of the Day (GSOD)
 
-                +---------+---------------------------------------------------+
-                | Product | Name                                              |
-                +=========+===================================================+
-                | MCD12Q1 | MODIS/Terra+Aqua Land Cover (LC) Type Yearly L3   |
-                |         | Global 500m SIN Grid                              |
-                +---------+---------------------------------------------------+
-                | MCD12Q2 | MODIS/Terra+Aqua Land Cover Dynamics (LCD) Yearly |
-                |         | L3 Global 500m SIN Grid                           |
-                +---------+---------------------------------------------------+
-                | MCD43A1 | MODIS/Terra+Aqua BRDF/Albedo (BRDF/MCD43A1)       |
-                |         | 16-Day L3 Global 500m SIN Grid                    |
-                +---------+---------------------------------------------------+
-                | MCD43A2 | MODIS/Terra+Aqua BRDF/Model Quality               |
-                |         | (BRDF/MCD43A2) 16-Day L3 Global 500m SIN Grid     |
-                |         | V005                                              |
-                +---------+---------------------------------------------------+
-                | MCD43A4 | MODIS/Terra+Aqua Nadir BRDF-Adjusted Reflectance  |
-                |         | (NBAR) 16-Day L3 Global 500m SIN Grid             |
-                +---------+---------------------------------------------------+
-                | MOD09A1 | MODIS/Terra Surface Reflectance (SREF) 8-Day L3   |
-                |         | Global 500m SIN Grid                              |
-                +---------+---------------------------------------------------+
-                | MOD11A2 | MODIS/Terra Land Surface Temperature/Emissivity   |
-                |         | (LST) 8-Day L3 Global 1km SIN Grid                |
-                +---------+---------------------------------------------------+
-                | MOD13Q1 | MODIS/Terra Vegetation Indices (NDVI/EVI) 16-Day  |
-                |         | L3 Global 250m SIN Grid [Collection 5]            |
-                +---------+---------------------------------------------------+
-                | MOD15A2 | Leaf Area Index (LAI) and Fraction of             |
-                |         | Photosynthetically Active Radiation (FPAR) 8-Day  |
-                |         | Composite [Collection 5]                          |
-                +---------+---------------------------------------------------+
-                | MOD16A2 | MODIS/Terra Evapotranspiration (ET) 8-Day L4      |
-                |         | Global Collection 5                               |
-                +---------+---------------------------------------------------+
-                | MOD17A2 | MODIS/Terra Gross Primary Production (GPP) 8-Day  |
-                |         | L4 Global [Collection 5.1]                        |
-                +---------+---------------------------------------------------+
-                | MOD17A3 | MODIS/Terra Net Primary Production (NPP) Yearly   |
-                |         | L4 Global 1km SIN Grid                            |
-                +---------+---------------------------------------------------+
-                | MYD09A1 | MODIS/Aqua Surface Reflectance (SREF) 8-Day L3    |
-                |         | Global 500m SIN Grid                              |
-                +---------+---------------------------------------------------+
-                | MYD11A2 | MODIS/Aqua Land Surface Temperature/Emissivity    |
-                |         | (LST)8-Day L3 Global 1km SIN Grid                 |
-                +---------+---------------------------------------------------+
-                | MYD13Q1 | MODIS/Aqua Vegetation Indices (NDVI/EVI) 16-Day   |
-                |         | L3 Global 1km SIN Grid                            |
-                +---------+---------------------------------------------------+
-                | MYD15A2 | MODIS/Aqua Leaf Area Index (LAI) and Fraction of  |
-                |         | Photosynthetically Active Radiation (FPAR) 8 Day  |
-                |         | Composite                                         |
-                +---------+---------------------------------------------------+
-                | MYD17A2 | MODIS/Aqua Gross Primary Production (GPP) 8 Day   |
-                |         | L4 Global                                         |
-                +---------+---------------------------------------------------+
+    ncei_gsom
+        station: NCEI Global Summary of Month (GSOM)
 
-    ncdc_ghcnd
-                Download from the Global Historical Climatology Network
-                - Daily. Requires registration and free API key.
+    ncei_gsoy
+        station: NCEI Global Summary of Year (GSOY)
 
-                If you use this data, please read
-                ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt
-                about "How to cite".
+    ncei_normal_ann
+        station: NCEI annual normals
 
-                GHCN (Global Historical Climatology Network)-Daily is an
-                integrated database of daily climate summaries from land
-                surface stations across the globe. Like its monthly counterpart
-                (GHCN-Monthly) , GHCN-Daily is comprised of daily climate
-                records from numerous sources that have been integrated and
-                subjected to a common suite of quality assurance reviews.
+    ncei_normal_dly
+        station: NCEI Daily Normals
 
-    ncdc_ghcnd_ftp
-                Download from the Global Historical Climatology Network -
-                Daily.
+    ncei_normal_hly
+        station: NCEI Normal hourly
 
-    ncdc_gs
-                National Climatic Data Center Global Summary of the Month
-                (GSOM) or Global Summary of the Year (GSOY).
-                Requires registration and free API key.
+    ncei_normal_mly
+        station: NCEI Monthly Summaries
 
-    ncdc_normal_ann
-                National Climatic Data Center annual normals. Requires
-                registration and free API key.
+    ncei_precip_15
+        station: NCEI 15 minute precipitation
 
-    ncdc_normal_dly
-                National Climatic Data Center Daily Normals. Requires
-                registration and free API key.
+    ncei_precip_hly
+        station: NCEI hourly precipitation
 
-    ncdc_normal_hly
-                National Climatic Data Center GHCND Monthly Summaries. Requires
-                registration and free API key.
+    ncei_annual
+        station: NCEI annual data summaries
 
-    ncdc_normal_mly
-                National Climatic Data Center GHCND Monthly Summaries. Requires
-                registration and free API key.
+    ncei_ghcndms
+        station: NCEI GHCND Monthly Summaries (GHCNDMS)
 
-    ncdc_precip_15
-                National Climatic Data Center 15 minute precipitation.
-                Requires registration and free API key.
-
-    ncdc_precip_hly
-                National Climatic Data Center hourly precipitation.  Requires
-                registration and free API key.
-
-    ncdc_annual
-                National Climatic Data Center annual data summaries.  Requires
-                registration and free API key.
-
-    ncdc_ghcndms
-                National Climatic Data Center GHCND Monthly Summaries.
-                Requires registration and free API key.
+    ncei_ish
+        station: Integrated Surface Database
 
     ndbc
-                Download data from the National Data Buoy Center.
+        station: Download historical from the National Data Buoy Center
 
     nwis
-                Download time-series from the USGS National Water Information
-                Service (NWIS). There are three main NWIS databases. The
-                'tsgettoolbox' can currently pull from the Instantaneous Value
-                database (--database=iv) for sub-daily interval data starting
-                in 2007, and the Daily Values database (--database=dv).
-                Detailed documentation is available at
-                http://waterdata.usgs.gov/nwis
+        station: Use the ``nwis_*`` functions instead.
+
+    nwis_iv
+        station: USGS NWIS Instantaneous Values
+
+    nwis_dv
+        station: USGS NWIS Daily Values
+
+    nwis_site
+        station: USGS NWIS Site Database
+
+    nwis_gwlevels
+        station: USGS NWIS Groundwater Levels
+
+    nwis_measurements
+        station: USGS NWIS Measurements
+
+    nwis_peak
+        station: USGS NWIS Peak
+
+    nwis_stat
+        station: USGS NWIS Statistic
+
+    epa_wqp
+        station: EPA Water Quality Portal.
+
+    rivergages
+        station: USACE river gages
+
+    swtwc
+        station: USACE Southwest Division, Tulsa Water Control
+
+    terraclimate
+        gridded: Download monthly data from Terraclimate.
+
+    terraclimate2C
+        gridded: Download monthly data from Terraclimate.
+
+    terraclimate4C
+        gridded: Download monthly data from Terraclimate.
+
+    terraclimate19611990
+        gridded: Download monthly data from Terraclimate.
+
+    terraclimate19812010
+        gridded: Download monthly data from Terraclimate.
 
     twc
-                Fetches Texas weather data
+        station: Download Texas Weather Connection (TWC) data.
 
     unavco
-                Detailed information at:
-                http://www.unavco.com/data/web-services/web-services.html
+        station: Download data from the Unavco web services.
 
-                Returns 'met', 'pore_temperature', 'pore_pressure', 'tilt',
-                'strain', or 'positional' data for UNAVCO stations.
+    usgs_flet_narr
+        gridded: USGS FL ET data from NARR meteorologic data.
 
-    usgs_eddn
-                Download from the USGS Emergency Data Distribution Network
+    usgs_flet_stns
+        gridded: USGS FL ET data from station interpolated meteorologic data.
 
 Usage Summary - Python Library
 ------------------------------
 To use the tsgettoolbox in a project::
 
     from tsgettoolbox import tsgettoolbox
+    df = tsgettoolbox.nwis_dv(sites="02329500", startDT="2000-01-01")
 
-Refer to the API Documentation at `tsgettoolbox_documentation`_.
+Refer to the API Documentation at `tsgettoolbox_api`_.
+
+Usage Summary - Command Line
+----------------------------
+
+    tsgettoolbox nwis_dv --sites 02329500 --startDT 2000-01-01
+
+Refer to the command line documentation at `tsgettoolbox_cli`_.
 
 Development
 ~~~~~~~~~~~
-Development is managed on bitbucket at
+Development is managed on bitbucket or github.
 https://bitbucket.org/timcera/tsgettoolbox/overview.
+https://github.com/timcera/tsgettoolbox
 
 .. _tsgettoolbox_documentation: https://timcera.bitbucket.io/tsgettoolbox/docs/index.html#tsgettoolbox-documentation
+.. _tsgettoolbox_api: https://timcera.bitbucket.io/tsgettoolbox/docs/function_summary.html
+.. _tsgettoolbox_cli: https://timcera.bitbucket.io/tsgettoolbox/docs/command_line.html
