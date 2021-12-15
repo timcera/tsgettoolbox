@@ -126,8 +126,7 @@ def get_data(dcp_address, hours, use_cache=False, cache_path=None, as_dataframe=
     if data.empty:
         if as_dataframe:
             return data
-        else:
-            return {}
+        return {}
 
     if not as_dataframe:
         data = data.T.to_dict()
@@ -167,7 +166,7 @@ def _format_time(timestamp):
 
     if isinstance(timestamp, datetime):
         return timestamp.strftime("%Y/%j %H:%M:%S")
-    elif isinstance(timestamp, timedelta):
+    if isinstance(timestamp, timedelta):
         return _format_period(timestamp)
 
 

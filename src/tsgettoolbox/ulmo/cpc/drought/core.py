@@ -165,8 +165,7 @@ def get_data(
     data.index = period_index.to_timestamp()  # np.arange(len(data))
     if as_dataframe:
         return data
-    else:
-        return _as_data_dict(data)
+    return _as_data_dict(data)
 
 
 def _as_data_dict(dataframe):
@@ -224,26 +223,24 @@ def _first_sunday(year):
     first_day = datetime.date(year, 3, 1)
     if first_day.weekday() == 6:
         return first_day
-    elif first_day.weekday() <= 2:
+    if first_day.weekday() <= 2:
         return first_day - pandas.tseries.offsets.Week(weekday=6)
-    else:
-        return first_day + pandas.tseries.offsets.Week(weekday=6)
+    return first_day + pandas.tseries.offsets.Week(weekday=6)
 
 
 def _get_data_format(year):
     if year >= 2001:
         return "format5"
-    elif 1997 <= year <= 2000:
+    if 1997 <= year <= 2000:
         return "format4"
-    else:
-        return "format2"
+    return "format2"
 
 
 def _get_data_url(year):
     current_year, current_week = _week_number(datetime.date.today())
     if year == current_year:
         return ("https://ftp.cpc.ncep.noaa.gov/htdocs/temp4/current.data", True)
-    elif year == current_year - 1:
+    if year == current_year - 1:
         url = (
             "https://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer%s-PRELIM"
             % str(year)[-2:],
@@ -252,20 +249,19 @@ def _get_data_url(year):
         if not _url_exists(url[0]):
             url = ("https://ftp.cpc.ncep.noaa.gov/htdocs/temp4/current.data", True)
         return url
-    elif year <= 1985:
+    if year <= 1985:
         return ("https://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer73-85", False)
-    else:
+    url = (
+        "https://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer%s" % str(year)[-2:],
+        False,
+    )
+    if not _url_exists(url[0]):
         url = (
-            "https://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer%s" % str(year)[-2:],
+            "https://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer%s-PRELIM"
+            % str(year)[-2:],
             False,
         )
-        if not _url_exists(url[0]):
-            url = (
-                "https://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer%s-PRELIM"
-                % str(year)[-2:],
-                False,
-            )
-        return url
+    return url
 
 
 def _open_data_file(url):

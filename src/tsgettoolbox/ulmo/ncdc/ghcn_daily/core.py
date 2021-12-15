@@ -121,11 +121,10 @@ def get_data(station_id, elements=None, update=True, as_dataframe=False):
 
     if as_dataframe:
         return dataframes
-    else:
-        return {
-            key: util.dict_from_dataframe(dataframe)
-            for key, dataframe in dataframes.items()
-        }
+    return {
+        key: util.dict_from_dataframe(dataframe)
+        for key, dataframe in dataframes.items()
+    }
 
 
 def get_stations(
@@ -238,8 +237,7 @@ def get_stations(
 
     if as_dataframe:
         return stations
-    else:
-        return util.dict_from_dataframe(stations)
+    return util.dict_from_dataframe(stations)
 
 
 def _get_ghcn_file(filename, check_modified=True):

@@ -79,12 +79,11 @@ def get_sites(source_agency=None):
         if not source_agency.upper() in source_map.keys():
             log.info("the source %s is not recognized" % source_agency)
             return {}
-        else:
-            sites = [
-                site
-                for site in sites
-                if site["properties"]["source"] == source_map[source_agency.upper()]
-            ]
+        sites = [
+            site
+            for site in sites
+            if site["properties"]["source"] == source_map[source_agency.upper()]
+        ]
     sites_geojson = FeatureCollection(sites)
 
     return sites_geojson
@@ -169,8 +168,7 @@ def get_historical_data(site_code, start=None, end=None, as_dataframe=False):
 
     if as_dataframe:
         return data
-    else:
-        return data.to_dict(orient="records")
+    return data.to_dict(orient="records")
 
 
 def get_recent_data(site_code, as_dataframe=False):
@@ -210,15 +208,13 @@ def get_recent_data(site_code, as_dataframe=False):
 
     if as_dataframe:
         return data
-    else:
-        return util.dict_from_dataframe(data)
+    return util.dict_from_dataframe(data)
 
 
 def _nan_values(value):
     if value == -998.0 or value == "--":
         return np.nan
-    else:
-        return value
+    return value
 
 
 def _beautify_header(str):
@@ -293,15 +289,13 @@ def _get_source(site_type_code):
 def _get_parameter(site_type_code):
     if site_type_code == "Salinity" or site_type_code == "Conductivity":
         return site_type_code
-    else:
-        return None
+    return None
 
 
 def _get_water_body(site_type_code):
     if site_type_code == "Bay":
         return "Bay"
-    else:
-        return None
+    return None
 
 
 def _make_next_request(url, previous_request, data):
@@ -314,8 +308,7 @@ def _parse_val(val):
     # the &nsbp translates to the following unicode
     if val == u"\xa0":
         return None
-    else:
-        return val
+    return val
 
 
 def _parse_site_str(site_str):
@@ -334,5 +327,4 @@ def _parse_site_str(site_str):
 def _real_time(site_type_code):
     if site_type_code == "Salinity" or site_type_code == "Conductivity":
         return True
-    else:
-        return False
+    return False

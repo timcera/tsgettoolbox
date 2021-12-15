@@ -115,12 +115,11 @@ def get_daymet_singlepixel(
     df.columns = [c[: c.index("(")].strip() if "(" in c else c for c in df.columns]
     if as_dataframe:
         return df
-    else:
-        results = {}
-        for key in df.columns:
-            if key not in ["yday", "year"]:
-                results[key] = dict(zip(df[key].index.format(), df[key]))
-        return results
+    results = {}
+    for key in df.columns:
+        if key not in ["yday", "year"]:
+            results[key] = dict(zip(df[key].index.format(), df[key]))
+    return results
 
 
 def _check_variables(variables):
@@ -163,8 +162,7 @@ def _as_str(arg):
     """if arg is a list, convert to comma delimited string"""
     if isinstance(arg, str):
         return arg
-    else:
-        return ",".join([str(a) for a in arg])
+    return ",".join([str(a) for a in arg])
 
 
 def _get_service_url(url_params):

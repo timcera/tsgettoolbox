@@ -147,8 +147,7 @@ def _twdb_assemble_dataframe(
         df.index = pd.to_datetime(df["timestamp_utc"])
         del df["timestamp_utc"]
         return df
-    else:
-        return pd.DataFrame()
+    return pd.DataFrame()
 
 
 def _twdb_stevens_or_dot(df_row, reverse, drop_dcp_metadata=True):
@@ -236,5 +235,4 @@ def _parse_value(water_level_str):
             val = well_val[1].strip("-")
         value_dict = (well_val[0], val)
         return value_dict
-    else:
-        return water_level_str
+    return water_level_str
