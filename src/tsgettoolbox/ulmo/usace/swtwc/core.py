@@ -99,7 +99,7 @@ def get_station_data(station_code, date=None, as_dataframe=False):
         else:
             break
 
-    if len(notes):
+    if notes:
         station_dict["notes"] = "\n".join(notes)
 
     variable_names = _split_line(sio.readline()[11:], 10)

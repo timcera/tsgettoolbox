@@ -154,7 +154,7 @@ def get_current_data(service, as_geojson=False):
                 features.append(feature[0])
         if len(features) != len(current_values_dicts):
             log.warn("some of the sites did not location information")
-        if len(features):
+        if features:
             current_values_geojson = FeatureCollection(features)
             return current_values_geojson
         else:
@@ -288,7 +288,7 @@ def _feature_for_values_dict(site_values_dict):
 
 def _parse_current_values(site_el):
     site_value_els = site_el.findChildren()
-    site_values = dict()
+    site_values = {}
     for value_el in site_value_els:
         if value_el.name.lower() == "datetime":
             if value_el.get_text().strip() == "":
@@ -308,7 +308,7 @@ def _parse_current_values(site_el):
 
 
 def _values_dict_to_df(values_dict):
-    if not len(values_dict):
+    if not values_dict:
         return pandas.DataFrame({})
     df = pandas.DataFrame(values_dict)
     df.index = df["Date - Time"].apply(util.convert_datetime)
@@ -347,7 +347,7 @@ def _get_data(site_code, parameter_code, list_request, start, end):
 
 
 def _extract_headers_for_next_request(request):
-    payload = dict()
+    payload = {}
     for tag in BeautifulSoup(request.content, "html.parser").findAll("input"):
         tag_dict = dict(tag.attrs)
         if tag_dict.get("value", None) == "tabular":

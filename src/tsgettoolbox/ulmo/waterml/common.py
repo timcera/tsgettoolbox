@@ -243,7 +243,7 @@ def _parse_metadata(values_element, metadata_elements, namespace):
             _scrub_prefix(_element_dict(element, namespace), underscored_tag)
             for element in values_element.findall(namespace + tag)
         ]
-        if len([x for x in collection if len(x)]):
+        if [x for x in collection if len(x)]:
             collection_dict = {item[key]: item for item in collection if key in item}
             metadata[collection_name] = collection_dict
     return metadata

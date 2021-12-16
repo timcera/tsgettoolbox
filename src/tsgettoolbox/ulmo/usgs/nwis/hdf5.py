@@ -231,7 +231,7 @@ def remove_values(
                 values_df = store[values_path]
                 original_datetimes = set(values_df.dropna(how="all").index.tolist())
                 datetimes_to_remove = original_datetimes.intersection(set(datetimes))
-                if not len(datetimes_to_remove):
+                if not datetimes_to_remove:
                     core.log.info(
                         "No %s values matching the given datetimes to remove were found."
                         % variable_code
@@ -444,7 +444,7 @@ def update_site_data(
         input_file=input_file,
         methods=methods,
     )
-    if not len(new_site_data):
+    if not new_site_data:
         core.log.info("No new data was found")
         return None
 

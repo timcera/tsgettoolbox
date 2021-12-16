@@ -956,7 +956,7 @@ def _read_rdb(url, data):
                 words = cname.split("_")
                 try:
                     _ = int(words[0])
-                    if "cd" == words[-1]:
+                    if words[-1] == "cd":
                         test_cnames.append(cname)
                     else:
                         test_cnames.append(
