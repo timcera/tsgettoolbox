@@ -130,7 +130,3 @@ twc
 unavco
 ~~~~~~
 .. program-output:: tsgettoolbox unavco --help
-
-usgs_eddn
-~~~~~~~~~
-.. program-output:: tsgettoolbox usgs_eddn --help
