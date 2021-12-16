@@ -426,9 +426,9 @@ def ldas_cli(
 
         The time zone is always UTC.
 
-    Parameters
-    ----------
-    lat : float
+        Parameters
+        ----------
+        lat : float
             Should use 'lat' and 'lon' to specify location.
 
             Latitude (required): Enter single geographic point by
