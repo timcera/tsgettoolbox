@@ -162,10 +162,11 @@ def _get_element_file(use_file, element, elements, by_state):
     if isinstance(use_file, str):
         if os.path.basename(use_file) == "":
             if len(elements) > 1:
-                assert ValueError(
+                if not ValueError(
                     "'use_file' must be a path to a directory if using "
                     "'use_file' with multiple elements"
-                )
+                ):
+                    raise AssertionError
 
             return use_file + _get_filename(
                 element, by_state, os.path.dirname(use_file)
