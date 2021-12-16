@@ -237,7 +237,7 @@ def ndbc_to_df(url, **query_params):
         except ValueError:
             skiprows = [1]
 
-        if "mm" == words1[4]:
+        if words1[4] == "mm":
             parse_dates = {"datetime": [0, 1, 2, 3, 4]}
         else:
             parse_dates = {"datetime": [0, 1, 2, 3]}
