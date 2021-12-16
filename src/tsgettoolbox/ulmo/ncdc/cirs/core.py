@@ -95,7 +95,6 @@ def get_data(
         A list of value dicts or a pandas.DataFrame containing data. See
         the ``as_dataframe`` parameter for more.
     """
-
     if isinstance(elements, str):
         elements = [elements]
     elif elements is None:

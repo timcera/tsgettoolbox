@@ -438,7 +438,6 @@ def _parse_values(values_element, namespace):
     """returns a list of dicts that represent the values for a given etree
     values element
     """
-
     return [
         _parse_value(value, namespace)
         for value in values_element.findall(namespace + "value")

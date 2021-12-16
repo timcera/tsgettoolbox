@@ -111,7 +111,6 @@ def get_historical_data(site_code, start=None, end=None, as_dataframe=False):
     data_dict : dict
         A dict containing site information and values.
     """
-
     if isinstance(site_code, (str)):
         pass
     elif isinstance(site_code, (int)):

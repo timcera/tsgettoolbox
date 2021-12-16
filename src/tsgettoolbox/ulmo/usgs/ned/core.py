@@ -63,7 +63,6 @@ def get_raster_availability(layer, bbox=None):
     metadata : geojson FeatureCollection
         returns metadata including download urls as a FeatureCollection
     """
-
     base_url = "https://www.sciencebase.gov/catalog/items"
     params = [
         ("parentId", layer_dict[layer]),
@@ -183,7 +182,6 @@ def _check_layer(layer):
     """
     make sure the passed layer name is one of the handled options
     """
-
     if not layer in get_available_layers():
         err_msg = "The specified layer parameter ({})".format(layer)
         err_msg += "\nis not in the available options:"

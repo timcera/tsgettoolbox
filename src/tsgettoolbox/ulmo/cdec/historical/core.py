@@ -101,7 +101,6 @@ def get_sensors(sensor_id=None):
     df : pandas DataFrame
         a python dict with site codes mapped to site information
     """
-
     url = "http://cdec.water.ca.gov/misc/senslist.html"
     df = pd.read_html(url, header=0)[0]
     df.set_index("Sensor No")
@@ -210,7 +209,6 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
         a python dict with site codes as keys. Values will be nested dicts
         containing all of the sensor/resolution combinations.
     """
-
     if start is None:
         start_date = util.convert_date(DEFAULT_START_DATE)
     else:

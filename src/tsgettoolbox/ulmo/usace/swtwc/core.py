@@ -52,7 +52,6 @@ def get_station_data(station_code, date=None, as_dataframe=False):
     data_dict : dict
         A dict containing station information and values.
     """
-
     station_dict = {}
     if date is None:
         date_str = "current"

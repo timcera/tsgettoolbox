@@ -524,7 +524,6 @@ def ndbc_cli(station, table, startUTC, endUTC):
         (only seconds are optional)
 
     """
-
     extra_docstring = """
         Derived Met Values
 
@@ -819,7 +818,6 @@ def ndbc_cli(station, table, startUTC, endUTC):
 
 def ndbc(station, table, startUTC, endUTC):
     r"""Download historical from the National Data Buoy Center."""
-
     df = ndbc_to_df(
         r"https://www.ndbc.noaa.gov/data/",
         table=table,
