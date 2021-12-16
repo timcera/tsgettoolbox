@@ -290,9 +290,7 @@ def _waterml_version(suds_client):
         return "1.0"
     if tns_str == "http://www.cuahsi.org/his/1.1/ws/":
         return "1.1"
-    raise NotImplementedError(
-        "only WaterOneFlow 1.0 and 1.1 are currently supported"
-    )
+    raise NotImplementedError("only WaterOneFlow 1.0 and 1.1 are currently supported")
 
 
 def _get_client(wsdl_url, suds_cache=("default",), suds_timeout=None, user_cache=False):
