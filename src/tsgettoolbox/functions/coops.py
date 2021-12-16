@@ -689,8 +689,7 @@ def precore(query_params, i):
         while testdate < edate:
             query_params["begin_date"] = testdate
             testdate = testdate + pd.Timedelta(days=deltas[i])
-            if testdate > edate:
-                testdate = edate
+            testdate = min(testdate, edate)
             query_params["end_date"] = testdate
             df, error = core(query_params)
             ndf = ndf.combine_first(df)
