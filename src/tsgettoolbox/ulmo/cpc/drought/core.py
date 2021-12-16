@@ -188,7 +188,7 @@ def _convert_state_codes(dataframe):
     """adds state abbreviations to a dataframe, based on state codes"""
     state_codes = pandas.DataFrame(
         np.array(
-            [i for i in STATE_CODES.items()],
+            list(STATE_CODES.items()),
             dtype=np.dtype([("state", "|U2"), ("code", int)]),
         )
     )
