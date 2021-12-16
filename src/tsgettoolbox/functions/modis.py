@@ -516,8 +516,7 @@ You gave me {}.
         startdate = teststartdate
 
     testenddate = dr[-1]
-    if enddate >= testenddate:
-        enddate = testenddate
+    enddate = min(enddate, testenddate)
 
     tenddate = dates[-1]
     mask = (dr >= startdate) & (dr <= enddate)

@@ -393,8 +393,7 @@ Variable {variable} is not available.
             testdate = edate
         else:
             testdate = testdate + pd.Timedelta(days=interval[reportType])
-            if testdate > edate:
-                testdate = edate
+            testdate = min(testdate, edate)
 
         end_test_date = tsutils.parsedate(testdate)
         data["toDate_m"] = end_test_date.month
