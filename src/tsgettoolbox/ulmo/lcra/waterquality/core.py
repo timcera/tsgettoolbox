@@ -261,7 +261,7 @@ def _create_feature(site_info_list):
 
 
 def _extract_headers_for_next_request(request):
-    payload = dict()
+    payload = {}
     for tag in BeautifulSoup(request.content, "html.parser").findAll("input"):
         tag_dict = dict(tag.attrs)
         if tag_dict.get("value", None) == "tabular":
