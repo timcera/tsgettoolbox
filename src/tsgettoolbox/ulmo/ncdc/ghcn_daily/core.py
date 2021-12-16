@@ -110,7 +110,7 @@ def get_data(station_id, elements=None, update=True, as_dataframe=False):
                 for date in (month_starts + day_of_month - 1)
                 if date.day == day_of_month
             ]
-            if not len(dates):
+            if not dates:
                 continue
             months = pandas.PeriodIndex([pandas.Period(date, "M") for date in dates])
             for column_name in dataframe.columns:

@@ -154,7 +154,7 @@ def get_current_data(service, as_geojson=False):
                 features.append(feature[0])
         if len(features) != len(current_values_dicts):
             log.warn("some of the sites did not location information")
-        if len(features):
+        if features:
             current_values_geojson = FeatureCollection(features)
             return current_values_geojson
         else:
@@ -308,7 +308,7 @@ def _parse_current_values(site_el):
 
 
 def _values_dict_to_df(values_dict):
-    if not len(values_dict):
+    if not values_dict:
         return pandas.DataFrame({})
     df = pandas.DataFrame(values_dict)
     df.index = df["Date - Time"].apply(util.convert_datetime)
