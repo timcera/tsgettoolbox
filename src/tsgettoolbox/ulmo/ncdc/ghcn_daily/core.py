@@ -175,7 +175,6 @@ def get_stations(
         A dict or pandas.DataFrame representing station information for stations
         matching the arguments. See the ``as_dataframe`` parameter for more.
     """
-
     columns = [
         ("country", 0, 2, None),
         ("network", 2, 3, None),

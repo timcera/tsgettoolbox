@@ -513,7 +513,6 @@ def metdata(
     end_date=None,
 ):
     r"""Download METDATA data from CIDA."""
-
     turl = [
         "http://thredds.northwestknowledge.net:8080/thredds/ncss/grid/agg_met_{var}_1979_CurrentYear_CONUS.nc/",
         "http://thredds.northwestknowledge.net:8080/thredds/ncss/grid/agg_met_{var}_CONUS.nc/",

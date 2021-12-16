@@ -96,7 +96,6 @@ def get_data(dcp_address, hours, use_cache=False, cache_path=None, as_dataframe=
     message_data : {pandas.DataFrame, dict}
         Either a pandas dataframe or a dict indexed by dcp message times
     """
-
     if isinstance(dcp_address, list):
         dcp_address = ",".join(dcp_address)
 

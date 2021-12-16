@@ -39,7 +39,6 @@ def get_parameters():
     dictionary of variables with parameter codes as keys
         and GSOD codes as values.
     """
-
     VARIABLES = {
         "mean_temp": "TEMP",
         "mean_temp_count": "TEMP",

@@ -102,7 +102,6 @@ def get_sites(
     return_sites : dict
         a python dict with site codes mapped to site information
     """
-
     if input_file is None:
         # Checking to see if the correct amount of major filters are being used.
         # The NWIS site requires only one major filter to be used at a time.
