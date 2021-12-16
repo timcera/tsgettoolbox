@@ -288,7 +288,7 @@ def _feature_for_values_dict(site_values_dict):
 
 def _parse_current_values(site_el):
     site_value_els = site_el.findChildren()
-    site_values = dict()
+    site_values = {}
     for value_el in site_value_els:
         if value_el.name.lower() == "datetime":
             if value_el.get_text().strip() == "":
@@ -347,7 +347,7 @@ def _get_data(site_code, parameter_code, list_request, start, end):
 
 
 def _extract_headers_for_next_request(request):
-    payload = dict()
+    payload = {}
     for tag in BeautifulSoup(request.content, "html.parser").findAll("input"):
         tag_dict = dict(tag.attrs)
         if tag_dict.get("value", None) == "tabular":
