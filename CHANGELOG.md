@@ -1,3 +1,14 @@
+## v23.21.0 (2021-12-15)
+
+### Fix
+
+- misc
+- pip_requirements.txt to reduce vulnerabilities
+
+### Feat
+
+- added rivergages and swtwc from the USACE
+
 ## v23.20.1 (2021-11-24)
 
 ### Fix
