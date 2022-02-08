@@ -1196,7 +1196,7 @@ def usgs_measurements_peak_rdb_to_df(url, **kwargs):
     # Get the state code and insert into URL
     r = usgs_site_rdb_to_df(url, kwargs)
     try:
-        url = url.replace("XX", statelookup[int(r.ix[0, u"state_cd"])].lower())
+        url = url.replace("XX", statelookup[int(r.loc[0, "state_cd"])].lower())
     except KeyError:
         raise ValueError(
             tsutils.error_wrapper(

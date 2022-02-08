@@ -204,7 +204,7 @@ def usgs_flet_narr(
     r"""gridded: Download USGS WATERS data from CIDA."""
     url = "https://cida.usgs.gov/thredds/ncss/flet_narr/"
     df = utils.opendap(
-        url, variables, lat, lon, _vars_narr, start_date=start_date, end_date=end_date
+        url, variables, lat, lon, start_date=start_date, end_date=end_date
     )
 
     return df
@@ -244,7 +244,7 @@ def usgs_flet_stns(
     r"""gridded: Download USGS WATERS data from CIDA."""
     url = "https://cida.usgs.gov/thredds/ncss/flet_stns/"
     df = utils.opendap(
-        url, variables, lat, lon, _vars_narr, start_date=start_date, end_date=end_date
+        url, variables, lat, lon, start_date=start_date, end_date=end_date
     )
 
     return df

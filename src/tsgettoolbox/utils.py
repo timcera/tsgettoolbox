@@ -146,9 +146,86 @@ def file_downloader(baseurl, station, startdate=None, enddate=None):
     return final[startdate:enddate]
 
 
-def dapdownloader(url, lat, lon, var, avail_vars, start_date, end_date):
-    sleep(1.0 / randint(1, 10))  # staggered access to url
+@tsutils.transform_args(start_date=pd.to_datetime, end_date=pd.to_datetime)
+def pdap(
+    url,
+    lat,
+    lon,
+    latitude_name="lat",
+    longitude_name="lon",
+    time_name="time",
+    variables=None,
+    start_date=None,
+    end_date=None,
+    timeout=30,
+):
 
+    import numpy as np
+    from haversine import haversine_vector
+    from pydap.client import open_dods, open_url
+
+    if "dods" in url:
+        dataset = open_dods(url, timeout=timeout)
+    else:
+        dataset = open_url(url, timeout=timeout)
+
+    # Determine rlat and rlon index in the grid closest to target (lat, lon).
+    lat_vals = dataset[latitude_name][:].data
+    lon_vals = dataset[longitude_name][:].data
+
+    nlat, nlon = np.meshgrid(lat_vals, lon_vals)
+
+    nlat = nlat.flatten()
+    nlon = nlon.flatten()
+
+    ngrid = list(zip(nlat, nlon))
+    distances = haversine_vector([(lat, lon)], ngrid, comb=True)
+    closest = np.argmin(distances)
+
+    rlat = int(np.argmax(lat_vals == nlat[closest]))
+    rlon = int(np.argmax(lon_vals == nlon[closest]))
+
+    # Get the start_data and end_date squared away.
+    from coards import parse
+
+    dtunits = dataset[time_name].attributes["units"]
+    datetimes = pd.DatetimeIndex(
+        [parse(value, dtunits) for value in dataset["time"][:].data]
+    )
+
+    datetimes = datetimes[start_date:end_date]
+
+    # Determine the variable list.
+    allvars = list(dataset.keys())
+    allvars.remove(latitude_name)
+    allvars.remove(longitude_name)
+    allvars.remove(time_name)
+
+    if variables is None:
+        variables = allvars
+    else:
+        variables = tsutils.make_list(variables)
+        for var in variables:
+            if var not in allvars:
+                raise ValueError(
+                    tsutils.error_wrapper(
+                        f"""
+The variable "{var}" is not available.  The available variables are "{allvars}".
+"""
+                    )
+                )
+
+    df = pd.DataFrame()
+    for dfvar in variables:
+        ndf = pd.DataFrame(
+            dataset[dfvar][start_date:end_date, rlat, rlon].data, index=datetimes
+        )
+        print(ndf)
+        df = df.join(ndf, how="outer")
+    return df
+
+
+def dapdownloader(url, lat, lon, var, time_name="date", start_date=None, end_date=None):
     for u in tsutils.make_list(url):
         try:
             ncss = NCSS(u.format(**locals()))
@@ -156,26 +233,34 @@ def dapdownloader(url, lat, lon, var, avail_vars, start_date, end_date):
         except xml.etree.ElementTree.ParseError:
             pass
 
+    avail_vars = list(ncss.variables)
     var = tsutils.make_list(var)
+    if not var:
+        var = avail_vars
+    else:
+        nvar = []
+        for i in avail_vars:
+            for j in var:
+                if i.lower() == j.lower():
+                    nvar.append(i)
+        var = nvar
 
     query = ncss.query()
-    query.add_lonlat()
-    query.lonlat_point(lon, lat)
     if start_date is None:
         start_date = datetime.datetime(1, 1, 1)
     if end_date is None:
         end_date = datetime.datetime(9999, 1, 1)
     query.time_range(start_date, end_date)
-    query.variables(*[avail_vars[i]["standard_name"] for i in tsutils.make_list(var)])
+    query.variables(*var)
+
+    ncss.validate_query(query)
 
     data = ncss.get_data(query)
 
     # Sometimes the variable name is different.  Remove all the other keys to
     # arrive at the variable name.
     data_keys = list(data.keys())
-    data_keys.remove("lat")
-    data_keys.remove("lon")
-    data_keys.remove("date")
+    data_keys.remove(time_name)
 
     ndf = pd.DataFrame()
     for v in var:
@@ -211,49 +296,16 @@ def opendap(
     variables,
     lat,
     lon,
-    avail_vars,
     start_date=None,
     end_date=None,
     tzname="UTC",
     all_vars_at_url=True,
 ):
-    if not variables:
-        variables = avail_vars.keys()
-
     variables = tsutils.make_list(variables)
 
-    inv_vars = {v["lname"]: k for k, v in avail_vars.items()}
-
-    nvars = []
-    for i in variables:
-        aval = ""
-        if i in avail_vars:
-            aval = i
-        elif i in inv_vars:
-            aval = inv_vars[i]
-        if aval:
-            nvars.append(aval)
-        else:
-            raise ValueError(
-                tsutils.error_wrapper(
-                    f"""
-The variable {i} must be in {avail_vars.keys()} or in {inv_vars.keys()}."""
-                )
-            )
-
-    if len(nvars) == 1:
-        ndf = dapdownloader(url, lat, lon, nvars[0], avail_vars, start_date, end_date)
-    elif all_vars_at_url is True:
-        ndf = dapdownloader(url, lat, lon, nvars, avail_vars, start_date, end_date)
-    else:
-        tasks = []
-        for var in nvars:
-            tasks.append((url, lat, lon, var, avail_vars, start_date, end_date))
-
-        with multiprocessing.Pool() as pool:
-            results = pool.starmap(dapdownloader, tasks)
-
-        ndf = pd.concat(results, axis="columns", join="outer")
+    ndf = dapdownloader(
+        url, lat, lon, variables, start_date=start_date, end_date=end_date
+    )
 
     ndf = tsutils.asbestfreq(ndf)
 

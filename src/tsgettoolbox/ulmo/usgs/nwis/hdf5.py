@@ -238,7 +238,7 @@ def remove_values(
                     )
                     continue
                 else:
-                    values_df.ix[list(datetimes_to_remove), "value"] = np.nan
+                    values_df.loc[list(datetimes_to_remove), "value"] = np.nan
                     core.log.info(
                         "%i %s values were set to NaNs in file"
                         % (len(datetimes_to_remove), variable_code)

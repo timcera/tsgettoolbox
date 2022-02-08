@@ -246,9 +246,7 @@ def get_sensors(sensor_id=None):
     df = pd.read_html(url, header=0)[0]
     df.set_index("Sensor No")
 
-    if sensor_id is None:
-        return df
-    return df.ix[sensor_id]
+    return df if sensor_id is None else df.loc[sensor_id]
 
 
 def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):

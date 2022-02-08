@@ -159,10 +159,10 @@ def get_historical_data(site_code, start=None, end=None, as_dataframe=False):
     data = _create_dataframe(results)
 
     if start and not data.empty:
-        data = data.ix[util.convert_date(start) :]
+        data = data.loc[util.convert_date(start) :]
 
     if end and not data.empty:
-        data = data.ix[: util.convert_date(end)]
+        data = data.loc[: util.convert_date(end)]
 
     if as_dataframe:
         return data
