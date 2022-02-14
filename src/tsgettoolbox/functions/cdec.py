@@ -187,9 +187,9 @@ def cdec_cli(
         | M        | monthly     |
         +----------+-------------+
 
-    {start_date}
+    ${start_date}
 
-    {end_date}
+    ${end_date}
 
     """
     tsutils._printiso(

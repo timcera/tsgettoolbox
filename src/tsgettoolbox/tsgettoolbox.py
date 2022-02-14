@@ -58,6 +58,7 @@ from .functions.terraclimate2C import terraclimate2C
 from .functions.terraclimate4C import terraclimate4C
 from .functions.terraclimate19611990 import terraclimate19611990
 from .functions.terraclimate19812010 import terraclimate19812010
+from .functions.topowx import topowx
 from .functions.twc import twc
 from .functions.unavco import unavco
 from .functions.usgs_flet import usgs_flet_narr, usgs_flet_stns

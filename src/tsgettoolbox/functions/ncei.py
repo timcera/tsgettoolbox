@@ -302,6 +302,12 @@ ncei_ghcnd_docstrings = {
     "station": r"""station
         The station id. from the first column of
         ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt""",
+    "datatypeid": r"""datatypeid
+        [optional, defaults to returning all available data at that station]
+
+        See the tables above for available datatypeid for the 'ghcnd'
+        dataset.  If the datatypeid is not given defaults to getting all data
+        available at that station for the time period requested.""",
 }
 
 
@@ -310,13 +316,13 @@ ncei_ghcnd_docstrings = {
 def ncei_ghcnd_ftp_cli(station, start_date=None, end_date=None):
     r"""station: NCEI Global Historical Climatology Network - Daily (GHCND)
 
-    {info}
+    ${info}
 
     Parameters
     ----------
-    {station}
-    {start_date}
-    {end_date}
+    ${station}
+    ${start_date}
+    ${end_date}
     """
     tsutils._printiso(
         ncei_ghcnd_ftp(station, start_date=start_date, end_date=end_date),
@@ -720,7 +726,7 @@ def ncei_ghcnd_cli(stationid, datatypeid=None, start_date=None, end_date=None):
 
     Requires registration and free API key.
 
-    {info}
+    ${info}
 
     For every datatype and record there is a set of meta-data flags.
     For the GHCNDMS dataset, the flags are::
@@ -741,7 +747,7 @@ def ncei_ghcnd_cli(stationid, datatypeid=None, start_date=None, end_date=None):
 
     Parameters
     ----------
-    {station}
+    ${station}
 
     datatypeid
         [optional, defaults to returning all available data at that station]
@@ -750,9 +756,9 @@ def ncei_ghcnd_cli(stationid, datatypeid=None, start_date=None, end_date=None):
         dataset.  If the datatypeid is not given defaults to getting all data
         available at that station for the time period requested.
 
-    {start_date}
+    ${start_date}
 
-    {end_date}"""
+    ${end_date}"""
     ndf = ncei_ghcnd(
         stationid, datatypeid=None, start_date=start_date, end_date=end_date
     )
@@ -778,6 +784,7 @@ def ncei_ghcnd(stationid, datatypeid=None, start_date=None, end_date=None):
 
 
 @mando.command("ncei_gsod", formatter_class=HelpFormatter, doctype="numpy")
+@tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncei_ghcnd_docstrings))
 def ncei_gsod_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""station: NCEI Global Summary of the Day (GSOD)
 
@@ -1253,6 +1260,8 @@ def ncei_gsod_cli(stationid, datatypeid=None, start_date=None, end_date=None):
         |      | 9 = last minimum temperature <= 16 degrees            |
         |      | Fahrenheit/-8.9 degrees Celsius                       |
         +------+-------------------------------------------------------+
+    ${start_date}
+    ${end_date}
     """
     tsutils._printiso(
         ncei_gsod(stationid, datatypeid=datatypeid, start_date=None, end_date=None),
@@ -1277,6 +1286,7 @@ def ncei_gsod(stationid, datatypeid=None, start_date=None, end_date=None):
 
 # 1763-01-01, 2016-09-01, Global Summary of the Month , 1    , GSOM
 @mando.command("ncei_gsom", formatter_class=HelpFormatter, doctype="numpy")
+@tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncei_ghcnd_docstrings))
 def ncei_gsom_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""station: NCEI Global Summary of Month (GSOM)
 
@@ -1750,6 +1760,8 @@ def ncei_gsom_cli(stationid, datatypeid=None, start_date=None, end_date=None):
         |      | 9 = last minimum temperature <= 16 degrees            |
         |      | Fahrenheit/-8.9 degrees Celsius                       |
         +------+-------------------------------------------------------+
+    ${start_date}
+    ${end_date}
     """
     tsutils._printiso(
         ncei_gsom(
@@ -1777,6 +1789,7 @@ def ncei_gsom(stationid, datatypeid=None, start_date=None, end_date=None):
 
 # 1763-01-01, 2016-01-01, Global Summary of the Year  , 1    , GSOY
 @mando.command("ncei_gsoy", formatter_class=HelpFormatter, doctype="numpy")
+@tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncei_ghcnd_docstrings))
 def ncei_gsoy_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""station: NCEI Global Summary of Year (GSOY)
 
@@ -2245,6 +2258,8 @@ def ncei_gsoy_cli(stationid, datatypeid=None, start_date=None, end_date=None):
         |      | 9 = last minimum temperature <= 16 degrees            |
         |      | Fahrenheit/-8.9 degrees Celsius                       |
         +------+-------------------------------------------------------+
+    ${start_date}
+    ${end_date}
     """
     tsutils._printiso(
         ncei_gsoy(
@@ -6140,17 +6155,18 @@ def ncei_ghcndms(stationid, datatypeid=None, start_date=None, end_date=None):
 def ncei_ish_cli(station, datatypeid=None, start_date=None, end_date=None):
     r"""station: Integrated Surface Database
 
-    {info}
+    ${info}
 
     Parameters
     ----------
-    {stations}
-    {start_date}
-    {end_date}
+    ${station}
+    ${datatypeid}
+    ${start_date}
+    ${end_date}
     """
     tsutils._printiso(
         ncei_ish(
-            stations, datatypeid=datatypeid, start_date=start_date, end_date=end_date
+            station, datatypeid=datatypeid, start_date=start_date, end_date=end_date
         ),
     )
 

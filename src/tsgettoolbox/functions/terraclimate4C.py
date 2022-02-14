@@ -178,9 +178,9 @@ def terraclimate4C_cli(
 
     Parameters
     ----------
-    {lat}
+    ${lat}
 
-    {lon}
+    ${lon}
 
     variables : str
         At the command line can supply a comma separated list of variable
@@ -214,9 +214,9 @@ def terraclimate4C_cli(
         | ws     | wind_speed                       | m/s       |
         +--------+----------------------------------+-----------+
 
-    {start_date}
+    ${start_date}
 
-    {end_date}
+    ${end_date}
     """
     tsutils._printiso(
         terraclimate4C(

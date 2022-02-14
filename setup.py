@@ -37,7 +37,7 @@ install_requires = [
     "requests",
     "siphon",
     "suds-community",
-    "tstoolbox >= 103",
+    "tstoolbox > 103.16.1",
     "zeep",
 ]
 

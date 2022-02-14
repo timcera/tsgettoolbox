@@ -1614,35 +1614,35 @@ def nwis_iv_cli(
 ):
     r"""station: USGS NWIS Instantaneous Values
 
-    {filter_descriptions}
-    {results_ts}
+    ${filter_descriptions}
+    ${results_ts}
 
     Parameters
     ----------
-    {sites}
-    {stateCd}
-    {huc}
-    {bBox}
-    {countyCd}
-    {agencyCd}
-    {altMax}
-    {altMin}
-    {aquiferCd}
-    {drainAreaMax}
-    {drainAreaMin}
-    {holeDepthMax}
-    {holeDepthMin}
-    {localAquiferCd}
-    {modifiedSince}
-    {parameterCd}
-    {siteStatus}
-    {siteType}
-    {wellDepthMax}
-    {wellDepthMin}
-    {period}
-    {startDT}
-    {endDT}
-    {includeCodes}
+    ${sites}
+    ${stateCd}
+    ${huc}
+    ${bBox}
+    ${countyCd}
+    ${agencyCd}
+    ${altMax}
+    ${altMin}
+    ${aquiferCd}
+    ${drainAreaMax}
+    ${drainAreaMin}
+    ${holeDepthMax}
+    ${holeDepthMin}
+    ${localAquiferCd}
+    ${modifiedSince}
+    ${parameterCd}
+    ${siteStatus}
+    ${siteType}
+    ${wellDepthMax}
+    ${wellDepthMin}
+    ${period}
+    ${startDT}
+    ${endDT}
+    ${includeCodes}
     """
     tsutils._printiso(
         nwis_iv(
@@ -1762,36 +1762,36 @@ def nwis_dv_cli(
 ):
     r"""station: USGS NWIS Daily Values
 
-    {filter_descriptions}
-    {results_ts}
+    ${filter_descriptions}
+    ${results_ts}
 
     Parameters
     ----------
-    {sites}
-    {stateCd}
-    {huc}
-    {bBox}
-    {countyCd}
-    {agencyCd}
-    {altMax}
-    {altMin}
-    {aquiferCd}
-    {drainAreaMax}
-    {drainAreaMin}
-    {holeDepthMax}
-    {holeDepthMin}
-    {localAquiferCd}
-    {modifiedSince}
-    {parameterCd}
-    {siteStatus}
-    {siteType}
-    {wellDepthMax}
-    {wellDepthMin}
-    {period}
-    {startDT}
-    {endDT}
-    {includeCodes}
-    {statisticsCd}
+    ${sites}
+    ${stateCd}
+    ${huc}
+    ${bBox}
+    ${countyCd}
+    ${agencyCd}
+    ${altMax}
+    ${altMin}
+    ${aquiferCd}
+    ${drainAreaMax}
+    ${drainAreaMin}
+    ${holeDepthMax}
+    ${holeDepthMin}
+    ${localAquiferCd}
+    ${modifiedSince}
+    ${parameterCd}
+    ${siteStatus}
+    ${siteType}
+    ${wellDepthMax}
+    ${wellDepthMin}
+    ${period}
+    ${startDT}
+    ${endDT}
+    ${includeCodes}
+    ${statisticsCd}
     """
     tsutils._printiso(
         nwis_dv(
@@ -1919,7 +1919,7 @@ def nwis_site_cli(
     r"""station: USGS NWIS Site Database
 
     This does not return a time-series, but a table of sites.
-    {filter_descriptions}
+    ${filter_descriptions}
     **Results**
 
     +---------------------+----------------------------------+
@@ -1958,36 +1958,36 @@ def nwis_site_cli(
 
     Parameters
     ----------
-    {sites}
-    {stateCd}
-    {huc}
-    {bBox}
-    {countyCd}
-    {parameterCd}
-    {siteType}
-    {modifiedSince}
-    {agencyCd}
-    {siteStatus}
-    {altMin}
-    {altMax}
-    {drainAreaMin}
-    {drainAreaMax}
-    {aquiferCd}
-    {localAquiferCd}
-    {wellDepthMin}
-    {wellDepthMax}
-    {holeDepthMin}
-    {holeDepthMax}
-    {period}
-    {startDT}
-    {endDT}
-    {includeCodes}
-    {siteOutput}
-    {seriesCatalogOutput}
-    {outputDataTypeCd}
-    {siteName}
-    {siteNameMatchOperator}
-    {hasDataTypeCd}
+    ${sites}
+    ${stateCd}
+    ${huc}
+    ${bBox}
+    ${countyCd}
+    ${parameterCd}
+    ${siteType}
+    ${modifiedSince}
+    ${agencyCd}
+    ${siteStatus}
+    ${altMin}
+    ${altMax}
+    ${drainAreaMin}
+    ${drainAreaMax}
+    ${aquiferCd}
+    ${localAquiferCd}
+    ${wellDepthMin}
+    ${wellDepthMax}
+    ${holeDepthMin}
+    ${holeDepthMax}
+    ${period}
+    ${startDT}
+    ${endDT}
+    ${includeCodes}
+    ${siteOutput}
+    ${seriesCatalogOutput}
+    ${outputDataTypeCd}
+    ${siteName}
+    ${siteNameMatchOperator}
+    ${hasDataTypeCd}
     """
     tsutils._printiso(
         nwis_site(
@@ -2118,7 +2118,7 @@ def nwis_gwlevels_cli(
 ):
     r"""station: USGS NWIS Groundwater Levels
 
-    {filter_descriptions}
+    ${filter_descriptions}
     **Results**
 
     +---------------+-------------------------------+
@@ -2151,27 +2151,27 @@ def nwis_gwlevels_cli(
 
     Parameters
     ----------
-    {sites}
-    {huc}
-    {bBox}
-    {countyCd}
-    {agencyCd}
-    {stateCd}
-    {altMin}
-    {altMax}
-    {aquiferCd}
-    {endDT}
-    {localAquiferCd}
-    {modifiedSince}
-    {parameterCd}
-    {period}
-    {siteStatus}
-    {siteType}
-    {startDT}
-    {holeDepthMin}
-    {holeDepthMax}
-    {wellDepthMin}
-    {wellDepthMax}
+    ${sites}
+    ${huc}
+    ${bBox}
+    ${countyCd}
+    ${agencyCd}
+    ${stateCd}
+    ${altMin}
+    ${altMax}
+    ${aquiferCd}
+    ${endDT}
+    ${localAquiferCd}
+    ${modifiedSince}
+    ${parameterCd}
+    ${period}
+    ${siteStatus}
+    ${siteType}
+    ${startDT}
+    ${holeDepthMin}
+    ${holeDepthMax}
+    ${wellDepthMin}
+    ${wellDepthMax}
     """
     tsutils._printiso(
         nwis_gwlevels(
@@ -2278,7 +2278,7 @@ def nwis_measurements_cli(
 ):
     r"""station: USGS NWIS Measurements
 
-    {filter_descriptions}
+    ${filter_descriptions}
     **Results**
 
     +---------------------------+-------------------------------------------+
@@ -2372,27 +2372,27 @@ def nwis_measurements_cli(
 
     Parameters
     ----------
-    {sites}
-    {huc}
-    {bBox}
-    {countyCd}
-    {agencyCd}
-    {stateCd}
-    {altMin}
-    {altMax}
-    {aquiferCd}
-    {endDT}
-    {localAquiferCd}
-    {modifiedSince}
-    {parameterCd}
-    {period}
-    {siteStatus}
-    {siteType}
-    {startDT}
-    {holeDepthMin}
-    {holeDepthMax}
-    {wellDepthMin}
-    {wellDepthMax}
+    ${sites}
+    ${huc}
+    ${bBox}
+    ${countyCd}
+    ${agencyCd}
+    ${stateCd}
+    ${altMin}
+    ${altMax}
+    ${aquiferCd}
+    ${endDT}
+    ${localAquiferCd}
+    ${modifiedSince}
+    ${parameterCd}
+    ${period}
+    ${siteStatus}
+    ${siteType}
+    ${startDT}
+    ${holeDepthMin}
+    ${holeDepthMax}
+    ${wellDepthMin}
+    ${wellDepthMax}
     """
     tsutils._printiso(
         nwis_measurements(
@@ -2499,7 +2499,7 @@ def nwis_peak_cli(
 ):
     r"""station: USGS NWIS Peak
 
-    {filter_descriptions}
+    ${filter_descriptions}
     **Results**
 
     +---------------+--------------------------------------------+
@@ -2598,27 +2598,27 @@ def nwis_peak_cli(
 
     Parameters
     ----------
-    {sites}
-    {huc}
-    {bBox}
-    {countyCd}
-    {agencyCd}
-    {stateCd}
-    {altMin}
-    {altMax}
-    {aquiferCd}
-    {endDT}
-    {localAquiferCd}
-    {modifiedSince}
-    {parameterCd}
-    {period}
-    {siteStatus}
-    {siteType}
-    {startDT}
-    {holeDepthMin}
-    {holeDepthMax}
-    {wellDepthMin}
-    {wellDepthMax}
+    ${sites}
+    ${huc}
+    ${bBox}
+    ${countyCd}
+    ${agencyCd}
+    ${stateCd}
+    ${altMin}
+    ${altMax}
+    ${aquiferCd}
+    ${endDT}
+    ${localAquiferCd}
+    ${modifiedSince}
+    ${parameterCd}
+    ${period}
+    ${siteStatus}
+    ${siteType}
+    ${startDT}
+    ${holeDepthMin}
+    ${holeDepthMax}
+    ${wellDepthMin}
+    ${wellDepthMax}
     """
     tsutils._printiso(
         nwis_peak(
@@ -2727,7 +2727,7 @@ def nwis_stat_cli(
 ):
     r"""station: USGS NWIS Statistic
 
-    {filter_descriptions}
+    ${filter_descriptions}
     **Returns**
 
     This returns a pandas DataFrame if using the Python API, or a text table to
@@ -2808,29 +2808,29 @@ def nwis_stat_cli(
 
     Parameters
     ----------
-    {sites}
-    {agencyCd}
-    {altMin}
-    {altMax}
-    {aquiferCd}
-    {endDT}
-    {localAquiferCd}
-    {modifiedSince}
-    {parameterCd}
-    {period}
-    {siteStatus}
-    {siteType}
-    {startDT}
-    {drainAreaMin}
-    {drainAreaMax}
-    {holeDepthMin}
-    {holeDepthMax}
-    {wellDepthMin}
-    {wellDepthMax}
-    {statReportType}
-    {statType}
-    {missingData}
-    {statYearType}
+    ${sites}
+    ${agencyCd}
+    ${altMin}
+    ${altMax}
+    ${aquiferCd}
+    ${endDT}
+    ${localAquiferCd}
+    ${modifiedSince}
+    ${parameterCd}
+    ${period}
+    ${siteStatus}
+    ${siteType}
+    ${startDT}
+    ${drainAreaMin}
+    ${drainAreaMax}
+    ${holeDepthMin}
+    ${holeDepthMax}
+    ${wellDepthMin}
+    ${wellDepthMax}
+    ${statReportType}
+    ${statType}
+    ${missingData}
+    ${statYearType}
     """
     tsutils._printiso(
         nwis_stat(
@@ -2946,7 +2946,7 @@ def epa_wqp_cli(
 
     Parameters
     ----------
-    {bBox}
+    ${bBox}
 
     lat : float
         [optional, default is None]
@@ -3052,7 +3052,7 @@ def epa_wqp_cli(
         site-identification number. Other agencies often use different site
         identification numbers for the same stations.
 
-    {huc}
+    ${huc}
 
     sampleMedia : str
         [optional, default is None]

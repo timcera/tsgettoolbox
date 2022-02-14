@@ -232,7 +232,6 @@ def fawn_cli(
         * 435  'St. Lucie West'
         * 302  Umatilla
         * 425  Wellington
-
     variables : str
         At the command line can supply a comma separated list of variable
         names.  Using the Python API needs to be a Python list.
@@ -271,14 +270,11 @@ def fawn_cli(
 
         The 'ET' variable is only available when `reportType` is "daily" or
         "monthly".
-
     reportType : str
         Interval of the data.  Can be one of "all" for 15 minute, "hourly",
         "daily", or "monthly".
-
-    {start_date}
-
-    {end_date}
+    ${start_date}
+    ${end_date}
     """
     tsutils._printiso(
         fawn(

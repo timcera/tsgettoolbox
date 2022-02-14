@@ -122,9 +122,7 @@ docs = r"""
     Parameters
     ----------
     {lat}
-
     {lon}
-
     variables : str
         At the command line can supply a comma separated list of variable
         names.  Using the Python API needs to be a Python list of strings.
@@ -156,7 +154,6 @@ docs = r"""
         +--------+----------------------------------+-----------+
 
     {start_date}
-
     {end_date}
     """.format(
     **tsutils.docstrings

@@ -81,11 +81,8 @@ def cpc_cli(state=None, climate_division=None, start_date=None, end_date=None):
         [optional]
 
         If specified, results will be limited to the climate division.
-
-    {start_date}
-
-    {end_date}
-
+    ${start_date}
+    ${end_date}
     """
     tsutils._printiso(
         cpc(

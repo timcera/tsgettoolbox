@@ -41,8 +41,8 @@ def twc_cli(county, start_date=None, end_date=None):
     county: ``None`` or str
         If specified, results will be limited to the county corresponding to
         the given 5-character Texas county fips code i.e. 48.
-    {start_date}
-    {end_date}
+    ${start_date}
+    ${end_date}
     """
     tsutils._printiso(twc(county, start_date=start_date, end_date=end_date))
 
