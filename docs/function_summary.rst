@@ -22,6 +22,11 @@ Python API Function Summary
     tsgettoolbox.tsgettoolbox.ncei_ghcnd
     tsgettoolbox.tsgettoolbox.ncei_ghcnd_ftp
     tsgettoolbox.tsgettoolbox.ncei_ghcndms
+    tsgettoolbox.tsgettoolbox.ncei_ghcndms
+    tsgettoolbox.tsgettoolbox.ncei_gsod
+    tsgettoolbox.tsgettoolbox.ncei_gsom
+    tsgettoolbox.tsgettoolbox.ncei_gsoy
+    tsgettoolbox.tsgettoolbox.ncei_ish
     tsgettoolbox.tsgettoolbox.ncei_normal_ann
     tsgettoolbox.tsgettoolbox.ncei_normal_dly
     tsgettoolbox.tsgettoolbox.ncei_normal_hly
@@ -37,5 +42,17 @@ Python API Function Summary
     tsgettoolbox.tsgettoolbox.nwis_peak
     tsgettoolbox.tsgettoolbox.nwis_site
     tsgettoolbox.tsgettoolbox.nwis_stat
+    tsgettoolbox.tsgettoolbox.rivergages
+    tsgettoolbox.tsgettoolbox.swtwc
+    tsgettoolbox.tsgettoolbox.terraclimate
+    tsgettoolbox.tsgettoolbox.terraclimate19611990
+    tsgettoolbox.tsgettoolbox.terraclimate19812010
+    tsgettoolbox.tsgettoolbox.terraclimate2C
+    tsgettoolbox.tsgettoolbox.terraclimate4C
+    tsgettoolbox.tsgettoolbox.topowx
+    tsgettoolbox.tsgettoolbox.twc
     tsgettoolbox.tsgettoolbox.twc
     tsgettoolbox.tsgettoolbox.unavco
+    tsgettoolbox.tsgettoolbox.unavco
+    tsgettoolbox.tsgettoolbox.usgs_flet_narr
+    tsgettoolbox.tsgettoolbox.usgs_flet_stns

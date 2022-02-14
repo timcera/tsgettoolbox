@@ -51,8 +51,7 @@ coops --help'.
         station: Florida Automated Weather Network (FAWN)
 
     ldas
-        gridded: Land Data Assimilation System (NLDAS, GLDAS2,
-        TRMM, SMERGE, GRACE, MERRA)
+        gridded: Land Data Assimilation System (NLDAS, GLDAS2, TRMM, SMERGE, GRACE, MERRA)
 
     metdata
         gridded: Download daily data from METDATA.
@@ -85,7 +84,7 @@ coops --help'.
         station: NCEI Normal hourly
 
     ncei_normal_mly
-        station: NCEI Monthly Summaries
+        station: NCEI Monthly Summaries.
 
     ncei_precip_15
         station: NCEI 15 minute precipitation
@@ -103,7 +102,7 @@ coops --help'.
         station: Integrated Surface Database
 
     ndbc
-        station: Download historical from the National Data Buoy Center
+        station: Download historical from the National Data Buoy Center.
 
     nwis
         station: Use the ``nwis_*`` functions instead.
@@ -152,6 +151,9 @@ coops --help'.
 
     terraclimate19812010
         gridded: Download monthly data from Terraclimate.
+
+    topowx
+        gridded: Topoclimatic Daily Air Temperature Dataset for the Conterminous United States
 
     twc
         station: Download Texas Weather Connection (TWC) data.
