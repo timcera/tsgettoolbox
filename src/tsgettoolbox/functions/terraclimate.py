@@ -275,34 +275,29 @@ def terraclimate(
     end_date=None,
 ):
     r"""Download terraclimate data."""
-    turl = "http://thredds.northwestknowledge.net:8080/thredds/ncss/grid/agg_terraclimate_{var}_1958_CurrentYear_GLOBE.nc/"
+    if variables is None:
+        vars = list(_avail_vars.keys())
+        vars.sort()
+    else:
+        vars = tsutils.make_list(variables)
 
+    # turl = "http://thredds.northwestknowledge.net:8080/thredds/dodsC/agg_terraclimate_{}_1958_CurrentYear_GLOBE.nc"
+    turl = "http://www.reacchpna.org/thredds/dodsC/agg_terraclimate_{}_1958_CurrentYear_GLOBE.nc"
+    # turl = f"https://tds-proxy.nkn.uidaho.edu/thredds/dodsC/agg_terraclimate_{var}_1958_CurrentYear_GLOBE.nc"
     df = utils.opendap(
         turl,
-        variables,
         lat,
         lon,
         _avail_vars,
+        variables=variables,
         start_date=start_date,
         end_date=end_date,
-        all_vars_at_url=False,
+        tzname=None,
+        missing_value=None,
+        time_name="time",
+        user_charset="utf-8",
+        single_var_url=True,
     )
-
-    if len(df.dropna(how="all")) == 0:
-        if start_date is None:
-            start_date = "beginning of record"
-        if end_date is None:
-            end_date = "end of record"
-        raise ValueError(
-            tsutils.error_wrapper(
-                """
-Terraclimate returned no data for lat/lon "{lat}/{lon}", variables "{variables}"
-between {start_date} and {end_date}.
-""".format(
-                    **locals()
-                )
-            )
-        )
 
     return df
 

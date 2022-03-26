@@ -15,64 +15,78 @@ from tstoolbox import tsutils
 
 from tsgettoolbox import utils
 
-_vars_narr = {
-    "ret": {
+_vars = {
+    # For the time-being comment out non-timeseries data.
+    # "wmd": {
+    #     "sname": "wmd",
+    #     "lname": "WMD",
+    #     "vname": "Water management district integer code",
+    #     "standard_name": "WMD",
+    # },
+    # "fips": {
+    #     "sname": "fips",
+    #     "lname": "FIPS",
+    #     "vname": "Federal Information Processing Standards state/county code",
+    #     "standard_name": "FIPS",
+    # },
+    # 'ETo', 'PET', 'Solar', 'Albedo', 'Tmin', 'Tmax', 'RHmin', 'RHmax', 'ws2m', 'SolarCode'
+    "ETo": {
         "sname": "ret",
-        "lname": "reference_et",
+        "lname": "ETo",
         "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
         "standard_name": "ETo",
     },
-    "pet": {
+    "PET": {
         "sname": "pet",
-        "lname": "potential_et",
+        "lname": "PET",
         "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
         "standard_name": "PET",
     },
-    "srad": {
+    "Solar": {
         "sname": "srad",
-        "lname": "shortwave_radiation",
+        "lname": "Solar",
         "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
         "standard_name": "Solar",
     },
-    "albedo": {
+    "Albedo": {
         "sname": "albedo",
-        "lname": "albedo",
+        "lname": "Albedo",
         "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
         "standard_name": "Albedo",
     },
-    "tmin": {
+    "Tmin": {
         "sname": "tmin",
-        "lname": "minimum_daily_temperature",
+        "lname": "Tmin",
         "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
         "standard_name": "Tmin",
     },
-    "tmax": {
+    "Tmax": {
         "sname": "tmax",
-        "lname": "maximum_daily_temperature",
+        "lname": "Tmax",
         "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
         "standard_name": "Tmax",
     },
-    "rhmin": {
+    "RHmin": {
         "sname": "rhmin",
-        "lname": "minimum_daily_relative_humidity",
+        "lname": "RHmin",
         "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
         "standard_name": "RHmin",
     },
-    "rhmax": {
+    "RHmax": {
         "sname": "rhmax",
-        "lname": "maximum_daily_relative_humidity",
+        "lname": "RHmax",
         "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
         "standard_name": "RHmax",
     },
-    "ws": {
-        "sname": "ws",
-        "lname": "wind_speed",
+    "ws2m": {
+        "sname": "ws2m",
+        "lname": "ws2m",
         "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
         "standard_name": "ws2m",
     },
-    "qcode": {
+    "SolarCode": {
         "sname": "qcode",
-        "lname": "qcode",
+        "lname": "SolarCode",
         "vname": "Daily reference and potential evapotranspiration, and supporting meteorological data from the North American Regional Reanalysis, solar insolation data from the GOES satellite, and blue-sky albedo data from the MODIS satellite, Florida",
         "standard_name": "Solar",
     },
@@ -170,6 +184,12 @@ def assign_docstring(indocstring: str) -> Callable:
     return f
 
 
+def _rename_columns(x):
+    words = x.split(":")
+    words[0] = words[0].split(",")[0]
+    return ":".join(words)
+
+
 @mando.command("usgs_flet_narr", formatter_class=HelpFormatter, doctype="numpy")
 @assign_docstring(docs)
 def usgs_flet_narr_cli(
@@ -199,10 +219,23 @@ def usgs_flet_narr(
     end_date=None,
 ):
     r"""gridded: Download USGS WATERS data from CIDA."""
-    url = "https://cida.usgs.gov/thredds/ncss/flet_narr/"
+    url = "https://cida.usgs.gov/thredds/dodsC/flet_narr"
+    if variables is None:
+        variables = list(_vars.keys())
     df = utils.opendap(
-        url, variables, lat, lon, start_date=start_date, end_date=end_date
+        url,
+        lat,
+        lon,
+        _vars,
+        time_name="time",
+        variables=variables,
+        start_date=start_date,
+        end_date=end_date,
+        tzname=None,
+        missing_value=-9999,
     )
+
+    df = df.rename(columns=_rename_columns)
 
     return df
 
@@ -239,10 +272,23 @@ def usgs_flet_stns(
     end_date=None,
 ):
     r"""gridded: Download USGS WATERS data from CIDA."""
-    url = "https://cida.usgs.gov/thredds/ncss/flet_stns/"
+    url = "https://cida.usgs.gov/thredds/dodsC/flet_stns"
+    if variables is None:
+        variables = list(_vars.keys())
     df = utils.opendap(
-        url, variables, lat, lon, start_date=start_date, end_date=end_date
+        url,
+        lat,
+        lon,
+        _vars,
+        time_name="time",
+        variables=variables,
+        start_date=start_date,
+        end_date=end_date,
+        tzname=None,
+        missing_value=-9999,
     )
+
+    df = df.rename(columns=_rename_columns)
 
     return df
 

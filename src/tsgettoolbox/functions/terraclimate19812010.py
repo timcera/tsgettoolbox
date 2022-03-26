@@ -3,6 +3,8 @@
 
 # http://thredds.northwestknowledge.net:8080/thredds/terraclimate_aggregated.html
 
+import datetime
+
 import mando
 import pandas as pd
 
@@ -253,34 +255,26 @@ def terraclimate19812010(
     end_date=None,
 ):
     r"""Download terraclimate data."""
-    turl = "http://thredds.northwestknowledge.net:8080/thredds/ncss/grid/TERRACLIMATE_ALL/summaries/TerraClimate19812010_{var}.nc/"
+    turl = "http://thredds.northwestknowledge.net:8080/thredds/dodsC/TERRACLIMATE_ALL/summaries/TerraClimate19812010_{}.nc"
 
     df = utils.opendap(
         turl,
-        variables,
         lat,
         lon,
         _avail_vars,
+        variables=variables,
         start_date=start_date,
         end_date=end_date,
-        all_vars_at_url=False,
+        time_name="time",
+        single_var_url=True,
     )
 
-    if len(df.dropna(how="all")) == 0:
-        if start_date is None:
-            start_date = "beginning of record"
-        if end_date is None:
-            end_date = "end of record"
-        raise ValueError(
-            tsutils.error_wrapper(
-                """
-terraclimate19812010 returned no data for lat/lon "{lat}/{lon}", variables "{variables}"
-between {start_date} and {end_date}.
-""".format(
-                    **locals()
-                )
-            )
+    if df.index[0] == datetime.datetime(1961, 1, 1):
+        df.index = df.index + (
+            datetime.datetime(1981, 1, 1) - datetime.datetime(1961, 1, 1)
         )
+
+    df = df.rename(columns=lambda x: f"{x}:19812010")
 
     return df
 

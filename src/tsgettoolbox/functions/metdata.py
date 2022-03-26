@@ -2,6 +2,7 @@
 """Download data from Florida Automated Weather Network (FAWN)."""
 
 import mando
+import pandas as pd
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -12,7 +13,7 @@ from tstoolbox import tsutils
 
 from tsgettoolbox import utils
 
-_avail_vars = {
+_vars = {
     "pr": {
         "sname": "pr",
         "lname": "precipitation_amount",
@@ -139,12 +140,13 @@ _avail_vars = {
         "standard_name": "spi",
         "vname": "METDATA (GRIDMET) 180 Day Standardized Precipitation Index(SPI) - Pentad",
     },
-    "spi270d": {
-        "sname": "spi",
-        "lname": "standard_precipitation_index_270_day",
-        "standard_name": "spi",
-        "vname": "METDATA (GRIDMET) 270 Day Standardized Precipitation Index(SPI) - Pentad",
-    },
+    # Commented out because it has an unusual URL.
+    #    "spi270d": {
+    #        "sname": "spi",
+    #        "lname": "standard_precipitation_index_270_day",
+    #        "standard_name": "spi",
+    #        "vname": "METDATA (GRIDMET) 270 Day Standardized Precipitation Index(SPI) - Pentad",
+    #    },
     "spi1y": {
         "sname": "spi",
         "lname": "standard_precipitation_index_1_year",
@@ -267,10 +269,7 @@ _avail_vars = {
     },
 }
 
-
-tsutils.docstrings.update(
-    {k: f"{v['standard_name']:50}" for k, v in _avail_vars.items()}
-)
+tsutils.docstrings.update({k: f"{v['standard_name']:50}" for k, v in _vars.items()})
 
 
 @mando.command("metdata", formatter_class=HelpFormatter, doctype="numpy")
@@ -447,8 +446,6 @@ def metdata_cli(
         +----------+----------------------------------------------------+-------+
         | spi180d  | ${spi180d} |       |
         +----------+----------------------------------------------------+-------+
-        | spi270d  | ${spi270d} |       |
-        +----------+----------------------------------------------------+-------+
         | spi1y    | ${spi1y} |       |
         +----------+----------------------------------------------------+-------+
         | spi2y    | ${spi2y} |       |
@@ -511,38 +508,27 @@ def metdata(
     start_date=None,
     end_date=None,
 ):
-    r"""Download METDATA data from CIDA."""
-    turl = [
-        "http://thredds.northwestknowledge.net:8080/thredds/ncss/grid/agg_met_{var}_1979_CurrentYear_CONUS.nc/",
-        "http://thredds.northwestknowledge.net:8080/thredds/ncss/grid/agg_met_{var}_CONUS.nc/",
-    ]
+    r"""Download METDATA data."""
+    if variables is None:
+        vars = list(_vars.keys())
+        vars.sort()
+    else:
+        vars = tsutils.make_list(variables)
 
+    turl = "http://thredds.northwestknowledge.net:8080/thredds/dodsC/agg_met_{}_1979_CurrentYear_CONUS.nc"
     df = utils.opendap(
         turl,
-        variables,
         lat,
         lon,
-        _avail_vars,
+        _vars,
+        variables=variables,
         start_date=start_date,
         end_date=end_date,
-        all_vars_at_url=False,
+        tzname=None,
+        missing_value=-9999,
+        time_name="day",
+        single_var_url=True,
     )
-
-    if len(df.dropna(how="all")) == 0:
-        if start_date is None:
-            start_date = "beginning of record"
-        if end_date is None:
-            end_date = "end of record"
-        raise ValueError(
-            tsutils.error_wrapper(
-                """
-GRIDMET returned no data for lat/lon "{lat}/{lon}", variables "{variables}"
-between {start_date} and {end_date}.
-""".format(
-                    **locals()
-                )
-            )
-        )
 
     return df
 
@@ -551,5 +537,5 @@ metdata.__doc__ = metdata_cli.__doc__
 
 
 if __name__ == "__main__":
-    r = metdata(29.6, -82.3, "precipitation_amount")
+    r = metdata(29.6, -82.3, variables="pr")
     print(r)

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Download data from Florida Automated Weather Network (FAWN)."""
+"""Download data from topowx"""
 
 import mando
 
@@ -12,7 +12,7 @@ from tstoolbox import tsutils
 
 from tsgettoolbox import utils
 
-_avail_vars = {
+_base_avail_vars = {
     "tmin": {
         "sname": "tmin",
         "lname": "daily_minimum_temperature",
@@ -28,7 +28,7 @@ _avail_vars = {
 }
 
 
-tsutils.docstrings.update({k: v["standard_name"] for k, v in _avail_vars.items()})
+tsutils.docstrings.update({k: v["standard_name"] for k, v in _base_avail_vars.items()})
 
 
 @mando.command("topowx", formatter_class=HelpFormatter, doctype="numpy")
@@ -175,34 +175,18 @@ def topowx(
     end_date=None,
 ):
     r"""Download topowx data from CIDA."""
-    url = "https://cida.usgs.gov/thredds/ncss/topowx/dataset.html"
+    url = "https://cida.usgs.gov/thredds/dodsC/topowx_monthly"
 
     df = utils.opendap(
         url,
-        variables,
         lat,
         lon,
-        _avail_vars,
+        _base_avail_vars,
+        variables=None,
         start_date=start_date,
         end_date=end_date,
-        all_vars_at_url=False,
+        time_name="time",
     )
-
-    if len(df.dropna(how="all")) == 0:
-        if start_date is None:
-            start_date = "beginning of record"
-        if end_date is None:
-            end_date = "end of record"
-        raise ValueError(
-            tsutils.error_wrapper(
-                """
-topowx returned no data for lat/lon "{lat}/{lon}", variables "{variables}"
-between {start_date} and {end_date}.
-""".format(
-                    **locals()
-                )
-            )
-        )
 
     return df
 
