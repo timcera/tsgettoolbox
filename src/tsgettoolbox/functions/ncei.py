@@ -544,8 +544,11 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
         except NameError:
             ndf = tmpdf
 
-    # Some columns are 1/10 degree C.  The next section of code multiplies
-    # those columns by 10.
+    # Set missing values to None
+    ndf.replace(to_replace=[-9999], value=[None], inplace=True)
+
+    # Some columns are 1/10 degree C.  The next section of code divides
+    # those columns by 10 to get cm.
     mcols = []
     for i in ndf.columns:
         if i in [
@@ -576,10 +579,9 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
         ]:
             mcols.append(i)
     if mcols:
-        ndf.loc[:, mcols] = ndf.loc[:, mcols] * 10.0
+        ndf.loc[:, mcols] = ndf.loc[:, mcols] / 10.0
 
     ndf.index.name = "Datetime"
-    ndf.replace(to_replace=[-9999], value=[None], inplace=True)
     ndf.rename(columns=add_units(ndf.columns), inplace=True)
     return ndf
 
@@ -6335,8 +6337,8 @@ if __name__ == "__main__":
 
     r = ncei_ghcnd_ftp(
         station="ASN00075020",
-        start_date="10 years ago",
-        end_date="9 years ago",
+        start_date="2001-01-01",
+        end_date="2002-01-01",
     )
 
     print("ghcnd")
