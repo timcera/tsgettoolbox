@@ -72,8 +72,6 @@ def get_data(county=None, start=None, end=None, as_dataframe=False, data_dir=Non
         ignore_index=True,
     )
     fips_df = _fips_dataframe()
-    print(df)
-    print(fips_df)
     df = pandas.merge(df, fips_df, left_on="county", right_on="name")
     del df["name"]
 
@@ -381,13 +379,13 @@ def _fips_dataframe():
 
 
 def _get_text_url(date):
-    return "http://twc.tamu.edu/weather_images/summ/summ%s.txt" % date.strftime(
+    return "https://twc.tamu.edu/weather_images/summ/summ%s.txt" % date.strftime(
         "%Y%m%d"
     )
 
 
 def _get_csv_url(date):
-    return "http://twc.tamu.edu/weather_images/summ/summ%s.csv" % date.strftime(
+    return "https://twc.tamu.edu/weather_images/summ/summ%s.csv" % date.strftime(
         "%Y%m%d"
     )
 
