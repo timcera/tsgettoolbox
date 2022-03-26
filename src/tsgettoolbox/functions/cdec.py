@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import warnings
 from typing import Optional, Union
 
 import pandas as pd
@@ -25,6 +26,13 @@ dur_code_map = {
     "e": "E",
     "h": "H",
     "m": "M",
+}
+
+fname_code_map = {
+    "D": "daily",
+    "E": "event",
+    "H": "hourly",
+    "M": "monthly",
 }
 
 sensor_num_map = {
@@ -218,7 +226,7 @@ def get_stations():
     """
     # I haven't found a better list of stations, seems pretty janky
     # to just have them in a file, and not sure if/when it is updated.
-    url = "http://cdec.water.ca.gov/misc/all_stations.csv"
+    url = "https://cdec.water.ca.gov/misc/all_stations.csv"
     # the csv is malformed, so some rows think there are 7 fields
     col_names = ["id", "meta_url", "name", "num", "lat", "lon", "junk"]
     df = pd.read_csv(url, names=col_names, header=None, quotechar="'", index_col=0)
@@ -242,7 +250,7 @@ def get_sensors(sensor_id=None):
         a python dict with site codes mapped to site information
 
     """
-    url = "http://cdec.water.ca.gov/misc/senslist.html"
+    url = "https://cdec.water.ca.gov/misc/senslist.html"
     df = pd.read_html(url, header=0)[0]
     df.set_index("Sensor No")
 
@@ -290,10 +298,11 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
         station_ids = get_stations().index
 
     for station_id in station_ids:
-        url = "http://cdec.water.ca.gov/dynamicapp/staMeta?station_id={}".format(
+        url = "https://cdec.water.ca.gov/dynamicapp/staMeta?station_id={}".format(
             station_id
         )
-        sensor_list = pd.read_html(url)[1]
+        sensor_list = pd.read_html(url)
+        sensor_list = sensor_list[1]
         sensor_list.columns = [
             "sensor_description",
             "sensor_number",
@@ -318,7 +327,6 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
         station_sensors[station_id] = _limit_sensor_list(
             sensor_list, sensor_ids, resolutions
         )
-
     return station_sensors
 
 
@@ -379,7 +387,7 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
             sensor_id = row["sensor_number"]
 
             url = (
-                "http://cdec.water.ca.gov/dynamicapp/req/CSVDataServlet"
+                "https://cdec.water.ca.gov/dynamicapp/req/CSVDataServlet"
                 + "?Stations="
                 + station_id
                 + "&dur_code="
@@ -405,13 +413,15 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
 
 
 def _limit_sensor_list(sensor_list, sensor_ids, resolution):
-
     if sensor_ids is not None:
-        sensor_list = sensor_list[[x in sensor_ids for x in sensor_list.sensor_number]]
-
+        sensor_list = sensor_list[sensor_list["sensor_number"].isin(sensor_ids)]
     if resolution is not None:
-        sensor_list = sensor_list[[x in resolution for x in sensor_list.resolution]]
-
+        ncode = [fname_code_map[i] for i in resolution]
+        sensor_list = sensor_list[sensor_list["resolution"].isin(ncode)]
+    if len(sensor_list) == 0:
+        warnings.warn(
+            f"There are no sensors in the list {sensor_ids} with any of the resolutions {resolution}."
+        )
     return sensor_list
 
 
@@ -479,8 +489,8 @@ if __name__ == "__main__":
     r = cdec(
         "PAR",
         start_date="2017-01-01",
-        end_date="2017-10-02",
-        dur_code="hourly",
+        end_date="2017-02-02",
+        dur_code="daily",
         sensor_num=45,
     )
 
@@ -489,8 +499,8 @@ if __name__ == "__main__":
 
     r = cdec(
         "PAR",
-        start_date="2017-01-01",
-        end_date="2017-10-02",
+        start_date="2020-01-01",
+        end_date="2020-10-02",
         dur_code="H",
         sensor_num=6,
     )
