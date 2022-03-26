@@ -1,3 +1,12 @@
+## v23.22.2 (2022-03-26)
+
+### Fix
+
+- **twc.py**: removed debugging print statements
+- **ncei.py**: corrected factor for ncei_ghcnd_ftp
+- **cdec.py**: fixed filtering of station parameters
+- **opendap**: fixed and improved speed for all pydap downloads
+
 ## v23.22.1 (2022-02-14)
 
 ## v23.22.0 (2022-02-14)
