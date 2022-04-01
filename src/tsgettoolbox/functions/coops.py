@@ -2,6 +2,7 @@
 import logging
 import os
 from collections import defaultdict
+from datetime import datetime
 from io import BytesIO
 from typing import List, Optional
 
@@ -141,7 +142,7 @@ def coops_cli(
     begin_date=None,
     end_date=None,
     range=None,
-    product="water_level",
+    product="hourly_height",
     datum="NAVD",
     time_zone="GMT",
     interval="h",
@@ -156,10 +157,7 @@ def coops_cli(
     Parameters
     ----------
     station
-        A 7 character station ID, or a currents station ID.  Specify the
-        station ID with the "station=" parameter.::
-
-            Example: '--station=9414290'
+        A 7 character station ID, or a currents station ID.
 
         Station listings for various products can be viewed at
         https://tidesandcurrents.noaa.gov or viewed on a map at Tides
@@ -253,7 +251,7 @@ def coops_cli(
         related parameters.
 
     product : str
-        [optional, default is 'water_level']
+        [optional, default is 'hourly_height']
 
         Specify the observation requested.
 
@@ -779,7 +777,7 @@ def coops(
             "datums",
             "currents",
         ]
-    ] = "water_level",
+    ] = "hourly_height",
     datum: Literal["MHHW", "MHW", "MTL", "MSL", "MLW", "MLLW", "NAVD", "STND"] = "NAVD",
     time_zone: Literal["GMT", "UTC", "LST", "LST_LDT"] = "GMT",
     interval="h",
@@ -806,6 +804,23 @@ def coops(
         params["end_date"] = None
     params["format"] = "csv"
     params["application"] = "tsgettoolbox"
+
+    # Normalize begin_data and end_date to not extend beyond the "established"
+    # and "removed" dates of the station.
+    if (params["date"] is None) and (params["range"] is None):
+        station_data = pd.read_json(
+            f"https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/{station}.json?expand=details&units=english"
+        )
+        test_begin = pd.Timestamp(
+            station_data.loc[0, "stations"]["details"]["established"]
+        )
+        if (params["begin_date"] is None) or (params["begin_date"] < test_begin):
+            params["begin_date"] = test_begin
+        test_end = pd.Timestamp(station_data.loc[0, "stations"]["details"]["removed"])
+        if test_end is pd.NaT:
+            test_end = datetime.utcnow()
+        if (params["end_date"] is None) or (params["end_date"] > test_end):
+            params["end_date"] = test_end
 
     ndf = pd.DataFrame()
     for cnt, i in enumerate(product):
