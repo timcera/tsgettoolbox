@@ -1,3 +1,0 @@
-[submodule "src/tsgettoolbox/pydap"]
-	path = src/tsgettoolbox/pydap
-	url = git@github.com:timcera/pydap.git

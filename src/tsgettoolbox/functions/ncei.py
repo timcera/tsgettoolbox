@@ -6176,6 +6176,8 @@ def ncei_ish_cli(station, datatypeid=None, start_date=None, end_date=None):
 def ncei_ish(station, datatypeid=None, start_date=None, end_date=None):
     r"""Download from the Global Historical Climatology Network - Daily."""
     station = station.replace("-", "")
+
+    # "https://www1.ncdc.noaa.gov/pub/data/noaa/{year}/{station}-{year}.gz",
     final = utils.file_downloader(
         "https://www.ncei.noaa.gov/data/global-hourly/access/{year}/{station}.csv",
         station,
@@ -6183,48 +6185,242 @@ def ncei_ish(station, datatypeid=None, start_date=None, end_date=None):
         enddate=end_date,
     )
 
-    if "WND" in final.columns:
-        addto = final["WND"].str.split(",", expand=True)
-        addto.columns = [
-            "WIND_DIR:deg",
-            "WIND_DIR_QC",
-            "WIND_OBS_TYPE",
-            "WIND_SPEED:m/s",
-            "WIND_SPEED_QC",
+    # Get rid of unused columns
+    final = final.drop(
+        columns=[
+            "STATION",
+            "SOURCE",
+            "LATITUDE",
+            "LONGITUDE",
+            "ELEVATION",
+            "NAME",
+            "CALL_SIGN",
         ]
-        addto["WIND_DIR:deg"] = addto["WIND_DIR:deg"].astype(int)
-        addto["WIND_SPEED:m/s"] = addto["WIND_SPEED:m/s"].replace("9999", np.nan)
-        addto["WIND_SPEED:m/s"] = addto["WIND_SPEED:m/s"].astype(float) / 10.0
-        final = final.drop("WND", axis="columns")
-        final = pd.concat([final, addto], axis="columns")
-    if "CIG" in final.columns:
-        addto = final["CIG"].str.split(",", expand=True)
-        addto.columns = ["CEILING:m", "CEILING_QC", "CEILING_DC", "CAVOK"]
-        addto["CEILING:m"] = addto["CEILING:m"].replace("99999", np.nan).astype(float)
-        addto["CEILING_DC"] = addto["CEILING_DC"].replace("9", np.nan)
-        addto["CAVOK"] = addto["CAVOK"].replace("9", np.nan)
-        final = final.drop("CIG", axis="columns")
-        final = pd.concat([final, addto], axis="columns")
-    if "VIS" in final.columns:
-        addto = final["VIS"].str.split(",", expand=True)
-        addto.columns = [
-            "VISIBILITY:m",
-            "VISIBILITY_QC",
-            "VISIBILITY_VAR",
-            "VISIBILITY_VAR_QC",
-        ]
-        addto["VISIBILITY:m"] = addto["VISIBILITY:m"].replace("999999", np.nan)
-        addto["VISIBILITY:m"] = addto["VISIBILITY:m"].astype(float)
-        addto["VISIBILITY_VAR"] = addto["VISIBILITY_VAR"].replace("0", np.nan)
-        final = final.drop("VIS", axis="columns")
-        final = pd.concat([final, addto], axis="columns")
-    if "TMP" in final.columns:
-        addto = final["TMP"].str.split(",", expand=True)
-        addto.columns = ["AIRTEMP:degC", "AIRTEMP_QC"]
-        addto["AIRTEMP:degC"] = addto["AIRTEMP:degC"].replace("9999", np.nan)
-        addto["AIRTEMP:degC"] = addto["AIRTEMP:degC"].astype(float) / 10.0
-        final = final.drop("TMP", axis="columns")
-        final = pd.concat([final, addto], axis="columns")
+    )
+
+    # Get rid of not useful REPORT_TYPEs.
+    final = final[
+        ~final["REPORT_TYPE"].isin(["BOGUS", "COOPD", "SOD", "SOM", "PCP15", "PCP60"])
+    ]
+
+    process = {
+        "WND": {
+            "WND_DIR:deg": {"astype": float, "replace": "999"},
+            "WND_DIR_QC": {},
+            "WND_OBS_TYPE": {"replace": "9"},
+            "WND_SPD:m/s": {"astype": float, "replace": "9999", "factor": 0.1},
+            "WND_SPD_QC": {},
+        },
+        "CIG": {
+            "CEIL:m": {"astype": float, "replace": "99999"},
+            "CEIL_QC": {},
+            "CEIL:DC": {"replace": "9"},
+            "CAVOK": {"replace": "9"},
+        },
+        "VIS": {
+            "VIS:m": {"astype": float, "replace": "999999"},
+            "VIS_QC": {},
+            "VIS_VAR": {"replace": "9"},
+            "VIS_VAR_QC": {},
+        },
+        "TMP": {
+            "AIRT:degC": {"astype": float, "replace": "+9999", "factor": 0.1},
+            "AIRT_QC": {},
+        },
+        "DEW": {
+            "DEW:degC": {"astype": float, "replace": "+9999", "factor": 0.1},
+            "DEW_QC": {},
+        },
+        "SLP": {
+            "AIR_PRESS:hectopascals": {
+                "astype": float,
+                "replace": "99999",
+                "factor": 0.1,
+            },
+            "AIR_PRESS_QC": {},
+        },
+        "AA1": {
+            "PREC1_PER:hour": {"astype": float, "replace": "99"},
+            "PREC1_DPTH:mm": {"astype": float, "replace": "9999", "factor": 0.1},
+            "PREC1_COND": {},
+            "PREC1_QC": {},
+        },
+        "AA2": {
+            "PREC2_PER:hour": {"astype": float, "replace": "99"},
+            "PREC2_DPTH:mm": {"astype": float, "replace": "9999", "factor": 0.1},
+            "PREC2_COND": {},
+            "PREC2_QC": {},
+        },
+        "AA3": {
+            "PREC3_PER:hour": {"astype": float, "replace": "99"},
+            "PREC3_DPTH:mm": {"astype": float, "replace": "9999", "factor": 0.1},
+            "PREC3_COND": {},
+            "PREC3_QC": {},
+        },
+        "AA4": {
+            "PREC4_PER:hour": {"astype": float, "replace": "99"},
+            "PREC4_DPTH:mm": {"astype": float, "replace": "9999", "factor": 0.1},
+            "PREC4_COND": {},
+            "PREC4_QC": {},
+        },
+        "AB1": {
+            "PREC_MON_DPTH:mm": {"astype": float, "replace": "9999", "factor": 0.1},
+            "PREC_MON_COND": {},
+            "PREC_MON_QC": {},
+        },
+        "AC1": {
+            "PREC_HIST_DUR": {"astype": float, "replace": "9"},
+            "PREC_HIST_COND": {"replace": "9"},
+            "PREC_HIST_QC": {},
+        },
+        "AD1": {
+            "PREC_HIST_DUR": {"astype": float, "replace": "9"},
+            "PREC_HIST_COND": {"replace": "9"},
+            "PREC_HIST_QC": {},
+        },
+        "GA1": {
+            "SKY_COV1": {"replace": "99"},
+            "SKY_COV1_QC": {},
+            "SKY_COV1_BASE:m": {"replace": "99999"},
+            "SKY_COV1_BASE_QC": {},
+            "SKY_COV1_CLD": {},
+            "SKY_COV1_CLD_QC": {},
+        },
+        "GA2": {
+            "SKY_COV2": {"replace": "99"},
+            "SKY_COV2_QC": {},
+            "SKY_COV2_BASE:m": {"replace": "99999"},
+            "SKY_COV2_BASE_QC": {},
+            "SKY_COV2_CLD": {},
+            "SKY_COV2_CLD_QC": {},
+        },
+        "GA3": {
+            "SKY_COV3": {"replace": "99"},
+            "SKY_COV3_QC": {},
+            "SKY_COV3_BASE:m": {"replace": "99999"},
+            "SKY_COV3_BASE_QC": {},
+            "SKY_COV3_CLD": {},
+            "SKY_COV3_CLD_QC": {},
+        },
+        "GA4": {
+            "SKY_COV4": {"replace": "99"},
+            "SKY_COV4_QC": {},
+            "SKY_COV4_BASE:m": {"replace": "99999"},
+            "SKY_COV4_BASE_QC": {},
+            "SKY_COV4_CLD": {},
+            "SKY_COV4_CLD_QC": {},
+        },
+        "GA5": {
+            "SKY_COV5": {"replace": "99"},
+            "SKY_COV5_QC": {},
+            "SKY_COV5_BASE:m": {"replace": "99999"},
+            "SKY_COV5_BASE_QC": {},
+            "SKY_COV5_CLD": {},
+            "SKY_COV5_CLD_QC": {},
+        },
+        "GA6": {
+            "SKY_COV6": {"replace": "99"},
+            "SKY_COV6_QC": {},
+            "SKY_COV6_BASE:m": {"replace": "99999"},
+            "SKY_COV6_BASE_QC": {},
+            "SKY_COV6_CLD": {},
+            "SKY_COV6_CLD_QC": {},
+        },
+        "GF1": {
+            "SKY_COV_TOT": {"replace": "99"},
+            "SKY_COV_OPAQUE": {"replace": "99"},
+            "SKY_COV_TOT_QC": {},
+            "SKY_COV_LOW": {"replace": "99"},
+            "SKY_COV_LOW_QC": {},
+            "SKY_COV_CLD": {},
+            "SKY_COV_CLD_QC": {},
+            "SKY_COV_LOW_BASE:m": {"replace": "99999"},
+            "SKY_COV_LOW_BASE_QC": {},
+            "SKY_COV_MID": {},
+            "SKY_COV_MIN_QC": {},
+            "SKY_COV_HIGH": {},
+            "SKY_COV_HIGH_QC": {},
+        },
+        "MW1": {
+            "WTHR_OBS1": {"astype": int},
+            "WTHR_OBS1_QC": {},
+        },
+        "MW2": {
+            "WTHR_OBS2": {"astype": int},
+            "WTHR_OBS2_QC": {},
+        },
+        "MW3": {
+            "WTHR_OBS3": {"astype": int},
+            "WTHR_OBS3_QC": {},
+        },
+        "MW4": {
+            "WTHR_OBS4": {"astype": int},
+            "WTHR_OBS4_QC": {},
+        },
+        "MD1": {
+            "ATM_PRESS_CHG:hectopascals": {"astype": int, "replace": "9"},
+            "ATM_PRESS_CHG_QC": {},
+            "ATM_PRESS_CHG_3HR:hectopascals": {
+                "astype": float,
+                "replace": "999",
+                "factor": 0.1,
+            },
+            "ATM_PRESS_CHG_3HR_QC": {},
+            "ATM_PRESS_CHG_24HR:hectopascals": {
+                "astype": float,
+                "replace": "+999",
+                "factor": 0.1,
+            },
+            "ATM_PRESS_CHG_24HR_QC": {},
+        },
+        "EQD": {},
+        "AY1": {},
+        "OC1": {
+            "WND_GUST:m/s": {"astype": float, "replace": "9999", "factor": 0.1},
+            "WND_GUST_QC": {},
+        },
+        "UA1": {
+            "WAVE_METHOD": {"replace": "9"},
+            "WAVE_PER:s": {"astype": float, "replace": "99"},
+            "WAVE_HGT:m": {"astype": float, "replace": "999", "factor": 0.1},
+            "WAVE_HGT_QC": {},
+            "WAVE_STATE": {"replace": "99"},
+            "WAVE_STATE_QC": {},
+        },
+        "KA1": {},
+        "KA2": {},
+        "KA3": {},
+        "KA4": {},
+        "AJ1": {
+            "SNOW_DEPTH:cm": {"replace": "9999"},
+            "SNOW_DEPTH_COND": {"replace": "9"},
+            "SNOW_DEPTH_QC": {},
+            "SNOW_DEPTH_EW:mm": {"astype": float, "replace": "999999", "factor": 0.1},
+            "SNOW_DEPTH_EW_COND": {"replace": "9"},
+            "SNOW_DEPTH_EW_QC": {},
+        },
+        # MA1,REM,WG1,OA1,AL1,IA1,IA2,AG1,HL1,OA2,AY2,OA3,AW1,AZ1,AZ2,SA1,UG1,ME1,OD1,OD2,GE1,AW2
+    }
+
+    loopvar = list(final.columns)
+    for cname in process:
+        if cname in loopvar:
+            addto = final[cname].str.split(" *, *", expand=True)
+            variables = process[cname]
+            addto.columns = variables.keys()
+            for vname in variables.keys():
+                modifiers = process[cname][vname]
+                if not modifiers:
+                    addto = pd.DataFrame()
+                    break
+                if "replace" in modifiers:
+                    addto[vname] = addto[vname].replace(modifiers["replace"], np.nan)
+                if "astype" in modifiers:
+                    addto[vname] = addto[vname].astype(modifiers["astype"])
+                if "factor" in modifiers:
+                    addto[vname] = addto[vname] * modifiers["factor"]
+            final = final.drop(cname, axis="columns")
+            final = pd.concat([final, addto], axis="columns")
     return final
 
 

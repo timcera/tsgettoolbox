@@ -717,7 +717,6 @@ COOPS service returned the error "{}".
     time_zone_name = query_params["time_zone"].upper()
     if time_zone_name == "GMT":
         time_zone_name = "UTC"
-    ndf = ndf.tz_localize(time_zone_name)
     ndf.index.name = "Datetime:{}".format(time_zone_name)
     return ndf
 
@@ -841,8 +840,7 @@ if __name__ == "__main__":
     r = coops(
         station="8720218",
         product="water_level",
-        interval="h",
-        time_zone="gmt",
+        time_zone="lst",
         datum="mllw",
         range=20,
         begin_date=None,

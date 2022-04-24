@@ -109,13 +109,18 @@ def requests_retry_session(
     return session
 
 
+import gzip
+
+
 def read_csv(filename):
-    sleep(randint(1, 5))
     req = requests_retry_session().get(filename)
     try:
         req.raise_for_status()
         return pd.read_csv(
-            io.StringIO(req.content.decode("utf-8")), low_memory=False, parse_dates=True
+            io.StringIO(req.content.decode("utf-8")),
+            low_memory=False,
+            parse_dates=True,
+            converters={"REPORT_TYPE": str.strip},
         )
     except requests.exceptions.HTTPError:
         return pd.DataFrame()
@@ -142,7 +147,6 @@ def file_downloader(baseurl, station, startdate=None, enddate=None):
         # have your pool map the file names to dataframes
         df_list = pool.map(read_csv, urls)
 
-    # reduce the list of dataframes to a single dataframe
     final = pd.concat(df_list)
     final = final.set_index("DATE")
     final.index.name = "Datetime"

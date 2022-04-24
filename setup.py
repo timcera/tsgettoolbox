@@ -26,11 +26,11 @@ install_requires = [
     # List your project dependencies here.
     # For more details, see:
     # http://packages.python.org/distribute/setuptools.html#declaring-dependencies
+    # "beautifulsoup4",  # needed if ever use local pydap
+    # "cdo-api-py", # needed if ever use local ish_parser
     "appdirs",
-    "beautifulsoup4",
-    "cdo-api-py",
-    "future",
     "geojson",
+    "haversine",
     "isodate",
     "lxml",
     "mechanize",
