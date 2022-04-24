@@ -1,3 +1,13 @@
+## v23.23.0 (2022-04-23)
+
+### Feat
+
+- **ncei**: added internal parser for ish
+
+### Perf
+
+- **coops**: better handling of begin_date and end_date now constrained to station period of record
+
 ## v23.22.2 (2022-03-26)
 
 ### Fix
