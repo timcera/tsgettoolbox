@@ -148,7 +148,7 @@ def coops_cli(
     interval="h",
     bin=None,
 ):
-    r"""station: Center for Operational Oceanographic Products and Services
+    r"""global station 1T,6T,H,D,M: Center for Operational Oceanographic Products and Services
 
     CO-OPS web services is at https://tidesandcurrents.noaa.gov/api/.
     The time zone of the returned data depends on the setting of the
@@ -623,7 +623,7 @@ def coops_cli(
         bin.
 
     """
-    tsutils._printiso(
+    tsutils.printiso(
         coops(
             station,
             date=date,

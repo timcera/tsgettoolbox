@@ -178,7 +178,7 @@ def fawn_cli(
     start_date=datetime.datetime(1998, 1, 1),
     end_date=datetime.datetime.now(),
 ):
-    r"""station: Florida Automated Weather Network (FAWN)
+    r"""US/FL 15T,H,D,M:Florida Automated Weather Network (FAWN)
 
     Parameters
     ----------
@@ -276,7 +276,7 @@ def fawn_cli(
     ${start_date}
     ${end_date}
     """
-    tsutils._printiso(
+    tsutils.printiso(
         fawn(
             stations,
             variables,

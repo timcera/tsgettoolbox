@@ -1273,7 +1273,7 @@ def nwis_cli(
     missingData=None,
     statYearType=None,
 ):
-    r"""station: Use the ``nwis_*`` functions instead.
+    r"""US station:Use the ``nwis_*`` functions instead.
 
     This "nwis" function has been split up into individual functions for each
     source database.  This allows for keywords and output to be tailored to
@@ -1303,7 +1303,7 @@ def nwis_cli(
     This function/sub-command will continue to work, however you should
     change all scripts to use the split out functions.
     """
-    tsutils._printiso(
+    tsutils.printiso(
         nwis(
             sites=sites,
             stateCd=stateCd,
@@ -1612,7 +1612,7 @@ def nwis_iv_cli(
     endDT=None,
     includeCodes=False,
 ):
-    r"""station: USGS NWIS Instantaneous Values
+    r"""US station E:USGS NWIS Instantaneous Values
 
     ${filter_descriptions}
     ${results_ts}
@@ -1644,7 +1644,7 @@ def nwis_iv_cli(
     ${endDT}
     ${includeCodes}
     """
-    tsutils._printiso(
+    tsutils.printiso(
         nwis_iv(
             sites=sites,
             stateCd=stateCd,
@@ -1760,7 +1760,7 @@ def nwis_dv_cli(
     includeCodes=False,
     statisticsCd=None,
 ):
-    r"""station: USGS NWIS Daily Values
+    r"""US station D:USGS NWIS Daily Values
 
     ${filter_descriptions}
     ${results_ts}
@@ -1793,7 +1793,7 @@ def nwis_dv_cli(
     ${includeCodes}
     ${statisticsCd}
     """
-    tsutils._printiso(
+    tsutils.printiso(
         nwis_dv(
             sites=sites,
             stateCd=stateCd,
@@ -1916,7 +1916,7 @@ def nwis_site_cli(
     siteNameMatchOperator=None,
     hasDataTypeCd=None,
 ):
-    r"""station: USGS NWIS Site Database
+    r"""US station:USGS NWIS Site Database
 
     This does not return a time-series, but a table of sites.
     ${filter_descriptions}
@@ -1989,7 +1989,7 @@ def nwis_site_cli(
     ${siteNameMatchOperator}
     ${hasDataTypeCd}
     """
-    tsutils._printiso(
+    tsutils.printiso(
         nwis_site(
             sites=sites,
             stateCd=stateCd,
@@ -2116,7 +2116,7 @@ def nwis_gwlevels_cli(
     holeDepthMin=None,
     holeDepthMax=None,
 ):
-    r"""station: USGS NWIS Groundwater Levels
+    r"""US station:USGS NWIS Groundwater Levels
 
     ${filter_descriptions}
     **Results**
@@ -2173,7 +2173,7 @@ def nwis_gwlevels_cli(
     ${wellDepthMin}
     ${wellDepthMax}
     """
-    tsutils._printiso(
+    tsutils.printiso(
         nwis_gwlevels(
             sites=sites,
             stateCd=stateCd,
@@ -2276,7 +2276,7 @@ def nwis_measurements_cli(
     holeDepthMin=None,
     holeDepthMax=None,
 ):
-    r"""station: USGS NWIS Measurements
+    r"""US station:USGS NWIS Measurements
 
     ${filter_descriptions}
     **Results**
@@ -2394,7 +2394,7 @@ def nwis_measurements_cli(
     ${wellDepthMin}
     ${wellDepthMax}
     """
-    tsutils._printiso(
+    tsutils.printiso(
         nwis_measurements(
             sites=sites,
             stateCd=stateCd,
@@ -2497,7 +2497,7 @@ def nwis_peak_cli(
     holeDepthMin=None,
     holeDepthMax=None,
 ):
-    r"""station: USGS NWIS Peak
+    r"""US station:USGS NWIS Peak
 
     ${filter_descriptions}
     **Results**
@@ -2541,7 +2541,7 @@ def nwis_peak_cli(
     +---------------+--------------------------------------------+
 
     Peak Streamflow-Qualification Codes(peak_cd):
-    +---------+---------------------------------------------------+
+    +---------+------------------------------------------------------+
     | peak_cd | Description                                          |
     +=========+======================================================+
     | 1       | Discharge is a Maximum Daily Average                 |
@@ -2620,7 +2620,7 @@ def nwis_peak_cli(
     ${wellDepthMin}
     ${wellDepthMax}
     """
-    tsutils._printiso(
+    tsutils.printiso(
         nwis_peak(
             sites=sites,
             stateCd=stateCd,
@@ -2725,7 +2725,7 @@ def nwis_stat_cli(
     missingData=None,
     statYearType=None,
 ):
-    r"""station: USGS NWIS Statistic
+    r"""US station:USGS NWIS Statistic
 
     ${filter_descriptions}
     **Returns**
@@ -2832,7 +2832,7 @@ def nwis_stat_cli(
     ${missingData}
     ${statYearType}
     """
-    tsutils._printiso(
+    tsutils.printiso(
         nwis_stat(
             sites=sites,
             parameterCd=parameterCd,
@@ -2938,7 +2938,7 @@ def epa_wqp_cli(
     startDateLo=None,
     startDateHi=None,
 ):
-    r"""station: EPA Water Quality Portal.
+    r"""US station E:EPA Water Quality Portal.
 
     All of the keywords could be considered as subtractive filters of the
     stations.  Some of the keywords can result in very large number of stations
@@ -3109,7 +3109,7 @@ def epa_wqp_cli(
         Date of last desired data-collection activity.  A very wide range of
         date strings can be used but the closer to ISO 8601 the better.
     """
-    tsutils._printiso(
+    tsutils.printiso(
         epa_wqp(
             bBox=bBox,
             lat=lat,

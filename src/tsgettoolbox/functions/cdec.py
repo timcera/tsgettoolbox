@@ -82,7 +82,7 @@ sensor_num_map = {
 def cdec_cli(
     station_id, dur_code=None, sensor_num=None, start_date=None, end_date=None
 ):
-    r"""station: California Department of Water Resources
+    r"""US/CA station E,H,D,M: California Department of Water Resources
 
     The primary function of the California Data Exchange Center (CDEC) is to
     facilitate the collection, storage, and exchange of hydrologic and climate
@@ -200,7 +200,7 @@ def cdec_cli(
     ${end_date}
 
     """
-    tsutils._printiso(
+    tsutils.printiso(
         cdec(
             station_id,
             dur_code=dur_code,

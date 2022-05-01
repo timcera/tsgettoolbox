@@ -32,7 +32,7 @@ except ImportError:
 
 @mando.command("rivergages", formatter_class=HelpFormatter, doctype="numpy")
 def rivergages_cli(station_code, parameter, start_date=None, end_date=None):
-    """station: USACE river gages
+    """US station:USACE river gages
 
     Stage and flow from systems managed by the U.S. Army Corps of Engineers.
 
@@ -47,9 +47,8 @@ def rivergages_cli(station_code, parameter, start_date=None, end_date=None):
     end_date
         The end data of the desired time-series.
     """
-    tsutils._printiso(
-        rivergages(station_code, parameter, start_date=None, end_date=None)
-    )
+    ndf = rivergages(station_code, parameter, start_date=start_date, end_date=end_date)
+    tsutils.printiso(ndf)
 
 
 def rivergages(station_code, parameter, start_date=None, end_date=None):
@@ -87,7 +86,7 @@ Parameter code {} not in available parameters at station {}:
     df = pd.DataFrame.from_dict(df, orient="index")
     df.sort_index(inplace=True)
     df.index.name = "Datetime"
-    df.columns = ["{}_{}".format(station_code, parameter)]
+    df.columns = [f"{station_code}_{parameter}"]
     return df
 
 

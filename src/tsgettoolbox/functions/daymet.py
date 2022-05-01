@@ -52,7 +52,7 @@ def _daymet_date_parser(year, doy):
 
 @mando.command("daymet", formatter_class=HelpFormatter, doctype="numpy")
 def daymet_cli(lat, lon, measuredParams=None, year=None):
-    r"""gridded: Daymet, daily meteorology by the Oak Ridge National Laboratory
+    r"""NAmeri 1km 1980- D,M:Daymet, daily meteorology by the Oak Ridge National Laboratory
 
     Detailed documentation is at http://daymet.ornl.gov/.  Since this is
     daily data, it covers midnight to midnight based on local time.
@@ -104,7 +104,7 @@ def daymet_cli(lat, lon, measuredParams=None, year=None):
 
         All years are returned by default.
     """
-    tsutils._printiso(daymet(lat, lon, measuredParams=measuredParams, year=year))
+    tsutils.printiso(daymet(lat, lon, measuredParams=measuredParams, year=year))
 
 
 @tsutils.transform_args(measuredParams=tsutils.make_list, year=tsutils.make_list)

@@ -27,7 +27,7 @@ from tsgettoolbox.ulmo.usace.swtwc.core import get_station_data
 
 @mando.command("swtwc", formatter_class=HelpFormatter, doctype="numpy")
 def swtwc_cli(station_code, date=None):
-    """station: USACE Southwest Division, Tulsa Water Control
+    """US/region station:USACE Southwest Division, Tulsa Water Control
 
     Parameters
     ----------

@@ -40,7 +40,7 @@ def topowx_cli(
     start_date=None,
     end_date=None,
 ):
-    r"""gridded: Topoclimatic Daily Air Temperature Dataset for the Conterminous United States
+    r"""US 30arcsecond M:Topoclimatic Daily Air Temperature Dataset.
 
     institution: USGS
 
@@ -156,7 +156,7 @@ def topowx_cli(
 
     ${end_date}
     """
-    tsutils._printiso(
+    tsutils.printiso(
         topowx(
             lat,
             lon,

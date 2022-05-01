@@ -281,7 +281,7 @@ def metdata_cli(
     start_date=None,
     end_date=None,
 ):
-    r"""gridded: Download daily data from METDATA.
+    r"""NAmerica 4km 1980- D: Download daily data from METDATA based on PRISM.
 
     This archive contains daily surface meteorological (METDATA) data for the
     Continental United States at 4-km (1/24-deg) resolution. The meteorological
@@ -490,7 +490,7 @@ def metdata_cli(
     ${start_date}
     ${end_date}
     """
-    tsutils._printiso(
+    tsutils.printiso(
         metdata(
             lat,
             lon,

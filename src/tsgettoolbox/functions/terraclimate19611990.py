@@ -91,7 +91,7 @@ def terraclimate19611990_cli(
     start_date=None,
     end_date=None,
 ):
-    r"""gridded: Download monthly data from Terraclimate.
+    r"""global 1/24deg M:Monthly normals using TerraClimate monthly data from 1961 to 1990.
 
     method: These layers from TerraClimate were derived from the essential
     climate variables of TerraClimate. Water balance variables, actual
@@ -103,7 +103,7 @@ def terraclimate19611990_cli(
     land surfaces
 
     summary: This archive contains a dataset of high-spatial resolution
-    (1/24Â°, ~4-km) monthly climate and climatic water balance for global
+    (1/24deg, ~4-km) monthly climate and climatic water balance for global
     terrestrial surfaces from 1958-2015. These data were created by using
     climatically aided interpolation, combining high-spatial resolution
     climatological normals from the WorldClim version 1.4 and version
@@ -218,7 +218,7 @@ def terraclimate19611990_cli(
 
     ${end_date}
     """
-    tsutils._printiso(
+    tsutils.printiso(
         terraclimate19611990(
             lat,
             lon,

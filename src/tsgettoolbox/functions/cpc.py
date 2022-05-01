@@ -42,7 +42,7 @@ def ulmo_df(state=None, climate_division=None, start_date=None, end_date=None):
 @mando.command("cpc", formatter_class=HelpFormatter, doctype="numpy")
 @tsutils.doc(tsutils.docstrings)
 def cpc_cli(state=None, climate_division=None, start_date=None, end_date=None):
-    r"""station: Climate Prediction Center, Weekly Drought Index
+    r"""US/region W: Climate Prediction Center, Weekly Drought Index
 
     Climate Prediction Center: http://www.cpc.ncep.noaa.gov/
     Weekly Drought Index:
@@ -84,7 +84,7 @@ def cpc_cli(state=None, climate_division=None, start_date=None, end_date=None):
     ${start_date}
     ${end_date}
     """
-    tsutils._printiso(
+    tsutils.printiso(
         cpc(
             state=state,
             climate_division=climate_division,

@@ -26,7 +26,7 @@ def date_parser(strdates):
 
 @mando.command("modis", formatter_class=HelpFormatter, doctype="numpy")
 def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
-    r"""gridded: Download MODIS derived data.
+    r"""global 250m,500m,1000m 2000- 4D,8D,16D,A:Download MODIS derived data.
 
     This data are derived data sets from MODIS satellite photos.
 
@@ -445,7 +445,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
     visualization and download page. Please modify it manually for
     multiple sites.
     """
-    tsutils._printiso(
+    tsutils.printiso(
         modis(lat, lon, product, band, startdate=startdate, enddate=enddate)
     )
 

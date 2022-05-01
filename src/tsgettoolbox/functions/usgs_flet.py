@@ -199,8 +199,8 @@ def usgs_flet_narr_cli(
     start_date=None,
     end_date=None,
 ):
-    """gridded: USGS FL ET data from NARR meteorologic data."""
-    tsutils._printiso(
+    """US/FL 2km D:USGS FL ET data from NARR meteorologic data."""
+    tsutils.printiso(
         usgs_flet_narr(
             lat,
             lon,
@@ -252,8 +252,8 @@ def usgs_flet_stns_cli(
     start_date=None,
     end_date=None,
 ):
-    """gridded: USGS FL ET data from station interpolated meteorologic data."""
-    tsutils._printiso(
+    """US/FL 2km D:USGS FL ET data from station interpolated meteorologic data."""
+    tsutils.printiso(
         usgs_flet_stns(
             lat,
             lon,

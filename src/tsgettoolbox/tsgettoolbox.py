@@ -18,7 +18,17 @@ from .functions.coops import coops
 from .functions.cpc import cpc
 from .functions.daymet import daymet
 from .functions.fawn import fawn
-from .functions.ldas import ldas
+from .functions.ldas import (
+    ldas,
+    ldas_gldas_noah,
+    ldas_grace,
+    ldas_merra,
+    ldas_merra_update,
+    ldas_nldas_fora,
+    ldas_nldas_noah,
+    ldas_smerge,
+    ldas_trmm_tmpa,
+)
 from .functions.metdata import metdata
 from .functions.modis import modis
 from .functions.ncei import (

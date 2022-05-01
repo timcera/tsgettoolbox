@@ -285,7 +285,7 @@ No data collected/available within this time frame.
 
 @mando.command("ndbc", formatter_class=HelpFormatter, doctype="numpy")
 def ndbc_cli(station, table, startUTC, endUTC):
-    r"""station: Download historical from the National Data Buoy Center.
+    r"""US station T,6T,10T,15T,H,D:Download historical from the National Data Buoy Center.
 
     Download historical data from the National Data Buoy Center.
 
@@ -813,7 +813,7 @@ def ndbc_cli(station, table, startUTC, endUTC):
         | REMCAP   | Remaining Battery Capacity (ampere-hours)            |
         +----------+------------------------------------------------------+
         """
-    tsutils._printiso(ndbc(station, table, startUTC, endUTC))
+    tsutils.printiso(ndbc(station, table, startUTC, endUTC))
 
 
 def ndbc(station, table, startUTC, endUTC):

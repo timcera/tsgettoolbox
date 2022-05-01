@@ -65,7 +65,7 @@ def unavco_to_df(url, **query_params):
 
 @mando.command("unavco", formatter_class=HelpFormatter, doctype="numpy")
 def unavco_cli(station, database="met", starttime=None, endtime=None):
-    r"""station: Download data from the Unavco web services.
+    r"""US station: Download data from the Unavco web services.
 
     Detailed information at:
     http://www.unavco.com/data/web-services/web-services.html
@@ -158,7 +158,7 @@ def unavco_cli(station, database="met", starttime=None, endtime=None):
     endtime
         End date in ISO8601 format.
     """
-    tsutils._printiso(
+    tsutils.printiso(
         unavco(station, database=database, starttime=starttime, endtime=endtime)
     )
 
