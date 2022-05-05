@@ -1,3 +1,9 @@
+## v23.24.0 (2022-05-05)
+
+### Feat
+
+- split ldas into separate functions
+
 ## v23.23.0 (2022-04-23)
 
 ### Feat
