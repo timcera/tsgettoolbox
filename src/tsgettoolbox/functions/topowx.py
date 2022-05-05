@@ -40,7 +40,7 @@ def topowx_cli(
     start_date=None,
     end_date=None,
 ):
-    r"""US 30arcsecond M:Topoclimatic Daily Air Temperature Dataset.
+    r"""US 30arcsecond 1948- M:Topoclimatic Daily Air Temperature Dataset.
 
     institution: USGS
 

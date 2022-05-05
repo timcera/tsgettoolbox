@@ -607,7 +607,7 @@ gldas_noah_first_line = "global 0.25deg 2000- 3H:GLDAS NOAH hydrology model resu
 # )
 trmm_tmpa_first_line = "global 0.25deg 1997- 3H:TRMM (TMPA) rainfall estimate"
 smerge_first_line = "global 0.125deg 1997- D:SMERGE-Noah-CCI root zone soil moisture"
-grace_first_line = "NAmeri 0.125deg 2002- 7D:Groundwater and soil moisture from GRACE"
+grace_first_line = "NAmerica 0.125deg 2002- 7D:Groundwater and soil moisture from GRACE"
 merra_first_line = "global 0.5x0.625deg 1980- H:MERRA-2 Land surface forcings"
 merra_update_first_line = "global 0.5x0.667deg 1980-2016 H:MERRA-2 Analysis update"
 
@@ -804,18 +804,31 @@ location.  You have the grid "{project}" and "xindex={xindex}" and
 
 
 if __name__ == "__main__":
-    for key in _UNITS_MAP:
-        print("LDAS", key)
-        r = ldas(
-            variables=key,
-            lon=-100,
-            lat=31,
-            startDate="2013-06-01T09",
-            endDate="2014-05-04T21",
-        )
-        print(r)
-        time.sleep(2)
-        r = ldas(
+    # for key in _UNITS_MAP:
+    #     print("LDAS", key)
+    #     r = ldas(
+    #         variables=key,
+    #         lon=-100,
+    #         lat=31,
+    #         startDate="2013-06-01T09",
+    #         endDate="2014-05-04T21",
+    #     )
+    #     print(r)
+    #     time.sleep(20)
+    #     r = ldas(
+    #         variables=key[key.index(":") + 1 :],
+    #         lon=-100,
+    #         lat=31,
+    #         startDate="2013-06-01T09",
+    #         endDate="2014-05-04T21",
+    #     )
+    #     print(r)
+    #     time.sleep(20)
+
+    for key in _NLDAS_FORA:
+
+        print("LDAS_NLDAS_FORA", key)
+        r = ldas_nldas_fora(
             variables=key[key.index(":") + 1 :],
             lon=-100,
             lat=31,
@@ -823,7 +836,18 @@ if __name__ == "__main__":
             endDate="2014-05-04T21",
         )
         print(r)
-        time.sleep(2)
+        time.sleep(20)
+    for key in _NLDAS_NOAH:
+        print("LDAS_NLDAS_NOAH", key)
+        r = ldas_nldas_noah(
+            variables=key[key.index(":") + 1 :],
+            lon=-100,
+            lat=31,
+            startDate="2013-06-01T09",
+            endDate="2014-05-04T21",
+        )
+        print(r)
+        time.sleep(20)
 
     r = ldas(
         variables="GLDAS2:GLDAS_NOAH025_3H_v2.1:SoilMoi10_40cm_inst",
@@ -835,6 +859,7 @@ if __name__ == "__main__":
 
     print("LDAS TEST")
     print(r)
+    time.sleep(20)
 
     r = ldas(
         variables="GLDAS2:GLDAS_NOAH025_3H_v2.1:SoilMoi10_40cm_inst",
