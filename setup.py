@@ -39,6 +39,10 @@ install_requires = [
     "suds-community",
     "tstoolbox > 103.16.1",
     "zeep",
+    "async_retriever",
+    "cftime",
+    "pydap",
+    "pydaymet",
 ]
 
 extras_require = {

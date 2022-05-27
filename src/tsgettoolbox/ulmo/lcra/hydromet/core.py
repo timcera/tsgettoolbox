@@ -83,8 +83,7 @@ def get_sites_by_type(site_type):
     res = requests.get(sites_base_url % site_type)
     soup = BeautifulSoup(res.content, "html")
     sites_str = [
-        site.text.replace("&nbsp", "").replace(u"\xa0", "")
-        for site in soup.findAll("a")
+        site.text.replace("&nbsp", "").replace("\xa0", "") for site in soup.findAll("a")
     ]
     sites_dict = {s[:4]: s[7:] for s in sites_str}
 
@@ -366,7 +365,7 @@ def _make_next_request(url, previous_request, data):
 
 def _parse_val(val):
     # the &nsbp translates to the following unicode
-    if val == u"\xa0":
+    if val == "\xa0":
         return None
     else:
         return val

@@ -13,6 +13,7 @@ try:
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
+import async_retriever as ar
 from tstoolbox import tsutils
 
 from tsgettoolbox import utils
@@ -151,7 +152,6 @@ _rename = {
 for item in _headermap:
     _rename.update(_headermap[item])
 
-
 _mapnumtoname = {
     0: "Jan",
     1: "Feb",
@@ -190,41 +190,23 @@ def ndbc_to_df(url, **query_params):
         # Yearly
         # https://www.ndbc.noaa.gov/data/historical/stdmet/41012h2012.txt.gz
         filenames.append(
-            "/historical/{3}/{0}{1}{2}.txt.gz".format(
-                query_params["station"], _lmap[table], yr, table
-            )
+            f"/historical/{table}/{query_params['station']}{_lmap[table]}{yr}.txt.gz"
         )
     if edate.year == cyear.year:
         for mnth in range(edate.month):
             # Monthly
             # https://www.ndbc.noaa.gov/data/stdmet/Mar/sauf132018.txt.gz
             filenames.append(
-                "/{3}/{4}/{0}{1}{2}.txt.gz".format(
-                    query_params["station"],
-                    mnth + 1,
-                    yr,
-                    table,
-                    _mapnumtoname[mnth],
-                )
+                f"/{table}/{_mapnumtoname[mnth]}/{query_params['station']}{mnth+1}{yr}.txt.gz"
             )
 
-    for filename in filenames:
-        session = utils.requests_retry_session()
-        req = session.get(url + filename)
-
-        if os.path.exists("debug_tsgettoolbox"):
-            logging.warning(req.url)
-
-        try:
-            req.raise_for_status()
-        except requests.exceptions.HTTPError:
-            continue
-
-        content = BytesIO(req.content)
-        content = GzipFile(fileobj=content).read()
-
-        # Test to see if 1 or 2 line header
-        f = StringIO(content.decode("utf-8"))
+    resp = ar.retrieve_binary([url + i for i in filenames], [{}] * len(filenames))
+    resp = [BytesIO(i) for i in resp]
+    resp = [GzipFile(fileobj=i).read() for i in resp]
+    skiprows = []
+    parse_dates = []
+    for r in resp:
+        f = StringIO(r.decode("utf-8"))
         head1 = f.readline()
         head2 = f.readline()
         f.seek(0)
@@ -255,7 +237,7 @@ def ndbc_to_df(url, **query_params):
 
         if len(tdf) > 0:
             tdf.rename(columns=_rename, inplace=True)
-            df = df.append(tdf)
+            df = pd.concat([df, tdf])
 
     if len(df) == 0:
         raise ValueError(

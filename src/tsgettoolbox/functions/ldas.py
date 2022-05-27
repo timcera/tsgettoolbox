@@ -5,6 +5,7 @@ import textwrap
 import time
 from io import BytesIO
 
+import async_retriever as ar
 import mando
 import pandas as pd
 from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -749,6 +750,7 @@ location.  You have the grid "{project}" and "xindex={xindex}" and
     url = r"https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi"
 
     ndf = pd.DataFrame()
+    collect_kwds = []
     for var in variables:
         words = var.split(":")
         project = words[0]
@@ -763,24 +765,26 @@ location.  You have the grid "{project}" and "xindex={xindex}" and
         query_params["endDate"] = tsutils.parsedate(endDate, strftime="%Y-%m-%dT%H")
         query_params["location"] = location
         query_params["variable"] = nvariable
+        collect_kwds.append(query_params)
 
-        session = utils.requests_retry_session()
-        req = session.get(url, params=query_params)
+    resp = ar.retrieve_binary(
+        [url] * len(collect_kwds), [{"params": p} for p in collect_kwds]
+    )
 
-        if os.path.exists("debug_tsgettoolbox"):
-            logging.warning(req.url)
-        req.raise_for_status()
-        if b"ERROR" in req.content:
-            raise ValueError(req.content)
+    if os.path.exists("debug_tsgettoolbox"):
+        logging.warning(f"{url}, {collect_kwds}")
 
+    ndf = pd.DataFrame()
+    for index, r in enumerate(resp):
         df = pd.read_csv(
-            BytesIO(req.content),
+            BytesIO(r),
             skiprows=40,
             header=None,
             index_col=None,
             delim_whitespace=True,
             na_values=[-9999, -9999.0],
         )
+
         df.drop(df.index[-1], axis="rows", inplace=True)
         if len(df.columns) == 3:
             df["dt"] = df[0] + "T" + df[1]
@@ -790,8 +794,8 @@ location.  You have the grid "{project}" and "xindex={xindex}" and
         else:
             df[0] = pd.to_datetime(df[0])
             df.set_index(0, inplace=True)
-        variable_name = query_params["variable"].split(":")[-1]
-        unit = _UNITS_MAP[query_params["variable"]][1]
+        variable_name = collect_kwds[index]["variable"].split(":")[-1]
+        unit = _UNITS_MAP[collect_kwds[index]["variable"]][1]
         df.columns = ["{}:{}".format(variable_name, unit)]
         df.index.name = "Datetime:UTC"
         try:
@@ -870,4 +874,16 @@ if __name__ == "__main__":
     )
 
     print("LDAS TEST")
+    print(r)
+
+    r = ldas(
+        variables=[
+            "GLDAS2:GLDAS_NOAH025_3H_v2.1:SoilMoi10_40cm_inst",
+            "GLDAS2:GLDAS_NOAH025_3H_v2.1:Evap_tavg",
+        ],
+        lon=100,
+        lat=34,
+        startDate="5 years ago",
+        endDate="4 years ago",
+    )
     print(r)

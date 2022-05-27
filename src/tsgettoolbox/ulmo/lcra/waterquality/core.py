@@ -217,13 +217,13 @@ def _nan_values(value):
 
 def _beautify_header(str):
     return (
-        str.replace(u"\xb0", "deg")
+        str.replace("\xb0", "deg")
         .lower()
         .replace("(", "")
         .replace(")", "")
-        .replace(u"%", u"percent")
+        .replace("%", "percent")
         .replace(" ", "_")
-        .replace(u"/", "per")
+        .replace("/", "per")
     )
 
 
@@ -304,7 +304,7 @@ def _make_next_request(url, previous_request, data):
 
 def _parse_val(val):
     # the &nsbp translates to the following unicode
-    if val == u"\xa0":
+    if val == "\xa0":
         return None
     return val
 

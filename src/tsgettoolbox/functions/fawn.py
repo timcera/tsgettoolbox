@@ -481,16 +481,16 @@ if __name__ == "__main__":
         stations="Alachua,120,180,240",
         variables="rainfall,winddir",
         reportType="hourly",
-        start_date="2017-01-01",
+        start_date="2019-01-01",
         end_date="2020-01-01",
     )
     print(r)
 
     r = fawn(
-        stations="Alachua,120,180,240",
+        stations="Alachua,120",
         variables="rainfall,winddir",
         reportType="all",
-        start_date="2017-01-01",
+        start_date="2019-01-01",
         end_date="2020-01-01",
     )
     print(r)

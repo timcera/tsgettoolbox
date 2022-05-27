@@ -13,6 +13,7 @@ import os
 import warnings
 from io import BytesIO
 
+import async_retriever as ar
 import mando
 import pandas as pd
 
@@ -911,82 +912,24 @@ def _read_rdb(url, data):
         na_values=_NA_VALUES,
     )
     pmcodes.set_index("parameter_cd", inplace=True)
+    data = [{key: val for key, val in i.items() if val is not None} for i in data]
+    resp = ar.retrieve_text(
+        [url] * len(data), [{"params": {**p, "format": "rdb"}} for p in data]
+    )
 
-    session = utils.requests_retry_session()
-    req = session.get(url, params=data)
-    if os.path.exists("debug_tsgettoolbox"):
-        logging.warning(req.url)
-    req.raise_for_status()
+    data = [r.strip().split("\n") for r in resp if r[0] == "#"]
+    data = [t.split("\t") for d in data for t in d if "#" not in t]
+    if len(data) == 0:
+        raise ValueError()
+    rdb_df = pd.DataFrame.from_dict(dict(zip(data[0], d)) for d in data[2:])
 
-    header = [0, 1]
-    if "/measurements/" in url:
-        header = [0]
+    rdb_df = rdb_df.replace(to_replace="<NA>", value=pd.NA)
 
-    if "/iv/" in url or "/dv/" in url:
-        # iv and dv results are stacked, a table for each site.  Have to split
-        # the overall req.content into discrete tables for pd.read_csv to work.
-        list_of_sublists = []
-        n = 0
-        a_list = req.content.splitlines()
-        for i, elt in enumerate(a_list):
-            if i and elt[:9] == b"agency_cd":
-                list_of_sublists.append(a_list[n:i])
-                n = i
-        list_of_sublists.append(a_list[n:])
+    rdb_df = rdb_df.convert_dtypes()
 
-        ndf = pd.DataFrame()
-        for site in list_of_sublists:
-            try:
-                adf = pd.read_csv(
-                    BytesIO(b"\n".join(site)),
-                    comment="#",
-                    header=header,
-                    sep="\t",
-                    dtype={"site_no": str},
-                    na_values=_NA_VALUES,
-                )
-            except pd.errors.EmptyDataError:
-                continue
-
-            adf.columns = [i[0] for i in adf.columns]
-
-            test_cnames = []
-            not_ts = []
-            for cname in adf.columns:
-                words = cname.split("_")
-                try:
-                    _ = int(words[0])
-                    if words[-1] == "cd":
-                        test_cnames.append(cname)
-                    else:
-                        test_cnames.append(
-                            cname
-                            + ":{}".format(pmcodes.loc[words[1], "parameter_units"])
-                        )
-                except ValueError:
-                    test_cnames.append(cname)
-                    not_ts.append(cname)
-
-            adf.columns = test_cnames
-            adf.set_index(not_ts, inplace=True)
-
-            if len(ndf) == 0:
-                ndf = adf
-            else:
-                ndf = ndf.join(adf, how="outer")
-
-        ndf.reset_index(inplace=True)
-    else:
-        ndf = pd.read_csv(
-            BytesIO(req.content),
-            comment="#",
-            header=header,
-            sep="\t",
-            dtype={"site_no": str, "parameter_cd": str, "ts_id": str},
-            na_values=_NA_VALUES,
-        )
-        ndf.columns = [i[0] for i in ndf.columns]
-    return ndf
+    if "agency_cd" in rdb_df:
+        rdb_df = rdb_df[~rdb_df.agency_cd.str.contains("agency_cd|5s")].copy()
+    return rdb_df
 
 
 def _make_nice_names(ndf, reverse=False):
@@ -1030,8 +973,9 @@ def usgs_iv_dv_rdb_to_df(url, **kwargs):
     if "includeCodes" in kwargs:
         includeCodes = kwargs.pop("includeCodes")
 
-    ndf = _read_rdb(url, kwargs)
-    ndf["Datetime"] = pd.to_datetime(ndf["datetime"])
+    ndf = _read_rdb(url, [kwargs])
+
+    ndf["Datetime"] = pd.to_datetime(ndf["datetime"], errors="coerce")
     ndf.drop("datetime", axis="columns", inplace=True)
     if "tz_cd" in ndf.columns:
         ndf["Datetime"] = ndf.apply(normalize_tz, args=("tz_cd",), axis=1)
@@ -1077,7 +1021,8 @@ def usgs_stat_rdb_to_df(url, **kwargs):
     if kwargs["statReportType"] == "daily":
         kwargs["missingData"] = None
 
-    ndf = _read_rdb(url, kwargs)
+    ndf = _read_rdb(url, [kwargs])
+
     if kwargs["statReportType"] == "daily":
         ndf["Datetime"] = [
             "{:02d}-{:02d}".format(int(i), int(j))
@@ -1176,7 +1121,7 @@ def usgs_site_rdb_to_df(url, **kwargs):
     kwargs["siteOutput"] = "expanded"
     kwargs["siteStatus"] = "all"
 
-    ndf = _read_rdb(url, kwargs)
+    ndf = _read_rdb(url, [kwargs])
     return ndf
 
 
@@ -1207,7 +1152,7 @@ to NWIS.
             )
         )
 
-    ndf = _read_rdb(url, kwargs)
+    ndf = _read_rdb(url, [kwargs])
     if "measurements" in kwargs:
         dname = "measurement_dt"
     elif "peak" in kwargs:
@@ -1223,7 +1168,7 @@ def usgs_gwlevels_rdb_to_df(url, **kwargs):
     # Need to enforce rdb format
     kwargs["format"] = "rdb"
 
-    ndf = _read_rdb(url, kwargs)
+    ndf = _read_rdb(url, [kwargs])
     # lev_dt    lev_tm  lev_tz_cd
     ndf["Datetime"] = pd.to_datetime(
         ndf["lev_dt"] + "T" + ndf["lev_tm"], errors="coerce"
@@ -3237,15 +3182,16 @@ to "US".  """
             startDateHi, strftime="%m-%d-%Y"
         )
 
-    session = utils.requests_retry_session()
     if os.path.exists("debug_tsgettoolbox"):
         logging.warning(url, query_params)
-    req = session.get(url, params=query_params)
-    if os.path.exists("debug_tsgettoolbox"):
-        logging.warning(req.url)
-    req.raise_for_status()
 
-    ndf = pd.read_csv(BytesIO(req.content))
+    query_params = {
+        key: value for key, value in query_params.items() if value is not None
+    }
+    resp = ar.retrieve_binary([url], [{"params": query_params}])
+
+    ndf = [pd.read_csv(BytesIO(i)) for i in resp]
+    ndf = pd.concat(ndf)
     return ndf
 
 

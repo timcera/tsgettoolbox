@@ -11,7 +11,8 @@ from __future__ import absolute_import, division, print_function
 import datetime
 import logging
 import os
-from typing import List, Optional, Union
+from io import StringIO
+from typing import List, Literal, Optional, Union
 
 try:
     import urllib.parse as urlp
@@ -22,6 +23,7 @@ import warnings
 
 import mando
 import pandas as pd
+import pydaymet
 import typic
 
 try:
@@ -41,17 +43,26 @@ _units_map = {
     "swe": ":kg/m2",
     "prcp": ":mm",
     "dayl": ":s",
+    "penman_monteith": ":mm",
+    "hargreaves_samani": ":mm",
+    "priestley_taylor": ":mm",
 }
 
 
-def _daymet_date_parser(year, doy):
-    return pd.to_datetime(
-        "{}-{}".format(int(float(year)), int(float(doy))), format="%Y-%j"
-    )
-
-
 @mando.command("daymet", formatter_class=HelpFormatter, doctype="numpy")
-def daymet_cli(lat, lon, measuredParams=None, year=None):
+@tsutils.doc(tsutils.docstrings)
+def daymet_cli(
+    lat,
+    lon,
+    start_date=pd.Timestamp("1980-01-01"),
+    end_date=None,
+    years=None,
+    measuredParams="all",
+    time_scale="daily",
+    snow=False,
+    pet_soil_heat=0.0,
+    pet_alpha=1.26,
+):
     r"""NAmerica 1km 1980- D,M:Daymet, daily meteorology by the Oak Ridge National Laboratory
 
     Detailed documentation is at http://daymet.ornl.gov/.  Since this is
@@ -71,57 +82,155 @@ def daymet_cli(lat, lon, measuredParams=None, year=None):
 
             Example: --lon=-85.3
 
-    measuredParams:  CommaSeparatedVariables (optional)
+    ${start_date}
+        For North America and Hawaii, the earliest date is 1980-01-01. For
+        Puerto Rico, the earliest date it 1950-01-01.
+
+    ${end_date}
+        The latest end date is usually 12-31 of the previous calendar year,
+        though this is dependent on time required to process that data.
+
+    years : CommaSeparatedYears (optional):
+        Current Daymet product is available from 1980 to the latest
+        full calendar year.::
+
+            Example: --years=2012,2014
+
+        This overrides the start_date and end_date options.
+    measuredParams:
+        [optional, defaults to "all"]
+
         Use the abbreviations from the following table:
 
-        +----------------+-----------------------+---------+
-        | measuredParams | Description           | Unit    |
-        +================+=======================+=========+
-        | tmax           | maximum temperature   | degC    |
-        +----------------+-----------------------+---------+
-        | tmin           | minimum temperature   | degC    |
-        +----------------+-----------------------+---------+
-        | srad           | shortwave radiation   | W/m2    |
-        +----------------+-----------------------+---------+
-        | vp             | vapor pressure        | Pa      |
-        +----------------+-----------------------+---------+
-        | swe            | snow-water equivalent | kg/m2   |
-        +----------------+-----------------------+---------+
-        | prcp           | precipitation         | mm      |
-        +----------------+-----------------------+---------+
-        | dayl           | daylength             | seconds |
-        +----------------+-----------------------+---------+
+        +-------------------+-------------------------+---------+-------------+
+        | measuredParams    | Description             | Unit    | Time Scales |
+        +===================+=========================+=========+=============+
+        | prcp              | precipitation           | mm      | all         |
+        +-------------------+-------------------------+---------+-------------+
+        | swe               | snow-water equivalent   | kg/m2   | all         |
+        +-------------------+-------------------------+---------+-------------+
+        | tmax              | maximum temperature     | degC    | all         |
+        +-------------------+-------------------------+---------+-------------+
+        | tmin              | minimum temperature     | degC    | all         |
+        +-------------------+-------------------------+---------+-------------+
+        | vp                | vapor pressure          | Pa      | all         |
+        +-------------------+-------------------------+---------+-------------+
+        | dayl              | daylength               | seconds | daily       |
+        +-------------------+-------------------------+---------+-------------+
+        | srad              | shortwave radiation     | W/m2    | daily       |
+        +-------------------+-------------------------+---------+-------------+
+        | penman_monteith   | PET by Penman-Montieth  | mm      | daily       |
+        +-------------------+-------------------------+---------+-------------+
+        | hargreaves_samani | PET by Hargreaves-      | mm      | daily       |
+        |                   | Samani                  |         |             |
+        +-------------------+-------------------------+---------+-------------+
+        | priestley_taylor  | PET by Priestley-Taylor | mm      | daily       |
+        +-------------------+-------------------------+---------+-------------+
 
         Example: --measuredParams=tmax,tmin
 
         All variables are returned by default.
+    time_scale:
+        [optional, default is "daily"]
 
-    year : CommaSeparatedYears (optional):
-        Current Daymet product (version 2) is available from 1980 to the latest
-        full calendar year.::
+        One of "daily", "monthly", or "annual".
+    snow: bool
+        [optional, defaults to False]
 
-            Example: --years=2012,2013
+        Separate snowfall from precipitation using Martinez and Gupta (2010)
+        method.
+    pet_soil_heat: float
+        [optional, defaults to 0.0]
 
-        All years are returned by default.
+        Used in the "penman_monteith" and "priestley_taylor" calculations.
+    pet_alpha: float
+        [optional, defaults to 1.26]
+
+        Used in the "priestley_taylor" calculation where the default 1.26 is
+        for humid regions and 1.74 for arid.
     """
-    tsutils.printiso(daymet(lat, lon, measuredParams=measuredParams, year=year))
+    tsutils.printiso(
+        daymet(
+            lat,
+            lon,
+            start_date=start_date,
+            end_date=end_date,
+            years=years,
+            measuredParams=measuredParams,
+            time_scale=time_scale,
+            snow=snow,
+            pet_soil_heat=pet_soil_heat,
+            pet_alpha=pet_alpha,
+        )
+    )
 
 
-@tsutils.transform_args(measuredParams=tsutils.make_list, year=tsutils.make_list)
-@typic.al
+@tsutils.transform_args(measuredParams=tsutils.make_list)
+# @typic.al
 def daymet(
     lat: float,
     lon: float,
-    measuredParams: Optional[Union[List[str], str]] = None,
-    year: Optional[Union[List[int], int]] = None,
+    start_date: pd.Timestamp = "1980-01-01",
+    end_date: Optional[pd.Timestamp] = None,
+    years: Optional[Union[str, List[int]]] = None,
+    measuredParams: Optional[
+        Union[
+            List[
+                Literal[
+                    "tmax",
+                    "tmin",
+                    "srad",
+                    "vp",
+                    "swe",
+                    "prcp",
+                    "dayl",
+                    "penman_monteith",
+                    "hargreaves_samani",
+                    "priestley_taylor",
+                ]
+            ],
+            Literal[
+                "tmax",
+                "tmin",
+                "srad",
+                "vp",
+                "swe",
+                "prcp",
+                "dayl",
+                "penman_monteith",
+                "hargreaves_samani",
+                "priestley_taylor",
+                "all",
+            ],
+        ]
+    ] = None,
+    time_scale: Literal["daily", "monthly", "annual"] = "daily",
+    snow: bool = False,
+    pet_soil_heat=0.0,
+    pet_alpha=1.26,
 ):
     r"""Download data from Daymet by the Oak Ridge National Laboratory."""
-    url = r"http://daymet.ornl.gov/data/send/saveData"
-    avail_params = ["tmax", "tmin", "srad", "vp", "swe", "prcp", "dayl"]
-    params = {}
-    params["lat"] = lat
-    params["lon"] = lon
-    if measuredParams is None:
+    years = tsutils.make_list(years)
+    avail_params = [
+        "tmax",
+        "tmin",
+        "srad",
+        "vp",
+        "swe",
+        "prcp",
+        "dayl",
+        "penman_monteith",
+        "hargreaves_samani",
+        "priestley_taylor",
+    ]
+
+    pet_types = [
+        "penman_monteith",
+        "hargreaves_samani",
+        "priestley_taylor",
+    ]
+
+    if measuredParams is None or measuredParams == "all":
         measuredParams = avail_params
     else:
         for testparams in measuredParams:
@@ -138,60 +247,66 @@ You supplied {0}.
                     )
                 )
 
-    last_year = datetime.datetime.now().year - 1
-    if year is None:
-        params["year"] = ",".join([str(i) for i in range(1980, last_year + 1)])
+    if time_scale in ["monthly", "annual"]:
+        for rem in ["srad", "dayl"] + pet_types:
+            if rem in measuredParams:
+                measuredParams.remove(rem)
+                logging.warning(
+                    tsutils.error_wrapper(
+                        f"""
+The parameter {rem} is not available for {time_scale} data."""
+                    )
+                )
+
+    dates = None
+    if years is not None:
+        dates = years
     else:
-        accumyear = []
-        for testyear in year:
-            try:
-                iyear = int(tsutils.parsedate(testyear, strftime="%Y"))
-                accumyear.append(iyear)
-            except ValueError:
-                raise ValueError(
-                    tsutils.error_wrapper(
-                        """
-The year= option must contain a comma separated list of integers.  You
-supplied {}.
-""".format(
-                            testyear
-                        )
-                    )
-                )
-            if iyear < 1980 or iyear > last_year:
-                raise ValueError(
-                    tsutils.error_wrapper(
-                        """
-The year= option must contain values from 1980 up to and including the last
-calendar year.  You supplied {}.
-""".format(
-                            iyear
-                        )
-                    )
-                )
+        if end_date is None:
+            end_date = pd.Timestamp(f"{datetime.datetime.now().year - 1}-12-31")
+        dates = (pd.Timestamp(start_date), pd.Timestamp(end_date))
 
-        params["year"] = ",".join([str(i) for i in accumyear])
+    obs_data = [i for i in measuredParams if i not in pet_types]
 
-    params["measuredParams"] = ",".join(measuredParams)
+    ndf = pd.DataFrame()
+    if obs_data:
+        ndf = pydaymet.get_bycoords(
+            (lon, lat),
+            dates,
+            variables=obs_data,
+            crs="epsg:4326",
+            time_scale=time_scale,
+        )
+        ndf = ndf.rename(lambda x: x.split()[0], axis="columns")
+        ndf = ndf[obs_data]
 
-    req = urlp.unquote(f"{url}?{urlp.urlencode(params)}")
+    for pet in pet_types:
+        if pet in measuredParams:
+            df = pydaymet.get_bycoords(
+                (lon, lat),
+                dates,
+                variables=["tmax"],
+                crs="epsg:4326",
+                time_scale=time_scale,
+                pet=pet,
+            )
+            df = df.rename(lambda x: x.split()[0], axis="columns")
+            df = df.drop("tmax", axis="columns")
+            ndf[pet] = df["pet"]
+
+    if time_scale == "monthly":
+        ndf.index = ndf.index.to_period("M")
+    if time_scale == "annual":
+        ndf.index = ndf.index.to_period("A")
+
     if os.path.exists("debug_tsgettoolbox"):
-        logging.warning(req)
-    df = pd.read_csv(
-        req,
-        skiprows=7,
-        sep=",",
-        date_parser=_daymet_date_parser,
-        header=0,
-        index_col=0,
-        skipinitialspace=True,
-        parse_dates=[[0, 1]],
-    )
-    df.columns = [i.split()[0] for i in df.columns]
-    df = df[measuredParams]
-    df.columns = [f"Daymet-{i}{_units_map[i]}" for i in df.columns]
-    df.index.name = "Datetime"
-    return df
+        logging.warning(f"{start_date}, {end_date}, {years}")
+
+    ndf.columns = [i.split()[0] for i in ndf.columns]
+    ndf = ndf[measuredParams]
+    ndf.columns = [f"Daymet-{i}{_units_map[i]}" for i in ndf.columns]
+    ndf.index.name = "Datetime"
+    return ndf
 
 
 daymet.__doc__ = daymet_cli.__doc__
@@ -202,7 +317,7 @@ if __name__ == "__main__":
         measuredParams="tmax,tmin",
         lat=43.1,
         lon=-85.2,
-        year="2000,2001",
+        years=[2000, 2001],
     )
 
     print("Daymet")
@@ -212,7 +327,67 @@ if __name__ == "__main__":
         measuredParams=None,
         lat=43.1,
         lon=-85.2,
-        year="2010,2011",
+        start_date="1995-04-01",
+        end_date="2000-01-02",
+    )
+
+    print("Daymet")
+    print(r)
+
+    r = daymet(
+        lat=43.1,
+        lon=-85.2,
+    )
+
+    print("Daymet")
+    print(r)
+
+    r = daymet(
+        lat=43.1,
+        lon=-85.2,
+        start_date="1980",
+        end_date="1981",
+        time_scale="annual",
+    )
+
+    print("Daymet")
+    print(r)
+
+    r = daymet(
+        lat=43.1,
+        lon=-85.2,
+        start_date="1980",
+        end_date="1981",
+        time_scale="monthly",
+    )
+
+    print("Daymet")
+    print(r)
+
+    r = daymet(
+        lat=43.1,
+        lon=-85.2,
+        start_date="2000-04",
+        time_scale="annual",
+    )
+
+    print("Daymet")
+    print(r)
+
+    r = daymet(
+        lat=43.1,
+        lon=-85.2,
+        start_date="2000-04",
+        time_scale="monthly",
+    )
+
+    print("Daymet")
+    print(r)
+
+    r = daymet(
+        lat=43.1,
+        lon=-85.2,
+        measuredParams="penman_monteith",
     )
 
     print("Daymet")

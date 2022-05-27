@@ -3,9 +3,9 @@ import logging
 import os
 from io import BytesIO
 
+import async_retriever as ar
 import mando
 import pandas as pd
-import requests
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -38,17 +38,26 @@ def unavco_to_df(url, **query_params):
     query_params["endtime"] = tsutils.parsedate(query_params["endtime"]).isoformat()
     query_params["tsFormat"] = "iso8601"
 
-    req = requests.get(url, params=query_params)
     if os.path.exists("debug_tsgettoolbox"):
-        logging.warning(req.url)
-    df = pd.read_csv(
-        BytesIO(req.content),
-        header=0,
-        index_col=0,
-        parse_dates=[0],
-        comment=comment,
-        skiprows=5,
-    )
+        logging.warning(url, query_params)
+
+    query_params = {
+        key: value for key, value in query_params.items() if value is not None
+    }
+
+    resp = ar.retrieve_binary([url], [{"params": query_params}])
+    resp = [
+        pd.read_csv(
+            BytesIO(i),
+            header=0,
+            index_col=0,
+            parse_dates=[0],
+            comment=comment,
+            skiprows=5,
+        )
+        for i in resp
+    ]
+    df = pd.concat(resp)
     df.columns = [
         "unavco-{}".format(
             i.strip()
