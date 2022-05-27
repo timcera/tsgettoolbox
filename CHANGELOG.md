@@ -1,3 +1,9 @@
+## v23.25.0 (2022-05-27)
+
+### Feat
+
+- for all functions based on requests shifted to async_retriever
+
 ## v23.24.0 (2022-05-05)
 
 ### Feat
