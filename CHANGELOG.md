@@ -1,3 +1,13 @@
+## v23.26.0 (2022-05-30)
+
+### Feat
+
+- **ldas**: changed black to not process ldas so that ldas docstrings work
+
+### Fix
+
+- **ldas**: fixed the ldas docstrings to support command line and Python api help
+
 ## v23.25.0 (2022-05-27)
 
 ### Feat
