@@ -9,3 +9,6 @@ version = "23.25.0"
 tag_format = "v$version"
 version_files = ["VERSION"]
 update_changelog_on_bump = true
+
+[tool.isort]
+profile = 'black'
