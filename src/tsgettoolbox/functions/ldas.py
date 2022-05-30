@@ -367,74 +367,74 @@ def foundation_cli(
     ):
         """${first_line}
 
-                This will download data from a set of water cycle related variables
-                (Table 1) from the North American and Global Land Data Assimilation
-                Systems (NLDAS and GLDAS, respectively), the Land Parameter Parameter
-                Model (LPRM), the Tropical Rainfall Measuring Mission (TRMM), and
-                Gravity Recovery and Climate Experiment (GRACE) data assimilation. In
-                addition to their access provided by the hydrology community tools,
-                selected data rods variables can be searched and accessed through the
-                GES DISC search and access user interface, and all data rods variables
-                can be accessed via Web services developed by the GES DISC.
+        This will download data from a set of water cycle related variables
+        (Table 1) from the North American and Global Land Data Assimilation
+        Systems (NLDAS and GLDAS, respectively), the Land Parameter Parameter
+        Model (LPRM), the Tropical Rainfall Measuring Mission (TRMM), and
+        Gravity Recovery and Climate Experiment (GRACE) data assimilation. In
+        addition to their access provided by the hydrology community tools,
+        selected data rods variables can be searched and accessed through the
+        GES DISC search and access user interface, and all data rods variables
+        can be accessed via Web services developed by the GES DISC.
 
-                The time zone is always UTC.
+        The time zone is always UTC.
 
-        ${meta_table}
+${meta_table}
 
-                Parameters
-                ----------
-                lat : float
-                    Should use 'lat' and 'lon' to specify location.
+        Parameters
+        ----------
+        lat : float
+            Should use 'lat' and 'lon' to specify location.
 
-                    Latitude (required): Enter single geographic point by
-                    latitude.::
+            Latitude (required): Enter single geographic point by
+            latitude.::
 
-                        Example: --lat=43.1
+                Example: --lat=43.1
 
-                    If known, 'xindex' and 'yindex' can be used for the NLDAS grid
-                    only.
-                lon : float
-                    Should use 'lat' and 'lon' to specify location.
+            If known, 'xindex' and 'yindex' can be used for the NLDAS grid
+            only.
+        lon : float
+            Should use 'lat' and 'lon' to specify location.
 
-                    Longitude (required): Enter single geographic point by
-                    longitude::
+            Longitude (required): Enter single geographic point by
+            longitude::
 
-                        Example: --lon=-85.3
+                Example: --lon=-85.3
 
-                    If known, 'xindex' and 'yindex' can be used for the NLDAS grid
-                    only.
-                xindex : int
-                    It `lat` or `lon` is None, then will try `xindex` and `yindex`.
+            If known, 'xindex' and 'yindex' can be used for the NLDAS grid
+            only.
+        xindex : int
+            It `lat` or `lon` is None, then will try `xindex` and `yindex`.
 
-                    Enter the x index of the NLDAS grid.::
+            Enter the x index of the NLDAS grid.::
 
-                        Example: --xindex=301
-                yindex : int
-                    It `lat` or `lon` is None, then will try `xindex` and `yindex`.
+                Example: --xindex=301
+        yindex : int
+            It `lat` or `lon` is None, then will try `xindex` and `yindex`.
 
-                    Enter the y index of the NLDAS grid.::
+            Enter the y index of the NLDAS grid.::
 
-                        Example: --yindex=80
-                variables : str
-                    Use the variable codes from the following table:
+                Example: --yindex=80
+        variables : str
+            Use the variable codes from the following table:
 
-        ${units_table}
+${units_table}
 
-                startDate : str
-                    The start date of the time series.::
+        startDate : str
+            The start date of the time series.::
 
-                        Example: --startDate=2001-01-01T05
+                Example: --startDate=2001-01-01T05
 
-                    If startDate and endDate are None, returns the entire series.
-                endDate : str
-                    The end date of the time series.::
+            If startDate and endDate are None, returns the entire series.
+        endDate : str
+            The end date of the time series.::
 
-                        Example: --endDate=2002-01-05T05
+                Example: --endDate=2002-01-05T05
 
-                    If startDate and endDate are None, returns the entire series.
-                variable : str
-                    DEPRECATED: use "variables" instead to be consistent across
-                    "tsgettoolbox"."""
+            If startDate and endDate are None, returns the entire series.
+        variable : str
+            DEPRECATED: use "variables" instead to be consistent across
+            "tsgettoolbox"."""
         tsutils.printiso(
             base_ldas(
                 lat=lat,

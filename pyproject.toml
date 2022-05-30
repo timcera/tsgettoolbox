@@ -12,3 +12,6 @@ update_changelog_on_bump = true
 
 [tool.isort]
 profile = 'black'
+
+[tool.black]
+extend-exclude = 'ldas.py'
