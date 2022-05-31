@@ -36,6 +36,10 @@ def ulmo_df(state=None, climate_division=None, start_date=None, end_date=None):
     df.index = pd.PeriodIndex(df.index)
     df.index.name = "Datetime"
     df.columns = [unit_conv.get(i, i) for i in df.columns]
+    df = df.rename(
+        {"pdsi": "palmer_drought_severity_index", "cmi": "crop_moisture_index"},
+        axis="columns",
+    )
     return df
 
 

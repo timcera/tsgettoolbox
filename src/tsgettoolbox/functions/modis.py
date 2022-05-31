@@ -500,8 +500,8 @@ _UNITS = {
     "LE_500m": "J/m^2/day",
     "PET_500m": "kg/m^2/8day",
     "PLE_500m": "J/m^2/day",
-    "Gpp_500m": "kgC/m^2 in 8 days",
-    "PsnNet_500m": "kgC/m^2 in 8 days",
+    "Gpp_500m": "kgC/m^2/8day",
+    "PsnNet_500m": "kgC/m^2/8day",
     "Npp_500m": "kg_C/m^2",
     "Npp_QC_500m": "percentage",
     "LST_Day_1KM": "degK",
@@ -828,12 +828,11 @@ def date_parser(strdates):
 
 
 @mando.command("modis", formatter_class=HelpFormatter, doctype="numpy")
-def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
+@tsutils.doc(tsutils.docstrings)
+def modis_cli(lat, lon, product, band, start_date=None, end_date=None):
     r"""global 250m,500m,1000m 2000- 4D,8D,16D,A:Download MODIS derived data.
 
     This data are derived data sets from MODIS satellite photos.
-
-    MCD12Q1
 
     The MODIS Land Cover Type product contains five classification
     schemes, which describe land cover properties derived from
@@ -968,149 +967,150 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         One of the following values in the 'product'
         column.
 
-        +--------------+---------------------------+-----------+------------+
-        | product      | Description               | Frequency | Resolution |
-        |              |                           |           |        (m) |
-        +==============+===========================+===========+============+
-        | ECO4ESIPTJPL | ECOSTRESS Evaporative     | Varies    |         70 |
-        |              | Stress Index PT-JPL (ESI) |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | ECO4WUE      | ECOSTRESS Water Use       | Varies    |         70 |
-        |              | Efficiency (WUE)          |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | GEDI03       | GEDI Gridded Land Surface | One-time  |       1000 |
-        |              | Metrics (LSM)             |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | GEDI04_B     | GEDI Gridded Aboveground  | One-time  |       1000 |
-        |              | Biomass Density (AGBD)    |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MCD12Q1      | MODIS/Terra+Aqua Land     | Yearly    |        500 |
-        |              | Cover Type (LC)           |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MCD12Q2      | MODIS/Terra+Aqua Land     | Yearly    |        500 |
-        |              | Cover Dynamics (LCD)      |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MCD15A2H     | MODIS/Terra+Aqua Leaf     | 8-Day     |        500 |
-        |              | Area Index/FPAR           |           |            |
-        |              | (LAI/FPAR)                |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MCD15A3H     | MODIS/Terra+Aqua Leaf     | 4-Day     |        500 |
-        |              | Area Index/FPAR           |           |            |
-        |              | (LAI/FPAR)                |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MCD19A3      | MODIS/Terra+Aqua BRDF     | 8-Day     |       1000 |
-        |              | Model Parameters (MAIAC)  |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MCD43A       | MODIS/Terra+Aqua BRDF and | Daily     |        500 |
-        |              | Calculated Albedo         |           |            |
-        |              | (BRDF/MCD43A)             |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MCD43A1      | MODIS/Terra+Aqua          | Daily     |        500 |
-        |              | BRDF/Albedo Model         |           |            |
-        |              | Parameters (BRDF)         |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MCD43A4      | MODIS/Terra+Aqua Nadir    | Daily     |        500 |
-        |              | BRDF-Adjusted Reflectance |           |            |
-        |              | (NBAR)                    |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MCD64A1      | MODIS/Terra+Aqua Burned   | Monthly   |        500 |
-        |              | Area (Burned Area)        |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MOD09A1      | MODIS/Terra Surface       | 8-Day     |        500 |
-        |              | Reflectance (SREF)        |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MOD11A2      | MODIS/Terra Land Surface  | 8-Day     |       1000 |
-        |              | Temperature and           |           |            |
-        |              | Emissivity (LST)          |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MOD13Q1      | MODIS/Terra Vegetation    | 16-Day    |        250 |
-        |              | Indices (NDVI/EVI)        |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MOD14A2      | MODIS/Terra Thermal       | 8-Day     |       1000 |
-        |              | Anomalies/Fire (Fire)     |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MOD15A2H     | MODIS/Terra Leaf Area     | 8-Day     |        500 |
-        |              | Index/FPAR (LAI/FPAR)     |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MOD16A2      | MODIS/Terra Net           | 8-Day     |        500 |
-        |              | Evapotranspiration (ET)   |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MOD17A2H     | MODIS/Terra Gross Primary | 8-Day     |        500 |
-        |              | Productivity (GPP)        |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MOD17A3HGF   | MODIS/Terra Net Primary   | Yearly    |        500 |
-        |              | Production Gap-Filled     |           |            |
-        |              | (NPP)                     |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MOD21A2      | MODIS/Terra Land Surface  | 8-Day     |       1000 |
-        |              | Temperature/3-Band        |           |            |
-        |              | Emissivity (LSTE)         |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MOD44B       | MODIS/Terra Vegetation    | Yearly    |        250 |
-        |              | Continuous Fields (VCF)   |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MYD09A1      | MODIS/Aqua Surface        | 8-Day     |        500 |
-        |              | Reflectance (SREF)        |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MYD11A2      | MODIS/Aqua Land Surface   | 8-Day     |       1000 |
-        |              | Temperature and           |           |            |
-        |              | Emissivity (LST)          |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MYD13Q1      | MODIS/Aqua Vegetation     | 16-Day    |        250 |
-        |              | Indices (NDVI/EVI)        |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MYD14A2      | MODIS/Aqua Thermal        | 8-Day     |       1000 |
-        |              | Anomalies/Fire (Fire)     |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MYD15A2H     | MODIS/Aqua Leaf Area      | 8-Day     |        500 |
-        |              | Index/FPAR (LAI/FPAR)     |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MYD16A2      | MODIS/Aqua Net            | 8-Day     |        500 |
-        |              | Evapotranspiration (ET)   |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MYD17A2H     | MODIS/Aqua Gross Primary  | 8-Day     |        500 |
-        |              | Productivity (GPP)        |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MYD17A3HGF   | MODIS/Aqua Net Primary    | Yearly    |        500 |
-        |              | Production Gap-Filled     |           |            |
-        |              | (NPP)                     |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | MYD21A2      | MODIS/Aqua Land Surface   | 8-Day     |       1000 |
-        |              | Temperature/3-Band        |           |            |
-        |              | Emissivity (LSTE)         |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | SIF005       | SIF Estimates from Fused  | Monthly   |       5000 |
-        |              | SCIAMACHY and GOME-2      |           |            |
-        |              | (SIF)                     |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | SIF_ANN      | SIF Estimates from OCO-2  | 16-day    |       5000 |
-        |              | SIF and MODIS (SIF)       |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | VNP09A1      | VIIRS/S-NPP Surface       | 8-Day     |       1000 |
-        |              | Reflectance (SREF)        |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | VNP09H1      | VIIRS/S-NPP Surface       | 8-Day     |        500 |
-        |              | Reflectance (SREF)        |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | VNP13A1      | VIIRS/S-NPP Vegetation    | 16-Day    |        500 |
-        |              | Indices (NDVI/EVI)        |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | VNP15A2H     | VIIRS/S-NPP Leaf Area     | 8-Day     |        500 |
-        |              | Index/FPAR (LAI/FPAR)     |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | VNP21A2      | VIIRS/S-NPP Land Surface  | 8-Day     |       1000 |
-        |              | Temperature and           |           |            |
-        |              | Emissivity (LSTE)         |           |            |
-        +--------------+---------------------------+-----------+------------+
-        | VNP22Q2      | VIIRS/S-NPP Land Cover    | Yearly    |        500 |
-        |              | Dynamics (LCD)            |           |            |
-        +--------------+---------------------------+-----------+------------+
+        +--------------+---------------------------+-------------+--------------+
+        | product      | Description               | Frequency   |   Resolution |
+        |              |                           |             |          (m) |
+        +==============+===========================+=============+==============+
+        | ECO4ESIPTJPL | ECOSTRESS Evaporative     | Varies      |           70 |
+        |              | Stress Index PT-JPL (ESI) |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | ECO4WUE      | ECOSTRESS Water Use       | Varies      |           70 |
+        |              | Efficiency (WUE)          |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | GEDI03       | GEDI Gridded Land Surface | One-time    |         1000 |
+        |              | Metrics (LSM)             |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | GEDI04_B     | GEDI Gridded Aboveground  | One-time    |         1000 |
+        |              | Biomass Density (AGBD)    |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MCD12Q1      | MODIS/Terra+Aqua Land     | Yearly      |          500 |
+        |              | Cover Type (LC)           |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MCD12Q2      | MODIS/Terra+Aqua Land     | Yearly      |          500 |
+        |              | Cover Dynamics (LCD)      |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MCD15A2H     | MODIS/Terra+Aqua Leaf     | 8-Day       |          500 |
+        |              | Area Index/FPAR           |             |              |
+        |              | (LAI/FPAR)                |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MCD15A3H     | MODIS/Terra+Aqua Leaf     | 4-Day       |          500 |
+        |              | Area Index/FPAR           |             |              |
+        |              | (LAI/FPAR)                |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MCD19A3      | MODIS/Terra+Aqua BRDF     | 8-Day       |         1000 |
+        |              | Model Parameters (MAIAC)  |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MCD43A       | MODIS/Terra+Aqua BRDF and | Daily       |          500 |
+        |              | Calculated Albedo         |             |              |
+        |              | (BRDF/MCD43A)             |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MCD43A1      | MODIS/Terra+Aqua          | Daily       |          500 |
+        |              | BRDF/Albedo Model         |             |              |
+        |              | Parameters (BRDF)         |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MCD43A4      | MODIS/Terra+Aqua Nadir    | Daily       |          500 |
+        |              | BRDF-Adjusted Reflectance |             |              |
+        |              | (NBAR)                    |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MCD64A1      | MODIS/Terra+Aqua Burned   | Monthly     |          500 |
+        |              | Area (Burned Area)        |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MOD09A1      | MODIS/Terra Surface       | 8-Day       |          500 |
+        |              | Reflectance (SREF)        |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MOD11A2      | MODIS/Terra Land Surface  | 8-Day       |         1000 |
+        |              | Temperature and           |             |              |
+        |              | Emissivity (LST)          |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MOD13Q1      | MODIS/Terra Vegetation    | 16-Day      |          250 |
+        |              | Indices (NDVI/EVI)        |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MOD14A2      | MODIS/Terra Thermal       | 8-Day       |         1000 |
+        |              | Anomalies/Fire (Fire)     |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MOD15A2H     | MODIS/Terra Leaf Area     | 8-Day       |          500 |
+        |              | Index/FPAR (LAI/FPAR)     |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MOD16A2      | MODIS/Terra Net           | 8-Day       |          500 |
+        |              | Evapotranspiration (ET)   |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MOD17A2H     | MODIS/Terra Gross Primary | 8-Day       |          500 |
+        |              | Productivity (GPP)        |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MOD17A3HGF   | MODIS/Terra Net Primary   | Yearly      |          500 |
+        |              | Production Gap-Filled     |             |              |
+        |              | (NPP)                     |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MOD21A2      | MODIS/Terra Land Surface  | 8-Day       |         1000 |
+        |              | Temperature/3-Band        |             |              |
+        |              | Emissivity (LSTE)         |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MOD44B       | MODIS/Terra Vegetation    | Yearly      |          250 |
+        |              | Continuous Fields (VCF)   |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MYD09A1      | MODIS/Aqua Surface        | 8-Day       |          500 |
+        |              | Reflectance (SREF)        |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MYD11A2      | MODIS/Aqua Land Surface   | 8-Day       |         1000 |
+        |              | Temperature and           |             |              |
+        |              | Emissivity (LST)          |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MYD13Q1      | MODIS/Aqua Vegetation     | 16-Day      |          250 |
+        |              | Indices (NDVI/EVI)        |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MYD14A2      | MODIS/Aqua Thermal        | 8-Day       |         1000 |
+        |              | Anomalies/Fire (Fire)     |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MYD15A2H     | MODIS/Aqua Leaf Area      | 8-Day       |          500 |
+        |              | Index/FPAR (LAI/FPAR)     |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MYD16A2      | MODIS/Aqua Net            | 8-Day       |          500 |
+        |              | Evapotranspiration (ET)   |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MYD17A2H     | MODIS/Aqua Gross Primary  | 8-Day       |          500 |
+        |              | Productivity (GPP)        |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MYD17A3HGF   | MODIS/Aqua Net Primary    | Yearly      |          500 |
+        |              | Production Gap-Filled     |             |              |
+        |              | (NPP)                     |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | MYD21A2      | MODIS/Aqua Land Surface   | 8-Day       |         1000 |
+        |              | Temperature/3-Band        |             |              |
+        |              | Emissivity (LSTE)         |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | SIF005       | SIF Estimates from Fused  | Monthly     |         5000 |
+        |              | SCIAMACHY and GOME-2      |             |              |
+        |              | (SIF)                     |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | SIF_ANN      | SIF Estimates from OCO-2  | 16-day      |         5000 |
+        |              | SIF and MODIS (SIF)       |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | VNP09A1      | VIIRS/S-NPP Surface       | 8-Day       |         1000 |
+        |              | Reflectance (SREF)        |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | VNP09H1      | VIIRS/S-NPP Surface       | 8-Day       |          500 |
+        |              | Reflectance (SREF)        |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | VNP13A1      | VIIRS/S-NPP Vegetation    | 16-Day      |          500 |
+        |              | Indices (NDVI/EVI)        |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | VNP15A2H     | VIIRS/S-NPP Leaf Area     | 8-Day       |          500 |
+        |              | Index/FPAR (LAI/FPAR)     |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | VNP21A2      | VIIRS/S-NPP Land Surface  | 8-Day       |         1000 |
+        |              | Temperature and           |             |              |
+        |              | Emissivity (LSTE)         |             |              |
+        +--------------+---------------------------+-------------+--------------+
+        | VNP22Q2      | VIIRS/S-NPP Land Cover    | Yearly      |          500 |
+        |              | Dynamics (LCD)            |             |              |
+        +--------------+---------------------------+-------------+--------------+
 
     band : str
-        One of the following. The 'band' selected from the second column must
-        match the 'product' in the first column.
+        One of the following. The 'band' selected from the first column must
+        match the 'product' keyword in the table title.
 
         ECO4ESIPTJPL
+
         +--------+------------------------------+--------------+---------+
         | band   | Description                  | Units        | Range   |
         +========+==============================+==============+=========+
@@ -1122,6 +1122,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +--------+------------------------------+--------------+---------+
 
         ECO4WUE
+
         +--------+----------------------+--------------+---------+
         | band   | Description          | Units        | Range   |
         +========+======================+==============+=========+
@@ -1130,6 +1131,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +--------+----------------------+--------------+---------+
 
         GEDI03
+
         +------------------------+--------------------------------+---------+
         | band                   | Description                    | Units   |
         +========================+================================+=========+
@@ -1152,6 +1154,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +------------------------+--------------------------------+---------+
 
         GEDI04_B
+
         +--------+------------------------------+---------+
         | band   | Description                  | Units   |
         +========+==============================+=========+
@@ -1180,6 +1183,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +--------+------------------------------+---------+
 
         MCD12Q1
+
         +---------------------+--------------------------------+--------------+---------+
         | band                | Description                    | Units        | Range   |
         +=====================+================================+==============+=========+
@@ -1232,6 +1236,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +---------------------+--------------------------------+--------------+---------+
 
         MCD12Q2
+
         +----------------------------+-----------------------------+-----------------------+----------+
         | band                       | Description                 | Units                 | Range    |
         +============================+=============================+=======================+==========+
@@ -1300,6 +1305,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +----------------------------+-----------------------------+-----------------------+----------+
 
         MCD15A2H
+
         +-----------------+--------------------------------+------------+---------+
         | band            | Description                    | Units      | Range   |
         +=================+================================+============+=========+
@@ -1323,6 +1329,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +-----------------+--------------------------------+------------+---------+
 
         MCD15A3H
+
         +-----------------+--------------------------------+------------+---------+
         | band            | Description                    | Units      | Range   |
         +=================+================================+============+=========+
@@ -1346,6 +1353,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +-----------------+--------------------------------+------------+---------+
 
         MCD19A3
+
         +------------+------------------------------+-----------+
         | band       | Description                  | Range     |
         +============+==============================+===========+
@@ -1366,6 +1374,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +------------+------------------------------+-----------+
 
         MCD43A
+
         +------------------+----------------------------+
         | band             | Description                |
         +==================+============================+
@@ -1389,6 +1398,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +------------------+----------------------------+
 
         MCD43A1
+
         +----------------------------------------------+----------------------+-----------+---------+
         | band                                         | Description          | Units     | Range   |
         +==============================================+======================+===========+=========+
@@ -1454,6 +1464,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +----------------------------------------------+----------------------+-----------+---------+
 
         MCD43A4
+
         +------------------------------------------+-------------------------+--------------------+---------+
         | band                                     | Description             | Units              | Range   |
         +==========================================+=========================+====================+=========+
@@ -1501,6 +1512,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +------------------------------------------+-------------------------+--------------------+---------+
 
         MCD64A1
+
         +-----------------------+------------------------------+-------------+---------+
         | band                  | Description                  | Units       | Range   |
         +=======================+==============================+=============+=========+
@@ -1521,6 +1533,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +-----------------------+------------------------------+-------------+---------+
 
         MOD09A1
+
         +----------------------+--------------------------------+-------------+------------+
         | band                 | Description                    | Units       | Range      |
         +======================+================================+=============+============+
@@ -1545,7 +1558,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         | sur_refl_b07         | Surface reflectance for band 7 | reflectance | -100 to    |
         |                      |                                |             | 16000      |
         +----------------------+--------------------------------+-------------+------------+
-        | sur_refl_day_of_year | Surface reflectance day of     | day_or_year | 0 to       |
+        | sur_refl_day_of_year | Surface reflectance day of     | day_of_year | 0 to       |
         |                      | year                           |             | 366        |
         +----------------------+--------------------------------+-------------+------------+
         | sur_refl_qc_500m     | Surface reflectance 500m       | bit_field   | 0 to       |
@@ -1565,6 +1578,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +----------------------+--------------------------------+-------------+------------+
 
         MOD11A2
+
         +------------------+--------------------------------+---------+---------+
         | band             | Description                    | Range   | Units   |
         +==================+================================+=========+=========+
@@ -1606,6 +1620,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +------------------+--------------------------------+---------+---------+
 
         MOD13Q1
+
         +----------------------------------------+-------------------------------+-------------+----------+
         | band                                   | Description                   | Units       | Range    |
         +========================================+===============================+=============+==========+
@@ -1647,6 +1662,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +----------------------------------------+-------------------------------+-------------+----------+
 
         MOD14A2
+
         +----------+---------------+------------+---------+
         | band     | Description   | Units      | Range   |
         +==========+===============+============+=========+
@@ -1658,6 +1674,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +----------+---------------+------------+---------+
 
         MOD15A2H
+
         +-----------------+--------------------------------+------------+---------+
         | band            | Description                    | Units      | Range   |
         +=================+================================+============+=========+
@@ -1681,6 +1698,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +-----------------+--------------------------------+------------+---------+
 
         MOD16A2
+
         +------------+------------------------------+-------------+-----------+
         | band       | Description                  | Units       | Range     |
         +============+==============================+=============+===========+
@@ -1701,20 +1719,22 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +------------+------------------------------+-------------+-----------+
 
         MOD17A2H
-        +-------------+--------------------------+-------------------+-----------+
-        | band        | Description              | Units             | Range     |
-        +=============+==========================+===================+===========+
-        | Gpp_500m    | Gross Primary Production | kgC/m^2 in 8 days | 0 to      |
-        |             |                          |                   | 30000     |
-        +-------------+--------------------------+-------------------+-----------+
-        | PsnNet_500m | Net Photosynthesis       | kgC/m^2 in 8 days | -30000 to |
-        |             |                          |                   | 30000     |
-        +-------------+--------------------------+-------------------+-----------+
-        | Psn_QC_500m | Quality Control bits     |                   | 0 to      |
-        |             |                          |                   | 254       |
-        +-------------+--------------------------+-------------------+-----------+
+
+        +-------------+--------------------------+--------------+-----------+
+        | band        | Description              | Units        | Range     |
+        +=============+==========================+==============+===========+
+        | Gpp_500m    | Gross Primary Production | kgC/m^2/8day | 0 to      |
+        |             |                          |              | 30000     |
+        +-------------+--------------------------+--------------+-----------+
+        | PsnNet_500m | Net Photosynthesis       | kgC/m^2/8day | -30000 to |
+        |             |                          |              | 30000     |
+        +-------------+--------------------------+--------------+-----------+
+        | Psn_QC_500m | Quality Control bits     |              | 0 to      |
+        |             |                          |              | 254       |
+        +-------------+--------------------------+--------------+-----------+
 
         MOD17A3HGF
+
         +-------------+--------------------------+------------+-----------+
         | band        | Description              | Units      | Range     |
         +=============+==========================+============+===========+
@@ -1726,6 +1746,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +-------------+--------------------------+------------+-----------+
 
         MOD21A2
+
         +------------------+--------------------------------+---------+---------+
         | band             | Description                    | Range   | Units   |
         +==================+================================+=========+=========+
@@ -1764,6 +1785,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +------------------+--------------------------------+---------+---------+
 
         MOD44B
+
         +----------------------------+----------------------------+-----------+---------+
         | band                       | Description                | Units     | Range   |
         +============================+============================+===========+=========+
@@ -1790,6 +1812,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +----------------------------+----------------------------+-----------+---------+
 
         MYD09A1
+
         +----------------------+--------------------------------+-------------+------------+
         | band                 | Description                    | Units       | Range      |
         +======================+================================+=============+============+
@@ -1814,7 +1837,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         | sur_refl_b07         | Surface reflectance for band 7 | reflectance | -100 to    |
         |                      |                                |             | 16000      |
         +----------------------+--------------------------------+-------------+------------+
-        | sur_refl_day_of_year | Surface reflectance day of     | Julian day  | 0 to       |
+        | sur_refl_day_of_year | Surface reflectance day of     | day_of_year | 0 to       |
         |                      | year                           |             | 366        |
         +----------------------+--------------------------------+-------------+------------+
         | sur_refl_qc_500m     | Surface reflectance 500m       | bit_field   | 0 to       |
@@ -1834,6 +1857,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +----------------------+--------------------------------+-------------+------------+
 
         MYD11A2
+
         +------------------+--------------------------------+---------+---------+
         | band             | Description                    | Range   | Units   |
         +==================+================================+=========+=========+
@@ -1875,6 +1899,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +------------------+--------------------------------+---------+---------+
 
         MYD13Q1
+
         +----------------------------------------+-------------------------------+-------------+----------+
         | band                                   | Description                   | Units       | Range    |
         +========================================+===============================+=============+==========+
@@ -1916,6 +1941,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +----------------------------------------+-------------------------------+-------------+----------+
 
         MYD14A2
+
         +----------+---------------+------------+---------+
         | band     | Description   | Units      | Range   |
         +==========+===============+============+=========+
@@ -1927,6 +1953,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +----------+---------------+------------+---------+
 
         MYD15A2H
+
         +-----------------+--------------------------------+------------+---------+
         | band            | Description                    | Units      | Range   |
         +=================+================================+============+=========+
@@ -1950,6 +1977,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +-----------------+--------------------------------+------------+---------+
 
         MYD16A2
+
         +------------+------------------------------+-------------+-----------+
         | band       | Description                  | Units       | Range     |
         +============+==============================+=============+===========+
@@ -1970,6 +1998,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +------------+------------------------------+-------------+-----------+
 
         MYD17A2H
+
         +-------------+--------------------------+--------------+-----------+
         | band        | Description              | Units        | Range     |
         +=============+==========================+==============+===========+
@@ -1984,6 +2013,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +-------------+--------------------------+--------------+-----------+
 
         MYD17A3HGF
+
         +-------------+--------------------------+------------+-----------+
         | band        | Description              | Units      | Range     |
         +=============+==========================+============+===========+
@@ -1995,6 +2025,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +-------------+--------------------------+------------+-----------+
 
         MYD21A2
+
         +------------------+--------------------------------+---------+---------+
         | band             | Description                    | Range   | Units   |
         +==================+================================+=========+=========+
@@ -2033,6 +2064,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +------------------+--------------------------------+---------+---------+
 
         SIF005
+
         +-----------------------+--------------------------------+-------------+
         | band                  | Description                    | Units       |
         +=======================+================================+=============+
@@ -2046,6 +2078,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +-----------------------+--------------------------------+-------------+
 
         SIF_ANN
+
         +---------+--------------------------------+-------------+
         | band    | Description                    | Units       |
         +=========+================================+=============+
@@ -2054,6 +2087,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +---------+--------------------------------+-------------+
 
         VNP09A1
+
         +-------------------------+------------------------------+-------------+------------+
         | band                    | Description                  | Units       | Range      |
         +=========================+==============================+=============+============+
@@ -2104,6 +2138,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +-------------------------+------------------------------+-------------+------------+
 
         VNP09H1
+
         +------------------------+--------------------------------+-------------+---------+
         | band                   | Description                    | Units       | Range   |
         +========================+================================+=============+=========+
@@ -2124,6 +2159,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +------------------------+--------------------------------+-------------+---------+
 
         VNP13A1
+
         +-----------------------------------------+-------------------------------+-------------+-----------+
         | band                                    | Description                   | Units       | Range     |
         +=========================================+===============================+=============+===========+
@@ -2177,6 +2213,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +-----------------------------------------+-------------------------------+-------------+-----------+
 
         VNP15A2H
+
         +--------------+--------------------------------+------------+---------+
         | band         | Description                    | Units      | Range   |
         +==============+================================+============+=========+
@@ -2200,6 +2237,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +--------------+--------------------------------+------------+---------+
 
         VNP21A2
+
         +------------------+-------------------------------+---------+---------+
         | band             | Description                   | Units   | Range   |
         +==================+===============================+=========+=========+
@@ -2238,6 +2276,7 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         +------------------+-------------------------------+---------+---------+
 
         VNP22Q2
+
         +----------------------------------------------+--------------------------------+----------------+---------+
         | band                                         | Description                    | Units          | Range   |
         +==============================================+================================+================+=========+
@@ -2256,10 +2295,10 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         | Cycle_1.EVI2_Onset_Greenness_Maximum_1       | EVI2 value at maturity onset   | EVI2           | 1 to    |
         |                                              |                                |                | 10000   |
         +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.GLSP_QC_1                            | Global Land Surface Phenology  | dimensionless  | 0 to    |
+        | Cycle_1.GLSP_QC_1                            | Global Land Surface Phenology  |                | 0 to    |
         |                                              | Quality Control                |                | 100     |
         +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.Greenness_Agreement_Growing_Season_1 | EVI2 agreement between modeled | dimensionless  | 0 to    |
+        | Cycle_1.Greenness_Agreement_Growing_Season_1 | EVI2 agreement between modeled |                | 0 to    |
         |                                              | values and raw observations    |                | 100     |
         +----------------------------------------------+--------------------------------+----------------+---------+
         | Cycle_1.Growing_Season_Length_1              | Growing Season Length          | number_of_days | 1 to    |
@@ -2278,26 +2317,26 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         | Cycle_1.Onset_Greenness_Minimum_1            | Date at which canopy greenness | day_of_year    | 1 to    |
         |                                              | reaches a minimum              |                | 32766   |
         +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.PGQ_Growing_Season_1                 | Proportion of good quality     | dimensionless  | 1 to    |
+        | Cycle_1.PGQ_Growing_Season_1                 | Proportion of good quality     |                | 1 to    |
         |                                              | observations during a growing  |                | 100     |
         |                                              | season                         |                |         |
         +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.PGQ_Onset_Greenness_Decrease_1       | Proportion of good quality     | dimensionless  | 1 to    |
+        | Cycle_1.PGQ_Onset_Greenness_Decrease_1       | Proportion of good quality     |                | 1 to    |
         |                                              | around senescence onset        |                | 100     |
         +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.PGQ_Onset_Greenness_Increase_1       | Proportion of good quality     | dimensionless  | 1 to    |
+        | Cycle_1.PGQ_Onset_Greenness_Increase_1       | Proportion of good quality     |                | 1 to    |
         |                                              | around greenup onset           |                | 100     |
         +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.PGQ_Onset_Greenness_Maximum_1        | Proportion of good quality     | dimensionless  | 1 to    |
+        | Cycle_1.PGQ_Onset_Greenness_Maximum_1        | Proportion of good quality     |                | 1 to    |
         |                                              | around maturity onset          |                | 100     |
         +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.PGQ_Onset_Greenness_Minimum_1        | Proportion of good quality     | dimensionless  | 1 to    |
+        | Cycle_1.PGQ_Onset_Greenness_Minimum_1        | Proportion of good quality     |                | 1 to    |
         |                                              | around dormancy onset          |                | 100     |
         +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.Rate_Greenness_Decrease_1            | Rates of change in EVI2 values | EVI2 per day   | 1 to    |
+        | Cycle_1.Rate_Greenness_Decrease_1            | Rates of change in EVI2 values | EVI2/day       | 1 to    |
         |                                              | during a senesce phase         |                | 32766   |
         +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.Rate_Greenness_Increase_1            | Rates of change in EVI2 values | EVI2 per day   | 1 to    |
+        | Cycle_1.Rate_Greenness_Increase_1            | Rates of change in EVI2 values | EVI2/day       | 1 to    |
         |                                              | during a greenup phase         |                | 32766   |
         +----------------------------------------------+--------------------------------+----------------+---------+
         | Cycle_2.Date_Mid_Greenup_Phase_2             | Date at a mid-greenup phase    | day_of_year    | 1 to    |
@@ -2315,10 +2354,10 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         | Cycle_2.EVI2_Onset_Greenness_Maximum_2       | EVI2 value at maturity onset   | EVI2           | 1 to    |
         |                                              |                                |                | 10000   |
         +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.GLSP_QC_2                            | Global Land Surface Phenology  | dimensionless  | 0 to    |
+        | Cycle_2.GLSP_QC_2                            | Global Land Surface Phenology  |                | 0 to    |
         |                                              | Quality Control                |                | 100     |
         +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.Greenness_Agreement_Growing_Season_2 | EVI2 agreement between modeled | dimensionless  | 0 to    |
+        | Cycle_2.Greenness_Agreement_Growing_Season_2 | EVI2 agreement between modeled |                | 0 to    |
         |                                              | values and raw observations    |                | 100     |
         +----------------------------------------------+--------------------------------+----------------+---------+
         | Cycle_2.Growing_Season_Length_2              | Growing Season Length          | number_of_days | 1 to    |
@@ -2337,20 +2376,20 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         | Cycle_2.Onset_Greenness_Minimum_2            | Date at which canopy greenness | day_of_year    | 1 to    |
         |                                              | reaches a minimum              |                | 32766   |
         +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.PGQ_Growing_Season_2                 | Proportion of good quality     | dimensionless  | 1 to    |
+        | Cycle_2.PGQ_Growing_Season_2                 | Proportion of good quality     |                | 1 to    |
         |                                              | observations during a growing  |                | 100     |
         |                                              | season                         |                |         |
         +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.PGQ_Onset_Greenness_Decrease_2       | Proportion of good quality     | dimensionless  | 1 to    |
+        | Cycle_2.PGQ_Onset_Greenness_Decrease_2       | Proportion of good quality     |                | 1 to    |
         |                                              | around senescence onset        |                | 100     |
         +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.PGQ_Onset_Greenness_Increase_2       | Proportion of good quality     | dimensionless  | 1 to    |
+        | Cycle_2.PGQ_Onset_Greenness_Increase_2       | Proportion of good quality     |                | 1 to    |
         |                                              | around greenup onset           |                | 100     |
         +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.PGQ_Onset_Greenness_Maximum_2        | Proportion of good quality     | dimensionless  | 1 to    |
+        | Cycle_2.PGQ_Onset_Greenness_Maximum_2        | Proportion of good quality     |                | 1 to    |
         |                                              | around maturity onset          |                | 100     |
         +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.PGQ_Onset_Greenness_Minimum_2        | Proportion of good quality     | dimensionless  | 1 to    |
+        | Cycle_2.PGQ_Onset_Greenness_Minimum_2        | Proportion of good quality     |                | 1 to    |
         |                                              | around dormancy onset          |                | 100     |
         +----------------------------------------------+--------------------------------+----------------+---------+
         | Cycle_2.Rate_Greenness_Decrease_2            | Rates of change in EVI2 values | EVI2/day       | 1 to    |
@@ -2360,11 +2399,9 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
         |                                              | during a greenup phase         |                | 32766   |
         +----------------------------------------------+--------------------------------+----------------+---------+
 
-    startdate
-        ISO 8601 formatted date string
+    ${start_date}
 
-    enddate
-        ISO 8601 formatted date string
+    ${end_date}
 
     Notes
     -----
@@ -2424,24 +2461,23 @@ def modis_cli(lat, lon, product, band, startdate=None, enddate=None):
     multiple sites.
     """
     tsutils.printiso(
-        modis(lat, lon, product, band, startdate=startdate, enddate=enddate)
+        modis(lat, lon, product, band, start_date=start_date, end_date=end_date)
     )
 
 
-def modis(lat, lon, product, band, startdate=None, enddate=None):
+def modis(lat, lon, product, band, start_date=None, end_date=None):
     r"""Download MODIS derived data."""
-    url = "https://modis.ornl.gov/cgi-bin/MODIS/soapservice/MODIS_soapservice.wsdl"
     query_params = {}
     query_params["latitude"] = lat
     query_params["longitude"] = lon
-    if startdate is None:
+    if start_date is None:
         query_params["startdate"] = pd.to_datetime("1900-01-01T00")
     else:
-        query_params["startdate"] = tsutils.parsedate(startdate)
-    if enddate is None:
+        query_params["startdate"] = tsutils.parsedate(start_date)
+    if end_date is None:
         query_params["enddate"] = datetime.datetime.now()
     else:
-        query_params["enddate"] = tsutils.parsedate(enddate)
+        query_params["enddate"] = tsutils.parsedate(end_date)
     query_params["product"] = product
     query_params["band"] = band
 
@@ -2484,8 +2520,8 @@ You gave me {}.
             )
         )
 
-    startdate = query_params["startdate"]
-    enddate = query_params["enddate"]
+    start_date = query_params["startdate"]
+    end_date = query_params["enddate"]
 
     dates_url = f"https://modis.ornl.gov/rst/api/v1/{query_params['product']}/dates?latitude={query_params['latitude']}&longitude={query_params['longitude']}"
     r = ar.retrieve_text([dates_url])[0]
@@ -2498,13 +2534,13 @@ You gave me {}.
     dr = np.array(dates)
 
     teststartdate = dr[0]
-    if startdate <= teststartdate:
+    if start_date <= teststartdate:
         startdate = teststartdate
 
     testenddate = dr[-1]
-    enddate = min(enddate, testenddate)
+    enddate = min(end_date, testenddate)
 
-    mask = (dr >= startdate) & (dr <= enddate)
+    mask = (dr >= start_date) & (dr <= enddate)
     dates = modis_date[mask]
     dates = [dates[i : i + 10] for i in range(0, len(dates), 10)]
     subset_url = [
@@ -2545,8 +2581,8 @@ if __name__ == "__main__":
         band="250m_16_days_NDVI",
         lat=40.0,
         lon=-110.0,
-        startdate="2002-06-01T09",
-        enddate="2003-05-04T21",
+        start_date="2002-06-01T09",
+        end_date="2003-05-04T21",
     )
 
     print("modis")
@@ -2557,8 +2593,8 @@ if __name__ == "__main__":
         band="LaiStdDev_500m",
         lat=29.65,
         lon=-82.32,
-        startdate="3 years ago",
-        enddate="2 years ago",
+        start_date="3 years ago",
+        end_date="2 years ago",
     )
 
     print("modis")
