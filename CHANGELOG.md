@@ -1,3 +1,9 @@
+## v23.26.1 (2022-05-30)
+
+### Fix
+
+- **modis**: fixed modis docstring, cli help, api help
+
 ## v23.26.0 (2022-05-30)
 
 ### Feat
