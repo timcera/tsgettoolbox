@@ -80,7 +80,7 @@ repos:
       - id: pyroma
 
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v2.27.0
+    rev: v2.27.1
     hooks:
       - id: commitizen
         stages: [commit-msg]
