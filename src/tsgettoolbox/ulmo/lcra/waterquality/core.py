@@ -75,7 +75,7 @@ def get_sites(source_agency=None):
     ]
     sites = [_create_feature(site_info) for site_info in sites_unprocessed]
     if source_agency:
-        if not source_agency.upper() in source_map.keys():
+        if not source_agency.upper() in source_map:
             log.info("the source %s is not recognized" % source_agency)
             return {}
         sites = [
@@ -187,7 +187,7 @@ def get_recent_data(site_code, as_dataframe=False):
     list
         list of values or dataframe.
     """
-    if site_code not in real_time_sites.keys():
+    if site_code not in real_time_sites:
         log.info("%s is not in the list of LCRA real time salinity sites" % site_code)
         return {}
     data_url = "http://waterquality.lcra.org/salinity.aspx?sNum={}&name={}".format(
@@ -279,7 +279,7 @@ def _get_source(site_type_code):
         "LCAU": "COA",
         "WCFO": "TCEQ",
     }
-    if site_type_code not in internal_source_abbr.keys():
+    if site_type_code not in internal_source_abbr:
         return None
     return source_map.get(internal_source_abbr[site_type_code])
 
