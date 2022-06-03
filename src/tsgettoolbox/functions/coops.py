@@ -732,16 +732,7 @@ def coops(
 ):
     r"""Download Center for Operational Oceanographic Products and Services."""
     disable_caching = False
-    params = {}
-    params["station"] = station
-    params["product"] = product
-    params["bin"] = bin
-    params["interval"] = interval
-    params["units"] = "metric"
-    params["time_zone"] = time_zone
-    params["datum"] = datum
-    params["format"] = "json"
-    params["application"] = "tsgettoolbox"
+    params = {"station": station, "product": product, "bin": bin, "interval": interval, "units": "metric", "time_zone": time_zone, "datum": datum, "format": "json", "application": "tsgettoolbox", "date": date, "begin_date": begin_date, "end_date": end_date, "range": range}
 
     if date is not None:
         begin_date = None
@@ -772,11 +763,6 @@ def coops(
             test_end = datetime.datetime.utcnow()
         if (end_date is None) or (end_date > test_end):
             end_date = test_end
-
-    params["date"] = date
-    params["begin_date"] = begin_date
-    params["end_date"] = end_date
-    params["range"] = range
 
     if params["begin_date"] is not None:
         params["begin_date"] = params["begin_date"].strftime("%Y%m%d")
