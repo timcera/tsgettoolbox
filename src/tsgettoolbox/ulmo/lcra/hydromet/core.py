@@ -197,7 +197,7 @@ def get_site_data(
     values_dict : dict
     """
     parameter_code = parameter_code.upper()
-    if parameter_code.lower() not in PARAMETERS.keys():
+    if parameter_code.lower() not in PARAMETERS:
         log.info("%s is not an LCRA parameter" % parameter_code)
         return None
     initial_request = requests.get(historical_data_url, verify=False)
