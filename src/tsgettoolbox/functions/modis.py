@@ -2467,9 +2467,7 @@ def modis_cli(lat, lon, product, band, start_date=None, end_date=None):
 
 def modis(lat, lon, product, band, start_date=None, end_date=None):
     r"""Download MODIS derived data."""
-    query_params = {}
-    query_params["latitude"] = lat
-    query_params["longitude"] = lon
+    query_params = {"latitude": lat, "longitude": lon, "product": product, "band": band}
     if start_date is None:
         query_params["startdate"] = pd.to_datetime("1900-01-01T00")
     else:
@@ -2478,8 +2476,6 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         query_params["enddate"] = datetime.datetime.now()
     else:
         query_params["enddate"] = tsutils.parsedate(end_date)
-    query_params["product"] = product
-    query_params["band"] = band
 
     products_url = "https://modis.ornl.gov/rst/api/v1/products?tool=GlobalSubset"
     r = ar.retrieve_text([products_url])[0]

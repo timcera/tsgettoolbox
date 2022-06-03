@@ -759,12 +759,7 @@ location.  You have the grid "{project}" and "xindex={xindex}" and
             # New style where can leave off first ":" separated field.
             nvariable = ":".join([_varmap[words[0]]] + words)
 
-        query_params = {}
-        query_params["type"] = "asc2"
-        query_params["startDate"] = tsutils.parsedate(startDate, strftime="%Y-%m-%dT%H")
-        query_params["endDate"] = tsutils.parsedate(endDate, strftime="%Y-%m-%dT%H")
-        query_params["location"] = location
-        query_params["variable"] = nvariable
+        query_params = {"type": "asc2", "startDate": tsutils.parsedate(startDate, strftime="%Y-%m-%dT%H"), "endDate": tsutils.parsedate(endDate, strftime="%Y-%m-%dT%H"), "location": location, "variable": nvariable}
         collect_kwds.append(query_params)
 
     resp = ar.retrieve_binary(

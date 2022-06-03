@@ -3151,28 +3151,7 @@ to "US".  """
     if statecode:
         statecode = ":".join([countrycode, statecode])
 
-    query_params = {}
-    query_params["bBox"] = bBox
-    query_params["lat"] = lat
-    query_params["lon"] = lon
-    query_params["within"] = within
-    query_params["countrycode"] = countrycode
-    query_params["statecode"] = statecode
-    query_params["countycode"] = countycode
-    query_params["siteType"] = siteType
-    query_params["organization"] = organization
-    query_params["siteid"] = siteid
-    query_params["huc"] = huc
-    query_params["sampleMedia"] = sampleMedia
-    query_params["characteristicType"] = characteristicType
-    query_params["characteristicName"] = characteristicName
-    query_params["pCode"] = pCode
-    query_params["activityId"] = activityId
-    query_params["startDateLo"] = startDateLo
-    query_params["startDateHi"] = startDateHi
-
-    # Need to enforce csv format
-    query_params["mimeType"] = "csv"
+    query_params = {"bBox": bBox, "lat": lat, "lon": lon, "within": within, "countrycode": countrycode, "statecode": statecode, "countycode": countycode, "siteType": siteType, "organization": organization, "siteid": siteid, "huc": huc, "sampleMedia": sampleMedia, "characteristicType": characteristicType, "characteristicName": characteristicName, "pCode": pCode, "activityId": activityId, "startDateLo": startDateLo, "startDateHi": startDateHi, "mimeType": "csv"}
     if startDateLo:
         query_params["startDateLo"] = tsutils.parsedate(
             startDateLo, strftime="%m-%d-%Y"

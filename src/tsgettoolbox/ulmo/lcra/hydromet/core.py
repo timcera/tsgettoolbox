@@ -328,10 +328,8 @@ def _get_data(site_code, parameter_code, list_request, start, end):
     data_request_headers = {
         "Date1": start.strftime("%m/%d/%Y"),
         "Date2": end.strftime("%m/%d/%Y"),
-        "DropDownList1": site_code,
+        "DropDownList1": site_code,"DropDownList2": parameter_code
     }
-
-    data_request_headers["DropDownList2"] = parameter_code
     data_request = _make_next_request(
         historical_data_url, list_request, data_request_headers
     )
