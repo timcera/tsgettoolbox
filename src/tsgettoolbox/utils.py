@@ -3,12 +3,8 @@ from __future__ import absolute_import, division, print_function
 
 import datetime
 import io
-import multiprocessing
 import os
-import xml
 from multiprocessing import Pool
-from random import randint
-from time import sleep
 
 import cftime
 import numpy as np
@@ -107,9 +103,6 @@ def requests_retry_session(
     session.mount("http://", adapter)
     session.mount("https://", adapter)
     return session
-
-
-import gzip
 
 
 def read_csv(filename):

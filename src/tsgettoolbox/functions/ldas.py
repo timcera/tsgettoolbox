@@ -12,8 +12,6 @@ from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from tabulate import tabulate as tb
 from tstoolbox import tsutils
 
-from tsgettoolbox import utils
-
 _UNITS_MAP = {}
 _NLDAS_FORA = {
     "NLDAS:NLDAS_FORA0125_H.002:APCPsfc": ["Precipitation hourly total", "mm"],

@@ -11,7 +11,6 @@ from __future__ import absolute_import, division, print_function
 import datetime
 import logging
 import os
-from io import StringIO
 from typing import List, Literal, Optional, Union
 
 try:
@@ -24,7 +23,6 @@ import warnings
 import mando
 import pandas as pd
 import pydaymet
-import typic
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
