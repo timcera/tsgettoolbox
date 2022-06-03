@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 import datetime
-import logging
-import os
 from gzip import GzipFile
 from io import BytesIO, StringIO
 
@@ -15,8 +13,6 @@ except ImportError:
 
 import async_retriever as ar
 from tstoolbox import tsutils
-
-from tsgettoolbox import utils
 
 _lmap = {
     "stdmet": "h",

@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
-import logging
-import os
 import warnings
 from collections import defaultdict
-from io import BytesIO
 from typing import List, Optional, Union
 
 import async_retriever as ar
@@ -25,8 +22,6 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 from tstoolbox import tsutils
-
-from tsgettoolbox import utils
 
 _settings_map = defaultdict(lambda: [{"metric": "", "english": ""}])
 

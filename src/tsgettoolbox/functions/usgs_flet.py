@@ -4,7 +4,6 @@
 from typing import Callable
 
 import mando
-import pandas as pd
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter

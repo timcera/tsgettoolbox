@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import datetime
-import io
 import json
 
 import mando
@@ -13,7 +12,6 @@ except ImportError:
 import async_retriever as ar
 import numpy as np
 import pandas as pd
-import requests
 from tstoolbox import tsutils
 
 _MISSING = {

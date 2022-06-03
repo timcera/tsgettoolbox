@@ -2,7 +2,6 @@
 """Download data from Florida Automated Weather Network (FAWN)."""
 
 import mando
-import pandas as pd
 
 try:
     from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
