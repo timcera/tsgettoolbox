@@ -15,6 +15,8 @@ except ImportError:
 
 from tstoolbox import tsutils
 
+__all__ = ["terraclimate4C"]
+
 _avail_vars = {
     "aet": {
         "sname": "aet",

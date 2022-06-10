@@ -16,6 +16,26 @@ from tstoolbox import tsutils
 from tsgettoolbox import utils
 from tsgettoolbox.ulmo.ncdc.cirs.core import get_data
 
+__all__ = [
+    "ncei_ghcnd_ftp",
+    "ncei_ghcnd",
+    "ncei_gsod",
+    "ncei_gsom",
+    "ncei_gsoy",
+    "ncei_nexrad2",
+    "ncei_nexrad3",
+    "ncei_normal_ann",
+    "ncei_normal_dly",
+    "ncei_normal_hly",
+    "ncei_normal_mly",
+    "ncei_precip_15",
+    "ncei_precip_hly",
+    "ncei_annual",
+    "ncei_ghcndms",
+    "ncei_ish",
+    "ncei_cirs",
+]
+
 ncei_ghcnd_docstrings = {
     "info": r"""If you use this data, please read
     ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt about "How to
@@ -336,13 +356,13 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
 
     url = r"ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all"
     df = pd.read_fwf(
-        url + "/" + params["station"] + ".dly",
+        f"{url}/{params['station']}.dly",
         widths=[11, 4, 2, 4] + [5, 1, 1, 1] * 31,
     )
     newcols = ["station", "year", "month", "code"]
     for day in list(range(1, 32)):
         for col in ["", "m", "q", "s"]:
-            newcols.append("{}{:02}".format(col, day))
+            newcols.append(f"{col}{day:02}")
     df.columns = newcols
     codes = [
         "TMAX",  # Temperature MAX (1/10 degree C)
@@ -467,7 +487,7 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
     #        7 = 180 cm
     for i in range(9):
         for j in range(1, 8):
-            codes.append("SN{}{}".format(i, j))
+            codes.append(f"SN{i}{j}")
 
     # SX*# = Maximum soil temperature (tenths of degrees C)
     #        where * corresponds to a code for ground cover
@@ -475,7 +495,7 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
     #        See SN*# for ground cover and depth codes.
     for i in range(9):
         for j in range(1, 8):
-            codes.append("SX{}{}".format(i, j))
+            codes.append(f"SX{i}{j}")
 
     # WT** = Weather Type where ** has one of the following values:
     #
@@ -503,7 +523,7 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
     #        19 = Unknown source of precipitation
     #        21 = Ground fog
     #        22 = Ice fog or freezing fog
-    codes.extend(["WT{:02}".format(i) for i in range(1, 23)])
+    codes.extend([f"WT{i:02}" for i in range(1, 23)])
 
     # WV** = Weather in the Vicinity where ** has one of the following values:
     #        01 = Fog, ice fog, or freezing fog (may include heavy fog)
@@ -511,7 +531,7 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
     #        07 = Ash, dust, sand, or other blowing obstruction
     #        18 = Snow or ice crystals
     #        20 = Rain or snow shower
-    codes.extend(["WV{:02}".format(i) for i in [1, 3, 7, 18, 20]])
+    codes.extend([f"WV{i:02}" for i in [1, 3, 7, 18, 20]])
 
     for code in codes:
         tmpdf = df.loc[df["code"] == code, :]
@@ -6205,76 +6225,76 @@ def ncei_ish(station, datatypeid=None, start_date=None, end_date=None):
 
     process = {
         "WND": {
-            "WND_DIR:deg": {"astype": float, "replace": "999"},
+            "WND_DIR:deg": {"astype": "float64", "replace": "999"},
             "WND_DIR_QC": {},
             "WND_OBS_TYPE": {"replace": "9"},
-            "WND_SPD:m/s": {"astype": float, "replace": "9999", "factor": 0.1},
+            "WND_SPD:m/s": {"astype": "float64", "replace": "9999", "factor": 0.1},
             "WND_SPD_QC": {},
         },
         "CIG": {
-            "CEIL:m": {"astype": float, "replace": "99999"},
+            "CEIL:m": {"astype": "float64", "replace": "99999"},
             "CEIL_QC": {},
             "CEIL:DC": {"replace": "9"},
             "CAVOK": {"replace": "9"},
         },
         "VIS": {
-            "VIS:m": {"astype": float, "replace": "999999"},
+            "VIS:m": {"astype": "float64", "replace": "999999"},
             "VIS_QC": {},
             "VIS_VAR": {"replace": "9"},
             "VIS_VAR_QC": {},
         },
         "TMP": {
-            "AIRT:degC": {"astype": float, "replace": "+9999", "factor": 0.1},
+            "AIRT:degC": {"astype": "float64", "replace": "+9999", "factor": 0.1},
             "AIRT_QC": {},
         },
         "DEW": {
-            "DEW:degC": {"astype": float, "replace": "+9999", "factor": 0.1},
+            "DEW:degC": {"astype": "float64", "replace": "+9999", "factor": 0.1},
             "DEW_QC": {},
         },
         "SLP": {
             "AIR_PRESS:hectopascals": {
-                "astype": float,
+                "astype": "float64",
                 "replace": "99999",
                 "factor": 0.1,
             },
             "AIR_PRESS_QC": {},
         },
         "AA1": {
-            "PREC1_PER:hour": {"astype": float, "replace": "99"},
-            "PREC1_DPTH:mm": {"astype": float, "replace": "9999", "factor": 0.1},
+            "PREC1_PER:hour": {"astype": "float64", "replace": "99"},
+            "PREC1_DPTH:mm": {"astype": "float64", "replace": "9999", "factor": 0.1},
             "PREC1_COND": {},
             "PREC1_QC": {},
         },
         "AA2": {
-            "PREC2_PER:hour": {"astype": float, "replace": "99"},
-            "PREC2_DPTH:mm": {"astype": float, "replace": "9999", "factor": 0.1},
+            "PREC2_PER:hour": {"astype": "float64", "replace": "99"},
+            "PREC2_DPTH:mm": {"astype": "float64", "replace": "9999", "factor": 0.1},
             "PREC2_COND": {},
             "PREC2_QC": {},
         },
         "AA3": {
-            "PREC3_PER:hour": {"astype": float, "replace": "99"},
-            "PREC3_DPTH:mm": {"astype": float, "replace": "9999", "factor": 0.1},
+            "PREC3_PER:hour": {"astype": "float64", "replace": "99"},
+            "PREC3_DPTH:mm": {"astype": "float64", "replace": "9999", "factor": 0.1},
             "PREC3_COND": {},
             "PREC3_QC": {},
         },
         "AA4": {
-            "PREC4_PER:hour": {"astype": float, "replace": "99"},
-            "PREC4_DPTH:mm": {"astype": float, "replace": "9999", "factor": 0.1},
+            "PREC4_PER:hour": {"astype": "float64", "replace": "99"},
+            "PREC4_DPTH:mm": {"astype": "float64", "replace": "9999", "factor": 0.1},
             "PREC4_COND": {},
             "PREC4_QC": {},
         },
         "AB1": {
-            "PREC_MON_DPTH:mm": {"astype": float, "replace": "9999", "factor": 0.1},
+            "PREC_MON_DPTH:mm": {"astype": "float64", "replace": "9999", "factor": 0.1},
             "PREC_MON_COND": {},
             "PREC_MON_QC": {},
         },
         "AC1": {
-            "PREC_HIST_DUR": {"astype": float, "replace": "9"},
+            "PREC_HIST_DUR": {"astype": "float64", "replace": "9"},
             "PREC_HIST_COND": {"replace": "9"},
             "PREC_HIST_QC": {},
         },
         "AD1": {
-            "PREC_HIST_DUR": {"astype": float, "replace": "9"},
+            "PREC_HIST_DUR": {"astype": "float64", "replace": "9"},
             "PREC_HIST_COND": {"replace": "9"},
             "PREC_HIST_QC": {},
         },
@@ -6342,32 +6362,32 @@ def ncei_ish(station, datatypeid=None, start_date=None, end_date=None):
             "SKY_COV_HIGH_QC": {},
         },
         "MW1": {
-            "WTHR_OBS1": {"astype": int},
+            "WTHR_OBS1": {"astype": "Int64"},
             "WTHR_OBS1_QC": {},
         },
         "MW2": {
-            "WTHR_OBS2": {"astype": int},
+            "WTHR_OBS2": {"astype": "Int64"},
             "WTHR_OBS2_QC": {},
         },
         "MW3": {
-            "WTHR_OBS3": {"astype": int},
+            "WTHR_OBS3": {"astype": "Int64"},
             "WTHR_OBS3_QC": {},
         },
         "MW4": {
-            "WTHR_OBS4": {"astype": int},
+            "WTHR_OBS4": {"astype": "Int64"},
             "WTHR_OBS4_QC": {},
         },
         "MD1": {
-            "ATM_PRESS_CHG:hectopascals": {"astype": int, "replace": "9"},
+            "ATM_PRESS_CHG:hectopascals": {"astype": "Int64", "replace": "9"},
             "ATM_PRESS_CHG_QC": {},
             "ATM_PRESS_CHG_3HR:hectopascals": {
-                "astype": float,
+                "astype": "float64",
                 "replace": "999",
                 "factor": 0.1,
             },
             "ATM_PRESS_CHG_3HR_QC": {},
             "ATM_PRESS_CHG_24HR:hectopascals": {
-                "astype": float,
+                "astype": "float64",
                 "replace": "+999",
                 "factor": 0.1,
             },
@@ -6376,13 +6396,13 @@ def ncei_ish(station, datatypeid=None, start_date=None, end_date=None):
         "EQD": {},
         "AY1": {},
         "OC1": {
-            "WND_GUST:m/s": {"astype": float, "replace": "9999", "factor": 0.1},
+            "WND_GUST:m/s": {"astype": "float64", "replace": "9999", "factor": 0.1},
             "WND_GUST_QC": {},
         },
         "UA1": {
             "WAVE_METHOD": {"replace": "9"},
-            "WAVE_PER:s": {"astype": float, "replace": "99"},
-            "WAVE_HGT:m": {"astype": float, "replace": "999", "factor": 0.1},
+            "WAVE_PER:s": {"astype": "float64", "replace": "99"},
+            "WAVE_HGT:m": {"astype": "float64", "replace": "999", "factor": 0.1},
             "WAVE_HGT_QC": {},
             "WAVE_STATE": {"replace": "99"},
             "WAVE_STATE_QC": {},
@@ -6395,7 +6415,11 @@ def ncei_ish(station, datatypeid=None, start_date=None, end_date=None):
             "SNOW_DEPTH:cm": {"replace": "9999"},
             "SNOW_DEPTH_COND": {"replace": "9"},
             "SNOW_DEPTH_QC": {},
-            "SNOW_DEPTH_EW:mm": {"astype": float, "replace": "999999", "factor": 0.1},
+            "SNOW_DEPTH_EW:mm": {
+                "astype": "float64",
+                "replace": "999999",
+                "factor": 0.1,
+            },
             "SNOW_DEPTH_EW_COND": {"replace": "9"},
             "SNOW_DEPTH_EW_QC": {},
         },
@@ -6413,10 +6437,10 @@ def ncei_ish(station, datatypeid=None, start_date=None, end_date=None):
                 if not modifiers:
                     addto = pd.DataFrame()
                     break
-                if "replace" in modifiers:
-                    addto[vname] = addto[vname].replace(modifiers["replace"], np.nan)
                 if "astype" in modifiers:
                     addto[vname] = addto[vname].astype(modifiers["astype"])
+                if "replace" in modifiers:
+                    addto[vname] = addto[vname].replace(modifiers["replace"], np.nan)
                 if "factor" in modifiers:
                     addto[vname] = addto[vname] * modifiers["factor"]
             final = final.drop(cname, axis="columns")

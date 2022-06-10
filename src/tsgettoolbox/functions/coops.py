@@ -23,6 +23,8 @@ except ImportError:
 
 from tstoolbox import tsutils
 
+__all__ = ["coops"]
+
 _settings_map = defaultdict(lambda: [{"metric": "", "english": ""}])
 
 # Preliminary or verified water levels, depending on availability.
@@ -727,7 +729,21 @@ def coops(
 ):
     r"""Download Center for Operational Oceanographic Products and Services."""
     disable_caching = False
-    params = {"station": station, "product": product, "bin": bin, "interval": interval, "units": "metric", "time_zone": time_zone, "datum": datum, "format": "json", "application": "tsgettoolbox", "date": date, "begin_date": begin_date, "end_date": end_date, "range": range}
+    params = {
+        "station": station,
+        "product": product,
+        "bin": bin,
+        "interval": interval,
+        "units": "metric",
+        "time_zone": time_zone,
+        "datum": datum,
+        "format": "json",
+        "application": "tsgettoolbox",
+        "date": date,
+        "begin_date": begin_date,
+        "end_date": end_date,
+        "range": range,
+    }
 
     if date is not None:
         begin_date = None
@@ -856,7 +872,7 @@ No data for this product and time frame at this station.
         time_zone_name = params["time_zone"].upper()
         if time_zone_name == "GMT":
             time_zone_name = "UTC"
-        resp.index.name = "Datetime:{}".format(time_zone_name)
+        resp.index.name = f"Datetime:{time_zone_name}"
 
         if produc in ["datums"]:
             resp.index.name = "Datums"

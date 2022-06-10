@@ -14,6 +14,8 @@ except ImportError:
 import mechanize
 from tstoolbox import tsutils
 
+__all__ = ["fawn"]
+
 #  "referrer": "https://fawn.ifas.ufl.edu/data/reports/?res",
 #  "referrerPolicy": "no-referrer-when-downgrade",
 #  "body": "
@@ -341,32 +343,27 @@ def fawn(
 
     for station in tsutils.make_list(stations):
         try:
-            data["locs__{}".format(rev_locs[station])] = "on"
+            data[f"locs__{rev_locs[station]}"] = "on"
         except KeyError:
             try:
-                data["locs__{}".format(rev_locs[station.lower()])] = "on"
+                data[f"locs__{rev_locs[station.lower()]}"] = "on"
             except KeyError:
                 raise ValueError(
                     tsutils.error_wrapper(
-                        """
-Station {station} is not in the list of stations.
-                                 """.format(
-                            **locals()
-                        )
+                        f"""
+Station {station} is not in the list of stations."""
                     )
                 )
 
     for variable in tsutils.make_list(variables):
         try:
-            data["vars__{}".format(rev_vars[variable])] = "on"
+            data[f"vars__{rev_vars[variable]}"] = "on"
         except KeyError:
             raise ValueError(
                 tsutils.error_wrapper(
-                    """
+                    f"""
 Variable {variable} is not available.
-""".format(
-                        **locals()
-                    )
+"""
                 )
             )
 
@@ -409,12 +406,10 @@ Variable {variable} is not available.
     if len(ndf) == 0:
         raise ValueError(
             tsutils.error_wrapper(
-                """
+                f"""
 FAWN service returned no values for stations "{stations}", variables "{variables}"
 between "{sdate}" and "{edate}".
-""".format(
-                    **locals()
-                )
+"""
             )
         )
 

@@ -77,7 +77,7 @@ def _get_value_table(h5file, station, variable):
     station_code = core._station_code(station)
     station_path = "/".join((gsod_values_path, station_code))
     util.get_or_create_group(
-        h5file, station_path, "station %s" % station_code, createparents=True
+        h5file, station_path, f"station {station_code}", createparents=True
     )
 
     value_table_name = variable
@@ -90,7 +90,7 @@ def _get_value_table(h5file, station, variable):
             h5file,
             values_path,
             NCDCValue,
-            "Values for station: {}, variable: {}".format(station_code, variable),
+            f"Values for station: {station_code}, variable: {variable}",
         )
         value_table.cols.date.createCSIndex()
         value_table.attrs.USAF = station["USAF"]

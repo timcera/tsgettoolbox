@@ -26,6 +26,8 @@ try:
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
+__all__ = ["rivergages"]
+
 # def get_station_data(station_code, parameter, start=None, end=None,
 #         min_value=None, max_value=None):
 
@@ -56,12 +58,10 @@ def rivergages(station_code, parameter, start_date=None, end_date=None):
     if station_code not in tstations:
         raise ValueError(
             tsutils.error_wrapper(
-                """
-Station code {} not in available stations:
-{}
-""".format(
-                    station_code, tstations.keys
-                )
+                f"""
+Station code {station_code} not in available stations:
+{tstations.keys}
+"""
             )
         )
 
@@ -69,12 +69,10 @@ Station code {} not in available stations:
     if parameter not in tparameters:
         raise ValueError(
             tsutils.error_wrapper(
-                """
-Parameter code {} not in available parameters at station {}:
-{}
-""".format(
-                    parameter, station_code, tparameters
-                )
+                f"""
+Parameter code {parameter} not in available parameters at station {station_code}:
+{tparameters}
+"""
             )
         )
     df = get_station_data(

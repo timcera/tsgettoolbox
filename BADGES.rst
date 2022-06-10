@@ -1,5 +1,5 @@
-.. image:: https://travis-ci.org/timcera/tsgettoolbox.svg?branch=master
-    :target: https://travis-ci.org/timcera/tsgettoolbox
+.. image:: https://github.com/timcera/tsgettoolbox/actions/workflows/python-package.yml/badge.svg
+    :target: https://github.com/timcera/tsgettoolbox/actions/workflows/python-package.yml
     :height: 20
 
 .. image:: https://coveralls.io/repos/timcera/tsgettoolbox/badge.png?branch=master

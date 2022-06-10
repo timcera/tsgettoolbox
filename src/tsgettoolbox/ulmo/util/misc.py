@@ -247,7 +247,7 @@ def _ftp_download_if_new(url, path, check_modified=True):
 
 def _ftp_download_file(ftp, ftp_path, local_path):
     with open(local_path, "wb") as f:
-        ftp.retrbinary("RETR " + ftp_path, f.write)
+        ftp.retrbinary(f"RETR {ftp_path}", f.write)
 
 
 def _ftp_file_size(ftp, file_path):
@@ -256,7 +256,7 @@ def _ftp_file_size(ftp, file_path):
 
 
 def _ftp_last_modified(ftp, file_path):
-    timestamp = ftp.sendcmd("MDTM " + file_path).split()[-1]
+    timestamp = ftp.sendcmd(f"MDTM {file_path}").split()[-1]
     return datetime.datetime.strptime(timestamp, "%Y%m%d%H%M%S")
 
 
@@ -316,8 +316,7 @@ def _request_is_newer_than_file(request, path):
 
     if not request.headers.get("last-modified"):
         warnings.warn(
-            "no last-modified date for request: %s, downloading file again"
-            % request.url
+            f"no last-modified date for request: {request.url}, downloading file again"
         )
         return True
 

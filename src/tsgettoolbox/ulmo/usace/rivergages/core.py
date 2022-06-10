@@ -82,7 +82,7 @@ def get_station_parameters(station_code):
 
 
 def _format_date(date):
-    return "{}/{}/{}".format(date.month, date.day, date.year)
+    return f"{date.month}/{date.day}/{date.year}"
 
 
 def _parse_options(options):

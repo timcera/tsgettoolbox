@@ -19,12 +19,12 @@ def parse_site_values(content_io, namespace, query_isodate=None, methods=None):
         ("source", "sources", "id"),
     ]
     for (event, ele) in etree.iterparse(content_io):
-        if ele.tag == namespace + "timeSeries":
-            source_info_element = ele.find(namespace + "sourceInfo")
+        if ele.tag == f"{namespace}timeSeries":
+            source_info_element = ele.find(f"{namespace}sourceInfo")
             site_info = _parse_site_info(source_info_element, namespace)
-            var_element = ele.find(namespace + "variable")
+            var_element = ele.find(f"{namespace}variable")
             variable = _parse_variable(var_element, namespace)
-            values_elements = ele.findall(namespace + "values")
+            values_elements = ele.findall(f"{namespace}values")
             code = variable["code"]
             if isinstance(methods, str):
                 method = methods
@@ -33,13 +33,12 @@ def parse_site_values(content_io, namespace, query_isodate=None, methods=None):
             else:
                 method = None
             if "statistic" in variable:
-                code += ":" + variable["statistic"]["code"]
+                code += f":{variable['statistic']['code']}"
 
             if method is None:
                 if len(values_elements) > 1:
                     raise ValueError(
-                        "found more than one method for %s. need to specify"
-                        'specify code or "all".' % variable["code"]
+                        f"found more than one method for {variable['code']}. need to specifyspecify code or \"all\"."
                     )
                 values_element = values_elements[0]
                 values = _parse_values(values_element, namespace)
@@ -60,9 +59,7 @@ def parse_site_values(content_io, namespace, query_isodate=None, methods=None):
                     )
                     if len(values_elements) > 1:
                         updated_code = (
-                            code
-                            + ":"
-                            + str(list(metadata["methods"].values())[0]["id"])
+                            f"{code}:{str(list(metadata['methods'].values())[0]['id'])}"
                         )
                     else:
                         updated_code = code
@@ -77,9 +74,7 @@ def parse_site_values(content_io, namespace, query_isodate=None, methods=None):
             else:
                 for values_element in values_elements:
                     if (
-                        values_element.find(
-                            namespace + 'method[@methodID="%s"]' % method
-                        )
+                        values_element.find(f'{namespace}method[@methodID="{method}"]')
                         is not None
                     ):
                         values = _parse_values(values_element, namespace)
@@ -126,7 +121,7 @@ def parse_sites(content_io, namespace):
     site_elements = [
         ele
         for (event, ele) in etree.iterparse(content_io)
-        if ele.tag == namespace + "site"
+        if ele.tag == f"{namespace}site"
     ]
     site_dicts = [
         _parse_site(site_element, namespace) for site_element in site_elements
@@ -143,7 +138,7 @@ def parse_variables(content_io, namespace):
     variable_elements = [
         element
         for (event, element) in etree.iterparse(content_io)
-        if element.tag == namespace + "variable"
+        if element.tag == f"{namespace}variable"
     ]
     variable_dicts = [
         _parse_variable(variable_element, namespace)
@@ -200,13 +195,13 @@ def _element_dict_attribute_name(
     attribute_only = util.camel_to_underscore(attribute_name.split("}")[-1])
     if attribute_only.startswith(element_name) or not prepend_element_name:
         return attribute_only
-    return element_name + "_" + attribute_only
+    return f"{element_name}_{attribute_only}"
 
 
 def _find_unit(element, namespace):
-    unit_element = element.find(namespace + "unit")
+    unit_element = element.find(f"{namespace}unit")
     if unit_element is None:
-        unit_element = element.find(namespace + "units")
+        unit_element = element.find(f"{namespace}units")
     return unit_element
 
 
@@ -224,8 +219,8 @@ def _parse_datetime(datetime_str):
 def _parse_geog_location(geog_location, namespace):
     """returns a dict representation of a geogLocation etree element"""
     return_dict = {
-        "latitude": geog_location.find(namespace + "latitude").text,
-        "longitude": geog_location.find(namespace + "longitude").text,
+        "latitude": geog_location.find(f"{namespace}latitude").text,
+        "longitude": geog_location.find(f"{namespace}longitude").text,
     }
 
     srs = geog_location.attrib.get("srs")
@@ -266,7 +261,7 @@ def _parse_series(series, namespace):
     ]
     series_dict = {}
 
-    variable_element = series.find(namespace + "variable")
+    variable_element = series.find(f"{namespace}variable")
     series_dict["variable"] = _parse_variable(variable_element, namespace)
 
     for include_element in include_elements:
@@ -283,8 +278,8 @@ def _parse_site(site, namespace):
     """returns a dict representation of a site given an etree object
     representing a site element
     """
-    site_dict = _parse_site_info(site.find(namespace + "siteInfo"), namespace)
-    series_elements = site.iter(namespace + "series")
+    site_dict = _parse_site_info(site.find(f"{namespace}siteInfo"), namespace)
+    series_elements = site.iter(f"{namespace}series")
     site_dict["series"] = [
         _parse_series(series_element, namespace) for series_element in series_elements
     ]
@@ -296,11 +291,11 @@ def _parse_site_info(site_info, namespace):
     """returns a dict representation of a site given an etree object
     representing a siteInfo element
     """
-    site_code = site_info.find(namespace + "siteCode")
+    site_code = site_info.find(f"{namespace}siteCode")
 
     return_dict = {
         "code": site_code.text,
-        "name": site_info.find(namespace + "siteName").text,
+        "name": site_info.find(f"{namespace}siteName").text,
         "network": site_code.attrib.get("network"),
     }
 
@@ -312,18 +307,18 @@ def _parse_site_info(site_info, namespace):
     if not geog_location is None:
         return_dict["location"] = _parse_geog_location(geog_location, namespace)
 
-    timezone_info = site_info.find(namespace + "timeZoneInfo")
+    timezone_info = site_info.find(f"{namespace}timeZoneInfo")
     if not timezone_info is None:
         return_dict["timezone_info"] = _parse_timezone_info(timezone_info, namespace)
 
-    elevation_m = site_info.find(namespace + "elevation_m")
+    elevation_m = site_info.find(f"{namespace}elevation_m")
     if not elevation_m is None:
         return_dict["elevation_m"] = elevation_m.text
 
     # WaterML 1.0 notes
     notes = {
         util.camel_to_underscore(note.attrib["title"].replace(" ", "")): note.text
-        for note in site_info.findall(namespace + "note")
+        for note in site_info.findall(f"{namespace}note")
     }
     if notes:
         return_dict["notes"] = notes
@@ -333,7 +328,7 @@ def _parse_site_info(site_info, namespace):
         util.camel_to_underscore(
             site_property.attrib["name"].replace(" ", "")
         ): site_property.text
-        for site_property in site_info.findall(namespace + "siteProperty")
+        for site_property in site_info.findall(f"{namespace}siteProperty")
     }
     if site_properties:
         return_dict["site_property"] = site_properties
@@ -361,12 +356,12 @@ def _parse_timezone_info(timezone_info, namespace):
     else:
         return_dict["uses_dst"] = False
 
-    dst_element = timezone_info.find(namespace + "daylightSavingsTimeZone")
+    dst_element = timezone_info.find(f"{namespace}daylightSavingsTimeZone")
     if not dst_element is None:
         return_dict["dst_tz"] = _parse_timezone_element(dst_element)
 
     return_dict["default_tz"] = _parse_timezone_element(
-        timezone_info.find(namespace + "defaultTimeZone")
+        timezone_info.find(f"{namespace}defaultTimeZone")
     )
 
     return return_dict
@@ -420,7 +415,7 @@ def _parse_unit(unit_element, namespace):
         "type",
     ]
     for key in keys:
-        dict_key = tag_name + "_" + key
+        dict_key = f"{tag_name}_{key}"
         if dict_key in unit_dict:
             return_dict[key] = unit_dict[dict_key]
 
@@ -440,7 +435,7 @@ def _parse_values(values_element, namespace):
     """
     return [
         _parse_value(value, namespace)
-        for value in values_element.findall(namespace + "value")
+        for value in values_element.findall(f"{namespace}value")
     ]
 
 
@@ -459,12 +454,12 @@ def _parse_variable(variable_element, namespace):
             "variableName",
         ],
     )
-    variable_code = variable_element.find(namespace + "variableCode")
+    variable_code = variable_element.find(f"{namespace}variableCode")
     return_dict.update(
         {
             "code": variable_code.text,
             "id": variable_code.attrib.get("variableID"),
-            "name": variable_element.find(namespace + "variableName").text,
+            "name": variable_element.find(f"{namespace}variableName").text,
             "vocabulary": variable_code.attrib.get("vocabulary"),
         }
     )
@@ -473,7 +468,7 @@ def _parse_variable(variable_element, namespace):
         return_dict["network"] = network
 
     statistic = variable_element.find(
-        namespace + "options/" + namespace + "option[@name='Statistic']"
+        f"{namespace}options/{namespace}option[@name='Statistic']"
     )
     if statistic is not None:
         return_dict["statistic"] = {
@@ -493,7 +488,7 @@ def _parse_variable(variable_element, namespace):
     if not unit_element is None:
         return_dict["units"] = _parse_unit(unit_element, namespace)
 
-    variable_description = variable_element.find(namespace + "variableDescription")
+    variable_description = variable_element.find(f"{namespace}variableDescription")
     if not variable_description is None:
         return_dict["description"] = variable_description.text
 
@@ -502,4 +497,4 @@ def _parse_variable(variable_element, namespace):
 
 def _scrub_prefix(element_dict, prefix):
     "returns a dict with prefix scrubbed from the keys"
-    return {k.split(prefix + "_")[-1]: v for k, v in element_dict.items()}
+    return {k.split(f"{prefix}_")[-1]: v for k, v in element_dict.items()}

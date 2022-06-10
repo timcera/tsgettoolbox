@@ -61,7 +61,7 @@ def get_sites(wsdl_url, suds_cache=("default",), timeout=None, user_cache=False)
         response_buffer = io.BytesIO(util.to_bytes(response))
         sites = waterml.v1_1.parse_site_infos(response_buffer)
 
-    return {site["network"] + ":" + site["code"]: site for site in list(sites.values())}
+    return {f"{site['network']}:{site['code']}": site for site in list(sites.values())}
 
 
 def get_site_info(
@@ -115,7 +115,7 @@ def get_site_info(
         return {}
     site_info = list(sites.values())[0]
     series_dict = {
-        series["variable"]["vocabulary"] + ":" + series["variable"]["code"]: series
+        f"{series['variable']['vocabulary']}:{series['variable']['code']}": series
         for series in site_info["series"]
     }
     site_info["series"] = series_dict
@@ -279,7 +279,7 @@ def get_variable_info(
     if variable_code is not None and len(variable_info) == 1:
         return list(variable_info.values())[0]
     return {
-        "{}:{}".format(var["vocabulary"], var["code"]): var
+        f"{var['vocabulary']}:{var['code']}": var
         for var in list(variable_info.values())
     }
 

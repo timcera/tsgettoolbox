@@ -16,6 +16,7 @@ try:
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
+__all__ = ["cdec"]
 
 dur_code_map = {
     "daily": "D",
@@ -298,9 +299,7 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
         station_ids = get_stations().index
 
     for station_id in station_ids:
-        url = "https://cdec.water.ca.gov/dynamicapp/staMeta?station_id={}".format(
-            station_id
-        )
+        url = f"https://cdec.water.ca.gov/dynamicapp/staMeta?station_id={station_id}"
         sensor_list = pd.read_html(url)
         sensor_list = sensor_list[1]
         sensor_list.columns = [
@@ -386,19 +385,7 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
             var = row["variable"]
             sensor_id = row["sensor_number"]
 
-            url = (
-                "https://cdec.water.ca.gov/dynamicapp/req/CSVDataServlet"
-                + "?Stations="
-                + station_id
-                + "&dur_code="
-                + dur_code_map[res]
-                + "&SensorNums="
-                + str(sensor_id)
-                + "&Start="
-                + start_date_str
-                + "&End="
-                + end_date_str
-            )
+            url = f"https://cdec.water.ca.gov/dynamicapp/req/CSVDataServlet?Stations={station_id}&dur_code={dur_code_map[res]}&SensorNums={str(sensor_id)}&Start={start_date_str}&End={end_date_str}"
             station_data[var] = pd.read_csv(
                 url,
                 parse_dates=["DATE TIME"],

@@ -76,7 +76,7 @@ def get_sites(source_agency=None):
     sites = [_create_feature(site_info) for site_info in sites_unprocessed]
     if source_agency:
         if not source_agency.upper() in source_map:
-            log.info("the source %s is not recognized" % source_agency)
+            log.info(f"the source {source_agency} is not recognized")
             return {}
         sites = [
             site
@@ -123,7 +123,7 @@ def get_historical_data(site_code, start=None, end=None, as_dataframe=False):
         raise
 
     waterquality_url = (
-        "http://waterquality.lcra.org/parameter.aspx?qrySite=%s" % site_code
+        f"http://waterquality.lcra.org/parameter.aspx?qrySite={site_code}"
     )
     waterquality_url2 = "http://waterquality.lcra.org/events.aspx"
 
@@ -188,12 +188,9 @@ def get_recent_data(site_code, as_dataframe=False):
         list of values or dataframe.
     """
     if site_code not in real_time_sites:
-        log.info("%s is not in the list of LCRA real time salinity sites" % site_code)
+        log.info(f"{site_code} is not in the list of LCRA real time salinity sites")
         return {}
-    data_url = "http://waterquality.lcra.org/salinity.aspx?sNum={}&name={}".format(
-        site_code,
-        real_time_sites[site_code],
-    )
+    data_url = f"http://waterquality.lcra.org/salinity.aspx?sNum={site_code}&name={real_time_sites[site_code]}"
     data = pd.read_html(data_url, header=0)[1]
     data.index = data["Date - Time"].apply(lambda x: util.convert_datetime(x))
     data.drop("Date - Time", axis=1, inplace=True)

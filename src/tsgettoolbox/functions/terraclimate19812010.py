@@ -17,6 +17,8 @@ except ImportError:
 
 from tstoolbox import tsutils
 
+__all__ = ["terraclimate19812010"]
+
 _avail_vars = {
     "aet": {
         "sname": "aet",

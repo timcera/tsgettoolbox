@@ -379,15 +379,11 @@ def _fips_dataframe():
 
 
 def _get_text_url(date):
-    return "https://twc.tamu.edu/weather_images/summ/summ%s.txt" % date.strftime(
-        "%Y%m%d"
-    )
+    return f"https://twc.tamu.edu/weather_images/summ/summ{date.strftime('%Y%m%d')}.txt"
 
 
 def _get_csv_url(date):
-    return "https://twc.tamu.edu/weather_images/summ/summ%s.csv" % date.strftime(
-        "%Y%m%d"
-    )
+    return f"https://twc.tamu.edu/weather_images/summ/summ{date.strftime('%Y%m%d')}.csv"
 
 
 def _parse_text_file(data_file):

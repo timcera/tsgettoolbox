@@ -14,6 +14,8 @@ except ImportError:
 import async_retriever as ar
 from tstoolbox import tsutils
 
+__all__ = ["ndbc"]
+
 _lmap = {
     "stdmet": "h",
     "cwind": "c",
@@ -172,9 +174,10 @@ def date_parser(*x):
 
 
 def ndbc_to_df(url, **query_params):
-
     sdate = tsutils.parsedate(query_params.pop("startUTC"))
     edate = tsutils.parsedate(query_params.pop("endUTC"))
+    if edate is None:
+        edate = pd.Timestamp.utcnow()
 
     table = query_params["table"]
 
@@ -186,17 +189,17 @@ def ndbc_to_df(url, **query_params):
         # Yearly
         # https://www.ndbc.noaa.gov/data/historical/stdmet/41012h2012.txt.gz
         filenames.append(
-            f"/historical/{table}/{query_params['station']}{_lmap[table]}{yr}.txt.gz"
+            f"{url}/historical/{table}/{query_params['station']}{_lmap[table]}{yr}.txt.gz"
         )
     if edate.year == cyear.year:
         for mnth in range(edate.month):
             # Monthly
             # https://www.ndbc.noaa.gov/data/stdmet/Mar/sauf132018.txt.gz
             filenames.append(
-                f"/{table}/{_mapnumtoname[mnth]}/{query_params['station']}{mnth+1}{yr}.txt.gz"
+                f"{url}/{table}/{_mapnumtoname[mnth]}/{query_params['station']}{mnth+1}{yr}.txt.gz"
             )
 
-    resp = ar.retrieve_binary([url + i for i in filenames], [{}] * len(filenames))
+    resp = ar.retrieve_binary(filenames, [{}] * len(filenames))
     resp = [BytesIO(i) for i in resp]
     resp = [GzipFile(fileobj=i).read() for i in resp]
     skiprows = []
@@ -262,7 +265,7 @@ No data collected/available within this time frame.
 
 
 @mando.command("ndbc", formatter_class=HelpFormatter, doctype="numpy")
-def ndbc_cli(station, table, startUTC, endUTC):
+def ndbc_cli(station, table, startUTC, endUTC=None):
     r"""US station T,6T,10T,15T,H,D:Download historical from the National Data Buoy Center.
 
     Download historical data from the National Data Buoy Center.
@@ -498,6 +501,8 @@ def ndbc_cli(station, table, startUTC, endUTC):
         (only seconds are optional)
 
     endUTC
+        [optional, default to None implies now]
+
         an ISO 8601 date/time string.
         (only seconds are optional)
 
@@ -791,10 +796,10 @@ def ndbc_cli(station, table, startUTC, endUTC):
         | REMCAP   | Remaining Battery Capacity (ampere-hours)            |
         +----------+------------------------------------------------------+
         """
-    tsutils.printiso(ndbc(station, table, startUTC, endUTC))
+    tsutils.printiso(ndbc(station, table, startUTC, endUTC=endUTC))
 
 
-def ndbc(station, table, startUTC, endUTC):
+def ndbc(station, table, startUTC, endUTC=None):
     r"""Download historical from the National Data Buoy Center."""
     df = ndbc_to_df(
         r"https://www.ndbc.noaa.gov/data/",

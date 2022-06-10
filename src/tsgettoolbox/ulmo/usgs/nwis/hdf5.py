@@ -115,7 +115,7 @@ def get_site(site_code, path=None, complevel=None, complib=None):
     try:
         return sites[site_code]
     except KeyError:
-        raise LookupError("could not find site: %s" % site_code)
+        raise LookupError(f"could not find site: {site_code}")
 
 
 def get_site_data(
@@ -162,7 +162,7 @@ def get_site_data(
     data_dict : dict
         a python dict with parameter codes mapped to value dicts
     """
-    site_data_path = _get_store_path(path, site_code + ".h5")
+    site_data_path = _get_store_path(path, f"{site_code}.h5")
 
     comp_kwargs = _compression_kwargs(complevel=complevel, complib=complib)
 
@@ -206,7 +206,7 @@ def remove_values(
     -------
     None : ``None``
     """
-    site_data_path = _get_store_path(path, site_code + ".h5")
+    site_data_path = _get_store_path(path, f"{site_code}.h5")
 
     comp_kwargs = _compression_kwargs(complevel=complevel, complib=complib)
 
@@ -215,15 +215,13 @@ def remove_values(
         site_group = store.get_node(site_code)
         if site_group is None:
             core.log.warning(
-                "No site group found for site {} in {}".format(
-                    site_code, site_data_path
-                )
+                f"No site group found for site {site_code} in {site_data_path}"
             )
             return
 
         for variable_code, datetimes in datetime_dicts.items():
-            variable_group_path = site_code + "/" + variable_code
-            values_path = variable_group_path + "/" + "values"
+            variable_group_path = f"{site_code}/{variable_code}"
+            values_path = f"{variable_group_path}/values"
 
             datetimes = [util.convert_datetime(dt) for dt in datetimes]
 
@@ -233,22 +231,18 @@ def remove_values(
                 datetimes_to_remove = original_datetimes.intersection(set(datetimes))
                 if not datetimes_to_remove:
                     core.log.info(
-                        "No %s values matching the given datetimes to remove were found."
-                        % variable_code
+                        f"No {variable_code} values matching the given datetimes to remove were found."
                     )
                     continue
                 else:
                     values_df.loc[list(datetimes_to_remove), "value"] = np.nan
                     core.log.info(
-                        "%i %s values were set to NaNs in file"
-                        % (len(datetimes_to_remove), variable_code)
+                        f"{len(datetimes_to_remove)} {variable_code} values were set to NaNs in file"
                     )
 
             else:
                 core.log.warning(
-                    "Values path {} not found in {}.".format(
-                        values_path, site_data_path
-                    )
+                    f"Values path {values_path} not found in {site_data_path}."
                 )
                 continue
 
@@ -304,7 +298,7 @@ def update_site_list(
     complib=None,
     autorepack=True,
     path=None,
-    **kwargs
+    **kwargs,
 ):
     """Update cached site information.
 
@@ -355,7 +349,7 @@ def update_site_list(
         site_type=site_type,
         service=service,
         input_file=input_file,
-        **kwargs
+        **kwargs,
     )
 
     if len(new_sites) == 0:
@@ -427,7 +421,7 @@ def update_site_data(
     -------
     None : ``None``
     """
-    site_data_path = _get_store_path(path, site_code + ".h5")
+    site_data_path = _get_store_path(path, f"{site_code}.h5")
 
     if input_file is None and start is None and end is None and period is None:
         prior_last_refresh = _get_last_refresh(site_code, site_data_path)
@@ -453,11 +447,11 @@ def update_site_data(
     something_changed = False
     with _get_store(site_data_path, mode="a", **comp_kwargs) as store:
         for variable_code, data_dict in new_site_data.items():
-            variable_group_path = site_code + "/" + variable_code
+            variable_group_path = f"{site_code}/{variable_code}"
 
             site_dict = data_dict.pop("site")
 
-            values_path = variable_group_path + "/values"
+            values_path = f"{variable_group_path}/values"
             new_values = _values_dicts_to_df(data_dict.pop("values", {}))
 
             last_refresh = data_dict.get("last_refresh")
@@ -601,8 +595,8 @@ def _ptrepack(src, dst, complevel, complib):
     with _sysargs_hacks():
         sys.argv = [
             "",
-            "--complevel=%s" % complevel,
-            "--complib=%s" % complib,
+            f"--complevel={complevel}",
+            f"--complib={complib}",
             src,
             dst,
         ]
@@ -614,7 +608,7 @@ def _sites_df_to_dict(df):
     df = _nest_dataframe_dicts(df, "location", ["latitude", "longitude", "srs"])
     for tz_type in ["default_tz", "dst_tz"]:
         tz_keys = ["abbreviation", "offset"]
-        rename_dict = {tz_type + "_" + key: key for key in tz_keys}
+        rename_dict = {f"{tz_type}_{key}": key for key in tz_keys}
         df = df.rename(columns=rename_dict)
         df = _nest_dataframe_dicts(df, tz_type, tz_keys)
     df = _nest_dataframe_dicts(
@@ -633,7 +627,7 @@ def _sites_dict_to_df(sites_dict):
     for tz_type in ["default_tz", "dst_tz"]:
         tz_keys = ["abbreviation", "offset"]
         df = _unnest_dataframe_dicts(df, tz_type, tz_keys)
-        rename_dict = {key: tz_type + "_" + key for key in tz_keys}
+        rename_dict = {key: f"{tz_type}_{key}" for key in tz_keys}
         df = df.rename(columns=rename_dict)
 
     return df
@@ -683,7 +677,7 @@ def _values_df_to_dicts(values_df):
 def _variable_group_to_dict(store, variable_group, start=None):
     _v_attrs = variable_group._v_attrs
     variable_dict = {key: getattr(_v_attrs, key) for key in _v_attrs._f_list()}
-    values_path = variable_group._v_pathname + "/values"
+    values_path = f"{variable_group._v_pathname}/values"
     values_df = store[values_path]
     if start:
         values_df = values_df[values_df.index > start]

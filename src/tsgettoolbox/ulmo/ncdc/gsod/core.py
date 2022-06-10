@@ -228,7 +228,7 @@ def _convert_date_string(date_string):
 
 
 def _get_gsod_file(year):
-    url = "http://www1.ncdc.noaa.gov/pub/data/gsod/{}/gsod_{}.tar".format(year, year)
+    url = f"http://www1.ncdc.noaa.gov/pub/data/gsod/{year}/gsod_{year}.tar"
     filename = url.split("/")[-1]
     path = os.path.join(NCDC_GSOD_DIR, filename)
     util.download_if_new(url, path, check_modified=True)
@@ -272,9 +272,9 @@ def _process_station(station_row):
 
 
 def _read_gsod_file(gsod_tar, station, year):
-    tar_station_filename = station + "-" + str(year) + ".op.gz"
+    tar_station_filename = f"{station}-{str(year)}.op.gz"
     try:
-        gsod_tar.getmember("./" + tar_station_filename)
+        gsod_tar.getmember(f"./{tar_station_filename}")
     except KeyError:
         return None
 
@@ -282,7 +282,7 @@ def _read_gsod_file(gsod_tar, station, year):
     util.mkdir_if_doesnt_exist(ncdc_temp_dir)
     temp_path = os.path.join(ncdc_temp_dir, tar_station_filename)
 
-    gsod_tar.extract("./" + tar_station_filename, ncdc_temp_dir)
+    gsod_tar.extract(f"./{tar_station_filename}", ncdc_temp_dir)
     with gzip.open(temp_path, "rb") as gunzip_f:
         columns = [
             # name, length, # of spaces separating previous column, dtype

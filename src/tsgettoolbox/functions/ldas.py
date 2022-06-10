@@ -12,6 +12,17 @@ from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from tabulate import tabulate as tb
 from tstoolbox import tsutils
 
+__all__ = ["ldas",
+           "ldas_gldas_noah",
+           "ldas_grace",
+           "ldas_merra",
+           "ldas_merra_update",
+           "ldas_nldas_fora",
+           "ldas_nldas_noah",
+           "ldas_smerge",
+           "ldas_trmm_tmpa",
+          ]
+
 _UNITS_MAP = {}
 _NLDAS_FORA = {
     "NLDAS:NLDAS_FORA0125_H.002:APCPsfc": ["Precipitation hourly total", "mm"],
@@ -615,34 +626,16 @@ ldas_cli = foundation_cli(
     units_table=make_units_table(_UNITS_MAP),
     first_line=ldas_first_line,
     meta_table=_META_HEADER
-    + _NLDAS_FORA_META
-    + _NLDAS_NOAH_META
     + _GLDAS_NOAH_META
-    + _TRMM_TMPA_META
-    + _SMERGE_META
     + _GRACE_META
     + _MERRA_META
-    + _MERRA_UPDATE_META,
+    + _MERRA_UPDATE_META
+    + _NLDAS_FORA_META
+    + _NLDAS_NOAH_META
+    + _SMERGE_META
+    + _TRMM_TMPA_META,
 )
 ldas = foundation_api(ldas_cli)
-
-ldas_nldas_fora_cli = foundation_cli(
-    "ldas_nldas_fora",
-    units_table=make_units_table(_NLDAS_FORA),
-    first_line=nldas_fora_first_line,
-    meta_table=_META_HEADER + _NLDAS_FORA_META,
-)
-ldas_nldas_fora = foundation_api(ldas_nldas_fora_cli)
-
-
-ldas_nldas_noah_cli = foundation_cli(
-    "ldas_nldas_noah",
-    units_table=make_units_table(_NLDAS_NOAH),
-    first_line=nldas_noah_first_line,
-    meta_table=_META_HEADER + _NLDAS_NOAH_META,
-)
-ldas_nldas_noah = foundation_api(ldas_nldas_noah_cli)
-
 
 ldas_gldas_noah_cli = foundation_cli(
     "ldas_gldas_noah",
@@ -651,30 +644,6 @@ ldas_gldas_noah_cli = foundation_cli(
     meta_table=_META_HEADER + _GLDAS_NOAH_META,
 )
 ldas_gldas_noah = foundation_api(ldas_gldas_noah_cli)
-
-# ldas_amsre_rzsm3_cli = foundation_cli(
-#     "ldas_amsre_rzsm3",
-#     units_table=make_units_table(_LPRM_AMSR_RZSM3),
-#     first_line=lprm_amsr_rzsm3_first_line,
-#     meta_table=_META_HEADER + _LPRM_AMSR_RZSM3_META,
-# )
-# ldas_amsre_rzsm3 = foundation_api(ldas_amsre_rzsm3_cli)
-
-ldas_trmm_tmpa_cli = foundation_cli(
-    "ldas_trmm_tmpa",
-    units_table=make_units_table(_TRMM_TMPA),
-    first_line=trmm_tmpa_first_line,
-    meta_table=_META_HEADER + _TRMM_TMPA_META,
-)
-ldas_trmm_tmpa = foundation_api(ldas_trmm_tmpa_cli)
-
-ldas_smerge_cli = foundation_cli(
-    "ldas_smerge",
-    units_table=make_units_table(_SMERGE),
-    first_line=smerge_first_line,
-    meta_table=_META_HEADER + _SMERGE_META,
-)
-ldas_smerge = foundation_api(ldas_smerge_cli)
 
 ldas_grace_cli = foundation_cli(
     "ldas_grace",
@@ -700,6 +669,46 @@ ldas_merra_update_cli = foundation_cli(
 )
 ldas_merra_update = foundation_api(ldas_merra_update_cli)
 
+ldas_nldas_fora_cli = foundation_cli(
+    "ldas_nldas_fora",
+    units_table=make_units_table(_NLDAS_FORA),
+    first_line=nldas_fora_first_line,
+    meta_table=_META_HEADER + _NLDAS_FORA_META,
+)
+ldas_nldas_fora = foundation_api(ldas_nldas_fora_cli)
+
+ldas_nldas_noah_cli = foundation_cli(
+    "ldas_nldas_noah",
+    units_table=make_units_table(_NLDAS_NOAH),
+    first_line=nldas_noah_first_line,
+    meta_table=_META_HEADER + _NLDAS_NOAH_META,
+)
+ldas_nldas_noah = foundation_api(ldas_nldas_noah_cli)
+
+# ldas_amsre_rzsm3_cli = foundation_cli(
+#     "ldas_amsre_rzsm3",
+#     units_table=make_units_table(_LPRM_AMSR_RZSM3),
+#     first_line=lprm_amsr_rzsm3_first_line,
+#     meta_table=_META_HEADER + _LPRM_AMSR_RZSM3_META,
+# )
+# ldas_amsre_rzsm3 = foundation_api(ldas_amsre_rzsm3_cli)
+
+ldas_smerge_cli = foundation_cli(
+    "ldas_smerge",
+    units_table=make_units_table(_SMERGE),
+    first_line=smerge_first_line,
+    meta_table=_META_HEADER + _SMERGE_META,
+)
+ldas_smerge = foundation_api(ldas_smerge_cli)
+
+ldas_trmm_tmpa_cli = foundation_cli(
+    "ldas_trmm_tmpa",
+    units_table=make_units_table(_TRMM_TMPA),
+    first_line=trmm_tmpa_first_line,
+    meta_table=_META_HEADER + _TRMM_TMPA_META,
+)
+ldas_trmm_tmpa = foundation_api(ldas_trmm_tmpa_cli)
+
 
 @tsutils.transform_args(variables=tsutils.make_list, variable=tsutils.make_list)
 @tsutils.copy_doc(ldas_cli)
@@ -724,13 +733,13 @@ consistent with other services in tsgettoolbox."""
         )
 
     if lat is not None and lon is not None:
-        location = "GEOM:POINT({}, {})".format(lon, lat)
+        location = f"GEOM:POINT({lon}, {lat})"
     elif project == "NLDAS" and xindex is not None and yindex is not None:
-        location = "{}:X{:03d}-Y{:03d}".format(project, xindex, yindex)
+        location = f"{project}:X{xindex:03d}-Y{yindex:03d}"
     else:
         raise ValueError(
             tsutils.error_wrapper(
-                """
+                f"""
 There is a problem specifying the location.
 
 Both `lat` and `lon` need to be specified where you have "lat={lat}" and
@@ -739,9 +748,7 @@ Both `lat` and `lon` need to be specified where you have "lat={lat}" and
 Only for the NLDAS grid can you use `xindex` and `yindex` to specify the
 location.  You have the grid "{project}" and "xindex={xindex}" and
 "yindex={yindex}".
-""".format(
-                    **locals()
-                )
+"""
             )
         )
 
@@ -757,7 +764,15 @@ location.  You have the grid "{project}" and "xindex={xindex}" and
             # New style where can leave off first ":" separated field.
             nvariable = ":".join([_varmap[words[0]]] + words)
 
-        query_params = {"type": "asc2", "startDate": tsutils.parsedate(startDate, strftime="%Y-%m-%dT%H"), "endDate": tsutils.parsedate(endDate, strftime="%Y-%m-%dT%H"), "location": location, "variable": nvariable}
+        query_params = {
+            "type": "asc2",
+            "startDate": tsutils.parsedate(startDate, strftime="%Y-%m-%dT%H"),
+            "endDate": tsutils.parsedate(endDate, strftime="%Y-%m-%dT%H"),
+            "location": location,
+            "variable": nvariable,
+        }
+        if query_params["endDate"] is None:
+            query_params["endDate"] = pd.Timestamp.now()
         collect_kwds.append(query_params)
 
     resp = ar.retrieve_binary(
@@ -780,7 +795,7 @@ location.  You have the grid "{project}" and "xindex={xindex}" and
 
         df.drop(df.index[-1], axis="rows", inplace=True)
         if len(df.columns) == 3:
-            df["dt"] = df[0] + "T" + df[1]
+            df["dt"] = df[0].str.cat(df[1], sep="T")
             df["dt"] = pd.to_datetime(df["dt"])
             df.set_index("dt", inplace=True)
             df.drop([0, 1], axis="columns", inplace=True)
@@ -789,7 +804,7 @@ location.  You have the grid "{project}" and "xindex={xindex}" and
             df.set_index(0, inplace=True)
         variable_name = collect_kwds[index]["variable"].split(":")[-1]
         unit = _UNITS_MAP[collect_kwds[index]["variable"]][1]
-        df.columns = ["{}:{}".format(variable_name, unit)]
+        df.columns = [f"{variable_name}:{unit}"]
         df.index.name = "Datetime:UTC"
         try:
             return df.tz_localize("UTC")

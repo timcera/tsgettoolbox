@@ -11,7 +11,6 @@
     .. _National Map: http://nationalmap.gov
 
 """
-from __future__ import print_function
 
 import logging
 import os
@@ -74,24 +73,11 @@ def get_raster_availability(layer, bbox=None):
 
     if bbox:
         xmin, ymin, xmax, ymax = [float(n) for n in bbox]
-        polygon = "POLYGON (({}))".format(
-            ",".join(
-                [
-                    (repr(x) + " " + repr(y))
-                    for x, y in [
-                        (xmin, ymax),
-                        (xmin, ymin),
-                        (xmax, ymin),
-                        (xmax, ymax),
-                        (xmin, ymax),
-                    ]
-                ]
-            )
-        )
+        polygon = f"POLYGON (({','.join([f'{repr(x)} {repr(y)}' for x, y in [(xmin, ymax), (xmin, ymin), (xmax, ymin), (xmax, ymax), (xmin, ymax)]])}))"
         params.append(
             (
                 "filter",
-                'spatialQuery={{wkt:"{}",relation:"{}"}}'.format(polygon, "intersects"),
+                f'spatialQuery={{wkt:"{polygon}",relation:"intersects"}}',
             )
         )
 
@@ -99,7 +85,7 @@ def get_raster_availability(layer, bbox=None):
     url = base_url
     while url:
         r = requests.get(url, params)
-        print("retrieving raster availability from %s" % r.url)
+        print(f"retrieving raster availability from {r.url}")
         params = []  # not needed after first request
         content = r.json()
         for item in content["items"]:
@@ -166,7 +152,7 @@ def get_raster(
         util.mkdir_if_doesnt_exist(os.path.join(path, "by_boundingbox"))
         xmin, ymin, xmax, ymax = [float(n) for n in bbox]
         uid = util.generate_raster_uid(layer, xmin, ymin, xmax, ymax)
-        output_path = os.path.join(path, "by_boundingbox", uid + ".tif")
+        output_path = os.path.join(path, "by_boundingbox", f"{uid}.tif")
 
         if os.path.isfile(output_path) and not update_cache:
             return output_path
@@ -183,7 +169,7 @@ def _check_layer(layer):
     make sure the passed layer name is one of the handled options
     """
     if not layer in get_available_layers():
-        err_msg = "The specified layer parameter ({})".format(layer)
+        err_msg = f"The specified layer parameter ({layer})"
         err_msg += "\nis not in the available options:"
         err_msg += "\n\t".join(get_available_layers())
         raise ValueError(err_msg)

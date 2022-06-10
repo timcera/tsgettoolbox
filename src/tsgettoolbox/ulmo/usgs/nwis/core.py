@@ -41,7 +41,7 @@ def get_sites(
     county_code=None,
     parameter_code=None,
     site_type=None,
-    **kwargs
+    **kwargs,
 ):
     """Fetches site information from USGS services.
     See the `USGS Site Service`_ documentation for a detailed description of options.
@@ -159,15 +159,15 @@ def get_sites(
                     site_type=site_type,
                     service=service,
                     input_file=input_file,
-                    **kwargs
+                    **kwargs,
                 )
                 return_sites.update(new_sites)
             return return_sites
 
         url = _get_service_url(service)
-        log.info("making request for sites: %s" % url)
+        log.info(f"making request for sites: {url}")
         req = requests.get(url, params=url_params)
-        log.info("processing data from request: %s" % req.request.url)
+        log.info(f"processing data from request: {req.request.url}")
         req.raise_for_status()
         input_file = io.BytesIO(util.to_bytes(req.content))
 
@@ -192,7 +192,7 @@ def get_site_data(
     modified_since=None,
     input_file=None,
     methods=None,
-    **kwargs
+    **kwargs,
 ):
     """Fetches site data.
 
@@ -353,11 +353,10 @@ def _get_site_values(service, url_params, input_file=None, methods=None):
             req = requests.get(service_url, params=url_params)
         except requests.exceptions.ConnectionError:
             log.info(
-                "There was a connection error with query:\n\t%s\n\t%s"
-                % (service_url, url_params)
+                f"There was a connection error with query:\n\t{service_url}\n\t{url_params}"
             )
             return {}
-        log.info("processing data from request: %s" % req.request.url)
+        log.info(f"processing data from request: {req.request.url}")
 
         if req.status_code != 200:
             return {}

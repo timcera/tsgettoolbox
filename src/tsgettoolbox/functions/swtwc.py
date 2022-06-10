@@ -7,6 +7,8 @@ Access data from the USACE `Tulsa District Water Control`_ web site.
 .. _United States Army Corps of Engineers: http://www.usace.army.mil/
 .. _Tulsa District Water Control: http://www.swt-wc.usace.army.mil/
 
+https://www.swt-wc.usace.army.mil/webdata/gagedata/EUFO2.current.html
+https://www.swt-wc.usace.army.mil/webdata/gagedata/PTTK1.20211231.html
 """
 import datetime
 
@@ -21,6 +23,8 @@ except ImportError:
 from tstoolbox import tsutils
 
 from tsgettoolbox.ulmo.usace.swtwc.core import get_station_data
+
+__all__ = ["swtwc"]
 
 # def get_station_data(station_code, date=None, as_dataframe=False):
 
@@ -46,9 +50,7 @@ def swtwc(station_code, date=None):
         date = pd.to_datetime(date)
     alldict = get_station_data(station_code, date=date, as_dataframe=True)
     df = alldict["values"]
-    df.columns = [
-        "{}:{}".format(i, alldict["variables"][i]["unit"]) for i in df.columns
-    ]
+    df.columns = [f"{i}:{alldict['variables'][i]['unit']}" for i in df.columns]
     df.columns = [i.replace("  ", "_").replace(" ", "_") for i in df.columns]
     df = df.tz_localize(alldict["timezone"])
     return df
@@ -65,7 +67,7 @@ if __name__ == "__main__":
     #
     #    time.sleep(20)
 
-    r = swtwc("PTTK1", date="2017-11-30")
+    r = swtwc("PTTK1", date="2021-11-30")
 
     print("PTTK1 EVERYTHING")
     print(r)

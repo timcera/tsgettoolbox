@@ -15,6 +15,8 @@ except ImportError:
 
 from tstoolbox import tsutils
 
+__all__ = ["terraclimate"]
+
 _avail_vars = {
     "aet": {
         "sname": "aet",
@@ -307,4 +309,5 @@ terraclimate.__doc__ = terraclimate_cli.__doc__
 
 if __name__ == "__main__":
     r = terraclimate(29.6, -82.3)
+    print(r.columns)
     print(r)

@@ -160,7 +160,7 @@ def get_data(
     data = pd.DataFrame()
 
     if use_cache:
-        dcp_data_path = _get_store_path(cache_path, dcp_address + ".h5")
+        dcp_data_path = _get_store_path(cache_path, f"{dcp_address}.h5")
         if os.path.exists(dcp_data_path):
             data = pd.read_hdf(dcp_data_path, dcp_address)
 
@@ -213,7 +213,7 @@ def get_data(
 
         if use_cache:
             # write to a tmp file and move to avoid ballooning h5 file
-            tmp = dcp_data_path + ".tmp"
+            tmp = f"{dcp_data_path}.tmp"
             data.to_hdf(tmp, dcp_address)
             shutil.move(tmp, dcp_data_path)
 
@@ -242,7 +242,7 @@ def get_data(
 
 def _fetch_url(params):
     r = requests.get(EDDN_URL, params=params)
-    log.info("data requested using url: %s\n" % r.url)
+    log.info(f"data requested using url: {r.url}\n")
     soup = BeautifulSoup(r.text)
     message = soup.find("pre").contents[0].replace("\n", "").replace("\r", " ")
 
@@ -271,13 +271,13 @@ def _format_period(period):
     )
 
     if minutes:
-        return "now -%s minutes" % period.seconds / 60
+        return f"now -{period.seconds} minutes" / 60
 
     if hours:
-        return "now -%s hours" % period.seconds / 3600
+        return f"now -{period.seconds} hours" / 3600
 
     if days:
-        return "now -%s days" % days
+        return f"now -{days} days"
 
 
 def _format_time(timestamp):

@@ -72,11 +72,11 @@ def get_data(station_id, elements=None, update=True, as_dataframe=False):
                     for name, start, end, converter in value_columns
                 ]
                 for n in range(1, 32)
-            ]
+            ],
         )
     )
 
-    station_file_path = _get_ghcn_file(station_id + ".dly", check_modified=update)
+    station_file_path = _get_ghcn_file(f"{station_id}.dly", check_modified=update)
     station_data = util.parse_fwf(station_file_path, columns, na_values=[-9999])
 
     dataframes = {}
@@ -86,7 +86,7 @@ def get_data(station_id, elements=None, update=True, as_dataframe=False):
             continue
 
         element_df["month_period"] = element_df.apply(
-            lambda x: pandas.Period("{}-{}".format(x["year"], x["month"])), axis=1
+            lambda x: pandas.Period(f"{x['year']}-{x['month']}"), axis=1
         )
         element_df = element_df.set_index("month_period")
         monthly_index = element_df.index
@@ -244,7 +244,7 @@ def _get_ghcn_file(filename, check_modified=True):
     if "ghcnd-" in filename:
         url = base_url + filename
     else:
-        url = base_url + "all/" + filename
+        url = f"{base_url}all/{filename}"
 
     path = os.path.join(GHCN_DAILY_DIR, url.split("/")[-1])
     util.download_if_new(url, path, check_modified=check_modified)

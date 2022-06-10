@@ -14,22 +14,22 @@ except ImportError:
 
 from tstoolbox import tsutils
 
+__all__ = ["unavco"]
+
 
 def unavco_to_df(url, **query_params):
     try:
         station = query_params.pop("station")
     except KeyError:
         raise KeyError(
-            """
+            f"""
 *
 *   The station keyword is required.  You have given me
-*   {}.
+*   {query_params}.
 *
-""".format(
-                query_params
-            )
+"""
         )
-    url = "{}/{}/beta".format(url, station)
+    url = f"{url}/{station}/beta"
     if "/met/" in url or "/strain/" in url:
         comment = None
     else:
@@ -59,13 +59,7 @@ def unavco_to_df(url, **query_params):
     ]
     df = pd.concat(resp)
     df.columns = [
-        "unavco-{}".format(
-            i.strip()
-            .replace(" ", "_")
-            .replace("(", ":")
-            .replace(")", "")
-            .replace("deg._C", "degC")
-        )
+        f"unavco-{i.strip().replace(' ', '_').replace('(', ':').replace(')', '').replace('deg._C', 'degC')}"
         for i in df.columns
     ]
     df.index.name = "Datetime:UTC"

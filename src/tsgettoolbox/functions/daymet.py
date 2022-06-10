@@ -6,7 +6,6 @@ This program is a collection of utilities to download data from various
 web services.
 """
 
-from __future__ import absolute_import, division, print_function
 
 import datetime
 import logging
@@ -30,6 +29,8 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 from tstoolbox import tsutils
+
+__all__ = ["daymet"]
 
 warnings.filterwarnings("ignore")
 
@@ -235,13 +236,11 @@ def daymet(
             if testparams not in avail_params:
                 raise ValueError(
                     tsutils.error_wrapper(
-                        """
+                        f"""
 The measuredParams should be a single string or a list of strings from
-{1}
-You supplied {0}.
-""".format(
-                            testparams, avail_params
-                        )
+{avail_params}
+You supplied {testparams}.
+"""
                     )
                 )
 

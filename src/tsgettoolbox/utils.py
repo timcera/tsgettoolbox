@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, division, print_function
 
 import datetime
 import io
@@ -26,6 +25,8 @@ from tstoolbox import tsutils
 
 from . import appdirs
 
+__all__ = []
+
 dirs = appdirs.AppDirs("tsgettoolbox", "tsgettoolbox")
 
 
@@ -37,14 +38,12 @@ def read_api_key(service):
     if not os.path.exists(configfile):
         with open(configfile, "w") as fp:
             fp.write(
-                """
+                f"""
 
-[{}]
+[{service}]
 api_key = ReplaceThisStringWithYourKey
 
-""".format(
-                    service
-                )
+"""
             )
     # Make sure read only by user.
     os.chmod(configfile, 0o600)
@@ -57,14 +56,12 @@ api_key = ReplaceThisStringWithYourKey
     except BaseException:
         with open(configfile, "a") as fp:
             fp.write(
-                """
+                f"""
 
-[{}]
+[{service}]
 api_key = ReplaceThisStringWithYourKey
 
-""".format(
-                    service
-                )
+"""
             )
         api_key = "ReplaceThisStringWithYourKey"
 
@@ -72,14 +69,12 @@ api_key = ReplaceThisStringWithYourKey
     api_key = inifile.get(service, "api_key")
     if api_key == "ReplaceThisStringWithYourKey":
         raise ValueError(
-            """
+            f"""
 *
-*   Need to edit {}
-*   to add your API key that you got from {}.
+*   Need to edit {configfile}
+*   to add your API key that you got from {service}.
 *
-""".format(
-                configfile, service
-            )
+"""
         )
 
     return api_key

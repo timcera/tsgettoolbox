@@ -14,6 +14,8 @@ from tstoolbox import tsutils
 
 from tsgettoolbox.ulmo.cpc.drought.core import get_data
 
+__all__ = ["cpc"]
+
 unit_conv = {
     "precipitation": "precipitation:in",
     "temperature": "temperature:degF",

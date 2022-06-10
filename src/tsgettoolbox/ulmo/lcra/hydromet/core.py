@@ -134,16 +134,16 @@ def get_current_data(service, as_geojson=False):
     elif service.lower() == "getlowerbasin":
         service = "GetLowerBasin"
     else:
-        log.info("service %s not recognized" % service)
+        log.info(f"service {service} not recognized")
         return {}
     request_body = request_body_template % service
     headers = {"Content-Type": "text/xml; charset=utf-8"}
     res = requests.post(current_data_url, data=request_body, headers=headers)
     if res.status_code != 200:
-        log.info("http request failed with status code %s" % res.status_code)
+        log.info(f"http request failed with status code {res.status_code}")
         return {}
     soup = BeautifulSoup(res.content)
-    sites_els = soup.findAll("cls%s" % service.lower().replace("get", ""))
+    sites_els = soup.findAll(f"cls{service.lower().replace('get', '')}")
     current_values_dicts = [_parse_current_values(site_el) for site_el in sites_els]
     if as_geojson:
         features = []
@@ -198,7 +198,7 @@ def get_site_data(
     """
     parameter_code = parameter_code.upper()
     if parameter_code.lower() not in PARAMETERS:
-        log.info("%s is not an LCRA parameter" % parameter_code)
+        log.info(f"{parameter_code} is not an LCRA parameter")
         return None
     initial_request = requests.get(historical_data_url, verify=False)
     if initial_request.status_code != 200:
@@ -247,8 +247,7 @@ def get_site_data(
             else:
                 request_end_date = chunk_end_date
             log.info(
-                "getting chunk: %i, start: %s, end: %s, parameter: %s"
-                % (chunk, request_start_date, request_end_date, parameter_code)
+                f"getting chunk: {chunk}, start: {request_start_date}, end: {request_end_date}, parameter: {parameter_code}"
             )
             values_chunk = _get_data(
                 site_code[:4],
@@ -328,7 +327,8 @@ def _get_data(site_code, parameter_code, list_request, start, end):
     data_request_headers = {
         "Date1": start.strftime("%m/%d/%Y"),
         "Date2": end.strftime("%m/%d/%Y"),
-        "DropDownList1": site_code,"DropDownList2": parameter_code
+        "DropDownList1": site_code,
+        "DropDownList2": parameter_code,
     }
     data_request = _make_next_request(
         historical_data_url, list_request, data_request_headers

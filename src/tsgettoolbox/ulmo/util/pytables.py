@@ -16,7 +16,7 @@ from . import misc as util_misc
 
 def get_default_h5file_path(dataset):
     default_dir = util_misc.get_ulmo_dir()
-    return os.path.join(default_dir, "ulmo_%s.h5" % dataset)
+    return os.path.join(default_dir, f"ulmo_{dataset}.h5")
 
 
 def get_or_create_group(h5file, path, title, *args, **kwargs):

@@ -6,7 +6,6 @@ This program is a collection of utilities to download data from various
 web services.
 """
 
-from __future__ import absolute_import, division, print_function
 
 import logging
 import os
@@ -23,6 +22,17 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 from tstoolbox import tsutils
+
+__all__ = [
+    "nwis",
+    "nwis_iv",
+    "nwis_dv",
+    "nwis_site",
+    "nwis_gwlevels",
+    "nwis_measurements",
+    "nwis_peak",
+    "nwis_stat",
+]
 
 warnings.filterwarnings("ignore")
 
@@ -1023,22 +1033,18 @@ def usgs_stat_rdb_to_df(url, **kwargs):
 
     if kwargs["statReportType"] == "daily":
         ndf["Datetime"] = [
-            "{:02d}-{:02d}".format(int(i), int(j))
-            for i, j in zip(ndf["month_nu"], ndf["day_nu"])
+            f"{int(i):02d}-{int(j):02d}" for i, j in zip(ndf["month_nu"], ndf["day_nu"])
         ]
         ndf.drop(["month_nu", "day_nu"], axis=1, inplace=True)
     elif kwargs["statReportType"] == "monthly":
         ndf["Datetime"] = pd.to_datetime(
-            [
-                "{}-{:02d}".format(i, int(j))
-                for i, j in zip(ndf["year_nu"], ndf["month_nu"])
-            ]
+            [f"{i}-{int(j):02d}" for i, j in zip(ndf["year_nu"], ndf["month_nu"])]
         )
         ndf.drop(["year_nu", "month_nu"], axis=1, inplace=True)
     else:
         if kwargs["statYearType"] == "water":
             ndf["Datetime"] = pd.to_datetime(
-                ["{}-10-01".format(int(i) - 1) for i in ndf["year_nu"]]
+                [f"{int(i) - 1}-10-01" for i in ndf["year_nu"]]
             )
         else:
             ndf["Datetime"] = pd.to_datetime(ndf["year_nu"])
@@ -1169,7 +1175,7 @@ def usgs_gwlevels_rdb_to_df(url, **kwargs):
     ndf = _read_rdb(url, [kwargs])
     # lev_dt    lev_tm  lev_tz_cd
     ndf["Datetime"] = pd.to_datetime(
-        ndf["lev_dt"] + "T" + ndf["lev_tm"], errors="coerce"
+        f"{ndf['lev_dt']}T{ndf['lev_tm']}", errors="coerce"
     )
     # If "lev_tm" is null then just use "lev_dt"
     mask = pd.isnull(ndf["Datetime"])
@@ -3122,7 +3128,7 @@ def epa_wqp(
                 tsutils.error_wrapper(
                     """
 Must have at least one of bBox, lat, lon, within, countrycode, statecode,
-countycode, siteType,,ganization, siteid, huc, sampleMedia, characteristicType,
+countycode, siteType, organization, siteid, huc, sampleMedia, characteristicType,
 characteristicName, pCode, or activityId to filter available stations."""
                 )
             )
@@ -3149,7 +3155,27 @@ to "US".  """
     if statecode:
         statecode = ":".join([countrycode, statecode])
 
-    query_params = {"bBox": bBox, "lat": lat, "lon": lon, "within": within, "countrycode": countrycode, "statecode": statecode, "countycode": countycode, "siteType": siteType, "organization": organization, "siteid": siteid, "huc": huc, "sampleMedia": sampleMedia, "characteristicType": characteristicType, "characteristicName": characteristicName, "pCode": pCode, "activityId": activityId, "startDateLo": startDateLo, "startDateHi": startDateHi, "mimeType": "csv"}
+    query_params = {
+        "bBox": bBox,
+        "lat": lat,
+        "lon": lon,
+        "within": within,
+        "countrycode": countrycode,
+        "statecode": statecode,
+        "countycode": countycode,
+        "siteType": siteType,
+        "organization": organization,
+        "siteid": siteid,
+        "huc": huc,
+        "sampleMedia": sampleMedia,
+        "characteristicType": characteristicType,
+        "characteristicName": characteristicName,
+        "pCode": pCode,
+        "activityId": activityId,
+        "startDateLo": startDateLo,
+        "startDateHi": startDateHi,
+        "mimeType": "csv",
+    }
     if startDateLo:
         query_params["startDateLo"] = tsutils.parsedate(
             startDateLo, strftime="%m-%d-%Y"
@@ -3289,6 +3315,18 @@ if __name__ == "__main__":
         bBox="-92.8,44.2,-88.9,46.0",
         startDateLo="10-01-2006",
     )
-
+    print(r.columns)
+    print(
+        r[
+            [
+                "ActivityStartDate",
+                "ActivityStartTime/Time",
+                "ActivityStartTime/TimeZoneCode",
+            ]
+        ]
+    )
+    print(
+        r[["ActivityEndDate", "ActivityEndTime/Time", "ActivityEndTime/TimeZoneCode"]]
+    )
     print("Caffeine")
     print(r)

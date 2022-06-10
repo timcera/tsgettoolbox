@@ -35,9 +35,7 @@ def twdb_fts(df_row, drop_dcp_metadata=True, dual_well=False):
             )
             data.append(df)
         except Exception as e:
-            print(
-                "Warning: Could not parse values for channel {}: {}".format(channel, e)
-            )
+            print(f"Warning: Could not parse values for channel {channel}: {e}")
 
     df = pd.concat(data)
 
@@ -89,11 +87,7 @@ def twdb_sutron(df_row, drop_dcp_metadata=True, dual_well=False):
                 )
                 data.append(df)
             except Exception as e:
-                print(
-                    "Warning: Could not parse values for channel {}: {}".format(
-                        channel, e
-                    )
-                )
+                print(f"Warning: Could not parse values for channel {channel}: {e}")
         else:
             try:
                 channel_data = [field.strip('+-" ') for field in lsplit[3:]]
@@ -102,11 +96,7 @@ def twdb_sutron(df_row, drop_dcp_metadata=True, dual_well=False):
                 )
                 data.append(df)
             except Exception as e:
-                print(
-                    "Warning: Could not parse values for channel {}: {}".format(
-                        channel, e
-                    )
-                )
+                print(f"Warning: Could not parse values for channel {channel}: {e}")
 
     df = pd.concat(data)
 
@@ -232,11 +222,7 @@ def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=Tru
                     message_timestamp, channel, channel_data, reverse=reverse
                 )
             except Exception as e:
-                print(
-                    "Warning: Could not parse values for channel {}: {}".format(
-                        field[:2], e
-                    )
-                )
+                print(f"Warning: Could not parse values for channel {field[:2]}: {e}")
         elif "time" in field:
             try:
                 channel, channel_data = field.split(":")
@@ -246,9 +232,7 @@ def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=Tru
                 )
             except Exception as e:
                 print(
-                    "Warning: Could not parse values for channel {}: {}".format(
-                        field.split(":")[0], e
-                    )
+                    f"Warning: Could not parse values for channel {field.split(':')[0]}: {e}"
                 )
         elif "channel" in field:
             try:
@@ -257,9 +241,7 @@ def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=Tru
                     water_data[channel_name] = []
             except Exception as e:
                 print(
-                    "Warning: Could not parse values for channel {}: {}".format(
-                        field.split(":")[1], e
-                    )
+                    f"Warning: Could not parse values for channel {field.split(':')[1]}: {e}"
                 )
         else:
             try:

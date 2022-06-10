@@ -14,6 +14,8 @@ import numpy as np
 import pandas as pd
 from tstoolbox import tsutils
 
+__all__ = ["modis"]
+
 _MISSING = {
     "MU": -9999,
     "PE": 255,
@@ -2484,13 +2486,11 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
     if query_params["product"] not in products:
         raise ValueError(
             tsutils.error_wrapper(
-                """
-Available products at the current time are: {}.
+                f"""
+Available products at the current time are: {products}.
 
-You gave {}.
-""".format(
-                    products, query_params["product"]
-                )
+You gave {query_params['product']}.
+"""
             )
         )
 
@@ -2503,14 +2503,12 @@ You gave {}.
     if query_params["band"] not in bands:
         raise ValueError(
             tsutils.error_wrapper(
-                """
-'band' argument must be in the following list for 'product' = {}.
-{}.
+                f"""
+'band' argument must be in the following list for 'product' = {query_params['product']}.
+{bands}.
 
-You gave me {}.
-""".format(
-                    query_params["product"], bands, query_params["band"]
-                )
+You gave me {query_params['band']}.
+"""
             )
         )
 

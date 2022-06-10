@@ -14,6 +14,8 @@ from tstoolbox import tsutils
 
 from tsgettoolbox import utils
 
+__all__ = ["usgs_flet_narr", "usgs_flet_stat"]
+
 _vars = {
     # For the time-being comment out non-timeseries data.
     # "wmd": {
@@ -177,7 +179,7 @@ def assign_docstring(indocstring: str) -> Callable:
     """Assign docstring."""
 
     def f(fn):
-        fn.__doc__ = fn.__doc__ + "\n" + indocstring
+        fn.__doc__ = f"{fn.__doc__}\n{indocstring}"
         return fn
 
     return f

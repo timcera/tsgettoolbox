@@ -102,7 +102,7 @@ def get_data(dcp_address, hours, use_cache=False, cache_path=None, as_dataframe=
     data = pd.DataFrame()
 
     if use_cache:
-        dcp_data_path = _get_store_path(cache_path, dcp_address + ".h5")
+        dcp_data_path = _get_store_path(cache_path, f"{dcp_address}.h5")
         if os.path.exists(dcp_data_path):
             data = pd.read_hdf(dcp_data_path, dcp_address)
     params = {}
@@ -118,7 +118,7 @@ def get_data(dcp_address, hours, use_cache=False, cache_path=None, as_dataframe=
         data.sort_index(inplace=True)
         if use_cache:
             # write to a tmp file and move to avoid ballooning h5 file
-            tmp = dcp_data_path + ".tmp"
+            tmp = f"{dcp_data_path}.tmp"
             data.to_hdf(tmp, dcp_address)
             shutil.move(tmp, dcp_data_path)
 
@@ -146,13 +146,13 @@ def _format_period(period):
     )
 
     if minutes:
-        return "now -%s minutes" % period.seconds / 60
+        return f"now -{period.seconds} minutes" / 60
 
     if hours:
-        return "now -%s hours" % period.seconds / 3600
+        return f"now -{period.seconds} hours" / 3600
 
     if days:
-        return "now -%s days" % days
+        return f"now -{days} days"
 
 
 def _format_time(timestamp):

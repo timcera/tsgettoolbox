@@ -5,7 +5,6 @@
 
     .. _USGS National Water Information System: http://waterdata.usgs.gov/nwis
 """
-from __future__ import absolute_import
 
 from tsgettoolbox.ulmo import util
 

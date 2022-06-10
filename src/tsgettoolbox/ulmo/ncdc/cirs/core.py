@@ -188,10 +188,7 @@ def _get_url(element, by_state):
 
 def _most_recent(files, element, by_state):
     geographic_extent = "st" if by_state else "dv"
-    match_str = "climdiv-{element}{geographic_extent}".format(
-        element=element,
-        geographic_extent=geographic_extent,
-    )
+    match_str = f"climdiv-{element}{geographic_extent}"
     matches = [s for s in files if s.startswith(match_str)]
     return sorted(matches, key=_file_key)[0]
 

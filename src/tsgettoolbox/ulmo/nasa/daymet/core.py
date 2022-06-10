@@ -106,13 +106,11 @@ def get_daymet_singlepixel(
         url_params["years"] = _as_str(years)
 
     url = _get_service_url(url_params)
-    log.info(
-        "making request for latitude, longitude: {}, {}".format(latitude, longitude)
-    )
+    log.info(f"making request for latitude, longitude: {latitude}, {longitude}")
     df = pd.read_csv(url, header=6)
     df.year, df.yday = df.year.astype("int"), df.yday.astype("int")
     df.index = pd.to_datetime(
-        df.year.astype("str") + "-" + df.yday.astype("str"), format="%Y-%j"
+        f"{df.year.astype('str')}-{df.yday.astype('str')}", format="%Y-%j"
     )
     df.columns = [c[: c.index("(")].strip() if "(" in c else c for c in df.columns]
     if as_dataframe:
@@ -130,9 +128,8 @@ def _check_variables(variables):
     if bad_variables:
 
         raise ValueError(
-            "the variable(s) provided ('{}') not\none of available options: '{}'".format(
-                "', '".join(bad_variables), str(VARIABLES.keys())[2:-2]
-            )
+            f"""the variable(s) provided ('{"', '".join(bad_variables)}') not
+one of available options: '{str(VARIABLES.keys())[2:-2]}'"""
         )
 
 
@@ -141,9 +138,7 @@ def _check_years(years):
     bad_years = [str(year) for year in years if not MIN_YEAR <= year <= MAX_Year]
     if bad_years:
         raise ValueError(
-            "the year(s) provided ({}) \nnot in available timerange ({}-{})".format(
-                ", ".join(bad_years), MIN_YEAR, MAX_Year
-            )
+            f"the year(s) provided ({', '.join(bad_years)}) \nnot in available timerange ({MIN_YEAR}-{MAX_Year})"
         )
 
 
@@ -153,10 +148,10 @@ def _check_coordinates(lat, lon):
     bad_lon = not MIN_LON <= lon <= MAX_LON
 
     if bad_lat or bad_lon:
-        err_msg = "The specified latitude, longitude pair ({}, {})".format(lat, lon)
+        err_msg = f"The specified latitude, longitude pair ({lat}, {lon})"
         err_msg += "\nis not in the available range of data:\n"
-        err_msg += "\tLatitude = [{} - {}]".format(MIN_LAT, MAX_LAT)
-        err_msg += "\n\tLongitude = [{} - {}]".format(MIN_LON, MAX_LON)
+        err_msg += f"\tLatitude = [{MIN_LAT} - {MAX_LAT}]"
+        err_msg += f"\n\tLongitude = [{MIN_LON} - {MAX_LON}]"
         raise ValueError(err_msg)
 
 
@@ -172,5 +167,5 @@ def _get_service_url(url_params):
     url = DAYMET_SINGLEPIXEL_URL.format(**url_params)
 
     if "years" in url_params:
-        url += "&year={}".format(url_params["years"])
+        url += f"&year={url_params['years']}"
     return url

@@ -61,8 +61,8 @@ def get_station_data(station_code, date=None, as_dataframe=False):
         date_str = date.strftime("%Y%m%d")
         year = date.year
 
-    filename = "{}.{}.html".format(station_code, date_str)
-    data_url = "http://www.swt-wc.usace.army.mil/webdata/gagedata/" + filename
+    filename = f"{station_code}.{date_str}.html"
+    data_url = f"http://www.swt-wc.usace.army.mil/webdata/gagedata/{filename}"
 
     # requests without User-Agent header get rejected
     headers = {
@@ -72,11 +72,7 @@ def get_station_data(station_code, date=None, as_dataframe=False):
     soup = BeautifulSoup(resp.content, features="lxml")
     pre = soup.find("pre")
     if pre is None:
-        error_msg = "no data could be found for station code {station_code} and date {date} (url: {data_url})".format(
-            date=date,
-            data_url=data_url,
-            station_code=station_code,
-        )
+        error_msg = f"no data could be found for station code {station_code} and date {date} (url: {data_url})"
         raise ValueError(error_msg)
     sio = StringIO.StringIO(str(pre.text.strip()))
 

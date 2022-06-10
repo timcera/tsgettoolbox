@@ -151,7 +151,7 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
         station_ids = get_stations().index
 
     for station_id in station_ids:
-        url = "http://cdec.water.ca.gov/dynamicapp/staMeta?station_id=%s" % (station_id)
+        url = f"http://cdec.water.ca.gov/dynamicapp/staMeta?station_id={station_id}"
 
         try:
             sensor_list = pd.read_html(url, match="Sensor Description")[0]
@@ -260,19 +260,7 @@ def _limit_sensor_list(sensor_list, sensor_ids, resolution):
 
 def _download_raw(station_id, sensor_num, dur_code, start_date, end_date):
 
-    url = (
-        "http://cdec.water.ca.gov/dynamicapp/req/CSVDataServlet"
-        + "?Stations="
-        + station_id
-        + "&dur_code="
-        + dur_code
-        + "&SensorNums="
-        + str(sensor_num)
-        + "&Start="
-        + start_date
-        + "&End="
-        + end_date
-    )
+    url = f"http://cdec.water.ca.gov/dynamicapp/req/CSVDataServlet?Stations={station_id}&dur_code={dur_code}&SensorNums={str(sensor_num)}&Start={start_date}&End={end_date}"
 
     df = pd.read_csv(url, parse_dates=[4, 5], index_col="DATE TIME", na_values="---")
     df.columns = [
@@ -296,4 +284,4 @@ def _res_to_dur_code(res):
 
 
 def _format_date(date):
-    return "{}/{}/{}".format(date.month, date.day, date.year)
+    return f"{date.month}/{date.day}/{date.year}"

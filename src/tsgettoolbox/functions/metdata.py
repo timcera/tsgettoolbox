@@ -12,6 +12,8 @@ from tstoolbox import tsutils
 
 from tsgettoolbox import utils
 
+__all__ = ["metdata"]
+
 _vars = {
     "pr": {
         "sname": "pr",

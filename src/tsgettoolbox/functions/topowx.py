@@ -12,6 +12,8 @@ from tstoolbox import tsutils
 
 from tsgettoolbox import utils
 
+__all__ = ["topowx"]
+
 _base_avail_vars = {
     "tmin": {
         "sname": "tmin",

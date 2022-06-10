@@ -17,7 +17,7 @@ version = open("VERSION").readline().strip()
 if sys.argv[-1] == "publish":
     os.system("cleanpy .")
     os.system("python setup.py sdist")
-    os.system("twine upload dist/{pkg_name}-{version}.tar.gz".format(**locals()))
+    os.system(f"twine upload dist/{pkg_name}-{version}.tar.gz")
     sys.exit()
 
 README = open("README.rst").read()
@@ -43,6 +43,7 @@ install_requires = [
     "cftime",
     "pydap",
     "pydaymet",
+    "cdo_api_py",
 ]
 
 extras_require = {
@@ -89,7 +90,7 @@ setup(
     keywords="time_series uri url web_services rest",
     author="Tim Cera, PE",
     author_email="tim@cerazone.net",
-    url="http://timcera.bitbucket.io/{pkg_name}/docs/index.html".format(**locals()),
+    url=f"http://timcera.bitbucket.io/{pkg_name}/docs/index.html",
     license="BSD",
     packages=find_packages("src"),
     package_dir={"": "src"},
@@ -97,9 +98,7 @@ setup(
     zip_safe=False,
     install_requires=install_requires,
     extras_require=extras_require,
-    entry_points={
-        "console_scripts": ["{pkg_name}={pkg_name}.{pkg_name}:main".format(**locals())]
-    },
+    entry_points={"console_scripts": [f"{pkg_name}={pkg_name}.{pkg_name}:main"]},
     test_suite="tests",
     python_requires=">=3.7.1",
 )

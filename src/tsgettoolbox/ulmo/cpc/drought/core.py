@@ -9,7 +9,6 @@
     .. _Climate Prediction Center: https://www.cpc.ncep.noaa.gov/
     .. _Weekly Drought Index: https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
 """
-from __future__ import division
 
 import datetime
 import os
@@ -242,8 +241,7 @@ def _get_data_url(year):
         return ("https://ftp.cpc.ncep.noaa.gov/htdocs/temp4/current.data", True)
     if year == current_year - 1:
         url = (
-            "https://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer%s-PRELIM"
-            % str(year)[-2:],
+            f"https://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer{str(year)[-2:]}-PRELIM",
             False,
         )
         if not _url_exists(url[0]):
@@ -252,13 +250,12 @@ def _get_data_url(year):
     if year <= 1985:
         return ("https://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer73-85", False)
     url = (
-        "https://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer%s" % str(year)[-2:],
+        f"https://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer{str(year)[-2:]}",
         False,
     )
     if not _url_exists(url[0]):
         url = (
-            "https://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer%s-PRELIM"
-            % str(year)[-2:],
+            f"https://ftp.cpc.ncep.noaa.gov/htdocs/temp2/palmer{str(year)[-2:]}-PRELIM",
             False,
         )
     return url
