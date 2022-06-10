@@ -4890,7 +4890,7 @@ def ncei_annual_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     |       | precipitation data value will = "00000". (EMXP, MXSD,    |
     |       | TPCP, TSNW).                                             |
     +-------+----------------------------------------------------------+
-    | +     | The phenomena in question occurred on several days. The  |
+    | \+    | The phenomena in question occurred on several days. The  |
     |       | date in the DAY field is the last day of occurrence.     |
     +-------+----------------------------------------------------------+
     | Blank | No report.                                               |
@@ -4905,7 +4905,7 @@ def ncei_annual_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     +------+--------------------------------------+
     | E    | Estimated value                      |
     +------+--------------------------------------+
-    | +    | Value occurred on more than one day, |
+    | \+   | Value occurred on more than one day, |
     |      | last date of occurrence is used      |
     +------+--------------------------------------+
 
