@@ -32,6 +32,7 @@ jobs:
 
     - name: Install dependencies
       run: |
+        sudo apt-get install gdal-bin libgdal-dev libgdal-doc
         python -m pip install --upgrade pip
         python -m pip install flake8 pytest pytest-mpl pytest-cov
         python -m pip install coveralls[toml]
