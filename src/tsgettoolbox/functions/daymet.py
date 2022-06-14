@@ -102,17 +102,27 @@ def daymet_cli(
         Use the abbreviations from the following table:
 
         +-------------------+-------------------------+---------+-------------+
-        | measuredParams    | Description             | Unit    | Time Scales |
+        | measuredParams    | Description             | Unit    | time_scale  |
         +===================+=========================+=========+=============+
-        | prcp              | precipitation           | mm      | all         |
+        | prcp              | precipitation           | mm      | daily       |
+        |                   |                         |         | monthly     |
+        |                   |                         |         | annual      |
         +-------------------+-------------------------+---------+-------------+
-        | swe               | snow-water equivalent   | kg/m2   | all         |
+        | swe               | snow-water equivalent   | kg/m2   | daily       |
+        |                   |                         |         | monthly     |
+        |                   |                         |         | annual      |
         +-------------------+-------------------------+---------+-------------+
-        | tmax              | maximum temperature     | degC    | all         |
+        | tmax              | maximum temperature     | degC    | daily       |
+        |                   |                         |         | monthly     |
+        |                   |                         |         | annual      |
         +-------------------+-------------------------+---------+-------------+
-        | tmin              | minimum temperature     | degC    | all         |
+        | tmin              | minimum temperature     | degC    | daily       |
+        |                   |                         |         | monthly     |
+        |                   |                         |         | annual      |
         +-------------------+-------------------------+---------+-------------+
-        | vp                | vapor pressure          | Pa      | all         |
+        | vp                | vapor pressure          | Pa      | daily       |
+        |                   |                         |         | monthly     |
+        |                   |                         |         | annual      |
         +-------------------+-------------------------+---------+-------------+
         | dayl              | daylength               | seconds | daily       |
         +-------------------+-------------------------+---------+-------------+
@@ -229,7 +239,7 @@ def daymet(
         "priestley_taylor",
     ]
 
-    if measuredParams is None or measuredParams == "all":
+    if measuredParams is None or "all" in measuredParams:
         measuredParams = avail_params
     else:
         for testparams in measuredParams:
