@@ -446,7 +446,7 @@ def download_data(
         axis="columns",
         inplace=True,
     )
-    nd = nd.tz_localize("UTC").tz_convert("Etc/GMT+8")
+    nd = nd.tz_localize("Etc/GMT+8")
     nd.index.name = "Datetime:PST"
     return nd
 

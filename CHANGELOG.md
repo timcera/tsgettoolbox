@@ -1,3 +1,9 @@
+## v23.26.2 (2022-06-14)
+
+### Fix
+
+- **daymet**: corrected the measureParams when set to "all"
+
 ## v23.26.1 (2022-05-30)
 
 ### Fix
