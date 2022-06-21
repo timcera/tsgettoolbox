@@ -1,3 +1,9 @@
+## v23.26.5 (2022-06-21)
+
+### Fix
+
+- **ldas**: fixed if endDate is None
+
 ## v23.26.4 (2022-06-21)
 
 ### Fix
