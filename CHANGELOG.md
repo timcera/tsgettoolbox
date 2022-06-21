@@ -1,3 +1,9 @@
+## v23.26.3 (2022-06-20)
+
+### Fix
+
+- **ndbc**: ndbc now handles empty gzip files
+
 ## v23.26.2 (2022-06-14)
 
 ### Fix
