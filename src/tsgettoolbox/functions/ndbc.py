@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
-from gzip import GzipFile
+from gzip import BadGzipFile, GzipFile
 from io import BytesIO, StringIO
 
 import mando
@@ -201,10 +201,16 @@ def ndbc_to_df(url, **query_params):
 
     resp = ar.retrieve_binary(filenames, [{}] * len(filenames))
     resp = [BytesIO(i) for i in resp]
-    resp = [GzipFile(fileobj=i).read() for i in resp]
+    nresp = []
+    for i in resp:
+        try:
+            nresp.append(GzipFile(fileobj=i).read())
+        except BadGzipFile:
+            pass
+
     skiprows = []
     parse_dates = []
-    for r in resp:
+    for r in nresp:
         f = StringIO(r.decode("utf-8"))
         head1 = f.readline()
         head2 = f.readline()
@@ -822,8 +828,8 @@ if __name__ == "__main__":
         r"https://www.ndbc.noaa.gov/data/",
         table="stdmet",
         startUTC="2012-01-01T00:00Z",
-        endUTC="2012-04-01T00:00Z",
-        station="41012",
+        endUTC="2018-04-01T00:00Z",
+        station="pfdc1",
     )
 
     print("NDBC")
