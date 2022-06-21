@@ -755,9 +755,9 @@ location.  You have the grid "{project}" and "xindex={xindex}" and
     url = r"https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi"
 
     if startDate is None:
-        startDate = "1979-01-01"
+        startDate = "1979-01-01"  # Earliest of any dataset
     if endDate is None:
-        endDate = pd.Timestamp.now()
+        endDate = pd.Timestamp.now().strftime("%Y-%m-%dT%H")
 
     ndf = pd.DataFrame()
     collect_kwds = []
@@ -840,6 +840,15 @@ if __name__ == "__main__":
     #     )
     #     print(r)
     #     time.sleep(20)
+    r = ldas(
+        variables="GLDAS2:GLDAS_NOAH025_3H_v2.1:SoilMoi10_40cm_inst",
+        lon=100,
+        lat=34,
+    )
+
+    print("LDAS TEST")
+    print(r)
+
     r = ldas(
         variables="GLDAS2:GLDAS_NOAH025_3H_v2.1:SoilMoi10_40cm_inst",
         lon=100,
