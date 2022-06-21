@@ -754,6 +754,11 @@ location.  You have the grid "{project}" and "xindex={xindex}" and
 
     url = r"https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi"
 
+    if startDate is None:
+        startDate = "1979-01-01"
+    if endDate is None:
+        endDate = pd.Timestamp.now()
+
     ndf = pd.DataFrame()
     collect_kwds = []
     for var in variables:
@@ -771,16 +776,15 @@ location.  You have the grid "{project}" and "xindex={xindex}" and
             "location": location,
             "variable": nvariable,
         }
-        if query_params["endDate"] is None:
-            query_params["endDate"] = pd.Timestamp.now()
         collect_kwds.append(query_params)
+
+
+    if os.path.exists("debug_tsgettoolbox"):
+        logging.warning(f"{url}, {collect_kwds}")
 
     resp = ar.retrieve_binary(
         [url] * len(collect_kwds), [{"params": p} for p in collect_kwds]
     )
-
-    if os.path.exists("debug_tsgettoolbox"):
-        logging.warning(f"{url}, {collect_kwds}")
 
     ndf = pd.DataFrame()
     for index, r in enumerate(resp):
@@ -836,6 +840,15 @@ if __name__ == "__main__":
     #     )
     #     print(r)
     #     time.sleep(20)
+    r = ldas(
+        variables="GLDAS2:GLDAS_NOAH025_3H_v2.1:SoilMoi10_40cm_inst",
+        lon=100,
+        lat=34,
+        endDate="2001-01-01"
+    )
+
+    print("LDAS TEST")
+    print(r)
 
     for key in _NLDAS_FORA:
 
