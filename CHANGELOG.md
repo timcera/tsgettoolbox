@@ -1,3 +1,9 @@
+## v23.26.4 (2022-06-21)
+
+### Fix
+
+- **ldas**: fixed default startDate and endDate if None
+
 ## v23.26.3 (2022-06-20)
 
 ### Fix

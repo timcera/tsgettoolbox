@@ -827,8 +827,8 @@ if __name__ == "__main__":
     df = ndbc_to_df(
         r"https://www.ndbc.noaa.gov/data/",
         table="stdmet",
-        startUTC="2012-01-01T00:00Z",
-        endUTC="2018-04-01T00:00Z",
+        startUTC="2020-01-01T00:00Z",
+        endUTC="2020-05-01T00:00Z",
         station="pfdc1",
     )
 
