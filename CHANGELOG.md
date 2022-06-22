@@ -1,3 +1,9 @@
+## v23.26.6 (2022-06-22)
+
+### Fix
+
+- **ldas**: fixed all the variables in the ldas suite to allow missing startDate and endDate
+
 ## v23.26.5 (2022-06-21)
 
 ### Fix
