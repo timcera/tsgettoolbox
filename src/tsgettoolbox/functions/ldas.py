@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 import logging
 import os
 import textwrap
@@ -9,19 +10,21 @@ import async_retriever as ar
 import mando
 import pandas as pd
 from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+from pandas._libs.lib import no_default
 from tabulate import tabulate as tb
 from tstoolbox import tsutils
 
-__all__ = ["ldas",
-           "ldas_gldas_noah",
-           "ldas_grace",
-           "ldas_merra",
-           "ldas_merra_update",
-           "ldas_nldas_fora",
-           "ldas_nldas_noah",
-           "ldas_smerge",
-           "ldas_trmm_tmpa",
-          ]
+__all__ = [
+    "ldas",
+    "ldas_gldas_noah",
+    "ldas_grace",
+    "ldas_merra",
+    "ldas_merra_update",
+    "ldas_nldas_fora",
+    "ldas_nldas_noah",
+    "ldas_smerge",
+    "ldas_trmm_tmpa",
+]
 
 _UNITS_MAP = {}
 _NLDAS_FORA = {
@@ -333,6 +336,60 @@ _varmap = {
     "SMERGE_RZSM0_40CM_2.0": "SMERGE",
 }
 
+_project_start_dates = {
+    "MERRA": "1980-01-01T00",
+    "GLDAS2": "1948-01-01T00",
+    "NLDAS": "1979-01-01T13",
+    "TRMM": "1997-12-31T00",
+    "SMERGE": "1997-01-02T00",
+    "GRACE": "2002-10-04T00",
+}
+
+_project_sep = {
+    "MERRA": "\t",
+    "GLDAS2": "\t",
+    "NLDAS": no_default,
+    "TRMM": "\t",
+    "SMERGE": "\t",
+    "GRACE": "\t",
+}
+
+_project_header = {
+    "MERRA": "infer",
+    "GLDAS2": "infer",
+    "NLDAS": None,
+    "TRMM": "infer",
+    "SMERGE": "infer",
+    "GRACE": "infer",
+}
+
+_project_skiprows = {
+    "MERRA": None,
+    "GLDAS2": None,
+    "NLDAS": 40,
+    "TRMM": None,
+    "SMERGE": None,
+    "GRACE": None,
+}
+
+_project_delim_whitespace = {
+    "MERRA": False,
+    "GLDAS2": False,
+    "NLDAS": True,
+    "TRMM": False,
+    "SMERGE": False,
+    "GRACE": False,
+}
+
+_project_index_col = {
+    "MERRA": "Datetime",
+    "GLDAS2": "Datetime",
+    "NLDAS": None,
+    "TRMM": "Datetime",
+    "SMERGE": "Datetime",
+    "GRACE": "Datetime",
+}
+
 
 def make_units_table(units_dict):
     new_units_table = [
@@ -374,6 +431,7 @@ def foundation_cli(
         endDate=None,
         variable=None,
     ):
+        # fmt: off
         """${first_line}
 
         This will download data from a set of water cycle related variables
@@ -444,6 +502,7 @@ ${units_table}
         variable : str
             DEPRECATED: use "variables" instead to be consistent across
             "tsgettoolbox"."""
+        # fmt: on
         tsutils.printiso(
             base_ldas(
                 lat=lat,
@@ -734,8 +793,8 @@ consistent with other services in tsgettoolbox."""
 
     if lat is not None and lon is not None:
         location = f"GEOM:POINT({lon}, {lat})"
-    elif project == "NLDAS" and xindex is not None and yindex is not None:
-        location = f"{project}:X{xindex:03d}-Y{yindex:03d}"
+    elif xindex is not None and yindex is not None:
+        location = f"NLDAS:X{xindex:03d}-Y{yindex:03d}"
     else:
         raise ValueError(
             tsutils.error_wrapper(
@@ -754,11 +813,6 @@ location.  You have the grid "{project}" and "xindex={xindex}" and
 
     url = r"https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi"
 
-    if startDate is None:
-        startDate = "1979-01-01"  # Earliest of any dataset
-    if endDate is None:
-        endDate = pd.Timestamp.now().strftime("%Y-%m-%dT%H")
-
     ndf = pd.DataFrame()
     collect_kwds = []
     for var in variables:
@@ -767,54 +821,106 @@ location.  You have the grid "{project}" and "xindex={xindex}" and
         nvariable = var
         if len(words) == 2:
             # New style where can leave off first ":" separated field.
-            nvariable = ":".join([_varmap[words[0]]] + words)
+            project = _varmap[words[0]]
+            nvariable = ":".join([project] + words)
 
-        query_params = {
-            "type": "asc2",
-            "startDate": tsutils.parsedate(startDate, strftime="%Y-%m-%dT%H"),
-            "endDate": tsutils.parsedate(endDate, strftime="%Y-%m-%dT%H"),
-            "location": location,
-            "variable": nvariable,
-        }
-        collect_kwds.append(query_params)
+        if startDate is None:
+            startDate = tsutils.parsedate(_project_start_dates[project])
+        else:
+            try:
+                startDate = tsutils.parsedate(startDate)
+                if startDate < tsutils.parsedate(_project_start_dates[project]):
+                    startDate = tsutils.parsedate(_project_start_dates[project])
+            except TypeError:
+                pass
+        if endDate is None:
+            endDate = tsutils.parsedate(
+                (datetime.datetime.now() - datetime.timedelta(days=60)).strftime(
+                    "%Y-%m-%dT%H"
+                )
+            )
+        else:
+            endDate = tsutils.parsedate(endDate)
 
+        periods = []
+        delta = datetime.timedelta(days=10000)
+        period_start = startDate
+        while period_start < endDate:
+            period_end = min(period_start + delta, endDate)
+            periods.append((period_start, period_end))
+            period_start = period_end
 
-    if os.path.exists("debug_tsgettoolbox"):
-        logging.warning(f"{url}, {collect_kwds}")
-
-    resp = ar.retrieve_binary(
-        [url] * len(collect_kwds), [{"params": p} for p in collect_kwds]
-    )
-
-    ndf = pd.DataFrame()
-    for index, r in enumerate(resp):
-        df = pd.read_csv(
-            BytesIO(r),
-            skiprows=40,
-            header=None,
-            index_col=None,
-            delim_whitespace=True,
-            na_values=[-9999, -9999.0],
+        urls, kwds = zip(
+            *[
+                (
+                    url,
+                    {
+                        "params": {
+                            "type": "asc2",
+                            "location": location,
+                            "variable": nvariable,
+                            "startDate": s.strftime("%Y-%m-%dT%H"),
+                            "endDate": e.strftime("%Y-%m-%dT%H"),
+                        }
+                    },
+                )
+                for s, e in periods
+            ]
         )
 
-        df.drop(df.index[-1], axis="rows", inplace=True)
-        if len(df.columns) == 3:
-            df["dt"] = df[0].str.cat(df[1], sep="T")
-            df["dt"] = pd.to_datetime(df["dt"])
-            df.set_index("dt", inplace=True)
-            df.drop([0, 1], axis="columns", inplace=True)
-        else:
-            df[0] = pd.to_datetime(df[0])
-            df.set_index(0, inplace=True)
-        variable_name = collect_kwds[index]["variable"].split(":")[-1]
-        unit = _UNITS_MAP[collect_kwds[index]["variable"]][1]
-        df.columns = [f"{variable_name}:{unit}"]
+    kwds = [
+        {"params": {k: v for k, v in i["params"].items() if v is not None}}
+        for i in kwds
+    ]
+
+    if os.path.exists("debug_tsgettoolbox"):
+        logging.warning(f"{urls}, {kwds}")
+
+    resp = ar.retrieve_binary(urls, kwds)
+
+    joined = [[r, kw] for r, kw in zip(resp, kwds) if b"ERROR" not in r]
+
+    resp = [i[0] for i in joined]
+    kw = [i[1] for i in joined]
+
+    ndf = pd.DataFrame()
+    for k, r in zip(kw, resp):
+        names = None
+        if project in ["GLDAS2", "TRMM", "SMERGE", "GRACE", "MERRA"]:
+            names = [
+                "Datetime",
+                f"{k['params']['variable'].split(':')[-1]}:{_UNITS_MAP[k['params']['variable']][1]}",
+            ]
+        df = pd.read_csv(
+            BytesIO(r),
+            sep=_project_sep[project],
+            header=_project_header[project],
+            skiprows=_project_skiprows[project],
+            delim_whitespace=_project_delim_whitespace[project],
+            names=names,
+            index_col=_project_index_col[project],
+            na_values=[-9999, -9999.0],
+        ).dropna()
+        df.index = pd.to_datetime(df.index)
+        if project in ["NLDAS"]:
+            if len(df.columns) == 3:
+                df["dt"] = df[0].str.cat(df[1], sep="T")
+                df["dt"] = pd.to_datetime(df["dt"])
+                df.set_index("dt", inplace=True)
+                df.drop([0, 1], axis="columns", inplace=True)
+            else:
+                df[0] = pd.to_datetime(df[0])
+                df.set_index(0, inplace=True)
+            variable_name = k["params"]["variable"].split(":")[-1]
+            unit = _UNITS_MAP[k["params"]["variable"]][1]
+            df.columns = [f"{variable_name}:{unit}"]
+
         df.index.name = "Datetime:UTC"
         try:
             return df.tz_localize("UTC")
         except TypeError:  # Already UTC
             pass
-        ndf = ndf.join(df, how="outer")
+        ndf = ndf.combine_first(df)
 
     return ndf
 
@@ -853,35 +959,26 @@ if __name__ == "__main__":
         variables="GLDAS2:GLDAS_NOAH025_3H_v2.1:SoilMoi10_40cm_inst",
         lon=100,
         lat=34,
-        endDate="2001-01-01"
+        endDate="2001-01-01",
     )
 
     print("LDAS TEST")
     print(r)
 
-    for key in _NLDAS_FORA:
-
-        print("LDAS_NLDAS_FORA", key)
-        r = ldas_nldas_fora(
-            variables=key[key.index(":") + 1 :],
-            lon=-100,
-            lat=31,
-            startDate="2013-06-01T09",
-            endDate="2014-05-04T21",
-        )
-        print(r)
-        time.sleep(20)
-    for key in _NLDAS_NOAH:
-        print("LDAS_NLDAS_NOAH", key)
+    for key in _UNITS_MAP:
+        print(key)
         r = ldas_nldas_noah(
             variables=key[key.index(":") + 1 :],
             lon=-100,
             lat=31,
             startDate="2013-06-01T09",
-            endDate="2014-05-04T21",
+            endDate="2014-07-04T21",
         )
         print(r)
-        time.sleep(20)
+        if r.index[0] != pd.Timestamp("2013-06-01T09", tz="UTC"):
+            print("yeah")
+        if r.index[-1] != pd.Timestamp("2014-07-04T21", tz="UTC"):
+            print("yeah")
 
     r = ldas(
         variables="GLDAS2:GLDAS_NOAH025_3H_v2.1:SoilMoi10_40cm_inst",
@@ -893,7 +990,6 @@ if __name__ == "__main__":
 
     print("LDAS TEST")
     print(r)
-    time.sleep(20)
 
     r = ldas(
         variables="GLDAS2:GLDAS_NOAH025_3H_v2.1:SoilMoi10_40cm_inst",
