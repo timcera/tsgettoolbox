@@ -903,6 +903,10 @@ No data for this product and time frame at this station.
         }
         resp = resp.rename(rename_cols, axis="columns")
         ndf = ndf.join(resp, how="outer")
+    try:
+        ndf.index = pd.to_datetime(ndf.index)
+    except:
+        pass
     return ndf
 
 
@@ -1031,5 +1035,16 @@ if __name__ == "__main__":
         end_date="2003-01-01",
         range=None,
         date=None,
+    )
+    print(r)
+
+    print("hourly_height")
+    r = coops(
+        station="8720218",
+        product="hourly_height",
+        time_zone="lst",
+        datum="navd",
+        begin_date="01/01/2017",
+        end_date="2017-12-31",
     )
     print(r)
