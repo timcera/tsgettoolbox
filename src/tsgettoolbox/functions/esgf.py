@@ -416,15 +416,13 @@ def search(
 def esgf(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""Download from the Global Historical Climatology Network - Daily."""
     stationid = stationid.replace("-", "")
-    df = esgf_cdo_json_to_df(
+    return esgf_cdo_json_to_df(
         "GHCND",
         stationid,
         datatypeid=datatypeid,
         start_date=start_date,
         end_date=end_date,
     )
-
-    return df
 
 
 @mando.command("esgf_gsod", formatter_class=HelpFormatter, doctype="numpy")
@@ -1420,15 +1418,13 @@ def esgf_gsom_cli(stationid, datatypeid=None, start_date=None, end_date=None):
 def esgf_gsom(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""Access esgf Global Summary of Month (GSOM)."""
     stationid = stationid.replace("-", "")
-    df = esgf_cdo_json_to_df(
+    return esgf_cdo_json_to_df(
         "GSOM",
         stationid,
         datatypeid=datatypeid,
         start_date=start_date,
         end_date=end_date,
     )
-
-    return df
 
 
 # 1763-01-01, 2016-01-01, Global Summary of the Year  , 1    , GSOY
@@ -1917,15 +1913,13 @@ def esgf_gsoy_cli(stationid, datatypeid=None, start_date=None, end_date=None):
 
 def esgf_gsoy(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""Access esgf Global Summary of Year (GSOY)."""
-    df = esgf_cdo_json_to_df(
+    return esgf_cdo_json_to_df(
         "GSOY",
         stationid,
         datatypeid=datatypeid,
         start_date=start_date,
         end_date=end_date,
     )
-
-    return df
 
 
 # 1991-06-05, 2016-11-06, Weather Radar (Level II)    , 0.95 , NEXRAD2
@@ -1962,14 +1956,12 @@ def esgf_nexrad2_cli(stationid, start_date=None, end_date=None):
 
 def esgf_nexrad2(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (esgf) NEXRAD Level II."""
-    df = esgf_cdo_json_to_df(
+    return esgf_cdo_json_to_df(
         "NEXRAD2",
         stationid,
         start_date=start_date,
         end_date=end_date,
     )
-
-    return df
 
 
 # 1991-06-05, 2016-11-06, Weather Radar (Level III)   , 0.95 , NEXRAD3
@@ -2006,14 +1998,12 @@ def esgf_nexrad3_cli(stationid, start_date=None, end_date=None):
 
 def esgf_nexrad3(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (esgf) NEXRAD Level III."""
-    df = esgf_cdo_json_to_df(
+    return esgf_cdo_json_to_df(
         "NEXRAD3",
         stationid,
         start_date=start_date,
         end_date=end_date,
     )
-
-    return df
 
 
 # 2010-01-01, 2010-01-01, Normals Annual/Seasonal     , 1    , NORMAL_ANN
@@ -3622,13 +3612,11 @@ def esgf_normal_ann_cli(stationid, datatypeid=None):
 
 def esgf_normal_ann(stationid, datatypeid=None):
     r"""National Centers for Environmental Information (esgf) annual normals."""
-    df = esgf_cdo_json_to_df(
+    return esgf_cdo_json_to_df(
         "NORMAL_ANN",
         stationid,
         datatypeid=datatypeid,
     )
-
-    return df
 
 
 # 2010-01-01, 2010-12-31, Normals Daily               , 1    , NORMAL_DLY
@@ -3886,13 +3874,11 @@ def esgf_normal_dly_cli(stationid, datatypeid=None):
 
 def esgf_normal_dly(stationid, datatypeid=None):
     r"""National Centers for Environmental Information (esgf) Daily Normals."""
-    df = esgf_cdo_json_to_df(
+    return esgf_cdo_json_to_df(
         "NORMAL_DLY",
         stationid,
         datatypeid=datatypeid,
     )
-
-    return df
 
 
 # 2010-01-01, 2010-12-31, Normals Hourly              , 1    , NORMAL_HLY
@@ -3995,13 +3981,11 @@ def esgf_normal_hly_cli(stationid, datatypeid=None):
 
 def esgf_normal_hly(stationid, datatypeid=None):
     r"""National Centers for Environmental Information (esgf) Normal hourly."""
-    df = esgf_cdo_json_to_df(
+    return esgf_cdo_json_to_df(
         "NORMAL_HLY",
         stationid,
         datatypeid=datatypeid,
     )
-
-    return df
 
 
 # 2010-01-01, 2010-12-01, Normals Monthly             , 1    , NORMAL_MLY
@@ -4316,13 +4300,11 @@ def esgf_normal_mly_cli(stationid, datatypeid=None):
 
 def esgf_normal_mly(stationid, datatypeid=None):
     r"""National Centers for Environmental Information (esgf) GHCND Normal monthly."""
-    df = esgf_cdo_json_to_df(
+    return esgf_cdo_json_to_df(
         "NORMAL_MLY",
         stationid,
         datatypeid=datatypeid,
     )
-
-    return df
 
 
 # 1970-05-12, 2014-01-01, Precipitation 15 Minute     , 0.25 , PRECIP_15
@@ -4384,15 +4366,13 @@ def esgf_precip_15_cli(stationid, datatypeid=None, start_date=None, end_date=Non
 
 def esgf_precip_15(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (esgf) 15 minute precipitation."""
-    df = esgf_cdo_json_to_df(
+    return esgf_cdo_json_to_df(
         "PRECIP_15",
         stationid,
         datatypeid=datatypeid,
         start_date=start_date,
         end_date=end_date,
     )
-
-    return df
 
 
 # 1900-01-01, 2014-01-01, Precipitation Hourly        , 1    , PRECIP_HLY
@@ -4449,15 +4429,13 @@ def esgf_precip_hly_cli(stationid, datatypeid=None, start_date=None, end_date=No
 
 def esgf_precip_hly(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (esgf) hourly precipitation."""
-    df = esgf_cdo_json_to_df(
+    return esgf_cdo_json_to_df(
         "PRECIP_HLY",
         stationid,
         datatypeid=datatypeid,
         start_date=start_date,
         end_date=end_date,
     )
-
-    return df
 
 
 # ANNUAL
@@ -5372,15 +5350,13 @@ def esgf_annual_cli(stationid, datatypeid=None, start_date=None, end_date=None):
 
 def esgf_annual(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (esgf) annual data summaries."""
-    df = esgf_cdo_json_to_df(
+    return esgf_cdo_json_to_df(
         "ANNUAL",
         stationid,
         datatypeid=datatypeid,
         start_date=start_date,
         end_date=end_date,
     )
-
-    return df
 
 
 # GHCNDMS
@@ -5783,15 +5759,13 @@ def esgf_ghcndms_cli(stationid, datatypeid=None, start_date=None, end_date=None)
 
 def esgf_ghcndms(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (esgf) GHCND Monthly Summaries."""
-    df = esgf_cdo_json_to_df(
+    return esgf_cdo_json_to_df(
         "GHCNDMS",
         stationid,
         datatypeid=datatypeid,
         start_date=start_date,
         end_date=end_date,
     )
-
-    return df
 
 
 @mando.command("esgf_ish", formatter_class=HelpFormatter, doctype="numpy")
@@ -5932,17 +5906,16 @@ def esgf_cirs_cli(elements=None, by_state=False, location_names="abbr"):
 
 
 def esgf_cirs(elements=None, by_state=False, location_names="abbr"):
-    df = get_data(
+    # df = df.set_index("period")
+    # df.index = pd.PeriodIndex(df.index)
+    # df.index.name = "Datetime"
+    # df.columns = [unit_conv.get(i, i) for i in df.columns]
+    return get_data(
         elements=elements,
         by_state=by_state,
         location_names=location_names,
         as_dataframe=True,
     )
-    # df = df.set_index("period")
-    # df.index = pd.PeriodIndex(df.index)
-    # df.index.name = "Datetime"
-    # df.columns = [unit_conv.get(i, i) for i in df.columns]
-    return df
 
 
 esgf_ghcnd_ftp.__doc__ = esgf_ghcnd_ftp_cli.__doc__

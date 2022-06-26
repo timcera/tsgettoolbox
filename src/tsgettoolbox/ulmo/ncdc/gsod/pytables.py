@@ -22,11 +22,10 @@ class NCDCValue(tables.IsDescription):
 def get_data(station_codes, start=None, end=None, parameters=None, path=None):
     if isinstance(station_codes, str):
         return _get_station_data(station_codes, start, end, parameters)
-    return_dict = {}
-    for station_code in station_codes:
-        return_dict[station_code] = _get_station_data(
-            station_codes, start, end, parameters
-        )
+    return_dict = {
+        station_code: _get_station_data(station_codes, start, end, parameters)
+        for station_code in station_codes
+    }
 
 
 def get_stations(update=True, path=None):
@@ -37,10 +36,12 @@ def get_stations(update=True, path=None):
 def update_data(station_codes=None, start_year=None, end_year=None, path=None):
     if not start_year:
         last_updated = _last_updated()
-        if not last_updated:
-            start_year = core.NCDC_GSOD_START_DATE.year
-        else:
-            start_year = last_updated.year
+        start_year = (
+            last_updated.year
+            if last_updated
+            else core.NCDC_GSOD_START_DATE.year
+        )
+
     if not end_year:
         end_year = datetime.datetime.now().year
 
@@ -60,7 +61,7 @@ def update_data(station_codes=None, start_year=None, end_year=None, path=None):
         data = core.get_data(list(stations.keys()), start=start, end=end)
         for station_code, station_data in data.items():
             station = stations.get(station_code)
-            if not station_data is None:
+            if station_data is not None:
                 _update_station_data(station, station_data, path)
 
 

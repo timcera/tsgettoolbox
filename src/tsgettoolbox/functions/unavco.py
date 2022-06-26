@@ -30,10 +30,7 @@ def unavco_to_df(url, **query_params):
 """
         )
     url = f"{url}/{station}/beta"
-    if "/met/" in url or "/strain/" in url:
-        comment = None
-    else:
-        comment = "#"
+    comment = None if "/met/" in url or "/strain/" in url else "#"
     query_params["starttime"] = tsutils.parsedate(query_params["starttime"]).isoformat()
     query_params["endtime"] = tsutils.parsedate(query_params["endtime"]).isoformat()
     query_params["tsFormat"] = "iso8601"
@@ -176,10 +173,12 @@ def unavco(station, database="met", starttime=None, endtime=None):
         "tilt": r"http://web-services.unavco.org:80/tilt/data",
         "strain": r"http://web-services.unavco.org:80/strain/data/L2",
     }
-    df = unavco_to_df(
-        map_db_to_url[database], station=station, starttime=starttime, endtime=endtime
+    return unavco_to_df(
+        map_db_to_url[database],
+        station=station,
+        starttime=starttime,
+        endtime=endtime,
     )
-    return df
 
 
 unavco.__doc__ = unavco_cli.__doc__

@@ -74,9 +74,9 @@ def get_stations():
     url = "http://cdec.water.ca.gov/misc/all_stations.csv"
     # the csv is malformed, so some rows think there are 7 fields
     col_names = ["id", "meta_url", "name", "num", "lat", "lon", "junk"]
-    df = pd.read_csv(url, names=col_names, header=None, quotechar="'", index_col=0)
-
-    return df
+    return pd.read_csv(
+        url, names=col_names, header=None, quotechar="'", index_col=0
+    )
 
 
 def get_sensors(sensor_id=None):

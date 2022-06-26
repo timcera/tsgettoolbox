@@ -350,7 +350,7 @@ def _get_client(wsdl_url, suds_cache=("default",), suds_timeout=None, user_cache
             else:
                 cache.setduration(**dict([suds_cache]))
 
-        if suds_timeout is not None:
-            _suds_client.set_options(timeout=suds_timeout)
+    if suds_timeout is not None:
+        _suds_client.set_options(timeout=suds_timeout)
 
     return _suds_client

@@ -82,7 +82,7 @@ def get_data(station_id, elements=None, update=True, as_dataframe=False):
     dataframes = {}
 
     for element_name, element_df in station_data.groupby("element"):
-        if not elements is None and element_name not in elements:
+        if elements is not None and element_name not in elements:
             continue
 
         element_df["month_period"] = element_df.apply(
@@ -192,17 +192,17 @@ def get_stations(
     stations_file = _get_ghcn_file("ghcnd-stations.txt", check_modified=update)
     stations = util.parse_fwf(stations_file, columns)
 
-    if not country is None:
+    if country is not None:
         stations = stations[stations["country"] == country]
-    if not state is None:
+    if state is not None:
         stations = stations[stations["state"] == state]
 
     # set station id and index by it
     stations["id"] = stations[["country", "network", "network_id"]].T.apply("".join)
 
-    if not elements is None or not start_year is None or not end_year is None:
+    if elements is not None or start_year is not None or end_year is not None:
         inventory = _get_inventory(update=update)
-        if not elements is None:
+        if elements is not None:
             if isinstance(elements, str):
                 elements = [elements]
 
@@ -210,9 +210,9 @@ def get_stations(
             for element in elements:
                 mask += inventory["element"] == element
             inventory = inventory[mask]
-        if not start_year is None:
+        if start_year is not None:
             inventory = inventory[inventory["last_year"] >= start_year]
-        if not end_year is None:
+        if end_year is not None:
             inventory = inventory[inventory["first_year"] <= end_year]
 
         uniques = inventory["id"].unique()

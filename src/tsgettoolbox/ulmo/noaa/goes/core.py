@@ -105,10 +105,7 @@ def get_data(dcp_address, hours, use_cache=False, cache_path=None, as_dataframe=
         dcp_data_path = _get_store_path(cache_path, f"{dcp_address}.h5")
         if os.path.exists(dcp_data_path):
             data = pd.read_hdf(dcp_data_path, dcp_address)
-    params = {}
-    params["addr"] = (dcp_address,)
-    params["hours"] = (hours,)
-
+    params = {"addr": (dcp_address, ), "hours": (hours, )}
     messages = _fetch_url(params)
     new_data = pd.DataFrame([_parse(row) for row in messages])
 
@@ -123,10 +120,7 @@ def get_data(dcp_address, hours, use_cache=False, cache_path=None, as_dataframe=
             shutil.move(tmp, dcp_data_path)
 
     if data.empty:
-        if as_dataframe:
-            return data
-        return {}
-
+        return data if as_dataframe else {}
     if not as_dataframe:
         data = data.T.to_dict()
     return data
@@ -134,8 +128,7 @@ def get_data(dcp_address, hours, use_cache=False, cache_path=None, as_dataframe=
 
 def _fetch_url(params):
     r = requests.post(dcs_url, params=params, timeout=60)
-    messages = r.json()
-    return messages
+    return r.json()
 
 
 def _format_period(period):

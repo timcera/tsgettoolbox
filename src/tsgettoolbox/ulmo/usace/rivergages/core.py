@@ -41,15 +41,8 @@ def get_station_data(
         min_value = -9000000
     if max_value is None:
         max_value = 9000000
-    if start is None:
-        start_date = DEFAULT_START_DATE
-    else:
-        start_date = util.convert_date(start)
-    if end is None:
-        end_date = datetime.date.today()
-    else:
-        end_date = util.convert_date(end)
-
+    start_date = DEFAULT_START_DATE if start is None else util.convert_date(start)
+    end_date = datetime.date.today() if end is None else util.convert_date(end)
     start_date_str = _format_date(start_date)
     end_date_str = _format_date(end_date)
 
@@ -77,8 +70,7 @@ def get_station_parameters(station_code):
     soup = BeautifulSoup(req.content, features="lxml")
 
     options = soup.find("select", id="fld_parameter").find_all()
-    parameters = _parse_options(options)
-    return parameters
+    return _parse_options(options)
 
 
 def _format_date(date):

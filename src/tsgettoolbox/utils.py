@@ -127,9 +127,10 @@ def file_downloader(baseurl, station, startdate=None, enddate=None):
 
     station = station.split(":")[-1]
 
-    urls = []
-    for year in range(startdate.year, enddate.year + 1):
-        urls.append(baseurl.format(**locals()))
+    urls = [
+        baseurl.format(**locals())
+        for _ in range(startdate.year, enddate.year + 1)
+    ]
 
     with Pool(processes=os.cpu_count()) as pool:
         # have your pool map the file names to dataframes
@@ -231,9 +232,7 @@ def dapdownloader(url, lat, lon, var, time_name="date", start_date=None, end_dat
     else:
         nvar = []
         for i in avail_vars:
-            for j in var:
-                if i.lower() == j.lower():
-                    nvar.append(i)
+            nvar.extend(i for j in var if i.lower() == j.lower())
         var = nvar
 
     query = ncss.query()
@@ -310,8 +309,7 @@ def opendap(
     from haversine import haversine_vector
 
     if variables is None:
-        variables = list(variable_map.keys())
-        variables.sort()
+        variables = sorted(variable_map.keys())
     else:
         variables = tsutils.make_list(variables)
         for variable in variables:
@@ -469,12 +467,10 @@ def eopendap(
         "longitude<=": lon,
     }
 
-    df = e.to_pandas(
+    return e.to_pandas(
         index_col=time_name,
         parse_dates=True,
     ).dropna()
-
-    return df
 
 
 def nopendap(
@@ -501,9 +497,7 @@ def nopendap(
     else:
         nvar = []
         for i in avail_vars:
-            for j in var:
-                if i.lower() == j.lower():
-                    nvar.append(i)
+            nvar.extend(i for j in var if i.lower() == j.lower())
         var = nvar
 
     query = ncss.query()
@@ -532,9 +526,11 @@ def nopendap(
         try:
             vmap = variable_map[v]
         except KeyError:
-            vmap = {}
-            for key, value in variable_map.items():
-                vmap[variable_map[key]["lname"]] = value
+            vmap = {
+                variable_map[key]["lname"]: value
+                for key, value in variable_map.items()
+            }
+
             vmap = vmap[v]
         standard_name = vmap["standard_name"]
         lname = vmap["lname"]

@@ -63,20 +63,15 @@ def dict_from_dataframe(dataframe):
     if isinstance(dataframe.index, pandas.DatetimeIndex):
         dataframe.index = [str(i) for i in dataframe.index]
 
-    # convert np.nan objects to None objects; prior to pandas 0.13.0 this could
-    # be done in a vectorized way, but as of 0.13, assigning None into a
-    # dataframe, it gets converted to a nan object so this has to be done
-    # rather inefficiently in a post-processing step
-    if pandas.__version__ < "0.13.0":
-        for column_name in dataframe.columns:
-            dataframe[column_name][pandas.isnull(dataframe[column_name])] = None
-        df_dict = dataframe.T.to_dict()
-    else:
-        df_dict = dataframe.where((pandas.notnull(dataframe)), None).to_dict(
+    if pandas.__version__ >= "0.13.0":
+        return dataframe.where((pandas.notnull(dataframe)), None).to_dict(
             orient="index"
         )
 
-    return df_dict
+
+    for column_name in dataframe.columns:
+        dataframe[column_name][pandas.isnull(dataframe[column_name])] = None
+    return dataframe.T.to_dict()
 
 
 def download_if_new(url, path, check_modified=True):
@@ -160,16 +155,15 @@ def open_file_for_url(url, path, check_modified=True, use_file=None, use_bytes=N
     """
     leave_open = False
 
-    if use_file is not None:
-        if hasattr(use_file, "read"):
-            leave_open = True
-            yield use_file
-        else:
-            open_path = use_file
-    else:
+    if use_file is None:
         download_if_new(url, path, check_modified)
         open_path = path
 
+    elif hasattr(use_file, "read"):
+        leave_open = True
+        yield use_file
+    else:
+        open_path = use_file
     if use_bytes is None:
         open_file = open(open_path, "r")
     else:
@@ -226,10 +220,7 @@ def save_pretty_printed_xml(filename, response_buffer):
 
 def to_bytes(s):
     """convert str to bytes for py 2/3 compat"""
-    if isinstance(s, bytes):
-        return s
-
-    return s.encode("utf-8", "ignore")
+    return s if isinstance(s, bytes) else s.encode("utf-8", "ignore")
 
 
 def _ftp_download_if_new(url, path, check_modified=True):
@@ -291,10 +282,11 @@ def _path_last_modified(path):
     """returns a datetime.datetime object representing the last time the file at
     a given path was last modified
     """
-    if not os.path.exists(path):
-        return None
-
-    return datetime.datetime.utcfromtimestamp(os.path.getmtime(path))
+    return (
+        datetime.datetime.utcfromtimestamp(os.path.getmtime(path))
+        if os.path.exists(path)
+        else None
+    )
 
 
 def _request_file_size_matches(request, path):

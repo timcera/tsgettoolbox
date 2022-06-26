@@ -312,8 +312,7 @@ def core(data):
             return pd.DataFrame()
 
     response.seek(0)
-    df = pd.read_csv(response, index_col=[0, 1], parse_dates=True)
-    return df
+    return pd.read_csv(response, index_col=[0, 1], parse_dates=True)
 
 
 # @tsutils.validator(

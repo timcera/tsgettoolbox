@@ -124,16 +124,15 @@ def get_data(
         element_df = _get_element_data(element, by_state, element_file, location_names)
 
         keys = ["location_code", "year", "month"]
-        for append_key in ["division", "state", "state_code"]:
-            if append_key in element_df.columns:
-                keys.append(append_key)
+        keys.extend(
+            append_key
+            for append_key in ["division", "state", "state_code"]
+            if append_key in element_df.columns
+        )
+
         element_df.set_index(keys, inplace=True)
 
-        if df is None:
-            df = element_df
-        else:
-            df = df.join(element_df, how="outer")
-
+        df = element_df if df is None else df.join(element_df, how="outer")
     df = df.reset_index()
     df = _resolve_location_names(df, location_names, by_state)
 
@@ -158,18 +157,16 @@ def _get_element_data(element, by_state, use_file, location_names):
 
 
 def _get_element_file(use_file, element, elements, by_state):
-    if isinstance(use_file, str):
-        if os.path.basename(use_file) == "":
-            if len(elements) > 1:
-                if not ValueError(
-                    "'use_file' must be a path to a directory if using "
-                    "'use_file' with multiple elements"
-                ):
-                    raise AssertionError
+    if isinstance(use_file, str) and os.path.basename(use_file) == "":
+        if len(elements) > 1 and not ValueError(
+            "'use_file' must be a path to a directory if using "
+            "'use_file' with multiple elements"
+        ):
+            raise AssertionError
 
-            return use_file + _get_filename(
-                element, by_state, os.path.dirname(use_file)
-            )
+        return use_file + _get_filename(
+            element, by_state, os.path.dirname(use_file)
+        )
 
     return use_file
 
@@ -236,13 +233,11 @@ def _parse_values(file_handle, by_state, location_names, element):
     # throw away NaNs
     melted = melted[melted["value"].notnull()]
 
-    data = melted.rename(
+    return melted.rename(
         columns={
             "value": element,
         }
     )
-
-    return data
 
 
 def _resolve_location_names(df, location_names, by_state):
@@ -252,22 +247,21 @@ def _resolve_location_names(df, location_names, by_state):
         raise ValueError(
             "location_names should be set to either None, 'abbr' or 'full'"
         )
-    else:
-        locations = _states_regions_dataframe()[location_names]
-        with_locations = df.join(locations, on="location_code")
+    locations = _states_regions_dataframe()[location_names]
+    with_locations = df.join(locations, on="location_code")
 
-        if by_state:
-            return with_locations.rename(
-                columns={
-                    location_names: "location",
-                }
-            )
+    if by_state:
         return with_locations.rename(
             columns={
-                location_names: "state",
-                "location_code": "state_code",
+                location_names: "location",
             }
         )
+    return with_locations.rename(
+        columns={
+            location_names: "state",
+            "location_code": "state_code",
+        }
+    )
 
 
 def _states_regions_dataframe():

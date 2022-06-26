@@ -109,7 +109,7 @@ def parse_site_infos(content_io, namespace, site_info_names):
             _parse_site_info(site_info_element, namespace)
             for site_info_element in site_info_elements
         ]
-        site_infos.update({d["code"]: d for d in site_info_dicts})
+        site_infos |= {d["code"]: d for d in site_info_dicts}
     return site_infos
 
 
@@ -126,8 +126,7 @@ def parse_sites(content_io, namespace):
     site_dicts = [
         _parse_site(site_element, namespace) for site_element in site_elements
     ]
-    sites = {site_dict["code"]: site_dict for site_dict in site_dicts}
-    return sites
+    return {site_dict["code"]: site_dict for site_dict in site_dicts}
 
 
 def parse_variables(content_io, namespace):
@@ -144,10 +143,10 @@ def parse_variables(content_io, namespace):
         _parse_variable(variable_element, namespace)
         for variable_element in variable_elements
     ]
-    variables = {
-        variable_dict["code"]: variable_dict for variable_dict in variable_dicts
+    return {
+        variable_dict["code"]: variable_dict
+        for variable_dict in variable_dicts
     }
-    return variables
 
 
 def _element_dict(element, exclude_children=None, prepend_attributes=True):
@@ -169,22 +168,21 @@ def _element_dict(element, exclude_children=None, prepend_attributes=True):
     element_dict = {}
     element_name = util.camel_to_underscore(element.tag.split("}")[-1])
 
-    if len(element) == 0 and not element.text is None:
+    if len(element) == 0 and element.text is not None:
         element_dict[element_name] = element.text
 
-    element_dict.update(
-        {
-            _element_dict_attribute_name(
-                key, element_name, prepend_element_name=prepend_attributes
-            ): value
-            for key, value in element.attrib.items()
-            if value.split(":")[0] not in ["xsd", "xsi"]
-        }
-    )
+    element_dict |= {
+        _element_dict_attribute_name(
+            key, element_name, prepend_element_name=prepend_attributes
+        ): value
+        for key, value in element.attrib.items()
+        if value.split(":")[0] not in ["xsd", "xsi"]
+    }
+
 
     for child in element.iterchildren():
-        if not child.tag.split("}")[-1] in exclude_children:
-            element_dict.update(_element_dict(child))
+        if child.tag.split("}")[-1] not in exclude_children:
+            element_dict |= _element_dict(child)
 
     return element_dict
 
@@ -224,7 +222,7 @@ def _parse_geog_location(geog_location, namespace):
     }
 
     srs = geog_location.attrib.get("srs")
-    if not srs is None:
+    if srs is not None:
         return_dict["srs"] = srs
 
     return return_dict
@@ -259,14 +257,11 @@ def _parse_series(series, namespace):
         "variableTimeInterval",
         "valueCount",
     ]
-    series_dict = {}
-
     variable_element = series.find(f"{namespace}variable")
-    series_dict["variable"] = _parse_variable(variable_element, namespace)
-
+    series_dict = {"variable": _parse_variable(variable_element, namespace)}
     for include_element in include_elements:
         element = series.find(namespace + include_element)
-        if not element is None:
+        if element is not None:
             name = util.camel_to_underscore(element.tag)
             element_dict = _scrub_prefix(_element_dict(element), name)
             series_dict[name] = element_dict
@@ -299,38 +294,35 @@ def _parse_site_info(site_info, namespace):
         "network": site_code.attrib.get("network"),
     }
 
-    agency = site_code.attrib.get("agencyCode")
-    if agency:
+    if agency := site_code.attrib.get("agencyCode"):
         return_dict["agency"] = agency
 
     geog_location = site_info.find(namespace.join(["", "geoLocation/", "geogLocation"]))
-    if not geog_location is None:
+    if geog_location is not None:
         return_dict["location"] = _parse_geog_location(geog_location, namespace)
 
     timezone_info = site_info.find(f"{namespace}timeZoneInfo")
-    if not timezone_info is None:
+    if timezone_info is not None:
         return_dict["timezone_info"] = _parse_timezone_info(timezone_info, namespace)
 
     elevation_m = site_info.find(f"{namespace}elevation_m")
-    if not elevation_m is None:
+    if elevation_m is not None:
         return_dict["elevation_m"] = elevation_m.text
 
-    # WaterML 1.0 notes
-    notes = {
-        util.camel_to_underscore(note.attrib["title"].replace(" ", "")): note.text
+    if notes := {
+        util.camel_to_underscore(
+            note.attrib["title"].replace(" ", "")
+        ): note.text
         for note in site_info.findall(f"{namespace}note")
-    }
-    if notes:
+    }:
         return_dict["notes"] = notes
 
-    # WaterML 1.1 siteProperties
-    site_properties = {
+    if site_properties := {
         util.camel_to_underscore(
             site_property.attrib["name"].replace(" ", "")
         ): site_property.text
         for site_property in site_info.findall(f"{namespace}siteProperty")
-    }
-    if site_properties:
+    }:
         return_dict["site_property"] = site_properties
 
     return return_dict
@@ -348,16 +340,10 @@ def _parse_timezone_element(timezone_element):
 
 def _parse_timezone_info(timezone_info, namespace):
     """returns a dict representation of a timeZoneInfo etree element"""
-    return_dict = {}
-
     uses_dst_str = timezone_info.attrib.get("siteUsesDaylightSavingsTime", "false")
-    if uses_dst_str == "true":
-        return_dict["uses_dst"] = True
-    else:
-        return_dict["uses_dst"] = False
-
+    return_dict = {"uses_dst": uses_dst_str == "true"}
     dst_element = timezone_info.find(f"{namespace}daylightSavingsTimeZone")
-    if not dst_element is None:
+    if dst_element is not None:
         return_dict["dst_tz"] = _parse_timezone_element(dst_element)
 
     return_dict["default_tz"] = _parse_timezone_element(
@@ -374,7 +360,7 @@ def _parse_time_info(time_info_element, namespace):
     return_dict = {}
 
     is_regular = time_info_element.attrib.get("isRegular")
-    if not is_regular is None:
+    if is_regular is not None:
         if is_regular.lower() == "true":
             is_regular = True
         elif is_regular.lower() == "false":
@@ -387,11 +373,11 @@ def _parse_time_info(time_info_element, namespace):
         interval_tag = "timeSupport"
 
     interval_element = time_info_element.find(namespace + interval_tag)
-    if not interval_element is None:
+    if interval_element is not None:
         return_dict["interval"] = interval_element.text
 
     unit_element = _find_unit(time_info_element, namespace)
-    if not unit_element is None:
+    if unit_element is not None:
         return_dict["units"] = _parse_unit(unit_element, namespace)
 
     return return_dict
@@ -463,8 +449,7 @@ def _parse_variable(variable_element, namespace):
             "vocabulary": variable_code.attrib.get("vocabulary"),
         }
     )
-    network = variable_code.attrib.get("network")
-    if network:
+    if network := variable_code.attrib.get("network"):
         return_dict["network"] = network
 
     statistic = variable_element.find(
@@ -481,15 +466,15 @@ def _parse_variable(variable_element, namespace):
     elif "1.1" in namespace:
         time_info_name = "timeScale"
     time_info_element = variable_element.find(namespace + time_info_name)
-    if not time_info_element is None:
+    if time_info_element is not None:
         return_dict["time"] = _parse_time_info(time_info_element, namespace)
 
     unit_element = _find_unit(variable_element, namespace)
-    if not unit_element is None:
+    if unit_element is not None:
         return_dict["units"] = _parse_unit(unit_element, namespace)
 
     variable_description = variable_element.find(f"{namespace}variableDescription")
-    if not variable_description is None:
+    if variable_description is not None:
         return_dict["description"] = variable_description.text
 
     return return_dict

@@ -2467,11 +2467,16 @@ def modis_cli(lat, lon, product, band, start_date=None, end_date=None):
 
 def modis(lat, lon, product, band, start_date=None, end_date=None):
     r"""Download MODIS derived data."""
-    query_params = {"latitude": lat, "longitude": lon, "product": product, "band": band}
-    if start_date is None:
-        query_params["startdate"] = pd.to_datetime("1900-01-01T00")
-    else:
-        query_params["startdate"] = tsutils.parsedate(start_date)
+    query_params = {
+        "latitude": lat,
+        "longitude": lon,
+        "product": product,
+        "band": band,
+        "startdate": pd.to_datetime("1900-01-01T00")
+        if start_date is None
+        else tsutils.parsedate(start_date),
+    }
+
     if end_date is None:
         query_params["enddate"] = datetime.datetime.now()
     else:

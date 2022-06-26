@@ -52,9 +52,7 @@ def twc_cli(county, start_date=None, end_date=None):
 @typic.al
 def twc(county: int, start_date=None, end_date=None):
     r"""Download Texas Weather Connection (TWC) data."""
-    df = twc_ulmo_df(county=county, start_date=start_date, end_date=end_date)
-
-    return df
+    return twc_ulmo_df(county=county, start_date=start_date, end_date=end_date)
 
 
 twc.__doc__ = twc_cli.__doc__

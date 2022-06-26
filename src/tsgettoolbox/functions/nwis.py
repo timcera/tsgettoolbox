@@ -927,7 +927,7 @@ def _read_rdb(url, data):
 
     data = [r.strip().split("\n") for r in resp if r[0] == "#"]
     data = [t.split("\t") for d in data for t in d if "#" not in t]
-    if len(data) == 0:
+    if not data:
         raise ValueError()
     rdb_df = pd.DataFrame.from_dict(dict(zip(data[0], d)) for d in data[2:])
 
@@ -977,10 +977,7 @@ def usgs_iv_dv_rdb_to_df(url, **kwargs):
     kwargs["startDT"] = tsutils.parsedate(kwargs["startDT"], strftime="%Y-%m-%d")
     kwargs["endDT"] = tsutils.parsedate(kwargs["endDT"], strftime="%Y-%m-%d")
 
-    includeCodes = True
-    if "includeCodes" in kwargs:
-        includeCodes = kwargs.pop("includeCodes")
-
+    includeCodes = kwargs.pop("includeCodes") if "includeCodes" in kwargs else True
     ndf = _read_rdb(url, [kwargs])
 
     ndf["Datetime"] = pd.to_datetime(ndf["datetime"], errors="coerce")
@@ -1125,8 +1122,7 @@ def usgs_site_rdb_to_df(url, **kwargs):
     kwargs["siteOutput"] = "expanded"
     kwargs["siteStatus"] = "all"
 
-    ndf = _read_rdb(url, [kwargs])
-    return ndf
+    return _read_rdb(url, [kwargs])
 
 
 def usgs_measurements_peak_rdb_to_df(url, **kwargs):
@@ -1334,7 +1330,7 @@ You gave {}.""".format(
             )
         )
 
-    url = r"http://waterservices.usgs.gov/nwis/{}/".format(database)
+    url = f"http://waterservices.usgs.gov/nwis/{database}/"
 
     if database in ["measurements", "peak", "gwlevels"]:
         words = sites.split(",")
@@ -1365,7 +1361,7 @@ accept one site using the 'site' keyword.
             )
 
         if database in ["measurements", "peak"]:
-            url = r"http://nwis.waterdata.usgs.gov/XX/nwis/{}".format(database)
+            url = f"http://nwis.waterdata.usgs.gov/XX/nwis/{database}"
 
     if database in ["iv", "dv"]:
         return usgs_iv_dv_rdb_to_df(

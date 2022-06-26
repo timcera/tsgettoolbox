@@ -75,7 +75,7 @@ def get_sites(source_agency=None):
     ]
     sites = [_create_feature(site_info) for site_info in sites_unprocessed]
     if source_agency:
-        if not source_agency.upper() in source_map:
+        if source_agency.upper() not in source_map:
             log.info(f"the source {source_agency} is not recognized")
             return {}
         sites = [
@@ -83,9 +83,7 @@ def get_sites(source_agency=None):
             for site in sites
             if site["properties"]["source"] == source_map[source_agency.upper()]
         ]
-    sites_geojson = FeatureCollection(sites)
-
-    return sites_geojson
+    return FeatureCollection(sites)
 
 
 def get_historical_data(site_code, start=None, end=None, as_dataframe=False):
@@ -152,7 +150,7 @@ def get_historical_data(site_code, start=None, end=None, as_dataframe=False):
 
     for row in gridview.findAll("tr"):
         vals = [_parse_val(aux.text) for aux in row.findAll("td")]
-        if len(vals) == 0:
+        if not vals:
             continue
         results.append(dict(zip(headers, vals)))
 
@@ -207,9 +205,7 @@ def get_recent_data(site_code, as_dataframe=False):
 
 
 def _nan_values(value):
-    if value == -998.0 or value == "--":
-        return np.nan
-    return value
+    return np.nan if value in [-998.0, "--"] else value
 
 
 def _beautify_header(str):
@@ -226,12 +222,11 @@ def _beautify_header(str):
 
 def get_site_info(site_code):
     sites = get_sites()
-    site = [
+    return [
         site
         for site in sites["features"]
         if site_code == site["properties"]["site_code"]
     ]
-    return site
 
 
 def _create_dataframe(results):
@@ -282,15 +277,13 @@ def _get_source(site_type_code):
 
 
 def _get_parameter(site_type_code):
-    if site_type_code == "Salinity" or site_type_code == "Conductivity":
+    if site_type_code in ["Salinity", "Conductivity"]:
         return site_type_code
     return None
 
 
 def _get_water_body(site_type_code):
-    if site_type_code == "Bay":
-        return "Bay"
-    return None
+    return "Bay" if site_type_code == "Bay" else None
 
 
 def _make_next_request(url, previous_request, data):
@@ -301,9 +294,7 @@ def _make_next_request(url, previous_request, data):
 
 def _parse_val(val):
     # the &nsbp translates to the following unicode
-    if val == "\xa0":
-        return None
-    return val
+    return None if val == "\xa0" else val
 
 
 def _parse_site_str(site_str):
@@ -320,6 +311,4 @@ def _parse_site_str(site_str):
 
 
 def _real_time(site_type_code):
-    if site_type_code == "Salinity" or site_type_code == "Conductivity":
-        return True
-    return False
+    return site_type_code in ["Salinity", "Conductivity"]
