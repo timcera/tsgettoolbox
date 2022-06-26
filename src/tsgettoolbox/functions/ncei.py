@@ -361,8 +361,7 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
     )
     newcols = ["station", "year", "month", "code"]
     for day in list(range(1, 32)):
-        for col in ["", "m", "q", "s"]:
-            newcols.append(f"{col}{day:02}")
+        newcols.extend(f"{col}{day:02}" for col in ["", "m", "q", "s"])
     df.columns = newcols
     codes = [
         "TMAX",  # Temperature MAX (1/10 degree C)
@@ -486,17 +485,13 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
     #        6 = 150 cm
     #        7 = 180 cm
     for i in range(9):
-        for j in range(1, 8):
-            codes.append(f"SN{i}{j}")
-
+        codes.extend(f"SN{i}{j}" for j in range(1, 8))
     # SX*# = Maximum soil temperature (tenths of degrees C)
     #        where * corresponds to a code for ground cover
     #        and # corresponds to a code for soil depth.
     #        See SN*# for ground cover and depth codes.
     for i in range(9):
-        for j in range(1, 8):
-            codes.append(f"SX{i}{j}")
-
+        codes.extend(f"SX{i}{j}" for j in range(1, 8))
     # WT** = Weather Type where ** has one of the following values:
     #
     #        01 = Fog, ice fog, or freezing fog (may include heavy fog)
@@ -567,11 +562,11 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
     # Set missing values to None
     ndf.replace(to_replace=[-9999], value=[None], inplace=True)
 
-    # Some columns are 1/10 degree C.  The next section of code divides
-    # those columns by 10 to get cm.
-    mcols = []
-    for i in ndf.columns:
-        if i in [
+    if mcols := [
+        i
+        for i in ndf.columns
+        if i
+        in [
             "TMAX",
             "TMIN",
             "MDTN",
@@ -596,9 +591,8 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
             "WSFM",
             "SNXY",
             "SXXY",
-        ]:
-            mcols.append(i)
-    if mcols:
+        ]
+    ]:
         ndf.loc[:, mcols] = ndf.loc[:, mcols] / 10.0
 
     ndf.index.name = "Datetime"
@@ -794,15 +788,13 @@ def ncei_ghcnd_cli(stationid, datatypeid=None, start_date=None, end_date=None):
 def ncei_ghcnd(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""Download from the Global Historical Climatology Network - Daily."""
     stationid = stationid.replace("-", "")
-    df = ncei_cdo_json_to_df(
+    return ncei_cdo_json_to_df(
         "GHCND",
         stationid,
         datatypeid=datatypeid,
         start_date=start_date,
         end_date=end_date,
     )
-
-    return df
 
 
 @mando.command("ncei_gsod", formatter_class=HelpFormatter, doctype="numpy")
@@ -1798,15 +1790,13 @@ def ncei_gsom_cli(stationid, datatypeid=None, start_date=None, end_date=None):
 def ncei_gsom(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""Access ncei Global Summary of Month (GSOM)."""
     stationid = stationid.replace("-", "")
-    df = ncei_cdo_json_to_df(
+    return ncei_cdo_json_to_df(
         "GSOM",
         stationid,
         datatypeid=datatypeid,
         start_date=start_date,
         end_date=end_date,
     )
-
-    return df
 
 
 # 1763-01-01, 2016-01-01, Global Summary of the Year  , 1    , GSOY
@@ -2295,15 +2285,13 @@ def ncei_gsoy_cli(stationid, datatypeid=None, start_date=None, end_date=None):
 
 def ncei_gsoy(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""Access NCEI Global Summary of Year (GSOY)."""
-    df = ncei_cdo_json_to_df(
+    return ncei_cdo_json_to_df(
         "GSOY",
         stationid,
         datatypeid=datatypeid,
         start_date=start_date,
         end_date=end_date,
     )
-
-    return df
 
 
 # 1991-06-05, 2016-11-06, Weather Radar (Level II)    , 0.95 , NEXRAD2
@@ -2340,14 +2328,12 @@ def ncei_nexrad2_cli(stationid, start_date=None, end_date=None):
 
 def ncei_nexrad2(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (NCEI) NEXRAD Level II."""
-    df = ncei_cdo_json_to_df(
+    return ncei_cdo_json_to_df(
         "NEXRAD2",
         stationid,
         start_date=start_date,
         end_date=end_date,
     )
-
-    return df
 
 
 # 1991-06-05, 2016-11-06, Weather Radar (Level III)   , 0.95 , NEXRAD3
@@ -2384,14 +2370,12 @@ def ncei_nexrad3_cli(stationid, start_date=None, end_date=None):
 
 def ncei_nexrad3(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (NCEI) NEXRAD Level III."""
-    df = ncei_cdo_json_to_df(
+    return ncei_cdo_json_to_df(
         "NEXRAD3",
         stationid,
         start_date=start_date,
         end_date=end_date,
     )
-
-    return df
 
 
 # 2010-01-01, 2010-01-01, Normals Annual/Seasonal     , 1    , NORMAL_ANN
@@ -4000,13 +3984,11 @@ def ncei_normal_ann_cli(stationid, datatypeid=None):
 
 def ncei_normal_ann(stationid, datatypeid=None):
     r"""National Centers for Environmental Information (NCEI) annual normals."""
-    df = ncei_cdo_json_to_df(
+    return ncei_cdo_json_to_df(
         "NORMAL_ANN",
         stationid,
         datatypeid=datatypeid,
     )
-
-    return df
 
 
 # 2010-01-01, 2010-12-31, Normals Daily               , 1    , NORMAL_DLY
@@ -4264,13 +4246,11 @@ def ncei_normal_dly_cli(stationid, datatypeid=None):
 
 def ncei_normal_dly(stationid, datatypeid=None):
     r"""National Centers for Environmental Information (NCEI) Daily Normals."""
-    df = ncei_cdo_json_to_df(
+    return ncei_cdo_json_to_df(
         "NORMAL_DLY",
         stationid,
         datatypeid=datatypeid,
     )
-
-    return df
 
 
 # 2010-01-01, 2010-12-31, Normals Hourly              , 1    , NORMAL_HLY
@@ -4373,13 +4353,11 @@ def ncei_normal_hly_cli(stationid, datatypeid=None):
 
 def ncei_normal_hly(stationid, datatypeid=None):
     r"""National Centers for Environmental Information (NCEI) Normal hourly."""
-    df = ncei_cdo_json_to_df(
+    return ncei_cdo_json_to_df(
         "NORMAL_HLY",
         stationid,
         datatypeid=datatypeid,
     )
-
-    return df
 
 
 # 2010-01-01, 2010-12-01, Normals Monthly             , 1    , NORMAL_MLY
@@ -4694,13 +4672,11 @@ def ncei_normal_mly_cli(stationid, datatypeid=None):
 
 def ncei_normal_mly(stationid, datatypeid=None):
     r"""National Centers for Environmental Information (NCEI) GHCND Normal monthly."""
-    df = ncei_cdo_json_to_df(
+    return ncei_cdo_json_to_df(
         "NORMAL_MLY",
         stationid,
         datatypeid=datatypeid,
     )
-
-    return df
 
 
 # 1970-05-12, 2014-01-01, Precipitation 15 Minute     , 0.25 , PRECIP_15
@@ -4762,15 +4738,13 @@ def ncei_precip_15_cli(stationid, datatypeid=None, start_date=None, end_date=Non
 
 def ncei_precip_15(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (NCEI) 15 minute precipitation."""
-    df = ncei_cdo_json_to_df(
+    return ncei_cdo_json_to_df(
         "PRECIP_15",
         stationid,
         datatypeid=datatypeid,
         start_date=start_date,
         end_date=end_date,
     )
-
-    return df
 
 
 # 1900-01-01, 2014-01-01, Precipitation Hourly        , 1    , PRECIP_HLY
@@ -4827,15 +4801,13 @@ def ncei_precip_hly_cli(stationid, datatypeid=None, start_date=None, end_date=No
 
 def ncei_precip_hly(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (NCEI) hourly precipitation."""
-    df = ncei_cdo_json_to_df(
+    return ncei_cdo_json_to_df(
         "PRECIP_HLY",
         stationid,
         datatypeid=datatypeid,
         start_date=start_date,
         end_date=end_date,
     )
-
-    return df
 
 
 # ANNUAL
@@ -5750,15 +5722,13 @@ def ncei_annual_cli(stationid, datatypeid=None, start_date=None, end_date=None):
 
 def ncei_annual(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (NCEI) annual data summaries."""
-    df = ncei_cdo_json_to_df(
+    return ncei_cdo_json_to_df(
         "ANNUAL",
         stationid,
         datatypeid=datatypeid,
         start_date=start_date,
         end_date=end_date,
     )
-
-    return df
 
 
 # GHCNDMS
@@ -6161,15 +6131,13 @@ def ncei_ghcndms_cli(stationid, datatypeid=None, start_date=None, end_date=None)
 
 def ncei_ghcndms(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (NCEI) GHCND Monthly Summaries."""
-    df = ncei_cdo_json_to_df(
+    return ncei_cdo_json_to_df(
         "GHCNDMS",
         stationid,
         datatypeid=datatypeid,
         start_date=start_date,
         end_date=end_date,
     )
-
-    return df
 
 
 @mando.command("ncei_ish", formatter_class=HelpFormatter, doctype="numpy")
@@ -6427,10 +6395,9 @@ def ncei_ish(station, datatypeid=None, start_date=None, end_date=None):
     }
 
     loopvar = list(final.columns)
-    for cname in process:
+    for cname, variables in process.items():
         if cname in loopvar:
             addto = final[cname].str.split(" *, *", expand=True)
-            variables = process[cname]
             addto.columns = variables.keys()
             for vname in variables.keys():
                 modifiers = process[cname][vname]
@@ -6510,17 +6477,16 @@ def ncei_cirs_cli(elements=None, by_state=False, location_names="abbr"):
 
 
 def ncei_cirs(elements=None, by_state=False, location_names="abbr"):
-    df = get_data(
+    # df = df.set_index("period")
+    # df.index = pd.PeriodIndex(df.index)
+    # df.index.name = "Datetime"
+    # df.columns = [unit_conv.get(i, i) for i in df.columns]
+    return get_data(
         elements=elements,
         by_state=by_state,
         location_names=location_names,
         as_dataframe=True,
     )
-    # df = df.set_index("period")
-    # df.index = pd.PeriodIndex(df.index)
-    # df.index.name = "Datetime"
-    # df.columns = [unit_conv.get(i, i) for i in df.columns]
-    return df
 
 
 ncei_ghcnd_ftp.__doc__ = ncei_ghcnd_ftp_cli.__doc__

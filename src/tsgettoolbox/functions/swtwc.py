@@ -44,10 +44,7 @@ def swtwc_cli(station_code, date=None):
 
 
 def swtwc(station_code, date=None):
-    if date is None:
-        date = datetime.datetime.now()
-    else:
-        date = pd.to_datetime(date)
+    date = datetime.datetime.now() if date is None else pd.to_datetime(date)
     alldict = get_station_data(station_code, date=date, as_dataframe=True)
     df = alldict["values"]
     df.columns = [f"{i}:{alldict['variables'][i]['unit']}" for i in df.columns]

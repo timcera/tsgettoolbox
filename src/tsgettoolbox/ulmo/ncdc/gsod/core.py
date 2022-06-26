@@ -39,7 +39,7 @@ def get_parameters():
     dictionary of variables with parameter codes as keys
         and GSOD codes as values.
     """
-    VARIABLES = {
+    return {
         "mean_temp": "TEMP",
         "mean_temp_count": "TEMP",
         "dew_point": "DEWP",
@@ -63,7 +63,6 @@ def get_parameters():
         "snow_depth": "SNDP",
         "FRSHTT": "FRSHTT",
     }
-    return VARIABLES
 
 
 def get_data(station_codes, start=None, end=None, parameters=None):
@@ -85,17 +84,11 @@ def get_data(station_codes, start=None, end=None, parameters=None):
     data_dict : dict
         Dict with station codes keyed to lists of value dicts.
     """
-    if start:
-        start_date = util.convert_date(start)
-    else:
-        start_date = NCDC_GSOD_START_DATE
-    if end:
-        end_date = util.convert_date(end)
-    else:
-        end_date = datetime.date.today()
+    start_date = util.convert_date(start) if start else NCDC_GSOD_START_DATE
+    end_date = util.convert_date(end) if end else datetime.date.today()
     if isinstance(parameters, str):
         parameters = [parameters]
-    if parameters and not "date" in parameters:
+    if parameters and "date" not in parameters:
         # add date to list of parameters if it's not there already
         parameters.insert(0, "date")
     if isinstance(station_codes, str):
@@ -122,7 +115,7 @@ def get_data(station_codes, start=None, end=None, parameters=None):
                 year_data = _read_gsod_file(gsod_tar, station, year)
                 if parameters:
                     year_data = _subset_record_array(year_data, parameters)
-                if not year_data is None:
+                if year_data is not None:
                     # apply date ranges if they exist
                     if start_date or end_date:
                         mask = np.ones(len(year_data), dtype=bool)
@@ -132,14 +125,14 @@ def get_data(station_codes, start=None, end=None, parameters=None):
                             mask = mask & (year_data["date"] <= end_date)
                         year_data = year_data[mask]
 
-                    if not data_dict[station] is None:
-                        # XXX: this could be more efficient for large numbers
-                        # of years with a list comprehension or generator
-                        data_dict[station] = np.append(data_dict[station], year_data)
-                    else:
-                        data_dict[station] = year_data
+                    data_dict[station] = (
+                        year_data
+                        if data_dict[station] is None
+                        else np.append(data_dict[station], year_data)
+                    )
+
     for station, data_array in data_dict.items():
-        if not data_dict[station] is None:
+        if data_dict[station] is not None:
             data_dict[station] = _record_array_to_value_dicts(data_array)
     return data_dict
 
@@ -172,15 +165,8 @@ def get_stations(country=None, state=None, start=None, end=None, update=True):
     stations_dict : dict
         A dict with USAF-WBAN codes keyed to station information dicts.
     """
-    if start:
-        start_date = util.convert_date(start)
-    else:
-        start_date = None
-    if end:
-        end_date = util.convert_date(end)
-    else:
-        end_date = None
-
+    start_date = util.convert_date(start) if start else None
+    end_date = util.convert_date(end) if end else None
     if isinstance(country, str):
         country = [country]
     if isinstance(state, str):
@@ -193,14 +179,8 @@ def get_stations(country=None, state=None, start=None, end=None, update=True):
         if country is None and state is None and start is None and end is None:
             rows = reader
         else:
-            if start_date is None:
-                start_str = None
-            else:
-                start_str = start_date.strftime("%Y%m%d")
-            if end_date is None:
-                end_str = None
-            else:
-                end_str = end_date.strftime("%Y%m%d")
+            start_str = None if start_date is None else start_date.strftime("%Y%m%d")
+            end_str = None if end_date is None else end_date.strftime("%Y%m%d")
             rows = [
                 row
                 for row in reader
@@ -236,20 +216,20 @@ def _get_gsod_file(year):
 
 
 def _passes_row_filter(row, country=None, state=None, start_str=None, end_str=None):
-    if not country is None and row["CTRY"] not in country:
+    if country is not None and row["CTRY"] not in country:
         return False
-    if not state is None and row["STATE"] not in state:
+    if state is not None and row["STATE"] not in state:
         return False
-    if not start_str is None and row["END"] != "" and row["END"] <= start_str:
+    if start_str is not None and row["END"] != "" and row["END"] <= start_str:
         return False
-    if not end_str is None and row["BEGIN"] != "" and end_str <= row["BEGIN"]:
+    if end_str is not None and row["BEGIN"] != "" and end_str <= row["BEGIN"]:
         return False
     return True
 
 
 def _process_station(station_row):
     """converts a csv row to a more human-friendly version"""
-    station_dict = {
+    return {
         "begin": _convert_date_string(station_row["BEGIN"]),
         "icao": station_row["ICAO"],
         "country": station_row["CTRY"],
@@ -268,7 +248,6 @@ def _process_station(station_row):
         "USAF": station_row["USAF"],
         "WBAN": station_row["WBAN"],
     }
-    return station_dict
 
 
 def _read_gsod_file(gsod_tar, station, year):
@@ -339,11 +318,10 @@ def _read_gsod_file(gsod_tar, station, year):
 
 def _record_array_to_value_dicts(record_array):
     names = record_array.dtype.names
-    value_dicts = [
+    return [
         {name: value[name_index] for name_index, name in enumerate(names)}
         for value in record_array
     ]
-    return value_dicts
 
 
 def _station_code(station):

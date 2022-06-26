@@ -149,7 +149,7 @@ def _twdb_assemble_dataframe(message_timestamp, channel, channel_data, reverse=F
             value = np.nan
 
         data.append([timestamp, channel, value])
-    if len(data) > 0:
+    if data:
         df = pd.DataFrame(data, columns=["timestamp_utc", "channel", "channel_data"])
         df.index = pd.to_datetime(df["timestamp_utc"])
         del df["timestamp_utc"]
@@ -180,8 +180,7 @@ def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=Tru
     data = []
     if dual_well:
         fields = message.strip('" \x10\x00').split("\r")
-        channel_data = {}
-        channel_data["bv"] = [fields[0].split(":")[1].split()[0]]
+        channel_data = {"bv": [fields[0].split(":")[1].split()[0]]}
         for field in fields[1:]:
             df = pd.DataFrame()
             try:
@@ -208,9 +207,8 @@ def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=Tru
 
     fields = message.strip('" ').split()
 
-    water_data = {}
     channel_name = "wl"
-    water_data[channel_name] = []
+    water_data = {channel_name: []}
     for field in fields:
         df = pd.DataFrame()
         field = field.lower().strip("\x10\x00")
@@ -250,12 +248,13 @@ def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=Tru
                 pass
         data.append(df)
 
-    for channel in water_data:
-        data.append(
-            _twdb_assemble_dataframe(
-                message_timestamp, channel, water_data[channel], reverse=reverse
-            )
+    data.extend(
+        _twdb_assemble_dataframe(
+            message_timestamp, channel, value, reverse=reverse
         )
+        for channel, value in water_data.items()
+    )
+
     df = pd.concat(data)
 
     if not drop_dcp_metadata:
@@ -268,24 +267,15 @@ def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=Tru
 def _parse_value(water_level_str):
     well_val = water_level_str.split(":")
     if len(water_level_str.split(":")) == 2:
-        if well_val[1] == "":
-            val = np.nan
-        else:
-            val = well_val[1].strip("-")
-        value_dict = (well_val[0], val)
-        return value_dict
+        val = np.nan if well_val[1] == "" else well_val[1].strip("-")
+        return well_val[0], val
     return water_level_str
 
 
 def _invalid_message_check(message):
-    is_invalid = False
     invalid_messages = ["dadds", "operator", "no"]
-    for invalid in invalid_messages:
-        if invalid in message:
-            is_invalid = True
-    return is_invalid
+    return any(invalid in message for invalid in invalid_messages)
 
 
 def _empty_df(message_timestamp):
-    df = _twdb_assemble_dataframe(message_timestamp, np.nan, [np.nan])
-    return df
+    return _twdb_assemble_dataframe(message_timestamp, np.nan, [np.nan])

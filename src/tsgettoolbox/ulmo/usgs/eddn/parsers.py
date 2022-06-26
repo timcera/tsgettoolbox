@@ -31,10 +31,9 @@ def twdb_fts(df_row, drop_dcp_metadata=True):
             if line[0] == "vb":
                 battery_voltage = line[3].strip("+- ")
 
-    df = _twdb_assemble_dataframe(
+    return _twdb_assemble_dataframe(
         message_timestamp, battery_voltage, water_levels, reverse=False
     )
-    return df
 
 
 def twdb_stevens(df_row, drop_dcp_metadata=True):
@@ -138,7 +137,7 @@ def _twdb_assemble_dataframe(
         else:
             data.append([timestamp, np.nan, water_level])
 
-    if len(data) > 0:
+    if data:
         df = pd.DataFrame(
             data, columns=["timestamp_utc", "battery_voltage", "water_level"]
         )
@@ -227,10 +226,6 @@ def _twdb_stevens_or_dot(df_row, reverse, drop_dcp_metadata=True):
 def _parse_value(water_level_str):
     well_val = water_level_str.split(":")
     if len(water_level_str.split(":")) == 2:
-        if well_val[1] == "":
-            val = np.nan
-        else:
-            val = well_val[1].strip("-")
-        value_dict = (well_val[0], val)
-        return value_dict
+        val = np.nan if well_val[1] == "" else well_val[1].strip("-")
+        return well_val[0], val
     return water_level_str

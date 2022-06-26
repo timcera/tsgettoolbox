@@ -144,7 +144,7 @@ def get_sites(
         if parameter_code:
             url_params["parameterCd"] = _as_str(parameter_code)
 
-        url_params.update(kwargs)
+        url_params |= kwargs
 
         if not service:
             return_sites = {}
@@ -161,7 +161,7 @@ def get_sites(
                     input_file=input_file,
                     **kwargs,
                 )
-                return_sites.update(new_sites)
+                return_sites |= new_sites
             return return_sites
 
         url = _get_service_url(service)
@@ -252,7 +252,7 @@ def get_site_data(
     if modified_since:
         url_params["modifiedSince"] = isodate.duration_isoformat(modified_since)
 
-    if not (start is None or end is None) and period is not None:
+    if start is not None and end is not None and period is not None:
         raise ValueError(
             "must use either a date range with start/end OR a " "period, but not both"
         )
@@ -280,7 +280,7 @@ def get_site_data(
         url_params["endDT"] = datetime_formatter(end_datetime)
 
     if service is not None:
-        url_params.update(kwargs)
+        url_params |= kwargs
         values = _get_site_values(
             service, url_params, input_file=input_file, methods=methods
         )
@@ -295,7 +295,7 @@ def get_site_data(
             input_file=input_file,
             methods=methods,
         )
-        kw.update(kwargs)
+        kw |= kwargs
         values = get_site_data(site_code, service="daily", **kw)
         values.update(get_site_data(site_code, service="instantaneous", **kw))
 
@@ -304,9 +304,7 @@ def get_site_data(
 
 def _as_str(arg):
     """if arg is a list, convert to comma delimited string"""
-    if isinstance(arg, str):
-        return arg
-    return ",".join(arg)
+    return arg if isinstance(arg, str) else ",".join(arg)
 
 
 def _extract_site_properties(site):

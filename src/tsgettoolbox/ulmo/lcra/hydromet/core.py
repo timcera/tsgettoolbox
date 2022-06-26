@@ -9,6 +9,7 @@
     .. _Lower Colorado River Authority: http://www.lcra.org
     .. _Hydromet: http://hydromet.lcra.org
 """
+
 import datetime
 import logging
 
@@ -46,7 +47,7 @@ current_data_services = ["GetLowerBasin", "GetUpperBasin"]
 # stage measurements in lake and stream, the LCRA uses 'stage' for stream sites
 # and 'lake' for lake sites
 site_types = PARAMETERS.copy()
-site_types.update({"lake": "stage measurement in lakes"})
+site_types["lake"] = "stage measurement in lakes"
 
 # for this dam sites, stage is named head or tail
 dam_sites = ["1995", "1999", "2958", "2999", "3963", "3999"]
@@ -85,9 +86,7 @@ def get_sites_by_type(site_type):
     sites_str = [
         site.text.replace("&nbsp", "").replace("\xa0", "") for site in soup.findAll("a")
     ]
-    sites_dict = {s[:4]: s[7:] for s in sites_str}
-
-    return sites_dict
+    return {s[:4]: s[7:] for s in sites_str}
 
 
 def get_all_sites():
@@ -97,8 +96,7 @@ def get_all_sites():
     soup = BeautifulSoup(res.content, "xml")
     rows = soup.findAll("row")
     features = [_create_feature(row) for row in rows]
-    sites = FeatureCollection(features)
-    return sites
+    return FeatureCollection(features)
 
 
 def get_current_data(service, as_geojson=False):
@@ -145,21 +143,16 @@ def get_current_data(service, as_geojson=False):
     soup = BeautifulSoup(res.content)
     sites_els = soup.findAll(f"cls{service.lower().replace('get', '')}")
     current_values_dicts = [_parse_current_values(site_el) for site_el in sites_els]
-    if as_geojson:
-        features = []
-        for value_dict in current_values_dicts:
-            feature = _feature_for_values_dict(value_dict)
-            if len(feature):
-                features.append(feature[0])
-        if len(features) != len(current_values_dicts):
-            log.warn("some of the sites did not location information")
-        if features:
-            current_values_geojson = FeatureCollection(features)
-            return current_values_geojson
-        else:
-            return {}
-    else:
+    if not as_geojson:
         return current_values_dicts
+    features = []
+    for value_dict in current_values_dicts:
+        feature = _feature_for_values_dict(value_dict)
+        if len(feature):
+            features.append(feature[0])
+    if len(features) != len(current_values_dicts):
+        log.warn("some of the sites did not location information")
+    return FeatureCollection(features) if features else {}
 
 
 def get_site_data(
@@ -213,19 +206,16 @@ def get_site_data(
     if list_request.status_code != 200:
         return None
 
-    if parameter_code == "STAGE":
-        if site_code in dam_sites:
-            parameter_code = dam_site_location.upper()
-        else:
-            parameter_code = "STAGE"
+    if parameter_code == "STAGE" and site_code in dam_sites:
+        parameter_code = dam_site_location.upper()
+    elif (
+        parameter_code == "STAGE"
+        or parameter_code != "RHUMID"
+        and parameter_code == "FLOW"
+    ):
+        parameter_code = "STAGE"
     elif parameter_code == "RHUMID":
         parameter_code = "Rhumid"
-    # the parameter selection dropdown doesn't have flow. the data comes with stage.
-    elif parameter_code == "FLOW":
-        parameter_code = "STAGE"
-    else:
-        pass
-
     if start_date is None:
         start_date = datetime.date.today()
     if end_date is None:
@@ -242,10 +232,7 @@ def get_site_data(
         for chunk in pandas.np.arange(chunks) + 1:
             request_start_date = start_date + relativedelta(days=180 * (chunk - 1))
             chunk_end_date = start_date + relativedelta(days=180 * chunk)
-            if chunk_end_date >= end_date:
-                request_end_date = end_date
-            else:
-                request_end_date = chunk_end_date
+            request_end_date = end_date if chunk_end_date >= end_date else chunk_end_date
             log.info(
                 f"getting chunk: {chunk}, start: {request_start_date}, end: {request_end_date}, parameter: {parameter_code}"
             )
@@ -260,28 +247,23 @@ def get_site_data(
 
     df = _values_dict_to_df(values_dict).astype(float)
 
-    if not as_dataframe:
-        return df.to_dict("records")
-    else:
-        return df
+    return df if as_dataframe else df.to_dict("records")
 
 
 def _create_feature(row):
     geometry = Point((float(row["e"]), float(row["d"])))
     site_props = dict(site_code=row["a"], site_description=row["c"])
-    site = Feature(geometry=geometry, properties=site_props)
-    return site
+    return Feature(geometry=geometry, properties=site_props)
 
 
 def _feature_for_values_dict(site_values_dict):
     sites = get_all_sites()["features"]
-    site = [
+    return [
         _update_feature_props(site, site_values_dict)
         for site in sites
         if site["properties"]["site_description"].lower()
         == site_values_dict["location"].lower()
     ]
-    return site
 
 
 def _parse_current_values(site_el):
@@ -289,19 +271,18 @@ def _parse_current_values(site_el):
     site_values = {}
     for value_el in site_value_els:
         if value_el.name.lower() == "datetime":
-            if value_el.get_text().strip() == "":
-                site_values[value_el.name.lower()] = None
-            else:
-                site_values[value_el.name.lower()] = util.convert_datetime(
-                    value_el.get_text()
-                )
+            site_values[value_el.name.lower()] = (
+                None
+                if value_el.get_text().strip() == ""
+                else util.convert_datetime(value_el.get_text())
+            )
+
         elif value_el.name.lower() == "location":
             site_values[value_el.name.lower()] = value_el.get_text().strip()
+        elif value_el.get_text().strip() == "":
+            site_values[value_el.name.lower()] = None
         else:
-            if value_el.get_text().strip() == "":
-                site_values[value_el.name.lower()] = None
-            else:
-                site_values[value_el.name.lower()] = float(value_el.get_text())
+            site_values[value_el.name.lower()] = float(value_el.get_text())
     return site_values
 
 
@@ -339,8 +320,7 @@ def _get_data(site_code, parameter_code, list_request, start, end):
 
     soup = BeautifulSoup(data_request.content, "html.parser")
     columns = [col.get_text() for col in soup.findAll("th")]
-    values_dict = [_get_row_values(row, columns) for row in soup.findAll("tr")[1:]]
-    return values_dict
+    return [_get_row_values(row, columns) for row in soup.findAll("tr")[1:]]
 
 
 def _extract_headers_for_next_request(request):
@@ -363,10 +343,7 @@ def _make_next_request(url, previous_request, data):
 
 def _parse_val(val):
     # the &nsbp translates to the following unicode
-    if val == "\xa0":
-        return None
-    else:
-        return val
+    return None if val == "\xa0" else val
 
 
 def _update_feature_props(feature, props):

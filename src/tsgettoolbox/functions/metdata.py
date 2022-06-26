@@ -511,13 +511,12 @@ def metdata(
 ):
     r"""Download METDATA data."""
     if variables is None:
-        vars = list(_vars.keys())
-        vars.sort()
+        vars = sorted(_vars.keys())
     else:
         vars = tsutils.make_list(variables)
 
     turl = "http://thredds.northwestknowledge.net:8080/thredds/dodsC/agg_met_{}_1979_CurrentYear_CONUS.nc"
-    df = utils.opendap(
+    return utils.opendap(
         turl,
         lat,
         lon,
@@ -530,8 +529,6 @@ def metdata(
         time_name="day",
         single_var_url=True,
     )
-
-    return df
 
 
 metdata.__doc__ = metdata_cli.__doc__

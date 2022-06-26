@@ -76,8 +76,7 @@ def get_sites(path=None, complevel=None, complib=None):
             return {}
 
         sites_df = store[SITES_TABLE]
-    sites_dict = _sites_df_to_dict(sites_df)
-    return sites_dict
+    return _sites_df_to_dict(sites_df)
 
 
 def get_site(site_code, path=None, complevel=None, complib=None):
@@ -228,18 +227,19 @@ def remove_values(
             if values_path in store:
                 values_df = store[values_path]
                 original_datetimes = set(values_df.dropna(how="all").index.tolist())
-                datetimes_to_remove = original_datetimes.intersection(set(datetimes))
-                if not datetimes_to_remove:
-                    core.log.info(
-                        f"No {variable_code} values matching the given datetimes to remove were found."
-                    )
-                    continue
-                else:
+                if datetimes_to_remove := original_datetimes.intersection(
+                    set(datetimes)
+                ):
                     values_df.loc[list(datetimes_to_remove), "value"] = np.nan
                     core.log.info(
                         f"{len(datetimes_to_remove)} {variable_code} values were set to NaNs in file"
                     )
 
+                else:
+                    core.log.info(
+                        f"No {variable_code} values matching the given datetimes to remove were found."
+                    )
+                    continue
             else:
                 core.log.warning(
                     f"Values path {values_path} not found in {site_data_path}."
@@ -249,9 +249,8 @@ def remove_values(
             store[values_path] = values_df
             something_changed = True
 
-    if autorepack:
-        if something_changed:
-            repack(site_data_path, complevel=complevel, complib=complib)
+    if autorepack and something_changed:
+        repack(site_data_path, complevel=complevel, complib=complib)
 
 
 def repack(path, complevel=None, complib=None):
@@ -508,13 +507,10 @@ def _compression_kwargs(complevel=None, complib=None):
     if complib is None and complevel is None:
         possible_compressions = ("blosc", "zlib")
         for possible_compression in possible_compressions:
-            try:
+            with contextlib.suppress(tables.FiltersWarning):
                 try_kwargs = dict(complevel=9, complib=possible_compression)
                 tables.Filters(**try_kwargs)
                 return try_kwargs
-            except tables.FiltersWarning:
-                pass
-
         complevel = 0
 
     elif complib is not None and complevel is None:

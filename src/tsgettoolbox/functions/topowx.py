@@ -179,7 +179,7 @@ def topowx(
     r"""Download topowx data from CIDA."""
     url = "https://cida.usgs.gov/thredds/dodsC/topowx_monthly"
 
-    df = utils.opendap(
+    return utils.opendap(
         url,
         lat,
         lon,
@@ -189,8 +189,6 @@ def topowx(
         end_date=end_date,
         time_name="time",
     )
-
-    return df
 
 
 topowx.__doc__ = topowx_cli.__doc__

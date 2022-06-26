@@ -62,13 +62,12 @@ def _cast_if_text(obj):
     """casts sax.text.Text objects to regular python strings, but leaves other
     objects unchanged
     """
-    if isinstance(obj, suds.sax.text.Text):
-        try:
-            return str(obj)
-        except UnicodeEncodeError:
-            return str(obj)
-    else:
+    if not isinstance(obj, suds.sax.text.Text):
         return obj
+    try:
+        return str(obj)
+    except UnicodeEncodeError:
+        return str(obj)
 
 
 def _service_dict(service_info):

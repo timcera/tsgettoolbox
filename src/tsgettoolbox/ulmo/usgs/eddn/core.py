@@ -172,27 +172,24 @@ def get_data(
         except:
             drs_since = "now -2 days"
 
-    if end:
-        drs_until = _format_time(end)
-    else:
-        drs_until = "now"
-
-    params = {}
-    params["DCP_ADDRESS"] = dcp_address
-    params["DRS_SINCE"] = drs_since
-    params["DRS_UNTIL"] = drs_until
-    params["NETWORKLIST"] = networklist
-    params["CHANNEL"] = channel
-    params["BEFORE"] = ("//START\n",)
-    params["AFTER"] = ("\n//END\n",)
-    params["SPACECRAFT"] = spacecraft
-    params["BAUD"] = baud
-    params["ELECTRONIC_MAIL"] = electronic_mail
-    params["DCP_BUL"] = dcp_bul
-    params["GLOB_BUL"] = glob_bul
-    params["TIMING"] = timing
-    params["RETRANSMITTED"] = retransmitted
-    params["DAPS_STATUS"] = daps_status
+    drs_until = _format_time(end) if end else "now"
+    params = {
+        "DCP_ADDRESS": dcp_address,
+        "DRS_SINCE": drs_since,
+        "DRS_UNTIL": drs_until,
+        "NETWORKLIST": networklist,
+        "CHANNEL": channel,
+        "BEFORE": ("//START\n",),
+        "AFTER": ("\n//END\n",),
+        "SPACECRAFT": spacecraft,
+        "BAUD": baud,
+        "ELECTRONIC_MAIL": electronic_mail,
+        "DCP_BUL": dcp_bul,
+        "GLOB_BUL": glob_bul,
+        "TIMING": timing,
+        "RETRANSMITTED": retransmitted,
+        "DAPS_STATUS": daps_status,
+    }
 
     data_limit_reached = True
     messages = []
@@ -218,10 +215,7 @@ def get_data(
             shutil.move(tmp, dcp_data_path)
 
     if data.empty:
-        if as_dataframe:
-            return data
-        return {}
-
+        return data if as_dataframe else {}
     if start:
         if start.startswith("P"):
             start = data["message_timestamp_utc"][-1] - isodate.parse_duration(start)

@@ -52,7 +52,6 @@ def get_station_data(station_code, date=None, as_dataframe=False):
     data_dict : dict
         A dict containing station information and values.
     """
-    station_dict = {}
     if date is None:
         date_str = "current"
         year = datetime.date.today().year
@@ -79,9 +78,7 @@ def get_station_data(station_code, date=None, as_dataframe=False):
     first_line = sio.readline()
     split = first_line[8:].strip().split()
 
-    station_dict["code"] = split[0]
-    station_dict["description"] = " ".join(split[1:])
-
+    station_dict = {"code": split[0], "description": " ".join(split[1:])}
     second_line = sio.readline()
     station_dict["station_type"] = second_line.strip().split(":")[1].strip()
 

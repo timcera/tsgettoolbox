@@ -73,20 +73,22 @@ def user_data_dir(appname=None, appauthor=None, version=None, roaming=False):
     For Unix, we follow the XDG spec and support $XDG_DATA_HOME.
     That means, by default "~/.local/share/<AppName>".
     """
-    if system == "win32":
+    if system == "darwin":
+        path = os.path.expanduser("~/Library/Application Support/")
+        if appname:
+            path = os.path.join(path, appname)
+    elif system == "win32":
         if appauthor is None:
             appauthor = appname
         const = "CSIDL_APPDATA" if roaming else "CSIDL_LOCAL_APPDATA"
         path = os.path.normpath(_get_win_folder(const))
         if appname:
-            if appauthor is not False:
-                path = os.path.join(path, appauthor, appname)
-            else:
-                path = os.path.join(path, appname)
-    elif system == "darwin":
-        path = os.path.expanduser("~/Library/Application Support/")
-        if appname:
-            path = os.path.join(path, appname)
+            path = (
+                os.path.join(path, appauthor, appname)
+                if appauthor is not False
+                else os.path.join(path, appname)
+            )
+
     else:
         path = os.getenv("XDG_DATA_HOME", os.path.expanduser("~/.local/share"))
         if appname:
@@ -127,19 +129,21 @@ def site_data_dir(appname=None, appauthor=None, version=None, multipath=False):
 
     WARNING: Do not use this on Windows. See the Vista-Fail note above for why.
     """
-    if system == "win32":
+    if system == "darwin":
+        path = os.path.expanduser("/Library/Application Support")
+        if appname:
+            path = os.path.join(path, appname)
+    elif system == "win32":
         if appauthor is None:
             appauthor = appname
         path = os.path.normpath(_get_win_folder("CSIDL_COMMON_APPDATA"))
         if appname:
-            if appauthor is not False:
-                path = os.path.join(path, appauthor, appname)
-            else:
-                path = os.path.join(path, appname)
-    elif system == "darwin":
-        path = os.path.expanduser("/Library/Application Support")
-        if appname:
-            path = os.path.join(path, appname)
+            path = (
+                os.path.join(path, appauthor, appname)
+                if appauthor is not False
+                else os.path.join(path, appname)
+            )
+
     else:
         # XDG default for $XDG_DATA_DIRS
         # only first, if multipath is False
@@ -154,10 +158,7 @@ def site_data_dir(appname=None, appauthor=None, version=None, multipath=False):
                 appname = os.path.join(appname, version)
             pathlist = [os.sep.join([x, appname]) for x in pathlist]
 
-        if multipath:
-            path = os.pathsep.join(pathlist)
-        else:
-            path = pathlist[0]
+        path = os.pathsep.join(pathlist) if multipath else pathlist[0]
         return path
 
     if appname and version:
@@ -239,14 +240,14 @@ def site_config_dir(appname=None, appauthor=None, version=None, multipath=False)
 
     WARNING: Do not use this on Windows. See the Vista-Fail note above for why.
     """
-    if system == "win32":
-        path = site_data_dir(appname, appauthor)
-        if appname and version:
-            path = os.path.join(path, version)
-    elif system == "darwin":
+    if system == "darwin":
         path = os.path.expanduser("/Library/Preferences")
         if appname:
             path = os.path.join(path, appname)
+    elif system == "win32":
+        path = site_data_dir(appname, appauthor)
+        if appname and version:
+            path = os.path.join(path, version)
     else:
         # XDG default for $XDG_CONFIG_DIRS
         # only first, if multipath is False
@@ -259,10 +260,7 @@ def site_config_dir(appname=None, appauthor=None, version=None, multipath=False)
                 appname = os.path.join(appname, version)
             pathlist = [os.sep.join([x, appname]) for x in pathlist]
 
-        if multipath:
-            path = os.pathsep.join(pathlist)
-        else:
-            path = pathlist[0]
+        path = os.pathsep.join(pathlist) if multipath else pathlist[0]
     return path
 
 
@@ -299,21 +297,23 @@ def user_cache_dir(appname=None, appauthor=None, version=None, opinion=True):
     OPINION: This function appends "Cache" to the `CSIDL_LOCAL_APPDATA` value.
     This can be disabled with the `opinion=False` option.
     """
-    if system == "win32":
+    if system == "darwin":
+        path = os.path.expanduser("~/Library/Caches")
+        if appname:
+            path = os.path.join(path, appname)
+    elif system == "win32":
         if appauthor is None:
             appauthor = appname
         path = os.path.normpath(_get_win_folder("CSIDL_LOCAL_APPDATA"))
         if appname:
-            if appauthor is not False:
-                path = os.path.join(path, appauthor, appname)
-            else:
-                path = os.path.join(path, appname)
+            path = (
+                os.path.join(path, appauthor, appname)
+                if appauthor is not False
+                else os.path.join(path, appname)
+            )
+
             if opinion:
                 path = os.path.join(path, "Cache")
-    elif system == "darwin":
-        path = os.path.expanduser("~/Library/Caches")
-        if appname:
-            path = os.path.join(path, appname)
     else:
         path = os.getenv("XDG_CACHE_HOME", os.path.expanduser("~/.cache"))
         if appname:
@@ -502,13 +502,7 @@ def _get_win_folder_with_ctypes(csidl_name):
     buf = ctypes.create_unicode_buffer(1024)
     ctypes.windll.shell32.SHGetFolderPathW(None, csidl_const, None, 0, buf)
 
-    # Downgrade to short path name if have highbit chars. See
-    # <http://bugs.activestate.com/show_bug.cgi?id=85099>.
-    has_high_char = False
-    for c in buf:
-        if ord(c) > 255:
-            has_high_char = True
-            break
+    has_high_char = any(ord(c) > 255 for c in buf)
     if has_high_char:
         buf2 = ctypes.create_unicode_buffer(1024)
         if ctypes.windll.kernel32.GetShortPathNameW(buf.value, buf2, 1024):
@@ -535,13 +529,7 @@ def _get_win_folder_with_jna(csidl_name):
     )
     dir = jna.Native.toString(buf.tostring()).rstrip("\0")
 
-    # Downgrade to short path name if have highbit chars. See
-    # <http://bugs.activestate.com/show_bug.cgi?id=85099>.
-    has_high_char = False
-    for c in dir:
-        if ord(c) > 255:
-            has_high_char = True
-            break
+    has_high_char = any(ord(c) > 255 for c in dir)
     if has_high_char:
         buf = array.zeros("c", buf_size)
         kernel = win32.Kernel32.INSTANCE

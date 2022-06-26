@@ -111,13 +111,12 @@ def cpc(
     end_date=None,
 ):
     r"""Access Climate Prediction Center, Weekly Drought Index dataset."""
-    df = ulmo_df(
+    return ulmo_df(
         state=state,
         climate_division=climate_division,
         start_date=tsutils.parsedate(start_date),
         end_date=tsutils.parsedate(end_date),
     )
-    return df
 
 
 cpc.__doc__ = cpc_cli.__doc__

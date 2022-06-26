@@ -168,7 +168,7 @@ def _check_layer(layer):
     """
     make sure the passed layer name is one of the handled options
     """
-    if not layer in get_available_layers():
+    if layer not in get_available_layers():
         err_msg = f"The specified layer parameter ({layer})"
         err_msg += "\nis not in the available options:"
         err_msg += "\n\t".join(get_available_layers())

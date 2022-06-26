@@ -115,18 +115,16 @@ def get_daymet_singlepixel(
     df.columns = [c[: c.index("(")].strip() if "(" in c else c for c in df.columns]
     if as_dataframe:
         return df
-    results = {}
-    for key in df.columns:
-        if key not in ["yday", "year"]:
-            results[key] = dict(zip(df[key].index.format(), df[key]))
-    return results
+    return {
+        key: dict(zip(df[key].index.format(), df[key]))
+        for key in df.columns
+        if key not in ["yday", "year"]
+    }
 
 
 def _check_variables(variables):
     """make sure all variables are in list"""
-    bad_variables = [v for v in variables if v not in VARIABLES.keys()]
-    if bad_variables:
-
+    if bad_variables := [v for v in variables if v not in VARIABLES.keys()]:
         raise ValueError(
             f"""the variable(s) provided ('{"', '".join(bad_variables)}') not
 one of available options: '{str(VARIABLES.keys())[2:-2]}'"""
@@ -135,8 +133,9 @@ one of available options: '{str(VARIABLES.keys())[2:-2]}'"""
 
 def _check_years(years):
     """make sure all years are in available year range"""
-    bad_years = [str(year) for year in years if not MIN_YEAR <= year <= MAX_Year]
-    if bad_years:
+    if bad_years := [
+        str(year) for year in years if not MIN_YEAR <= year <= MAX_Year
+    ]:
         raise ValueError(
             f"the year(s) provided ({', '.join(bad_years)}) \nnot in available timerange ({MIN_YEAR}-{MAX_Year})"
         )
@@ -157,9 +156,7 @@ def _check_coordinates(lat, lon):
 
 def _as_str(arg):
     """if arg is a list, convert to comma delimited string"""
-    if isinstance(arg, str):
-        return arg
-    return ",".join([str(a) for a in arg])
+    return arg if isinstance(arg, str) else ",".join([str(a) for a in arg])
 
 
 def _get_service_url(url_params):

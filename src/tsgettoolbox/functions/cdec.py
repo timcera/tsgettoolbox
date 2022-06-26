@@ -230,9 +230,9 @@ def get_stations():
     url = "https://cdec.water.ca.gov/misc/all_stations.csv"
     # the csv is malformed, so some rows think there are 7 fields
     col_names = ["id", "meta_url", "name", "num", "lat", "lon", "junk"]
-    df = pd.read_csv(url, names=col_names, header=None, quotechar="'", index_col=0)
-
-    return df
+    return pd.read_csv(
+        url, names=col_names, header=None, quotechar="'", index_col=0
+    )
 
 
 def get_sensors(sensor_id=None):
@@ -459,14 +459,13 @@ def cdec(
     end_date=None,
 ):
     r"""Access data from the `California Department of Water Resources`_."""
-    df = download_data(
+    return download_data(
         station_id,
         dur_code=dur_code,
         sensor_num=sensor_num,
         start_date=tsutils.parsedate(start_date),
         end_date=tsutils.parsedate(end_date),
     )
-    return df
 
 
 cdec.__doc__ = cdec_cli.__doc__

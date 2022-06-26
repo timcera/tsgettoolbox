@@ -147,8 +147,8 @@ _rename = {
     "LRAD1": "LWRAD",
     "BAR": "PRES:hPa",
 }
-for item in _headermap:
-    _rename.update(_headermap[item])
+for value in _headermap.values():
+    _rename |= value
 
 _mapnumtoname = {
     0: "Jan",
@@ -192,12 +192,10 @@ def ndbc_to_df(url, **query_params):
             f"{url}/historical/{table}/{query_params['station']}{_lmap[table]}{yr}.txt.gz"
         )
     if edate.year == cyear.year:
-        for mnth in range(edate.month):
-            # Monthly
-            # https://www.ndbc.noaa.gov/data/stdmet/Mar/sauf132018.txt.gz
-            filenames.append(
-                f"{url}/{table}/{_mapnumtoname[mnth]}/{query_params['station']}{mnth+1}{yr}.txt.gz"
-            )
+        filenames.extend(
+            f"{url}/{table}/{_mapnumtoname[mnth]}/{query_params['station']}{mnth+1}{yr}.txt.gz"
+            for mnth in range(edate.month)
+        )
 
     resp = ar.retrieve_binary(filenames, [{}] * len(filenames))
     resp = [BytesIO(i) for i in resp]
@@ -807,15 +805,13 @@ def ndbc_cli(station, table, startUTC, endUTC=None):
 
 def ndbc(station, table, startUTC, endUTC=None):
     r"""Download historical from the National Data Buoy Center."""
-    df = ndbc_to_df(
+    return ndbc_to_df(
         r"https://www.ndbc.noaa.gov/data/",
         table=table,
         station=station,
         startUTC=startUTC,
         endUTC=endUTC,
     )
-
-    return df
 
 
 ndbc.__doc__ = ndbc_cli.__doc__

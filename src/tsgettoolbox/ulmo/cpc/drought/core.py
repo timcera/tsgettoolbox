@@ -106,15 +106,8 @@ def get_data(
         A dict or pandas.DataFrame representing the data. See the
         ``as_dataframe`` parameter for more.
     """
-    if start is not None:
-        start_date = util.convert_date(start)
-    else:
-        start_date = None
-    if end is not None:
-        end_date = util.convert_date(end)
-    else:
-        end_date = None
-
+    start_date = util.convert_date(start) if start is not None else None
+    end_date = util.convert_date(end) if end is not None else None
     if not end_date:
         end_date = datetime.date.today()
     if not start_date:
@@ -122,11 +115,7 @@ def get_data(
 
     start_year, start_week = _week_number(start_date)
     end_year, end_week = _week_number(end_date)
-    if state:
-        state_code = STATE_CODES.get(state.upper())
-    else:
-        state_code = None
-
+    state_code = STATE_CODES.get(state.upper()) if state else None
     data = None
     for year in range(start_year, end_year + 1):
         url, current_year_flag = _get_data_url(year)
@@ -334,8 +323,7 @@ def _parse_data_file(data_file, palmer_format, year, current_year_flag):
     )
     if not current_year_flag:
         data_array["year"] = year
-    dataframe = pandas.DataFrame(data_array)
-    return dataframe
+    return pandas.DataFrame(data_array)
 
 
 def _periods_for_range(start_date, end_date):
