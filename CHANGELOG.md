@@ -1,3 +1,9 @@
+## v23.27.0 (2022-07-06)
+
+### Feat
+
+- **hydstra**: thanks to Tom Jobes who added support for the hydstra web services
+
 ## v23.26.7 (2022-06-22)
 
 ### Fix
