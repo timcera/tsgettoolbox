@@ -164,9 +164,7 @@ def _get_element_file(use_file, element, elements, by_state):
         ):
             raise AssertionError
 
-        return use_file + _get_filename(
-            element, by_state, os.path.dirname(use_file)
-        )
+        return use_file + _get_filename(element, by_state, os.path.dirname(use_file))
 
     return use_file
 

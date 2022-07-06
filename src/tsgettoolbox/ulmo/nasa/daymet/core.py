@@ -133,9 +133,7 @@ one of available options: '{str(VARIABLES.keys())[2:-2]}'"""
 
 def _check_years(years):
     """make sure all years are in available year range"""
-    if bad_years := [
-        str(year) for year in years if not MIN_YEAR <= year <= MAX_Year
-    ]:
+    if bad_years := [str(year) for year in years if not MIN_YEAR <= year <= MAX_Year]:
         raise ValueError(
             f"the year(s) provided ({', '.join(bad_years)}) \nnot in available timerange ({MIN_YEAR}-{MAX_Year})"
         )

@@ -127,10 +127,7 @@ def file_downloader(baseurl, station, startdate=None, enddate=None):
 
     station = station.split(":")[-1]
 
-    urls = [
-        baseurl.format(**locals())
-        for _ in range(startdate.year, enddate.year + 1)
-    ]
+    urls = [baseurl.format(**locals()) for _ in range(startdate.year, enddate.year + 1)]
 
     with Pool(processes=os.cpu_count()) as pool:
         # have your pool map the file names to dataframes
@@ -222,7 +219,12 @@ The variable "{var}" is not available.  The available variables are "{allvars}".
 
 
 def dapdownloader(url, lat, lon, var, time_name="date", start_date=None, end_date=None):
-    ncss = NCSS(url)
+    for u in tsutils.make_list(url):
+        try:
+            ncss = NCSS(u.format(**locals()))
+            break
+        except xml.etree.ElementTree.ParseError:
+            pass
 
     avail_vars = list(ncss.variables)
     var = tsutils.make_list(var)
@@ -241,15 +243,13 @@ def dapdownloader(url, lat, lon, var, time_name="date", start_date=None, end_dat
         start_date = datetime.datetime(1, 1, 1)
     if end_date is None:
         end_date = datetime.datetime(9999, 1, 1)
-
-    if (start_date is None) and (end_date is None):
-        query.all_times()
-    else:
-        query.time_range(start_date, end_date)
-
+    query.time_range(start_date, end_date)
     query.variables(*var)
 
-    query.lonlat_point(lon, lat)
+    if tsutils.make_list(lon) == 2 and tsutils.make_list(lat) == 2:
+        query.lonlat_box(lon[0], lon[1], lat[0], lat[1])
+    else:
+        query.lonlat_point(lon, lat)
 
     ncss.validate_query(query)
 
@@ -527,8 +527,7 @@ def nopendap(
             vmap = variable_map[v]
         except KeyError:
             vmap = {
-                variable_map[key]["lname"]: value
-                for key, value in variable_map.items()
+                variable_map[key]["lname"]: value for key, value in variable_map.items()
             }
 
             vmap = vmap[v]

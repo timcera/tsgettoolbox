@@ -232,7 +232,9 @@ def get_site_data(
         for chunk in pandas.np.arange(chunks) + 1:
             request_start_date = start_date + relativedelta(days=180 * (chunk - 1))
             chunk_end_date = start_date + relativedelta(days=180 * chunk)
-            request_end_date = end_date if chunk_end_date >= end_date else chunk_end_date
+            request_end_date = (
+                end_date if chunk_end_date >= end_date else chunk_end_date
+            )
             log.info(
                 f"getting chunk: {chunk}, start: {request_start_date}, end: {request_end_date}, parameter: {parameter_code}"
             )

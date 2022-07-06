@@ -272,9 +272,7 @@ _GRACE = {
         "percent",
     ],
 }
-_UNITS_MAP = (
-    _NLDAS_FORA | _NLDAS_NOAH | _GLDAS_NOAH | _TRMM_TMPA | _SMERGE | _GRACE
-)
+_UNITS_MAP = _NLDAS_FORA | _NLDAS_NOAH | _GLDAS_NOAH | _TRMM_TMPA | _SMERGE | _GRACE
 
 _MERRA = {
     "MERRA:M2I1NXLFO.5124:QLML": ["Surface specific humidity:instant", "1"],

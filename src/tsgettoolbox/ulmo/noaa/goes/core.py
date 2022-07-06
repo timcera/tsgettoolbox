@@ -105,7 +105,7 @@ def get_data(dcp_address, hours, use_cache=False, cache_path=None, as_dataframe=
         dcp_data_path = _get_store_path(cache_path, f"{dcp_address}.h5")
         if os.path.exists(dcp_data_path):
             data = pd.read_hdf(dcp_data_path, dcp_address)
-    params = {"addr": (dcp_address, ), "hours": (hours, )}
+    params = {"addr": (dcp_address,), "hours": (hours,)}
     messages = _fetch_url(params)
     new_data = pd.DataFrame([_parse(row) for row in messages])
 

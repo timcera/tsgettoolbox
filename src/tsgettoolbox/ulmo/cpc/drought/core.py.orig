@@ -6,8 +6,8 @@
     This module provides direct access to `Climate Predicition Center`_ `Weekly
     Drought Index`_ dataset.
 
-    .. _Climate Prediction Center: http://www.cpc.ncep.noaa.gov/
-    .. _Weekly Drought Index: http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
+    .. _Climate Prediction Center: https://www.cpc.ncep.noaa.gov/
+    .. _Weekly Drought Index: https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
 """
 
 import datetime
@@ -81,7 +81,6 @@ def get_data(
 ):
     """Retreives data.
 
-
     Parameters
     ----------
     state : ``None`` or str
@@ -100,7 +99,6 @@ def get_data(
         then a pandas.DataFrame object will be returned.  The pandas dataframe
         is used internally, so setting this to ``True`` is a little bit faster
         as it skips a serialization step.
-
 
     Returns
     -------
@@ -131,7 +129,6 @@ def get_data(
             year_data = year_data[year_data["state_code"] == state_code]
         if climate_division:
             year_data = year_data[year_data["climate_division"] == climate_division]
-
         year_data = _reindex_data(year_data)
 
         if data is None:

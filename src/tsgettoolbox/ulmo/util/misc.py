@@ -68,7 +68,6 @@ def dict_from_dataframe(dataframe):
             orient="index"
         )
 
-
     for column_name in dataframe.columns:
         dataframe[column_name][pandas.isnull(dataframe[column_name])] = None
     return dataframe.T.to_dict()

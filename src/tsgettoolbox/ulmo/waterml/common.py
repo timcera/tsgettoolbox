@@ -143,10 +143,7 @@ def parse_variables(content_io, namespace):
         _parse_variable(variable_element, namespace)
         for variable_element in variable_elements
     ]
-    return {
-        variable_dict["code"]: variable_dict
-        for variable_dict in variable_dicts
-    }
+    return {variable_dict["code"]: variable_dict for variable_dict in variable_dicts}
 
 
 def _element_dict(element, exclude_children=None, prepend_attributes=True):
@@ -178,7 +175,6 @@ def _element_dict(element, exclude_children=None, prepend_attributes=True):
         for key, value in element.attrib.items()
         if value.split(":")[0] not in ["xsd", "xsi"]
     }
-
 
     for child in element.iterchildren():
         if child.tag.split("}")[-1] not in exclude_children:
@@ -310,9 +306,7 @@ def _parse_site_info(site_info, namespace):
         return_dict["elevation_m"] = elevation_m.text
 
     if notes := {
-        util.camel_to_underscore(
-            note.attrib["title"].replace(" ", "")
-        ): note.text
+        util.camel_to_underscore(note.attrib["title"].replace(" ", "")): note.text
         for note in site_info.findall(f"{namespace}note")
     }:
         return_dict["notes"] = notes

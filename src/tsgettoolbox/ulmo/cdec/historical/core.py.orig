@@ -74,7 +74,9 @@ def get_stations():
     url = "http://cdec.water.ca.gov/misc/all_stations.csv"
     # the csv is malformed, so some rows think there are 7 fields
     col_names = ["id", "meta_url", "name", "num", "lat", "lon", "junk"]
-    return pd.read_csv(url, names=col_names, header=None, quotechar="'", index_col=0)
+    return pd.read_csv(
+        url, names=col_names, header=None, quotechar="'", index_col=0
+    )
 
 
 def get_sensors(sensor_id=None):
@@ -99,7 +101,6 @@ def get_sensors(sensor_id=None):
     df : pandas DataFrame
         a python dict with site codes mapped to site information
     """
-
     url = "http://cdec.water.ca.gov/misc/senslist.html"
     df = pd.read_html(url, header=0)[0]
     df.set_index("Sensor No")
@@ -127,19 +128,15 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
         # to get all available sensors
         available_sensors = cdec.historical.get_station_sensors(['NEW'])
 
-
     Parameters
     ----------
     station_ids : iterable of strings or ``None``
-
     sensor_ids : iterable of integers or ``None``
         check out  or use the ``get_sensors()`` function to see a list of
         available sensor numbers
-
     resolutions : iterable of strings or ``None``
         Possible values are 'event', 'hourly', 'daily', and 'monthly' but not
         all of these time resolutions are available at every station.
-
 
     Returns
     -------
@@ -191,7 +188,6 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
     choosing hourly resolution as the data sets are big, and CDEC's servers
     are slow as molasses in winter.
 
-
     Usage example::
 
         from tsgettoolbox.ulmo import cdec
@@ -200,15 +196,12 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
     Parameters
     ----------
     station_ids : iterable of strings or ``None``
-
     sensor_ids : iterable of integers or ``None``
         check out  or use the ``get_sensors()`` function to see a list of
         available sensor numbers
-
     resolutions : iterable of strings or ``None``
         Possible values are 'event', 'hourly', 'daily', and 'monthly' but not
         all of these time resolutions are available at every station.
-
 
     Returns
     -------
@@ -216,7 +209,6 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
         a python dict with site codes as keys. Values will be nested dicts
         containing all of the sensor/resolution combinations.
     """
-
     if start is None:
         start_date = util.convert_date(DEFAULT_START_DATE)
     else:

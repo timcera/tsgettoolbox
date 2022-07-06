@@ -37,9 +37,7 @@ def update_data(station_codes=None, start_year=None, end_year=None, path=None):
     if not start_year:
         last_updated = _last_updated()
         start_year = (
-            last_updated.year
-            if last_updated
-            else core.NCDC_GSOD_START_DATE.year
+            last_updated.year if last_updated else core.NCDC_GSOD_START_DATE.year
         )
 
     if not end_year:

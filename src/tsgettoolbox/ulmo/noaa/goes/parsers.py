@@ -249,9 +249,7 @@ def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=Tru
         data.append(df)
 
     data.extend(
-        _twdb_assemble_dataframe(
-            message_timestamp, channel, value, reverse=reverse
-        )
+        _twdb_assemble_dataframe(message_timestamp, channel, value, reverse=reverse)
         for channel, value in water_data.items()
     )
 
