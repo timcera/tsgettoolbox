@@ -272,7 +272,6 @@ _GRACE = {
         "percent",
     ],
 }
-_UNITS_MAP = _NLDAS_FORA | _NLDAS_NOAH | _GLDAS_NOAH | _TRMM_TMPA | _SMERGE | _GRACE
 
 _MERRA = {
     "MERRA:M2I1NXLFO.5124:QLML": ["Surface specific humidity:instant", "1"],
@@ -292,7 +291,7 @@ _MERRA = {
         "W/m**2",
     ],
 }
-_UNITS_MAP |= _MERRA
+
 _MERRA_UPDATE = {
     "MERRA:MST1NXMLD.520:BASEFLOW": ["Baseflow", "mm/s"],
     "MERRA:MST1NXMLD.520:LHLAND": ["Latent heat flux from land", "W/m**2"],
@@ -303,7 +302,15 @@ _MERRA_UPDATE = {
     "MERRA:MST1NXMLD.520:SHLAND": ["Sensible heat flux from land", "W/m**2"],
     "MERRA:MST1NXMLD.520:TSOIL1": ["Soil temperature in layer 1", "K"],
 }
-_UNITS_MAP |= _MERRA_UPDATE
+
+_UNITS_MAP = _NLDAS_FORA
+_UNITS_MAP.update(_NLDAS_NOAH)
+_UNITS_MAP.update(_GLDAS_NOAH)
+_UNITS_MAP.update(_TRMM_TMPA)
+_UNITS_MAP.update(_SMERGE)
+_UNITS_MAP.update(_GRACE)
+_UNITS_MAP.update(_MERRA)
+_UNITS_MAP.update(_MERRA_UPDATE)
 
 _varmap = {
     "MST1NXMLD.520": "MERRA",

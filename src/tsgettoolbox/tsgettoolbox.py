@@ -26,6 +26,7 @@ from .functions.coops import coops
 from .functions.cpc import cpc
 from .functions.daymet import daymet
 from .functions.fawn import fawn
+from .functions.hydstra import hydstra_catalog, hydstra_stations, hydstra_ts
 from .functions.ldas import (
     ldas,
     ldas_gldas_noah,

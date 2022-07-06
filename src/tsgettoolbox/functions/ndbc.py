@@ -148,7 +148,7 @@ _rename = {
     "BAR": "PRES:hPa",
 }
 for value in _headermap.values():
-    _rename |= value
+    _rename.update(value)
 
 _mapnumtoname = {
     0: "Jan",
