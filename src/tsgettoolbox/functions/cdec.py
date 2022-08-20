@@ -3,7 +3,7 @@ import warnings
 from typing import Optional, Union
 
 import pandas as pd
-from mando import command
+from cltoolbox import command
 from tstoolbox import tsutils
 
 try:
@@ -12,7 +12,7 @@ except ImportError:
     from typing_extensions import Literal
 
 try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
@@ -78,7 +78,7 @@ sensor_num_map = {
 }
 
 
-@command("cdec", formatter_class=HelpFormatter, doctype="numpy")
+@command("cdec", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.docstrings)
 def cdec_cli(
     station_id, dur_code=None, sensor_num=None, start_date=None, end_date=None

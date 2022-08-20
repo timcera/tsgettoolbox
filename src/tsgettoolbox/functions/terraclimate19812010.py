@@ -5,13 +5,13 @@
 
 import datetime
 
-import mando
+import cltoolbox
 import pandas as pd
 
 from tsgettoolbox import utils
 
 try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
@@ -101,7 +101,7 @@ _avail_vars = {
 }
 
 
-@mando.command("terraclimate19812010", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("terraclimate19812010", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.docstrings)
 def terraclimate19812010_cli(
     lat: float,

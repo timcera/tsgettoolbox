@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import mando
+import cltoolbox
 import numpy as np
 import pandas as pd
 from cdo_api_py import Client
 
 try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
@@ -343,7 +343,7 @@ def esgf_cdo_json_to_df(
 
 
 # 1763-01-01, 2016-11-05, Daily Summaries             , 1    , GHCND
-@mando.command("esgf_ghcnd", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("esgf_ghcnd", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, esgf_ghcnd_docstrings))
 def esgf_ghcnd_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""station: Global Historical Climatology Network - Daily (GHCND)
@@ -425,7 +425,7 @@ def esgf(stationid, datatypeid=None, start_date=None, end_date=None):
     )
 
 
-@mando.command("esgf_gsod", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("esgf_gsod", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, esgf_ghcnd_docstrings))
 def esgf_gsod_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""station: esgf Global Summary of the Day (GSOD)
@@ -927,7 +927,7 @@ def esgf_gsod(stationid, datatypeid=None, start_date=None, end_date=None):
 
 
 # 1763-01-01, 2016-09-01, Global Summary of the Month , 1    , GSOM
-@mando.command("esgf_gsom", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("esgf_gsom", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, esgf_ghcnd_docstrings))
 def esgf_gsom_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""station: esgf Global Summary of Month (GSOM)
@@ -1428,7 +1428,7 @@ def esgf_gsom(stationid, datatypeid=None, start_date=None, end_date=None):
 
 
 # 1763-01-01, 2016-01-01, Global Summary of the Year  , 1    , GSOY
-@mando.command("esgf_gsoy", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("esgf_gsoy", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, esgf_ghcnd_docstrings))
 def esgf_gsoy_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""station: esgf Global Summary of Year (GSOY)
@@ -1923,7 +1923,7 @@ def esgf_gsoy(stationid, datatypeid=None, start_date=None, end_date=None):
 
 
 # 1991-06-05, 2016-11-06, Weather Radar (Level II)    , 0.95 , NEXRAD2
-# @mando.command('esgf_nexrad2', formatter_class=HelpFormatter, doctype='numpy')
+# @cltoolbox.command('esgf_nexrad2', formatter_class=HelpFormatter)
 def esgf_nexrad2_cli(stationid, start_date=None, end_date=None):
     r"""station: esgf NEXRAD Level II.
 
@@ -1965,7 +1965,7 @@ def esgf_nexrad2(stationid, datatypeid=None, start_date=None, end_date=None):
 
 
 # 1991-06-05, 2016-11-06, Weather Radar (Level III)   , 0.95 , NEXRAD3
-# @mando.command('esgf_nexrad3',formatter_class=HelpFormatter, doctype='numpy')
+# @cltoolbox.command('esgf_nexrad3',formatter_class=HelpFormatter)
 def esgf_nexrad3_cli(stationid, start_date=None, end_date=None):
     r"""station: esgf NEXRAD Level III.
 
@@ -2007,7 +2007,7 @@ def esgf_nexrad3(stationid, datatypeid=None, start_date=None, end_date=None):
 
 
 # 2010-01-01, 2010-01-01, Normals Annual/Seasonal     , 1    , NORMAL_ANN
-@mando.command("esgf_normal_ann", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("esgf_normal_ann", formatter_class=HelpFormatter)
 def esgf_normal_ann_cli(stationid, datatypeid=None):
     r"""station: esgf annual normals
 
@@ -3620,7 +3620,7 @@ def esgf_normal_ann(stationid, datatypeid=None):
 
 
 # 2010-01-01, 2010-12-31, Normals Daily               , 1    , NORMAL_DLY
-@mando.command("esgf_normal_dly", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("esgf_normal_dly", formatter_class=HelpFormatter)
 def esgf_normal_dly_cli(stationid, datatypeid=None):
     r"""station: esgf Daily Normals
 
@@ -3882,7 +3882,7 @@ def esgf_normal_dly(stationid, datatypeid=None):
 
 
 # 2010-01-01, 2010-12-31, Normals Hourly              , 1    , NORMAL_HLY
-@mando.command("esgf_normal_hly", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("esgf_normal_hly", formatter_class=HelpFormatter)
 def esgf_normal_hly_cli(stationid, datatypeid=None):
     r"""station: esgf Normal hourly
 
@@ -3989,7 +3989,7 @@ def esgf_normal_hly(stationid, datatypeid=None):
 
 
 # 2010-01-01, 2010-12-01, Normals Monthly             , 1    , NORMAL_MLY
-@mando.command("esgf_normal_mly", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("esgf_normal_mly", formatter_class=HelpFormatter)
 def esgf_normal_mly_cli(stationid, datatypeid=None):
     r"""station: esgf Monthly Summaries.
 
@@ -4308,7 +4308,7 @@ def esgf_normal_mly(stationid, datatypeid=None):
 
 
 # 1970-05-12, 2014-01-01, Precipitation 15 Minute     , 0.25 , PRECIP_15
-@mando.command("esgf_precip_15", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("esgf_precip_15", formatter_class=HelpFormatter)
 def esgf_precip_15_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""station: esgf 15 minute precipitation
 
@@ -4376,7 +4376,7 @@ def esgf_precip_15(stationid, datatypeid=None, start_date=None, end_date=None):
 
 
 # 1900-01-01, 2014-01-01, Precipitation Hourly        , 1    , PRECIP_HLY
-@mando.command("esgf_precip_hly", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("esgf_precip_hly", formatter_class=HelpFormatter)
 def esgf_precip_hly_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""station: esgf hourly precipitation
 
@@ -4439,7 +4439,7 @@ def esgf_precip_hly(stationid, datatypeid=None, start_date=None, end_date=None):
 
 
 # ANNUAL
-@mando.command("esgf_annual", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("esgf_annual", formatter_class=HelpFormatter)
 def esgf_annual_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""station: esgf annual data summaries
 
@@ -5360,7 +5360,7 @@ def esgf_annual(stationid, datatypeid=None, start_date=None, end_date=None):
 
 
 # GHCNDMS
-@mando.command("esgf_ghcndms", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("esgf_ghcndms", formatter_class=HelpFormatter)
 def esgf_ghcndms_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""station: esgf GHCND Monthly Summaries (GHCNDMS)
 
@@ -5768,7 +5768,7 @@ def esgf_ghcndms(stationid, datatypeid=None, start_date=None, end_date=None):
     )
 
 
-@mando.command("esgf_ish", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("esgf_ish", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, esgf_ghcnd_docstrings))
 def esgf_ish_cli(station, datatypeid=None, start_date=None, end_date=None):
     r"""station: Integrated Surface Database
@@ -5844,7 +5844,7 @@ def esgf_ish(station, datatypeid=None, start_date=None, end_date=None):
     return final
 
 
-# @mando.command("esgf_cirs", formatter_class=HelpFormatter, doctype="numpy")
+# @cltoolbox.command("esgf_cirs", formatter_class=HelpFormatter)
 def esgf_cirs_cli(elements=None, by_state=False, location_names="abbr"):
     """station: Retrieves climate indices
 

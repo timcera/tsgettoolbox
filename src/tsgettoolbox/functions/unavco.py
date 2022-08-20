@@ -4,11 +4,11 @@ import os
 from io import BytesIO
 
 import async_retriever as ar
-import mando
+import cltoolbox
 import pandas as pd
 
 try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
@@ -63,7 +63,7 @@ def unavco_to_df(url, **query_params):
     return df
 
 
-@mando.command("unavco", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("unavco", formatter_class=HelpFormatter)
 def unavco_cli(station, database="met", starttime=None, endtime=None):
     r"""US station: Download data from the Unavco web services.
 

@@ -3,11 +3,11 @@ import datetime
 from gzip import BadGzipFile, GzipFile
 from io import BytesIO, StringIO
 
-import mando
+import cltoolbox
 import pandas as pd
 
 try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
@@ -268,7 +268,7 @@ No data collected/available within this time frame.
     return df.loc[sdate:edate, :]
 
 
-@mando.command("ndbc", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("ndbc", formatter_class=HelpFormatter)
 def ndbc_cli(station, table, startUTC, endUTC=None):
     r"""US station T,6T,10T,15T,H,D:Download historical from the National Data Buoy Center.
 

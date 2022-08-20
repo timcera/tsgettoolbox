@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """Download data from topowx"""
 
-import mando
+import cltoolbox
 
 try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
@@ -36,7 +36,7 @@ _base_avail_vars = {
 tsutils.docstrings.update({k: v["standard_name"] for k, v in _base_avail_vars.items()})
 
 
-@mando.command("topowx", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("topowx", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.docstrings)
 def topowx_cli(
     lat,
@@ -172,7 +172,7 @@ def topowx_cli(
     )
 
 
-@mando.command("topowx_daily", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("topowx_daily", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.docstrings)
 def topowx_daily_cli(
     lat,
@@ -181,7 +181,7 @@ def topowx_daily_cli(
     start_date=None,
     end_date=None,
 ):
-    r"""US 30arcsecond 1948- M:Topoclimatic Daily Air Temperature Dataset.
+    r"""US 30arcsecond 1948- D:Topoclimatic Daily Air Temperature Dataset.
 
     institution: USGS
 

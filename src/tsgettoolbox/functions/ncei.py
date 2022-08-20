@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
 
-import mando
+import cltoolbox
 import numpy as np
 import pandas as pd
 from cdo_api_py import Client
 
 try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
@@ -331,7 +331,7 @@ ncei_ghcnd_docstrings = {
 }
 
 
-@mando.command("ncei_ghcnd_ftp", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("ncei_ghcnd_ftp", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncei_ghcnd_docstrings))
 def ncei_ghcnd_ftp_cli(station, start_date=None, end_date=None):
     r"""global station D:NCEI Global Historical Climatology Network - Daily (GHCND)
@@ -735,7 +735,7 @@ def ncei_cdo_json_to_df(
 
 
 # 1763-01-01, 2016-11-05, Daily Summaries             , 1    , GHCND
-@mando.command("ncei_ghcnd", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("ncei_ghcnd", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncei_ghcnd_docstrings))
 def ncei_ghcnd_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""global station D:Global Historical Climatology Network - Daily (GHCND)
@@ -797,7 +797,7 @@ def ncei_ghcnd(stationid, datatypeid=None, start_date=None, end_date=None):
     )
 
 
-@mando.command("ncei_gsod", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("ncei_gsod", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncei_ghcnd_docstrings))
 def ncei_gsod_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""global station D:NCEI Global Summary of the Day (GSOD)
@@ -1299,7 +1299,7 @@ def ncei_gsod(stationid, datatypeid=None, start_date=None, end_date=None):
 
 
 # 1763-01-01, 2016-09-01, Global Summary of the Month , 1    , GSOM
-@mando.command("ncei_gsom", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("ncei_gsom", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncei_ghcnd_docstrings))
 def ncei_gsom_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""global station M:NCEI Global Summary of Month (GSOM)
@@ -1800,7 +1800,7 @@ def ncei_gsom(stationid, datatypeid=None, start_date=None, end_date=None):
 
 
 # 1763-01-01, 2016-01-01, Global Summary of the Year  , 1    , GSOY
-@mando.command("ncei_gsoy", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("ncei_gsoy", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncei_ghcnd_docstrings))
 def ncei_gsoy_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""global station A:NCEI Global Summary of Year (GSOY)
@@ -2295,7 +2295,7 @@ def ncei_gsoy(stationid, datatypeid=None, start_date=None, end_date=None):
 
 
 # 1991-06-05, 2016-11-06, Weather Radar (Level II)    , 0.95 , NEXRAD2
-# @mando.command('ncei_nexrad2', formatter_class=HelpFormatter, doctype='numpy')
+# @cltoolbox.command('ncei_nexrad2', formatter_class=HelpFormatter)
 def ncei_nexrad2_cli(stationid, start_date=None, end_date=None):
     r"""station: NCEI NEXRAD Level II.
 
@@ -2337,7 +2337,7 @@ def ncei_nexrad2(stationid, datatypeid=None, start_date=None, end_date=None):
 
 
 # 1991-06-05, 2016-11-06, Weather Radar (Level III)   , 0.95 , NEXRAD3
-# @mando.command('ncei_nexrad3',formatter_class=HelpFormatter, doctype='numpy')
+# @cltoolbox.command('ncei_nexrad3',formatter_class=HelpFormatter)
 def ncei_nexrad3_cli(stationid, start_date=None, end_date=None):
     r"""station: NCEI NEXRAD Level III.
 
@@ -2379,7 +2379,7 @@ def ncei_nexrad3(stationid, datatypeid=None, start_date=None, end_date=None):
 
 
 # 2010-01-01, 2010-01-01, Normals Annual/Seasonal     , 1    , NORMAL_ANN
-@mando.command("ncei_normal_ann", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("ncei_normal_ann", formatter_class=HelpFormatter)
 def ncei_normal_ann_cli(stationid, datatypeid=None):
     r"""global station A: NCEI annual normals
 
@@ -3992,7 +3992,7 @@ def ncei_normal_ann(stationid, datatypeid=None):
 
 
 # 2010-01-01, 2010-12-31, Normals Daily               , 1    , NORMAL_DLY
-@mando.command("ncei_normal_dly", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("ncei_normal_dly", formatter_class=HelpFormatter)
 def ncei_normal_dly_cli(stationid, datatypeid=None):
     r"""global station D:NCEI Daily Normals
 
@@ -4254,7 +4254,7 @@ def ncei_normal_dly(stationid, datatypeid=None):
 
 
 # 2010-01-01, 2010-12-31, Normals Hourly              , 1    , NORMAL_HLY
-@mando.command("ncei_normal_hly", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("ncei_normal_hly", formatter_class=HelpFormatter)
 def ncei_normal_hly_cli(stationid, datatypeid=None):
     r"""global station H:NCEI Normal hourly
 
@@ -4361,7 +4361,7 @@ def ncei_normal_hly(stationid, datatypeid=None):
 
 
 # 2010-01-01, 2010-12-01, Normals Monthly             , 1    , NORMAL_MLY
-@mando.command("ncei_normal_mly", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("ncei_normal_mly", formatter_class=HelpFormatter)
 def ncei_normal_mly_cli(stationid, datatypeid=None):
     r"""global station M:NCEI Monthly Summaries.
 
@@ -4680,7 +4680,7 @@ def ncei_normal_mly(stationid, datatypeid=None):
 
 
 # 1970-05-12, 2014-01-01, Precipitation 15 Minute     , 0.25 , PRECIP_15
-@mando.command("ncei_precip_15", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("ncei_precip_15", formatter_class=HelpFormatter)
 def ncei_precip_15_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""global station 15T:NCEI 15 minute precipitation
 
@@ -4748,7 +4748,7 @@ def ncei_precip_15(stationid, datatypeid=None, start_date=None, end_date=None):
 
 
 # 1900-01-01, 2014-01-01, Precipitation Hourly        , 1    , PRECIP_HLY
-@mando.command("ncei_precip_hly", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("ncei_precip_hly", formatter_class=HelpFormatter)
 def ncei_precip_hly_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""global station H:NCEI hourly precipitation
 
@@ -4811,7 +4811,7 @@ def ncei_precip_hly(stationid, datatypeid=None, start_date=None, end_date=None):
 
 
 # ANNUAL
-@mando.command("ncei_annual", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("ncei_annual", formatter_class=HelpFormatter)
 def ncei_annual_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""global station A:NCEI annual data summaries
 
@@ -5732,7 +5732,7 @@ def ncei_annual(stationid, datatypeid=None, start_date=None, end_date=None):
 
 
 # GHCNDMS
-@mando.command("ncei_ghcndms", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("ncei_ghcndms", formatter_class=HelpFormatter)
 def ncei_ghcndms_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""global station M:NCEI GHCND Monthly Summaries (GHCNDMS)
 
@@ -6140,7 +6140,7 @@ def ncei_ghcndms(stationid, datatypeid=None, start_date=None, end_date=None):
     )
 
 
-@mando.command("ncei_ish", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("ncei_ish", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, ncei_ghcnd_docstrings))
 def ncei_ish_cli(station, datatypeid=None, start_date=None, end_date=None):
     r"""global station H:Integrated Surface Database
@@ -6415,7 +6415,7 @@ def ncei_ish(station, datatypeid=None, start_date=None, end_date=None):
     return final
 
 
-# @mando.command("ncei_cirs", formatter_class=HelpFormatter, doctype="numpy")
+# @cltoolbox.command("ncei_cirs", formatter_class=HelpFormatter)
 def ncei_cirs_cli(elements=None, by_state=False, location_names="abbr"):
     """global station: Retrieves climate indices
 

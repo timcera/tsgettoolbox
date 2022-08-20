@@ -2,10 +2,10 @@
 import datetime
 import json
 
-import mando
+import cltoolbox
 
 try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
@@ -827,7 +827,7 @@ def date_parser(strdates):
     ]
 
 
-@mando.command("modis", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("modis", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.docstrings)
 def modis_cli(lat, lon, product, band, start_date=None, end_date=None):
     r"""global 250m,500m,1000m 2000- 4D,8D,16D,A:Download MODIS derived data.

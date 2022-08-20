@@ -3,10 +3,10 @@
 
 from typing import Callable
 
-import mando
+import cltoolbox
 
 try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
@@ -191,7 +191,7 @@ def _rename_columns(x):
     return ":".join(words)
 
 
-@mando.command("usgs_flet_narr", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("usgs_flet_narr", formatter_class=HelpFormatter)
 @assign_docstring(docs)
 def usgs_flet_narr_cli(
     lat,
@@ -244,7 +244,7 @@ def usgs_flet_narr(
 usgs_flet_narr.__doc__ = usgs_flet_narr_cli.__doc__
 
 
-@mando.command("usgs_flet_stns", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("usgs_flet_stns", formatter_class=HelpFormatter)
 @assign_docstring(docs)
 def usgs_flet_stns_cli(
     lat,

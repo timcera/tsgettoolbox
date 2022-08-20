@@ -13,11 +13,11 @@ import warnings
 from io import BytesIO
 
 import async_retriever as ar
-import mando
+import cltoolbox
 import pandas as pd
 
 try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
@@ -1187,7 +1187,7 @@ def usgs_gwlevels_rdb_to_df(url, **kwargs):
     return ndf
 
 
-@mando.command("nwis", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("nwis", formatter_class=HelpFormatter)
 def nwis_cli(
     sites=None,
     stateCd=None,
@@ -1529,7 +1529,7 @@ accept one site using the 'site' keyword.
         )
 
 
-@mando.command("nwis_iv", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("nwis_iv", formatter_class=HelpFormatter)
 @tsutils.doc(nwis_docstrings)
 def nwis_iv_cli(
     sites=None,
@@ -1676,7 +1676,7 @@ def nwis_iv(
     )
 
 
-@mando.command("nwis_dv", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("nwis_dv", formatter_class=HelpFormatter)
 @tsutils.doc(nwis_docstrings)
 def nwis_dv_cli(
     sites=None,
@@ -1828,7 +1828,7 @@ def nwis_dv(
     )
 
 
-@mando.command("nwis_site", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("nwis_site", formatter_class=HelpFormatter)
 @tsutils.doc(nwis_docstrings)
 def nwis_site_cli(
     sites=None,
@@ -2036,7 +2036,7 @@ def nwis_site(
     )
 
 
-@mando.command("nwis_gwlevels", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("nwis_gwlevels", formatter_class=HelpFormatter)
 @tsutils.doc(nwis_docstrings)
 def nwis_gwlevels_cli(
     sites=None,
@@ -2196,7 +2196,7 @@ def nwis_gwlevels(
     )
 
 
-@mando.command("nwis_measurements", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("nwis_measurements", formatter_class=HelpFormatter)
 @tsutils.doc(nwis_docstrings)
 def nwis_measurements_cli(
     sites=None,
@@ -2417,7 +2417,7 @@ def nwis_measurements(
     )
 
 
-@mando.command("nwis_peak", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("nwis_peak", formatter_class=HelpFormatter)
 @tsutils.doc(nwis_docstrings)
 def nwis_peak_cli(
     sites=None,
@@ -2643,7 +2643,7 @@ def nwis_peak(
     )
 
 
-@mando.command("nwis_stat", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("nwis_stat", formatter_class=HelpFormatter)
 @tsutils.doc(nwis_docstrings)
 def nwis_stat_cli(
     sites=None,
@@ -2861,7 +2861,7 @@ def nwis_stat(
     )
 
 
-@mando.command("epa_wqp", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("epa_wqp", formatter_class=HelpFormatter)
 @tsutils.doc(nwis_docstrings)
 def epa_wqp_cli(
     bBox=None,

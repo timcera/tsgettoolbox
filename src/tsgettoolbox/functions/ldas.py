@@ -7,9 +7,9 @@ import time
 from io import BytesIO
 
 import async_retriever as ar
-import mando
+import cltoolbox
 import pandas as pd
-from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from pandas._libs.lib import no_default
 from tabulate import tabulate as tb
 from tstoolbox import tsutils
@@ -410,12 +410,11 @@ def make_units_table(units_dict):
 def foundation_cli(
     cli_name,
     formatter_class=HelpFormatter,
-    doctype="numpy",
     units_table="",
     first_line="",
     meta_table="",
 ):
-    @mando.command(cli_name, formatter_class=formatter_class, doctype=doctype)
+    @cltoolbox.command(cli_name, formatter_class=formatter_class)
     @tsutils.doc(
         {"units_table": units_table, "first_line": first_line, "meta_table": meta_table}
     )

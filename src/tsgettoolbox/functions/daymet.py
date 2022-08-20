@@ -19,12 +19,12 @@ except ImportError:
 
 import warnings
 
-import mando
+import cltoolbox
 import pandas as pd
 import pydaymet
 
 try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
@@ -48,7 +48,7 @@ _units_map = {
 }
 
 
-@mando.command("daymet", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("daymet", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.docstrings)
 def daymet_cli(
     lat,

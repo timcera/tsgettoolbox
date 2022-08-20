@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """Download data from Florida Automated Weather Network (FAWN)."""
 
-import mando
+import cltoolbox
 
 try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
@@ -273,7 +273,7 @@ _vars = {
 tsutils.docstrings.update({k: f"{v['standard_name']:50}" for k, v in _vars.items()})
 
 
-@mando.command("metdata", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("metdata", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.docstrings)
 def metdata_cli(
     lat,

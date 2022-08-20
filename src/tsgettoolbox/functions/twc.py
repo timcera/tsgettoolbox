@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-import mando
+import cltoolbox
 
 try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
@@ -27,7 +27,7 @@ def twc_ulmo_df(county=None, start_date=None, end_date=None):
     return df
 
 
-@mando.command("twc", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("twc", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.docstrings)
 def twc_cli(county, start_date=None, end_date=None):
     r"""US/TX station D:Download Texas Weather Connection (TWC) data.

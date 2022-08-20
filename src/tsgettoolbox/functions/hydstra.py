@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Download data from a Kisters Hydstra database webserver."""
 
-import mando
-from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+import cltoolbox
+from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from tstoolbox import tsutils
 
 from tsgettoolbox import hydstra_utils as hu
@@ -109,7 +109,7 @@ hydstra_docstrings = {
 }
 
 
-@mando.command("hydstra_ts", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("hydstra_ts", formatter_class=HelpFormatter)
 @tsutils.doc(hydstra_docstrings)
 def hydstra_ts_cli(
     server,
@@ -247,7 +247,7 @@ def hydstra_ts(
     return timeseries
 
 
-@mando.command("hydstra_catalog", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("hydstra_catalog", formatter_class=HelpFormatter)
 @tsutils.doc(hydstra_docstrings)
 def hydstra_catalog_cli(server, station, tablefmt="csv", isleep=0):
     r"""Kisters Hydstra Webservice - variable catalog for a station
@@ -277,7 +277,7 @@ def hydstra_catalog(server, site_id, isleep=5):
     return catalogdf
 
 
-@mando.command("hydstra_stations", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("hydstra_stations", formatter_class=HelpFormatter)
 @tsutils.doc(hydstra_docstrings)
 def hydstra_stations_cli(server, activeonly=False, latlong=False, tablefmt="csv"):
     r"""Kisters Hydstra Webservice - station list for a server

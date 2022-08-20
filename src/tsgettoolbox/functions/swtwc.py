@@ -12,11 +12,11 @@ https://www.swt-wc.usace.army.mil/webdata/gagedata/PTTK1.20211231.html
 """
 import datetime
 
-import mando
+import cltoolbox
 import pandas as pd
 
 try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
@@ -29,7 +29,7 @@ __all__ = ["swtwc"]
 # def get_station_data(station_code, date=None, as_dataframe=False):
 
 
-@mando.command("swtwc", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("swtwc", formatter_class=HelpFormatter)
 def swtwc_cli(station_code, date=None):
     """US/region station:USACE Southwest Division, Tulsa Water Control
 

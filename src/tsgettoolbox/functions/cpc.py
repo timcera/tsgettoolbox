@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from typing import Optional
 
-import mando
+import cltoolbox
 import pandas as pd
 
 try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
@@ -45,7 +45,7 @@ def ulmo_df(state=None, climate_division=None, start_date=None, end_date=None):
     return df
 
 
-@mando.command("cpc", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("cpc", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.docstrings)
 def cpc_cli(state=None, climate_division=None, start_date=None, end_date=None):
     r"""US/region W: Climate Prediction Center, Weekly Drought Index

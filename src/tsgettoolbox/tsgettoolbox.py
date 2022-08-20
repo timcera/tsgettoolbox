@@ -8,12 +8,12 @@ web services.
 
 import warnings
 
-import mando
+import cltoolbox
 
 warnings.filterwarnings("ignore")
 
 
-@mando.command()
+@cltoolbox.command()
 def about():
     r"""Print out information about tsgettoolbox and the system."""
     from tstoolbox import tsutils
@@ -77,10 +77,7 @@ from .functions.terraclimate2C import terraclimate2C
 from .functions.terraclimate4C import terraclimate4C
 from .functions.terraclimate19611990 import terraclimate19611990
 from .functions.terraclimate19812010 import terraclimate19812010
-from .functions.topowx import (
-    topowx,
-    topowx_daily,
-)
+from .functions.topowx import topowx, topowx_daily
 from .functions.twc import twc
 from .functions.unavco import unavco
 from .functions.usgs_flet import usgs_flet_narr, usgs_flet_stns
@@ -93,7 +90,7 @@ def main():
 
     if not os.path.exists("debug_tsgettoolbox"):
         sys.tracebacklimit = 0
-    mando.main()
+    cltoolbox.main()
 
 
 if __name__ == "__main__":

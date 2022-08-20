@@ -11,7 +11,7 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-import mando
+import cltoolbox
 import pandas as pd
 from tstoolbox import tsutils
 
@@ -22,7 +22,7 @@ from tsgettoolbox.ulmo.usace.rivergages.core import (
 )
 
 try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
@@ -32,7 +32,7 @@ __all__ = ["rivergages"]
 #         min_value=None, max_value=None):
 
 
-@mando.command("rivergages", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("rivergages", formatter_class=HelpFormatter)
 def rivergages_cli(station_code, parameter, start_date=None, end_date=None):
     """US station:USACE river gages
 

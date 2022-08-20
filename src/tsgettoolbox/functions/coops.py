@@ -12,12 +12,12 @@ try:
 except ImportError:
     from typing_extensions import Literal
 
-import mando
+import cltoolbox
 import pandas as pd
 import typic
 
 try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
@@ -156,7 +156,7 @@ _settings_map["currents"] = [
 ]
 
 
-@mando.command("coops", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("coops", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.docstrings)
 def coops_cli(
     station,

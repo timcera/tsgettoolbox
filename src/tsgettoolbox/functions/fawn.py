@@ -3,11 +3,11 @@
 
 import datetime
 
-import mando
+import cltoolbox
 import pandas as pd
 
 try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
@@ -171,7 +171,7 @@ for key in vars__:
 # units_table = "\n".join(["        {0}".format(i) for i in units_table.split("\n")])
 
 
-@mando.command("fawn", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("fawn", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.docstrings)
 def fawn_cli(
     stations,

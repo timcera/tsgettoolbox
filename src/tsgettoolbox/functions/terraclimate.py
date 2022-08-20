@@ -3,13 +3,13 @@
 
 # http://thredds.northwestknowledge.net:8080/thredds/terraclimate_aggregated.html
 
-import mando
+import cltoolbox
 import pandas as pd
 
 from tsgettoolbox import utils
 
 try:
-    from mando.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
@@ -119,7 +119,7 @@ _avail_vars = {
 }
 
 
-@mando.command("terraclimate", formatter_class=HelpFormatter, doctype="numpy")
+@cltoolbox.command("terraclimate", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.docstrings)
 def terraclimate_cli(
     lat: float,
