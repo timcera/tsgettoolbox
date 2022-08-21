@@ -39,137 +39,186 @@ Just run 'tsgettoolbox --help' to get a list of subcommands.  To get detailed
 help for a particular sub-command, for instance 'coops', type 'tsgettoolbox
 coops --help'.
 
+    about
+        Display version number and system information.
+
     cdec
-        station: California Department of Water Resources
+        US/CA station E,H,D,M: California Department of Water Resources
 
     coops
-        station: Center for Operational Oceanographic Products and Services
+        global station 1T,6T,H,D,M: Center for Operational Oceanographic
+        Products and Services
 
     cpc
-        station: Climate Prediction Center, Weekly Drought Index
+        US/region W: Climate Prediction Center, Weekly Drought Index
 
     daymet
-        gridded: Daymet, daily meteorology by the Oak Ridge National Laboratory
+        NAmerica 1km 1980- D,M:Daymet, daily meteorology by the Oak Ridge
+        National Laboratory
 
     fawn
-        station: Florida Automated Weather Network (FAWN)
+        US/FL 15T,H,D,M:Florida Automated Weather Network (FAWN)
+
+    hydstra_ts
+        Kisters Hydstra Webservice - time series values
+
+    hydstra_catalog
+        Kisters Hydstra Webservice - variable catalog for a station
+
+    hydstra_stations
+        Kisters Hydstra Webservice - station list for a server
 
     ldas
-        gridded: Land Data Assimilation System (NLDAS, GLDAS2, TRMM, SMERGE, GRACE, MERRA)
+        grid: Land Data Assimilation System, includes all ldas_* (NLDAS,
+        GLDAS2, TRMM, SMERGE, GRACE, MERRA)
+
+    ldas_gldas_noah
+        global 0.25deg 2000- 3H:GLDAS NOAH hydrology model results
+
+    ldas_grace
+        NAmerica 0.125deg 2002- 7D:Groundwater and soil moisture from GRACE
+
+    ldas_merra
+        global 0.5x0.625deg 1980- H:MERRA-2 Land surface forcings
+
+    ldas_merra_update
+        global 0.5x0.667deg 1980-2016 H:MERRA-2 Analysis update
+
+    ldas_nldas_fora
+        NAmerica 0.125deg 1979- H:NLDAS Weather Forcing A (surface)
+
+    ldas_nldas_noah
+        NAmerica 0.125deg 1979- H:NLDAS NOAH hydrology model results
+
+    ldas_smerge
+        global 0.125deg 1997- D:SMERGE-Noah-CCI root zone soil moisture
+
+    ldas_trmm_tmpa
+        global 0.25deg 1997- 3H:TRMM (TMPA) rainfall estimate
 
     metdata
-        gridded: Download daily data from METDATA.
+        NAmerica 4km 1980- D: Download daily data from METDATA based on PRISM.
 
     modis
-        gridded: Download MODIS derived data.
+        global 250m,500m,1000m 2000- 4D,8D,16D,A:Download MODIS derived data.
 
     ncei_ghcnd_ftp
-        station: NCEI Global Historical Climatology Network - Daily (GHCND)
+        global station D:NCEI Global Historical Climatology Network - Daily
+        (GHCND)
 
     ncei_ghcnd
-        station: Global Historical Climatology Network - Daily (GHCND)
+        global station D:Global Historical Climatology Network - Daily (GHCND)
 
     ncei_gsod
-        station: NCEI Global Summary of the Day (GSOD)
+        global station D:NCEI Global Summary of the Day (GSOD)
 
     ncei_gsom
-        station: NCEI Global Summary of Month (GSOM)
+        global station M:NCEI Global Summary of Month (GSOM)
 
     ncei_gsoy
-        station: NCEI Global Summary of Year (GSOY)
+        global station A:NCEI Global Summary of Year (GSOY)
 
     ncei_normal_ann
-        station: NCEI annual normals
+        global station A: NCEI annual normals
 
     ncei_normal_dly
-        station: NCEI Daily Normals
+        global station D:NCEI Daily Normals
 
     ncei_normal_hly
-        station: NCEI Normal hourly
+        global station H:NCEI Normal hourly
 
     ncei_normal_mly
-        station: NCEI Monthly Summaries.
+        global station M:NCEI Monthly Summaries.
 
     ncei_precip_15
-        station: NCEI 15 minute precipitation
+        global station 15T:NCEI 15 minute precipitation
 
     ncei_precip_hly
-        station: NCEI hourly precipitation
+        global station H:NCEI hourly precipitation
 
     ncei_annual
-        station: NCEI annual data summaries
+        global station A:NCEI annual data summaries
 
     ncei_ghcndms
-        station: NCEI GHCND Monthly Summaries (GHCNDMS)
+        global station M:NCEI GHCND Monthly Summaries (GHCNDMS)
 
     ncei_ish
-        station: Integrated Surface Database
+        global station H:Integrated Surface Database
 
     ndbc
-        station: Download historical from the National Data Buoy Center.
+        US station T,6T,10T,15T,H,D:Download historical from the National Data
+        Buoy Center.
 
     nwis
-        station: Use the ``nwis_*`` functions instead.
+        US station:Use the ``nwis_*`` functions instead.
 
     nwis_iv
-        station: USGS NWIS Instantaneous Values
+        US station E:USGS NWIS Instantaneous Values
 
     nwis_dv
-        station: USGS NWIS Daily Values
+        US station D:USGS NWIS Daily Values
 
     nwis_site
-        station: USGS NWIS Site Database
+        US station:USGS NWIS Site Database
 
     nwis_gwlevels
-        station: USGS NWIS Groundwater Levels
+        US station:USGS NWIS Groundwater Levels
 
     nwis_measurements
-        station: USGS NWIS Measurements
+        US station:USGS NWIS Measurements
 
     nwis_peak
-        station: USGS NWIS Peak
+        US station:USGS NWIS Peak
 
     nwis_stat
-        station: USGS NWIS Statistic
+        US station:USGS NWIS Statistic
 
     epa_wqp
-        station: EPA Water Quality Portal.
+        US station E:EPA Water Quality Portal.
 
     rivergages
-        station: USACE river gages
+        US station:USACE river gages
 
     swtwc
-        station: USACE Southwest Division, Tulsa Water Control
+        US/region station:USACE Southwest Division, Tulsa Water Control
 
     terraclimate
-        gridded: Download monthly data from Terraclimate.
+        global 1/24deg 1958- M:Download monthly data from Terraclimate.
 
     terraclimate2C
-        gridded: Download monthly data from Terraclimate.
+        global 1/24deg M:Monthly normals from Terraclimate with 2deg C hotter
+        climate.
 
     terraclimate4C
-        gridded: Download monthly data from Terraclimate.
+        global 1/24deg M:Monthly normals from Terraclimate with 4deg C hotter
+        climate.
 
     terraclimate19611990
-        gridded: Download monthly data from Terraclimate.
+        global 1/24deg M:Monthly normals using TerraClimate monthly data from
+        1961 to 1990.
 
     terraclimate19812010
-        gridded: Download monthly data from Terraclimate.
+        global 1/24deg M:Monthly normals using TerraClimate monthly data from
+        1981 to 2010.
 
     topowx
-        gridded: Topoclimatic Daily Air Temperature Dataset for the Conterminous United States
+        US 30arcsecond 1948- M:Topoclimatic Monthly Air Temperature Dataset.
+
+    topowx_daily
+        US 30arcsecond 1948- D:Topoclimatic Daily Air Temperature Dataset.
 
     twc
-        station: Download Texas Weather Connection (TWC) data.
+        US/TX station D:Download Texas Weather Connection (TWC) data.
 
     unavco
-        station: Download data from the Unavco web services.
+        US station: Download data from the Unavco web services.
 
     usgs_flet_narr
-        gridded: USGS FL ET data from NARR meteorologic data.
+        US/FL 2km D:USGS FL ET data from NARR meteorologic data.
 
     usgs_flet_stns
-        gridded: USGS FL ET data from station interpolated meteorologic data.
+        US/FL 2km D:USGS FL ET data from station interpolated meteorologic
+        data.
 
 Usage Summary - Python Library
 ------------------------------
