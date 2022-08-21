@@ -362,5 +362,7 @@ if __name__ == "__main__":
     r = topowx(29.6, -82.3, "tmin")
     print(r)
     print("topoWX_DAILY")
-    r = topowx_daily(29.6, -82.3, "tmin")
+    r = topowx_daily(
+        29.6, -82.3, "tmin", start_date="2000-01-01", end_date="2000-01-31"
+    )
     print(r)

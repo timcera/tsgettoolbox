@@ -1,3 +1,9 @@
+## v23.27.1 (2022-08-21)
+
+### Refactor
+
+- replaced mando with cltoolbox
+
 ## v23.27.0 (2022-07-06)
 
 ### Feat
