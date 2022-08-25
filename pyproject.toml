@@ -95,7 +95,7 @@ ignore = [
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "23.27.1"
+version = "24.0.0"
 tag_format = "v$version"
 version_files = ["VERSION"]
 update_changelog_on_bump = true
