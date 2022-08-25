@@ -2,9 +2,9 @@ name: clean-workflow-runs
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
   workflow_dispatch:
 
 jobs:
@@ -13,13 +13,13 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: Delete workflow runs
-        uses: dmvict/clean-workflow-runs@v1.0.0
+    - name: Delete workflow runs
+      uses: dmvict/clean-workflow-runs@v1.0.0
 
-        with:
+      with:
 
-          run_conclusions: |
-            failure
-            timed_out
-          save_period: 5
-          save_min_runs_number: 1
+        run_conclusions: |
+          failure
+          timed_out
+        save_period: 5
+        save_min_runs_number: 1

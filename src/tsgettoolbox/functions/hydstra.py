@@ -3,7 +3,7 @@
 
 import cltoolbox
 from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-from tstoolbox import tsutils
+from toolbox_utils import tsutils
 
 from tsgettoolbox import hydstra_utils as hu
 

@@ -12,7 +12,7 @@ import pandas as pd
 from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from pandas._libs.lib import no_default
 from tabulate import tabulate as tb
-from tstoolbox import tsutils
+from toolbox_utils import tsutils
 
 __all__ = [
     "ldas",

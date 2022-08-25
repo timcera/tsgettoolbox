@@ -20,7 +20,7 @@ try:
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
-from tstoolbox import tsutils
+from toolbox_utils import tsutils
 
 from tsgettoolbox.ulmo.usace.swtwc.core import get_station_data
 

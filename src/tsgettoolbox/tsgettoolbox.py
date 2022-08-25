@@ -16,7 +16,7 @@ warnings.filterwarnings("ignore")
 @cltoolbox.command()
 def about():
     r"""Print out information about tsgettoolbox and the system."""
-    from tstoolbox import tsutils
+    from toolbox_utils import tsutils
 
     tsutils.about(__name__)
 

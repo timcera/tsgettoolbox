@@ -21,7 +21,7 @@ except ImportError:
     import configparser as cp
 
 from pydap.client import open_url
-from tstoolbox import tsutils
+from toolbox_utils import tsutils
 
 from . import appdirs
 

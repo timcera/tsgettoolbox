@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore")
 
 import cltoolbox
 import pandas as pd
-from tstoolbox import tsutils
+from toolbox_utils import tsutils
 
 from tsgettoolbox.ulmo.usace.rivergages.core import (
     get_station_data,

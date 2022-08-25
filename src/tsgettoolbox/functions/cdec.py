@@ -4,7 +4,7 @@ from typing import Optional, Union
 
 import pandas as pd
 from cltoolbox import command
-from tstoolbox import tsutils
+from toolbox_utils import tsutils
 
 try:
     from typing import Literal

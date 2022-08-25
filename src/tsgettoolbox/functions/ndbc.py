@@ -12,7 +12,7 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 import async_retriever as ar
-from tstoolbox import tsutils
+from toolbox_utils import tsutils
 
 __all__ = ["ndbc"]
 

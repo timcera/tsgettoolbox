@@ -10,7 +10,7 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 import typic
-from tstoolbox import tsutils
+from toolbox_utils import tsutils
 
 from tsgettoolbox.ulmo.cpc.drought.core import get_data
 

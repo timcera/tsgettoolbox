@@ -12,7 +12,7 @@ except ImportError:
 import async_retriever as ar
 import numpy as np
 import pandas as pd
-from tstoolbox import tsutils
+from toolbox_utils import tsutils
 
 __all__ = ["modis"]
 

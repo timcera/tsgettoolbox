@@ -8,7 +8,7 @@ except ImportError:
 
 import pandas as pd
 import typic
-from tstoolbox import tsutils
+from toolbox_utils import tsutils
 
 from tsgettoolbox.ulmo.twc.kbdi.core import get_data
 

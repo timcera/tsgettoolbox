@@ -1,7 +1,97 @@
+[build-system]
+requires = [
+    "setuptools",
+    "wheel",
+    "oldest-supported-numpy",
+    ]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tsgettoolbox"
+dynamic = ["readme", "version"]
+description = "Will get time series from different sources on the internet"
+requires-python = ">=3.7.1"
+dependencies = [
+    "appdirs",
+    "geojson",
+    "haversine",
+    "isodate",
+    "lxml",
+    "mechanize",
+    "requests",
+    "siphon",
+    "suds-community",
+    "toolbox_utils < 1.0.0",
+    "zeep",
+    "async_retriever",
+    "cftime",
+    "pydap",
+    "pydaymet",
+    "cdo_api_py",
+    ]
+license = {file = "LICENSE.txt"}
+authors = [
+        {name = "Tim Cera", email = "tim@cerazone.net"},
+    ]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Developers",
+    "Environment :: Console",
+    "License :: OSI Approved :: BSD License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    ]
+keywords = [
+    "time-series",
+    "uri",
+    "url",
+    "web_services",
+    "rest",
+    ]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "cleanpy",
+    "twine",
+    "pytest",
+    "coverage",
+    "flake8",
+    "pytest-cov",
+    "pytest-mpl",
+    "pre-commit",
+    "black-nbconvert",
+    "blacken-docs",
+    "velin",
+    "isort",
+    "pyroma",
+    "pyupgrade",
+    "commitizen",
+    ]
+
+[project.scripts]
+tsgettoolbox = "tsgettoolbox.tsgettoolbox:main"
+
+[project_urls]
+ocumentation = "https://timcera.bitbucket.io/tsgettoolbox/docs/index.html#tsgettoolbox-documentation"
+github = "https://github.com/timcera/tsgettoolbox"
+bitbucket = "https://bitbucket.org/timcera/tsgettoolbox/src/main/"
+
+[tool.black]
+extend-exclude = 'ldas.py'
 
 [tool.check-manifest]
-ignore = [".travis.yml",
-          "docs/_function_autosummary/*"]
+ignore = [
+    "docs/_function_autosummary/*",
+    ".coverage",
+    ".deepsource.toml",
+    ".ipynb_checkpoints/*",
+    ]
 
 [tool.commitizen]
 name = "cz_conventional_commits"
@@ -13,5 +103,13 @@ update_changelog_on_bump = true
 [tool.isort]
 profile = 'black'
 
-[tool.black]
-extend-exclude = 'ldas.py'
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+readme = {file = "README.rst"}
+version = {file = "VERSION"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["examples*", "tools*", "docs*", "tsgettoolbox.tests*"]

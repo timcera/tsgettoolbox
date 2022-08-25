@@ -12,7 +12,7 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 import mechanize
-from tstoolbox import tsutils
+from toolbox_utils import tsutils
 
 __all__ = ["fawn"]
 
