@@ -8,7 +8,8 @@ from setuptools import setup
 
 pkg_name = "tsgettoolbox"
 
-version = open("VERSION", encoding="ascii").readline().strip()
+with open("VERSION", encoding="ascii") as version_file:
+    version = version_file.readline().strip()
 
 if sys.argv[-1] == "publish":
     subprocess.run(shlex.split("cleanpy ."), check=True)

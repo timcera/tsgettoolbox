@@ -2,10 +2,10 @@
 
 Command Line
 ============
-
 Help::
 
      tsgettoolbox –help
+
 
 about
 ~~~~~
@@ -35,9 +35,53 @@ fawn
 ~~~~
 .. program-output:: tsgettoolbox fawn --help
 
+hydstra_catalog
+~~~~~~~~~~~~~~~
+.. program-output:: tsgettoolbox hydstra_catalog    --help
+
+hydstra_stations
+~~~~~~~~~~~~~~~~
+.. program-output:: tsgettoolbox hydstra_stations   --help
+
+hydstra_ts
+~~~~~~~~~~
+.. program-output:: tsgettoolbox hydstra_ts         --help
+
 ldas
 ~~~~
 .. program-output:: tsgettoolbox ldas --help
+
+ldas_gldas_noah
+~~~~~~~~~~~~~~~
+.. program-output:: tsgettoolbox ldas_gldas_noah    --help
+
+ldas_grace
+~~~~~~~~~~
+.. program-output:: tsgettoolbox ldas_grace         --help
+
+ldas_merra
+~~~~~~~~~~
+.. program-output:: tsgettoolbox ldas_merra         --help
+
+ldas_merra_update
+~~~~~~~~~~~~~~~~~
+.. program-output:: tsgettoolbox ldas_merra_update  --help
+
+ldas_nldas_fora
+~~~~~~~~~~~~~~~
+.. program-output:: tsgettoolbox ldas_nldas_fora    --help
+
+ldas_nldas_noah
+~~~~~~~~~~~~~~~
+.. program-output:: tsgettoolbox ldas_nldas_noah    --help
+
+ldas_smerge
+~~~~~~~~~~~
+.. program-output:: tsgettoolbox ldas_smerge        --help
+
+ldas_trmm_tmpa
+~~~~~~~~~~~~~~
+.. program-output:: tsgettoolbox ldas_trmm_tmpa     --help
 
 metdata
 ~~~~~~~
@@ -67,10 +111,6 @@ ncei_gsod
 ~~~~~~~~~
 .. program-output:: tsgettoolbox ncei_gsod --help
 
-ncei_gsod
-~~~~~~~~~
-.. program-output:: tsgettoolbox ncei_gsod --help
-
 ncei_gsom
 ~~~~~~~~~
 .. program-output:: tsgettoolbox ncei_gsom --help
@@ -79,7 +119,7 @@ ncei_ish
 ~~~~~~~~
 .. program-output:: tsgettoolbox ncei_ish --help
 
-ncei_jsoy
+ncei_gsoy
 ~~~~~~~~~
 .. program-output:: tsgettoolbox ncei_gsoy --help
 
@@ -170,6 +210,10 @@ terraclimate
 topowx
 ~~~~~~
 .. program-output:: tsgettoolbox topowx --help
+
+topowx_daily
+~~~~~~~~~~~~
+.. program-output:: tsgettoolbox topowx_daily       --help
 
 twc
 ~~~

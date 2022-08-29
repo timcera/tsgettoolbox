@@ -31,7 +31,7 @@ dependencies = [
     ]
 license = {file = "LICENSE.txt"}
 authors = [
-        {name = "Tim Cera", email = "tim@cerazone.net"},
+    {name = "Tim Cera", email = "tim@cerazone.net"},
     ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
