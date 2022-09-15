@@ -304,14 +304,16 @@ _MERRA_UPDATE = {
     "MERRA:MST1NXMLD.520:TSOIL1": ["Soil temperature in layer 1", "K"],
 }
 
-_UNITS_MAP = _NLDAS_FORA
-_UNITS_MAP.update(_NLDAS_NOAH)
-_UNITS_MAP.update(_GLDAS_NOAH)
-_UNITS_MAP.update(_TRMM_TMPA)
-_UNITS_MAP.update(_SMERGE)
-_UNITS_MAP.update(_GRACE)
-_UNITS_MAP.update(_MERRA)
-_UNITS_MAP.update(_MERRA_UPDATE)
+_UNITS_MAP = (
+    _NLDAS_FORA
+    | _NLDAS_NOAH
+    | _GLDAS_NOAH
+    | _TRMM_TMPA
+    | _SMERGE
+    | _GRACE
+    | _MERRA
+    | _MERRA_UPDATE
+)
 
 _varmap = {
     "MST1NXMLD.520": "MERRA",
