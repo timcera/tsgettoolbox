@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
+import itertools
 import logging
 import os
 import textwrap
@@ -811,59 +812,60 @@ location.  You have the grid "{project}" and "xindex={xindex}" and
     url = r"https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi"
 
     ndf = pd.DataFrame()
-    collect_kwds = []
+    nvariables = []
     for var in variables:
         words = var.split(":")
         project = words[0]
-        nvariable = var
         if len(words) == 2:
             # New style where can leave off first ":" separated field.
             project = _varmap[words[0]]
-            nvariable = ":".join([project] + words)
-
-        if startDate is None:
-            startDate = tsutils.parsedate(_project_start_dates[project])
+            nvariables.append(":".join([project] + words))
         else:
-            try:
-                startDate = tsutils.parsedate(startDate)
-                if startDate < tsutils.parsedate(_project_start_dates[project]):
-                    startDate = tsutils.parsedate(_project_start_dates[project])
-            except TypeError:
-                pass
-        if endDate is None:
-            endDate = tsutils.parsedate(
-                (datetime.datetime.now() - datetime.timedelta(days=60)).strftime(
-                    "%Y-%m-%dT%H"
-                )
+            nvariables.append(var)
+
+    if startDate is None:
+        startDate = tsutils.parsedate(_project_start_dates[project])
+    else:
+        try:
+            startDate = tsutils.parsedate(startDate)
+            if startDate < tsutils.parsedate(_project_start_dates[project]):
+                startDate = tsutils.parsedate(_project_start_dates[project])
+        except TypeError:
+            pass
+    if endDate is None:
+        endDate = tsutils.parsedate(
+            (datetime.datetime.now() - datetime.timedelta(days=60)).strftime(
+                "%Y-%m-%dT%H"
             )
-        else:
-            endDate = tsutils.parsedate(endDate)
-
-        periods = []
-        delta = datetime.timedelta(days=10000)
-        period_start = startDate
-        while period_start < endDate:
-            period_end = min(period_start + delta, endDate)
-            periods.append((period_start, period_end))
-            period_start = period_end
-
-        urls, kwds = zip(
-            *[
-                (
-                    url,
-                    {
-                        "params": {
-                            "type": "asc2",
-                            "location": location,
-                            "variable": nvariable,
-                            "startDate": s.strftime("%Y-%m-%dT%H"),
-                            "endDate": e.strftime("%Y-%m-%dT%H"),
-                        }
-                    },
-                )
-                for s, e in periods
-            ]
         )
+    else:
+        endDate = tsutils.parsedate(endDate)
+
+    periods = []
+    delta = datetime.timedelta(days=10000)
+    period_start = startDate
+    while period_start < endDate:
+        period_end = min(period_start + delta, endDate)
+        periods.append((period_start, period_end))
+        period_start = period_end
+
+    urls, kwds = zip(
+        *[
+            (
+                url,
+                {
+                    "params": {
+                        "type": "asc2",
+                        "location": location,
+                        "variable": v,
+                        "startDate": s.strftime("%Y-%m-%dT%H"),
+                        "endDate": e.strftime("%Y-%m-%dT%H"),
+                    }
+                },
+            )
+            for (s, e), v in itertools.product(periods, nvariables)
+        ]
+    )
 
     kwds = [
         {"params": {k: v for k, v in i["params"].items() if v is not None}}
