@@ -1,3 +1,10 @@
+## v24.0.1 (2022-09-29)
+
+### Refactor
+
+- improvement of pyproject.toml
+- move to toolbox_utils.tsutils and complete pyproject.toml
+
 ## v24.0.0 (2022-08-25)
 
 ### Refactor
