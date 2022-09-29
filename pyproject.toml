@@ -3,7 +3,7 @@ requires = [
     "setuptools",
     "wheel",
     "oldest-supported-numpy",
-    ]
+]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -29,7 +29,7 @@ dependencies = [
     "pydaymet",
     "cdo_api_py",
     ]
-license = {file = "LICENSE.txt"}
+license = {text = "BSD-3-Clause"}
 authors = [
     {name = "Tim Cera", email = "tim@cerazone.net"},
     ]
@@ -45,6 +45,10 @@ classifiers = [
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules",
     ]
 keywords = [
     "time-series",
@@ -82,16 +86,11 @@ ocumentation = "https://timcera.bitbucket.io/tsgettoolbox/docs/index.html#tsgett
 github = "https://github.com/timcera/tsgettoolbox"
 bitbucket = "https://bitbucket.org/timcera/tsgettoolbox/src/main/"
 
-[tool.black]
-extend-exclude = 'ldas.py'
-
 [tool.check-manifest]
-ignore = [
-    "docs/_function_autosummary/*",
-    ".coverage",
-    ".deepsource.toml",
-    ".ipynb_checkpoints/*",
-    ]
+ignore = ["docs/_function_autosummary/*",
+          ".coverage",
+          ".deepsource.toml",
+          ".ipynb_checkpoints/*"]
 
 [tool.commitizen]
 name = "cz_conventional_commits"
