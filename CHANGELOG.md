@@ -1,3 +1,9 @@
+## v24.0.2 (2022-09-29)
+
+### Fix
+
+- Fix a bug in the ldas function
+
 ## v24.0.1 (2022-09-29)
 
 ### Refactor
