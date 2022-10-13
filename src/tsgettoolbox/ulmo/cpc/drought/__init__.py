@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
     `Climate Prediction Center`_ `Weekly Drought Index`_ dataset
 

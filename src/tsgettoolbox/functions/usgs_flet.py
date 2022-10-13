@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Download data from Florida Automated Weather Network (FAWN)."""
 
 from typing import Callable

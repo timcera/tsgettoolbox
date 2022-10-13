@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import datetime
 from gzip import BadGzipFile, GzipFile
 from io import BytesIO, StringIO

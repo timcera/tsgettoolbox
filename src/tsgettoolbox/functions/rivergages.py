@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Provide access to data from the USACE `Rivergages`_ web site.
 

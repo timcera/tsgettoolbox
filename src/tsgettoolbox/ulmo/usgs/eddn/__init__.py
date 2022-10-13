@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
     `USGS Emergency Data Distribution Network`_ services
 

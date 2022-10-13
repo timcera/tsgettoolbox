@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
     `NASA EARTHDATA ORNL DAAC Daymet`_ web services
 

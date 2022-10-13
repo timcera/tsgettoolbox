@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from tsgettoolbox.ulmo.waterml import common
 
 WATERML_V1_0_NAMESPACE = "{http://www.cuahsi.org/waterML/1.0/}"

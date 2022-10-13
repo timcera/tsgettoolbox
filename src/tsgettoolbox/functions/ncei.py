@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collections import OrderedDict
 
 import cltoolbox
@@ -6169,8 +6168,8 @@ def ncei_ish(station, datatypeid=None, start_date=None, end_date=None):
     final = utils.file_downloader(
         "https://www.ncei.noaa.gov/data/global-hourly/access/{year}/{station}.csv",
         station,
-        startdate=start_date,
-        enddate=end_date,
+        startdate=pd.to_datetime(start_date),
+        enddate=pd.to_datetime(end_date),
     )
 
     # Get rid of unused columns

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
     `National Climatic Data Center`_ `Climate Index Reference Sequential
     (CIRS)`_ drought dataset

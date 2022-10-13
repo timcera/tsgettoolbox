@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import datetime
 import io
 import os
@@ -9,7 +7,6 @@ import cftime
 import numpy as np
 import pandas as pd
 import requests
-import typic
 from haversine import haversine_vector
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
@@ -20,8 +17,8 @@ try:
 except ImportError:
     import configparser as cp
 
-from pydap.client import open_url
 from toolbox_utils import tsutils
+from xarray import open_dataset as open_url
 
 from . import appdirs
 
@@ -49,7 +46,7 @@ api_key = ReplaceThisStringWithYourKey
     os.chmod(configfile, 0o600)
 
     inifile = cp.ConfigParser()
-    inifile.readfp(open(configfile, "r"))
+    inifile.readfp(open(configfile))
 
     try:
         api_key = inifile.get(service, "api_key")
@@ -65,7 +62,7 @@ api_key = ReplaceThisStringWithYourKey
             )
         api_key = "ReplaceThisStringWithYourKey"
 
-    inifile.readfp(open(configfile, "r"))
+    inifile.readfp(open(configfile))
     api_key = inifile.get(service, "api_key")
     if api_key == "ReplaceThisStringWithYourKey":
         raise ValueError(
@@ -117,7 +114,7 @@ def read_csv(filename):
 def file_downloader(baseurl, station, startdate=None, enddate=None):
     """Generic NCEI/NOAA file downloader."""
     if startdate is None:
-        startdate = datetime.datetime(1901, 1, 1)
+        startdate = pd.to_datetime("1901-01-01")
     else:
         startdate = pd.to_datetime(startdate)
     if enddate is None:
@@ -126,7 +123,9 @@ def file_downloader(baseurl, station, startdate=None, enddate=None):
         enddate = pd.to_datetime(enddate)
 
     station = station.split(":")[-1]
-
+    print(station)
+    print(startdate.year)
+    print(enddate.year)
     urls = [baseurl.format(**locals()) for _ in range(startdate.year, enddate.year + 1)]
 
     with Pool(processes=os.cpu_count()) as pool:
@@ -161,7 +160,7 @@ def pdap(
     if "dods" in url:
         dataset = open_dods(url, timeout=timeout)
     else:
-        dataset = open_url(url, timeout=timeout)
+        dataset = open_url(url, timeout=timeout, engine="netcdf4")
 
     # Determine rlat and rlon index in the grid closest to target (lat, lon).
     lat_vals = dataset[latitude_name][:].data
@@ -289,7 +288,6 @@ def dapdownloader(url, lat, lon, var, time_name="date", start_date=None, end_dat
     return ndf
 
 
-@typic.al
 def opendap(
     url: str,
     lat: float,
@@ -323,9 +321,9 @@ variables are "{variables_map.keys()}"."""
                 )
 
     if single_var_url is True:
-        dataset = open_url(url.format(variables[0]))
+        dataset = open_url(url.format(variables[0]), engine="netcdf4")
     else:
-        dataset = open_url(url)
+        dataset = open_url(url, engine="netcdf4")
 
     # Determine lat and lon index in the grid closest to target (lat, lon).
     lat_vals = dataset[lat_name][:].data
@@ -346,7 +344,7 @@ variables are "{variables_map.keys()}"."""
     ndf = pd.DataFrame()
     for var in variables:
         if single_var_url is True:
-            dataset = open_url(url.format(var))
+            dataset = open_url(url.format(var), engine="netcdf4")
         try:
             ds = dataset[var]
         except KeyError:

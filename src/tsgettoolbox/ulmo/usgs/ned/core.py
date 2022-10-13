@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
     ulmo.usgs.ned.core
     ~~~~~~~~~~~~~~~~~~~~~
@@ -72,7 +71,7 @@ def get_raster_availability(layer, bbox=None):
     ]
 
     if bbox:
-        xmin, ymin, xmax, ymax = [float(n) for n in bbox]
+        xmin, ymin, xmax, ymax = (float(n) for n in bbox)
         polygon = f"POLYGON (({','.join([f'{repr(x)} {repr(y)}' for x, y in [(xmin, ymax), (xmin, ymin), (xmax, ymin), (xmax, ymax), (xmin, ymax)]])}))"
         params.append(
             (
@@ -150,7 +149,7 @@ def get_raster(
             path = os.path.join(util.get_ulmo_dir(), DEFAULT_FILE_PATH)
 
         util.mkdir_if_doesnt_exist(os.path.join(path, "by_boundingbox"))
-        xmin, ymin, xmax, ymax = [float(n) for n in bbox]
+        xmin, ymin, xmax, ymax = (float(n) for n in bbox)
         uid = util.generate_raster_uid(layer, xmin, ymin, xmax, ymax)
         output_path = os.path.join(path, "by_boundingbox", f"{uid}.tif")
 

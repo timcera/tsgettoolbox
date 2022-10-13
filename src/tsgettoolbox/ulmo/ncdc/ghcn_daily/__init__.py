@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
     `National Climatic Data Center`_ `Global Historical Climate Network -
     Daily`_ dataset

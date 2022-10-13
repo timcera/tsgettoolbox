@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
     `USGS National Water Information System`_ web services
 

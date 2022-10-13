@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import cltoolbox
 
 try:
@@ -7,7 +6,6 @@ except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
 import pandas as pd
-import typic
 from toolbox_utils import tsutils
 
 from tsgettoolbox.ulmo.twc.kbdi.core import get_data
@@ -49,7 +47,6 @@ def twc_cli(county, start_date=None, end_date=None):
     tsutils.printiso(twc(county, start_date=start_date, end_date=end_date))
 
 
-@typic.al
 def twc(county: int, start_date=None, end_date=None):
     r"""Download Texas Weather Connection (TWC) data."""
     return twc_ulmo_df(county=county, start_date=start_date, end_date=end_date)

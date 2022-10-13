@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Access data provided by the `United States Army Corps of Engineers`_.
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 r"""
 tsgettoolbox command line/library tools to retrieve time series.
 

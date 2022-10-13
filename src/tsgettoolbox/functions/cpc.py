@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from typing import Optional
 
 import cltoolbox
@@ -9,7 +8,6 @@ try:
 except ImportError:
     from argparse import RawTextHelpFormatter as HelpFormatter
 
-import typic
 from toolbox_utils import tsutils
 
 from tsgettoolbox.ulmo.cpc.drought.core import get_data
@@ -103,7 +101,6 @@ def cpc_cli(state=None, climate_division=None, start_date=None, end_date=None):
     )
 
 
-@typic.al
 def cpc(
     state: Optional[str] = None,
     climate_division: Optional[int] = None,

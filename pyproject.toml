@@ -21,13 +21,14 @@ dependencies = [
     "requests",
     "siphon",
     "suds-community",
-    "toolbox_utils < 1.0.0",
+    "toolbox_utils >= 1.0.0, < 2.0.0",
     "zeep",
     "async_retriever",
     "cftime",
     "pydap",
     "pydaymet",
     "cdo_api_py",
+    "pydantic",
     ]
 license = {text = "BSD-3-Clause"}
 authors = [
@@ -81,7 +82,7 @@ dev = [
 [project.scripts]
 tsgettoolbox = "tsgettoolbox.tsgettoolbox:main"
 
-[project_urls]
+[project.urls]
 ocumentation = "https://timcera.bitbucket.io/tsgettoolbox/docs/index.html#tsgettoolbox-documentation"
 github = "https://github.com/timcera/tsgettoolbox"
 bitbucket = "https://bitbucket.org/timcera/tsgettoolbox/src/main/"

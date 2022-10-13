@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
     .. include:: ../ulmo/cuahsi/wof/README.rst
 """

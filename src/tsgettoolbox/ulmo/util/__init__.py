@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from .misc import (
     camel_to_underscore,
     convert_date,

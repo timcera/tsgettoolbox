@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import contextlib
 import copy
 import os
@@ -537,7 +536,7 @@ def _get_last_refresh(site_code, path, complevel=None, complib=None):
             if pandas.isnull(last_refresh):
                 last_refresh = None
             return last_refresh
-    except IOError:
+    except OSError:
         return None
 
 

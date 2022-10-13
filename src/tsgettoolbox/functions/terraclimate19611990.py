@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Download data from terraclimate."""
 
 # http://thredds.northwestknowledge.net:8080/thredds/terraclimate_aggregated.html

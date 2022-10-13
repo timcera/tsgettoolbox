@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import datetime
 import email.utils
 import ftplib
@@ -106,7 +104,7 @@ def mkdir_if_doesnt_exist(dir_path):
 
 
 def module_with_dependency_errors(method_names):
-    class FakeModule(object):
+    class FakeModule:
         pass
 
     fake_module = FakeModule()
@@ -124,7 +122,7 @@ def module_with_dependency_errors(method_names):
 def module_with_deprecation_warnings(functions, warning_message):
     warnings.filterwarnings("always", warning_message, DeprecationWarning)
 
-    class DeprecatedModule(object):
+    class DeprecatedModule:
         pass
 
     deprecated_module = DeprecatedModule()
@@ -164,7 +162,7 @@ def open_file_for_url(url, path, check_modified=True, use_file=None, use_bytes=N
     else:
         open_path = use_file
     if use_bytes is None:
-        open_file = open(open_path, "r")
+        open_file = open(open_path)
     else:
         open_file = open(open_path, "rb")
 

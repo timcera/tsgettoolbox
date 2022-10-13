@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 r"""
 tsgettoolbox command line/library tools to retrieve time series.
 
@@ -175,7 +174,6 @@ def daymet_cli(
 
 
 @tsutils.transform_args(measuredParams=tsutils.make_list)
-# @typic.al
 def daymet(
     lat: float,
     lon: float,

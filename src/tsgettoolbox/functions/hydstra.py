@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Download data from a Kisters Hydstra database webserver."""
 
 import cltoolbox

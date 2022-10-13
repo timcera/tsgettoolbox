@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import ast
 import datetime as dt
 import sys

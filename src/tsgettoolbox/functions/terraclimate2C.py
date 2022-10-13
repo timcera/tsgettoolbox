@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Download data from terraclimate."""
 
 # http://thredds.northwestknowledge.net:8080/thredds/terraclimate_aggregated.html
@@ -264,5 +263,4 @@ terraclimate2C.__doc__ = terraclimate2C_cli.__doc__
 
 if __name__ == "__main__":
     r = terraclimate2C(29.6, -82.3)
-    print(r.columns)
     print(r)

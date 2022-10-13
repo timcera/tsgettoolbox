@@ -1,4 +1,3 @@
-
 .. include:: ../BADGES.rst
 
 Python API Function Summary

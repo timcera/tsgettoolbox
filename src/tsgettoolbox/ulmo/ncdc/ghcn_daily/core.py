@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
     ulmo.ncdc.ghcn_daily.core
     ~~~~~~~~~~~~~~~~~~~~~~~~~
