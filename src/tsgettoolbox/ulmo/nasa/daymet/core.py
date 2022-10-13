@@ -123,7 +123,8 @@ def get_daymet_singlepixel(
 
 def _check_variables(variables):
     """make sure all variables are in list"""
-    if bad_variables := [v for v in variables if v not in VARIABLES.keys()]:
+    bad_variables = [v for v in variables if v not in VARIABLES.keys()]
+    if bad_variables:
         raise ValueError(
             f"""the variable(s) provided ('{"', '".join(bad_variables)}') not
 one of available options: '{str(VARIABLES.keys())[2:-2]}'"""
@@ -132,7 +133,8 @@ one of available options: '{str(VARIABLES.keys())[2:-2]}'"""
 
 def _check_years(years):
     """make sure all years are in available year range"""
-    if bad_years := [str(year) for year in years if not MIN_YEAR <= year <= MAX_Year]:
+    bad_years = [str(year) for year in years if not MIN_YEAR <= year <= MAX_Year]
+    if bad_years:
         raise ValueError(
             f"the year(s) provided ({', '.join(bad_years)}) \nnot in available timerange ({MIN_YEAR}-{MAX_Year})"
         )

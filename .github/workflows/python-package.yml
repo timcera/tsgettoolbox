@@ -38,6 +38,7 @@ jobs:
               run: |
                   sudo apt-get update
                   sudo apt-get install gdal-bin libgdal-dev libgdal-doc proj-bin
+                  sudo apt-get install libnetcdf-dev
                   python -m pip install --upgrade pip
                   python -m pip install flake8 pytest pytest-cov pytest-mpl
                   python -m pip install coverage[toml]

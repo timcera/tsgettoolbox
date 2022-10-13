@@ -561,7 +561,7 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
     # Set missing values to None
     ndf.replace(to_replace=[-9999], value=[None], inplace=True)
 
-    if mcols := [
+    mcols = [
         i
         for i in ndf.columns
         if i
@@ -591,7 +591,8 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
             "SNXY",
             "SXXY",
         ]
-    ]:
+    ]
+    if mcols:
         ndf.loc[:, mcols] = ndf.loc[:, mcols] / 10.0
 
     ndf.index.name = "Datetime"

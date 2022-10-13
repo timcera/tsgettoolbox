@@ -26,10 +26,10 @@ dependencies = [
     "zeep",
     "async_retriever",
     "cftime",
-    "pydap",
     "pydaymet",
     "cdo_api_py",
     "pydantic",
+    "xarray[io]",
     ]
 license = {text = "BSD-3-Clause"}
 authors = [

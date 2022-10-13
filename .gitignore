@@ -36,3 +36,6 @@ __pycache__/*
 */.ipynb_checkpoints/*
 docs/_function_autosummary/*
 .spyproject/*
+cache
+debug_*
+toss

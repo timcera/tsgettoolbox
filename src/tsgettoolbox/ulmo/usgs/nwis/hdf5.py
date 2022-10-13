@@ -226,9 +226,8 @@ def remove_values(
             if values_path in store:
                 values_df = store[values_path]
                 original_datetimes = set(values_df.dropna(how="all").index.tolist())
-                if datetimes_to_remove := original_datetimes.intersection(
-                    set(datetimes)
-                ):
+                datetimes_to_remove = original_datetimes.intersection(set(datetimes))
+                if datetimes_to_remove:
                     values_df.loc[list(datetimes_to_remove), "value"] = np.nan
                     core.log.info(
                         f"{len(datetimes_to_remove)} {variable_code} values were set to NaNs in file"
