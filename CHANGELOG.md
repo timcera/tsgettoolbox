@@ -1,3 +1,9 @@
+## v25.0.0 (2022-10-13)
+
+### Fix
+
+- general fixes to support toolbox_utils >= 1.0.0 and < 2.0.0
+
 ## v24.0.2 (2022-09-29)
 
 ### Fix
