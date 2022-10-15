@@ -1,19 +1,15 @@
+"""
+cdec                US/CA station E,H,D,M: California Department of Water
+                    Resources
+"""
+
 import warnings
 from typing import Optional, Union
 
 import pandas as pd
 from cltoolbox import command
+from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
-
-try:
-    from typing import Literal
-except ImportError:
-    from typing_extensions import Literal
-
-try:
-    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-except ImportError:
-    from argparse import RawTextHelpFormatter as HelpFormatter
 
 __all__ = ["cdec"]
 

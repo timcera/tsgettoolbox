@@ -1,15 +1,30 @@
+"""
+ncei_ghcnd_ftp      global station D:NCEI Global Historical Climatology
+                    Network - Daily (GHCND)
+ncei_ghcnd          global station D:Global Historical Climatology Network
+                    - Daily (GHCND)
+ncei_gsod           global station D:NCEI Global Summary of the Day (GSOD)
+ncei_gsom           global station M:NCEI Global Summary of Month (GSOM)
+ncei_gsoy           global station A:NCEI Global Summary of Year (GSOY)
+ncei_normal_ann     global station A: NCEI annual normals
+ncei_normal_dly     global station D:NCEI Daily Normals
+ncei_normal_hly     global station H:NCEI Normal hourly
+ncei_normal_mly     global station M:NCEI Monthly Summaries.
+ncei_precip_15      global station 15T:NCEI 15 minute precipitation
+ncei_precip_hly     global station H:NCEI hourly precipitation
+ncei_annual         global station A:NCEI annual data summaries
+ncei_ghcndms        global station M:NCEI GHCND Monthly Summaries
+                    (GHCNDMS)
+ncei_ish            global station H:Integrated Surface Database
+"""
+
 from collections import OrderedDict
 
 import cltoolbox
 import numpy as np
 import pandas as pd
 from cdo_api_py import Client
-
-try:
-    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-except ImportError:
-    from argparse import RawTextHelpFormatter as HelpFormatter
-
+from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox import utils
@@ -6192,206 +6207,387 @@ def ncei_ish(station, datatypeid=None, start_date=None, end_date=None):
     ]
 
     process = {
-        "WND": {
-            "WND_DIR:deg": {"astype": "float64", "replace": "999"},
-            "WND_DIR_QC": {},
-            "WND_OBS_TYPE": {"replace": "9"},
-            "WND_SPD:m/s": {"astype": "float64", "replace": "9999", "factor": 0.1},
-            "WND_SPD_QC": {},
-        },
-        "CIG": {
-            "CEIL:m": {"astype": "float64", "replace": "99999"},
-            "CEIL_QC": {},
-            "CEIL:DC": {"replace": "9"},
-            "CAVOK": {"replace": "9"},
-        },
-        "VIS": {
-            "VIS:m": {"astype": "float64", "replace": "999999"},
-            "VIS_QC": {},
-            "VIS_VAR": {"replace": "9"},
-            "VIS_VAR_QC": {},
-        },
-        "TMP": {
-            "AIRT:degC": {"astype": "float64", "replace": "+9999", "factor": 0.1},
-            "AIRT_QC": {},
-        },
-        "DEW": {
-            "DEW:degC": {"astype": "float64", "replace": "+9999", "factor": 0.1},
-            "DEW_QC": {},
-        },
-        "SLP": {
-            "AIR_PRESS:hectopascals": {
-                "astype": "float64",
-                "replace": "99999",
-                "factor": 0.1,
-            },
-            "AIR_PRESS_QC": {},
-        },
-        "AA1": {
-            "PREC1_PER:hour": {"astype": "float64", "replace": "99"},
-            "PREC1_DPTH:mm": {"astype": "float64", "replace": "9999", "factor": 0.1},
-            "PREC1_COND": {},
-            "PREC1_QC": {},
-        },
-        "AA2": {
-            "PREC2_PER:hour": {"astype": "float64", "replace": "99"},
-            "PREC2_DPTH:mm": {"astype": "float64", "replace": "9999", "factor": 0.1},
-            "PREC2_COND": {},
-            "PREC2_QC": {},
-        },
-        "AA3": {
-            "PREC3_PER:hour": {"astype": "float64", "replace": "99"},
-            "PREC3_DPTH:mm": {"astype": "float64", "replace": "9999", "factor": 0.1},
-            "PREC3_COND": {},
-            "PREC3_QC": {},
-        },
-        "AA4": {
-            "PREC4_PER:hour": {"astype": "float64", "replace": "99"},
-            "PREC4_DPTH:mm": {"astype": "float64", "replace": "9999", "factor": 0.1},
-            "PREC4_COND": {},
-            "PREC4_QC": {},
-        },
-        "AB1": {
-            "PREC_MON_DPTH:mm": {"astype": "float64", "replace": "9999", "factor": 0.1},
-            "PREC_MON_COND": {},
-            "PREC_MON_QC": {},
-        },
-        "AC1": {
-            "PREC_HIST_DUR": {"astype": "float64", "replace": "9"},
-            "PREC_HIST_COND": {"replace": "9"},
-            "PREC_HIST_QC": {},
-        },
-        "AD1": {
-            "PREC_HIST_DUR": {"astype": "float64", "replace": "9"},
-            "PREC_HIST_COND": {"replace": "9"},
-            "PREC_HIST_QC": {},
-        },
-        "GA1": {
-            "SKY_COV1": {"replace": "99"},
-            "SKY_COV1_QC": {},
-            "SKY_COV1_BASE:m": {"replace": "99999"},
-            "SKY_COV1_BASE_QC": {},
-            "SKY_COV1_CLD": {},
-            "SKY_COV1_CLD_QC": {},
-        },
-        "GA2": {
-            "SKY_COV2": {"replace": "99"},
-            "SKY_COV2_QC": {},
-            "SKY_COV2_BASE:m": {"replace": "99999"},
-            "SKY_COV2_BASE_QC": {},
-            "SKY_COV2_CLD": {},
-            "SKY_COV2_CLD_QC": {},
-        },
-        "GA3": {
-            "SKY_COV3": {"replace": "99"},
-            "SKY_COV3_QC": {},
-            "SKY_COV3_BASE:m": {"replace": "99999"},
-            "SKY_COV3_BASE_QC": {},
-            "SKY_COV3_CLD": {},
-            "SKY_COV3_CLD_QC": {},
-        },
-        "GA4": {
-            "SKY_COV4": {"replace": "99"},
-            "SKY_COV4_QC": {},
-            "SKY_COV4_BASE:m": {"replace": "99999"},
-            "SKY_COV4_BASE_QC": {},
-            "SKY_COV4_CLD": {},
-            "SKY_COV4_CLD_QC": {},
-        },
-        "GA5": {
-            "SKY_COV5": {"replace": "99"},
-            "SKY_COV5_QC": {},
-            "SKY_COV5_BASE:m": {"replace": "99999"},
-            "SKY_COV5_BASE_QC": {},
-            "SKY_COV5_CLD": {},
-            "SKY_COV5_CLD_QC": {},
-        },
-        "GA6": {
-            "SKY_COV6": {"replace": "99"},
-            "SKY_COV6_QC": {},
-            "SKY_COV6_BASE:m": {"replace": "99999"},
-            "SKY_COV6_BASE_QC": {},
-            "SKY_COV6_CLD": {},
-            "SKY_COV6_CLD_QC": {},
-        },
-        "GF1": {
-            "SKY_COV_TOT": {"replace": "99"},
-            "SKY_COV_OPAQUE": {"replace": "99"},
-            "SKY_COV_TOT_QC": {},
-            "SKY_COV_LOW": {"replace": "99"},
-            "SKY_COV_LOW_QC": {},
-            "SKY_COV_CLD": {},
-            "SKY_COV_CLD_QC": {},
-            "SKY_COV_LOW_BASE:m": {"replace": "99999"},
-            "SKY_COV_LOW_BASE_QC": {},
-            "SKY_COV_MID": {},
-            "SKY_COV_MIN_QC": {},
-            "SKY_COV_HIGH": {},
-            "SKY_COV_HIGH_QC": {},
-        },
-        "MW1": {
-            "WTHR_OBS1": {"astype": "Int64"},
-            "WTHR_OBS1_QC": {},
-        },
-        "MW2": {
-            "WTHR_OBS2": {"astype": "Int64"},
-            "WTHR_OBS2_QC": {},
-        },
-        "MW3": {
-            "WTHR_OBS3": {"astype": "Int64"},
-            "WTHR_OBS3_QC": {},
-        },
-        "MW4": {
-            "WTHR_OBS4": {"astype": "Int64"},
-            "WTHR_OBS4_QC": {},
-        },
-        "MD1": {
-            "ATM_PRESS_CHG:hectopascals": {"astype": "Int64", "replace": "9"},
-            "ATM_PRESS_CHG_QC": {},
-            "ATM_PRESS_CHG_3HR:hectopascals": {
-                "astype": "float64",
-                "replace": "999",
-                "factor": 0.1,
-            },
-            "ATM_PRESS_CHG_3HR_QC": {},
-            "ATM_PRESS_CHG_24HR:hectopascals": {
-                "astype": "float64",
-                "replace": "+999",
-                "factor": 0.1,
-            },
-            "ATM_PRESS_CHG_24HR_QC": {},
-        },
-        "EQD": {},
-        "AY1": {},
-        "OC1": {
-            "WND_GUST:m/s": {"astype": "float64", "replace": "9999", "factor": 0.1},
-            "WND_GUST_QC": {},
-        },
-        "UA1": {
-            "WAVE_METHOD": {"replace": "9"},
-            "WAVE_PER:s": {"astype": "float64", "replace": "99"},
-            "WAVE_HGT:m": {"astype": "float64", "replace": "999", "factor": 0.1},
-            "WAVE_HGT_QC": {},
-            "WAVE_STATE": {"replace": "99"},
-            "WAVE_STATE_QC": {},
-        },
-        "KA1": {},
-        "KA2": {},
-        "KA3": {},
-        "KA4": {},
-        "AJ1": {
-            "SNOW_DEPTH:cm": {"replace": "9999"},
-            "SNOW_DEPTH_COND": {"replace": "9"},
-            "SNOW_DEPTH_QC": {},
-            "SNOW_DEPTH_EW:mm": {
-                "astype": "float64",
-                "replace": "999999",
-                "factor": 0.1,
-            },
-            "SNOW_DEPTH_EW_COND": {"replace": "9"},
-            "SNOW_DEPTH_EW_QC": {},
-        },
-        # MA1,REM,WG1,OA1,AL1,IA1,IA2,AG1,HL1,OA2,AY2,OA3,AW1,AZ1,AZ2,SA1,UG1,ME1,OD1,OD2,GE1,AW2
+        "WND": OrderedDict(
+            {
+                "WND_DIR:deg": {"astype": "float64", "replace": "999"},
+                "WND_DIR_QC": {},
+                "WND_OBS_TYPE": {"replace": "9"},
+                "WND_SPD:m/s": {"astype": "float64", "replace": "9999", "factor": 0.1},
+                "WND_SPD_QC": {},
+            }
+        ),
+        "CIG": OrderedDict(
+            {
+                "CEIL:m": {"astype": "float64", "replace": "99999"},
+                "CEIL_QC": {},
+                "CEIL:DC": {"replace": "9"},
+                "CAVOK": {"replace": "9"},
+            }
+        ),
+        "VIS": OrderedDict(
+            {
+                "VIS:m": {"astype": "float64", "replace": "999999"},
+                "VIS_QC": {},
+                "VIS_VAR": {"replace": "9"},
+                "VIS_VAR_QC": {},
+            }
+        ),
+        "TMP": OrderedDict(
+            {
+                "AIRT:degC": {"astype": "float64", "replace": "+9999", "factor": 0.1},
+                "AIRT_QC": {},
+            }
+        ),
+        "DEW": OrderedDict(
+            {
+                "DEW:degC": {"astype": "float64", "replace": "+9999", "factor": 0.1},
+                "DEW_QC": {},
+            }
+        ),
+        "SLP": OrderedDict(
+            {
+                "AIR_PRESS:hectopascals": {
+                    "astype": "float64",
+                    "replace": "99999",
+                    "factor": 0.1,
+                },
+                "AIR_PRESS_QC": {},
+            }
+        ),
+        "AA1": OrderedDict(
+            {
+                "PREC1_PER:hour": {"astype": "float64", "replace": "99"},
+                "PREC1_DPTH:mm": {
+                    "astype": "float64",
+                    "replace": "9999",
+                    "factor": 0.1,
+                },
+                "PREC1_COND": {},
+                "PREC1_QC": {},
+            }
+        ),
+        "AA2": OrderedDict(
+            {
+                "PREC2_PER:hour": {"astype": "float64", "replace": "99"},
+                "PREC2_DPTH:mm": {
+                    "astype": "float64",
+                    "replace": "9999",
+                    "factor": 0.1,
+                },
+                "PREC2_COND": {},
+                "PREC2_QC": {},
+            }
+        ),
+        "AA3": OrderedDict(
+            {
+                "PREC3_PER:hour": {"astype": "float64", "replace": "99"},
+                "PREC3_DPTH:mm": {
+                    "astype": "float64",
+                    "replace": "9999",
+                    "factor": 0.1,
+                },
+                "PREC3_COND": {},
+                "PREC3_QC": {},
+            }
+        ),
+        "AA4": OrderedDict(
+            {
+                "PREC4_PER:hour": {"astype": "float64", "replace": "99"},
+                "PREC4_DPTH:mm": {
+                    "astype": "float64",
+                    "replace": "9999",
+                    "factor": 0.1,
+                },
+                "PREC4_COND": {},
+                "PREC4_QC": {},
+            }
+        ),
+        "AB1": OrderedDict(
+            {
+                "PREC_MON_DPTH:mm": {
+                    "astype": "float64",
+                    "replace": "9999",
+                    "factor": 0.1,
+                },
+                "PREC_MON_COND": {},
+                "PREC_MON_QC": {},
+            }
+        ),
+        "AC1": OrderedDict(
+            {
+                "PREC_HIST_DUR": {"astype": "float64", "replace": "9"},
+                "PREC_HIST_COND": {"replace": "9"},
+                "PREC_HIST_QC": {},
+            }
+        ),
+        "AD1": OrderedDict(
+            {
+                "PREC_HIST_DUR": {"astype": "float64", "replace": "9"},
+                "PREC_HIST_COND": {"replace": "9"},
+                "PREC_HIST_QC": {},
+            }
+        ),
+        "GA1": OrderedDict(
+            {
+                "SKY_COV1": {"replace": "99"},
+                "SKY_COV1_QC": {},
+                "SKY_COV1_BASE:m": {"replace": "99999"},
+                "SKY_COV1_BASE_QC": {},
+                "SKY_COV1_CLD": {},
+                "SKY_COV1_CLD_QC": {},
+            }
+        ),
+        "GA2": OrderedDict(
+            {
+                "SKY_COV2": {"replace": "99"},
+                "SKY_COV2_QC": {},
+                "SKY_COV2_BASE:m": {"replace": "99999"},
+                "SKY_COV2_BASE_QC": {},
+                "SKY_COV2_CLD": {},
+                "SKY_COV2_CLD_QC": {},
+            }
+        ),
+        "GA3": OrderedDict(
+            {
+                "SKY_COV3": {"replace": "99"},
+                "SKY_COV3_QC": {},
+                "SKY_COV3_BASE:m": {"replace": "99999"},
+                "SKY_COV3_BASE_QC": {},
+                "SKY_COV3_CLD": {},
+                "SKY_COV3_CLD_QC": {},
+            }
+        ),
+        "GA4": OrderedDict(
+            {
+                "SKY_COV4": {"replace": "99"},
+                "SKY_COV4_QC": {},
+                "SKY_COV4_BASE:m": {"replace": "99999"},
+                "SKY_COV4_BASE_QC": {},
+                "SKY_COV4_CLD": {},
+                "SKY_COV4_CLD_QC": {},
+            }
+        ),
+        "GA5": OrderedDict(
+            {
+                "SKY_COV5": {"replace": "99"},
+                "SKY_COV5_QC": {},
+                "SKY_COV5_BASE:m": {"replace": "99999"},
+                "SKY_COV5_BASE_QC": {},
+                "SKY_COV5_CLD": {},
+                "SKY_COV5_CLD_QC": {},
+            }
+        ),
+        "GA6": OrderedDict(
+            {
+                "SKY_COV6": {"replace": "99"},
+                "SKY_COV6_QC": {},
+                "SKY_COV6_BASE:m": {"replace": "99999"},
+                "SKY_COV6_BASE_QC": {},
+                "SKY_COV6_CLD": {},
+                "SKY_COV6_CLD_QC": {},
+            }
+        ),
+        "GF1": OrderedDict(
+            {
+                "SKY_COV_TOT": {"replace": "99"},
+                "SKY_COV_OPAQUE": {"replace": "99"},
+                "SKY_COV_TOT_QC": {},
+                "SKY_COV_LOW": {"replace": "99"},
+                "SKY_COV_LOW_QC": {},
+                "SKY_COV_CLD": {},
+                "SKY_COV_CLD_QC": {},
+                "SKY_COV_LOW_BASE:m": {"replace": "99999"},
+                "SKY_COV_LOW_BASE_QC": {},
+                "SKY_COV_MID": {},
+                "SKY_COV_MIN_QC": {},
+                "SKY_COV_HIGH": {},
+                "SKY_COV_HIGH_QC": {},
+            }
+        ),
+        "MW1": OrderedDict(
+            {
+                "WTHR_OBS1": {"astype": "Int64"},
+                "WTHR_OBS1_QC": {},
+            }
+        ),
+        "MW2": OrderedDict(
+            {
+                "WTHR_OBS2": {"astype": "Int64"},
+                "WTHR_OBS2_QC": {},
+            }
+        ),
+        "MW3": OrderedDict(
+            {
+                "WTHR_OBS3": {"astype": "Int64"},
+                "WTHR_OBS3_QC": {},
+            }
+        ),
+        "MW4": OrderedDict(
+            {
+                "WTHR_OBS4": {"astype": "Int64"},
+                "WTHR_OBS4_QC": {},
+            }
+        ),
+        "MD1": OrderedDict(
+            {
+                "ATM_PRESS_CHG:hectopascals": {"astype": "Int64", "replace": "9"},
+                "ATM_PRESS_CHG_QC": {},
+                "ATM_PRESS_CHG_3HR:hectopascals": {
+                    "astype": "float64",
+                    "replace": "999",
+                    "factor": 0.1,
+                },
+                "ATM_PRESS_CHG_3HR_QC": {},
+                "ATM_PRESS_CHG_24HR:hectopascals": {
+                    "astype": "float64",
+                    "replace": "+999",
+                    "factor": 0.1,
+                },
+                "ATM_PRESS_CHG_24HR_QC": {},
+            }
+        ),
+        "EQD": OrderedDict({"ELEMENT_QUALITY_DATA": {}}),
+        "AY1": OrderedDict(
+            {
+                "PAST_WEATHER_MANUAL_1_ATM_CONDITION": {},
+                "PAST_WEATHER_MANUAL_1_ATM_QC": {},
+                "PAST_WEATHER_MANUAL_1_ATM_PERIOD_QUANTITY:hour": {
+                    "astype": "float64",
+                    "replace": "99",
+                },
+                "PAST_WEATHER_MANUAL_1_ATM_PERIOD_QUANTITY_QC": {},
+            }
+        ),
+        "AY2": OrderedDict(
+            {
+                "PAST_WEATHER_MANUAL_2_ATM_CONDITION": {},
+                "PAST_WEATHER_MANUAL_2_ATM_QC": {},
+                "PAST_WEATHER_MANUAL_2_ATM_PERIOD_QUANTITY:hour": {
+                    "astype": "float64",
+                    "replace": "99",
+                },
+                "PAST_WEATHER_MANUAL_2_ATM_PERIOD_QUANTITY_QC": {},
+            }
+        ),
+        "OC1": OrderedDict(
+            {
+                "WND_GUST:m/s": {"astype": "float64", "replace": "9999", "factor": 0.1},
+                "WND_GUST_QC": {},
+            }
+        ),
+        "UA1": OrderedDict(
+            {
+                "WAVE_METHOD": {"replace": "9"},
+                "WAVE_PER:s": {"astype": "float64", "replace": "99"},
+                "WAVE_HGT:m": {"astype": "float64", "replace": "999", "factor": 0.1},
+                "WAVE_HGT_QC": {},
+                "WAVE_STATE": {"replace": "99"},
+                "WAVE_STATE_QC": {},
+            }
+        ),
+        "KA1": OrderedDict(
+            {
+                "EXTREME_AIR_TEMPERATURE_1_period_quantity:hour": {
+                    "astype": "float64",
+                    "replace": "999",
+                    "factor": 0.1,
+                },
+                "EXTREME_AIR_TEMPERATURE_1_code": {"replace": "9"},
+                "EXTREME_AIR_TEMPERATURE_1_air_temperature:degC": {
+                    "astype": "float64",
+                    "replace": "9999",
+                    "factor": 0.1,
+                },
+                "EXTREME_AIR_TEMPERATURE_1_temperature_quality_code": {},
+            }
+        ),
+        "KA2": OrderedDict(
+            {
+                "EXTREME_AIR_TEMPERATURE_2_period_quantity:hour": {
+                    "astype": "float64",
+                    "replace": "999",
+                    "factor": 0.1,
+                },
+                "EXTREME_AIR_TEMPERATURE_2_code": {"replace": "9"},
+                "EXTREME_AIR_TEMPERATURE_2_air_temperature:degC": {
+                    "astype": "float64",
+                    "replace": "9999",
+                    "factor": 0.1,
+                },
+                "EXTREME_AIR_TEMPERATURE_2_temperature_quality_code": {},
+            }
+        ),
+        "KA3": OrderedDict(
+            {
+                "EXTREME_AIR_TEMPERATURE_3_period_quantity:hour": {
+                    "astype": "float64",
+                    "replace": "999",
+                    "factor": 0.1,
+                },
+                "EXTREME_AIR_TEMPERATURE_3_code": {"replace": "9"},
+                "EXTREME_AIR_TEMPERATURE_3_air_temperature:degC": {
+                    "astype": "float64",
+                    "replace": "9999",
+                    "factor": 0.1,
+                },
+                "EXTREME_AIR_TEMPERATURE_3_temperature_quality_code": {},
+            }
+        ),
+        "KA4": OrderedDict(
+            {
+                "EXTREME_AIR_TEMPERATURE_4_period_quantity:hour": {
+                    "astype": "float64",
+                    "replace": "999",
+                    "factor": 0.1,
+                },
+                "EXTREME_AIR_TEMPERATURE_4_code": {"replace": "9"},
+                "EXTREME_AIR_TEMPERATURE_4_air_temperature:degC": {
+                    "astype": "float64",
+                    "replace": "9999",
+                    "factor": 0.1,
+                },
+                "EXTREME_AIR_TEMPERATURE_4_temperature_quality_code": {},
+            }
+        ),
+        "AJ1": OrderedDict(
+            {
+                "SNOW_DEPTH:cm": {"replace": "9999"},
+                "SNOW_DEPTH_COND": {"replace": "9"},
+                "SNOW_DEPTH_QC": {},
+                "SNOW_DEPTH_EW:mm": {
+                    "astype": "float64",
+                    "replace": "999999",
+                    "factor": 0.1,
+                },
+                "SNOW_DEPTH_EW_COND": {"replace": "9"},
+                "SNOW_DEPTH_EW_QC": {},
+            }
+        ),
+        "MA1": OrderedDict(
+            {
+                "ATM_PRESS_altimeter_setting_rate:hectopascals": {
+                    "astype": "float64",
+                    "replace": "99999",
+                    "factor": 0.1,
+                },
+                "ATM_PRESS_altimeter_quality_code": {},
+                "ATM_PRESS_station_pressure_rate:hectopascals": {
+                    "astype": "float64",
+                    "replace": "99999",
+                    "factor": 0.1,
+                },
+                "ATM_PRESS_station_pressure_quality_code": {},
+            }
+        ),
+        # "REM" documentation indicates 3 columns, but the script parses out 5.
+        # "REM": OrderedDict(
+        #     {
+        #         "GEOPHYSICAL_PNT_OBS_rem_id": {},
+        #         "GEOPHYSICAL_PNT_OBS_rem_length": {},
+        #         "GEOPHYSICAL_PNT_OBS_rem": {},
+        #     }
+        # ),
+        # WG1,OA1,AL1,IA1,IA2,AG1,HL1,OA2,OA3,AW1,AZ1,AZ2,SA1,UG1,ME1,OD1,OD2,GE1,AW2
     }
 
     loopvar = list(final.columns)
@@ -6401,9 +6597,6 @@ def ncei_ish(station, datatypeid=None, start_date=None, end_date=None):
             addto.columns = variables.keys()
             for vname in variables.keys():
                 modifiers = process[cname][vname]
-                if not modifiers:
-                    addto = pd.DataFrame()
-                    break
                 if "astype" in modifiers:
                     addto[vname] = addto[vname].astype(modifiers["astype"])
                 if "replace" in modifiers:
@@ -6511,6 +6704,10 @@ ncei_cirs.__doc__ = ncei_cirs_cli.__doc__
 if __name__ == "__main__":
     # r = ncei_cirs()
     # print(r)
+    for station in ["028360-99999", "03391099999"]:
+        print(f"ISH:{station}")
+        r = ncei_ish(station)
+        print(r)
 
     r = ncei_ghcnd_ftp(
         station="ASN00075020",
@@ -6647,8 +6844,3 @@ if __name__ == "__main__":
         end_date=end_date,
     )
     print(r)
-
-    for station in ["028360-99999", "03391099999"]:
-        print(f"ISH:{station}")
-        r = ncei_ish(station)
-        print(r)

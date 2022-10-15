@@ -1,3 +1,8 @@
+"""
+unavco              US station: Download data from the Unavco web
+                    services.
+"""
+
 import logging
 import os
 from io import BytesIO
@@ -5,12 +10,7 @@ from io import BytesIO
 import async_retriever as ar
 import cltoolbox
 import pandas as pd
-
-try:
-    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-except ImportError:
-    from argparse import RawTextHelpFormatter as HelpFormatter
-
+from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 __all__ = ["unavco"]

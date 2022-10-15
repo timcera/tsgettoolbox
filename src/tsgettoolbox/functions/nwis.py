@@ -1,10 +1,13 @@
-r"""
-tsgettoolbox command line/library tools to retrieve time series.
-
-This program is a collection of utilities to download data from various
-web services.
 """
-
+nwis                US station:Use the ``nwis_*`` functions instead.
+nwis_iv             US station E:USGS NWIS Instantaneous Values
+nwis_dv             US station D:USGS NWIS Daily Values
+nwis_site           US station:USGS NWIS Site Database
+nwis_gwlevels       US station:USGS NWIS Groundwater Levels
+nwis_measurements   US station:USGS NWIS Measurements
+nwis_peak           US station:USGS NWIS Peak
+nwis_stat           US station:USGS NWIS Statistic
+"""
 
 import logging
 import os
@@ -14,12 +17,7 @@ from io import BytesIO
 import async_retriever as ar
 import cltoolbox
 import pandas as pd
-
-try:
-    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-except ImportError:
-    from argparse import RawTextHelpFormatter as HelpFormatter
-
+from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 __all__ = [
@@ -923,6 +921,9 @@ def _read_rdb(url, data):
     resp = ar.retrieve_text(
         [url] * len(data), [{"params": {**p, "format": "rdb"}} for p in data]
     )
+
+    if "503 Service Unavailable" in resp[0]:
+        raise Exception(resp[0])
 
     data = [r.strip().split("\n") for r in resp if r[0] == "#"]
     data = [t.split("\t") for d in data for t in d if "#" not in t]

@@ -1,16 +1,14 @@
-"""Download data from Florida Automated Weather Network (FAWN)."""
+"""
+fawn                US/FL 15T,H,D,M:Florida Automated Weather Network
+                    (FAWN)
+"""
 
 import datetime
 
 import cltoolbox
-import pandas as pd
-
-try:
-    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-except ImportError:
-    from argparse import RawTextHelpFormatter as HelpFormatter
-
 import mechanize
+import pandas as pd
+from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 __all__ = ["fawn"]

@@ -1,33 +1,20 @@
-r"""
-tsgettoolbox command line/library tools to retrieve time series.
-
-This program is a collection of utilities to download data from various
-web services.
 """
-
+daymet              NAmerica 1km 1980- D,M:Daymet, daily meteorology by
+                    the Oak Ridge National Laboratory
+"""
 
 import datetime
 import logging
 import os
-from typing import List, Literal, Optional, Union
-
-try:
-    import urllib.parse as urlp
-except ImportError:
-    import urllib as urlp
-
 import warnings
+from typing import List, Optional, Union
 
 import cltoolbox
 import pandas as pd
 import pydaymet
-
-try:
-    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-except ImportError:
-    from argparse import RawTextHelpFormatter as HelpFormatter
-
+from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
+from typing_extensions import Literal
 
 __all__ = ["daymet"]
 

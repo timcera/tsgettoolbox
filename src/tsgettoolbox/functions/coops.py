@@ -1,18 +1,18 @@
+"""
+coops               global station 1T,6T,H,D,M: Center for Operational
+                    Oceanographic Products and Services
+"""
+
 import datetime
 import warnings
 from collections import defaultdict
 from typing import List, Optional, Union
 
 import async_retriever as ar
-import dateutil.parser as parser
-
-try:
-    from typing import Literal
-except ImportError:
-    from typing_extensions import Literal
-
 import cltoolbox
+import dateutil.parser as parser
 import pandas as pd
+from typing_extensions import Literal
 
 try:
     from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter

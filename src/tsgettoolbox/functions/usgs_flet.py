@@ -1,14 +1,14 @@
-"""Download data from Florida Automated Weather Network (FAWN)."""
+"""
+usgs_flet_narr      US/FL 2km D:USGS FL ET data from NARR meteorologic
+                    data.
+usgs_flet_stns      US/FL 2km D:USGS FL ET data from station interpolated
+                    meteorologic data.
+"""
 
 from typing import Callable
 
 import cltoolbox
-
-try:
-    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-except ImportError:
-    from argparse import RawTextHelpFormatter as HelpFormatter
-
+from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox import utils

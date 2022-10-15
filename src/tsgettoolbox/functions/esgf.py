@@ -1,13 +1,10 @@
+""" """
+
 import cltoolbox
 import numpy as np
 import pandas as pd
 from cdo_api_py import Client
-
-try:
-    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-except ImportError:
-    from argparse import RawTextHelpFormatter as HelpFormatter
-
+from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox import utils

@@ -1,12 +1,10 @@
-"""Download data from Florida Automated Weather Network (FAWN)."""
+"""
+metdata             NAmerica 4km 1980- D: Download daily data from METDATA
+                    based on PRISM.
+"""
 
 import cltoolbox
-
-try:
-    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-except ImportError:
-    from argparse import RawTextHelpFormatter as HelpFormatter
-
+from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox import utils
@@ -510,17 +508,18 @@ def metdata(
 ):
     r"""Download METDATA data."""
     if variables is None:
-        vars = sorted(_vars.keys())
+        cvars = sorted(_vars.keys())
     else:
-        vars = tsutils.make_list(variables)
+        cvars = tsutils.make_list(variables)
 
     turl = "http://thredds.northwestknowledge.net:8080/thredds/dodsC/agg_met_{}_1979_CurrentYear_CONUS.nc"
+    # turl = "http://thredds.northwestknowledge.net:8080/thredds/ncss/grid/agg_met_{}_1979_CurrentYear_CONUS.nc"
     return utils.opendap(
         turl,
         lat,
         lon,
         _vars,
-        variables=variables,
+        variables=cvars,
         start_date=start_date,
         end_date=end_date,
         tzname=None,

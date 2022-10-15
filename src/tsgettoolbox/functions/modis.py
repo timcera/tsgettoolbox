@@ -1,16 +1,16 @@
+"""
+modis               global 250m,500m,1000m 2000- 4D,8D,16D,A:Download
+                    MODIS derived data.
+"""
+
 import datetime
 import json
 
-import cltoolbox
-
-try:
-    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-except ImportError:
-    from argparse import RawTextHelpFormatter as HelpFormatter
-
 import async_retriever as ar
+import cltoolbox
 import numpy as np
 import pandas as pd
+from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 __all__ = ["modis"]

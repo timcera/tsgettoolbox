@@ -1,11 +1,11 @@
+"""
+twc                 US/TX station D:Download Texas Weather Connection
+                    (TWC) data.
+"""
+
 import cltoolbox
-
-try:
-    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-except ImportError:
-    from argparse import RawTextHelpFormatter as HelpFormatter
-
 import pandas as pd
+from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox.ulmo.twc.kbdi.core import get_data

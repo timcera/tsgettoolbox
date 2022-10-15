@@ -1,3 +1,4 @@
+import configparser as cp
 import datetime
 import io
 import os
@@ -8,17 +9,11 @@ import numpy as np
 import pandas as pd
 import requests
 from haversine import haversine_vector
+from pydap.client import open_url
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 from siphon.ncss import NCSS
-
-try:
-    import ConfigParser as cp
-except ImportError:
-    import configparser as cp
-
 from toolbox_utils import tsutils
-from xarray import open_dataset as open_url
 
 from . import appdirs
 
@@ -113,20 +108,20 @@ def read_csv(filename):
 
 def file_downloader(baseurl, station, startdate=None, enddate=None):
     """Generic NCEI/NOAA file downloader."""
-    if startdate is None:
-        startdate = pd.to_datetime("1901-01-01")
-    else:
+    if startdate:
         startdate = pd.to_datetime(startdate)
-    if enddate is None:
-        enddate = datetime.datetime.now()
     else:
+        startdate = pd.to_datetime("1901-01-01")
+    if enddate:
         enddate = pd.to_datetime(enddate)
+    else:
+        enddate = datetime.datetime.now()
 
     station = station.split(":")[-1]
-    print(station)
-    print(startdate.year)
-    print(enddate.year)
-    urls = [baseurl.format(**locals()) for _ in range(startdate.year, enddate.year + 1)]
+    urls = []
+    for year in range(startdate.year, enddate.year + 1):
+        url = baseurl.format(station=station, year=year)
+        urls.append(url)
 
     with Pool(processes=os.cpu_count()) as pool:
         # have your pool map the file names to dataframes
@@ -160,7 +155,7 @@ def pdap(
     if "dods" in url:
         dataset = open_dods(url, timeout=timeout)
     else:
-        dataset = open_url(url, timeout=timeout, engine="netcdf4")
+        dataset = open_url(url, timeout=timeout, engine="pydap")
 
     # Determine rlat and rlon index in the grid closest to target (lat, lon).
     lat_vals = dataset[latitude_name][:].data
@@ -320,10 +315,13 @@ variables are "{variables_map.keys()}"."""
                     )
                 )
 
+    # Need to download lat and lon data to determine the closest grid point.
+    # If the url is a single variable url, it doesn't matter which variable is
+    # used to download the lat and lon data.  So use the first.
     if single_var_url is True:
-        dataset = open_url(url.format(variables[0]), engine="netcdf4")
+        dataset = open_url(url.format(variables[0]))
     else:
-        dataset = open_url(url, engine="netcdf4")
+        dataset = open_url(url)
 
     # Determine lat and lon index in the grid closest to target (lat, lon).
     lat_vals = dataset[lat_name][:].data
@@ -344,21 +342,24 @@ variables are "{variables_map.keys()}"."""
     ndf = pd.DataFrame()
     for var in variables:
         if single_var_url is True:
-            dataset = open_url(url.format(var), engine="netcdf4")
+            dataset = open_url(url.format(var))
         try:
             ds = dataset[var]
         except KeyError:
             ds = dataset[variable_map[var]["standard_name"]]
 
-        scale_factor = ds.attributes.get("scale_factor", 1.0)
-        add_offset = ds.attributes.get("add_offset", 0.0)
-        missing_value = ds.attributes.get("missing_value", missing_value)
-        long_name = ds.attributes.get("long_name", "missing_long_name")
+        # EXAMPLE CONTENTS OF TYPICAL ds.attributes
+        # ds.attributes.units: mm
+        # ds.attributes.description: Daily Accumulated Precipitation
+        # ds.attributes.long_name: pr
+        # ds.attributes.standard_name: pr
+        # ds.attributes.dimensions: lon lat time
+        # ds.attributes.grid_mapping: crs
+        # ds.attributes.coordinate_system: WGS84,EPSG:4326
 
-        units = ds.attributes["units"]
         # The following normalizes the units string to conform to the 'pint'
         # library.
-        units = units.replace(" per ", "/")
+        units = ds.attributes.get("units", "").replace(" per ", "/")
         units = units.replace("millimeters", "mm")
         units = units.replace("square meter", "m^2")
         units = units.replace("meters", "m")
@@ -371,10 +372,12 @@ variables are "{variables_map.keys()}"."""
 
         time = dataset[time_name]
         try:
+            time_units = time.attributes.get("units", "")
+            calendar = time.attributes.get("calendar", "standard")
             time = cftime.num2pydate(
                 time.data[:],
-                units=time.attributes["units"],
-                calendar=time.attributes.get("calendar", "standard"),
+                units=time_units,
+                calendar=calendar,
             )
         except ValueError:
             # If the dates are byte strings b"2001-01-01"...
@@ -412,7 +415,9 @@ variables are "{variables_map.keys()}"."""
         )
 
         df[df == missing_value] = pd.NA
-        df = df * scale_factor + add_offset
+        df = df * ds.attributes.get("scale_factor", 1.0) + ds.attributes.get(
+            "add_offset", 0.0
+        )
 
         df.columns = [f"{variable_map[var]['lname']}:{units}"]
         ndf = ndf.join(df, how="outer")
@@ -434,21 +439,25 @@ between {start_date} and {end_date}.
     return ndf
 
 
-def eopendap(
+def erddap(
     url,
     lat,
     lon,
+    variable_map,
     variables=None,
-    variable_map=None,
     start_date=None,
     end_date=None,
     tzname="UTC",
     time_name="date",
     missing_value=None,
+    single_var_url=False,
 ):
     variables = tsutils.make_list(variables)
 
     from erddapy import ERDDAP
+
+    if single_var_url is True:
+        url = url.format(variables[0])
 
     e = ERDDAP(
         server=url,
@@ -471,19 +480,40 @@ def eopendap(
     ).dropna()
 
 
+# Uses NCSS and is slow...
 def nopendap(
     url,
     lat,
     lon,
+    variable_map,
     variables=None,
-    variable_map=None,
     start_date=None,
     end_date=None,
     tzname="UTC",
     time_name="date",
     missing_value=None,
+    single_var_url=False,
 ):
     variables = tsutils.make_list(variables)
+
+    if single_var_url is True:
+        cdf = pd.DataFrame()
+        for var in variables:
+            rdf = opendap(
+                url.format(var),
+                lat,
+                lon,
+                variable_map,
+                variables=None,
+                start_date=start_date,
+                end_date=end_date,
+                tzname=tzname,
+                time_name=time_name,
+                missing_value=missing_value,
+                single_var_url=False,
+            )
+            cdf = cdf.join(rdf, how="outer")
+        return cdf
 
     ncss = NCSS(url)
 

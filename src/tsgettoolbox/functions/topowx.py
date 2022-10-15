@@ -1,12 +1,12 @@
-"""Download data from topowx"""
+"""
+topowx              US 30arcsecond 1948- M:Topoclimatic Monthly Air
+                    Temperature Dataset.
+topowx_daily        US 30arcsecond 1948- D:Topoclimatic Daily Air
+                    Temperature Dataset.
+"""
 
 import cltoolbox
-
-try:
-    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-except ImportError:
-    from argparse import RawTextHelpFormatter as HelpFormatter
-
+from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox import utils

@@ -1,18 +1,16 @@
-"""Download data from terraclimate."""
+"""
+terraclimate        global 1/24deg 1958- M:Download monthly data from
+                    Terraclimate.
+"""
 
 # http://thredds.northwestknowledge.net:8080/thredds/terraclimate_aggregated.html
 
 import cltoolbox
 import pandas as pd
+from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
+from toolbox_utils import tsutils
 
 from tsgettoolbox import utils
-
-try:
-    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-except ImportError:
-    from argparse import RawTextHelpFormatter as HelpFormatter
-
-from toolbox_utils import tsutils
 
 __all__ = ["terraclimate"]
 

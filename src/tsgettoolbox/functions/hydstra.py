@@ -1,4 +1,9 @@
-"""Download data from a Kisters Hydstra database webserver."""
+"""
+hydstra_ts          Kisters Hydstra Webservice - time series values
+hydstra_catalog     Kisters Hydstra Webservice - variable catalog for a
+                    station
+hydstra_stations    Kisters Hydstra Webservice - station list for a server
+"""
 
 import cltoolbox
 from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter

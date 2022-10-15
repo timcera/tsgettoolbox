@@ -1,9 +1,27 @@
+"""
+ldas                grid: Land Data Assimilation System, includes all
+                    ldas_* (NLDAS, GLDAS2, TRMM, SMERGE, GRACE, MERRA)
+ldas_gldas_noah     global 0.25deg 2000- 3H:GLDAS NOAH hydrology model results
+ldas_grace          NAmerica 0.125deg 2002- 7D:Groundwater and soil
+                    moisture from GRACE
+ldas_merra          global 0.5x0.625deg 1980- H:MERRA-2 Land surface
+                    forcings
+ldas_merra_update   global 0.5x0.667deg 1980-2016 H:MERRA-2 Analysis
+                    update
+ldas_nldas_fora     NAmerica 0.125deg 1979- H:NLDAS Weather Forcing A
+                    (surface)
+ldas_nldas_noah     NAmerica 0.125deg 1979- H:NLDAS NOAH hydrology model
+                    results
+ldas_smerge         global 0.125deg 1997- D:SMERGE-Noah-CCI root zone soil
+                    moisture
+ldas_trmm_tmpa      global 0.25deg 1997- 3H:TRMM (TMPA) rainfall estimate
+"""
+
 import datetime
 import itertools
 import logging
 import os
 import textwrap
-import time
 from io import BytesIO
 
 import async_retriever as ar

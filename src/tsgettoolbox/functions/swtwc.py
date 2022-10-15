@@ -1,24 +1,12 @@
 """
-Access data provided by the `United States Army Corps of Engineers`_.
-
-Access data from the USACE `Tulsa District Water Control`_ web site.
-
-.. _United States Army Corps of Engineers: http://www.usace.army.mil/
-.. _Tulsa District Water Control: http://www.swt-wc.usace.army.mil/
-
-https://www.swt-wc.usace.army.mil/webdata/gagedata/EUFO2.current.html
-https://www.swt-wc.usace.army.mil/webdata/gagedata/PTTK1.20211231.html
+swtwc               US/region station:USACE Southwest Division, Tulsa
+                    Water Control
 """
 import datetime
 
 import cltoolbox
 import pandas as pd
-
-try:
-    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-except ImportError:
-    from argparse import RawTextHelpFormatter as HelpFormatter
-
+from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox.ulmo.usace.swtwc.core import get_station_data

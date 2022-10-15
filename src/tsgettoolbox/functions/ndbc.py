@@ -1,16 +1,16 @@
+"""
+ndbc                US station T,6T,10T,15T,H,D:Download historical from
+                    the National Data Buoy Center.
+"""
+
 import datetime
 from gzip import BadGzipFile, GzipFile
 from io import BytesIO, StringIO
 
+import async_retriever as ar
 import cltoolbox
 import pandas as pd
-
-try:
-    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-except ImportError:
-    from argparse import RawTextHelpFormatter as HelpFormatter
-
-import async_retriever as ar
+from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 __all__ = ["ndbc"]

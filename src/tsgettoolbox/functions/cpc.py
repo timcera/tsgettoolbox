@@ -1,13 +1,13 @@
+"""
+cpc                 US/region W: Climate Prediction Center, Weekly Drought
+                    Index
+"""
+
 from typing import Optional
 
 import cltoolbox
 import pandas as pd
-
-try:
-    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-except ImportError:
-    from argparse import RawTextHelpFormatter as HelpFormatter
-
+from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox.ulmo.cpc.drought.core import get_data

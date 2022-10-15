@@ -1,10 +1,5 @@
 """
-Provide access to data from the USACE `Rivergages`_ web site.
-
-`United States Army Corps of Engineers`_ `Rivergages`_ web site.
-
-.. _United States Army Corps of Engineers: http://www.usace.army.mil/
-.. _Rivergages: http://rivergages.mvr.usace.army.mil/WaterControl/new/layout.cfm
+rivergages          US station:USACE river gages
 """
 import warnings
 
@@ -12,6 +7,7 @@ warnings.filterwarnings("ignore")
 
 import cltoolbox
 import pandas as pd
+from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox.ulmo.usace.rivergages.core import (
@@ -19,11 +15,6 @@ from tsgettoolbox.ulmo.usace.rivergages.core import (
     get_station_parameters,
     get_stations,
 )
-
-try:
-    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-except ImportError:
-    from argparse import RawTextHelpFormatter as HelpFormatter
 
 __all__ = ["rivergages"]
 
