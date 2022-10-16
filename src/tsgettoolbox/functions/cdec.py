@@ -6,6 +6,7 @@ cdec                US/CA station E,H,D,M: California Department of Water
 import warnings
 from typing import Optional, Union
 
+import numpy as np
 import pandas as pd
 from cltoolbox import command
 from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -384,7 +385,7 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
                 parse_dates=["DATE TIME"],
                 index_col="DATE TIME",
                 na_values="m",
-            )["VALUE"]
+            )["VALUE"].replace("---", np.nan)
             station_data[var].columns = ["datetime", "value"]
 
         d[station_id] = station_data
@@ -440,6 +441,10 @@ def download_data(
         inplace=True,
     )
     nd = nd.tz_localize("Etc/GMT+8")
+
+    nd = nd.astype("float64")
+    nd = nd.convert_dtypes()
+
     nd.index.name = "Datetime:PST"
     return nd
 
