@@ -1,3 +1,10 @@
+## v25.0.1 (2022-10-16)
+
+### Fix
+
+- going back to pydap even though doesn't support 3.10
+- removed walrus operator to run on 3.7 and added xarry[io] so 3.10 doesn't try to use pydap
+
 ## v25.0.0 (2022-10-13)
 
 ### Fix
