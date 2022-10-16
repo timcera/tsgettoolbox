@@ -4,7 +4,7 @@ ndbc                US station T,6T,10T,15T,H,D:Download historical from
 """
 
 import datetime
-from gzip import BadGzipFile, GzipFile
+from gzip import GzipFile
 from io import BytesIO, StringIO
 
 import async_retriever as ar
@@ -163,6 +163,10 @@ _mapnumtoname = {
     10: "Nov",
     11: "Dec",
 }
+
+
+class BadGzipFile(OSError):
+    """Exception raised in some cases for invalid gzip files."""
 
 
 def date_parser(*x):
