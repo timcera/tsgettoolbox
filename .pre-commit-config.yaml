@@ -28,9 +28,12 @@ repos:
       hooks:
           - id: pretty-format-java
             args: [--autofix]
+          # Commented out until
+          # https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/134
+          # is accepted and released.
+          # - id: pretty-format-toml
+          #   args: [--autofix]
           - id: pretty-format-kotlin
-            args: [--autofix]
-          - id: pretty-format-toml
             args: [--autofix]
 
     - repo: https://github.com/adrienverge/yamllint.git
