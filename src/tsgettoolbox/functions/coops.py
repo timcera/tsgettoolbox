@@ -831,8 +831,9 @@ def coops(
         raise ValueError(
             tsutils.error_wrapper(
                 """
-The "datums" product is not a time-series and can't be mixed with other products."
-"""
+                The "datums" product is not a time-series and can't be mixed
+                with other products."
+                """
             )
         )
 
@@ -898,8 +899,8 @@ The "datums" product is not a time-series and can't be mixed with other products
             warnings.warn(
                 tsutils.error_wrapper(
                     """
-No data for this product and time frame at this station.
-"""
+                    No data for this product and time frame at this station.
+                    """
                 )
             )
             return pd.DataFrame()

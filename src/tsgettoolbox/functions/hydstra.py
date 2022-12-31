@@ -199,8 +199,8 @@ def hydstra_ts(
                 raise ValueError(
                     tsutils.error_wrapper(
                         f"""
-                Must provide provisional datasource for this server.
-                """
+                        Must provide provisional datasource for this server.
+                        """
                     )
                 )
                 datasource = ""  # for now, this presumably causes a 404 on the URL call
@@ -220,8 +220,8 @@ def hydstra_ts(
             raise ValueError(
                 tsutils.error_wrapper(
                     f"""
-            Must provide aggcode if supplying a variable code directly.
-            """
+                    Must provide aggcode if supplying a variable code directly.
+                    """
                 )
             )
             datatype = ""

@@ -1146,9 +1146,9 @@ def usgs_measurements_peak_rdb_to_df(url, **kwargs):
         raise ValueError(
             tsutils.error_wrapper(
                 """
-No field measurements available.  Some states don't have any posted
-to NWIS.
-"""
+                No field measurements available.  Some states don't have any posted
+                to NWIS.
+                """
             )
         )
 
@@ -1318,15 +1318,15 @@ def nwis(
     if database not in ["iv", "dv", "stat", "measurements", "peak", "site", "gwlevels"]:
         raise ValueError(
             tsutils.error_wrapper(
-                r"""
-The 'database' option must be either 'iv' for instantaneous values, or 'dv' for
-daily values, or 'stat' for daily, monthly, or annual statistics, or
-'measurements' for field measurements, 'peak' for peak stage and flow
-estimates, 'site' for site metadata, or 'gwlevels' for ground water levels.
+                f"""
+                The 'database' option must be either 'iv' for instantaneous
+                values, or 'dv' for daily values, or 'stat' for daily, monthly,
+                or annual statistics, or 'measurements' for field measurements,
+                'peak' for peak stage and flow estimates, 'site' for site
+                metadata, or 'gwlevels' for ground water levels.
 
-You gave {}.""".format(
-                    database
-                )
+                You gave {database}.
+                """
             )
         )
 
@@ -1338,11 +1338,10 @@ You gave {}.""".format(
             raise ValueError(
                 tsutils.error_wrapper(
                     r"""
-For the 'measurements', 'peak', and 'gwlevels' databases you can only collect
-data from one site, you listed {}.
-""".format(
-                        len(words)
-                    )
+                    For the 'measurements', 'peak', and 'gwlevels' databases
+                    you can only collect data from one site, you listed
+                    {len(words)}.
+                    """
                 )
             )
         if (
@@ -1354,9 +1353,9 @@ data from one site, you listed {}.
             raise ValueError(
                 tsutils.error_wrapper(
                     r"""
-The 'measurements', 'peak', or 'gwlevels' databases can currently only
-accept one site using the 'site' keyword.
-"""
+                    The 'measurements', 'peak', or 'gwlevels' databases can
+                    currently only accept one site using the 'site' keyword.
+                    """
                 )
             )
 
@@ -3123,9 +3122,12 @@ def epa_wqp(
             ValueError(
                 tsutils.error_wrapper(
                     """
-Must have at least one of bBox, lat, lon, within, countrycode, statecode,
-countycode, siteType, organization, siteid, huc, sampleMedia, characteristicType,
-characteristicName, pCode, or activityId to filter available stations."""
+                    Must have at least one of bBox, lat, lon, within,
+                    countrycode, statecode, countycode, siteType, organization,
+                    siteid, huc, sampleMedia, characteristicType,
+                    characteristicName, pCode, or activityId to filter
+                    available stations.
+                    """
                 )
             )
         )
@@ -3139,8 +3141,9 @@ characteristicName, pCode, or activityId to filter available stations."""
             ValueError(
                 tsutils.error_wrapper(
                     """
-If specifying "countycode", requires "statecode".  "countrycode" will default
-to "US".  """
+                    If specifying "countycode", requires "statecode".
+                    "countrycode" will default to "US".
+                    """
                 )
             )
         )

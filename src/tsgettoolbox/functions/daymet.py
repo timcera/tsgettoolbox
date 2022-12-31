@@ -232,10 +232,10 @@ def daymet(
                 raise ValueError(
                     tsutils.error_wrapper(
                         f"""
-The measuredParams should be a single string or a list of strings from
-{avail_params}
-You supplied {testparams}.
-"""
+                        The measuredParams should be a single string or a list
+                        of strings from {avail_params} You supplied
+                        {testparams}.
+                        """
                     )
                 )
 
@@ -246,7 +246,9 @@ You supplied {testparams}.
                 logging.warning(
                     tsutils.error_wrapper(
                         f"""
-The parameter {rem} is not available for {time_scale} data."""
+                        The parameter {rem} is not available for {time_scale}
+                        data.
+                        """
                     )
                 )
 

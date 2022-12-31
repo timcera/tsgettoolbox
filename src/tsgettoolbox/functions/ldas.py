@@ -801,8 +801,10 @@ def base_ldas(
         raise ValueError(
             tsutils.error_wrapper(
                 """
-The 'variable' keyword is deprecated. Please use 'variables' instead to be
-consistent with other services in tsgettoolbox."""
+                The 'variable' keyword is deprecated. Please use 'variables'
+                instead to be consistent with other services in
+                tsgettoolbox.
+                """
             )
         )
 
@@ -814,15 +816,15 @@ consistent with other services in tsgettoolbox."""
         raise ValueError(
             tsutils.error_wrapper(
                 f"""
-There is a problem specifying the location.
+                There is a problem specifying the location.
 
-Both `lat` and `lon` need to be specified where you have "lat={lat}" and
-"lon={lon}".
+                Both `lat` and `lon` need to be specified where you have
+                "lat={lat}" and "lon={lon}".
 
-Only for the NLDAS grid can you use `xindex` and `yindex` to specify the
-location.  You have the grid "{project}" and "xindex={xindex}" and
-"yindex={yindex}".
-"""
+                Only for the NLDAS grid can you use `xindex` and `yindex` to
+                specify the location.  You have the grid "{project}" and
+                "xindex={xindex}" and "yindex={yindex}".
+                """
             )
         )
 

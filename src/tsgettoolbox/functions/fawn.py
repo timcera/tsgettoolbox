@@ -347,21 +347,22 @@ def fawn(
                 raise ValueError(
                     tsutils.error_wrapper(
                         f"""
-Station {station} is not in the list of stations."""
+                        Station {station} is not in the list of stations.
+                        """
                     )
                 )
 
     for variable in tsutils.make_list(variables):
         try:
             data[f"vars__{rev_vars[variable]}"] = "on"
-        except KeyError:
+        except KeyError as exc:
             raise ValueError(
                 tsutils.error_wrapper(
                     f"""
-Variable {variable} is not available.
-"""
+                    Variable {variable} is not available.
+                    """
                 )
-            )
+            ) from exc
 
     ndf = pd.DataFrame()
 
@@ -403,9 +404,9 @@ Variable {variable} is not available.
         raise ValueError(
             tsutils.error_wrapper(
                 f"""
-FAWN service returned no values for stations "{stations}", variables "{variables}"
-between "{sdate}" and "{edate}".
-"""
+                FAWN service returned no values for stations "{stations}",
+                variables "{variables}" between "{sdate}" and "{edate}".
+                """
             )
         )
 

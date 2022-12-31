@@ -249,8 +249,8 @@ def ndbc_to_df(url, **query_params):
         raise ValueError(
             tsutils.error_wrapper(
                 """
-No data collected/available within this time frame.
-"""
+                No data collected/available within this time frame.
+                """
             )
         )
 

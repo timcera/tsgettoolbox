@@ -198,8 +198,9 @@ def pdap(
                 raise ValueError(
                     tsutils.error_wrapper(
                         f"""
-The variable "{var}" is not available.  The available variables are "{allvars}".
-"""
+                        The variable "{var}" is not available.  The available
+                        variables are "{allvars}".
+                        """
                     )
                 )
 
@@ -310,8 +311,10 @@ def opendap(
                 raise ValueError(
                     tsutils.error_wrapper(
                         f"""
-The variable "{variable}" is not available from this service.  The available
-variables are "{variables_map.keys()}"."""
+                        The variable "{variable}" is not available from this
+                        service.  The available variables are
+                        "{variables_map.keys()}".
+                        """
                     )
                 )
 
@@ -430,9 +433,9 @@ variables are "{variables_map.keys()}"."""
         raise ValueError(
             tsutils.error_wrapper(
                 f"""
-No data is available for lat/lon "{lat}/{lon}" and variables "{variables}"
-between {start_date} and {end_date}.
-"""
+                No data is available for lat/lon "{lat}/{lon}" and variables
+                "{variables}" between {start_date} and {end_date}.
+                """
             )
         )
 
@@ -604,9 +607,9 @@ def nopendap(
         raise ValueError(
             tsutils.error_wrapper(
                 f"""
-Returned no data for lat/lon "{lat}/{lon}", variables
-"{variables}" between {start_date} and {end_date}.
-"""
+                Returned no data for lat/lon "{lat}/{lon}", variables
+                "{variables}" between {start_date} and {end_date}.
+                """
             )
         )
 

@@ -2491,10 +2491,10 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         raise ValueError(
             tsutils.error_wrapper(
                 f"""
-Available products at the current time are: {products}.
+                Available products at the current time are: {products}.
 
-You gave {query_params['product']}.
-"""
+                You gave {query_params['product']}.
+                """
             )
         )
 
@@ -2508,11 +2508,11 @@ You gave {query_params['product']}.
         raise ValueError(
             tsutils.error_wrapper(
                 f"""
-'band' argument must be in the following list for 'product' = {query_params['product']}.
-{bands}.
+                'band' argument must be in the following list for 'product'
+                = {query_params['product']}. {bands}.
 
-You gave me {query_params['band']}.
-"""
+                You gave me {query_params['band']}.
+                """
             )
         )
 

@@ -49,9 +49,9 @@ def rivergages(station_code, parameter, start_date=None, end_date=None):
         raise ValueError(
             tsutils.error_wrapper(
                 f"""
-Station code {station_code} not in available stations:
-{tstations.keys}
-"""
+                Station code {station_code} not in available stations:
+                {tstations.keys}
+                """
             )
         )
 
@@ -60,9 +60,9 @@ Station code {station_code} not in available stations:
         raise ValueError(
             tsutils.error_wrapper(
                 f"""
-Parameter code {parameter} not in available parameters at station {station_code}:
-{tparameters}
-"""
+                Parameter code {parameter} not in available parameters at
+                station {station_code}: {tparameters}
+                """
             )
         )
     df = get_station_data(
