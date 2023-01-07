@@ -344,7 +344,7 @@ def coops_cli(
         |                             | Count of number of 1 second that    |
         |                             | falls outside a 3-sigma band about  |
         |                             | the mean                            |
-        |  OR                         |                                     |
+        | OR                          |                                     |
         | water_level_Inferred        | if verified                         |
         |                             | A flag that when set to 1 indicates |
         |                             | that the water level value has been |
@@ -676,7 +676,6 @@ def coops_cli(
         Will retrieve data for bin number 4. Note! If a bin is not specified
         for a PORTS station, the data is returned using a predefined real-time
         bin.
-
     """
     tsutils.printiso(
         coops(
@@ -888,9 +887,9 @@ def coops(
             for i in kwds
         ]
         resp = ar.retrieve_json(urls, kwds, disable=disable_caching)
-        if produc in ["datums"]:
+        if produc == "datums":
             resp = [i["datums"] for i in resp if "datums" in i]
-        elif produc in ["predictions"]:
+        elif produc == "predictions":
             resp = [i["predictions"] for i in resp if "predictions" in i]
         else:
             resp = [i["data"] for i in resp if "data" in i]
@@ -907,9 +906,9 @@ def coops(
 
         resp = [item for sublist in resp for item in sublist]
         resp = pd.DataFrame(resp)
-        if produc in ["datums"]:
+        if produc == "datums":
             resp = resp.set_index("n")
-        elif produc in ["monthly_mean"]:
+        elif produc == "monthly_mean":
             resp["t"] = pd.to_datetime(resp[["year", "month"]].assign(Day=1))
             resp = resp.drop(["year", "month"], axis="columns")
             resp = resp.set_index("t")
@@ -921,7 +920,7 @@ def coops(
             time_zone_name = "UTC"
         resp.index.name = f"Datetime:{time_zone_name}"
 
-        if produc in ["datums"]:
+        if produc == "datums":
             resp.index.name = "Datums"
 
         if "f" in resp.columns:
@@ -931,7 +930,7 @@ def coops(
             resp = resp.join(addcols)
 
         units = _settings_map[produc][0][params["units"]]
-        if produc in ["wind", "currents"]:
+        if produc in ("wind", "currents"):
             rename_cols = {
                 "s": f"{produc}_speed:{units}",
                 "g": f"wind_gust:{units}",

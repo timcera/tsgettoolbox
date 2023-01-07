@@ -12,7 +12,6 @@ dynamic = ["readme", "version"]
 description = "Will get time series from different sources on the internet"
 requires-python = ">=3.8"
 dependencies = [
-    "appdirs",
     "cltoolbox",
     "geojson",
     "haversine",
@@ -27,9 +26,8 @@ dependencies = [
     "async_retriever",
     "cftime",
     "pydaymet",
-    "cdo_api_py",
     "pydantic",
-    "pydap",
+    "dapclient",
     ]
 license = {text = "BSD-3-Clause"}
 authors = [

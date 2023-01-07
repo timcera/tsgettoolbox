@@ -8,3 +8,4 @@ Notebooks
 
     ../notebooks/tsgettoolbox-nwis-cli
     ../notebooks/tsgettoolbox-nwis-api
+    ../notebooks/tsgettoolbox-Download_topoWX.ipynb

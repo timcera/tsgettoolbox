@@ -379,7 +379,7 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
             var = row["variable"]
             sensor_id = row["sensor_number"]
 
-            url = f"https://cdec.water.ca.gov/dynamicapp/req/CSVDataServlet?Stations={station_id}&dur_code={dur_code_map[res]}&SensorNums={str(sensor_id)}&Start={start_date_str}&End={end_date_str}"
+            url = f"https://cdec.water.ca.gov/dynamicapp/req/CSVDataServlet?Stations={station_id}&dur_code={dur_code_map[res]}&SensorNums={sensor_id}&Start={start_date_str}&End={end_date_str}"
             station_data[var] = pd.read_csv(
                 url,
                 parse_dates=["DATE TIME"],

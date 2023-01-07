@@ -18,16 +18,17 @@ ncei_ghcndms        global station M:NCEI GHCND Monthly Summaries
 ncei_ish            global station H:Integrated Surface Database
 """
 
+import datetime
 from collections import OrderedDict
 
 import cltoolbox
 import numpy as np
 import pandas as pd
-from cdo_api_py import Client
 from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox import utils
+from tsgettoolbox.cdo_api_py import Client
 from tsgettoolbox.ulmo.ncdc.cirs.core import get_data
 
 __all__ = [
@@ -375,7 +376,7 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
     )
     newcols = ["station", "year", "month", "code"]
     for day in list(range(1, 32)):
-        newcols.extend(f"{col}{day:02}" for col in ["", "m", "q", "s"])
+        newcols.extend(f"{col}{day:02}" for col in ("", "m", "q", "s"))
     df.columns = newcols
     codes = [
         "TMAX",  # Temperature MAX (1/10 degree C)
@@ -540,7 +541,7 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
     #        07 = Ash, dust, sand, or other blowing obstruction
     #        18 = Snow or ice crystals
     #        20 = Rain or snow shower
-    codes.extend([f"WV{i:02}" for i in [1, 3, 7, 18, 20]])
+    codes.extend([f"WV{i:02}" for i in (1, 3, 7, 18, 20)])
 
     for code in codes:
         tmpdf = df.loc[df["code"] == code, :]
@@ -580,7 +581,7 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
         i
         for i in ndf.columns
         if i
-        in [
+        in (
             "TMAX",
             "TMIN",
             "MDTN",
@@ -605,7 +606,7 @@ def ncei_ghcnd_ftp(station, start_date=None, end_date=None):
             "WSFM",
             "SNXY",
             "SXXY",
-        ]
+        )
     ]
     if mcols:
         ndf.loc[:, mcols] = ndf.loc[:, mcols] / 10.0
@@ -743,9 +744,6 @@ def ncei_cdo_json_to_df(
         df.index.name = "Datetime"
         df.index = pd.to_datetime(df.index)
 
-    if datatypeid:
-        df = df[tsutils.make_list(datatypeid)]
-
     return df.rename(columns=add_units(df.columns))
 
 
@@ -790,12 +788,9 @@ def ncei_ghcnd_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     ${start_date}
 
     ${end_date}"""
-    ndf = ncei_ghcnd(
-        stationid, datatypeid=None, start_date=start_date, end_date=end_date
-    )
     tsutils.printiso(
         ncei_ghcnd(
-            stationid, datatypeid=None, start_date=start_date, end_date=end_date
+            stationid, datatypeid=datatypeid, start_date=start_date, end_date=end_date
         ),
     )
 
@@ -1293,7 +1288,9 @@ def ncei_gsod_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     ${end_date}
     """
     tsutils.printiso(
-        ncei_gsod(stationid, datatypeid=datatypeid, start_date=None, end_date=None),
+        ncei_gsod(
+            stationid, datatypeid=datatypeid, start_date=start_date, end_date=end_date
+        ),
     )
 
 
@@ -4003,6 +4000,8 @@ def ncei_normal_ann(stationid, datatypeid=None):
         "NORMAL_ANN",
         stationid,
         datatypeid=datatypeid,
+        start_date="2010-01-01",
+        end_date="2010-01-01",
     )
 
 
@@ -4682,7 +4681,7 @@ def ncei_normal_mly_cli(stationid, datatypeid=None):
     end_date
         End date in ISO8601
         format."""
-    tsutils.printiso(ncei_normal_mly(stationid, datatypeid=None))
+    tsutils.printiso(ncei_normal_mly(stationid, datatypeid=datatypeid))
 
 
 def ncei_normal_mly(stationid, datatypeid=None):
@@ -4764,7 +4763,7 @@ def ncei_precip_15(stationid, datatypeid=None, start_date=None, end_date=None):
 
 # 1900-01-01, 2014-01-01, Precipitation Hourly        , 1    , PRECIP_HLY
 @cltoolbox.command("ncei_precip_hly", formatter_class=HelpFormatter)
-def ncei_precip_hly_cli(stationid, datatypeid=None, start_date=None, end_date=None):
+def ncei_precip_hly_cli(stationid, start_date=None, end_date=None):
     r"""global station H:NCEI hourly precipitation
 
     Requires registration and free API key.
@@ -4791,35 +4790,22 @@ def ncei_precip_hly_cli(stationid, datatypeid=None, start_date=None, end_date=No
     stationid : str
         Station ID.
 
-    datatypeid : str
-        The following table lists the datatypes available for the annual
-        dataset.  If the datatypeid is not given defaults to getting all data
-        available at that station.
-
-        +------+---------------+
-        | Code | Description   |
-        +======+===============+
-        | HPCP | Precipitation |
-        +------+---------------+
-
     start_date
         Start date in ISO8601 format.
 
     end_date
         End date in ISO8601 format."""
     tsutils.printiso(
-        ncei_precip_hly(
-            stationid, datatypeid=None, start_date=start_date, end_date=end_date
-        ),
+        ncei_precip_hly(stationid, start_date=start_date, end_date=end_date),
     )
 
 
-def ncei_precip_hly(stationid, datatypeid=None, start_date=None, end_date=None):
+def ncei_precip_hly(stationid, start_date=None, end_date=None):
     r"""National Centers for Environmental Information (NCEI) hourly precipitation."""
     return ncei_cdo_json_to_df(
         "PRECIP_HLY",
         stationid,
-        datatypeid=datatypeid,
+        datatypeid="HPCP",
         start_date=start_date,
         end_date=end_date,
     )
@@ -6704,7 +6690,7 @@ ncei_cirs.__doc__ = ncei_cirs_cli.__doc__
 if __name__ == "__main__":
     # r = ncei_cirs()
     # print(r)
-    for station in ["028360-99999", "03391099999"]:
+    for station in ("028360-99999", "03391099999"):
         print(f"ISH:{station}")
         r = ncei_ish(station)
         print(r)
@@ -6715,7 +6701,7 @@ if __name__ == "__main__":
         end_date="2001-01-01",
     )
 
-    print("ghcnd")
+    print("3 ghcnd")
     print(r)
 
     r = ncei_ghcnd_ftp(
@@ -6724,7 +6710,7 @@ if __name__ == "__main__":
         end_date="2002-01-01",
     )
 
-    print("ghcnd")
+    print("4 ghcnd")
     print(r)
 
     # http://www.ncdc.noaa.gov/cdo-web/api/v2/data?
@@ -6736,7 +6722,7 @@ if __name__ == "__main__":
         start_date="2010-05-01",
         end_date="2010-05-31",
     )
-    print("precip_15")
+    print("5 precip_15")
     print(r)
     mardi = [
         ["GHCND", "GHCND:AE000041196"],
@@ -6785,7 +6771,7 @@ if __name__ == "__main__":
     r = ncei_gsoy(
         "GHCND:USW00012816",
         start_date=start_date,
-        end_date=end_date,
+        end_date="2013-12-31",
     )
     print(r)
 
@@ -6807,7 +6793,7 @@ if __name__ == "__main__":
 
     print("NORMAL_ANN")
     r = ncei_normal_ann(
-        "GHCND:USC00083322",
+        "GHCND:USC00084731",
     )
     print(r)
 

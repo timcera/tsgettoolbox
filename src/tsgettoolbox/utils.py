@@ -8,8 +8,8 @@ import cftime
 import numpy as np
 import pandas as pd
 import requests
+from dapclient.client import open_dods_url, open_url
 from haversine import haversine_vector
-from pydap.client import open_url
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 from siphon.ncss import NCSS
@@ -153,9 +153,9 @@ def pdap(
     from haversine import haversine_vector
 
     if "dods" in url:
-        dataset = open_dods(url, timeout=timeout)
+        dataset = open_dods_url(url, timeout=timeout)
     else:
-        dataset = open_url(url, timeout=timeout, engine="pydap")
+        dataset = open_url(url, timeout=timeout)
 
     # Determine rlat and rlon index in the grid closest to target (lat, lon).
     lat_vals = dataset[latitude_name][:].data
@@ -393,16 +393,16 @@ def opendap(
         if start_date is None:
             start_date_index = None
         else:
-            start_date_index = timedfindex.get_loc(
-                pd.to_datetime(start_date), method="nearest"
-            )
+            start_date_index = timedfindex.get_indexer(
+                [pd.to_datetime(start_date)], method="nearest"
+            )[0]
 
         if end_date is None:
             end_date_index = None
         else:
-            end_date_index = timedfindex.get_loc(
-                pd.to_datetime(end_date), method="nearest"
-            )
+            end_date_index = timedfindex.get_indexer(
+                [pd.to_datetime(end_date)], method="nearest"
+            )[0]
 
         try:
             point = ds.array[

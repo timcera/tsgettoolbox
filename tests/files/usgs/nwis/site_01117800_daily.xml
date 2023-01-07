@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns1:timeSeriesResponse xsi:schemaLocation="http://www.cuahsi.org/waterML/1.1/ http://waterservices.usgs.gov/WaterML-1.1.xsd" xmlns:ns1="http://www.cuahsi.org/waterML/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ns1:queryInfo xmlns:ns2="http://www.cuahsi.org/waterML/1.1/">
+    <ns2:creationTime>2012-06-06T13:18:40</ns2:creationTime>
+    <ns2:queryURL>http://waterservices.usgs.gov/nwis/dv/</ns2:queryURL>
+    <ns2:criteria>
+        <ns2:locationParam>[ALL:01117800]</ns2:locationParam>
+        <ns2:variableParam>ALL</ns2:variableParam>
+    </ns2:criteria>
+    <ns2:note title="filter:sites">[ALL:01117800]</ns2:note>
+    <ns2:note title="filter:timeRange">[mode=RANGE2, modifiedSince=null] startDT={1851-01-01T00:00:00.000}</ns2:note>
+    <ns2:note title="filter:methodId">methodIds=[ALL]</ns2:note>
+    <ns2:note title="requestDT">2012-06-06T17:18:40.374Z</ns2:note>
+    <ns2:note title="requestId">a8eea610-affb-11e1-a8ff-00144f2bdc5f</ns2:note>
+    <ns2:note title="disclaimer">Provisional data are subject to revision. Go to http://waterdata.usgs.gov/nwis/help/?provisional for more information.</ns2:note>
+    <ns2:note title="server">vaas01</ns2:note>
+</ns1:queryInfo>
+<ns1:timeSeries name="USGS:01117800:00060:00003" xmlns:ns1="http://www.cuahsi.org/waterML/1.1/">
+    <ns1:sourceInfo xsi:type="ns1:SiteInfoType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <ns1:siteName>WOOD RIVER NEAR ARCADIA, RI</ns1:siteName>
+        <ns1:siteCode network="NWIS" agencyCode="USGS">01117800</ns1:siteCode>
+        <ns1:timeZoneInfo siteUsesDaylightSavingsTime="true">
+            <ns1:defaultTimeZone zoneOffset="-05:00" zoneAbbreviation="EST"/>
+            <ns1:daylightSavingsTimeZone zoneOffset="-04:00" zoneAbbreviation="EDT"/>
+        </ns1:timeZoneInfo>
+        <ns1:geoLocation>
+            <ns1:geogLocation xsi:type="ns1:LatLonPointType" srs="EPSG:4326">
+                <ns1:latitude>41.5739884</ns1:latitude>
+                <ns1:longitude>-71.72062318</ns1:longitude>
+            </ns1:geogLocation>
+        </ns1:geoLocation>
+        <ns1:siteProperty name="siteTypeCd">ST</ns1:siteProperty>
+        <ns1:siteProperty name="hucCd">01090005</ns1:siteProperty>
+        <ns1:siteProperty name="stateCd">44</ns1:siteProperty>
+        <ns1:siteProperty name="countyCd">44009</ns1:siteProperty>
+    </ns1:sourceInfo>
+    <ns1:variable ns1:oid="45807197">
+        <ns1:variableCode network="NWIS" vocabulary="NWIS:UnitValues" default="true" variableID="45807197">00060</ns1:variableCode>
+        <ns1:variableName>Streamflow, ft&amp;#179;/s</ns1:variableName>
+        <ns1:variableDescription>Discharge, cubic feet per second</ns1:variableDescription>
+        <ns1:valueType>Derived Value</ns1:valueType>
+        <ns1:unit>
+            <ns1:unitCode>cfs</ns1:unitCode>
+        </ns1:unit>
+        <ns1:options>
+            <ns1:option name="Statistic" optionCode="00003">Mean</ns1:option>
+        </ns1:options>
+        <ns1:noDataValue>-999999.0</ns1:noDataValue>
+    </ns1:variable>
+    <ns1:values>
+        <ns1:value qualifiers="A" dateTime="1964-01-23T00:00:00.000">240</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-01-24T00:00:00.000">191</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-01-25T00:00:00.000">240</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-01-26T00:00:00.000">370</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-01-27T00:00:00.000">310</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-01-28T00:00:00.000">240</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-01-29T00:00:00.000">200</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-01-30T00:00:00.000">170</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-01-31T00:00:00.000">150</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-01T00:00:00.000">150</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-02T00:00:00.000">170</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-03T00:00:00.000">150</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-04T00:00:00.000">130</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-05T00:00:00.000">130</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-06T00:00:00.000">135</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-07T00:00:00.000">190</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-08T00:00:00.000">187</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-09T00:00:00.000">170</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-10T00:00:00.000">144</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-11T00:00:00.000">129</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-12T00:00:00.000">119</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-13T00:00:00.000">111</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-14T00:00:00.000">108</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-15T00:00:00.000">103</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-16T00:00:00.000">119</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-17T00:00:00.000">120</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-18T00:00:00.000">109</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-19T00:00:00.000">111</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-20T00:00:00.000">110</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-21T00:00:00.000">101</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-22T00:00:00.000">94</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-23T00:00:00.000">89</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-24T00:00:00.000">85</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-25T00:00:00.000">81</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-26T00:00:00.000">80</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-27T00:00:00.000">81</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-28T00:00:00.000">77</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-02-29T00:00:00.000">79</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-01T00:00:00.000">76</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-02T00:00:00.000">79</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-03T00:00:00.000">88</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-04T00:00:00.000">98</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-05T00:00:00.000">140</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-06T00:00:00.000">160</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-07T00:00:00.000">140</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-08T00:00:00.000">125</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-09T00:00:00.000">120</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-10T00:00:00.000">135</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-11T00:00:00.000">160</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-12T00:00:00.000">140</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-13T00:00:00.000">130</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-14T00:00:00.000">120</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-15T00:00:00.000">115</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-16T00:00:00.000">110</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-17T00:00:00.000">105</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-18T00:00:00.000">100</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-19T00:00:00.000">97</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-20T00:00:00.000">93</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-21T00:00:00.000">90</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-22T00:00:00.000">86</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-23T00:00:00.000">82</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-24T00:00:00.000">80</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-25T00:00:00.000">77</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-26T00:00:00.000">79</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-27T00:00:00.000">88</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-28T00:00:00.000">81</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-29T00:00:00.000">121</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-30T00:00:00.000">119</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-03-31T00:00:00.000">108</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-01T00:00:00.000">97</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-02T00:00:00.000">89</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-03T00:00:00.000">93</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-04T00:00:00.000">96</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-05T00:00:00.000">88</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-06T00:00:00.000">83</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-07T00:00:00.000">159</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-08T00:00:00.000">193</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-09T00:00:00.000">216</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-10T00:00:00.000">189</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-11T00:00:00.000">163</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-12T00:00:00.000">142</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-13T00:00:00.000">129</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-14T00:00:00.000">146</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-15T00:00:00.000">331</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-16T00:00:00.000">344</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-17T00:00:00.000">278</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-18T00:00:00.000">220</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-19T00:00:00.000">226</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-20T00:00:00.000">211</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-21T00:00:00.000">199</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-22T00:00:00.000">189</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-23T00:00:00.000">190</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-24T00:00:00.000">173</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-25T00:00:00.000">160</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-26T00:00:00.000">159</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-27T00:00:00.000">144</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-28T00:00:00.000">133</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-29T00:00:00.000">123</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-04-30T00:00:00.000">114</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-01T00:00:00.000">107</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-02T00:00:00.000">102</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-03T00:00:00.000">98</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-04T00:00:00.000">94</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-05T00:00:00.000">91</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-06T00:00:00.000">87</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-07T00:00:00.000">85</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-08T00:00:00.000">82</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-09T00:00:00.000">85</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-10T00:00:00.000">86</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-11T00:00:00.000">77</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-12T00:00:00.000">72</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-13T00:00:00.000">70</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-14T00:00:00.000">70</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-15T00:00:00.000">70</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-16T00:00:00.000">67</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-17T00:00:00.000">65</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-18T00:00:00.000">62</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-19T00:00:00.000">60</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-20T00:00:00.000">66</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-21T00:00:00.000">60</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-22T00:00:00.000">59</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-23T00:00:00.000">55</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-24T00:00:00.000">47</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-25T00:00:00.000">43</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-26T00:00:00.000">40</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-27T00:00:00.000">39</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-28T00:00:00.000">37</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-29T00:00:00.000">36</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-30T00:00:00.000">36</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-05-31T00:00:00.000">36</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-01T00:00:00.000">34</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-02T00:00:00.000">34</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-03T00:00:00.000">34</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-04T00:00:00.000">33</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-05T00:00:00.000">31</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-06T00:00:00.000">30</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-07T00:00:00.000">32</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-08T00:00:00.000">35</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-09T00:00:00.000">36</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-10T00:00:00.000">34</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-11T00:00:00.000">31</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-12T00:00:00.000">28</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-13T00:00:00.000">27</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-14T00:00:00.000">28</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-15T00:00:00.000">30</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-16T00:00:00.000">29</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-17T00:00:00.000">28</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-18T00:00:00.000">26</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-19T00:00:00.000">22</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-20T00:00:00.000">23</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-21T00:00:00.000">22</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-22T00:00:00.000">22</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-23T00:00:00.000">23</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-24T00:00:00.000">23</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-25T00:00:00.000">22</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-26T00:00:00.000">20</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-27T00:00:00.000">19</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-28T00:00:00.000">18</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-29T00:00:00.000">17</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-06-30T00:00:00.000">16</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-01T00:00:00.000">15</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-02T00:00:00.000">14</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-03T00:00:00.000">18</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-04T00:00:00.000">22</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-05T00:00:00.000">24</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-06T00:00:00.000">20</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-07T00:00:00.000">18</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-08T00:00:00.000">17</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-09T00:00:00.000">26</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-10T00:00:00.000">42</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-11T00:00:00.000">32</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-12T00:00:00.000">26</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-13T00:00:00.000">24</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-14T00:00:00.000">24</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-15T00:00:00.000">22</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-16T00:00:00.000">20</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-17T00:00:00.000">17</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-18T00:00:00.000">16</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-19T00:00:00.000">15</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-20T00:00:00.000">14</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-21T00:00:00.000">13</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-22T00:00:00.000">13</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-23T00:00:00.000">18</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-24T00:00:00.000">19</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-25T00:00:00.000">17</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-26T00:00:00.000">15</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-27T00:00:00.000">14</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-28T00:00:00.000">12</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-29T00:00:00.000">16</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-30T00:00:00.000">17</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-07-31T00:00:00.000">13</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-01T00:00:00.000">11</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-02T00:00:00.000">11</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-03T00:00:00.000">12</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-04T00:00:00.000">10</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-05T00:00:00.000">9.8</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-06T00:00:00.000">9.6</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-07T00:00:00.000">8.6</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-08T00:00:00.000">8.7</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-09T00:00:00.000">8.3</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-10T00:00:00.000">7.7</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-11T00:00:00.000">8.1</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-12T00:00:00.000">9.4</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-13T00:00:00.000">9.3</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-14T00:00:00.000">8.1</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-15T00:00:00.000">7.6</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-16T00:00:00.000">7.4</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-17T00:00:00.000">7.3</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-18T00:00:00.000">7.8</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-19T00:00:00.000">9.0</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-20T00:00:00.000">8.1</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-21T00:00:00.000">7.7</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-22T00:00:00.000">7.9</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-23T00:00:00.000">8.7</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-24T00:00:00.000">8.6</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-25T00:00:00.000">7.6</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-26T00:00:00.000">7.5</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-27T00:00:00.000">22</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-28T00:00:00.000">17</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-29T00:00:00.000">13</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-30T00:00:00.000">12</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-08-31T00:00:00.000">9.9</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-01T00:00:00.000">10</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-02T00:00:00.000">9.4</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-03T00:00:00.000">9.0</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-04T00:00:00.000">8.5</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-05T00:00:00.000">8.2</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-06T00:00:00.000">7.0</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-07T00:00:00.000">6.2</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-08T00:00:00.000">5.8</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-09T00:00:00.000">5.8</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-10T00:00:00.000">6.6</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-11T00:00:00.000">6.6</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-12T00:00:00.000">7.2</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-13T00:00:00.000">7.0</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-14T00:00:00.000">12</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-15T00:00:00.000">9.8</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-16T00:00:00.000">8.5</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-17T00:00:00.000">7.9</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-18T00:00:00.000">7.6</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-19T00:00:00.000">7.6</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-20T00:00:00.000">7.4</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-21T00:00:00.000">6.9</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-22T00:00:00.000">6.7</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-23T00:00:00.000">13</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-24T00:00:00.000">16</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-25T00:00:00.000">12</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-26T00:00:00.000">9.9</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-27T00:00:00.000">8.7</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-28T00:00:00.000">8.2</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-29T00:00:00.000">19</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-09-30T00:00:00.000">27</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-01T00:00:00.000">21</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-02T00:00:00.000">18</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-03T00:00:00.000">27</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-04T00:00:00.000">23</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-05T00:00:00.000">20</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-06T00:00:00.000">18</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-07T00:00:00.000">15</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-08T00:00:00.000">14</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-09T00:00:00.000">13</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-10T00:00:00.000">12</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-11T00:00:00.000">11</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-12T00:00:00.000">10</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-13T00:00:00.000">9.6</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-14T00:00:00.000">9.0</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-15T00:00:00.000">9.0</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-16T00:00:00.000">8.8</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-17T00:00:00.000">14</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-18T00:00:00.000">18</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-19T00:00:00.000">17</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-20T00:00:00.000">16</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-21T00:00:00.000">34</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-22T00:00:00.000">31</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-23T00:00:00.000">25</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-24T00:00:00.000">20</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-25T00:00:00.000">18</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-26T00:00:00.000">16</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-27T00:00:00.000">15</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-28T00:00:00.000">15</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-29T00:00:00.000">14</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-30T00:00:00.000">14</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-10-31T00:00:00.000">13</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-01T00:00:00.000">12</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-02T00:00:00.000">12</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-03T00:00:00.000">12</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-04T00:00:00.000">12</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-05T00:00:00.000">11</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-06T00:00:00.000">12</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-07T00:00:00.000">11</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-08T00:00:00.000">11</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-09T00:00:00.000">11</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-10T00:00:00.000">11</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-11T00:00:00.000">11</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-12T00:00:00.000">11</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-13T00:00:00.000">11</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-14T00:00:00.000">11</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-15T00:00:00.000">10</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-16T00:00:00.000">9.8</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-17T00:00:00.000">11</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-18T00:00:00.000">9.6</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-19T00:00:00.000">13</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-20T00:00:00.000">18</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-21T00:00:00.000">16</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-22T00:00:00.000">14</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-23T00:00:00.000">12</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-24T00:00:00.000">13</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-25T00:00:00.000">12</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-26T00:00:00.000">78</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-27T00:00:00.000">73</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-28T00:00:00.000">60</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-29T00:00:00.000">82</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-11-30T00:00:00.000">75</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-01T00:00:00.000">61</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-02T00:00:00.000">46</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-03T00:00:00.000">43</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-04T00:00:00.000">61</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-05T00:00:00.000">96</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-06T00:00:00.000">102</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-07T00:00:00.000">87</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-08T00:00:00.000">71</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-09T00:00:00.000">64</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-10T00:00:00.000">54</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-11T00:00:00.000">49</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-12T00:00:00.000">61</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-13T00:00:00.000">68</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-14T00:00:00.000">65</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-15T00:00:00.000">59</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-16T00:00:00.000">53</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-17T00:00:00.000">49</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-18T00:00:00.000">47</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-19T00:00:00.000">45</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-20T00:00:00.000">42</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-21T00:00:00.000">41</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-22T00:00:00.000">39</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-23T00:00:00.000">40</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-24T00:00:00.000">43</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-25T00:00:00.000">49</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-26T00:00:00.000">60</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-27T00:00:00.000">97</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-28T00:00:00.000">187</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-29T00:00:00.000">181</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-30T00:00:00.000">149</ns1:value>
+        <ns1:value qualifiers="A" dateTime="1964-12-31T00:00:00.000">118</ns1:value>
+        <ns1:value qualifiers="P e" dateTime="2011-12-01T00:00:00.000">133</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-02T00:00:00.000">126</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-03T00:00:00.000">120</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-04T00:00:00.000">105</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-05T00:00:00.000">95</ns1:value>
+        <ns1:value qualifiers="P Eqp" dateTime="2011-12-06T00:00:00.000">-999999</ns1:value>
+        <ns1:value qualifiers="P Eqp" dateTime="2011-12-07T00:00:00.000">-999999</ns1:value>
+        <ns1:value qualifiers="P Eqp" dateTime="2011-12-08T00:00:00.000">-999999</ns1:value>
+        <ns1:value qualifiers="P Eqp" dateTime="2011-12-09T00:00:00.000">-999999</ns1:value>
+        <ns1:value qualifiers="P Eqp" dateTime="2011-12-10T00:00:00.000">-999999</ns1:value>
+        <ns1:value qualifiers="P Eqp" dateTime="2011-12-11T00:00:00.000">-999999</ns1:value>
+        <ns1:value qualifiers="P Eqp" dateTime="2011-12-12T00:00:00.000">-999999</ns1:value>
+        <ns1:value qualifiers="P Eqp" dateTime="2011-12-13T00:00:00.000">-999999</ns1:value>
+        <ns1:value qualifiers="P Eqp" dateTime="2011-12-14T00:00:00.000">-999999</ns1:value>
+        <ns1:value qualifiers="P Eqp" dateTime="2011-12-15T00:00:00.000">-999999</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-16T00:00:00.000">134</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-17T00:00:00.000">126</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-18T00:00:00.000">121</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-19T00:00:00.000">112</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-20T00:00:00.000">109</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-21T00:00:00.000">107</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-22T00:00:00.000">111</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-23T00:00:00.000">132</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-24T00:00:00.000">128</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-25T00:00:00.000">120</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-26T00:00:00.000">112</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-27T00:00:00.000">106</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-28T00:00:00.000">134</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-29T00:00:00.000">128</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-30T00:00:00.000">121</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2011-12-31T00:00:00.000">111</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-01T00:00:00.000">102</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-02T00:00:00.000">97</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-03T00:00:00.000">91</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-04T00:00:00.000">83</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-05T00:00:00.000">80</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-06T00:00:00.000">79</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-07T00:00:00.000">79</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-08T00:00:00.000">78</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-09T00:00:00.000">76</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-10T00:00:00.000">74</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-11T00:00:00.000">72</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-12T00:00:00.000">104</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-13T00:00:00.000">126</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-14T00:00:00.000">120</ns1:value>
+        <ns1:value qualifiers="P e" dateTime="2012-01-15T00:00:00.000">97</ns1:value>
+        <ns1:value qualifiers="P e" dateTime="2012-01-16T00:00:00.000">82</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-17T00:00:00.000">91</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-18T00:00:00.000">95</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-19T00:00:00.000">89</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-20T00:00:00.000">87</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-21T00:00:00.000">83</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-22T00:00:00.000">82</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-23T00:00:00.000">80</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-24T00:00:00.000">117</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-25T00:00:00.000">131</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-26T00:00:00.000">128</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-27T00:00:00.000">139</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-28T00:00:00.000">144</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-29T00:00:00.000">133</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-30T00:00:00.000">118</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-01-31T00:00:00.000">104</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-01T00:00:00.000">97</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-02T00:00:00.000">92</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-03T00:00:00.000">87</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-04T00:00:00.000">83</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-05T00:00:00.000">79</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-06T00:00:00.000">76</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-07T00:00:00.000">74</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-08T00:00:00.000">71</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-09T00:00:00.000">70</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-10T00:00:00.000">68</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-11T00:00:00.000">70</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-12T00:00:00.000">67</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-13T00:00:00.000">64</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-14T00:00:00.000">62</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-15T00:00:00.000">62</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-16T00:00:00.000">62</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-17T00:00:00.000">64</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-18T00:00:00.000">63</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-19T00:00:00.000">61</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-20T00:00:00.000">59</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-21T00:00:00.000">56</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-22T00:00:00.000">57</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-23T00:00:00.000">55</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-24T00:00:00.000">58</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-25T00:00:00.000">70</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-26T00:00:00.000">66</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-27T00:00:00.000">63</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-28T00:00:00.000">61</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-02-29T00:00:00.000">60</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-01T00:00:00.000">84</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-02T00:00:00.000">84</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-03T00:00:00.000">90</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-04T00:00:00.000">88</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-05T00:00:00.000">81</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-06T00:00:00.000">73</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-07T00:00:00.000">67</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-08T00:00:00.000">64</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-09T00:00:00.000">64</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-10T00:00:00.000">60</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-11T00:00:00.000">57</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-12T00:00:00.000">56</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-13T00:00:00.000">53</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-14T00:00:00.000">50</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-15T00:00:00.000">53</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-16T00:00:00.000">64</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-17T00:00:00.000">59</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-18T00:00:00.000">54</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-19T00:00:00.000">51</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-20T00:00:00.000">49</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-21T00:00:00.000">42</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-22T00:00:00.000">39</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-23T00:00:00.000">39</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-24T00:00:00.000">38</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-25T00:00:00.000">37</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-26T00:00:00.000">37</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-27T00:00:00.000">35</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-28T00:00:00.000">36</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-29T00:00:00.000">38</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-30T00:00:00.000">36</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-03-31T00:00:00.000">38</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-01T00:00:00.000">38</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-02T00:00:00.000">44</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-03T00:00:00.000">41</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-04T00:00:00.000">40</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-05T00:00:00.000">37</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-06T00:00:00.000">36</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-07T00:00:00.000">34</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-08T00:00:00.000">33</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-09T00:00:00.000">32</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-10T00:00:00.000">36</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-11T00:00:00.000">32</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-12T00:00:00.000">28</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-13T00:00:00.000">27</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-14T00:00:00.000">27</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-15T00:00:00.000">28</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-16T00:00:00.000">28</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-17T00:00:00.000">31</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-18T00:00:00.000">48</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-19T00:00:00.000">40</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-20T00:00:00.000">38</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-21T00:00:00.000">35</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-22T00:00:00.000">37</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-23T00:00:00.000">160</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-24T00:00:00.000">153</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-25T00:00:00.000">126</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-26T00:00:00.000">94</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-27T00:00:00.000">76</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-28T00:00:00.000">63</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-29T00:00:00.000">56</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-04-30T00:00:00.000">50</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-01T00:00:00.000">57</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-02T00:00:00.000">63</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-03T00:00:00.000">60</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-04T00:00:00.000">57</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-05T00:00:00.000">55</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-06T00:00:00.000">53</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-07T00:00:00.000">50</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-08T00:00:00.000">51</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-09T00:00:00.000">83</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-10T00:00:00.000">156</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-11T00:00:00.000">163</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-12T00:00:00.000">126</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-13T00:00:00.000">97</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-14T00:00:00.000">79</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-15T00:00:00.000">71</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-16T00:00:00.000">116</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-17T00:00:00.000">122</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-18T00:00:00.000">101</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-19T00:00:00.000">83</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-20T00:00:00.000">70</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-21T00:00:00.000">63</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-22T00:00:00.000">67</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-23T00:00:00.000">67</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-24T00:00:00.000">60</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-25T00:00:00.000">56</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-26T00:00:00.000">55</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-27T00:00:00.000">52</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-28T00:00:00.000">48</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-29T00:00:00.000">45</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-30T00:00:00.000">42</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-05-31T00:00:00.000">41</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-06-01T00:00:00.000">37</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-06-02T00:00:00.000">57</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-06-03T00:00:00.000">69</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-06-04T00:00:00.000">81</ns1:value>
+        <ns1:value qualifiers="P" dateTime="2012-06-05T00:00:00.000">74</ns1:value>
+        <ns1:qualifier qualifierID="0" ns1:network="NWIS" ns1:vocabulary="uv_rmk_cd">
+            <ns1:qualifierCode>e</ns1:qualifierCode>
+            <ns1:qualifierDescription>Value has been edited or estimated by USGS personnel and is write protected.</ns1:qualifierDescription>
+        </ns1:qualifier>
+        <ns1:qualifier qualifierID="1" ns1:network="NWIS" ns1:vocabulary="uv_rmk_cd">
+            <ns1:qualifierCode>Eqp</ns1:qualifierCode>
+            <ns1:qualifierDescription>Equipment malfunction</ns1:qualifierDescription>
+        </ns1:qualifier>
+        <ns1:qualifier qualifierID="2" ns1:network="NWIS" ns1:vocabulary="uv_rmk_cd">
+            <ns1:qualifierCode>A</ns1:qualifierCode>
+            <ns1:qualifierDescription>Approved for publication -- Processing and review completed.</ns1:qualifierDescription>
+        </ns1:qualifier>
+        <ns1:qualifier qualifierID="3" ns1:network="NWIS" ns1:vocabulary="uv_rmk_cd">
+            <ns1:qualifierCode>P</ns1:qualifierCode>
+            <ns1:qualifierDescription>Provisional data subject to revision.</ns1:qualifierDescription>
+        </ns1:qualifier>
+        <ns1:method methodID="1">
+            <ns1:methodDescription></ns1:methodDescription>
+        </ns1:method>
+    </ns1:values>
+</ns1:timeSeries></ns1:timeSeriesResponse>

@@ -1006,12 +1006,12 @@ def usgs_iv_dv_rdb_to_df(url, **kwargs):
 def usgs_stat_rdb_to_df(url, **kwargs):
     """Convert from USGS STAT_RDB type to pd.DataFrame."""
     # set defaults.
-    for key, val in [
+    for key, val in (
         ["statYearType", "calendar"],
         ["missingData", "off"],
         ["statType", "all"],
         ["statReportType", "daily"],
-    ]:
+    ):
         try:
             if kwargs[key] is None:
                 kwargs[key] = val
@@ -1315,7 +1315,7 @@ def nwis(
     """Use the "nwis_*" functions."""
     warnings.warn(tsutils.error_wrapper(nwis_cli.__doc__))
 
-    if database not in ["iv", "dv", "stat", "measurements", "peak", "site", "gwlevels"]:
+    if database not in ("iv", "dv", "stat", "measurements", "peak", "site", "gwlevels"):
         raise ValueError(
             tsutils.error_wrapper(
                 f"""
@@ -1332,7 +1332,7 @@ def nwis(
 
     url = f"http://waterservices.usgs.gov/nwis/{database}/"
 
-    if database in ["measurements", "peak", "gwlevels"]:
+    if database in ("measurements", "peak", "gwlevels"):
         words = sites.split(",")
         if len(words) != 1:
             raise ValueError(
@@ -1359,10 +1359,10 @@ def nwis(
                 )
             )
 
-        if database in ["measurements", "peak"]:
+        if database in ("measurements", "peak"):
             url = f"http://nwis.waterdata.usgs.gov/XX/nwis/{database}"
 
-    if database in ["iv", "dv"]:
+    if database in ("iv", "dv"):
         return usgs_iv_dv_rdb_to_df(
             url,
             sites=None,
@@ -1428,7 +1428,7 @@ def nwis(
             statYearType=None,
         )
 
-    if database in ["measurements", "peak"]:
+    if database in ("measurements", "peak"):
         return usgs_measurements_peak_rdb_to_df(
             url,
             sites=None,

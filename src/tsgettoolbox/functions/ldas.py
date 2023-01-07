@@ -904,7 +904,7 @@ def base_ldas(
     ndf = pd.DataFrame()
     for k, r in zip(kw, resp):
         names = None
-        if project in ["GLDAS2", "TRMM", "SMERGE", "GRACE", "MERRA"]:
+        if project in ("GLDAS2", "TRMM", "SMERGE", "GRACE", "MERRA"):
             names = [
                 "Datetime",
                 f"{k['params']['variable'].split(':')[-1]}:{_UNITS_MAP[k['params']['variable']][1]}",
@@ -920,7 +920,7 @@ def base_ldas(
             na_values=[-9999, -9999.0],
         ).dropna()
         df.index = pd.to_datetime(df.index)
-        if project in ["NLDAS"]:
+        if project == "NLDAS":
             if len(df.columns) == 3:
                 df["dt"] = df[0].str.cat(df[1], sep="T")
                 df["dt"] = pd.to_datetime(df["dt"])

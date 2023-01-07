@@ -239,7 +239,7 @@ def daymet(
                     )
                 )
 
-    if time_scale in ["monthly", "annual"]:
+    if time_scale in ("monthly", "annual"):
         for rem in ["srad", "dayl"] + pet_types:
             if rem in measuredParams:
                 measuredParams.remove(rem)
