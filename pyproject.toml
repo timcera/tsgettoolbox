@@ -15,6 +15,7 @@ dependencies = [
     "cltoolbox",
     "geojson",
     "haversine",
+    "httpretty",
     "isodate",
     "lxml",
     "mechanize",
