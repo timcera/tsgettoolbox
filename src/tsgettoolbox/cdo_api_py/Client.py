@@ -4,7 +4,8 @@ from warnings import warn
 
 import pandas as pd
 import requests
-from cdo_api_py.conf import (
+
+from .conf import (
     API_HOST_URL,
     API_VERSION,
     DATASET_MAX_RANGES,
@@ -12,7 +13,7 @@ from cdo_api_py.conf import (
     DATETIME_FMT_SHORT,
     ENDPOINTS,
 )
-from cdo_api_py.exceptions import *
+from .exceptions import *
 
 
 class BaseClient:
