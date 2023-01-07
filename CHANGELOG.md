@@ -1,3 +1,18 @@
+## v25.1.0 (2023-01-07)
+
+### Feat
+
+- brought cdo_api_py into the codebase since original author wasn't updating
+
+### Fix
+
+- fixed internal imports
+
+### Refactor
+
+- removed .gitmodules because no longer need ish_parser
+- **ish_parser**: wrote my own ish_parser in ncei_ish and this directory was just hanging on
+
 ## v25.0.1 (2022-10-16)
 
 ### Fix
