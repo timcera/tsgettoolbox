@@ -7,7 +7,6 @@ import tempfile
 from unittest import mock
 
 import httpretty as httpretty
-from past.builtins import basestring
 
 
 def get_test_file_path(file_path):
@@ -71,12 +70,12 @@ def mocked_urls(url_files, methods=None, force=False):
         yield
 
     else:
-        if isinstance(url_files, basestring):
+        if isinstance(url_files, str):
             url_files = {".*": url_files}
 
         httpretty.enable()
         for url_match, url_file in url_files.items():
-            if not isinstance(url_match, basestring) and len(url_match) == 2:
+            if not isinstance(url_match, str) and len(url_match) == 2:
                 url_match, methods = url_match
 
             if not os.path.isabs(url_file):
