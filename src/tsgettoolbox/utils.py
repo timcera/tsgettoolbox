@@ -15,7 +15,7 @@ from requests.packages.urllib3.util.retry import Retry
 from siphon.ncss import NCSS
 from toolbox_utils import tsutils
 
-from . import appdirs
+from tsgettoolbox import appdirs
 
 __all__ = []
 

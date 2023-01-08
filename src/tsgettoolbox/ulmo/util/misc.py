@@ -8,11 +8,12 @@ import urllib.parse
 import warnings
 from contextlib import contextmanager
 
-import appdirs
 import numpy as np
 import pandas
 import requests
 from lxml import etree
+
+from tsgettoolbox import appdirs
 
 # pre-compiled regexes for underscore conversion
 first_cap_re = re.compile("(.)([A-Z][a-z]+)")

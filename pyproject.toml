@@ -12,23 +12,23 @@ dynamic = ["readme", "version"]
 description = "Will get time series from different sources on the internet"
 requires-python = ">=3.8"
 dependencies = [
+    "async_retriever",
+    "cftime",
     "cltoolbox",
+    "dapclient",
     "geojson",
     "haversine",
     "httpretty",
     "isodate",
     "lxml",
     "mechanize",
+    "pydantic",
+    "pydaymet",
     "requests",
     "siphon",
     "suds-community",
     "toolbox_utils >= 1.0.0, < 2.0.0",
     "zeep",
-    "async_retriever",
-    "cftime",
-    "pydaymet",
-    "pydantic",
-    "dapclient",
     ]
 license = {text = "BSD-3-Clause"}
 authors = [
@@ -101,9 +101,6 @@ tag_format = "v$version"
 version_files = ["VERSION"]
 update_changelog_on_bump = true
 
-[tool.isort]
-profile = 'black'
-
 [tool.setuptools]
 include-package-data = true
 
@@ -114,3 +111,6 @@ version = {file = "VERSION"}
 [tool.setuptools.packages.find]
 where = ["src"]
 exclude = ["examples*", "tools*", "docs*", "tsgettoolbox.tests*"]
+
+[tool.isort]
+profile = 'black'
