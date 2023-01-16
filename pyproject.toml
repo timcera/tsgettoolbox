@@ -1,6 +1,7 @@
 [build-system]
 requires = [
-    "setuptools",
+    "setuptools>=45",
+    "setuptools_scm[toml]>=6.2",
     "wheel",
     "oldest-supported-numpy",
 ]
@@ -101,6 +102,9 @@ tag_format = "v$version"
 version_files = ["VERSION"]
 update_changelog_on_bump = true
 
+[tool.isort]
+profile = 'black'
+
 [tool.setuptools]
 include-package-data = true
 
@@ -112,5 +116,4 @@ version = {file = "VERSION"}
 where = ["src"]
 exclude = ["examples*", "tools*", "docs*", "tsgettoolbox.tests*"]
 
-[tool.isort]
-profile = 'black'
+[tool.setuptools_scm]
