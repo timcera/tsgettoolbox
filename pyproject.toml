@@ -28,7 +28,7 @@ dependencies = [
     "requests",
     "siphon",
     "suds-community",
-    "toolbox_utils >= 1.0.0, < 2.0.0",
+    "toolbox_utils >= 2.0.0, < 3.0.0",
     "zeep",
     ]
 license = {text = "BSD-3-Clause"}
