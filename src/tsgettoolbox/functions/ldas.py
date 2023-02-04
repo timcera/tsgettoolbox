@@ -894,7 +894,7 @@ def base_ldas(
     if os.path.exists("debug_tsgettoolbox"):
         logging.warning(f"{urls}, {kwds}")
 
-    resp = ar.retrieve_binary(urls, kwds)
+    resp = ar.retrieve_binary(urls, kwds, max_workers=1)
 
     joined = [[r, kw] for r, kw in zip(resp, kwds) if b"ERROR" not in r]
 

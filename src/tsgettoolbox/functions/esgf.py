@@ -339,7 +339,7 @@ def esgf_cdo_json_to_df(
 
 # 1763-01-01, 2016-11-05, Daily Summaries             , 1    , GHCND
 @cltoolbox.command("esgf_ghcnd", formatter_class=HelpFormatter)
-@tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, esgf_ghcnd_docstrings))
+@tsutils.doc({**tsutils.docstrings, **esgf_ghcnd_docstrings})
 def esgf_ghcnd_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""station: Global Historical Climatology Network - Daily (GHCND)
 
@@ -421,7 +421,7 @@ def esgf(stationid, datatypeid=None, start_date=None, end_date=None):
 
 
 @cltoolbox.command("esgf_gsod", formatter_class=HelpFormatter)
-@tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, esgf_ghcnd_docstrings))
+@tsutils.doc({**tsutils.docstrings, **esgf_ghcnd_docstrings})
 def esgf_gsod_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""station: esgf Global Summary of the Day (GSOD)
 
@@ -923,7 +923,7 @@ def esgf_gsod(stationid, datatypeid=None, start_date=None, end_date=None):
 
 # 1763-01-01, 2016-09-01, Global Summary of the Month , 1    , GSOM
 @cltoolbox.command("esgf_gsom", formatter_class=HelpFormatter)
-@tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, esgf_ghcnd_docstrings))
+@tsutils.doc({**tsutils.docstrings, **esgf_ghcnd_docstrings})
 def esgf_gsom_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""station: esgf Global Summary of Month (GSOM)
 
@@ -1424,7 +1424,7 @@ def esgf_gsom(stationid, datatypeid=None, start_date=None, end_date=None):
 
 # 1763-01-01, 2016-01-01, Global Summary of the Year  , 1    , GSOY
 @cltoolbox.command("esgf_gsoy", formatter_class=HelpFormatter)
-@tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, esgf_ghcnd_docstrings))
+@tsutils.doc({**tsutils.docstrings, **esgf_ghcnd_docstrings})
 def esgf_gsoy_cli(stationid, datatypeid=None, start_date=None, end_date=None):
     r"""station: esgf Global Summary of Year (GSOY)
 
@@ -5764,7 +5764,7 @@ def esgf_ghcndms(stationid, datatypeid=None, start_date=None, end_date=None):
 
 
 @cltoolbox.command("esgf_ish", formatter_class=HelpFormatter)
-@tsutils.doc(tsutils.merge_dicts(tsutils.docstrings, esgf_ghcnd_docstrings))
+@tsutils.doc({**tsutils.docstrings, **esgf_ghcnd_docstrings})
 def esgf_ish_cli(station, datatypeid=None, start_date=None, end_date=None):
     r"""station: Integrated Surface Database
 
