@@ -33,6 +33,7 @@ dependencies = [
     "async_retriever",
     "cftime",
     "cltoolbox",
+    "coards",
     "dapclient",
     "geojson",
     "haversine",
