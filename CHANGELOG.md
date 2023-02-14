@@ -1,3 +1,9 @@
+## v25.1.4 (2023-02-14)
+
+### Refactor
+
+- removed unnecessary imports, reformatted docstrings
+
 ## v25.1.3 (2023-02-05)
 
 ## v25.1.2 (2023-01-16)
