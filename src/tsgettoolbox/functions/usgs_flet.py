@@ -13,7 +13,7 @@ from toolbox_utils import tsutils
 
 from tsgettoolbox import utils
 
-__all__ = ["usgs_flet_narr", "usgs_flet_stat"]
+__all__ = ["usgs_flet_narr", "usgs_flet_stns"]
 
 _vars = {
     # For the time-being comment out non-timeseries data.
@@ -185,6 +185,7 @@ def assign_docstring(indocstring: str) -> Callable:
 
 
 def _rename_columns(x):
+    """Rename columns."""
     words = x.split(":")
     words[0] = words[0].split(",")[0]
     return ":".join(words)
@@ -211,6 +212,7 @@ def usgs_flet_narr_cli(
     )
 
 
+@tsutils.copy_doc(usgs_flet_narr_cli)
 def usgs_flet_narr(
     lat,
     lon,
@@ -240,9 +242,6 @@ def usgs_flet_narr(
     return df
 
 
-usgs_flet_narr.__doc__ = usgs_flet_narr_cli.__doc__
-
-
 @cltoolbox.command("usgs_flet_stns", formatter_class=HelpFormatter)
 @assign_docstring(docs)
 def usgs_flet_stns_cli(
@@ -264,6 +263,7 @@ def usgs_flet_stns_cli(
     )
 
 
+@tsutils.copy_doc(usgs_flet_stns_cli)
 def usgs_flet_stns(
     lat,
     lon,
@@ -291,9 +291,6 @@ def usgs_flet_stns(
     df = df.rename(columns=_rename_columns)
 
     return df
-
-
-usgs_flet_stns.__doc__ = usgs_flet_stns_cli.__doc__
 
 
 if __name__ == "__main__":

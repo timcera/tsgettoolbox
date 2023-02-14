@@ -266,6 +266,7 @@ def terraclimate_cli(
 
 
 @tsutils.transform_args(start_date=pd.to_datetime, end_date=pd.to_datetime)
+@tsutils.copy_doc(terraclimate_cli)
 def terraclimate(
     lat: float,
     lon: float,
@@ -275,9 +276,9 @@ def terraclimate(
 ):
     r"""Download terraclimate data."""
     if variables is None:
-        vars = sorted(_avail_vars.keys())
+        variables = sorted(_avail_vars.keys())
     else:
-        vars = tsutils.make_list(variables)
+        variables = tsutils.make_list(variables)
 
     # turl = "http://thredds.northwestknowledge.net:8080/thredds/dodsC/agg_terraclimate_{}_1958_CurrentYear_GLOBE.nc"
     turl = "http://www.reacchpna.org/thredds/dodsC/agg_terraclimate_{}_1958_CurrentYear_GLOBE.nc"
@@ -295,9 +296,6 @@ def terraclimate(
         user_charset="utf-8",
         single_var_url=True,
     )
-
-
-terraclimate.__doc__ = terraclimate_cli.__doc__
 
 
 if __name__ == "__main__":

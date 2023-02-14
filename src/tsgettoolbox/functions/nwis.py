@@ -92,7 +92,7 @@ nwis_docstrings = {
     The agency and parameter codes are described in the `agencyCd` and
     `parameterCd` options below.
 
-    If `includeCodes` option is used, there will also be columns representing
+    If `include_codes` option is used, there will also be columns representing
     the data quality codes named "agencyCd_siteno_parameterCd_cd".
 
     +---------+--------------------------------------------------------+
@@ -149,7 +149,7 @@ nwis_docstrings = {
     | ``***`` | Temporarily unavailable                                |
     +---------+--------------------------------------------------------+
     """,
-    "includeCodes": r"""includeCodes
+    "include_codes": r"""include_codes
         [optional, default is False]
 
         Whether or not to include the metadata/quality code column.
@@ -906,7 +906,7 @@ _NA_VALUES = ["Dis", "Eqp", "Rat"]
 
 
 def _read_rdb(url, data):
-
+    """Read a USGS RDB file."""
     # parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
     pmcodes = pd.read_csv(
         os.path.join(os.path.dirname(__file__), "../station_metadata/nwis_pmcodes.dat"),
@@ -941,6 +941,7 @@ def _read_rdb(url, data):
 
 
 def _make_nice_names(ndf, reverse=False):
+    """Make nice names for the columns."""
     nnames = []
     for col in ndf.columns.values:
         strung = [str(i) for i in col]
@@ -977,7 +978,7 @@ def usgs_iv_dv_rdb_to_df(url, **kwargs):
     kwargs["startDT"] = tsutils.parsedate(kwargs["startDT"], strftime="%Y-%m-%d")
     kwargs["endDT"] = tsutils.parsedate(kwargs["endDT"], strftime="%Y-%m-%d")
 
-    includeCodes = kwargs.pop("includeCodes") if "includeCodes" in kwargs else True
+    include_codes = kwargs.pop("include_codes") if "include_codes" in kwargs else True
     ndf = _read_rdb(url, [kwargs])
 
     ndf["Datetime"] = pd.to_datetime(ndf["datetime"], errors="coerce")
@@ -996,7 +997,7 @@ def usgs_iv_dv_rdb_to_df(url, **kwargs):
 
     ndf.columns = _make_nice_names(ndf, reverse=True)
 
-    if includeCodes is False:
+    if include_codes is False:
         ndf.drop(
             [i for i in ndf.columns if i[-3:] == "_cd"], axis="columns", inplace=True
         )
@@ -1127,10 +1128,9 @@ def usgs_site_rdb_to_df(url, **kwargs):
 
 def usgs_measurements_peak_rdb_to_df(url, **kwargs):
     """Convert from USGS RDB type to pd.DataFrame."""
+    rdb_format = "rdb"
     if "measurements" in url:
         rdb_format = "rdb_expanded"
-    elif "peak" in url:
-        rdb_format = "rdb"
 
     # Need to enforce rdb format
     kwargs["format"] = rdb_format
@@ -1139,7 +1139,7 @@ def usgs_measurements_peak_rdb_to_df(url, **kwargs):
     kwargs.pop("sites")
 
     # Get the state code and insert into URL
-    r = usgs_site_rdb_to_df(url, kwargs)
+    r = usgs_site_rdb_to_df(url, **kwargs)
     try:
         url = url.replace("XX", statelookup[int(r.loc[0, "state_cd"])].lower())
     except KeyError:
@@ -1153,10 +1153,10 @@ def usgs_measurements_peak_rdb_to_df(url, **kwargs):
         )
 
     ndf = _read_rdb(url, [kwargs])
+    dname = "peak_dt"
     if "measurements" in kwargs:
         dname = "measurement_dt"
-    elif "peak" in kwargs:
-        dname = "peak_dt"
+
     ndf["Datetime"] = pd.to_datetime(ndf[dname], errors="coerce")
     ndf.set_index(["Datetime"], inplace=True)
     ndf.drop([dname, "agency_cd", "site_no"], axis=1, inplace=True)
@@ -1282,6 +1282,7 @@ def nwis_cli(
     )
 
 
+@tsutils.copy_doc(nwis_cli)
 def nwis(
     sites=None,
     stateCd=None,
@@ -1362,169 +1363,65 @@ def nwis(
         if database in ("measurements", "peak"):
             url = f"http://nwis.waterdata.usgs.gov/XX/nwis/{database}"
 
+    nkwds = {
+        "sites": sites,
+        "stateCd": stateCd,
+        "huc": huc,
+        "bBox": bBox,
+        "countyCd": countyCd,
+        "parameterCd": parameterCd,
+        "period": period,
+        "startDT": startDT,
+        "endDT": endDT,
+        "siteType": siteType,
+        "modifiedSince": modifiedSince,
+        "agencyCd": agencyCd,
+        "siteStatus": siteStatus,
+        "altMin": altMin,
+        "altMax": altMax,
+        "drainAreaMin": drainAreaMin,
+        "drainAreaMax": drainAreaMax,
+        "aquiferCd": aquiferCd,
+        "localAquiferCd": localAquiferCd,
+        "wellDepthMin": wellDepthMin,
+        "wellDepthMax": wellDepthMax,
+        "holeDepthMin": holeDepthMin,
+        "holeDepthMax": holeDepthMax,
+        "database": "dv",
+        "statReportType": statReportType,
+        "statType": statType,
+        "missingData": missingData,
+        "statYearType": statYearType,
+    }
+
     if database in ("iv", "dv"):
         return usgs_iv_dv_rdb_to_df(
             url,
-            sites=None,
-            stateCd=None,
-            huc=None,
-            bBox=None,
-            countyCd=None,
-            parameterCd=None,
-            period=None,
-            startDT=None,
-            endDT=None,
-            siteType=None,
-            modifiedSince=None,
-            agencyCd=None,
-            siteStatus=None,
-            altMin=None,
-            altMax=None,
-            drainAreaMin=None,
-            drainAreaMax=None,
-            aquiferCd=None,
-            localAquiferCd=None,
-            wellDepthMin=None,
-            wellDepthMax=None,
-            holeDepthMin=None,
-            holeDepthMax=None,
-            database="dv",
-            statReportType=None,
-            statType=None,
-            missingData=None,
-            statYearType=None,
+            **nkwds,
         )
 
     if database == "stat":
         return usgs_stat_rdb_to_df(
             url,
-            sites=None,
-            stateCd=None,
-            huc=None,
-            bBox=None,
-            countyCd=None,
-            parameterCd=None,
-            period=None,
-            startDT=None,
-            endDT=None,
-            siteType=None,
-            modifiedSince=None,
-            agencyCd=None,
-            siteStatus=None,
-            altMin=None,
-            altMax=None,
-            drainAreaMin=None,
-            drainAreaMax=None,
-            aquiferCd=None,
-            localAquiferCd=None,
-            wellDepthMin=None,
-            wellDepthMax=None,
-            holeDepthMin=None,
-            holeDepthMax=None,
-            database="dv",
-            statReportType=None,
-            statType=None,
-            missingData=None,
-            statYearType=None,
+            **nkwds,
         )
 
     if database in ("measurements", "peak"):
         return usgs_measurements_peak_rdb_to_df(
             url,
-            sites=None,
-            stateCd=None,
-            huc=None,
-            bBox=None,
-            countyCd=None,
-            parameterCd=None,
-            period=None,
-            startDT=None,
-            endDT=None,
-            siteType=None,
-            modifiedSince=None,
-            agencyCd=None,
-            siteStatus=None,
-            altMin=None,
-            altMax=None,
-            drainAreaMin=None,
-            drainAreaMax=None,
-            aquiferCd=None,
-            localAquiferCd=None,
-            wellDepthMin=None,
-            wellDepthMax=None,
-            holeDepthMin=None,
-            holeDepthMax=None,
-            database="dv",
-            statReportType=None,
-            statType=None,
-            missingData=None,
-            statYearType=None,
+            **nkwds,
         )
 
     if database == "site":
         return usgs_site_rdb_to_df(
             url,
-            sites=None,
-            stateCd=None,
-            huc=None,
-            bBox=None,
-            countyCd=None,
-            parameterCd=None,
-            period=None,
-            startDT=None,
-            endDT=None,
-            siteType=None,
-            modifiedSince=None,
-            agencyCd=None,
-            siteStatus=None,
-            altMin=None,
-            altMax=None,
-            drainAreaMin=None,
-            drainAreaMax=None,
-            aquiferCd=None,
-            localAquiferCd=None,
-            wellDepthMin=None,
-            wellDepthMax=None,
-            holeDepthMin=None,
-            holeDepthMax=None,
-            database="dv",
-            statReportType=None,
-            statType=None,
-            missingData=None,
-            statYearType=None,
+            **nkwds,
         )
 
     if database == "gwlevels":
         return usgs_gwlevels_rdb_to_df(
             url,
-            sites=None,
-            stateCd=None,
-            huc=None,
-            bBox=None,
-            countyCd=None,
-            parameterCd=None,
-            period=None,
-            startDT=None,
-            endDT=None,
-            siteType=None,
-            modifiedSince=None,
-            agencyCd=None,
-            siteStatus=None,
-            altMin=None,
-            altMax=None,
-            drainAreaMin=None,
-            drainAreaMax=None,
-            aquiferCd=None,
-            localAquiferCd=None,
-            wellDepthMin=None,
-            wellDepthMax=None,
-            holeDepthMin=None,
-            holeDepthMax=None,
-            database="dv",
-            statReportType=None,
-            statType=None,
-            missingData=None,
-            statYearType=None,
+            **nkwds,
         )
 
 
@@ -1554,7 +1451,7 @@ def nwis_iv_cli(
     period=None,
     startDT=None,
     endDT=None,
-    includeCodes=False,
+    include_codes=False,
 ):
     r"""US station E:USGS NWIS Instantaneous Values
 
@@ -1586,7 +1483,7 @@ def nwis_iv_cli(
     ${period}
     ${startDT}
     ${endDT}
-    ${includeCodes}
+    ${include_codes}
     """
     tsutils.printiso(
         nwis_iv(
@@ -1613,11 +1510,12 @@ def nwis_iv_cli(
             period=period,
             startDT=startDT,
             endDT=endDT,
-            includeCodes=includeCodes,
+            include_codes=include_codes,
         )
     )
 
 
+@tsutils.copy_doc(nwis_iv_cli)
 def nwis_iv(
     sites=None,
     stateCd=None,
@@ -1642,7 +1540,7 @@ def nwis_iv(
     wellDepthMax=None,
     holeDepthMin=None,
     holeDepthMax=None,
-    includeCodes=False,
+    include_codes=False,
 ):
     r"""Download from Instantaneous Values of the USGS NWIS."""
     url = r"http://waterservices.usgs.gov/nwis/iv/"
@@ -1671,7 +1569,7 @@ def nwis_iv(
         period=period,
         startDT=startDT,
         endDT=endDT,
-        includeCodes=includeCodes,
+        include_codes=include_codes,
     )
 
 
@@ -1701,7 +1599,7 @@ def nwis_dv_cli(
     startDT=None,
     endDT=None,
     period=None,
-    includeCodes=False,
+    include_codes=False,
     statisticsCd=None,
 ):
     r"""US station D:USGS NWIS Daily Values
@@ -1734,7 +1632,7 @@ def nwis_dv_cli(
     ${period}
     ${startDT}
     ${endDT}
-    ${includeCodes}
+    ${include_codes}
     ${statisticsCd}
     """
     tsutils.printiso(
@@ -1763,11 +1661,12 @@ def nwis_dv_cli(
             period=period,
             startDT=startDT,
             endDT=endDT,
-            includeCodes=includeCodes,
+            include_codes=include_codes,
         )
     )
 
 
+@tsutils.copy_doc(nwis_dv_cli)
 def nwis_dv(
     sites=None,
     stateCd=None,
@@ -1793,7 +1692,7 @@ def nwis_dv(
     wellDepthMax=None,
     holeDepthMin=None,
     holeDepthMax=None,
-    includeCodes=False,
+    include_codes=False,
 ):
     r"""Download from the Daily Values database of the USGS NWIS."""
     url = r"http://waterservices.usgs.gov/nwis/dv/"
@@ -1823,7 +1722,7 @@ def nwis_dv(
         period=period,
         startDT=startDT,
         endDT=endDT,
-        includeCodes=includeCodes,
+        include_codes=include_codes,
     )
 
 
@@ -1925,7 +1824,7 @@ def nwis_site_cli(
     ${period}
     ${startDT}
     ${endDT}
-    ${includeCodes}
+    ${include_codes}
     ${siteOutput}
     ${seriesCatalogOutput}
     ${outputDataTypeCd}
@@ -1968,6 +1867,7 @@ def nwis_site_cli(
     )
 
 
+@tsutils.copy_doc(nwis_site_cli)
 def nwis_site(
     sites=None,
     stateCd=None,
@@ -2144,6 +2044,7 @@ def nwis_gwlevels_cli(
     )
 
 
+@tsutils.copy_doc(nwis_gwlevels_cli)
 def nwis_gwlevels(
     sites=None,
     stateCd=None,
@@ -2365,6 +2266,7 @@ def nwis_measurements_cli(
     )
 
 
+@tsutils.copy_doc(nwis_measurements_cli)
 def nwis_measurements(
     sites=None,
     stateCd=None,
@@ -2591,6 +2493,7 @@ def nwis_peak_cli(
     )
 
 
+@tsutils.copy_doc(nwis_peak_cli)
 def nwis_peak(
     sites=None,
     stateCd=None,
@@ -2805,6 +2708,7 @@ def nwis_stat_cli(
     )
 
 
+@tsutils.copy_doc(nwis_stat_cli)
 def nwis_stat(
     sites=None,
     parameterCd=None,
@@ -3077,6 +2981,7 @@ def epa_wqp_cli(
     )
 
 
+@tsutils.copy_doc(epa_wqp_cli)
 def epa_wqp(
     bBox=None,
     lat=None,
@@ -3196,17 +3101,6 @@ def epa_wqp(
     ndf = pd.concat(ndf)
     return ndf
 
-
-nwis.__doc__ = nwis_cli.__doc__
-
-nwis_iv.__doc__ = nwis_iv_cli.__doc__
-nwis_dv.__doc__ = nwis_dv_cli.__doc__
-nwis_site.__doc__ = nwis_site_cli.__doc__
-nwis_gwlevels.__doc__ = nwis_gwlevels_cli.__doc__
-nwis_measurements.__doc__ = nwis_measurements_cli.__doc__
-nwis_peak.__doc__ = nwis_peak_cli.__doc__
-nwis_stat.__doc__ = nwis_stat_cli.__doc__
-epa_wqp.__doc__ = epa_wqp_cli.__doc__
 
 if __name__ == "__main__":
     R = usgs_gwlevels_rdb_to_df(

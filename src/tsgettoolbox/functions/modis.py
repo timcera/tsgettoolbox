@@ -818,6 +818,7 @@ _VALID_RANGE = {
 
 
 def date_parser(strdates):
+    """Parse a list of dates in the format YYYYDDD, where DDD is day of year."""
     return [
         datetime.date.fromordinal(
             datetime.datetime(int(i[1:5]), 1, 1).toordinal() + int(i[5:]) - 1
@@ -2464,6 +2465,7 @@ def modis_cli(lat, lon, product, band, start_date=None, end_date=None):
     )
 
 
+@tsutils.copy_doc(modis_cli)
 def modis(lat, lon, product, band, start_date=None, end_date=None):
     r"""Download MODIS derived data."""
     query_params = {
@@ -2529,12 +2531,9 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
 
     dr = np.array(dates)
 
-    teststartdate = dr[0]
-    if start_date <= teststartdate:
-        startdate = teststartdate
+    start_date = max(start_date, dr[0])
 
-    testenddate = dr[-1]
-    enddate = min(end_date, testenddate)
+    enddate = min(end_date, dr[-1])
 
     mask = (dr >= start_date) & (dr <= enddate)
     dates = modis_date[mask]
@@ -2566,9 +2565,6 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
     sdf.index.name = "Datetime"
     sdf.columns = [f"{i}:{_UNITS.get(i, '')}" for i in sdf.columns]
     return sdf
-
-
-modis.__doc__ = modis_cli.__doc__
 
 
 if __name__ == "__main__":

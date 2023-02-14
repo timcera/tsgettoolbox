@@ -17,6 +17,7 @@ __all__ = ["unavco"]
 
 
 def unavco_to_df(url, **query_params):
+    """Get data from unavco and return a dataframe."""
     try:
         station = query_params.pop("station")
     except KeyError:
@@ -162,6 +163,7 @@ def unavco_cli(station, database="met", starttime=None, endtime=None):
     )
 
 
+@tsutils.copy_doc(unavco_cli)
 def unavco(station, database="met", starttime=None, endtime=None):
     r"""Download data from the Unavco web services."""
     map_db_to_url = {
@@ -178,9 +180,6 @@ def unavco(station, database="met", starttime=None, endtime=None):
         starttime=starttime,
         endtime=endtime,
     )
-
-
-unavco.__doc__ = unavco_cli.__doc__
 
 
 if __name__ == "__main__":

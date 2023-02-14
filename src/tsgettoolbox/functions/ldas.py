@@ -22,6 +22,7 @@ import itertools
 import logging
 import os
 import textwrap
+from contextlib import suppress
 from io import BytesIO
 
 import async_retriever as ar
@@ -408,6 +409,7 @@ _project_index_col = {
 
 
 def make_units_table(units_dict):
+    """Make a table of units for each variable."""
     new_units_table = [
         [
             f"{key[key.index(':') + 1:]}\n{val[0]}",
@@ -432,6 +434,8 @@ def foundation_cli(
     first_line="",
     meta_table="",
 ):
+    """Create a foundation CLI function returning a function."""
+
     @cltoolbox.command(cli_name, formatter_class=formatter_class)
     @tsutils.doc(
         {"units_table": units_table, "first_line": first_line, "meta_table": meta_table}
@@ -449,74 +453,73 @@ def foundation_cli(
         # fmt: off
         """${first_line}
 
-        This will download data from a set of water cycle related variables
-        (Table 1) from the North American and Global Land Data Assimilation
-        Systems (NLDAS and GLDAS, respectively), the Land Parameter Parameter
-        Model (LPRM), the Tropical Rainfall Measuring Mission (TRMM), and
-        Gravity Recovery and Climate Experiment (GRACE) data assimilation. In
-        addition to their access provided by the hydrology community tools,
-        selected data rods variables can be searched and accessed through the
-        GES DISC search and access user interface, and all data rods variables
-        can be accessed via Web services developed by the GES DISC.
+                This will download data from a set of water cycle related variables
+                (Table 1) from the North American and Global Land Data Assimilation
+                Systems (NLDAS and GLDAS, respectively), the Land Parameter Parameter
+                Model (LPRM), the Tropical Rainfall Measuring Mission (TRMM), and
+                Gravity Recovery and Climate Experiment (GRACE) data assimilation. In
+                addition to their access provided by the hydrology community tools,
+                selected data rods variables can be searched and accessed through the
+                GES DISC search and access user interface, and all data rods variables
+                can be accessed via Web services developed by the GES DISC.
 
-        The time zone is always UTC.
+                The time zone is always UTC.
 
-${meta_table}
+        ${meta_table}
 
         Parameters
         ----------
         lat : float
-            Should use 'lat' and 'lon' to specify location.
+                Should use 'lat' and 'lon' to specify location.
 
-            Latitude (required): Enter single geographic point by
-            latitude.::
+                Latitude (required): Enter single geographic point by
+                latitude.::
 
-                Example: --lat=43.1
+                    Example: --lat=43.1
 
-            If known, 'xindex' and 'yindex' can be used for the NLDAS grid
-            only.
-        lon : float
-            Should use 'lat' and 'lon' to specify location.
+                If known, 'xindex' and 'yindex' can be used for the NLDAS grid
+                only.
+            lon : float
+                Should use 'lat' and 'lon' to specify location.
 
-            Longitude (required): Enter single geographic point by
-            longitude::
+                Longitude (required): Enter single geographic point by
+                longitude::
 
-                Example: --lon=-85.3
+                    Example: --lon=-85.3
 
-            If known, 'xindex' and 'yindex' can be used for the NLDAS grid
-            only.
-        xindex : int
-            It `lat` or `lon` is None, then will try `xindex` and `yindex`.
+                If known, 'xindex' and 'yindex' can be used for the NLDAS grid
+                only.
+            xindex : int
+                It `lat` or `lon` is None, then will try `xindex` and `yindex`.
 
-            Enter the x index of the NLDAS grid.::
+                Enter the x index of the NLDAS grid.::
 
-                Example: --xindex=301
-        yindex : int
-            It `lat` or `lon` is None, then will try `xindex` and `yindex`.
+                    Example: --xindex=301
+            yindex : int
+                It `lat` or `lon` is None, then will try `xindex` and `yindex`.
 
-            Enter the y index of the NLDAS grid.::
+                Enter the y index of the NLDAS grid.::
 
-                Example: --yindex=80
-        variables : str
-            Use the variable codes from the following table:
+                    Example: --yindex=80
+            variables : str
+                Use the variable codes from the following table:
 
-${units_table}
+        ${units_table}
+            startDate : str
+                The start date of the time series.::
 
-        startDate : str
-            The start date of the time series.::
+                    Example: --startDate=2001-01-01T05
 
-                Example: --startDate=2001-01-01T05
+                If startDate and endDate are None, returns the entire series.
+            endDate : str
+                The end date of the time series.::
 
-            If startDate and endDate are None, returns the entire series.
-        endDate : str
-            The end date of the time series.::
+                    Example: --endDate=2002-01-05T05
 
-                Example: --endDate=2002-01-05T05
-
-            If startDate and endDate are None, returns the entire series.
-        variable : str
-            DEPRECATED: use "variables" instead to be consistent across
-            "tsgettoolbox"."""
+                If startDate and endDate are None, returns the entire series.
+            variable : str
+                DEPRECATED: use "variables" instead to be consistent across
+                "tsgettoolbox"."""
         # fmt: on
         tsutils.printiso(
             base_ldas(
@@ -535,6 +538,8 @@ ${units_table}
 
 
 def foundation_api(cli_function):
+    """Create a foundation API function returning a function."""
+
     @tsutils.copy_doc(cli_function)
     def ldas_api(
         lat=None,
@@ -699,15 +704,19 @@ ldas_cli = foundation_cli(
     "ldas",
     units_table=make_units_table(_UNITS_MAP),
     first_line=ldas_first_line,
-    meta_table=_META_HEADER
-    + _GLDAS_NOAH_META
-    + _GRACE_META
-    + _MERRA_META
-    + _MERRA_UPDATE_META
-    + _NLDAS_FORA_META
-    + _NLDAS_NOAH_META
-    + _SMERGE_META
-    + _TRMM_TMPA_META,
+    meta_table="".join(
+        [
+            _META_HEADER,
+            _GLDAS_NOAH_META,
+            _GRACE_META,
+            _MERRA_META,
+            _MERRA_UPDATE_META,
+            _NLDAS_FORA_META,
+            _NLDAS_NOAH_META,
+            _SMERGE_META,
+            _TRMM_TMPA_META,
+        ]
+    ),
 )
 ldas = foundation_api(ldas_cli)
 
@@ -822,7 +831,7 @@ def base_ldas(
                 "lat={lat}" and "lon={lon}".
 
                 Only for the NLDAS grid can you use `xindex` and `yindex` to
-                specify the location.  You have the grid "{project}" and
+                specify the location.  You have
                 "xindex={xindex}" and "yindex={yindex}".
                 """
             )
@@ -934,10 +943,8 @@ def base_ldas(
             df.columns = [f"{variable_name}:{unit}"]
 
         df.index.name = "Datetime:UTC"
-        try:
+        with suppress(TypeError):
             return df.tz_localize("UTC")
-        except TypeError:  # Already UTC
-            pass
         ndf = ndf.combine_first(df)
 
     return ndf

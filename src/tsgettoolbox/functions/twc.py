@@ -14,7 +14,7 @@ __all__ = ["twc"]
 
 
 def twc_ulmo_df(county=None, start_date=None, end_date=None):
-
+    """Get data from ulmo.twc.kbdi.core.get_data() and return a dataframe."""
     df = get_data(
         county=county,
         start=pd.to_datetime(start_date),
@@ -38,7 +38,7 @@ def twc_cli(county, start_date=None, end_date=None):
 
     Parameters
     ----------
-    county: ``None`` or str
+    county : ``None`` or str
         If specified, results will be limited to the county corresponding to
         the given 5-character Texas county fips code i.e. 48.
     ${start_date}
@@ -47,12 +47,10 @@ def twc_cli(county, start_date=None, end_date=None):
     tsutils.printiso(twc(county, start_date=start_date, end_date=end_date))
 
 
+@tsutils.copy_doc(twc_cli)
 def twc(county: int, start_date=None, end_date=None):
     r"""Download Texas Weather Connection (TWC) data."""
     return twc_ulmo_df(county=county, start_date=start_date, end_date=end_date)
-
-
-twc.__doc__ = twc_cli.__doc__
 
 
 if __name__ == "__main__":

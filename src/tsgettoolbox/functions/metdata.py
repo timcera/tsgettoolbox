@@ -393,7 +393,9 @@ def metdata_cli(
     Parameters
     ----------
     ${lat}
+
     ${lon}
+
     variables : str
         At the command line can supply a comma separated list of variable
         names.  Using the Python API needs to be a Python list of strings.
@@ -486,6 +488,7 @@ def metdata_cli(
         +----------+----------------------------------------------------+-------+
 
     ${start_date}
+
     ${end_date}
     """
     tsutils.printiso(
@@ -499,6 +502,7 @@ def metdata_cli(
     )
 
 
+@tsutils.copy_doc(metdata_cli)
 def metdata(
     lat,
     lon,
@@ -527,9 +531,6 @@ def metdata(
         time_name="day",
         single_var_url=True,
     )
-
-
-metdata.__doc__ = metdata_cli.__doc__
 
 
 if __name__ == "__main__":

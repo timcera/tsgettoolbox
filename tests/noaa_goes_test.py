@@ -235,7 +235,7 @@ def test_parser_twdb_texuni():
 twdb_fts_test_sets = [
     {
         "message_timestamp_utc": datetime(2018, 2, 6, 13, 36, 14),
-        "dcp_message": f":WL 31 #60 -72.90 -72.88 -72.87 -72.87 -72.87 -72.87 -72.88 -72.88 -72.87 -72.87 -72.87 -72.85 ",
+        "dcp_message": ":WL 31 #60 -72.90 -72.88 -72.87 -72.87 -72.87 -72.87 -72.88 -72.88 -72.87 -72.87 -72.87 -72.85 ",
         "return_value": [
             ["2018-02-06 13:00:00", "wl", 72.90],
             ["2018-02-06 12:00:00", "wl", 72.88],
@@ -253,7 +253,7 @@ twdb_fts_test_sets = [
     },
     {
         "message_timestamp_utc": datetime(2020, 1, 14, 13, 36, 14),
-        "dcp_message": f'":vb 119 #72 13.00 :wl 59 #60 -217.66 -217.66 -217.64 -217.60 -217.56 -217.51 -217.45 -217.40 -217.38 -217.39 -217.41 -217.47',
+        "dcp_message": '":vb 119 #72 13.00 :wl 59 #60 -217.66 -217.66 -217.64 -217.60 -217.56 -217.51 -217.45 -217.40 -217.38 -217.39 -217.41 -217.47',
         "return_value": [
             ["2020-01-14 13:00:00", "vb", 13.0],
             ["2020-01-14 13:00:00", "wl", 217.66],
@@ -272,7 +272,7 @@ twdb_fts_test_sets = [
     },
     {
         "message_timestamp_utc": datetime(2019, 12, 6, 1, 0, 0),
-        "dcp_message": f'"Operator Initiated Test Transmission: OperatorInitiated Test Transmission: Operator Initiated TestTransmission: Operator Initiated Test Transmission: Operator Initiated Test Transmission: Operator Initiated Test Transmission: Operator Initiated Test Transmission: Operator Initiated Test Transmission: Operator Initiated Test Transmission: Operator Initiated Test Transmission:',
+        "dcp_message": '"Operator Initiated Test Transmission: OperatorInitiated Test Transmission: Operator Initiated TestTransmission: Operator Initiated Test Transmission: Operator Initiated Test Transmission: Operator Initiated Test Transmission: Operator Initiated Test Transmission: Operator Initiated Test Transmission: Operator Initiated Test Transmission: Operator Initiated Test Transmission:',
         "return_value": [
             ["2019-12-06 01:00:00", np.nan, np.nan],
         ],

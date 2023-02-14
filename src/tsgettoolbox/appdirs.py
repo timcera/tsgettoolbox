@@ -427,38 +427,45 @@ class AppDirs:
 
     @property
     def user_data_dir(self):
+        """Return full path to the user data dir for this application."""
         return user_data_dir(
             self.appname, self.appauthor, version=self.version, roaming=self.roaming
         )
 
     @property
     def site_data_dir(self):
+        """Return full path to the site data dir for this application."""
         return site_data_dir(
             self.appname, self.appauthor, version=self.version, multipath=self.multipath
         )
 
     @property
     def user_config_dir(self):
+        """Return full path to the user config dir for this application."""
         return user_config_dir(
             self.appname, self.appauthor, version=self.version, roaming=self.roaming
         )
 
     @property
     def site_config_dir(self):
+        """Return full path to the site config dir for this application."""
         return site_config_dir(
             self.appname, self.appauthor, version=self.version, multipath=self.multipath
         )
 
     @property
     def user_cache_dir(self):
+        """Return full path to the user cache dir for this application."""
         return user_cache_dir(self.appname, self.appauthor, version=self.version)
 
     @property
     def user_state_dir(self):
+        """Return full path to the user state dir for this application."""
         return user_state_dir(self.appname, self.appauthor, version=self.version)
 
     @property
     def user_log_dir(self):
+        """Return full path to the user log dir for this application."""
         return user_log_dir(self.appname, self.appauthor, version=self.version)
 
 
@@ -550,16 +557,16 @@ def _get_win_folder_from_environ(csidl_name):
 
 if system == "win32":
     try:
-        from ctypes import windll
+        pass
     except ImportError:
         try:
-            import com.sun.jna
+            pass
         except ImportError:
             try:
                 if PY3:
-                    import winreg as _winreg
+                    pass
                 else:
-                    import _winreg
+                    pass
             except ImportError:
                 _get_win_folder = _get_win_folder_from_environ
             else:

@@ -229,6 +229,7 @@ def terraclimate2C_cli(
 
 
 @tsutils.transform_args(start_date=pd.to_datetime, end_date=pd.to_datetime)
+@tsutils.copy_doc(terraclimate2C_cli)
 def terraclimate2C(
     lat: float,
     lon: float,
@@ -254,9 +255,6 @@ def terraclimate2C(
     df = df.rename(columns=lambda x: f"{x}:+2C")
 
     return df
-
-
-terraclimate2C.__doc__ = terraclimate2C_cli.__doc__
 
 
 if __name__ == "__main__":

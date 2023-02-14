@@ -1,5 +1,5 @@
 """
-cdec                US/CA station E,H,D,M: California Department of Water
+cdec                US/CA station I,H,D,M: California Department of Water
                     Resources
 """
 
@@ -79,7 +79,7 @@ sensor_num_map = {
 def cdec_cli(
     station_id, dur_code=None, sensor_num=None, start_date=None, end_date=None
 ):
-    r"""US/CA station E,H,D,M: California Department of Water Resources
+    """US/CA station E,H,D,M: California Department of Water Resources
 
     The primary function of the California Data Exchange Center (CDEC) is to
     facilitate the collection, storage, and exchange of hydrologic and climate
@@ -94,13 +94,13 @@ def cdec_cli(
 
     Parameters
     ----------
-    station_id: str
+    station_id : str
         [optional, default is None]
 
         Each string is the CDEC station ID and consist of three capital
         letters.
 
-    sensor_num: integer, comma separated integers or ``None``
+    sensor_num : integer, comma separated integers or ``None``
         [optional, default is None]
 
         If ``None`` will get all sensors at `station_id`.
@@ -174,7 +174,7 @@ def cdec_cli(
         | 100        | water EC [us/cm]                          |
         +------------+-------------------------------------------+
 
-    dur_code: str, comma separated strings, or ``None``
+    dur_code : str, comma separated strings, or ``None``
         [optional, default is None]
 
         Possible values are 'E', 'H', 'D', and 'M' but not
@@ -237,7 +237,7 @@ def get_sensors(sensor_id=None):
 
     Parameters
     ----------
-    sites : iterable of integers or ``None``
+    sensor_id : iterable of integers or ``None``
 
     Returns
     -------
@@ -394,6 +394,7 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
 
 
 def _limit_sensor_list(sensor_list, sensor_ids, resolution):
+    """Limit the sensor list to the provided sensor ids and resolutions."""
     if sensor_ids is not None:
         sensor_list = sensor_list[sensor_list["sensor_number"].isin(sensor_ids)]
     if resolution is not None:
@@ -409,7 +410,7 @@ def _limit_sensor_list(sensor_list, sensor_ids, resolution):
 def download_data(
     station_id, sensor_num=None, dur_code=None, start_date=None, end_date=None
 ):
-
+    """Download data for a single CDEC station and sensor id."""
     if isinstance(sensor_num, (str, bytes)):
         sensor_num = [
             int(sensor_num_map.get(i.lower(), i)) for i in sensor_num.split(".")
@@ -431,8 +432,8 @@ def download_data(
     )
 
     nd = pd.DataFrame()
-    for key in d[station_id]:
-        nnd = pd.DataFrame(d[station_id][key])
+    for key, value in d[station_id].items():
+        nnd = pd.DataFrame(value)
         nnd.columns = [key]
         nd = nd.join(nnd, how="outer")
     nd.rename(
@@ -449,6 +450,7 @@ def download_data(
     return nd
 
 
+@tsutils.copy_doc(cdec_cli)
 def cdec(
     station_id: str,
     dur_code: Optional[Union[list, str]] = None,
@@ -456,7 +458,7 @@ def cdec(
     start_date=None,
     end_date=None,
 ):
-    r"""Access data from the `California Department of Water Resources`_."""
+    """Access data from the `California Department of Water Resources`_."""
     return download_data(
         station_id,
         dur_code=dur_code,
@@ -464,9 +466,6 @@ def cdec(
         start_date=tsutils.parsedate(start_date),
         end_date=tsutils.parsedate(end_date),
     )
-
-
-cdec.__doc__ = cdec_cli.__doc__
 
 
 if __name__ == "__main__":

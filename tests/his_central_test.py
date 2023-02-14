@@ -1,19 +1,10 @@
 import pandas as pd
-import test_util
 
 from tsgettoolbox import ulmo
 
 
 def test_get_services():
-    wsdl = ulmo.cuahsi.his_central.core.HIS_CENTRAL_WSDL_URL.split("?")[0]
-    wsdl_file = "his_central/wsdl.xml"
-    service_info_url = "http://hiscentral.cuahsi.org/webservices/hiscentral.asmx"
-    service_info_file = "his_central/get_services.xml"
-
-    url_files = {
-        (wsdl, ("GET",)): wsdl_file,
-        (service_info_url, ("POST",)): service_info_file,
-    }
+    ulmo.cuahsi.his_central.core.HIS_CENTRAL_WSDL_URL.split("?")[0]
 
     # with test_util.mocked_urls(url_files):
     services = ulmo.cuahsi.his_central.get_services()

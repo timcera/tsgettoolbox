@@ -25,6 +25,7 @@ unit_conv = {
 
 
 def ulmo_df(state=None, climate_division=None, start_date=None, end_date=None):
+    """Get data from ulmo.cpc.drought.core.get_data() and return a dataframe."""
     df = get_data(
         state=state,
         climate_division=climate_division,
@@ -88,7 +89,9 @@ def cpc_cli(state=None, climate_division=None, start_date=None, end_date=None):
         [optional]
 
         If specified, results will be limited to the climate division.
+
     ${start_date}
+
     ${end_date}
     """
     tsutils.printiso(
@@ -101,6 +104,7 @@ def cpc_cli(state=None, climate_division=None, start_date=None, end_date=None):
     )
 
 
+@tsutils.copy_doc(cpc_cli)
 def cpc(
     state: Optional[str] = None,
     climate_division: Optional[int] = None,
@@ -114,9 +118,6 @@ def cpc(
         start_date=tsutils.parsedate(start_date),
         end_date=tsutils.parsedate(end_date),
     )
-
-
-cpc.__doc__ = cpc_cli.__doc__
 
 
 if __name__ == "__main__":

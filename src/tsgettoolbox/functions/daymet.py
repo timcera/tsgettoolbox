@@ -7,14 +7,13 @@ import datetime
 import logging
 import os
 import warnings
-from typing import List, Optional, Union
+from typing import List, Literal, Optional, Union
 
 import cltoolbox
 import pandas as pd
 import pydaymet
 from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
-from typing_extensions import Literal
 
 __all__ = ["daymet"]
 
@@ -82,6 +81,7 @@ def daymet_cli(
             Example: --years=2012,2014
 
         This overrides the start_date and end_date options.
+
     measuredParams:
         [optional, defaults to "all"]
 
@@ -125,20 +125,24 @@ def daymet_cli(
         Example: --measuredParams=tmax,tmin
 
         All variables are returned by default.
+
     time_scale:
         [optional, default is "daily"]
 
         One of "daily", "monthly", or "annual".
-    snow: bool
+
+    snow : bool
         [optional, defaults to False]
 
         Separate snowfall from precipitation using Martinez and Gupta (2010)
         method.
-    pet_soil_heat: float
+
+    pet_soil_heat : float
         [optional, defaults to 0.0]
 
         Used in the "penman_monteith" and "priestley_taylor" calculations.
-    pet_alpha: float
+
+    pet_alpha : float
         [optional, defaults to 1.26]
 
         Used in the "priestley_taylor" calculation where the default 1.26 is
@@ -161,6 +165,7 @@ def daymet_cli(
 
 
 @tsutils.transform_args(measuredParams=tsutils.make_list)
+@tsutils.copy_doc(daymet_cli)
 def daymet(
     lat: float,
     lon: float,
@@ -199,9 +204,6 @@ def daymet(
         ]
     ] = None,
     time_scale: Literal["daily", "monthly", "annual"] = "daily",
-    snow: bool = False,
-    pet_soil_heat=0.0,
-    pet_alpha=1.26,
 ):
     r"""Download data from Daymet by the Oak Ridge National Laboratory."""
     years = tsutils.make_list(years)
@@ -301,9 +303,6 @@ def daymet(
     ndf.columns = [f"Daymet-{i}{_units_map[i]}" for i in ndf.columns]
     ndf.index.name = "Datetime"
     return ndf
-
-
-daymet.__doc__ = daymet_cli.__doc__
 
 
 if __name__ == "__main__":

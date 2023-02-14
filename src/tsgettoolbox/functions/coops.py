@@ -6,13 +6,13 @@ coops               global station 1T,6T,H,D,M: Center for Operational
 import datetime
 import warnings
 from collections import defaultdict
-from typing import List, Optional, Union
+from contextlib import suppress
+from typing import List, Literal, Optional, Union
 
 import async_retriever as ar
 import cltoolbox
 import dateutil.parser as parser
 import pandas as pd
-from typing_extensions import Literal
 
 try:
     from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
@@ -316,7 +316,6 @@ def coops_cli(
         The returned data for each "product" documented below is
         derived from
         https://api.tidesandcurrents.noaa.gov/api/prod/responseHelp.html
-
 
         product = "water_level"
 
@@ -683,6 +682,7 @@ deltas = {
     begin_date=tsutils.parsedate,
     end_date=tsutils.parsedate,
 )
+@tsutils.copy_doc(coops_cli)
 def coops(
     station: str,
     date: Literal["latest", "today", "recent"] = None,
@@ -900,7 +900,7 @@ def coops(
         elif produc == "salinity":
             rename_cols = {
                 "s": f"salinity:{units}",
-                "g": f"specific_gravity",
+                "g": "specific_gravity",
             }
             resp = resp.rename(rename_cols, axis="columns")
         rename_cols = {
@@ -922,14 +922,9 @@ def coops(
         }
         resp = resp.rename(rename_cols, axis="columns")
         ndf = ndf.join(resp, how="outer")
-    try:
+    with suppress():
         ndf.index = pd.to_datetime(ndf.index)
-    except:
-        pass
     return ndf
-
-
-coops.__doc__ = coops_cli.__doc__
 
 
 if __name__ == "__main__":

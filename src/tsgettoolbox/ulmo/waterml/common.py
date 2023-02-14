@@ -17,7 +17,7 @@ def parse_site_values(content_io, namespace, query_isodate=None, methods=None):
         ("qualityControlLevel", "quality_control_levels", "id"),
         ("source", "sources", "id"),
     ]
-    for (event, ele) in etree.iterparse(content_io):
+    for event, ele in etree.iterparse(content_io):
         if ele.tag == f"{namespace}timeSeries":
             source_info_element = ele.find(f"{namespace}sourceInfo")
             site_info = _parse_site_info(source_info_element, namespace)

@@ -21,7 +21,7 @@ class NCDCValue(tables.IsDescription):
 def get_data(station_codes, start=None, end=None, parameters=None, path=None):
     if isinstance(station_codes, str):
         return _get_station_data(station_codes, start, end, parameters)
-    return_dict = {
+    {
         station_code: _get_station_data(station_codes, start, end, parameters)
         for station_code in station_codes
     }

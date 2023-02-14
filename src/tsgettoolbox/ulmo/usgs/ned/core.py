@@ -125,11 +125,11 @@ def get_raster(
         in the format (min longitude, min latitude, max longitude, max latitude)
     path : ``None`` or path
         if ``None`` default path will be used
-    update_cache: ``True`` or ``False`` (default)
+    update_cache : ``True`` or ``False`` (default)
         if ``False`` and output file already exists use it.
-    check_modified: ``True`` or ``False`` (default)
+    check_modified : ``True`` or ``False`` (default)
         if tile exists in path, check if newer file exists online and download if available.
-    mosaic: ``True`` or ``False`` (default)
+    mosaic : ``True`` or ``False`` (default)
         if ``True``, mosaic and clip downloaded tiles to the extents of the bbox provided. Requires
         rasterio package and GDAL.
 
@@ -217,12 +217,10 @@ def _bbox2poly(bbox):
 
 
 def _download_tiles(tiles, path=None, check_modified=False):
-
     if path is None:
         path = os.path.join(util.get_ulmo_dir(), DEFAULT_FILE_PATH)
 
     for tile in tiles["features"]:
-
         metadata = tile["properties"]
         layer_path = os.path.join(path, layer_dict[metadata["layer"]])
         tile["properties"]["file"] = util.download_tiles(

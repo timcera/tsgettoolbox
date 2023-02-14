@@ -35,7 +35,6 @@ def get_stations():
 def get_station_data(
     station_code, parameter, start=None, end=None, min_value=None, max_value=None
 ):
-
     if min_value is None:
         min_value = -9000000
     if max_value is None:

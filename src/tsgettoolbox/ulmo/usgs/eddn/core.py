@@ -274,7 +274,6 @@ def _format_period(period):
 
 
 def _format_time(timestamp):
-
     if isinstance(timestamp, str):
         if timestamp.startswith("P"):
             timestamp = isodate.parse_duration(timestamp)

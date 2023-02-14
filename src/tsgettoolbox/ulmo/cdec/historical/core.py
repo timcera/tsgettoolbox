@@ -91,7 +91,7 @@ def get_sensors(sensor_id=None):
 
     Parameters
     ----------
-    sites : iterable of integers or ``None``
+    sensor_id : iterable of integers or ``None``
 
     Returns
     -------
@@ -126,19 +126,15 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
         # to get all available sensors
         available_sensors = cdec.historical.get_station_sensors(['NEW'])
 
-
     Parameters
     ----------
     station_ids : iterable of strings or ``None``
-
     sensor_ids : iterable of integers or ``None``
         check out  or use the ``get_sensors()`` function to see a list of
         available sensor numbers
-
     resolutions : iterable of strings or ``None``
         Possible values are 'event', 'hourly', 'daily', and 'monthly' but not
         all of these time resolutions are available at every station.
-
 
     Returns
     -------
@@ -190,7 +186,6 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
     choosing hourly resolution as the data sets are big, and CDEC's servers
     are slow as molasses in winter.
 
-
     Usage example::
 
         from tsgettoolbox.ulmo import cdec
@@ -199,15 +194,12 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
     Parameters
     ----------
     station_ids : iterable of strings or ``None``
-
     sensor_ids : iterable of integers or ``None``
         check out  or use the ``get_sensors()`` function to see a list of
         available sensor numbers
-
     resolutions : iterable of strings or ``None``
         Possible values are 'event', 'hourly', 'daily', and 'monthly' but not
         all of these time resolutions are available at every station.
-
 
     Returns
     -------
@@ -255,7 +247,6 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
 
 
 def _limit_sensor_list(sensor_list, sensor_ids, resolution):
-
     if sensor_ids is not None:
         sensor_list = sensor_list[[x in sensor_ids for x in sensor_list.sensor_id]]
 
@@ -266,7 +257,6 @@ def _limit_sensor_list(sensor_list, sensor_ids, resolution):
 
 
 def _download_raw(station_id, sensor_num, dur_code, start_date, end_date):
-
     url = f"http://cdec.water.ca.gov/dynamicapp/req/CSVDataServlet?Stations={station_id}&dur_code={dur_code}&SensorNums={str(sensor_num)}&Start={start_date}&End={end_date}"
 
     df = pd.read_csv(url, parse_dates=[4, 5], index_col="DATE TIME", na_values="---")

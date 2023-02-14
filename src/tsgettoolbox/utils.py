@@ -1,3 +1,7 @@
+"""
+tsgettoolbox utility functions.
+"""
+
 import configparser as cp
 import datetime
 import io
@@ -8,6 +12,7 @@ import cftime
 import numpy as np
 import pandas as pd
 import requests
+from coards import parse
 from dapclient.client import open_dods_url, open_url
 from haversine import haversine_vector
 from requests.adapters import HTTPAdapter
@@ -23,13 +28,13 @@ dirs = appdirs.AppDirs("tsgettoolbox", "tsgettoolbox")
 
 
 def read_api_key(service):
-    # Read in API key
+    """Read API key from file if exists else create key place holder."""
     if not os.path.exists(dirs.user_config_dir):
         os.makedirs(dirs.user_config_dir)
     configfile = os.path.join(dirs.user_config_dir, "config.ini")
     if not os.path.exists(configfile):
-        with open(configfile, "w") as fp:
-            fp.write(
+        with open(configfile, "w", encoding="ascii") as fpconfig:
+            fpconfig.write(
                 f"""
 
 [{service}]
@@ -41,13 +46,13 @@ api_key = ReplaceThisStringWithYourKey
     os.chmod(configfile, 0o600)
 
     inifile = cp.ConfigParser()
-    inifile.readfp(open(configfile))
+    inifile.readfp(open(configfile, encoding="ascii"))
 
     try:
         api_key = inifile.get(service, "api_key")
     except BaseException:
-        with open(configfile, "a") as fp:
-            fp.write(
+        with open(configfile, "a", encoding="ascii") as fpconfig:
+            fpconfig.write(
                 f"""
 
 [{service}]
@@ -57,7 +62,7 @@ api_key = ReplaceThisStringWithYourKey
             )
         api_key = "ReplaceThisStringWithYourKey"
 
-    inifile.readfp(open(configfile))
+    inifile.readfp(open(configfile, encoding="ascii"))
     api_key = inifile.get(service, "api_key")
     if api_key == "ReplaceThisStringWithYourKey":
         raise ValueError(
@@ -78,6 +83,7 @@ def requests_retry_session(
     status_forcelist=(429, 500, 502, 503, 504),
     session=None,
 ):
+    """Retry requests session."""
     session = session or requests.Session()
     retry = Retry(
         total=retries,
@@ -93,6 +99,7 @@ def requests_retry_session(
 
 
 def read_csv(filename):
+    """Read csv file."""
     req = requests_retry_session().get(filename)
     try:
         req.raise_for_status()
@@ -148,10 +155,7 @@ def pdap(
     end_date=None,
     timeout=30,
 ):
-
-    import numpy as np
-    from haversine import haversine_vector
-
+    """Read data from a OpenDAP server using dapclient."""
     if "dods" in url:
         dataset = open_dods_url(url, timeout=timeout)
     else:
@@ -174,8 +178,6 @@ def pdap(
     rlon = int(np.argmax(lon_vals == nlon[closest]))
 
     # Get the start_data and end_date squared away.
-    from coards import parse
-
     dtunits = dataset[time_name].attributes["units"]
     datetimes = pd.DatetimeIndex(
         [parse(value, dtunits) for value in dataset["time"][:].data]
@@ -213,7 +215,8 @@ def pdap(
     return df
 
 
-def dapdownloader(url, lat, lon, var, time_name="date", start_date=None, end_date=None):
+def dapdownloader(url, lat, lon, var, start_date=None, end_date=None):
+    """Download data from a OpenDAP server using NCSS."""
     for u in tsutils.make_list(url):
         try:
             ncss = NCSS(u.format(**locals()))
@@ -252,8 +255,6 @@ def dapdownloader(url, lat, lon, var, time_name="date", start_date=None, end_dat
 
     # Sometimes the variable name is different.  Remove all the other keys to
     # arrive at the variable name.
-    data_keys = list(data.keys())
-    # data_keys.remove(time_name)
 
     ndf = pd.DataFrame()
     for v in var:
@@ -292,16 +293,14 @@ def opendap(
     variables=None,
     start_date=None,
     end_date=None,
-    tzname="UTC",
     time_name="date",
     missing_value=None,
     lat_name="lat",
     lon_name="lon",
-    user_charset="ascii",
     single_var_url=False,
+    tzname="UTC",
 ):
-    from haversine import haversine_vector
-
+    """Read data from a OpenDAP server using dapclient."""
     if variables is None:
         variables = sorted(variable_map.keys())
     else:
@@ -313,7 +312,7 @@ def opendap(
                         f"""
                         The variable "{variable}" is not available from this
                         service.  The available variables are
-                        "{variables_map.keys()}".
+                        "{variable_map.keys()}".
                         """
                     )
                 )
@@ -438,6 +437,12 @@ def opendap(
                 """
             )
         )
+    try:
+        ndf.index = ndf.index.tz_localize(tzname)
+    except TypeError:
+        ndf.index = ndf.index.tz_convert(tzname)
+
+    ndf.index.name = f"Datetime:{tzname}"
 
     return ndf
 
@@ -446,15 +451,13 @@ def erddap(
     url,
     lat,
     lon,
-    variable_map,
     variables=None,
     start_date=None,
     end_date=None,
-    tzname="UTC",
     time_name="date",
-    missing_value=None,
     single_var_url=False,
 ):
+    """Download data from an ERDDAP server."""
     variables = tsutils.make_list(variables)
 
     from erddapy import ERDDAP
@@ -497,6 +500,7 @@ def nopendap(
     missing_value=None,
     single_var_url=False,
 ):
+    """Download data from a OPeNDAP server using NCSS."""
     variables = tsutils.make_list(variables)
 
     if single_var_url is True:
@@ -510,7 +514,6 @@ def nopendap(
                 variables=None,
                 start_date=start_date,
                 end_date=end_date,
-                tzname=tzname,
                 time_name=time_name,
                 missing_value=missing_value,
                 single_var_url=False,

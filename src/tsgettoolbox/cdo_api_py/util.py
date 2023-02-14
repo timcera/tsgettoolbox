@@ -1,7 +1,9 @@
-from typing import List
+from typing import List, Optional
 
 
-def _make_geojson_point_feature(properties: dict = None, coordinates: list = None):
+def _make_geojson_point_feature(
+    properties: Optional[dict] = None, coordinates: Optional[list] = None
+):
     """
     Creates a geojson format feature.
 
@@ -32,7 +34,6 @@ def _make_geojson_point_feature(properties: dict = None, coordinates: list = Non
 
 def _make_geojson_layer(features: List[dict], name: str):
     """
-
     :param features: List of geojson compliant dictionaries.
     :param name: The name attribute for the layer.
     :return:
@@ -90,7 +91,6 @@ def rows_to_point_geojson(
     features = []
 
     for row in rows:
-
         if lon_key not in row:
             raise KeyError(f"{lon_key}, not found in row [{row}]")
 

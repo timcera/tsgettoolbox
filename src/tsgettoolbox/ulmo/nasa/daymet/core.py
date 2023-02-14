@@ -43,10 +43,6 @@ log.setLevel(logging.INFO)
 def get_variables():
     """retrieve a list of variables available
 
-    Parameters
-    ----------
-    None
-
     Returns
     -------
     dictionary of variables with variable abbreviations as keys
@@ -66,9 +62,9 @@ def get_daymet_singlepixel(
 
     Parameters
     ----------
-    latitude: float
+    latitude : float
         The latitude (WGS84), value between 52.0 and 14.5.
-    longitude: float
+    longitude : float
         The longitude (WGS84), value between -131.0 and -53.0.
     variables : list of str
         Daymet parameters to fetch. default = ['tmax', 'tmin', 'prcp'].
@@ -80,7 +76,7 @@ def get_daymet_singlepixel(
             * 'swe': snow-water equivalent
             * 'prcp': precipitation;
             * 'dayl' : daylength.
-    years: list of int
+    years : list of int
         List of years to return.
         Daymet version 2 available 1980 to the latest full calendar year.
         If ``None`` (default), all years will be returned

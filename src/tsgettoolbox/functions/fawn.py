@@ -4,6 +4,7 @@ fawn                US/FL 15T,H,D,M:Florida Automated Weather Network
 """
 
 import datetime
+from contextlib import suppress
 
 import cltoolbox
 import mechanize
@@ -231,6 +232,7 @@ def fawn_cli(
         * 435  'St. Lucie West'
         * 302  Umatilla
         * 425  Wellington
+
     variables : str
         At the command line can supply a comma separated list of variable
         names.  Using the Python API needs to be a Python list.
@@ -269,10 +271,13 @@ def fawn_cli(
 
         The 'ET' variable is only available when `reportType` is "daily" or
         "monthly".
+
     reportType : str
         Interval of the data.  Can be one of "all" for 15 minute, "hourly",
         "daily", or "monthly".
+
     ${start_date}
+
     ${end_date}
     """
     tsutils.printiso(
@@ -312,16 +317,7 @@ def core(data):
     return pd.read_csv(response, index_col=[0, 1], parse_dates=True)
 
 
-# @tsutils.validator(
-#    stations=[
-#        [str.lower, ["domain", list(rev_locs.keys())], None],
-#        [int, ["domain", list(locs__.keys())], None],
-#    ],
-#    variables=[str, ["domain", list(vars__.keys()) + list(rev_vars.keys())], None],
-#    reportType=[str, ["domain", ["all", "hourly", "daily", "monthly", "entire"]], 1],
-#    start_date=[tsutils.parsedate, ["pass", []], 1],
-#    end_date=[tsutils.parsedate, ["pass", []], 1],
-# )
+@tsutils.copy_doc(fawn_cli)
 def fawn(
     stations,
     variables,
@@ -331,9 +327,19 @@ def fawn(
 ):
     r"""Download data from FAWN."""
     interval = {"all": 10, "hourly": 40, "daily": 366, "monthly": 8000}
-    data = {}
-    data["start_date"] = tsutils.parsedate(start_date)
-    data["end_date"] = tsutils.parsedate(end_date)
+    data = {
+        "start_date": tsutils.parsedate(start_date),
+        "end_date": tsutils.parsedate(end_date),
+    }
+
+    if reportType not in reportTypes:
+        raise ValueError(
+            tsutils.error_wrapper(
+                f"""
+            reportType must be one of {reportTypes} but got
+            {reportType}"""
+            )
+        )
 
     data["reportType"] = reportType
 
@@ -373,7 +379,6 @@ def fawn(
 
     testdate = sdate
     while testdate < edate:
-
         begin_test_date = tsutils.parsedate(testdate)
         data["fromDate_m"] = begin_test_date.month
         data["fromDate_d"] = begin_test_date.day
@@ -410,12 +415,11 @@ def fawn(
             )
         )
 
-    try:
+    with suppress(KeyError):
         ndf.drop(columns="N (# obs)", inplace=True)
-    except KeyError:
-        pass
 
     def renamer(istr):
+        """Rename columns by replacement."""
         istr = istr.replace(" ", "")
         istr = istr.replace("(", ":")
         istr = istr.replace(")", ":")
@@ -431,9 +435,6 @@ def fawn(
         mapfreqstr = {"daily": "D", "monthly": "M", "hourly": "H", "all": "15T"}
         ndf.index = ndf.index.to_period(mapfreqstr[reportType])
     return ndf
-
-
-fawn.__doc__ = fawn_cli.__doc__
 
 
 if __name__ == "__main__":

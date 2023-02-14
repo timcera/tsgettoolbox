@@ -1,9 +1,6 @@
 """
 rivergages          US station:USACE river gages
 """
-import warnings
-
-warnings.filterwarnings("ignore")
 
 import cltoolbox
 import pandas as pd
@@ -30,9 +27,9 @@ def rivergages_cli(station_code, parameter, start_date=None, end_date=None):
 
     Parameters
     ----------
-    station_code: str
+    station_code : str
         The station code for the station.
-    parameter: str
+    parameter : str
         Parameter code.
     start_date
         The start date of the desired time-series.
@@ -43,7 +40,9 @@ def rivergages_cli(station_code, parameter, start_date=None, end_date=None):
     tsutils.printiso(ndf)
 
 
+@tsutils.copy_doc(rivergages_cli)
 def rivergages(station_code, parameter, start_date=None, end_date=None):
+    """US station:USACE river gages"""
     tstations = get_stations()
     if station_code not in tstations:
         raise ValueError(
@@ -77,8 +76,6 @@ def rivergages(station_code, parameter, start_date=None, end_date=None):
     df.columns = [f"{station_code}_{parameter}"]
     return df
 
-
-rivergages.__doc__ = rivergages_cli.__doc__
 
 if __name__ == "__main__":
     #    import time

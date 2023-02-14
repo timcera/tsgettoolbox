@@ -80,7 +80,6 @@ def get_data(
 ):
     """Retreives data.
 
-
     Parameters
     ----------
     state : ``None`` or str
@@ -93,13 +92,12 @@ def get_data(
         start of the current calendar year.
     end : ``None`` or date (see :ref:`dates-and-times`)
         If specified, results will be limited to data before this date.
-    as_dataframe: bool
+    as_dataframe : bool
         If ``False`` (default), a dict with a nested set of dicts will be
         returned with data indexed by state, then climate division. If ``True``
         then a pandas.DataFrame object will be returned.  The pandas dataframe
         is used internally, so setting this to ``True`` is a little bit faster
         as it skips a serialization step.
-
 
     Returns
     -------
@@ -319,7 +317,9 @@ def _parse_data_file(data_file, palmer_format, year, current_year_flag):
         ("cmi", "f8"),
     ]
 
-    decodef = lambda x: x.decode("utf-8")
+    def decodef(x):
+        return x.decode("utf-8")
+
     data_array = np.genfromtxt(
         data_file, dtype=dtype, delimiter=delim_sequence, usecols=use_columns
     )

@@ -229,6 +229,7 @@ def terraclimate19611990_cli(
 
 
 @tsutils.transform_args(start_date=pd.to_datetime, end_date=pd.to_datetime)
+@tsutils.copy_doc(terraclimate19611990_cli)
 def terraclimate19611990(
     lat: float,
     lon: float,
@@ -254,9 +255,6 @@ def terraclimate19611990(
     df = df.rename(columns=lambda x: f"{x}:19611990")
 
     return df
-
-
-terraclimate19611990.__doc__ = terraclimate19611990_cli.__doc__
 
 
 if __name__ == "__main__":

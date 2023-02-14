@@ -30,7 +30,9 @@ def swtwc_cli(station_code, date=None):
     tsutils.printiso(swtwc(station_code, date=date))
 
 
+@tsutils.copy_doc(swtwc_cli)
 def swtwc(station_code, date=None):
+    """US/region station:USACE Southwest Division, Tulsa Water Control"""
     date = datetime.datetime.now() if date is None else pd.to_datetime(date)
     alldict = get_station_data(station_code, date=date, as_dataframe=True)
     df = alldict["values"]

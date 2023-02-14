@@ -58,7 +58,6 @@ def mocked_urls(url_files, methods=None, force=False):
         HTTP requests. Or it can be a dict where the keys are regular
         expression strings and the values are filepaths - the regex keys will
         be used to match urls if they match, the file path will be used.
-
     methods : iterable of str or None
         HTTP methods that will be mocked. If set to None (default) then the
         default methods are GET, POST and HEAD.

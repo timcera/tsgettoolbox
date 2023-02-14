@@ -308,7 +308,7 @@ def update_site_list(
         Path to the hdf5 file to be queried, if ``None`` then the default path
         will be used. If a file path is a directory, then multiple hdf5 files
         will be kept so that file sizes remain small for faster repacking.
-    input_file: ``None``, file path or file object
+    input_file : ``None``, file path or file object
         If ``None`` (default), then the NWIS web services will be queried, but
         if a file is passed then this file will be used instead of requesting
         data from the NWIS web services.
@@ -395,14 +395,14 @@ def update_site_data(
         Path to the hdf5 file to be queried, if ``None`` then the default path
         will be used. If a file path is a directory, then multiple hdf5 files
         will be kept so that file sizes remain small for faster repacking.
-    methods: ``None``, str or Python dict
+    methods : ``None``, str or Python dict
         If ``None`` (default), it's assumed that there is a single method for
         each parameter. This raises an error if more than one method ids are
         encountered. If str, this is the method id for the requested
         parameter/s and can use "all" if method ids are not known beforehand. If
         dict, provide the parameter_code to method id mapping. Parameter's
         method id is specific to site.
-    input_file: ``None``, file path or file object
+    input_file : ``None``, file path or file object
         If ``None`` (default), then the NWIS web services will be queried, but
         if a file is passed then this file will be used instead of requesting
         data from the NWIS web services.

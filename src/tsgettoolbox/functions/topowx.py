@@ -142,7 +142,6 @@ def topowx_cli(
 
     time_coverage_resolution: P1D
 
-
     Parameters
     ----------
     ${lat}
@@ -278,7 +277,6 @@ def topowx_daily_cli(
 
     time_coverage_resolution: P1D
 
-
     Parameters
     ----------
     ${lat}
@@ -307,6 +305,7 @@ def topowx_daily_cli(
     )
 
 
+@tsutils.copy_doc(topowx_cli)
 def topowx(
     lat,
     lon,
@@ -322,13 +321,14 @@ def topowx(
         lat,
         lon,
         _base_avail_vars,
-        variables=None,
+        variables=variables,
         start_date=start_date,
         end_date=end_date,
         time_name="time",
     )
 
 
+@tsutils.copy_doc(topowx_daily_cli)
 def topowx_daily(
     lat,
     lon,
@@ -344,16 +344,11 @@ def topowx_daily(
         lat,
         lon,
         _base_avail_vars,
-        variables=None,
+        variables=variables,
         start_date=start_date,
         end_date=end_date,
         time_name="time",
     )
-
-
-topowx.__doc__ = topowx_cli.__doc__
-
-topowx_daily.__doc__ = topowx_daily_cli.__doc__
 
 
 if __name__ == "__main__":

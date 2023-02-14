@@ -33,7 +33,7 @@ def get_station_data(station_code, date=None, as_dataframe=False):
 
     Parameters
     ----------
-    station_code: str
+    station_code : str
         The station code to fetch data for. A list of stations can be retrieved with
         ``get_stations()``
     date : ``None`` or date (see :ref:`dates-and-times`)
@@ -109,7 +109,10 @@ def get_station_data(station_code, date=None, as_dataframe=False):
         variable_name: lambda x: float(x) if x != "----" else np.nan
         for variable_name in variable_names
     }
-    date_parser = lambda x: _convert_datetime(x, year)
+
+    def date_parser(x):
+        return _convert_datetime(x, year)
+
     dataframe = pandas.read_fwf(
         sio,
         names=column_names,

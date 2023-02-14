@@ -29,10 +29,6 @@ def get_parameters():
     retrieve a list of parameter codes available.
     Reference for GSOD parameters : https://www1.ncdc.noaa.gov/pub/data/gsod/readme.txt
 
-    Parameters
-    ----------
-    None
-
     Returns
     -------
     dictionary of variables with parameter codes as keys

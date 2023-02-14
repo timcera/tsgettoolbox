@@ -1,7 +1,6 @@
 import csv
 import os
-import pprint
-from urllib.request import Request, urlopen, urlretrieve
+from urllib.request import Request, urlopen
 
 from bs4 import BeautifulSoup
 

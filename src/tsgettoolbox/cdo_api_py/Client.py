@@ -62,7 +62,7 @@ class BaseClient:
     @staticmethod
     def _validate_endpoint(endpoint):
         """Compares endpoint against a list of valid endpoints"""
-        if endpoint in ENDPOINTS.keys():
+        if endpoint in ENDPOINTS:
             return True
         raise InvalidEndpoint(
             f"Endpoint '{endpoint}' is invalid! valid options are {ENDPOINTS.keys()}"
@@ -72,12 +72,13 @@ class BaseClient:
     def _format_extent(extent):
         """if input extent looks like an extent dictionary, return extent formatted string"""
         if isinstance(extent, dict):
-            if all([d in extent.keys() for d in ("south", "north", "west", "east")]):
+            if all(d in extent for d in ("south", "north", "west", "east")):
                 return '{extent["south"]}, {extent["west"]}, {extent["north"]}, {extent["east"]}'
             raise BadExtentError(
                 f"{extent} does not appear to have all keys north, south, east, west"
             )
-        elif isinstance(extent, str):
+
+        if isinstance(extent, str):
             coords = [float(c) for c in extent.split(",")]
             if len(coords) == 4:
                 return coords
@@ -103,7 +104,8 @@ class BaseClient:
             ):
                 return item.strftime(DATETIME_FMT_SHORT)
             return item.strftime(DATETIME_FMT_LONG)
-        elif isinstance(item, list):
+
+        if isinstance(item, list):
             return [self._format_datetime_as_string(sub_item) for sub_item in item]
         return item
 
@@ -116,9 +118,9 @@ class BaseClient:
                                set to False to raise an error if a string cannot be converted.
         """
 
-        def validate(string, format):
+        def validate(string, date_format):
             try:
-                return datetime.strptime(string, format)
+                return datetime.strptime(string, date_format)
             except ValueError:
                 return False
 
@@ -135,11 +137,12 @@ class BaseClient:
                 f'input datestring "{string}" does not match acceptable formats "{DATETIME_FMT_LONG}" or "{DATETIME_FMT_SHORT}"'
             )
 
-        elif isinstance(string, list):
+        if isinstance(string, list):
             return [self._parse_string_to_datetime(s) for s in string]
 
-        elif isinstance(string, datetime):
+        if isinstance(string, datetime):
             return string
+
         raise TypeError(f"input {string} is not of valid type to parse date string")
 
     def _url_builder(self, endpoint, *args, **kwargs):
@@ -269,7 +272,7 @@ class Client(BaseClient):
             yield from self._get_with_count_checks(endpoint, *args, **kwargs)
 
         except RequestsPerSecondLimitExceeded:
-            sleep(1.2)  # a little extra margine
+            sleep(1.2)  # a little extra margin
             yield from self._get_with_request_checks(endpoint, *args, **kwargs)
         except RequestsPerDayLimitExceeded:
             if self.backup_token is not None:

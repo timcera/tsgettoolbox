@@ -39,7 +39,7 @@ tsgettoolbox nwis_dv --sites 02325000 --startDT '2000-01-01' --parameterCd 00060
 # Now lets use "tstoolbox" to plot the time-series.  Note the redirection again, this time for input as "< filename.csv".  Default plot filename is "plot.png".
 
 # %%
-tstoolbox plot < 02325000_flow.csv
+tstoolbox plot <02325000_flow.csv
 
 # %% [markdown]
 # ![title](plot.png)
@@ -51,7 +51,7 @@ tstoolbox plot < 02325000_flow.csv
 tstoolbox plot --help
 
 # %%
-tstoolbox plot --ofilename flow.png --ytitle 'Flow (cfs)' --title '02325000: FENHOLLOWAY RIVER NEAR PERRY, FLA' --legend False < 02325000_flow.csv
+tstoolbox plot --ofilename flow.png --ytitle 'Flow (cfs)' --title '02325000: FENHOLLOWAY RIVER NEAR PERRY, FLA' --legend False <02325000_flow.csv
 
 # %% [markdown]
 # ![title](flow.png)
@@ -61,10 +61,10 @@ tstoolbox plot --ofilename flow.png --ytitle 'Flow (cfs)' --title '02325000: FEN
 # You can also use tstoolbox to make calculations on the time-series, for example to aggregate to monthly average flow:
 
 # %%
-tstoolbox aggregate --groupby M --statistic mean < 02325000_flow.csv | head
+tstoolbox aggregate --groupby M --statistic mean <02325000_flow.csv | head
 
 # %%
-tstoolbox aggregate --groupby M --statistic mean < 02325000_flow.csv | tstoolbox plot --ofilename plot_monthly.png --drawstyle steps-pre
+tstoolbox aggregate --groupby M --statistic mean <02325000_flow.csv | tstoolbox plot --ofilename plot_monthly.png --drawstyle steps-pre
 
 # %% [markdown]
 # ![title](plot_monthly.png)
