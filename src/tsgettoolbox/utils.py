@@ -12,7 +12,6 @@ import cftime
 import numpy as np
 import pandas as pd
 import requests
-from coards import parse
 from dapclient.client import open_dods_url, open_url
 from haversine import haversine_vector
 from requests.adapters import HTTPAdapter
@@ -140,79 +139,6 @@ def file_downloader(baseurl, station, startdate=None, enddate=None):
     final.index = pd.to_datetime(final.index)
     final = final.sort_index()
     return final[startdate:enddate]
-
-
-@tsutils.transform_args(start_date=pd.to_datetime, end_date=pd.to_datetime)
-def pdap(
-    url,
-    lat,
-    lon,
-    latitude_name="lat",
-    longitude_name="lon",
-    time_name="time",
-    variables=None,
-    start_date=None,
-    end_date=None,
-    timeout=30,
-):
-    """Read data from a OpenDAP server using dapclient."""
-    if "dods" in url:
-        dataset = open_dods_url(url, timeout=timeout)
-    else:
-        dataset = open_url(url, timeout=timeout)
-
-    # Determine rlat and rlon index in the grid closest to target (lat, lon).
-    lat_vals = dataset[latitude_name][:].data
-    lon_vals = dataset[longitude_name][:].data
-
-    nlat, nlon = np.meshgrid(lat_vals, lon_vals)
-
-    nlat = nlat.flatten()
-    nlon = nlon.flatten()
-
-    ngrid = list(zip(nlat, nlon))
-    distances = haversine_vector([(lat, lon)], ngrid, comb=True)
-    closest = np.argmin(distances)
-
-    rlat = int(np.argmax(lat_vals == nlat[closest]))
-    rlon = int(np.argmax(lon_vals == nlon[closest]))
-
-    # Get the start_data and end_date squared away.
-    dtunits = dataset[time_name].attributes["units"]
-    datetimes = pd.DatetimeIndex(
-        [parse(value, dtunits) for value in dataset["time"][:].data]
-    )
-
-    datetimes = datetimes[start_date:end_date]
-
-    # Determine the variable list.
-    allvars = list(dataset.keys())
-    allvars.remove(latitude_name)
-    allvars.remove(longitude_name)
-    allvars.remove(time_name)
-
-    if variables is None:
-        variables = allvars
-    else:
-        variables = tsutils.make_list(variables)
-        for var in variables:
-            if var not in allvars:
-                raise ValueError(
-                    tsutils.error_wrapper(
-                        f"""
-                        The variable "{var}" is not available.  The available
-                        variables are "{allvars}".
-                        """
-                    )
-                )
-
-    df = pd.DataFrame()
-    for dfvar in variables:
-        ndf = pd.DataFrame(
-            dataset[dfvar][start_date:end_date, rlat, rlon].data, index=datetimes
-        )
-        df = df.join(ndf, how="outer")
-    return df
 
 
 def dapdownloader(url, lat, lon, var, start_date=None, end_date=None):
