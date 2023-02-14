@@ -1,40 +1,16 @@
 [build-system]
+build-backend = "setuptools.build_meta"
 requires = [
     "setuptools>=45",
     "setuptools_scm[toml]>=6.2",
     "wheel",
-    "oldest-supported-numpy",
+    "oldest-supported-numpy"
 ]
-build-backend = "setuptools.build_meta"
 
 [project]
-name = "tsgettoolbox"
-dynamic = ["readme", "version"]
-description = "Will get time series from different sources on the internet"
-requires-python = ">=3.8"
-dependencies = [
-    "async_retriever",
-    "cftime",
-    "cltoolbox",
-    "dapclient",
-    "geojson",
-    "haversine",
-    "httpretty",
-    "isodate",
-    "lxml",
-    "mechanize",
-    "pydantic",
-    "pydaymet",
-    "requests",
-    "siphon",
-    "suds-community",
-    "toolbox_utils >= 2.0.0, < 3.0.0",
-    "zeep",
-    ]
-license = {text = "BSD-3-Clause"}
 authors = [
-    {name = "Tim Cera", email = "tim@cerazone.net"},
-    ]
+    {name = "Tim Cera", email = "tim@cerazone.net"}
+]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Science/Research",
@@ -51,61 +27,96 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Topic :: Scientific/Engineering :: Information Analysis",
     "Topic :: Scientific/Engineering",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    ]
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+dependencies = [
+    "async_retriever",
+    "cftime",
+    "cltoolbox",
+    "dapclient",
+    "geojson",
+    "haversine",
+    "httpretty",
+    "isodate",
+    "lxml",
+    "mechanize",
+    "pydantic",
+    "pydaymet",
+    "requests",
+    "siphon",
+    "suds-community",
+    "toolbox_utils >= 3.0.0, < 4.0.0",
+    "zeep"
+]
+description = "Will get time series from different sources on the internet"
+dynamic = ["readme", "version"]
 keywords = [
     "time-series",
     "uri",
     "url",
     "web_services",
-    "rest",
-    ]
+    "rest"
+]
+license = {text = "BSD-3-Clause"}
+name = "tsgettoolbox"
+requires-python = ">=3.8"
 
 [project.optional-dependencies]
 dev = [
+    "bandit",
     "black",
+    "blacken-docs",
+    "black-nbconvert",
     "cleanpy",
-    "twine",
+    "commitizen",
+    "coverage[toml]",
+    "isort",
+    "mypy",
+    "pre-commit",
+    "pyflakes",
+    "pylama",
+    "pyle",
+    "pylint",
+    "pyre",
+    "pyroma",
     "pytest",
-    "coverage",
-    "flake8",
     "pytest-cov",
     "pytest-mpl",
-    "pre-commit",
-    "black-nbconvert",
-    "blacken-docs",
-    "velin",
-    "isort",
-    "pyroma",
     "pyupgrade",
-    "commitizen",
-    ]
+    "twine",
+    "unimport",
+    "velin",
+    "vulture"
+]
 
 [project.scripts]
 tsgettoolbox = "tsgettoolbox.tsgettoolbox:main"
 
 [project.urls]
-ocumentation = "https://timcera.bitbucket.io/tsgettoolbox/docs/index.html#tsgettoolbox-documentation"
-github = "https://github.com/timcera/tsgettoolbox"
 bitbucket = "https://bitbucket.org/timcera/tsgettoolbox/src/main/"
+documentation = "https://timcera.bitbucket.io/tsgettoolbox/docs/index.html#tsgettoolbox-documentation"
+github = "https://github.com/timcera/tsgettoolbox"
 
 [tool.check-manifest]
-ignore = ["docs/_function_autosummary/*",
-          ".coverage",
-          ".deepsource.toml",
-          ".ipynb_checkpoints/*"]
+ignore = [
+    "docs/_function_autosummary/*",
+    ".coverage",
+    ".deepsource.toml",
+    ".ipynb_checkpoints/*"
+]
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "25.1.3"
 tag_format = "v$version"
-version_files = ["VERSION"]
 update_changelog_on_bump = true
+version = "25.1.3"
+version_files = ["VERSION"]
 
 [tool.isort]
-profile = 'black'
+profile = "black"
 
 [tool.setuptools]
+license-files = ["LICENSE.txt"]
 include-package-data = true
 
 [tool.setuptools.dynamic]
@@ -113,7 +124,7 @@ readme = {file = "README.rst"}
 version = {file = "VERSION"}
 
 [tool.setuptools.packages.find]
-where = ["src"]
 exclude = ["examples*", "tools*", "docs*", "tsgettoolbox.tests*"]
+where = ["src"]
 
 [tool.setuptools_scm]
