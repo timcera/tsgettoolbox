@@ -10,15 +10,8 @@ from contextlib import suppress
 from typing import List, Literal, Optional, Union
 
 import async_retriever as ar
-import cltoolbox
 import dateutil.parser as parser
 import pandas as pd
-
-try:
-    from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
-except ImportError:
-    from argparse import RawTextHelpFormatter as HelpFormatter
-
 from toolbox_utils import tsutils
 
 __all__ = ["coops"]
@@ -154,21 +147,72 @@ _settings_map["currents"] = [
 ]
 
 
-@cltoolbox.command("coops", formatter_class=HelpFormatter)
-@tsutils.doc(tsutils.docstrings)
-def coops_cli(
-    station,
-    date=None,
-    begin_date=None,
-    end_date=None,
-    range=None,
-    product="hourly_height",
-    datum="NAVD",
-    time_zone="GMT",
+deltas = {
+    "water_level": 31,
+    "air_temperature": 365,
+    "water_temperature": 365,
+    "wind": 365,
+    "air_gap": 31,
+    "conductivity": 365,
+    "visibility": 365,
+    "humidity": 365,
+    "salinity": 31,
+    "hourly_height": 365,
+    "high_low": 365,
+    "daily_mean": 3650,
+    "monthly_mean": 3650,
+    "one_minute_water_level": 4,
+    "predictions": 31,
+    "datums": 31,
+    "currents": 31,
+    "air_pressure": 365,
+}
+
+
+@tsutils.transform_args(
+    product=tsutils.make_list,
+    time_zone=str.upper,
+    datum=str.upper,
+    begin_date=tsutils.parsedate,
+    end_date=tsutils.parsedate,
+)
+def coops(
+    station: str,
+    date: Literal["latest", "today", "recent"] = None,
+    begin_date: Optional[pd.Timestamp] = None,
+    end_date: Optional[pd.Timestamp] = None,
+    range: Optional[int] = None,
+    product: Union[
+        List[
+            Literal[
+                "water_level",
+                "air_temperature",
+                "water_temperature",
+                "wind",
+                "air_gap",
+                "conductivity",
+                "visibility",
+                "humidity",
+                "salinity",
+                "hourly_height",
+                "high_low",
+                "daily_mean",
+                "monthly_mean",
+                "one_minute_water_level",
+                "predictions",
+                "datums",
+                "currents",
+                "air_pressure",
+            ]
+        ],
+        str,
+    ] = "hourly_height",
+    datum: Literal["MHHW", "MHW", "MTL", "MSL", "MLW", "MLLW", "NAVD", "STND"] = "NAVD",
+    time_zone: Literal["GMT", "UTC", "LST", "LST_LDT"] = "GMT",
     interval="h",
     bin=None,
 ):
-    r"""global station 1T,6T,H,D,M: Center for Operational Oceanographic Products and Services
+    r"""global:station::1T,6T,H,D,M:Center for Operational Oceanographic Products and Services
 
     CO-OPS web services is at https://tidesandcurrents.noaa.gov/api/. The time
     zone of the returned data depends on the setting of the "time_zone" option.
@@ -637,89 +681,6 @@ def coops_cli(
         for a PORTS station, the data is returned using a predefined real-time
         bin.
     """
-    tsutils.printiso(
-        coops(
-            station,
-            date=date,
-            begin_date=begin_date,
-            end_date=end_date,
-            range=range,
-            product=product,
-            datum=datum,
-            time_zone=time_zone,
-            interval=interval,
-            bin=bin,
-        )
-    )
-
-
-deltas = {
-    "water_level": 31,
-    "air_temperature": 365,
-    "water_temperature": 365,
-    "wind": 365,
-    "air_gap": 31,
-    "conductivity": 365,
-    "visibility": 365,
-    "humidity": 365,
-    "salinity": 31,
-    "hourly_height": 365,
-    "high_low": 365,
-    "daily_mean": 3650,
-    "monthly_mean": 3650,
-    "one_minute_water_level": 4,
-    "predictions": 31,
-    "datums": 31,
-    "currents": 31,
-    "air_pressure": 365,
-}
-
-
-@tsutils.transform_args(
-    product=tsutils.make_list,
-    time_zone=str.upper,
-    datum=str.upper,
-    begin_date=tsutils.parsedate,
-    end_date=tsutils.parsedate,
-)
-@tsutils.copy_doc(coops_cli)
-def coops(
-    station: str,
-    date: Literal["latest", "today", "recent"] = None,
-    begin_date: Optional[pd.Timestamp] = None,
-    end_date: Optional[pd.Timestamp] = None,
-    range: Optional[int] = None,
-    product: Union[
-        List[
-            Literal[
-                "water_level",
-                "air_temperature",
-                "water_temperature",
-                "wind",
-                "air_gap",
-                "conductivity",
-                "visibility",
-                "humidity",
-                "salinity",
-                "hourly_height",
-                "high_low",
-                "daily_mean",
-                "monthly_mean",
-                "one_minute_water_level",
-                "predictions",
-                "datums",
-                "currents",
-                "air_pressure",
-            ]
-        ],
-        str,
-    ] = "hourly_height",
-    datum: Literal["MHHW", "MHW", "MTL", "MSL", "MLW", "MLLW", "NAVD", "STND"] = "NAVD",
-    time_zone: Literal["GMT", "UTC", "LST", "LST_LDT"] = "GMT",
-    interval="h",
-    bin=None,
-):
-    r"""Download Center for Operational Oceanographic Products and Services."""
     disable_caching = False
     params = {
         "station": station,

@@ -9,10 +9,8 @@ import os
 import warnings
 from typing import List, Literal, Optional, Union
 
-import cltoolbox
 import pandas as pd
 import pydaymet
-from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 __all__ = ["daymet"]
@@ -33,21 +31,48 @@ _units_map = {
 }
 
 
-@cltoolbox.command("daymet", formatter_class=HelpFormatter)
+@tsutils.transform_args(measuredParams=tsutils.make_list)
 @tsutils.doc(tsutils.docstrings)
-def daymet_cli(
-    lat,
-    lon,
-    start_date=pd.Timestamp("1980-01-01"),
-    end_date=None,
-    years=None,
-    measuredParams="all",
-    time_scale="daily",
-    snow=False,
-    pet_soil_heat=0.0,
-    pet_alpha=1.26,
+def daymet(
+    lat: float,
+    lon: float,
+    start_date: pd.Timestamp = "1980-01-01",
+    end_date: Optional[pd.Timestamp] = None,
+    years: Optional[Union[str, List[int]]] = None,
+    measuredParams: Optional[
+        Union[
+            List[
+                Literal[
+                    "tmax",
+                    "tmin",
+                    "srad",
+                    "vp",
+                    "swe",
+                    "prcp",
+                    "dayl",
+                    "penman_monteith",
+                    "hargreaves_samani",
+                    "priestley_taylor",
+                ]
+            ],
+            Literal[
+                "tmax",
+                "tmin",
+                "srad",
+                "vp",
+                "swe",
+                "prcp",
+                "dayl",
+                "penman_monteith",
+                "hargreaves_samani",
+                "priestley_taylor",
+                "all",
+            ],
+        ]
+    ] = None,
+    time_scale: Literal["daily", "monthly", "annual"] = "daily",
 ):
-    r"""NAmerica 1km 1980- D,M:Daymet, daily meteorology by the Oak Ridge National Laboratory
+    r"""NAmerica:1km:1980-:D,M:Daymet, daily meteorology by the Oak Ridge National Laboratory
 
     Detailed documentation is at http://daymet.ornl.gov/.  Since this is
     daily data, it covers midnight to midnight based on local time.
@@ -148,64 +173,6 @@ def daymet_cli(
         Used in the "priestley_taylor" calculation where the default 1.26 is
         for humid regions and 1.74 for arid.
     """
-    tsutils.printiso(
-        daymet(
-            lat,
-            lon,
-            start_date=start_date,
-            end_date=end_date,
-            years=years,
-            measuredParams=measuredParams,
-            time_scale=time_scale,
-            snow=snow,
-            pet_soil_heat=pet_soil_heat,
-            pet_alpha=pet_alpha,
-        )
-    )
-
-
-@tsutils.transform_args(measuredParams=tsutils.make_list)
-@tsutils.copy_doc(daymet_cli)
-def daymet(
-    lat: float,
-    lon: float,
-    start_date: pd.Timestamp = "1980-01-01",
-    end_date: Optional[pd.Timestamp] = None,
-    years: Optional[Union[str, List[int]]] = None,
-    measuredParams: Optional[
-        Union[
-            List[
-                Literal[
-                    "tmax",
-                    "tmin",
-                    "srad",
-                    "vp",
-                    "swe",
-                    "prcp",
-                    "dayl",
-                    "penman_monteith",
-                    "hargreaves_samani",
-                    "priestley_taylor",
-                ]
-            ],
-            Literal[
-                "tmax",
-                "tmin",
-                "srad",
-                "vp",
-                "swe",
-                "prcp",
-                "dayl",
-                "penman_monteith",
-                "hargreaves_samani",
-                "priestley_taylor",
-                "all",
-            ],
-        ]
-    ] = None,
-    time_scale: Literal["daily", "monthly", "annual"] = "daily",
-):
-    r"""Download data from Daymet by the Oak Ridge National Laboratory."""
     years = tsutils.make_list(years)
     avail_params = [
         "tmax",

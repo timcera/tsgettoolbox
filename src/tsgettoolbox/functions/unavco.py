@@ -8,9 +8,7 @@ import os
 from io import BytesIO
 
 import async_retriever as ar
-import cltoolbox
 import pandas as pd
-from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 __all__ = ["unavco"]
@@ -63,9 +61,8 @@ def unavco_to_df(url, **query_params):
     return df
 
 
-@cltoolbox.command("unavco", formatter_class=HelpFormatter)
-def unavco_cli(station, database="met", starttime=None, endtime=None):
-    r"""US station: Download data from the Unavco web services.
+def unavco(station, database="met", starttime=None, endtime=None):
+    r"""US:station:::Download data from the Unavco web services.
 
     Detailed information at:
     http://www.unavco.com/data/web-services/web-services.html
@@ -158,14 +155,6 @@ def unavco_cli(station, database="met", starttime=None, endtime=None):
     endtime
         End date in ISO8601 format.
     """
-    tsutils.printiso(
-        unavco(station, database=database, starttime=starttime, endtime=endtime)
-    )
-
-
-@tsutils.copy_doc(unavco_cli)
-def unavco(station, database="met", starttime=None, endtime=None):
-    r"""Download data from the Unavco web services."""
     map_db_to_url = {
         "met": r"http://web-services.unavco.org:80/met/data",
         "pore_temperaure": r"http://web-services.unavco.org:80"

@@ -5,9 +5,7 @@ terraclimate2C      global 1/24deg M:Monthly normals from Terraclimate
 
 # http://thredds.northwestknowledge.net:8080/thredds/terraclimate_aggregated.html
 
-import cltoolbox
 import pandas as pd
-from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox import utils
@@ -81,16 +79,16 @@ _avail_vars = {
 }
 
 
-@cltoolbox.command("terraclimate2C", formatter_class=HelpFormatter)
+@tsutils.transform_args(start_date=pd.to_datetime, end_date=pd.to_datetime)
 @tsutils.doc(tsutils.docstrings)
-def terraclimate2C_cli(
+def terraclimate2C(
     lat: float,
     lon: float,
     variables=None,
     start_date=None,
     end_date=None,
 ):
-    r"""global 1/24deg M:Monthly normals from Terraclimate with 2deg C hotter climate.
+    r"""global:1/24deg::M:Monthly normals from Terraclimate with 2deg C hotter climate.
 
     method: These layers from TerraClimate were derived from the essential
     climate variables of TerraClimate. Water balance variables, actual
@@ -217,27 +215,6 @@ def terraclimate2C_cli(
 
     ${end_date}
     """
-    tsutils.printiso(
-        terraclimate2C(
-            lat,
-            lon,
-            variables=variables,
-            start_date=start_date,
-            end_date=end_date,
-        )
-    )
-
-
-@tsutils.transform_args(start_date=pd.to_datetime, end_date=pd.to_datetime)
-@tsutils.copy_doc(terraclimate2C_cli)
-def terraclimate2C(
-    lat: float,
-    lon: float,
-    variables=None,
-    start_date=None,
-    end_date=None,
-):
-    r"""Download terraclimate data."""
     turl = "http://thredds.northwestknowledge.net:8080/thredds/dodsC/TERRACLIMATE_ALL/summaries/TerraClimate2C_{}.nc"
 
     df = utils.opendap(

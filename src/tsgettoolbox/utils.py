@@ -12,7 +12,7 @@ import cftime
 import numpy as np
 import pandas as pd
 import requests
-from dapclient.client import open_dods_url, open_url
+from dapclient.client import open_url
 from haversine import haversine_vector
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry

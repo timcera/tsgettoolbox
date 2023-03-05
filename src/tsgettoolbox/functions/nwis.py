@@ -15,9 +15,7 @@ import warnings
 from io import BytesIO
 
 import async_retriever as ar
-import cltoolbox
 import pandas as pd
-from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 __all__ = [
@@ -1187,102 +1185,6 @@ def usgs_gwlevels_rdb_to_df(url, **kwargs):
     return ndf
 
 
-@cltoolbox.command("nwis", formatter_class=HelpFormatter)
-def nwis_cli(
-    sites=None,
-    stateCd=None,
-    huc=None,
-    bBox=None,
-    countyCd=None,
-    parameterCd=None,
-    period=None,
-    startDT=None,
-    endDT=None,
-    siteType=None,
-    modifiedSince=None,
-    agencyCd=None,
-    siteStatus=None,
-    altMin=None,
-    altMax=None,
-    drainAreaMin=None,
-    drainAreaMax=None,
-    aquiferCd=None,
-    localAquiferCd=None,
-    wellDepthMin=None,
-    wellDepthMax=None,
-    holeDepthMin=None,
-    holeDepthMax=None,
-    database="dv",
-    statReportType=None,
-    statType=None,
-    missingData=None,
-    statYearType=None,
-):
-    r"""US station:Use the ``nwis_*`` functions instead.
-
-    This "nwis" function has been split up into individual functions for each
-    source database.  This allows for keywords and output to be tailored to
-    each specific web service.
-
-    +-------------------+-------------------------------+
-    | New Function      | Database Name and Description |
-    +===================+===============================+
-    | nwis_iv           | Instantaneous Value sub-daily |
-    |                   | interval data starting in     |
-    |                   | 2007                          |
-    +-------------------+-------------------------------+
-    | nwis_dv           | Daily Values database         |
-    +-------------------+-------------------------------+
-    | nwis_stat         | daily/monthly/annual          |
-    |                   | statistics                    |
-    +-------------------+-------------------------------+
-    | nwis_site         | Site metadata                 |
-    +-------------------+-------------------------------+
-    | nwis_measurements | Field measurements            |
-    +-------------------+-------------------------------+
-    | nwis_peak         | Peak flow and stage           |
-    +-------------------+-------------------------------+
-    | nwis_gwlevels     | Ground water levels           |
-    +-------------------+-------------------------------+
-
-    This function/sub-command will continue to work, however you should
-    change all scripts to use the split out functions.
-    """
-    tsutils.printiso(
-        nwis(
-            sites=sites,
-            stateCd=stateCd,
-            huc=huc,
-            bBox=bBox,
-            countyCd=countyCd,
-            parameterCd=parameterCd,
-            period=period,
-            startDT=startDT,
-            endDT=endDT,
-            siteType=siteType,
-            modifiedSince=modifiedSince,
-            agencyCd=agencyCd,
-            siteStatus=siteStatus,
-            altMin=altMin,
-            altMax=altMax,
-            drainAreaMin=drainAreaMin,
-            drainAreaMax=drainAreaMax,
-            aquiferCd=aquiferCd,
-            localAquiferCd=localAquiferCd,
-            wellDepthMin=wellDepthMin,
-            wellDepthMax=wellDepthMax,
-            holeDepthMin=holeDepthMin,
-            holeDepthMax=holeDepthMax,
-            database=database,
-            statReportType=statReportType,
-            statType=statType,
-            missingData=missingData,
-            statYearType=statYearType,
-        )
-    )
-
-
-@tsutils.copy_doc(nwis_cli)
 def nwis(
     sites=None,
     stateCd=None,
@@ -1313,8 +1215,37 @@ def nwis(
     missingData=None,
     statYearType=None,
 ):
-    """Use the "nwis_*" functions."""
-    warnings.warn(tsutils.error_wrapper(nwis_cli.__doc__))
+    r"""US:station:::Use the ``nwis_*`` functions instead.
+
+    This "nwis" function has been split up into individual functions for each
+    source database.  This allows for keywords and output to be tailored to
+    each specific web service.
+
+    +-------------------+-------------------------------+
+    | New Function      | Database Name and Description |
+    +===================+===============================+
+    | nwis_iv           | Instantaneous Value sub-daily |
+    |                   | interval data starting in     |
+    |                   | 2007                          |
+    +-------------------+-------------------------------+
+    | nwis_dv           | Daily Values database         |
+    +-------------------+-------------------------------+
+    | nwis_stat         | daily/monthly/annual          |
+    |                   | statistics                    |
+    +-------------------+-------------------------------+
+    | nwis_site         | Site metadata                 |
+    +-------------------+-------------------------------+
+    | nwis_measurements | Field measurements            |
+    +-------------------+-------------------------------+
+    | nwis_peak         | Peak flow and stage           |
+    +-------------------+-------------------------------+
+    | nwis_gwlevels     | Ground water levels           |
+    +-------------------+-------------------------------+
+
+    This function/sub-command will continue to work, however you should
+    change all scripts to use the split out functions.
+    """
+    warnings.warn(tsutils.error_wrapper(nwis.__doc__))
 
     if database not in ("iv", "dv", "stat", "measurements", "peak", "site", "gwlevels"):
         raise ValueError(
@@ -1425,15 +1356,17 @@ def nwis(
         )
 
 
-@cltoolbox.command("nwis_iv", formatter_class=HelpFormatter)
 @tsutils.doc(nwis_docstrings)
-def nwis_iv_cli(
+def nwis_iv(
     sites=None,
     stateCd=None,
     huc=None,
     bBox=None,
     countyCd=None,
     parameterCd=None,
+    period=None,
+    startDT=None,
+    endDT=None,
     siteType=None,
     modifiedSince=None,
     agencyCd=None,
@@ -1448,12 +1381,9 @@ def nwis_iv_cli(
     wellDepthMax=None,
     holeDepthMin=None,
     holeDepthMax=None,
-    period=None,
-    startDT=None,
-    endDT=None,
     include_codes=False,
 ):
-    r"""US station E:USGS NWIS Instantaneous Values
+    r"""US:station::E:USGS NWIS Instantaneous Values
 
     ${filter_descriptions}
     ${results_ts}
@@ -1485,64 +1415,6 @@ def nwis_iv_cli(
     ${endDT}
     ${include_codes}
     """
-    tsutils.printiso(
-        nwis_iv(
-            sites=sites,
-            stateCd=stateCd,
-            huc=huc,
-            bBox=bBox,
-            countyCd=countyCd,
-            parameterCd=parameterCd,
-            siteType=siteType,
-            modifiedSince=modifiedSince,
-            agencyCd=agencyCd,
-            siteStatus=siteStatus,
-            altMin=altMin,
-            altMax=altMax,
-            drainAreaMin=drainAreaMin,
-            drainAreaMax=drainAreaMax,
-            aquiferCd=aquiferCd,
-            localAquiferCd=localAquiferCd,
-            wellDepthMin=wellDepthMin,
-            wellDepthMax=wellDepthMax,
-            holeDepthMin=holeDepthMin,
-            holeDepthMax=holeDepthMax,
-            period=period,
-            startDT=startDT,
-            endDT=endDT,
-            include_codes=include_codes,
-        )
-    )
-
-
-@tsutils.copy_doc(nwis_iv_cli)
-def nwis_iv(
-    sites=None,
-    stateCd=None,
-    huc=None,
-    bBox=None,
-    countyCd=None,
-    parameterCd=None,
-    period=None,
-    startDT=None,
-    endDT=None,
-    siteType=None,
-    modifiedSince=None,
-    agencyCd=None,
-    siteStatus=None,
-    altMin=None,
-    altMax=None,
-    drainAreaMin=None,
-    drainAreaMax=None,
-    aquiferCd=None,
-    localAquiferCd=None,
-    wellDepthMin=None,
-    wellDepthMax=None,
-    holeDepthMin=None,
-    holeDepthMax=None,
-    include_codes=False,
-):
-    r"""Download from Instantaneous Values of the USGS NWIS."""
     url = r"http://waterservices.usgs.gov/nwis/iv/"
     return usgs_iv_dv_rdb_to_df(
         url,
@@ -1573,36 +1445,35 @@ def nwis_iv(
     )
 
 
-@cltoolbox.command("nwis_dv", formatter_class=HelpFormatter)
 @tsutils.doc(nwis_docstrings)
-def nwis_dv_cli(
+def nwis_dv(
     sites=None,
     stateCd=None,
     huc=None,
     bBox=None,
     countyCd=None,
-    agencyCd=None,
-    altMax=None,
-    altMin=None,
-    aquiferCd=None,
-    drainAreaMax=None,
-    drainAreaMin=None,
-    holeDepthMax=None,
-    holeDepthMin=None,
-    localAquiferCd=None,
-    modifiedSince=None,
     parameterCd=None,
-    siteStatus=None,
-    siteType=None,
-    wellDepthMax=None,
-    wellDepthMin=None,
+    statisticsCd=None,
+    period=None,
     startDT=None,
     endDT=None,
-    period=None,
+    siteType=None,
+    modifiedSince=None,
+    agencyCd=None,
+    siteStatus=None,
+    altMin=None,
+    altMax=None,
+    drainAreaMin=None,
+    drainAreaMax=None,
+    aquiferCd=None,
+    localAquiferCd=None,
+    wellDepthMin=None,
+    wellDepthMax=None,
+    holeDepthMin=None,
+    holeDepthMax=None,
     include_codes=False,
-    statisticsCd=None,
 ):
-    r"""US station D:USGS NWIS Daily Values
+    r"""US:station::D:USGS NWIS Daily Values
 
     ${filter_descriptions}
     ${results_ts}
@@ -1635,66 +1506,6 @@ def nwis_dv_cli(
     ${include_codes}
     ${statisticsCd}
     """
-    tsutils.printiso(
-        nwis_dv(
-            sites=sites,
-            stateCd=stateCd,
-            huc=huc,
-            bBox=bBox,
-            countyCd=countyCd,
-            parameterCd=parameterCd,
-            statisticsCd=statisticsCd,
-            siteType=siteType,
-            modifiedSince=modifiedSince,
-            agencyCd=agencyCd,
-            siteStatus=siteStatus,
-            altMin=altMin,
-            altMax=altMax,
-            drainAreaMin=drainAreaMin,
-            drainAreaMax=drainAreaMax,
-            aquiferCd=aquiferCd,
-            localAquiferCd=localAquiferCd,
-            wellDepthMin=wellDepthMin,
-            wellDepthMax=wellDepthMax,
-            holeDepthMin=holeDepthMin,
-            holeDepthMax=holeDepthMax,
-            period=period,
-            startDT=startDT,
-            endDT=endDT,
-            include_codes=include_codes,
-        )
-    )
-
-
-@tsutils.copy_doc(nwis_dv_cli)
-def nwis_dv(
-    sites=None,
-    stateCd=None,
-    huc=None,
-    bBox=None,
-    countyCd=None,
-    parameterCd=None,
-    statisticsCd=None,
-    period=None,
-    startDT=None,
-    endDT=None,
-    siteType=None,
-    modifiedSince=None,
-    agencyCd=None,
-    siteStatus=None,
-    altMin=None,
-    altMax=None,
-    drainAreaMin=None,
-    drainAreaMax=None,
-    aquiferCd=None,
-    localAquiferCd=None,
-    wellDepthMin=None,
-    wellDepthMax=None,
-    holeDepthMin=None,
-    holeDepthMax=None,
-    include_codes=False,
-):
-    r"""Download from the Daily Values database of the USGS NWIS."""
     url = r"http://waterservices.usgs.gov/nwis/dv/"
     return usgs_iv_dv_rdb_to_df(
         url,
@@ -1726,9 +1537,8 @@ def nwis_dv(
     )
 
 
-@cltoolbox.command("nwis_site", formatter_class=HelpFormatter)
 @tsutils.doc(nwis_docstrings)
-def nwis_site_cli(
+def nwis_site(
     sites=None,
     stateCd=None,
     huc=None,
@@ -1759,7 +1569,7 @@ def nwis_site_cli(
     siteNameMatchOperator=None,
     hasDataTypeCd=None,
 ):
-    r"""US station:USGS NWIS Site Database
+    r"""US:station:::USGS NWIS Site Database
 
     This does not return a time-series, but a table of sites.
     ${filter_descriptions}
@@ -1832,74 +1642,6 @@ def nwis_site_cli(
     ${siteNameMatchOperator}
     ${hasDataTypeCd}
     """
-    tsutils.printiso(
-        nwis_site(
-            sites=sites,
-            stateCd=stateCd,
-            huc=huc,
-            bBox=bBox,
-            countyCd=countyCd,
-            parameterCd=parameterCd,
-            siteType=siteType,
-            modifiedSince=modifiedSince,
-            agencyCd=agencyCd,
-            siteStatus=siteStatus,
-            altMin=altMin,
-            altMax=altMax,
-            drainAreaMin=drainAreaMin,
-            drainAreaMax=drainAreaMax,
-            aquiferCd=aquiferCd,
-            localAquiferCd=localAquiferCd,
-            wellDepthMin=wellDepthMin,
-            wellDepthMax=wellDepthMax,
-            holeDepthMin=holeDepthMin,
-            holeDepthMax=holeDepthMax,
-            period=period,
-            startDT=startDT,
-            endDT=endDT,
-            siteOutput=siteOutput,
-            seriesCatalogOutput=seriesCatalogOutput,
-            outputDataTypeCd=outputDataTypeCd,
-            siteName=siteName,
-            siteNameMatchOperator=siteNameMatchOperator,
-            hasDataTypeCd=hasDataTypeCd,
-        )
-    )
-
-
-@tsutils.copy_doc(nwis_site_cli)
-def nwis_site(
-    sites=None,
-    stateCd=None,
-    huc=None,
-    bBox=None,
-    countyCd=None,
-    parameterCd=None,
-    period=None,
-    startDT=None,
-    endDT=None,
-    siteType=None,
-    modifiedSince=None,
-    agencyCd=None,
-    siteStatus=None,
-    altMin=None,
-    altMax=None,
-    drainAreaMin=None,
-    drainAreaMax=None,
-    aquiferCd=None,
-    localAquiferCd=None,
-    wellDepthMin=None,
-    wellDepthMax=None,
-    holeDepthMin=None,
-    holeDepthMax=None,
-    siteOutput=None,
-    seriesCatalogOutput=None,
-    outputDataTypeCd=None,
-    siteName=None,
-    siteNameMatchOperator=None,
-    hasDataTypeCd=None,
-):
-    r"""Download from the site database of the USGS NWIS."""
     url = r"http://waterservices.usgs.gov/nwis/site/"
     return usgs_site_rdb_to_df(
         url,
@@ -1935,9 +1677,8 @@ def nwis_site(
     )
 
 
-@cltoolbox.command("nwis_gwlevels", formatter_class=HelpFormatter)
 @tsutils.doc(nwis_docstrings)
-def nwis_gwlevels_cli(
+def nwis_gwlevels(
     sites=None,
     stateCd=None,
     huc=None,
@@ -1960,7 +1701,7 @@ def nwis_gwlevels_cli(
     holeDepthMin=None,
     holeDepthMax=None,
 ):
-    r"""US station:USGS NWIS Groundwater Levels
+    r"""US:station:::USGS NWIS Groundwater Levels
 
     ${filter_descriptions}
     **Results**
@@ -2017,58 +1758,6 @@ def nwis_gwlevels_cli(
     ${wellDepthMin}
     ${wellDepthMax}
     """
-    tsutils.printiso(
-        nwis_gwlevels(
-            sites=sites,
-            stateCd=stateCd,
-            huc=huc,
-            bBox=bBox,
-            countyCd=countyCd,
-            parameterCd=parameterCd,
-            siteType=siteType,
-            modifiedSince=modifiedSince,
-            agencyCd=agencyCd,
-            siteStatus=siteStatus,
-            altMin=altMin,
-            altMax=altMax,
-            aquiferCd=aquiferCd,
-            localAquiferCd=localAquiferCd,
-            wellDepthMin=wellDepthMin,
-            wellDepthMax=wellDepthMax,
-            holeDepthMin=holeDepthMin,
-            holeDepthMax=holeDepthMax,
-            period=period,
-            startDT=startDT,
-            endDT=endDT,
-        )
-    )
-
-
-@tsutils.copy_doc(nwis_gwlevels_cli)
-def nwis_gwlevels(
-    sites=None,
-    stateCd=None,
-    huc=None,
-    bBox=None,
-    countyCd=None,
-    parameterCd=None,
-    period=None,
-    startDT=None,
-    endDT=None,
-    siteType=None,
-    modifiedSince=None,
-    agencyCd=None,
-    siteStatus=None,
-    altMin=None,
-    altMax=None,
-    aquiferCd=None,
-    localAquiferCd=None,
-    wellDepthMin=None,
-    wellDepthMax=None,
-    holeDepthMin=None,
-    holeDepthMax=None,
-):
-    """Collect NWIS groundwater levels."""
     url = r"http://waterservices.usgs.gov/nwis/gwlevels/"
     return usgs_gwlevels_rdb_to_df(
         url,
@@ -2096,9 +1785,8 @@ def nwis_gwlevels(
     )
 
 
-@cltoolbox.command("nwis_measurements", formatter_class=HelpFormatter)
 @tsutils.doc(nwis_docstrings)
-def nwis_measurements_cli(
+def nwis_measurements(
     sites=None,
     stateCd=None,
     huc=None,
@@ -2121,7 +1809,7 @@ def nwis_measurements_cli(
     holeDepthMin=None,
     holeDepthMax=None,
 ):
-    r"""US station:USGS NWIS Measurements
+    r"""US:station:::USGS NWIS Measurements
 
     ${filter_descriptions}
     **Results**
@@ -2239,58 +1927,6 @@ def nwis_measurements_cli(
     ${wellDepthMin}
     ${wellDepthMax}
     """
-    tsutils.printiso(
-        nwis_measurements(
-            sites=sites,
-            stateCd=stateCd,
-            huc=huc,
-            bBox=bBox,
-            countyCd=countyCd,
-            parameterCd=parameterCd,
-            siteType=siteType,
-            modifiedSince=modifiedSince,
-            agencyCd=agencyCd,
-            siteStatus=siteStatus,
-            altMin=altMin,
-            altMax=altMax,
-            aquiferCd=aquiferCd,
-            localAquiferCd=localAquiferCd,
-            wellDepthMin=wellDepthMin,
-            wellDepthMax=wellDepthMax,
-            holeDepthMin=holeDepthMin,
-            holeDepthMax=holeDepthMax,
-            period=period,
-            startDT=startDT,
-            endDT=endDT,
-        )
-    )
-
-
-@tsutils.copy_doc(nwis_measurements_cli)
-def nwis_measurements(
-    sites=None,
-    stateCd=None,
-    huc=None,
-    bBox=None,
-    countyCd=None,
-    parameterCd=None,
-    period=None,
-    startDT=None,
-    endDT=None,
-    siteType=None,
-    modifiedSince=None,
-    agencyCd=None,
-    siteStatus=None,
-    altMin=None,
-    altMax=None,
-    aquiferCd=None,
-    localAquiferCd=None,
-    wellDepthMin=None,
-    wellDepthMax=None,
-    holeDepthMin=None,
-    holeDepthMax=None,
-):
-    r"""Download from the Measurements database of the USGS NWIS."""
     url = r"http://nwis.waterdata.usgs.gov/XX/nwis/measurements"
     return usgs_measurements_peak_rdb_to_df(
         url,
@@ -2318,9 +1954,8 @@ def nwis_measurements(
     )
 
 
-@cltoolbox.command("nwis_peak", formatter_class=HelpFormatter)
 @tsutils.doc(nwis_docstrings)
-def nwis_peak_cli(
+def nwis_peak(
     sites=None,
     stateCd=None,
     huc=None,
@@ -2343,7 +1978,7 @@ def nwis_peak_cli(
     holeDepthMin=None,
     holeDepthMax=None,
 ):
-    r"""US station:USGS NWIS Peak
+    r"""US:station:::USGS NWIS Peak
 
     ${filter_descriptions}
     **Results**
@@ -2466,58 +2101,6 @@ def nwis_peak_cli(
     ${wellDepthMin}
     ${wellDepthMax}
     """
-    tsutils.printiso(
-        nwis_peak(
-            sites=sites,
-            stateCd=stateCd,
-            huc=huc,
-            bBox=bBox,
-            countyCd=countyCd,
-            parameterCd=parameterCd,
-            siteType=siteType,
-            modifiedSince=modifiedSince,
-            agencyCd=agencyCd,
-            siteStatus=siteStatus,
-            altMin=altMin,
-            altMax=altMax,
-            aquiferCd=aquiferCd,
-            localAquiferCd=localAquiferCd,
-            wellDepthMin=wellDepthMin,
-            wellDepthMax=wellDepthMax,
-            holeDepthMin=holeDepthMin,
-            holeDepthMax=holeDepthMax,
-            period=period,
-            startDT=startDT,
-            endDT=endDT,
-        )
-    )
-
-
-@tsutils.copy_doc(nwis_peak_cli)
-def nwis_peak(
-    sites=None,
-    stateCd=None,
-    huc=None,
-    bBox=None,
-    countyCd=None,
-    parameterCd=None,
-    period=None,
-    startDT=None,
-    endDT=None,
-    siteType=None,
-    modifiedSince=None,
-    agencyCd=None,
-    siteStatus=None,
-    altMin=None,
-    altMax=None,
-    aquiferCd=None,
-    localAquiferCd=None,
-    wellDepthMin=None,
-    wellDepthMax=None,
-    holeDepthMin=None,
-    holeDepthMax=None,
-):
-    r"""Download from the Peak database of the USGS NWIS."""
     url = r"http://nwis.waterdata.usgs.gov/XX/nwis/peak"
     return usgs_measurements_peak_rdb_to_df(
         url,
@@ -2545,9 +2128,8 @@ def nwis_peak(
     )
 
 
-@cltoolbox.command("nwis_stat", formatter_class=HelpFormatter)
 @tsutils.doc(nwis_docstrings)
-def nwis_stat_cli(
+def nwis_stat(
     sites=None,
     parameterCd=None,
     period=None,
@@ -2572,7 +2154,7 @@ def nwis_stat_cli(
     missingData=None,
     statYearType=None,
 ):
-    r"""US station:USGS NWIS Statistic
+    r"""US:station:::USGS NWIS Statistic
 
     ${filter_descriptions}
     **Returns**
@@ -2679,62 +2261,6 @@ def nwis_stat_cli(
     ${missingData}
     ${statYearType}
     """
-    tsutils.printiso(
-        nwis_stat(
-            sites=sites,
-            parameterCd=parameterCd,
-            siteType=siteType,
-            modifiedSince=modifiedSince,
-            agencyCd=agencyCd,
-            siteStatus=siteStatus,
-            altMin=altMin,
-            altMax=altMax,
-            drainAreaMin=drainAreaMin,
-            drainAreaMax=drainAreaMax,
-            aquiferCd=aquiferCd,
-            localAquiferCd=localAquiferCd,
-            wellDepthMin=wellDepthMin,
-            wellDepthMax=wellDepthMax,
-            holeDepthMin=holeDepthMin,
-            holeDepthMax=holeDepthMax,
-            period=period,
-            startDT=startDT,
-            endDT=endDT,
-            statReportType=statReportType,
-            statType=statType,
-            missingData=missingData,
-            statYearType=statYearType,
-        )
-    )
-
-
-@tsutils.copy_doc(nwis_stat_cli)
-def nwis_stat(
-    sites=None,
-    parameterCd=None,
-    period=None,
-    startDT=None,
-    endDT=None,
-    siteType=None,
-    modifiedSince=None,
-    agencyCd=None,
-    siteStatus=None,
-    altMin=None,
-    altMax=None,
-    drainAreaMin=None,
-    drainAreaMax=None,
-    aquiferCd=None,
-    localAquiferCd=None,
-    wellDepthMin=None,
-    wellDepthMax=None,
-    holeDepthMin=None,
-    holeDepthMax=None,
-    statReportType=None,
-    statType=None,
-    missingData=None,
-    statYearType=None,
-):
-    r"""Download from the Statistic database of the USGS NWIS."""
     url = r"http://waterservices.usgs.gov/nwis/stat/"
     return usgs_stat_rdb_to_df(
         url,
@@ -2764,9 +2290,8 @@ def nwis_stat(
     )
 
 
-@cltoolbox.command("epa_wqp", formatter_class=HelpFormatter)
 @tsutils.doc(nwis_docstrings)
-def epa_wqp_cli(
+def epa_wqp(
     bBox=None,
     lat=None,
     lon=None,
@@ -2786,7 +2311,7 @@ def epa_wqp_cli(
     startDateLo=None,
     startDateHi=None,
 ):
-    r"""US station E:EPA Water Quality Portal.
+    r"""US:station::E:EPA Water Quality Portal.
 
     All of the keywords could be considered as subtractive filters of the
     stations.  Some of the keywords can result in very large number of stations
@@ -2957,52 +2482,6 @@ def epa_wqp_cli(
         Date of last desired data-collection activity.  A very wide range of
         date strings can be used but the closer to ISO 8601 the better.
     """
-    tsutils.printiso(
-        epa_wqp(
-            bBox=bBox,
-            lat=lat,
-            lon=lon,
-            within=within,
-            countrycode=countrycode,
-            statecode=statecode,
-            countycode=countycode,
-            siteType=siteType,
-            organization=organization,
-            siteid=siteid,
-            huc=huc,
-            sampleMedia=sampleMedia,
-            characteristicType=characteristicType,
-            characteristicName=characteristicName,
-            pCode=pCode,
-            activityId=activityId,
-            startDateLo=startDateLo,
-            startDateHi=startDateHi,
-        )
-    )
-
-
-@tsutils.copy_doc(epa_wqp_cli)
-def epa_wqp(
-    bBox=None,
-    lat=None,
-    lon=None,
-    within=None,
-    countrycode=None,
-    statecode=None,
-    countycode=None,
-    siteType=None,
-    organization=None,
-    siteid=None,
-    huc=None,
-    sampleMedia=None,
-    characteristicType=None,
-    characteristicName=None,
-    pCode=None,
-    activityId=None,
-    startDateLo=None,
-    startDateHi=None,
-):
-    """Download data from the EPA water quality portal."""
     url = r"https://www.waterqualitydata.us/data/Result/search"
 
     if not (

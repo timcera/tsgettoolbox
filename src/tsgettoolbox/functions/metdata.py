@@ -3,8 +3,6 @@ metdata             NAmerica 4km 1980- D: Download daily data from METDATA
                     based on PRISM.
 """
 
-import cltoolbox
-from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox import utils
@@ -270,16 +268,15 @@ _vars = {
 tsutils.docstrings.update({k: f"{v['standard_name']:50}" for k, v in _vars.items()})
 
 
-@cltoolbox.command("metdata", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.docstrings)
-def metdata_cli(
+def metdata(
     lat,
     lon,
     variables=None,
     start_date=None,
     end_date=None,
 ):
-    r"""NAmerica 4km 1980- D: Download daily data from METDATA based on PRISM.
+    r"""NAmerica:4km:1980-:D:Download daily data from METDATA based on PRISM.
 
     This archive contains daily surface meteorological (METDATA) data for the
     Continental United States at 4-km (1/24-deg) resolution. The meteorological
@@ -491,26 +488,6 @@ def metdata_cli(
 
     ${end_date}
     """
-    tsutils.printiso(
-        metdata(
-            lat,
-            lon,
-            variables=variables,
-            start_date=start_date,
-            end_date=end_date,
-        )
-    )
-
-
-@tsutils.copy_doc(metdata_cli)
-def metdata(
-    lat,
-    lon,
-    variables=None,
-    start_date=None,
-    end_date=None,
-):
-    r"""Download METDATA data."""
     if variables is None:
         cvars = sorted(_vars.keys())
     else:

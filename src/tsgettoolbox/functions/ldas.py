@@ -26,9 +26,7 @@ from contextlib import suppress
 from io import BytesIO
 
 import async_retriever as ar
-import cltoolbox
 import pandas as pd
-from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from pandas._libs.lib import no_default
 from tabulate import tabulate as tb
 from toolbox_utils import tsutils
@@ -427,20 +425,18 @@ def make_units_table(units_dict):
     return textwrap.indent(units_table.strip(), "            ")
 
 
-def foundation_cli(
+def foundation_api(
     cli_name,
-    formatter_class=HelpFormatter,
     units_table="",
     first_line="",
     meta_table="",
 ):
-    """Create a foundation CLI function returning a function."""
+    """Create a foundation API function returning a function."""
 
-    @cltoolbox.command(cli_name, formatter_class=formatter_class)
     @tsutils.doc(
         {"units_table": units_table, "first_line": first_line, "meta_table": meta_table}
     )
-    def ldas_cli(
+    def ldas_api(
         lat=None,
         lon=None,
         xindex=None,
@@ -453,104 +449,75 @@ def foundation_cli(
         # fmt: off
         """${first_line}
 
-                This will download data from a set of water cycle related variables
-                (Table 1) from the North American and Global Land Data Assimilation
-                Systems (NLDAS and GLDAS, respectively), the Land Parameter Parameter
-                Model (LPRM), the Tropical Rainfall Measuring Mission (TRMM), and
-                Gravity Recovery and Climate Experiment (GRACE) data assimilation. In
-                addition to their access provided by the hydrology community tools,
-                selected data rods variables can be searched and accessed through the
-                GES DISC search and access user interface, and all data rods variables
-                can be accessed via Web services developed by the GES DISC.
+        This will download data from a set of water cycle related variables
+        (Table 1) from the North American and Global Land Data Assimilation
+        Systems (NLDAS and GLDAS, respectively), the Land Parameter Parameter
+        Model (LPRM), the Tropical Rainfall Measuring Mission (TRMM), and
+        Gravity Recovery and Climate Experiment (GRACE) data assimilation. In
+        addition to their access provided by the hydrology community tools,
+        selected data rods variables can be searched and accessed through the
+        GES DISC search and access user interface, and all data rods variables
+        can be accessed via Web services developed by the GES DISC.
 
-                The time zone is always UTC.
+        The time zone is always UTC.
 
         ${meta_table}
 
         Parameters
         ----------
         lat : float
-                Should use 'lat' and 'lon' to specify location.
+            Should use 'lat' and 'lon' to specify location.
 
-                Latitude (required): Enter single geographic point by
-                latitude.::
+            Latitude (required): Enter single geographic point by
+            latitude.::
 
-                    Example: --lat=43.1
+                Example: --lat=43.1
 
-                If known, 'xindex' and 'yindex' can be used for the NLDAS grid
-                only.
-            lon : float
-                Should use 'lat' and 'lon' to specify location.
+            If known, 'xindex' and 'yindex' can be used for the NLDAS grid
+            only.
+        lon : float
+            Should use 'lat' and 'lon' to specify location.
 
-                Longitude (required): Enter single geographic point by
-                longitude::
+            Longitude (required): Enter single geographic point by
+            longitude::
 
-                    Example: --lon=-85.3
+                Example: --lon=-85.3
 
-                If known, 'xindex' and 'yindex' can be used for the NLDAS grid
-                only.
-            xindex : int
-                It `lat` or `lon` is None, then will try `xindex` and `yindex`.
+            If known, 'xindex' and 'yindex' can be used for the NLDAS grid
+            only.
+        xindex : int
+            It `lat` or `lon` is None, then will try `xindex` and `yindex`.
 
-                Enter the x index of the NLDAS grid.::
+            Enter the x index of the NLDAS grid.::
 
-                    Example: --xindex=301
-            yindex : int
-                It `lat` or `lon` is None, then will try `xindex` and `yindex`.
+                Example: --xindex=301
+        yindex : int
+            It `lat` or `lon` is None, then will try `xindex` and `yindex`.
 
-                Enter the y index of the NLDAS grid.::
+            Enter the y index of the NLDAS grid.::
 
-                    Example: --yindex=80
-            variables : str
-                Use the variable codes from the following table:
+                Example: --yindex=80
+        variables : str
+            Use the variable codes from the following table:
 
-        ${units_table}
-            startDate : str
-                The start date of the time series.::
+${units_table}
 
-                    Example: --startDate=2001-01-01T05
+        startDate : str
+            The start date of the time series.::
 
-                If startDate and endDate are None, returns the entire series.
-            endDate : str
-                The end date of the time series.::
+                Example: --startDate=2001-01-01T05
 
-                    Example: --endDate=2002-01-05T05
+            If startDate and endDate are None, returns the entire series.
+        endDate : str
+            The end date of the time series.::
 
-                If startDate and endDate are None, returns the entire series.
-            variable : str
-                DEPRECATED: use "variables" instead to be consistent across
-                "tsgettoolbox"."""
+                Example: --endDate=2002-01-05T05
+
+            If startDate and endDate are None, returns the entire series.
+        variable : str
+            DEPRECATED: use "variables" instead to be consistent across
+            "tsgettoolbox"."""
         # fmt: on
-        tsutils.printiso(
-            base_ldas(
-                lat=lat,
-                lon=lon,
-                xindex=xindex,
-                yindex=yindex,
-                variables=variables,
-                startDate=startDate,
-                endDate=endDate,
-                variable=variable,
-            )
-        )
-
-    return ldas_cli
-
-
-def foundation_api(cli_function):
-    """Create a foundation API function returning a function."""
-
-    @tsutils.copy_doc(cli_function)
-    def ldas_api(
-        lat=None,
-        lon=None,
-        xindex=None,
-        yindex=None,
-        variables=None,
-        startDate=None,
-        endDate=None,
-        variable=None,
-    ):
         return base_ldas(
             lat=lat,
             lon=lon,
@@ -565,25 +532,26 @@ def foundation_api(cli_function):
     return ldas_api
 
 
-_META_HEADER = """        +-------------------------------+-------------+---------------+
+_META_HEADER = r"""
+        +-------------------------------+-------------+---------------+
         | Description/Name              | Spatial     | Time          |
         +===============================+=============+===============+"""
 
-_NLDAS_FORA_META = """
+_NLDAS_FORA_META = r"""
         | NLDAS Primary Forcing Data    | 0.125x0.125 | 1 hour        |
         | NLDAS_FORA0125_H              | degree      |               |
         | V002                          |             |               |
         |                               | -125,25 to  | 1979-01-01T13 |
         |                               |  -67,53     | til recent    |
         +-------------------------------+-------------+---------------+"""
-_NLDAS_NOAH_META = """
+_NLDAS_NOAH_META = r"""
         | NLDAS Noah Land Surface Model | 0.125x0.125 | 1 hour        |
         | NLDAS_NOAH0125_H              | degree      |               |
         | V002                          |             |               |
         |                               | -125,25 to  | 1979-01-01T13 |
         |                               |  -67,53     | til recent    |
         +-------------------------------+-------------+---------------+"""
-_GLDAS_NOAH_META = """
+_GLDAS_NOAH_META = r"""
         | GLDAS Noah Land Surface Model | 0.25x0.25   | 3 hour        |
         | GLDAS_NOAH025_3H              | degree      |               |
         | V2.1                          |             |               |
@@ -639,28 +607,28 @@ _GLDAS_NOAH_META = """
 #         | V001                          |  180, 40    | 2015-04-08    |
 #         +-------------------------------+-------------+---------------+
 # """
-_TRMM_TMPA_META = """
+_TRMM_TMPA_META = r"""
         | TRMM (TMPA) Rainfall Estimate | 0.25x0.25   | 3 hour        |
         | TRMM_3B42                     | degree      |               |
         | V7                            |             |               |
         |                               | -180,-50 to | 1997-12-31 to |
         |                               |  180, 50    | recent        |
         +-------------------------------+-------------+---------------+"""
-_SMERGE_META = """
+_SMERGE_META = r"""
         | Smerge-Noah-CCI root zone     | 0.125x0.125 | 1 day         |
         | soil moisture 0-40 cm         | degree      |               |
         | SMERGE_RZSM0_40CM             |             |               |
         | V2.0                          | -125, 25 to | 1979-01-02 to |
         |                               |  -67, 53    | recent        |
         +-------------------------------+-------------+---------------+"""
-_GRACE_META = """
+_GRACE_META = r"""
         | Groundwater and Soil Moisture | 0.125x0.125 | 7 day         |
         | Conditions from GRACE         | degree      |               |
         | Data Assimilation             |             |               |
         | GRACEDADM_CLSM0125US_7D       | -125, 25 to | 2002-10-04 to |
         | V4.0                          |  -67, 53    | recent        |
         +-------------------------------+-------------+---------------+"""
-_MERRA_META = """
+_MERRA_META = r"""
         | MERRA-2 2D, Instantaneous,    | 0.5x0.625   | 1 hour        |
         | Land Surface Forcings         | degree      |               |
         | M2I1NXLFO                     |             |               |
@@ -679,7 +647,7 @@ _MERRA_META = """
         | V5.12.4                       | -180,-90 to | 1980-01-01 to |
         |                               |  180, 90    | recent        |
         +-------------------------------+-------------+---------------+"""
-_MERRA_UPDATE_META = """
+_MERRA_UPDATE_META = r"""
         | MERRA 2D Incremental          | 0.5x0.667   | 1 hour        |
         | Analysis Update               | degree      |               |
         | MST1NXMLD                     |             |               |
@@ -687,20 +655,20 @@ _MERRA_UPDATE_META = """
         |                               |  180, 90    | 2016-02-29    |
         +-------------------------------+-------------+---------------+"""
 
-ldas_first_line = "grid: Land Data Assimilation System, includes all ldas_* (NLDAS, GLDAS2, TRMM, SMERGE, GRACE, MERRA)"
-nldas_fora_first_line = "NAmerica 0.125deg 1979- H:NLDAS Weather Forcing A (surface)"
-nldas_noah_first_line = "NAmerica 0.125deg 1979- H:NLDAS NOAH hydrology model results"
-gldas_noah_first_line = "global 0.25deg 2000- 3H:GLDAS NOAH hydrology model results"
+ldas_first_line = "global:grid:::Land Data Assimilation System, includes all ldas_* (NLDAS, GLDAS2, TRMM, SMERGE, GRACE, MERRA)"
+nldas_fora_first_line = "NAmerica:0.125deg:1979-:H:NLDAS Weather Forcing A (surface)"
+nldas_noah_first_line = "NAmerica:0.125deg:1979-:H:NLDAS NOAH hydrology model results"
+gldas_noah_first_line = "global:0.25deg:2000-:3H:GLDAS NOAH hydrology model results"
 # lprm_amsr_rzsm3_first_line = (
 #     "global 25km 2002-2010 D:AMSR-E/Aqua root zone soil moisture"
 # )
-trmm_tmpa_first_line = "global 0.25deg 1997- 3H:TRMM (TMPA) rainfall estimate"
-smerge_first_line = "global 0.125deg 1997- D:SMERGE-Noah-CCI root zone soil moisture"
-grace_first_line = "NAmerica 0.125deg 2002- 7D:Groundwater and soil moisture from GRACE"
-merra_first_line = "global 0.5x0.625deg 1980- H:MERRA-2 Land surface forcings"
-merra_update_first_line = "global 0.5x0.667deg 1980-2016 H:MERRA-2 Analysis update"
+trmm_tmpa_first_line = "global:0.25deg:1997-:3H:TRMM (TMPA) rainfall estimate"
+smerge_first_line = "global:0.125deg:1997-:D:SMERGE-Noah-CCI root zone soil moisture"
+grace_first_line = "NAmerica:0.125deg:2002-:7D:Groundwater and soil moisture from GRACE"
+merra_first_line = "global:0.5x0.625deg:1980-:H:MERRA-2 Land surface forcings"
+merra_update_first_line = "global:0.5x0.667deg:1980-2016:H:MERRA-2 Analysis update"
 
-ldas_cli = foundation_cli(
+ldas = foundation_api(
     "ldas",
     units_table=make_units_table(_UNITS_MAP),
     first_line=ldas_first_line,
@@ -718,83 +686,72 @@ ldas_cli = foundation_cli(
         ]
     ),
 )
-ldas = foundation_api(ldas_cli)
 
-ldas_gldas_noah_cli = foundation_cli(
+ldas_gldas_noah = foundation_api(
     "ldas_gldas_noah",
     units_table=make_units_table(_GLDAS_NOAH),
     first_line=gldas_noah_first_line,
     meta_table=_META_HEADER + _GLDAS_NOAH_META,
 )
-ldas_gldas_noah = foundation_api(ldas_gldas_noah_cli)
 
-ldas_grace_cli = foundation_cli(
+ldas_grace = foundation_api(
     "ldas_grace",
     units_table=make_units_table(_GRACE),
     first_line=grace_first_line,
     meta_table=_META_HEADER + _GRACE_META,
 )
-ldas_grace = foundation_api(ldas_grace_cli)
 
-ldas_merra_cli = foundation_cli(
+ldas_merra = foundation_api(
     "ldas_merra",
     units_table=make_units_table(_MERRA),
     first_line=merra_first_line,
     meta_table=_META_HEADER + _MERRA_META,
 )
-ldas_merra = foundation_api(ldas_merra_cli)
 
-ldas_merra_update_cli = foundation_cli(
+ldas_merra_update = foundation_api(
     "ldas_merra_update",
     units_table=make_units_table(_MERRA_UPDATE),
     first_line=merra_update_first_line,
     meta_table=_META_HEADER + _MERRA_UPDATE_META,
 )
-ldas_merra_update = foundation_api(ldas_merra_update_cli)
 
-ldas_nldas_fora_cli = foundation_cli(
+ldas_nldas_fora = foundation_api(
     "ldas_nldas_fora",
     units_table=make_units_table(_NLDAS_FORA),
     first_line=nldas_fora_first_line,
     meta_table=_META_HEADER + _NLDAS_FORA_META,
 )
-ldas_nldas_fora = foundation_api(ldas_nldas_fora_cli)
 
-ldas_nldas_noah_cli = foundation_cli(
+ldas_nldas_noah = foundation_api(
     "ldas_nldas_noah",
     units_table=make_units_table(_NLDAS_NOAH),
     first_line=nldas_noah_first_line,
     meta_table=_META_HEADER + _NLDAS_NOAH_META,
 )
-ldas_nldas_noah = foundation_api(ldas_nldas_noah_cli)
 
-# ldas_amsre_rzsm3_cli = foundation_cli(
+# ldas_amsre_rzsm3 = foundation_api(
 #     "ldas_amsre_rzsm3",
 #     units_table=make_units_table(_LPRM_AMSR_RZSM3),
 #     first_line=lprm_amsr_rzsm3_first_line,
 #     meta_table=_META_HEADER + _LPRM_AMSR_RZSM3_META,
 # )
-# ldas_amsre_rzsm3 = foundation_api(ldas_amsre_rzsm3_cli)
 
-ldas_smerge_cli = foundation_cli(
+ldas_smerge = foundation_api(
     "ldas_smerge",
     units_table=make_units_table(_SMERGE),
     first_line=smerge_first_line,
     meta_table=_META_HEADER + _SMERGE_META,
 )
-ldas_smerge = foundation_api(ldas_smerge_cli)
 
-ldas_trmm_tmpa_cli = foundation_cli(
+ldas_trmm_tmpa = foundation_api(
     "ldas_trmm_tmpa",
     units_table=make_units_table(_TRMM_TMPA),
     first_line=trmm_tmpa_first_line,
     meta_table=_META_HEADER + _TRMM_TMPA_META,
 )
-ldas_trmm_tmpa = foundation_api(ldas_trmm_tmpa_cli)
 
 
 @tsutils.transform_args(variables=tsutils.make_list, variable=tsutils.make_list)
-@tsutils.copy_doc(ldas_cli)
 def base_ldas(
     lat=None,
     lon=None,

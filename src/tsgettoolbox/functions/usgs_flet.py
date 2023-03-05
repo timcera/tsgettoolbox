@@ -7,8 +7,6 @@ usgs_flet_stns      US/FL 2km D:USGS FL ET data from station interpolated
 
 from typing import Callable
 
-import cltoolbox
-from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox import utils
@@ -191,28 +189,7 @@ def _rename_columns(x):
     return ":".join(words)
 
 
-@cltoolbox.command("usgs_flet_narr", formatter_class=HelpFormatter)
 @assign_docstring(docs)
-def usgs_flet_narr_cli(
-    lat,
-    lon,
-    variables=None,
-    start_date=None,
-    end_date=None,
-):
-    """US/FL 2km D:USGS FL ET data from NARR meteorologic data."""
-    tsutils.printiso(
-        usgs_flet_narr(
-            lat,
-            lon,
-            variables=variables,
-            start_date=start_date,
-            end_date=end_date,
-        )
-    )
-
-
-@tsutils.copy_doc(usgs_flet_narr_cli)
 def usgs_flet_narr(
     lat,
     lon,
@@ -220,7 +197,7 @@ def usgs_flet_narr(
     start_date=None,
     end_date=None,
 ):
-    r"""gridded: Download USGS WATERS data from CIDA."""
+    r"""US/FL:2km:2019-:D:Download USGS WATERS data from CIDA."""
     url = "https://cida.usgs.gov/thredds/dodsC/flet_narr"
     if variables is None:
         variables = list(_vars.keys())
@@ -242,28 +219,7 @@ def usgs_flet_narr(
     return df
 
 
-@cltoolbox.command("usgs_flet_stns", formatter_class=HelpFormatter)
 @assign_docstring(docs)
-def usgs_flet_stns_cli(
-    lat,
-    lon,
-    variables=None,
-    start_date=None,
-    end_date=None,
-):
-    """US/FL 2km D:USGS FL ET data from station interpolated meteorologic data."""
-    tsutils.printiso(
-        usgs_flet_stns(
-            lat,
-            lon,
-            variables=variables,
-            start_date=start_date,
-            end_date=end_date,
-        )
-    )
-
-
-@tsutils.copy_doc(usgs_flet_stns_cli)
 def usgs_flet_stns(
     lat,
     lon,
@@ -271,7 +227,7 @@ def usgs_flet_stns(
     start_date=None,
     end_date=None,
 ):
-    r"""gridded: Download USGS WATERS data from CIDA."""
+    r"""US/FL:2km:2019-:D:Download USGS WATERS data from CIDA."""
     url = "https://cida.usgs.gov/thredds/dodsC/flet_stns"
     if variables is None:
         variables = list(_vars.keys())

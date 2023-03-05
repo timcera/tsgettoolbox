@@ -7,10 +7,8 @@ import datetime
 import json
 
 import async_retriever as ar
-import cltoolbox
 import numpy as np
 import pandas as pd
-from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 __all__ = ["modis"]
@@ -827,10 +825,9 @@ def date_parser(strdates):
     ]
 
 
-@cltoolbox.command("modis", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.docstrings)
-def modis_cli(lat, lon, product, band, start_date=None, end_date=None):
-    r"""global 250m,500m,1000m 2000- 4D,8D,16D,A:Download MODIS derived data.
+def modis(lat, lon, product, band, start_date=None, end_date=None):
+    r"""global:250m,500m,1000m:2000-:4D,8D,16D,A:Download MODIS derived data.
 
     This data are derived data sets from MODIS satellite photos.
 
@@ -2460,14 +2457,6 @@ def modis_cli(lat, lon, product, band, start_date=None, end_date=None):
     visualization and download page. Please modify it manually for
     multiple sites.
     """
-    tsutils.printiso(
-        modis(lat, lon, product, band, start_date=start_date, end_date=end_date)
-    )
-
-
-@tsutils.copy_doc(modis_cli)
-def modis(lat, lon, product, band, start_date=None, end_date=None):
-    r"""Download MODIS derived data."""
     query_params = {
         "latitude": lat,
         "longitude": lon,

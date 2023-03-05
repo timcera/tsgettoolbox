@@ -9,9 +9,7 @@ from gzip import GzipFile
 from io import BytesIO, StringIO
 
 import async_retriever as ar
-import cltoolbox
 import pandas as pd
-from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 __all__ = ["ndbc"]
@@ -272,9 +270,8 @@ def ndbc_to_df(url, **query_params):
     return df.loc[sdate:edate, :]
 
 
-@cltoolbox.command("ndbc", formatter_class=HelpFormatter)
-def ndbc_cli(station, table, startUTC, endUTC=None):
-    r"""US station T,6T,10T,15T,H,D:Download historical from the National Data Buoy Center.
+def ndbc(station, table, startUTC, endUTC=None):
+    r"""US:station::T,6T,10T,15T,H,D:Download historical from the National Data Buoy Center.
 
     Download historical data from the National Data Buoy Center.
 
@@ -508,12 +505,6 @@ def ndbc_cli(station, table, startUTC, endUTC=None):
         (only seconds are optional)
 
     """
-    tsutils.printiso(ndbc(station, table, startUTC, endUTC=endUTC))
-
-
-@tsutils.copy_doc(ndbc_cli)
-def ndbc(station, table, startUTC, endUTC=None):
-    r"""Download historical from the National Data Buoy Center."""
     return ndbc_to_df(
         r"https://www.ndbc.noaa.gov/data/",
         table=table,

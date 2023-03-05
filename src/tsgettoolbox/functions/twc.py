@@ -3,9 +3,7 @@ twc                 US/TX station D:Download Texas Weather Connection
                     (TWC) data.
 """
 
-import cltoolbox
 import pandas as pd
-from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox.ulmo.twc.kbdi.core import get_data
@@ -25,10 +23,9 @@ def twc_ulmo_df(county=None, start_date=None, end_date=None):
     return df
 
 
-@cltoolbox.command("twc", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.docstrings)
-def twc_cli(county, start_date=None, end_date=None):
-    r"""US/TX station D:Download Texas Weather Connection (TWC) data.
+def twc(county: int, start_date=None, end_date=None):
+    r"""US/TX:station::D:Download Texas Weather Connection (TWC) data.
 
     This module provides direct access to `Texas Weather Connection`_ `Daily
     Keetch-Byram Drought Index (KBDI)`_ dataset.
@@ -44,12 +41,6 @@ def twc_cli(county, start_date=None, end_date=None):
     ${start_date}
     ${end_date}
     """
-    tsutils.printiso(twc(county, start_date=start_date, end_date=end_date))
-
-
-@tsutils.copy_doc(twc_cli)
-def twc(county: int, start_date=None, end_date=None):
-    r"""Download Texas Weather Connection (TWC) data."""
     return twc_ulmo_df(county=county, start_date=start_date, end_date=end_date)
 
 

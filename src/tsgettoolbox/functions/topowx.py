@@ -5,8 +5,6 @@ topowx_daily        US 30arcsecond 1948- D:Topoclimatic Daily Air
                     Temperature Dataset.
 """
 
-import cltoolbox
-from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox import utils
@@ -35,16 +33,15 @@ _base_avail_vars = {
 tsutils.docstrings.update({k: v["standard_name"] for k, v in _base_avail_vars.items()})
 
 
-@cltoolbox.command("topowx", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.docstrings)
-def topowx_cli(
+def topowx(
     lat,
     lon,
     variables=None,
     start_date=None,
     end_date=None,
 ):
-    r"""US 30arcsecond 1948- M:Topoclimatic Monthly Air Temperature Dataset.
+    r"""US:30arcsecond:1948-:M:Topoclimatic Monthly Air Temperature Dataset.
 
     institution: USGS
 
@@ -159,20 +156,22 @@ def topowx_cli(
 
     ${end_date}
     """
-    tsutils.printiso(
-        topowx(
-            lat,
-            lon,
-            variables=variables,
-            start_date=start_date,
-            end_date=end_date,
-        )
+    url = "https://cida.usgs.gov/thredds/dodsC/topowx_monthly"
+
+    return utils.opendap(
+        url,
+        lat,
+        lon,
+        _base_avail_vars,
+        variables=variables,
+        start_date=start_date,
+        end_date=end_date,
+        time_name="time",
     )
 
 
-@cltoolbox.command("topowx_daily", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.docstrings)
-def topowx_daily_cli(
+def topowx_daily(
     lat,
     lon,
     variables=None,
@@ -294,49 +293,6 @@ def topowx_daily_cli(
 
     ${end_date}
     """
-    tsutils.printiso(
-        topowx_daily(
-            lat,
-            lon,
-            variables=variables,
-            start_date=start_date,
-            end_date=end_date,
-        )
-    )
-
-
-@tsutils.copy_doc(topowx_cli)
-def topowx(
-    lat,
-    lon,
-    variables=None,
-    start_date=None,
-    end_date=None,
-):
-    r"""Download topowx data from CIDA."""
-    url = "https://cida.usgs.gov/thredds/dodsC/topowx_monthly"
-
-    return utils.opendap(
-        url,
-        lat,
-        lon,
-        _base_avail_vars,
-        variables=variables,
-        start_date=start_date,
-        end_date=end_date,
-        time_name="time",
-    )
-
-
-@tsutils.copy_doc(topowx_daily_cli)
-def topowx_daily(
-    lat,
-    lon,
-    variables=None,
-    start_date=None,
-    end_date=None,
-):
-    r"""Download topowx data from CIDA."""
     url = "https://cida.usgs.gov/thredds/dodsC/topowx"
 
     return utils.opendap(

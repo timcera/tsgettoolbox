@@ -5,9 +5,7 @@ cpc                 US/region W: Climate Prediction Center, Weekly Drought
 
 from typing import Optional
 
-import cltoolbox
 import pandas as pd
-from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox.ulmo.cpc.drought.core import get_data
@@ -44,10 +42,14 @@ def ulmo_df(state=None, climate_division=None, start_date=None, end_date=None):
     return df
 
 
-@cltoolbox.command("cpc", formatter_class=HelpFormatter)
 @tsutils.doc(tsutils.docstrings)
-def cpc_cli(state=None, climate_division=None, start_date=None, end_date=None):
-    r"""US/region W: Climate Prediction Center, Weekly Drought Index
+def cpc(
+    state: Optional[str] = None,
+    climate_division: Optional[int] = None,
+    start_date=None,
+    end_date=None,
+):
+    r"""US:region::W:Climate Prediction Center, Weekly Drought Index
 
     Climate Prediction Center:
 
@@ -94,24 +96,6 @@ def cpc_cli(state=None, climate_division=None, start_date=None, end_date=None):
 
     ${end_date}
     """
-    tsutils.printiso(
-        cpc(
-            state=state,
-            climate_division=climate_division,
-            start_date=start_date,
-            end_date=end_date,
-        )
-    )
-
-
-@tsutils.copy_doc(cpc_cli)
-def cpc(
-    state: Optional[str] = None,
-    climate_division: Optional[int] = None,
-    start_date=None,
-    end_date=None,
-):
-    r"""Access Climate Prediction Center, Weekly Drought Index dataset."""
     return ulmo_df(
         state=state,
         climate_division=climate_division,

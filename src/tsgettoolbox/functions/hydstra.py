@@ -5,9 +5,7 @@ hydstra_catalog     Kisters Hydstra Webservice - variable catalog for a
 hydstra_stations    Kisters Hydstra Webservice - station list for a server
 """
 
-import cltoolbox
 import pandas as pd
-from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox import hydstra_utils as hu
@@ -114,9 +112,8 @@ hydstra_docstrings = {
 }
 
 
-@cltoolbox.command("hydstra_ts", formatter_class=HelpFormatter)
 @tsutils.doc(hydstra_docstrings)
-def hydstra_ts_cli(
+def hydstra_ts(
     server,
     station,
     variable,
@@ -129,7 +126,7 @@ def hydstra_ts_cli(
     quality=False,
     maxqual=254,
 ):
-    r"""global station:Kisters Hydstra Webservice - time series values
+    r"""global:station:::Kisters Hydstra Webservice - time series values
 
     Hydstra databases are generally organized into stations, datasources,
     and variables.
@@ -149,38 +146,6 @@ def hydstra_ts_cli(
     ${maxqual}
 
     """
-    tsutils.printiso(
-        hydstra_ts(
-            server,
-            station,
-            variable,
-            start_time,
-            end_time,
-            interval=interval,
-            provisional=provisional,
-            datasource=datasource,
-            aggcode=aggcode,
-            quality=quality,
-            maxqual=maxqual,
-        )
-    )
-
-
-@tsutils.copy_doc(hydstra_ts_cli)
-def hydstra_ts(
-    server,
-    station,
-    variable,
-    start_time,
-    end_time,
-    interval="day",
-    provisional=False,
-    datasource=None,
-    aggcode=None,
-    quality=False,
-    maxqual=254,
-):
-    """global station:Kisters Hydstra Webservice - time series values"""
     urlbase = hu.hydstra_get_server_url(server)
     variables = hu.hydstra_get_server_vars(server)
     sdate = tsutils.parsedate(start_time)
@@ -253,10 +218,9 @@ def hydstra_ts(
     return timeseries
 
 
-@cltoolbox.command("hydstra_catalog", formatter_class=HelpFormatter)
 @tsutils.doc(hydstra_docstrings)
-def hydstra_catalog_cli(server, station, tablefmt="csv", isleep=0):
-    r"""global station:Kisters Hydstra Webservice - variable catalog for a station
+def hydstra_catalog(server, station, isleep=5, tablefmt="csv_nos"):
+    r"""global:station:::Kisters Hydstra Webservice - variable catalog for a station
 
     Creates a table of datasources and variables available for a station,
     including periods of record for each.
@@ -264,30 +228,24 @@ def hydstra_catalog_cli(server, station, tablefmt="csv", isleep=0):
     Parameters
     ----------
     ${server}
+
     ${station}
-    ${tablefmt}
+
     ${isleep}
 
+    ${tablefmt}
     """
-    catalogdf = hydstra_catalog(server, station, isleep=isleep)
-    tsutils.printiso(catalogdf, tablefmt=tablefmt, headers="keys", showindex=False)
-
-
-@tsutils.copy_doc(hydstra_catalog_cli)
-def hydstra_catalog(server, site_id, isleep=5):
-    """global station:Kisters Hydstra Webservice - variable catalog for a station"""
     urlbase = hu.hydstra_get_server_url(server)
     skipds = hu.hydstra_get_server_skipds(server)
     catalogdf = hu.hydstra_get_station_catalog(
-        urlbase, site_id, SkipDataSources=skipds, isleep=isleep
+        urlbase, station, SkipDataSources=skipds, isleep=isleep
     )
     return catalogdf
 
 
-@cltoolbox.command("hydstra_stations", formatter_class=HelpFormatter)
 @tsutils.doc(hydstra_docstrings)
-def hydstra_stations_cli(server, activeonly=False, latlong=False, tablefmt="csv"):
-    r"""global station:Kisters Hydstra Webservice - station list for a server
+def hydstra_stations(server, activeonly=False, latlong=True):
+    r"""global:station:::Kisters Hydstra Webservice - station list for a server
 
     Creates a table of stations available on the server.
 
@@ -297,13 +255,6 @@ def hydstra_stations_cli(server, activeonly=False, latlong=False, tablefmt="csv"
     ${activeonly}
     ${latlong}
     ${tablefmt}"""
-    sitedf = hydstra_stations(server, activeonly=activeonly, latlong=latlong)
-    tsutils.printiso(sitedf, headers="keys", tablefmt=tablefmt, showindex=False)
-
-
-@tsutils.copy_doc(hydstra_stations_cli)
-def hydstra_stations(server, activeonly=False, latlong=True):
-    """global station:Kisters Hydstra Webservice - station list for a server"""
     urlbase = hu.hydstra_get_server_url(server)
     sitedf = hu.hydstra_get_stations(urlbase, activeonly=activeonly, latlong=latlong)
     return sitedf

@@ -2,9 +2,7 @@
 rivergages          US station:USACE river gages
 """
 
-import cltoolbox
 import pandas as pd
-from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox.ulmo.usace.rivergages.core import (
@@ -19,9 +17,8 @@ __all__ = ["rivergages"]
 #         min_value=None, max_value=None):
 
 
-@cltoolbox.command("rivergages", formatter_class=HelpFormatter)
-def rivergages_cli(station_code, parameter, start_date=None, end_date=None):
-    """US station:USACE river gages
+def rivergages(station_code, parameter, start_date=None, end_date=None):
+    """US:station:::USACE river gages
 
     Stage and flow from systems managed by the U.S. Army Corps of Engineers.
 
@@ -36,13 +33,6 @@ def rivergages_cli(station_code, parameter, start_date=None, end_date=None):
     end_date
         The end data of the desired time-series.
     """
-    ndf = rivergages(station_code, parameter, start_date=start_date, end_date=end_date)
-    tsutils.printiso(ndf)
-
-
-@tsutils.copy_doc(rivergages_cli)
-def rivergages(station_code, parameter, start_date=None, end_date=None):
-    """US station:USACE river gages"""
     tstations = get_stations()
     if station_code not in tstations:
         raise ValueError(

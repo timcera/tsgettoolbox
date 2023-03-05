@@ -1,33 +1,31 @@
 """
-ncei_ghcnd_ftp      global station D:NCEI Global Historical Climatology
+ncei_ghcnd_ftp      global:station::D:NCEI Global Historical Climatology
                     Network - Daily (GHCND)
-ncei_ghcnd          global station D:Global Historical Climatology Network
+ncei_ghcnd          global:station::D:Global Historical Climatology Network
                     - Daily (GHCND)
-ncei_gsod           global station D:NCEI Global Summary of the Day (GSOD)
-ncei_gsom           global station M:NCEI Global Summary of Month (GSOM)
-ncei_gsoy           global station A:NCEI Global Summary of Year (GSOY)
-ncei_normal_ann     global station A: NCEI annual normals
-ncei_normal_dly     global station D:NCEI Daily Normals
-ncei_normal_hly     global station H:NCEI Normal hourly
-ncei_normal_mly     global station M:NCEI Monthly Summaries.
-ncei_precip_15      global station 15T:NCEI 15 minute precipitation
-ncei_precip_hly     global station H:NCEI hourly precipitation
-ncei_annual         global station A:NCEI annual data summaries
-ncei_ghcndms        global station M:NCEI GHCND Monthly Summaries
+ncei_gsod           global:station::D:NCEI Global Summary of the Day (GSOD)
+ncei_gsom           global:station::M:NCEI Global Summary of Month (GSOM)
+ncei_gsoy           global:station::A:NCEI Global Summary of Year (GSOY)
+ncei_normal_ann     global:station::A: NCEI annual normals
+ncei_normal_dly     global:station::D:NCEI Daily Normals
+ncei_normal_hly     global:station::H:NCEI Normal hourly
+ncei_normal_mly     global:station::M:NCEI Monthly Summaries.
+ncei_precip_15      global:station::15T:NCEI 15 minute precipitation
+ncei_precip_hly     global:station::H:NCEI hourly precipitation
+ncei_annual         global:station::A:NCEI annual data summaries
+ncei_ghcndms        global:station::M:NCEI GHCND Monthly Summaries
                     (GHCNDMS)
-ncei_ish            global station H:Integrated Surface Database
+ncei_ish            global:station::H:Integrated Surface Database
 """
 
 from collections import OrderedDict
 
-import cltoolbox
 import numpy as np
 import pandas as pd
-from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox import utils
-from tsgettoolbox.cdo_api_py import Client
+from tsgettoolbox.cdo_api_py.cdo_api_py import Client
 from tsgettoolbox.ulmo.ncdc.cirs.core import get_data
 
 __all__ = [
@@ -1376,10 +1374,9 @@ ncei_ghcnd_docstrings = {
 }
 
 
-@cltoolbox.command("ncei_ghcnd_ftp", formatter_class=HelpFormatter)
 @tsutils.doc({**tsutils.docstrings, **ncei_ghcnd_docstrings})
-def ncei_ghcnd_ftp_cli(stationid, start_date=None, end_date=None):
-    r"""global station D:NCEI Global Historical Climatology Network - Daily (GHCND)
+def ncei_ghcnd_ftp(stationid, start_date=None, end_date=None):
+    r"""global:station::D:NCEI Global Historical Climatology Network - Daily (GHCND)
 
     ${info}
 
@@ -1389,14 +1386,6 @@ def ncei_ghcnd_ftp_cli(stationid, start_date=None, end_date=None):
     ${start_date}
     ${end_date}
     """
-    tsutils.printiso(
-        ncei_ghcnd_ftp(stationid, start_date=start_date, end_date=end_date),
-    )
-
-
-@tsutils.copy_doc(ncei_ghcnd_ftp_cli)
-def ncei_ghcnd_ftp(stationid, start_date=None, end_date=None):
-    r"""global station D:Download from the Global Historical Climatology Network - Daily."""
     stationid = stationid.split(":")[-1]
     params = {"station": stationid, "start_date": start_date, "end_date": end_date}
 
@@ -1580,11 +1569,14 @@ def ncei_ghcnd_ftp(stationid, start_date=None, end_date=None):
             continue
         tmpdf.set_index(["year", "month"], inplace=True)
         tmpdf = tmpdf.iloc[:, list(range(2, 126, 4))].stack()
-        tmpdf.index = (
-            f"{tmpdf.index.get_level_values(0).astype(str).values}-"
-            f"{tmpdf.index.get_level_values(1).astype(str).values}-"
-            f"{tmpdf.index.get_level_values(2).astype(str).values}"
-        )
+        tmpdf.index = [
+            f"{i}-{int(j):02}-{int(k):02}"
+            for i, j, k in zip(
+                tmpdf.index.get_level_values(0).astype(str).values,
+                tmpdf.index.get_level_values(1).astype(str).values,
+                tmpdf.index.get_level_values(2).astype(str).values,
+            )
+        ]
 
         # Get rid of bad dates, for example April 31.
         tmpdf.index = pd.to_datetime(tmpdf.index, errors="coerce")
@@ -1777,10 +1769,9 @@ def ncei_cdo_json_to_df(datasetid, stationid, start_date=None, end_date=None):
 
 
 # 1763-01-01, 2016-11-05, Daily Summaries             , 1    , GHCND
-@cltoolbox.command("ncei_ghcnd", formatter_class=HelpFormatter)
 @tsutils.doc({**tsutils.docstrings, **ncei_ghcnd_docstrings})
-def ncei_ghcnd_cli(stationid, start_date=None, end_date=None):
-    r"""global station D:Global Historical Climatology Network - Daily (GHCND)
+def ncei_ghcnd(stationid, start_date=None, end_date=None):
+    r"""global:station::D:Global Historical Climatology Network - Daily (GHCND)
 
     Requires registration and free API key.
 
@@ -1808,14 +1799,6 @@ def ncei_ghcnd_cli(stationid, start_date=None, end_date=None):
     ${stationid}
     ${start_date}
     ${end_date}"""
-    tsutils.printiso(
-        ncei_ghcnd(stationid, start_date=start_date, end_date=end_date),
-    )
-
-
-@tsutils.copy_doc(ncei_ghcnd_cli)
-def ncei_ghcnd(stationid, start_date=None, end_date=None):
-    r"""Download from the Global Historical Climatology Network - Daily."""
     stationid = stationid.replace("-", "")
     return ncei_cdo_json_to_df(
         "GHCND",
@@ -1825,10 +1808,11 @@ def ncei_ghcnd(stationid, start_date=None, end_date=None):
     )
 
 
-@cltoolbox.command("ncei_gsod", formatter_class=HelpFormatter)
+# https://www.ncei.noaa.gov/data/global-summary-of-the-day/access/
+# GSOD
 @tsutils.doc({**tsutils.docstrings, **ncei_ghcnd_docstrings})
-def ncei_gsod_cli(stationid, start_date=None, end_date=None):
-    r"""global station D:NCEI Global Summary of the Day (GSOD)
+def ncei_gsod(stationid, start_date=None, end_date=None):
+    r"""global:station::D:NCEI Global Summary of the Day (GSOD)
 
     National Centers for Environmental Information (NCEI) Global Summary of the
     MONTH (GSOM)
@@ -1896,16 +1880,6 @@ def ncei_gsod_cli(stationid, start_date=None, end_date=None):
     ${start_date}
     ${end_date}
     """
-    tsutils.printiso(
-        ncei_gsod(stationid, start_date=start_date, end_date=end_date),
-    )
-
-
-# https://www.ncei.noaa.gov/data/global-summary-of-the-day/access/
-# GSOD
-@tsutils.copy_doc(ncei_gsod_cli)
-def ncei_gsod(stationid, start_date=None, end_date=None):
-    r"""Access NCEI Global Summary of the Day."""
     stationid = stationid.replace("-", "")
     df = ncei_cdo_json_to_df(
         "GSOD",
@@ -1918,10 +1892,9 @@ def ncei_gsod(stationid, start_date=None, end_date=None):
 
 
 # 1763-01-01, 2016-09-01, Global Summary of the Month , 1    , GSOM
-@cltoolbox.command("ncei_gsom", formatter_class=HelpFormatter)
 @tsutils.doc({**tsutils.docstrings, **ncei_ghcnd_docstrings})
-def ncei_gsom_cli(stationid, start_date=None, end_date=None):
-    r"""global station M:NCEI Global Summary of Month (GSOM)
+def ncei_gsom(stationid, start_date=None, end_date=None):
+    r"""global:station::M:NCEI Global Summary of Month (GSOM)
 
     National Centers for Environmental Information (NCEI) Global Summary of the
     MONTH (GSOM)
@@ -1989,18 +1962,6 @@ def ncei_gsom_cli(stationid, start_date=None, end_date=None):
     ${start_date}
     ${end_date}
     """
-    tsutils.printiso(
-        ncei_gsom(
-            stationid,
-            start_date=start_date,
-            end_date=end_date,
-        ),
-    )
-
-
-@tsutils.copy_doc(ncei_gsom_cli)
-def ncei_gsom(stationid, start_date=None, end_date=None):
-    r"""Access ncei Global Summary of Month (GSOM)."""
     stationid = stationid.replace("-", "")
     return ncei_cdo_json_to_df(
         "GSOM",
@@ -2010,11 +1971,9 @@ def ncei_gsom(stationid, start_date=None, end_date=None):
     )
 
 
-# 1763-01-01, 2016-01-01, Global Summary of the Year  , 1    , GSOY
-@cltoolbox.command("ncei_gsoy", formatter_class=HelpFormatter)
 @tsutils.doc({**tsutils.docstrings, **ncei_ghcnd_docstrings})
-def ncei_gsoy_cli(stationid, start_date=None, end_date=None):
-    r"""global station A:NCEI Global Summary of Year (GSOY)
+def ncei_gsoy(stationid, start_date=None, end_date=None):
+    r"""global:station::A:NCEI Global Summary of Year (GSOY)
 
     National Centers for Environmental Information (NCEI) Global Summary of the YEAR
     (GSOY)
@@ -2075,18 +2034,6 @@ def ncei_gsoy_cli(stationid, start_date=None, end_date=None):
     ${start_date}
     ${end_date}
     """
-    tsutils.printiso(
-        ncei_gsoy(
-            stationid,
-            start_date=start_date,
-            end_date=end_date,
-        ),
-    )
-
-
-@tsutils.copy_doc(ncei_gsoy_cli)
-def ncei_gsoy(stationid, start_date=None, end_date=None):
-    r"""Access NCEI Global Summary of Year (GSOY)."""
     return ncei_cdo_json_to_df(
         "GSOY",
         stationid,
@@ -2095,9 +2042,8 @@ def ncei_gsoy(stationid, start_date=None, end_date=None):
     )
 
 
-# 1991-06-05, 2016-11-06, Weather Radar (Level II)    , 0.95 , NEXRAD2
-# @cltoolbox.command('ncei_nexrad2', formatter_class=HelpFormatter)
-def ncei_nexrad2_cli(stationid, start_date=None, end_date=None):
+@tsutils.doc({**tsutils.docstrings, **ncei_ghcnd_docstrings})
+def ncei_nexrad2(stationid, start_date=None, end_date=None):
     r"""station: NCEI NEXRAD Level II.
 
     Requires registration and free API key.
@@ -2122,14 +2068,6 @@ def ncei_nexrad2_cli(stationid, start_date=None, end_date=None):
 
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing."""
-    tsutils.printiso(
-        ncei_nexrad2(stationid, start_date=start_date, end_date=end_date),
-    )
-
-
-@tsutils.copy_doc(ncei_nexrad2_cli)
-def ncei_nexrad2(stationid, start_date=None, end_date=None):
-    r"""National Centers for Environmental Information (NCEI) NEXRAD Level II."""
     return ncei_cdo_json_to_df(
         "NEXRAD2",
         stationid,
@@ -2138,9 +2076,8 @@ def ncei_nexrad2(stationid, start_date=None, end_date=None):
     )
 
 
-# 1991-06-05, 2016-11-06, Weather Radar (Level III)   , 0.95 , NEXRAD3
-# @cltoolbox.command('ncei_nexrad3',formatter_class=HelpFormatter)
-def ncei_nexrad3_cli(stationid, start_date=None, end_date=None):
+@tsutils.doc({**tsutils.docstrings, **ncei_ghcnd_docstrings})
+def ncei_nexrad3(stationid, start_date=None, end_date=None):
     r"""station: NCEI NEXRAD Level III.
 
     Requires registration and free API key.
@@ -2165,14 +2102,6 @@ def ncei_nexrad3_cli(stationid, start_date=None, end_date=None):
 
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing."""
-    return tsutils.printiso(
-        ncei_nexrad3(stationid, start_date=start_date, end_date=end_date),
-    )
-
-
-@tsutils.copy_doc(ncei_nexrad3_cli)
-def ncei_nexrad3(stationid, start_date=None, end_date=None):
-    r"""National Centers for Environmental Information (NCEI) NEXRAD Level III."""
     return ncei_cdo_json_to_df(
         "NEXRAD3",
         stationid,
@@ -2181,10 +2110,9 @@ def ncei_nexrad3(stationid, start_date=None, end_date=None):
     )
 
 
-# 2010-01-01, 2010-01-01, Normals Annual/Seasonal     , 1    , NORMAL_ANN
-@cltoolbox.command("ncei_normal_ann", formatter_class=HelpFormatter)
-def ncei_normal_ann_cli(stationid):
-    r"""global station A: NCEI annual normals
+@tsutils.doc({**tsutils.docstrings, **ncei_ghcnd_docstrings})
+def ncei_normal_ann(stationid):
+    r"""global:station::A: NCEI annual normals
 
     Requires registration and free API key.
 
@@ -3581,12 +3509,6 @@ def ncei_normal_ann_cli(stationid):
     ${start_date}
     ${end_date}
     """
-    tsutils.printiso(ncei_normal_ann(stationid))
-
-
-@tsutils.copy_doc(ncei_normal_ann_cli)
-def ncei_normal_ann(stationid):
-    r"""National Centers for Environmental Information (NCEI) annual normals."""
     return ncei_cdo_json_to_df(
         "NORMAL_ANN",
         stationid,
@@ -3595,10 +3517,9 @@ def ncei_normal_ann(stationid):
     )
 
 
-# 2010-01-01, 2010-12-31, Normals Daily               , 1    , NORMAL_DLY
-@cltoolbox.command("ncei_normal_dly", formatter_class=HelpFormatter)
-def ncei_normal_dly_cli(stationid):
-    r"""global station D:NCEI Daily Normals
+@tsutils.doc({**tsutils.docstrings, **ncei_ghcnd_docstrings})
+def ncei_normal_dly(stationid):
+    r"""global:station::D:NCEI Daily Normals
 
     Requires registration and free API key.
 
@@ -3817,22 +3738,15 @@ def ncei_normal_dly_cli(stationid):
     ${start_date}
     ${end_date}
     """
-    tsutils.printiso(ncei_normal_dly(stationid))
-
-
-@tsutils.copy_doc(ncei_normal_dly_cli)
-def ncei_normal_dly(stationid):
-    r"""National Centers for Environmental Information (NCEI) Daily Normals."""
     return ncei_cdo_json_to_df(
         "NORMAL_DLY",
         stationid,
     )
 
 
-# 2010-01-01, 2010-12-31, Normals Hourly              , 1    , NORMAL_HLY
-@cltoolbox.command("ncei_normal_hly", formatter_class=HelpFormatter)
-def ncei_normal_hly_cli(stationid):
-    r"""global station H:NCEI Normal hourly
+@tsutils.doc({**tsutils.docstrings, **ncei_ghcnd_docstrings})
+def ncei_normal_hly(stationid):
+    r"""global:station::H:NCEI Normal hourly
 
     Requires registration and free API key.
 
@@ -3918,22 +3832,15 @@ def ncei_normal_hly_cli(stationid):
     ${start_date}
     ${end_date}
     """
-    tsutils.printiso(ncei_normal_hly(stationid))
-
-
-@tsutils.copy_doc(ncei_normal_hly_cli)
-def ncei_normal_hly(stationid):
-    r"""National Centers for Environmental Information (NCEI) Normal hourly."""
     return ncei_cdo_json_to_df(
         "NORMAL_HLY",
         stationid,
     )
 
 
-# 2010-01-01, 2010-12-01, Normals Monthly             , 1    , NORMAL_MLY
-@cltoolbox.command("ncei_normal_mly", formatter_class=HelpFormatter)
-def ncei_normal_mly_cli(stationid):
-    r"""global station M:NCEI Monthly Summaries.
+@tsutils.doc({**tsutils.docstrings, **ncei_ghcnd_docstrings})
+def ncei_normal_mly(stationid):
+    r"""global:station::M:NCEI Monthly Summaries.
 
     Requires registration and free API key.
 
@@ -4189,22 +4096,15 @@ def ncei_normal_mly_cli(stationid):
     ${start_date}
     ${end_date}
     """
-    tsutils.printiso(ncei_normal_mly(stationid))
-
-
-@tsutils.copy_doc(ncei_normal_mly_cli)
-def ncei_normal_mly(stationid):
-    r"""National Centers for Environmental Information (NCEI) GHCND Normal monthly."""
     return ncei_cdo_json_to_df(
         "NORMAL_MLY",
         stationid,
     )
 
 
-# 1970-05-12, 2014-01-01, Precipitation 15 Minute     , 0.25 , PRECIP_15
-@cltoolbox.command("ncei_precip_15", formatter_class=HelpFormatter)
-def ncei_precip_15_cli(stationid, start_date=None, end_date=None):
-    r"""global station 15T:NCEI 15 minute precipitation
+@tsutils.doc({**tsutils.docstrings, **ncei_ghcnd_docstrings})
+def ncei_precip_15(stationid, start_date=None, end_date=None):
+    r"""global:station::15T:NCEI 15 minute precipitation
 
     Requires registration and free API key.
 
@@ -4242,14 +4142,6 @@ def ncei_precip_15_cli(stationid, start_date=None, end_date=None):
     ${start_date}
     ${end_date}
     """
-    tsutils.printiso(
-        ncei_precip_15(stationid, start_date=start_date, end_date=end_date),
-    )
-
-
-@tsutils.copy_doc(ncei_precip_15_cli)
-def ncei_precip_15(stationid, start_date=None, end_date=None):
-    r"""National Centers for Environmental Information (NCEI) 15 minute precipitation."""
     return ncei_cdo_json_to_df(
         "PRECIP_15",
         stationid,
@@ -4258,10 +4150,9 @@ def ncei_precip_15(stationid, start_date=None, end_date=None):
     )
 
 
-# 1900-01-01, 2014-01-01, Precipitation Hourly        , 1    , PRECIP_HLY
-@cltoolbox.command("ncei_precip_hly", formatter_class=HelpFormatter)
-def ncei_precip_hly_cli(stationid, start_date=None, end_date=None):
-    r"""global station H:NCEI hourly precipitation
+@tsutils.doc({**tsutils.docstrings, **ncei_ghcnd_docstrings})
+def ncei_precip_hly(stationid, start_date=None, end_date=None):
+    r"""global:station::H:NCEI hourly precipitation
 
     Requires registration and free API key.
 
@@ -4288,14 +4179,6 @@ def ncei_precip_hly_cli(stationid, start_date=None, end_date=None):
     ${start_date}
     ${end_date}
     """
-    tsutils.printiso(
-        ncei_precip_hly(stationid, start_date=start_date, end_date=end_date),
-    )
-
-
-@tsutils.copy_doc(ncei_precip_hly_cli)
-def ncei_precip_hly(stationid, start_date=None, end_date=None):
-    r"""National Centers for Environmental Information (NCEI) hourly precipitation."""
     return ncei_cdo_json_to_df(
         "PRECIP_HLY",
         stationid,
@@ -4304,10 +4187,9 @@ def ncei_precip_hly(stationid, start_date=None, end_date=None):
     )
 
 
-# ANNUAL
-@cltoolbox.command("ncei_annual", formatter_class=HelpFormatter)
-def ncei_annual_cli(stationid, start_date=None, end_date=None):
-    r"""global station A:NCEI annual data summaries
+@tsutils.doc({**tsutils.docstrings, **ncei_ghcnd_docstrings})
+def ncei_annual(stationid, start_date=None, end_date=None):
+    r"""global:station::A:NCEI annual data summaries
 
     Requires registration and free API key.
 
@@ -4427,14 +4309,6 @@ def ncei_annual_cli(stationid, start_date=None, end_date=None):
     ${start_date}
     ${end_date}
     """
-    tsutils.printiso(
-        ncei_annual(stationid, start_date=start_date, end_date=end_date),
-    )
-
-
-@tsutils.copy_doc(ncei_annual_cli)
-def ncei_annual(stationid, start_date=None, end_date=None):
-    r"""National Centers for Environmental Information (NCEI) annual data summaries."""
     return ncei_cdo_json_to_df(
         "ANNUAL",
         stationid,
@@ -4443,10 +4317,9 @@ def ncei_annual(stationid, start_date=None, end_date=None):
     )
 
 
-# GHCNDMS
-@cltoolbox.command("ncei_ghcndms", formatter_class=HelpFormatter)
-def ncei_ghcndms_cli(stationid, start_date=None, end_date=None):
-    r"""global station M:NCEI GHCND Monthly Summaries (GHCNDMS)
+@tsutils.doc({**tsutils.docstrings, **ncei_ghcnd_docstrings})
+def ncei_ghcndms(stationid, start_date=None, end_date=None):
+    r"""global:station::M:NCEI GHCND Monthly Summaries (GHCNDMS)
 
     Requires registration and free API key.
 
@@ -4761,14 +4634,6 @@ def ncei_ghcndms_cli(stationid, start_date=None, end_date=None):
     ${start_date}
     ${end_date}
     """
-    tsutils.printiso(
-        ncei_ghcndms(stationid, start_date=start_date, end_date=end_date),
-    )
-
-
-@tsutils.copy_doc(ncei_ghcndms_cli)
-def ncei_ghcndms(stationid, start_date=None, end_date=None):
-    r"""National Centers for Environmental Information (NCEI) GHCND Monthly Summaries."""
     return ncei_cdo_json_to_df(
         "GHCNDMS",
         stationid,
@@ -4777,10 +4642,9 @@ def ncei_ghcndms(stationid, start_date=None, end_date=None):
     )
 
 
-@cltoolbox.command("ncei_ish", formatter_class=HelpFormatter)
 @tsutils.doc({**tsutils.docstrings, **ncei_ghcnd_docstrings})
-def ncei_ish_cli(stationid, start_date=None, end_date=None):
-    r"""global station H:Integrated Surface Database
+def ncei_ish(stationid, start_date=None, end_date=None):
+    r"""global:station::H:Integrated Surface Database
 
     ${info}
 
@@ -4790,14 +4654,6 @@ def ncei_ish_cli(stationid, start_date=None, end_date=None):
     ${start_date}
     ${end_date}
     """
-    tsutils.printiso(
-        ncei_ish(stationid, start_date=start_date, end_date=end_date),
-    )
-
-
-@tsutils.copy_doc(ncei_ish_cli)
-def ncei_ish(stationid, start_date=None, end_date=None):
-    r"""Download from the Global Historical Climatology Network - Daily."""
     stationid = stationid.replace("-", "")
 
     # "https://www1.ncdc.noaa.gov/pub/data/noaa/{year}/{station}-{year}.gz",
@@ -5228,8 +5084,7 @@ def ncei_ish(stationid, start_date=None, end_date=None):
     return final
 
 
-# @cltoolbox.command("ncei_cirs", formatter_class=HelpFormatter)
-def ncei_cirs_cli(elements=None, by_state=False, location_names="abbr"):
+def ncei_cirs(elements=None, by_state=False, location_names="abbr"):
     """global station: Retrieves climate indices
 
     Parameters
@@ -5284,14 +5139,6 @@ def ncei_cirs_cli(elements=None, by_state=False, location_names="abbr"):
         to None, then no location name will be added and the only identifier
         will be the location_codes (this is the most memory-conservative
         option)."""
-    tsutils.printiso(
-        ncei_cirs(elements=elements, by_state=by_state, location_names=location_names)
-    )
-
-
-@tsutils.copy_doc(ncei_cirs_cli)
-def ncei_cirs(elements=None, by_state=False, location_names="abbr"):
-    """global station: Retrieves climate indices"""
     # df = df.set_index("period")
     # df.index = pd.PeriodIndex(df.index)
     # df.index.name = "Datetime"

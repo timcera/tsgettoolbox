@@ -5,9 +5,7 @@ terraclimate        global 1/24deg 1958- M:Download monthly data from
 
 # http://thredds.northwestknowledge.net:8080/thredds/terraclimate_aggregated.html
 
-import cltoolbox
 import pandas as pd
-from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 from tsgettoolbox import utils
@@ -116,16 +114,16 @@ _avail_vars = {
 }
 
 
-@cltoolbox.command("terraclimate", formatter_class=HelpFormatter)
+@tsutils.transform_args(start_date=pd.to_datetime, end_date=pd.to_datetime)
 @tsutils.doc(tsutils.docstrings)
-def terraclimate_cli(
+def terraclimate(
     lat: float,
     lon: float,
     variables=None,
     start_date=None,
     end_date=None,
 ):
-    r"""global 1/24deg 1958- M:Download monthly data from Terraclimate.
+    r"""global:1/24deg:1958-:M:Download monthly data from Terraclimate.
 
     method: These layers from TerraClimate were derived from the essential
     climate variables of TerraClimate. Water balance variables, actual
@@ -254,27 +252,6 @@ def terraclimate_cli(
 
     ${end_date}
     """
-    tsutils.printiso(
-        terraclimate(
-            lat,
-            lon,
-            variables=variables,
-            start_date=start_date,
-            end_date=end_date,
-        )
-    )
-
-
-@tsutils.transform_args(start_date=pd.to_datetime, end_date=pd.to_datetime)
-@tsutils.copy_doc(terraclimate_cli)
-def terraclimate(
-    lat: float,
-    lon: float,
-    variables=None,
-    start_date=None,
-    end_date=None,
-):
-    r"""Download terraclimate data."""
     if variables is None:
         variables = sorted(_avail_vars.keys())
     else:

@@ -6,10 +6,8 @@ fawn                US/FL 15T,H,D,M:Florida Automated Weather Network
 import datetime
 from contextlib import suppress
 
-import cltoolbox
 import mechanize
 import pandas as pd
-from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 from toolbox_utils import tsutils
 
 __all__ = ["fawn"]
@@ -169,16 +167,41 @@ for key in vars__:
 # units_table = "\n".join(["        {0}".format(i) for i in units_table.split("\n")])
 
 
-@cltoolbox.command("fawn", formatter_class=HelpFormatter)
+def core(data):
+    """Download a chunk of data."""
+    br = mechanize.Browser()
+    br.open("https://fawn.ifas.ufl.edu/data/reports/")
+    br.select_form(nr=0)
+    for key in data:
+        if "locs__" in key or "vars__" in key:
+            br.form.toggle_single(type="checkbox", name=key)
+    br.form["presetRange"] = ["dates"]
+    br.form["fromDate_y"] = [str(data["fromDate_y"])]
+    br.form["fromDate_m"] = [str(data["fromDate_m"])]
+    br.form["fromDate_d"] = [str(data["fromDate_d"])]
+    br.form["toDate_y"] = [str(data["toDate_y"])]
+    br.form["toDate_m"] = [str(data["toDate_m"])]
+    br.form["toDate_d"] = [str(data["toDate_d"])]
+    br.form["reportType"] = [data["reportType"]]
+    response = br.submit(nr=1)
+
+    for line in response.readlines():
+        if b"Cancelled CSV output due to lack of data" in line:
+            return pd.DataFrame()
+
+    response.seek(0)
+    return pd.read_csv(response, index_col=[0, 1], parse_dates=True)
+
+
 @tsutils.doc(tsutils.docstrings)
-def fawn_cli(
+def fawn(
     stations,
     variables,
     reportType,
     start_date=datetime.datetime(1998, 1, 1),
     end_date=datetime.datetime.now(),
 ):
-    r"""US/FL 15T,H,D,M:Florida Automated Weather Network (FAWN)
+    r"""US/FL:station::15T,H,D,M:Florida Automated Weather Network (FAWN)
 
     Parameters
     ----------
@@ -280,52 +303,6 @@ def fawn_cli(
 
     ${end_date}
     """
-    tsutils.printiso(
-        fawn(
-            stations,
-            variables,
-            reportType,
-            start_date=start_date,
-            end_date=end_date,
-        )
-    )
-
-
-def core(data):
-    """Download a chunk of data."""
-    br = mechanize.Browser()
-    br.open("https://fawn.ifas.ufl.edu/data/reports/")
-    br.select_form(nr=0)
-    for key in data:
-        if "locs__" in key or "vars__" in key:
-            br.form.toggle_single(type="checkbox", name=key)
-    br.form["presetRange"] = ["dates"]
-    br.form["fromDate_y"] = [str(data["fromDate_y"])]
-    br.form["fromDate_m"] = [str(data["fromDate_m"])]
-    br.form["fromDate_d"] = [str(data["fromDate_d"])]
-    br.form["toDate_y"] = [str(data["toDate_y"])]
-    br.form["toDate_m"] = [str(data["toDate_m"])]
-    br.form["toDate_d"] = [str(data["toDate_d"])]
-    br.form["reportType"] = [data["reportType"]]
-    response = br.submit(nr=1)
-
-    for line in response.readlines():
-        if b"Cancelled CSV output due to lack of data" in line:
-            return pd.DataFrame()
-
-    response.seek(0)
-    return pd.read_csv(response, index_col=[0, 1], parse_dates=True)
-
-
-@tsutils.copy_doc(fawn_cli)
-def fawn(
-    stations,
-    variables,
-    reportType,
-    start_date=datetime.datetime(1998, 1, 1),
-    end_date=datetime.datetime.now(),
-):
-    r"""Download data from FAWN."""
     interval = {"all": 10, "hourly": 40, "daily": 366, "monthly": 8000}
     data = {
         "start_date": tsutils.parsedate(start_date),
