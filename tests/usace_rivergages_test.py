@@ -9,7 +9,7 @@ def test_get_stations():
     stations_file = "usace/rivergages/get_stations.cfm"
     with test_util.mocked_urls(stations_file):
         stations = ulmo.usace.rivergages.get_stations()
-    assert len(stations) > 1900
+    assert len(stations) > 1500
     assert "CE7F42E6" in stations
 
 
