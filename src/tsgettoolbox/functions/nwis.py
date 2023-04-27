@@ -903,21 +903,11 @@ _NA_VALUES = ["Dis", "Eqp", "Rat"]
 # p95_va
 
 
-def _read_rdb(url, data):
+def _read_rdb(url, kwds):
     """Read a USGS RDB file."""
-    # parameter_cd	parameter_group_nm	parameter_nm	casrn	srsname	parameter_units
-    pmcodes = pd.read_csv(
-        os.path.join(os.path.dirname(__file__), "../station_metadata/nwis_pmcodes.dat"),
-        comment="#",
-        header=0,
-        sep="\t",
-        dtype={0: str},
-        na_values=_NA_VALUES,
-    )
-    pmcodes.set_index("parameter_cd", inplace=True)
-    data = [{key: val for key, val in i.items() if val is not None} for i in data]
+    kwds = [{key: val for key, val in i.items() if val is not None} for i in kwds]
     resp = ar.retrieve_text(
-        [url] * len(data), [{"params": {**p, "format": "rdb"}} for p in data]
+        [url] * len(kwds), [{"params": {**p, "format": "rdb"}} for p in kwds]
     )
 
     if "503 Service Unavailable" in resp[0]:
@@ -927,7 +917,10 @@ def _read_rdb(url, data):
     data = [t.split("\t") for d in data for t in d if "#" not in t]
     if not data:
         raise ValueError()
-    rdb_df = pd.DataFrame.from_dict(dict(zip(data[0], d)) for d in data[2:])
+
+    column_names, _, *record = data
+
+    rdb_df = pd.DataFrame.from_dict(dict(zip(column_names, d)) for d in record)
 
     rdb_df = rdb_df.replace(to_replace="<NA>", value=pd.NA)
 
