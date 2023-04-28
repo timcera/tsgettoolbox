@@ -164,9 +164,7 @@ def _as_data_dict(dataframe):
         for name, group in state_dataframe.groupby(["state", "climate_division"]):
             s, climate_division = name
             climate_division_data = group.T.drop(["state", "climate_division"])
-            values = [
-                _value_dict(value) for k, value in climate_division_data.iteritems()
-            ]
+            values = [_value_dict(value) for k, value in climate_division_data.items()]
             state_dict[climate_division] = values
         data_dict[state] = state_dict
     return data_dict
