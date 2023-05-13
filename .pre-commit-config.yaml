@@ -23,7 +23,7 @@ repos:
             exclude: notebooks/tstoolbox_plot_bash.sh
 
     - repo: https://github.com/pappasam/toml-sort
-      rev: v0.23.0
+      rev: v0.23.1
       hooks:
           - id: toml-sort-fix
             args: [--in-place, --spaces-indent-inline-array, '4']
@@ -35,7 +35,7 @@ repos:
             args: [--format, parsable, --strict]
 
     - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
-      rev: 0.2.2
+      rev: 0.2.3
       hooks:
           - id: yamlfmt
 
@@ -82,12 +82,12 @@ repos:
           - id: blacken-docs
 
     - repo: https://github.com/asottile/pyupgrade
-      rev: v3.3.2
+      rev: v3.4.0
       hooks:
           - id: pyupgrade
 
     - repo: https://github.com/commitizen-tools/commitizen
-      rev: 3.1.0
+      rev: 3.2.2
       hooks:
           - id: commitizen
             stages: [commit-msg]

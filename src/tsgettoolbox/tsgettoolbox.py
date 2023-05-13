@@ -1148,6 +1148,7 @@ def main():
             )
         )
 
+    @cltoolbox.command("about")
     def about():
         r"""Print out information about tsgettoolbox and the system."""
         from toolbox_utils import tsutils
