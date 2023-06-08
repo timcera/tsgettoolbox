@@ -957,7 +957,7 @@ tzmap = {
 def normalize_tz(row, tz_cd):
     """Assign the correct time zone to the data."""
     try:
-        return row["Datetime"].tz_localize(tzmap[row[tz_cd]])
+        return row["Datetime"].tz_localize(tzmap[row[tz_cd]], ambiguous=True)
     except KeyError:
         return row["Datetime"]
 
@@ -978,6 +978,7 @@ def usgs_iv_dv_rdb_to_df(url, **kwargs):
         ndf["Datetime"] = ndf.apply(normalize_tz, args=("tz_cd",), axis=1)
         ndf.drop("tz_cd", axis="columns", inplace=True)
 
+    ndf = ndf.drop_duplicates(subset="Datetime", keep="first")
     ndf.set_index(["agency_cd", "site_no", "Datetime"], inplace=True)
     ndf = ndf.unstack(level=["site_no", "agency_cd"])
 
@@ -2591,6 +2592,15 @@ if __name__ == "__main__":
         endDT="2017-12-30",
     )
     print("USGS_GWLEVELS multiple")
+    print(R)
+
+    R = usgs_iv_dv_rdb_to_df(
+        r"http://waterservices.usgs.gov/nwis/iv/",
+        sites="02325000",
+        startDT="2015-07-01",
+        endDT="2016-07-30",
+    )
+    print("USGS_IV single over a year")
     print(R)
 
     R = usgs_iv_dv_rdb_to_df(
