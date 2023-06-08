@@ -1,3 +1,14 @@
+## v25.1.6 (2023-06-08)
+
+### Fix
+
+- **nwis_iv**: corrected tz_locallize to handle DST transitions
+- isolated cltoolbox.command calls to only register command line functions when run from the command line and not when imported
+
+### Perf
+
+- **nwis.py**: removed unneeeded code that read the pmcodes file, but then did nothing and refactor names to be clearer
+
 ## v25.1.5 (2023-02-14)
 
 ## v25.1.4 (2023-02-14)
