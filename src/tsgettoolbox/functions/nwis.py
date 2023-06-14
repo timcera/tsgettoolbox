@@ -1808,92 +1808,95 @@ def nwis_measurements(
     ${filter_descriptions}
     **Results**
 
-    +---------------------------+-------------------------------------------+
-    | Column                    | Description                               |
-    +===========================+===========================================+
-    | agency_cd                 | Agency code                               |
-    +---------------------------+-------------------------------------------+
-    | site_no                   | Site number                               |
-    +---------------------------+-------------------------------------------+
-    | measurement_nu            | Measurement number                        |
-    +---------------------------+-------------------------------------------+
-    | measurement_dt            | date of measurement (format = MMDDYYYY    |
-    |                           | or Month/Day/Year. The user has options   |
-    |                           | for the data output format)               |
-    +---------------------------+-------------------------------------------+
-    | tz_cd                     | Time zone offset. An ANSI SQL/92 time     |
-    |                           | zone offset string. Some examples are     |
-    |                           | '-07:00' (Eastern), '+02:00' (Eastern     |
-    |                           | Europe), and '+03:30' (India).            |
-    +---------------------------+-------------------------------------------+
-    | q_meas_used_fg            | Flag indicates if the discharge           |
-    |                           | measurement is marked used.               |
-    +---------------------------+-------------------------------------------+
-    | party_nm                  | an indication of who made the             |
-    |                           | measurement and is usually populated with |
-    |                           | a pair of initials separated with a slash |
-    +---------------------------+-------------------------------------------+
-    | site_visit_coll_agency_cd | What agency made the measurement at the   |
-    |                           | site visit                                |
-    +---------------------------+-------------------------------------------+
-    | gage_height_va            | gage height as shown on the inside staff  |
-    |                           | gage at the site or read off the recorder |
-    |                           | inside the gage house in feet             |
-    +---------------------------+-------------------------------------------+
-    | discharge_va              | the computed discharge in cubic feet per  |
-    |                           | second (cfs)                              |
-    +---------------------------+-------------------------------------------+
-    | measured_rating_diff      | measurement rating codes that denote the  |
-    |                           | relative quality of the measurement       |
-    +---------------------------+-------------------------------------------+
-    | gage_va_change            | The amount the gage height changed while  |
-    |                           | the measurement was being made in feet    |
-    +---------------------------+-------------------------------------------+
-    | gage_va_time              | The amount of time elapsed while the      |
-    |                           | measurement was being made in decimal     |
-    |                           | hours                                     |
-    +---------------------------+-------------------------------------------+
-    | control_type_cd           | condition of the rating control at the    |
-    |                           | time of the measurement                   |
-    +---------------------------+-------------------------------------------+
-    | discharge_cd              | The adjustment code for the measured      |
-    |                           | discharge                                 |
-    +---------------------------+-------------------------------------------+
-    | chan_nu                   | The channel number                        |
-    +---------------------------+-------------------------------------------+
-    | chan_name                 | The channel name                          |
-    +---------------------------+-------------------------------------------+
-    | meas_type                 | The channel measurement type              |
-    +---------------------------+-------------------------------------------+
-    | streamflow_method         | The channel discharge measurement method  |
-    +---------------------------+-------------------------------------------+
-    | velocity_method           | The channel velocity measurement method   |
-    +---------------------------+-------------------------------------------+
-    | chan_discharge            | The channel discharge in cubic feet per   |
-    |                           | second                                    |
-    +---------------------------+-------------------------------------------+
-    | chan_width                | The channel width in feet                 |
-    +---------------------------+-------------------------------------------+
-    | chan_area                 | The channel area in square feet           |
-    +---------------------------+-------------------------------------------+
-    | chan_velocity             | The mean velocity in feet per second      |
-    +---------------------------+-------------------------------------------+
-    | chan_stability            | The stability of the channel material     |
-    +---------------------------+-------------------------------------------+
-    | chan_material             | The channel material                      |
-    +---------------------------+-------------------------------------------+
-    | chan_evenness             | The channel evenness from bank to bank    |
-    +---------------------------+-------------------------------------------+
-    | long_vel_desc             | The longitudinal velocity description     |
-    +---------------------------+-------------------------------------------+
-    | horz_vel_desc             | The horizontal velocity description       |
-    +---------------------------+-------------------------------------------+
-    | vert_vel_desc             | The vertical velocity description         |
-    +---------------------------+-------------------------------------------+
-    | chan_loc_cd               | The channel location code                 |
-    +---------------------------+-------------------------------------------+
-    | chan_loc_dist             | The channel location distance             |
-    +---------------------------+-------------------------------------------+
+    +---------------------------+-----------------------------------------+
+    | Column                    | Description                             |
+    +===========================+=========================================+
+    | agency_cd                 | Agency code                             |
+    +---------------------------+-----------------------------------------+
+    | site_no                   | Site number                             |
+    +---------------------------+-----------------------------------------+
+    | measurement_nu            | Measurement number                      |
+    +---------------------------+-----------------------------------------+
+    | measurement_dt            | date of measurement (format = MMDDYYYY  |
+    |                           | or Month/Day/Year. The user has options |
+    |                           | for the data output format)             |
+    +---------------------------+-----------------------------------------+
+    | tz_cd                     | Time zone offset. An ANSI SQL/92 time   |
+    |                           | zone offset string. Some examples are   |
+    |                           | '-07:00' (Eastern), '+02:00' (Eastern   |
+    |                           | Europe), and '+03:30' (India).          |
+    +---------------------------+-----------------------------------------+
+    | q_meas_used_fg            | Flag indicates if the discharge         |
+    |                           | measurement is marked used.             |
+    +---------------------------+-----------------------------------------+
+    | party_nm                  | an indication of who made the           |
+    |                           | measurement and is usually populated    |
+    |                           | with a pair of initials separated with  |
+    |                           | a slash                                 |
+    +---------------------------+-----------------------------------------+
+    | site_visit_coll_agency_cd | What agency made the measurement at the |
+    |                           | site visit                              |
+    +---------------------------+-----------------------------------------+
+    | gage_height_va            | gage height as shown on the inside      |
+    |                           | staff gage at the site or read off the  |
+    |                           | recorder inside the gage house in feet  |
+    +---------------------------+-----------------------------------------+
+    | discharge_va              | the computed discharge in cubic feet    |
+    |                           | per second (cfs)                        |
+    +---------------------------+-----------------------------------------+
+    | measured_rating_diff      | measurement rating codes that denote    |
+    |                           | the relative quality of the measurement |
+    +---------------------------+-----------------------------------------+
+    | gage_va_change            | The amount the gage height changed      |
+    |                           | while the measurement was being made in |
+    |                           | feet                                    |
+    +---------------------------+-----------------------------------------+
+    | gage_va_time              | The amount of time elapsed while the    |
+    |                           | measurement was being made in decimal   |
+    |                           | hours                                   |
+    +---------------------------+-----------------------------------------+
+    | control_type_cd           | condition of the rating control at the  |
+    |                           | time of the measurement                 |
+    +---------------------------+-----------------------------------------+
+    | discharge_cd              | The adjustment code for the measured    |
+    |                           | discharge                               |
+    +---------------------------+-----------------------------------------+
+    | chan_nu                   | The channel number                      |
+    +---------------------------+-----------------------------------------+
+    | chan_name                 | The channel name                        |
+    +---------------------------+-----------------------------------------+
+    | meas_type                 | The channel measurement type            |
+    +---------------------------+-----------------------------------------+
+    | streamflow_method         | The channel discharge measurement       |
+    |                           | method                                  |
+    +---------------------------+-----------------------------------------+
+    | velocity_method           | The channel velocity measurement method |
+    +---------------------------+-----------------------------------------+
+    | chan_discharge            | The channel discharge in cubic feet per |
+    |                           | second                                  |
+    +---------------------------+-----------------------------------------+
+    | chan_width                | The channel width in feet               |
+    +---------------------------+-----------------------------------------+
+    | chan_area                 | The channel area in square feet         |
+    +---------------------------+-----------------------------------------+
+    | chan_velocity             | The mean velocity in feet per second    |
+    +---------------------------+-----------------------------------------+
+    | chan_stability            | The stability of the channel material   |
+    +---------------------------+-----------------------------------------+
+    | chan_material             | The channel material                    |
+    +---------------------------+-----------------------------------------+
+    | chan_evenness             | The channel evenness from bank to bank  |
+    +---------------------------+-----------------------------------------+
+    | long_vel_desc             | The longitudinal velocity description   |
+    +---------------------------+-----------------------------------------+
+    | horz_vel_desc             | The horizontal velocity description     |
+    +---------------------------+-----------------------------------------+
+    | vert_vel_desc             | The vertical velocity description       |
+    +---------------------------+-----------------------------------------+
+    | chan_loc_cd               | The channel location code               |
+    +---------------------------+-----------------------------------------+
+    | chan_loc_dist             | The channel location distance           |
+    +---------------------------+-----------------------------------------+
 
     https://help.waterdata.usgs.gov/output-formats#streamflow_measurement_data
 

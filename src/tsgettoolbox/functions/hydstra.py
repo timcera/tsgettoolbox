@@ -16,15 +16,17 @@ hydstra_docstrings = {
         a direct URL (normally up to but not including a '?') or it can be one
         of the following predetermined server names.
 
-        +-------------+--------------------------------------------------------+
-        | Name        | Description                                            |
-        +=============+========================================================+
-        | sjrwmd      | St. Johns Water Management District, Florida, USA      |
-        |             | https://secure.sjrwmd.com/hydweb/cgi/webservice.exe    |
-        +-------------+--------------------------------------------------------+
-        | orangeco_ca | Orange County Public Works, California USA             |
-        |             | http://Hydstra.OCPublicWorks.com/cgi/webservice.exe    |
-        +-------------+--------------------------------------------------------+""",
+        +-------------+-----------------------------------------------------+
+        | Name        | Description                                         |
+        +=============+=====================================================+
+        | sjrwmd      | St. Johns Water Management District, Florida, USA   |
+        |             | https://secure.sjrwmd.com/hydweb/cgi/webservice.exe |
+        +-------------+-----------------------------------------------------+
+        | orangeco_ca | Orange County Public Works, California USA          |
+        |             | http://Hydstra.OCPublicWorks.com/cgi/webservice.exe |
+        +-------------+-----------------------------------------------------+
+
+    """,
     "station": r"""station
         This should be the short 'station identifier', not the longer 'station
         name'.""",

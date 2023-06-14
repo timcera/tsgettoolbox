@@ -397,8 +397,8 @@ def metdata(
         At the command line can supply a comma separated list of variable
         names.  Using the Python API needs to be a Python list of strings.
 
-        The current list of available METDATA variables are in the following table and
-        you can use either the "Short" or "Long" names.
+        The current list of available METDATA variables are in the
+        following table and you can use either the "Short" or "Long" names.
 
         +----------+----------------------------------------------------+-------+
         | Short    | Long                                               | Units |

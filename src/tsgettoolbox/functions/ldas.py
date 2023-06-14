@@ -533,6 +533,7 @@ ${units_table}
 
 
 _META_HEADER = r"""
+
         +-------------------------------+-------------+---------------+
         | Description/Name              | Spatial     | Time          |
         +===============================+=============+===============+"""
@@ -684,49 +685,50 @@ ldas = foundation_api(
             _SMERGE_META,
             _TRMM_TMPA_META,
         ]
-    ),
+    )
+    + "\n",
 )
 
 ldas_gldas_noah = foundation_api(
     "ldas_gldas_noah",
     units_table=make_units_table(_GLDAS_NOAH),
     first_line=gldas_noah_first_line,
-    meta_table=_META_HEADER + _GLDAS_NOAH_META,
+    meta_table=_META_HEADER + _GLDAS_NOAH_META + "\n",
 )
 
 ldas_grace = foundation_api(
     "ldas_grace",
     units_table=make_units_table(_GRACE),
     first_line=grace_first_line,
-    meta_table=_META_HEADER + _GRACE_META,
+    meta_table=_META_HEADER + _GRACE_META + "\n",
 )
 
 ldas_merra = foundation_api(
     "ldas_merra",
     units_table=make_units_table(_MERRA),
     first_line=merra_first_line,
-    meta_table=_META_HEADER + _MERRA_META,
+    meta_table=_META_HEADER + _MERRA_META + "\n",
 )
 
 ldas_merra_update = foundation_api(
     "ldas_merra_update",
     units_table=make_units_table(_MERRA_UPDATE),
     first_line=merra_update_first_line,
-    meta_table=_META_HEADER + _MERRA_UPDATE_META,
+    meta_table=_META_HEADER + _MERRA_UPDATE_META + "\n",
 )
 
 ldas_nldas_fora = foundation_api(
     "ldas_nldas_fora",
     units_table=make_units_table(_NLDAS_FORA),
     first_line=nldas_fora_first_line,
-    meta_table=_META_HEADER + _NLDAS_FORA_META,
+    meta_table=_META_HEADER + _NLDAS_FORA_META + "\n",
 )
 
 ldas_nldas_noah = foundation_api(
     "ldas_nldas_noah",
     units_table=make_units_table(_NLDAS_NOAH),
     first_line=nldas_noah_first_line,
-    meta_table=_META_HEADER + _NLDAS_NOAH_META,
+    meta_table=_META_HEADER + _NLDAS_NOAH_META + "\n",
 )
 
 # ldas_amsre_rzsm3 = foundation_api(
@@ -740,14 +742,14 @@ ldas_smerge = foundation_api(
     "ldas_smerge",
     units_table=make_units_table(_SMERGE),
     first_line=smerge_first_line,
-    meta_table=_META_HEADER + _SMERGE_META,
+    meta_table=_META_HEADER + _SMERGE_META + "\n",
 )
 
 ldas_trmm_tmpa = foundation_api(
     "ldas_trmm_tmpa",
     units_table=make_units_table(_TRMM_TMPA),
     first_line=trmm_tmpa_first_line,
-    meta_table=_META_HEADER + _TRMM_TMPA_META,
+    meta_table=_META_HEADER + _TRMM_TMPA_META + "\n",
 )
 
 

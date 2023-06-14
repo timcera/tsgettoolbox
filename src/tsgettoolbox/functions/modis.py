@@ -170,7 +170,7 @@ _MISSING = {
     "RelativeAzimuth": 0,
     "SensorZenith": 0,
     "SolarZenith": 0,
-    "SurfReflect_Day_Of_Year": 65535,
+    "SurfReflect_day_of_year": 65535,
     "SurfReflect_M1": -28672,
     "SurfReflect_M10": -28672,
     "SurfReflect_M11": -28672,
@@ -435,8 +435,8 @@ _UNITS = {
     "MidGreendown.Num_Modes_02": "days_since_1970-01-01",
     "MidGreenup.Num_Modes_01": "days_since_1970-01-01",
     "MidGreenup.Num_Modes_02": "days_since_1970-01-01",
-    "FparExtra_QC": "class-flag",
-    "FparLai_QC": "class-flag",
+    "FparExtra_QC": "class_flag",
+    "FparLai_QC": "class_flag",
     "FparStdDev_500m": "percent",
     "Fpar_500m": "percent",
     "LaiStdDev_500m": "m^2/m^2",
@@ -451,13 +451,13 @@ _UNITS = {
     "BDRF_Albedo_Band_Mandatory_Quality_nir": "bit_field",
     "BDRF_Albedo_Band_Mandatory_Quality_shortwave": "bit_field",
     "BDRF_Albedo_Band_Mandatory_Quality_vis": "bit_field",
-    "BRDF_Albedo_Band_Mandatory_Quality_Band1": "concatenated flags",
-    "BRDF_Albedo_Band_Mandatory_Quality_Band2": "concatenated flags",
-    "BRDF_Albedo_Band_Mandatory_Quality_Band3": "concatenated flags",
-    "BRDF_Albedo_Band_Mandatory_Quality_Band4": "concatenated flags",
-    "BRDF_Albedo_Band_Mandatory_Quality_Band5": "concatenated flags",
-    "BRDF_Albedo_Band_Mandatory_Quality_Band6": "concatenated flags",
-    "BRDF_Albedo_Band_Mandatory_Quality_Band7": "concatenated flags",
+    "BRDF_Albedo_Band_Mandatory_Quality_Band1": "concatenated_flags",
+    "BRDF_Albedo_Band_Mandatory_Quality_Band2": "concatenated_flags",
+    "BRDF_Albedo_Band_Mandatory_Quality_Band3": "concatenated_flags",
+    "BRDF_Albedo_Band_Mandatory_Quality_Band4": "concatenated_flags",
+    "BRDF_Albedo_Band_Mandatory_Quality_Band5": "concatenated_flags",
+    "BRDF_Albedo_Band_Mandatory_Quality_Band6": "concatenated_flags",
+    "BRDF_Albedo_Band_Mandatory_Quality_Band7": "concatenated_flags",
     "Burn_Date": "day_of_year",
     "Burn_Date_Uncertainty": "days",
     "First_Day": "day_of_year",
@@ -492,7 +492,7 @@ _UNITS = {
     "250m_16_days_sun_zenith_angle": "degrees",
     "250m_16_days_view_zenith_angle": "degrees",
     "250m_16_days_VI_Quality": "bit_field",
-    "FireMask": "class-flag",
+    "FireMask": "class_flag",
     "ET_500m": "kg/m^2/8day",
     "LE_500m": "J/m^2/day",
     "PET_500m": "kg/m^2/8day",
@@ -521,7 +521,7 @@ _UNITS = {
     "RelativeAzimuth": "degree",
     "SensorZenith": "degree",
     "SolarZenith": "degree",
-    "SurfReflect_Day_Of_Year": "day_of_year",
+    "SurfReflect_day_of_year": "day_of_year",
     "SurfReflect_M1": "reflectance",
     "SurfReflect_M10": "reflectance",
     "SurfReflect_M11": "reflectance",
@@ -676,7 +676,7 @@ _VALID_RANGE = {
     "sur_refl_b05": [-100, 16000],
     "sur_refl_b06": [-100, 16000],
     "sur_refl_b07": [-100, 16000],
-    "sur_refl_day_of_year": [0, 366],
+    "sur_refl_day of year": [0, 366],
     "sur_refl_qc_500m": [0, 4294966531],
     "sur_refl_raz": [-18000, 18000],
     "sur_refl_state_500m": [0, 57343],
@@ -734,7 +734,7 @@ _VALID_RANGE = {
     "RelativeAzimuth": [-18000, 18000],
     "SensorZenith": [0, 18000],
     "SolarZenith": [0, 18000],
-    "SurfReflect_Day_Of_Year": [1, 366],
+    "SurfReflect_day of year": [1, 366],
     "SurfReflect_M1": [-100, 16000],
     "SurfReflect_M10": [-100, 16000],
     "SurfReflect_M11": [-100, 16000],
@@ -857,23 +857,21 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
 
     Land Cover Datasets
 
-    +-------------------+----------+---------------------------+
-    | Band              | Abbrev   | Description               |
-    +===================+==========+===========================+
-    | Land_Cover_Type_1 | IGBP     | global vegetation         |
-    |                   |          | classification scheme     |
-    +-------------------+----------+---------------------------+
-    | Land_Cover_Type_2 | UMD      | University of Maryland    |
-    |                   |          | scheme                    |
-    +-------------------+----------+---------------------------+
-    | Land_Cover_Type_3 | LAI/fPAR | MODIS-derived scheme      |
-    +-------------------+----------+---------------------------+
-    | Land_Cover_Type_4 | NPP      | MODIS-derived Net Primary |
-    |                   |          | Production (NPP) scheme   |
-    +-------------------+----------+---------------------------+
-    | Land_Cover_Type_5 | PFT      | Plant Functional Type     |
-    |                   |          | (PFT) scheme              |
-    +-------------------+----------+---------------------------+
+    +-------------------+----------+-------------------------------------+
+    | Band              | Abbrev   | Description                         |
+    +===================+==========+=====================================+
+    | Land_Cover_Type_1 | IGBP     | global vegetation classification    |
+    |                   |          | scheme                              |
+    +-------------------+----------+-------------------------------------+
+    | Land_Cover_Type_2 | UMD      | University of Maryland scheme       |
+    +-------------------+----------+-------------------------------------+
+    | Land_Cover_Type_3 | LAI/fPAR | MODIS-derived scheme                |
+    +-------------------+----------+-------------------------------------+
+    | Land_Cover_Type_4 | NPP      | MODIS-derived Net Primary           |
+    |                   |          | Production (NPP) scheme             |
+    +-------------------+----------+-------------------------------------+
+    | Land_Cover_Type_5 | PFT      | Plant Functional Type (PFT) scheme  |
+    +-------------------+----------+-------------------------------------+
 
     Land Cover Types Description
 
@@ -964,143 +962,150 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         One of the following values in the 'product'
         column.
 
-        +--------------+---------------------------+-------------+--------------+
-        | product      | Description               | Frequency   |   Resolution |
-        |              |                           |             |          (m) |
-        +==============+===========================+=============+==============+
-        | ECO4ESIPTJPL | ECOSTRESS Evaporative     | Varies      |           70 |
-        |              | Stress Index PT-JPL (ESI) |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | ECO4WUE      | ECOSTRESS Water Use       | Varies      |           70 |
-        |              | Efficiency (WUE)          |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | GEDI03       | GEDI Gridded Land Surface | One-time    |         1000 |
-        |              | Metrics (LSM)             |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | GEDI04_B     | GEDI Gridded Aboveground  | One-time    |         1000 |
-        |              | Biomass Density (AGBD)    |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MCD12Q1      | MODIS/Terra+Aqua Land     | Yearly      |          500 |
-        |              | Cover Type (LC)           |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MCD12Q2      | MODIS/Terra+Aqua Land     | Yearly      |          500 |
-        |              | Cover Dynamics (LCD)      |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MCD15A2H     | MODIS/Terra+Aqua Leaf     | 8-Day       |          500 |
-        |              | Area Index/FPAR           |             |              |
-        |              | (LAI/FPAR)                |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MCD15A3H     | MODIS/Terra+Aqua Leaf     | 4-Day       |          500 |
-        |              | Area Index/FPAR           |             |              |
-        |              | (LAI/FPAR)                |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MCD19A3      | MODIS/Terra+Aqua BRDF     | 8-Day       |         1000 |
-        |              | Model Parameters (MAIAC)  |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MCD43A       | MODIS/Terra+Aqua BRDF and | Daily       |          500 |
-        |              | Calculated Albedo         |             |              |
-        |              | (BRDF/MCD43A)             |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MCD43A1      | MODIS/Terra+Aqua          | Daily       |          500 |
-        |              | BRDF/Albedo Model         |             |              |
-        |              | Parameters (BRDF)         |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MCD43A4      | MODIS/Terra+Aqua Nadir    | Daily       |          500 |
-        |              | BRDF-Adjusted Reflectance |             |              |
-        |              | (NBAR)                    |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MCD64A1      | MODIS/Terra+Aqua Burned   | Monthly     |          500 |
-        |              | Area (Burned Area)        |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MOD09A1      | MODIS/Terra Surface       | 8-Day       |          500 |
-        |              | Reflectance (SREF)        |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MOD11A2      | MODIS/Terra Land Surface  | 8-Day       |         1000 |
-        |              | Temperature and           |             |              |
-        |              | Emissivity (LST)          |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MOD13Q1      | MODIS/Terra Vegetation    | 16-Day      |          250 |
-        |              | Indices (NDVI/EVI)        |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MOD14A2      | MODIS/Terra Thermal       | 8-Day       |         1000 |
-        |              | Anomalies/Fire (Fire)     |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MOD15A2H     | MODIS/Terra Leaf Area     | 8-Day       |          500 |
-        |              | Index/FPAR (LAI/FPAR)     |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MOD16A2      | MODIS/Terra Net           | 8-Day       |          500 |
-        |              | Evapotranspiration (ET)   |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MOD17A2H     | MODIS/Terra Gross Primary | 8-Day       |          500 |
-        |              | Productivity (GPP)        |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MOD17A3HGF   | MODIS/Terra Net Primary   | Yearly      |          500 |
-        |              | Production Gap-Filled     |             |              |
-        |              | (NPP)                     |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MOD21A2      | MODIS/Terra Land Surface  | 8-Day       |         1000 |
-        |              | Temperature/3-Band        |             |              |
-        |              | Emissivity (LSTE)         |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MOD44B       | MODIS/Terra Vegetation    | Yearly      |          250 |
-        |              | Continuous Fields (VCF)   |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MYD09A1      | MODIS/Aqua Surface        | 8-Day       |          500 |
-        |              | Reflectance (SREF)        |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MYD11A2      | MODIS/Aqua Land Surface   | 8-Day       |         1000 |
-        |              | Temperature and           |             |              |
-        |              | Emissivity (LST)          |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MYD13Q1      | MODIS/Aqua Vegetation     | 16-Day      |          250 |
-        |              | Indices (NDVI/EVI)        |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MYD14A2      | MODIS/Aqua Thermal        | 8-Day       |         1000 |
-        |              | Anomalies/Fire (Fire)     |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MYD15A2H     | MODIS/Aqua Leaf Area      | 8-Day       |          500 |
-        |              | Index/FPAR (LAI/FPAR)     |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MYD16A2      | MODIS/Aqua Net            | 8-Day       |          500 |
-        |              | Evapotranspiration (ET)   |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MYD17A2H     | MODIS/Aqua Gross Primary  | 8-Day       |          500 |
-        |              | Productivity (GPP)        |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MYD17A3HGF   | MODIS/Aqua Net Primary    | Yearly      |          500 |
-        |              | Production Gap-Filled     |             |              |
-        |              | (NPP)                     |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | MYD21A2      | MODIS/Aqua Land Surface   | 8-Day       |         1000 |
-        |              | Temperature/3-Band        |             |              |
-        |              | Emissivity (LSTE)         |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | SIF005       | SIF Estimates from Fused  | Monthly     |         5000 |
-        |              | SCIAMACHY and GOME-2      |             |              |
-        |              | (SIF)                     |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | SIF_ANN      | SIF Estimates from OCO-2  | 16-day      |         5000 |
-        |              | SIF and MODIS (SIF)       |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | VNP09A1      | VIIRS/S-NPP Surface       | 8-Day       |         1000 |
-        |              | Reflectance (SREF)        |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | VNP09H1      | VIIRS/S-NPP Surface       | 8-Day       |          500 |
-        |              | Reflectance (SREF)        |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | VNP13A1      | VIIRS/S-NPP Vegetation    | 16-Day      |          500 |
-        |              | Indices (NDVI/EVI)        |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | VNP15A2H     | VIIRS/S-NPP Leaf Area     | 8-Day       |          500 |
-        |              | Index/FPAR (LAI/FPAR)     |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | VNP21A2      | VIIRS/S-NPP Land Surface  | 8-Day       |         1000 |
-        |              | Temperature and           |             |              |
-        |              | Emissivity (LSTE)         |             |              |
-        +--------------+---------------------------+-------------+--------------+
-        | VNP22Q2      | VIIRS/S-NPP Land Cover    | Yearly      |          500 |
-        |              | Dynamics (LCD)            |             |              |
-        +--------------+---------------------------+-------------+--------------+
+        +--------------+-------------------------+-----------+------------+
+        | product      | Description             | Frequency | Resolution |
+        |              |                         |           | (m)        |
+        +==============+=========================+===========+============+
+        | ECO4ESIPTJPL | ECOSTRESS Evaporative   | Varies    | 70         |
+        |              | Stress Index PT-JPL     |           |            |
+        |              | (ESI)                   |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | ECO4WUE      | ECOSTRESS Water Use     | Varies    | 70         |
+        |              | Efficiency (WUE)        |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | GEDI03       | GEDI Gridded Land       | One-time  | 1000       |
+        |              | Surface Metrics (LSM)   |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | GEDI04_B     | GEDI Gridded            | One-time  | 1000       |
+        |              | Aboveground Biomass     |           |            |
+        |              | Density (AGBD)          |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MCD12Q1      | MODIS/Terra+Aqua Land   | Yearly    | 500        |
+        |              | Cover Type (LC)         |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MCD12Q2      | MODIS/Terra+Aqua Land   | Yearly    | 500        |
+        |              | Cover Dynamics (LCD)    |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MCD15A2H     | MODIS/Terra+Aqua Leaf   | 8-Day     | 500        |
+        |              | Area Index/FPAR         |           |            |
+        |              | (LAI/FPAR)              |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MCD15A3H     | MODIS/Terra+Aqua Leaf   | 4-Day     | 500        |
+        |              | Area Index/FPAR         |           |            |
+        |              | (LAI/FPAR)              |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MCD19A3      | MODIS/Terra+Aqua BRDF   | 8-Day     | 1000       |
+        |              | Model Parameters        |           |            |
+        |              | (MAIAC)                 |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MCD43A       | MODIS/Terra+Aqua BRDF   | Daily     | 500        |
+        |              | and Calculated Albedo   |           |            |
+        |              | (BRDF/MCD43A)           |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MCD43A1      | MODIS/Terra+Aqua        | Daily     | 500        |
+        |              | BRDF/Albedo Model       |           |            |
+        |              | Parameters (BRDF)       |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MCD43A4      | MODIS/Terra+Aqua Nadir  | Daily     | 500        |
+        |              | BRDF-Adjusted           |           |            |
+        |              | Reflectance (NBAR)      |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MCD64A1      | MODIS/Terra+Aqua Burned | Monthly   | 500        |
+        |              | Area (Burned Area)      |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MOD09A1      | MODIS/Terra Surface     | 8-Day     | 500        |
+        |              | Reflectance (SREF)      |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MOD11A2      | MODIS/Terra Land        | 8-Day     | 1000       |
+        |              | Surface Temperature and |           |            |
+        |              | Emissivity (LST)        |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MOD13Q1      | MODIS/Terra Vegetation  | 16-Day    | 250        |
+        |              | Indices (NDVI/EVI)      |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MOD14A2      | MODIS/Terra Thermal     | 8-Day     | 1000       |
+        |              | Anomalies/Fire (Fire)   |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MOD15A2H     | MODIS/Terra Leaf Area   | 8-Day     | 500        |
+        |              | Index/FPAR (LAI/FPAR)   |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MOD16A2      | MODIS/Terra Net         | 8-Day     | 500        |
+        |              | Evapotranspiration (ET) |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MOD17A2H     | MODIS/Terra Gross       | 8-Day     | 500        |
+        |              | Primary Productivity    |           |            |
+        |              | (GPP)                   |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MOD17A3HGF   | MODIS/Terra Net Primary | Yearly    | 500        |
+        |              | Production Gap-Filled   |           |            |
+        |              | (NPP)                   |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MOD21A2      | MODIS/Terra Land        | 8-Day     | 1000       |
+        |              | Surface                 |           |            |
+        |              | Temperature/3-Band      |           |            |
+        |              | Emissivity (LSTE)       |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MOD44B       | MODIS/Terra Vegetation  | Yearly    | 250        |
+        |              | Continuous Fields (VCF) |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MYD09A1      | MODIS/Aqua Surface      | 8-Day     | 500        |
+        |              | Reflectance (SREF)      |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MYD11A2      | MODIS/Aqua Land Surface | 8-Day     | 1000       |
+        |              | Temperature and         |           |            |
+        |              | Emissivity (LST)        |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MYD13Q1      | MODIS/Aqua Vegetation   | 16-Day    | 250        |
+        |              | Indices (NDVI/EVI)      |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MYD14A2      | MODIS/Aqua Thermal      | 8-Day     | 1000       |
+        |              | Anomalies/Fire (Fire)   |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MYD15A2H     | MODIS/Aqua Leaf Area    | 8-Day     | 500        |
+        |              | Index/FPAR (LAI/FPAR)   |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MYD16A2      | MODIS/Aqua Net          | 8-Day     | 500        |
+        |              | Evapotranspiration (ET) |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MYD17A2H     | MODIS/Aqua Gross        | 8-Day     | 500        |
+        |              | Primary Productivity    |           |            |
+        |              | (GPP)                   |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MYD17A3HGF   | MODIS/Aqua Net Primary  | Yearly    | 500        |
+        |              | Production Gap-Filled   |           |            |
+        |              | (NPP)                   |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | MYD21A2      | MODIS/Aqua Land Surface | 8-Day     | 1000       |
+        |              | Temperature/3-Band      |           |            |
+        |              | Emissivity (LSTE)       |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | SIF005       | SIF Estimates from      | Monthly   | 5000       |
+        |              | Fused SCIAMACHY and     |           |            |
+        |              | GOME-2 (SIF)            |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | SIF_ANN      | SIF Estimates from      | 16-day    | 5000       |
+        |              | OCO-2 SIF and MODIS     |           |            |
+        |              | (SIF)                   |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | VNP09A1      | VIIRS/S-NPP Surface     | 8-Day     | 1000       |
+        |              | Reflectance (SREF)      |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | VNP09H1      | VIIRS/S-NPP Surface     | 8-Day     | 500        |
+        |              | Reflectance (SREF)      |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | VNP13A1      | VIIRS/S-NPP Vegetation  | 16-Day    | 500        |
+        |              | Indices (NDVI/EVI)      |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | VNP15A2H     | VIIRS/S-NPP Leaf Area   | 8-Day     | 500        |
+        |              | Index/FPAR (LAI/FPAR)   |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | VNP21A2      | VIIRS/S-NPP Land        | 8-Day     | 1000       |
+        |              | Surface Temperature and |           |            |
+        |              | Emissivity (LSTE)       |           |            |
+        +--------------+-------------------------+-----------+------------+
+        | VNP22Q2      | VIIRS/S-NPP Land Cover  | Yearly    | 500        |
+        |              | Dynamics (LCD)          |           |            |
+        +--------------+-------------------------+-----------+------------+
 
     band : str
         One of the following. The 'band' selected from the first column must
@@ -1108,246 +1113,264 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
 
         ECO4ESIPTJPL
 
-        +--------+------------------------------+--------------+---------+
-        | band   | Description                  | Units        | Range   |
-        +========+==============================+==============+=========+
-        | ESIavg | Evaporative Stress Index     | ratio_ET/PET | 0 to    |
-        |        |                              |              | 2       |
-        +--------+------------------------------+--------------+---------+
-        | PET    | Potential Evapotranspiration | W/m^2        | 0 to    |
-        |        |                              |              | 2000    |
-        +--------+------------------------------+--------------+---------+
+        +--------+---------------------------+--------------+-----------+
+        | band   | Description               | Units        | Range     |
+        +========+===========================+==============+===========+
+        | ESIavg | Evaporative Stress Index  | ratio_ET/PET | 0 to 2    |
+        +--------+---------------------------+--------------+-----------+
+        | PET    | Potential                 | W/m^2        | 0 to 2000 |
+        |        | Evapotranspiration        |              |           |
+        +--------+---------------------------+--------------+-----------+
 
         ECO4WUE
 
-        +--------+----------------------+--------------+---------+
-        | band   | Description          | Units        | Range   |
-        +========+======================+==============+=========+
-        | WUEavg | Water Use Efficiency | ratio_GPP/ET | 0 to    |
-        |        |                      |              | 20      |
-        +--------+----------------------+--------------+---------+
+        +--------+----------------------+--------------+----------+
+        | band   | Description          | Units        | Range    |
+        +========+======================+==============+==========+
+        | WUEavg | Water Use Efficiency | ratio_GPP/ET | 0 to 20  |
+        +--------+----------------------+--------------+----------+
 
         GEDI03
 
-        +------------------------+--------------------------------+---------+
-        | band                   | Description                    | Units   |
-        +========================+================================+=========+
-        | counts                 | count of valid laser           | counts  |
-        |                        | footprints                     |         |
-        +------------------------+--------------------------------+---------+
-        | elev_lowestmode_mean   | mean elevation of the lowest   | meters  |
-        |                        | mode                           |         |
-        +------------------------+--------------------------------+---------+
-        | elev_lowestmode_stddev | stddev elevation of the lowest | meters  |
-        |                        | mode                           |         |
-        +------------------------+--------------------------------+---------+
-        | rh100_mean             | mean 100th percentile of       | meters  |
-        |                        | waveform energy relative to    |         |
-        |                        | ground                         |         |
-        +------------------------+--------------------------------+---------+
-        | rh100_stddev           | stddev 100th percentile of     | meters  |
-        |                        | waveform energy relative to    |         |
-        |                        | ground                         |         |
-        +------------------------+--------------------------------+---------+
+        +------------------------+------------------------------+--------+
+        | band                   | Description                  | Units  |
+        +========================+==============================+========+
+        | counts                 | count of valid laser         | counts |
+        |                        | footprints                   |        |
+        +------------------------+------------------------------+--------+
+        | elev_lowestmode_mean   | mean elevation of the lowest | meters |
+        |                        | mode                         |        |
+        +------------------------+------------------------------+--------+
+        | elev_lowestmode_stddev | stddev elevation of the      | meters |
+        |                        | lowest mode                  |        |
+        +------------------------+------------------------------+--------+
+        | rh100_mean             | mean 100th percentile of     | meters |
+        |                        | waveform energy relative to  |        |
+        |                        | ground                       |        |
+        +------------------------+------------------------------+--------+
+        | rh100_stddev           | stddev 100th percentile of   | meters |
+        |                        | waveform energy relative to  |        |
+        |                        | ground                       |        |
+        +------------------------+------------------------------+--------+
 
         GEDI04_B
 
-        +--------+------------------------------+---------+
-        | band   | Description                  | Units   |
-        +========+==============================+=========+
-        | MI     | mode of interference         |         |
-        +--------+------------------------------+---------+
-        | MU     | mean aboveground biomass     | Mg/ha   |
-        |        | density                      |         |
-        +--------+------------------------------+---------+
-        | NC     | number of clusters           | counts  |
-        +--------+------------------------------+---------+
-        | NS     | number of samples            | counts  |
-        +--------+------------------------------+---------+
-        | PE     | standard error as a fraction | percent |
-        |        | of the estimated mean AGBD   |         |
-        +--------+------------------------------+---------+
-        | PS     | prediction stratum           |         |
-        +--------+------------------------------+---------+
-        | QF     | quality flag                 |         |
-        +--------+------------------------------+---------+
-        | SE     | mean aboveground biomass     | Mg/ha   |
-        |        | density standard error       |         |
-        +--------+------------------------------+---------+
-        | V1     | variance component 1         |         |
-        +--------+------------------------------+---------+
-        | V2     | variance component 2         |         |
-        +--------+------------------------------+---------+
+        +--------+----------------------------------+---------+
+        | band   | Description                      | Units   |
+        +========+==================================+=========+
+        | MI     | mode of interference             |         |
+        +--------+----------------------------------+---------+
+        | MU     | mean aboveground biomass density | Mg/ha   |
+        +--------+----------------------------------+---------+
+        | NC     | number of clusters               | counts  |
+        +--------+----------------------------------+---------+
+        | NS     | number of samples                | counts  |
+        +--------+----------------------------------+---------+
+        | PE     | standard error as a fraction of  | percent |
+        |        | the estimated mean AGBD          |         |
+        +--------+----------------------------------+---------+
+        | PS     | prediction stratum               |         |
+        +--------+----------------------------------+---------+
+        | QF     | quality flag                     |         |
+        +--------+----------------------------------+---------+
+        | SE     | mean aboveground biomass density | Mg/ha   |
+        |        | standard error                   |         |
+        +--------+----------------------------------+---------+
+        | V1     | variance component 1             |         |
+        +--------+----------------------------------+---------+
+        | V2     | variance component 2             |         |
+        +--------+----------------------------------+---------+
 
         MCD12Q1
 
-        +---------------------+--------------------------------+--------------+---------+
-        | band                | Description                    | Units        | Range   |
-        +=====================+================================+==============+=========+
-        | LC_Prop1            | FAO-Land Cover Classification  | class        | 1 to    |
-        |                     | System 1 (LCCS1) land cover    |              | 43      |
-        |                     | layer                          |              |         |
-        +---------------------+--------------------------------+--------------+---------+
-        | LC_Prop1_Assessment | LCCS1 land cover layer         | percent      | 0 to    |
-        |                     | confidence                     |              | 100     |
-        +---------------------+--------------------------------+--------------+---------+
-        | LC_Prop2            | FAO-LCCS2 land use layer       | class        | 1 to    |
-        |                     |                                |              | 40      |
-        +---------------------+--------------------------------+--------------+---------+
-        | LC_Prop2_Assessment | LCCS2 land use layer           | percent      | 0 to    |
-        |                     | confidence                     |              | 100     |
-        +---------------------+--------------------------------+--------------+---------+
-        | LC_Prop3            | FAO-LCCS3 surface hydrology    | class        | 1 to    |
-        |                     | layer                          |              | 51      |
-        +---------------------+--------------------------------+--------------+---------+
-        | LC_Prop3_Assessment | LCCS3 surface hydrology layer  | percent      | 0 to    |
-        |                     | confidence                     |              | 100     |
-        +---------------------+--------------------------------+--------------+---------+
-        | LC_Type1            | Land Cover Type 1: Annual      | class        | 1 to    |
-        |                     | International Geosphere-       |              | 17      |
-        |                     | Biosphere Programme (IGBP)     |              |         |
-        |                     | classification                 |              |         |
-        +---------------------+--------------------------------+--------------+---------+
-        | LC_Type2            | Land Cover Type 2: Annual      | class        | 0 to    |
-        |                     | University of Maryland (UMD)   |              | 15      |
-        |                     | classification                 |              |         |
-        +---------------------+--------------------------------+--------------+---------+
-        | LC_Type3            | Land Cover Type 3: Annual Leaf | class        | 0 to    |
-        |                     | Area Index (LAI)               |              | 10      |
-        |                     | classification                 |              |         |
-        +---------------------+--------------------------------+--------------+---------+
-        | LC_Type4            | Land Cover Type 4: Annual      | class        | 0 to    |
-        |                     | BIOME-Biogeochemical Cycles    |              | 8       |
-        |                     | (BGC) classification           |              |         |
-        +---------------------+--------------------------------+--------------+---------+
-        | LC_Type5            | Land Cover Type 5: Annual      | class        | 0 to    |
-        |                     | Plant Functional Types         |              | 11      |
-        |                     | classification                 |              |         |
-        +---------------------+--------------------------------+--------------+---------+
-        | LW                  | Binary land (class 2) / water  | class        | 1 to    |
-        |                     | (class 1) mask derived from    |              | 2       |
-        |                     | MOD44W                         |              |         |
-        +---------------------+--------------------------------+--------------+---------+
-        | QC                  | Product quality flags          | quality-flag | 0 to    |
-        |                     |                                |              | 10      |
-        +---------------------+--------------------------------+--------------+---------+
+        +---------------------+---------------------+---------+----------+
+        | band                | Description         | Units   | Range    |
+        +=====================+=====================+=========+==========+
+        | LC_Prop1            | FAO-Land Cover      | class   | 1 to 43  |
+        |                     | Classification      |         |          |
+        |                     | System 1 (LCCS1)    |         |          |
+        |                     | land cover layer    |         |          |
+        +---------------------+---------------------+---------+----------+
+        | LC_Prop1_Assessment | LCCS1 land cover    | percent | 0 to 100 |
+        |                     | layer confidence    |         |          |
+        +---------------------+---------------------+---------+----------+
+        | LC_Prop2            | FAO-LCCS2 land use  | class   | 1 to 40  |
+        |                     | layer               |         |          |
+        +---------------------+---------------------+---------+----------+
+        | LC_Prop2_Assessment | LCCS2 land use      | percent | 0 to 100 |
+        |                     | layer confidence    |         |          |
+        +---------------------+---------------------+---------+----------+
+        | LC_Prop3            | FAO-LCCS3 surface   | class   | 1 to 51  |
+        |                     | hydrology layer     |         |          |
+        +---------------------+---------------------+---------+----------+
+        | LC_Prop3_Assessment | LCCS3 surface       | percent | 0 to 100 |
+        |                     | hydrology layer     |         |          |
+        |                     | confidence          |         |          |
+        +---------------------+---------------------+---------+----------+
+        | LC_Type1            | Land Cover Type 1:  | class   | 1 to 17  |
+        |                     | Annual              |         |          |
+        |                     | International       |         |          |
+        |                     | Geosphere-          |         |          |
+        |                     | Biosphere Programme |         |          |
+        |                     | (IGBP)              |         |          |
+        |                     | classification      |         |          |
+        +---------------------+---------------------+---------+----------+
+        | LC_Type2            | Land Cover Type 2:  | class   | 0 to 15  |
+        |                     | Annual University   |         |          |
+        |                     | of Maryland (UMD)   |         |          |
+        |                     | classification      |         |          |
+        +---------------------+---------------------+---------+----------+
+        | LC_Type3            | Land Cover Type 3:  | class   | 0 to 10  |
+        |                     | Annual Leaf Area    |         |          |
+        |                     | Index (LAI)         |         |          |
+        |                     | classification      |         |          |
+        +---------------------+---------------------+---------+----------+
+        | LC_Type4            | Land Cover Type 4:  | class   | 0 to 8   |
+        |                     | Annual BIOME-       |         |          |
+        |                     | Biogeochemical      |         |          |
+        |                     | Cycles (BGC)        |         |          |
+        |                     | classification      |         |          |
+        +---------------------+---------------------+---------+----------+
+        | LC_Type5            | Land Cover Type 5:  | class   | 0 to 11  |
+        |                     | Annual Plant        |         |          |
+        |                     | Functional Types    |         |          |
+        |                     | classification      |         |          |
+        +---------------------+---------------------+---------+----------+
+        | LW                  | Binary land (class  | class   | 1 to 2   |
+        |                     | 2) / water (class   |         |          |
+        |                     | 1) mask derived     |         |          |
+        |                     | from MOD44W         |         |          |
+        +---------------------+---------------------+---------+----------+
+        | QC                  | Product quality     | quality | 0 to 10  |
+        |                     | flags               | flag    |          |
+        +---------------------+---------------------+---------+----------+
 
         MCD12Q2
 
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | band                       | Description                 | Units                 | Range    |
-        +============================+=============================+=======================+==========+
-        | Dormancy.Num_Modes_01      | Onset Dormancy              | days_since_1970-01-01 | 11138 to |
-        |                            |                             |                       | 32766    |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | Dormancy.Num_Modes_02      | Onset Dormancy              | days_since_1970-01-01 | 11138 to |
-        |                            |                             |                       | 32766    |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | EVI_Amplitude.Num_Modes_01 | EVI Amplitude               | NBAR-EVI2             | 0 to     |
-        |                            |                             |                       | 10000    |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | EVI_Amplitude.Num_Modes_02 | EVI Amplitude               | NBAR-EVI2             | 0 to     |
-        |                            |                             |                       | 10000    |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | EVI_Area.Num_Modes_01      | EVI Area                    | NBAR-EVI2             | 0 to     |
-        |                            |                             |                       | 3700     |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | EVI_Area.Num_Modes_02      | EVI Area                    | NBAR-EVI2             | 0 to     |
-        |                            |                             |                       | 3700     |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | EVI_Minimum.Num_Modes_01   | Minimum EVI                 | NBAR-EVI2             | 0 to     |
-        |                            |                             |                       | 10000    |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | EVI_Minimum.Num_Modes_02   | Minimum EVI                 | NBAR-EVI2             | 0 to     |
-        |                            |                             |                       | 10000    |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | Greenup.Num_Modes_01       | Onset Greenness Increase    | days_since_1970-01-01 | 11138 to |
-        |                            |                             |                       | 32766    |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | Greenup.Num_Modes_02       | Onset Greenness Increase    | days_since_1970-01-01 | 11138 to |
-        |                            |                             |                       | 32766    |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | Maturity.Num_Modes_01      | Onset Maturity              | days_since_1970-01-01 | 11138 to |
-        |                            |                             |                       | 32766    |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | Maturity.Num_Modes_02      | Onset Maturity              | days_since_1970-01-01 | 11138 to |
-        |                            |                             |                       | 32766    |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | MidGreendown.Num_Modes_01  | Middle Greenness Decrease   | days_since_1970-01-01 | 11138 to |
-        |                            |                             |                       | 32766    |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | MidGreendown.Num_Modes_02  | Middle Greenness Decrease   | days_since_1970-01-01 | 11138 to |
-        |                            |                             |                       | 32766    |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | MidGreenup.Num_Modes_01    | Middle Greenness Increase   | days_since_1970-01-01 | 11138 to |
-        |                            |                             |                       | 32766    |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | MidGreenup.Num_Modes_02    | Middle Greenness Increase   | days_since_1970-01-01 | 11138 to |
-        |                            |                             |                       | 32766    |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | NumCycles                  | Number of Cycles            |                       | 0 to     |
-        |                            |                             |                       | 7        |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | QA_Detailed.Num_Modes_01   | Quality Assessment Detailed |                       | 0 to     |
-        |                            |                             |                       | 16383    |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | QA_Detailed.Num_Modes_02   | Quality Assessment Detailed |                       | 0 to     |
-        |                            |                             |                       | 16383    |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | QA_Overall.Num_Modes_01    | Quality Assessment Overall  |                       | 0 to     |
-        |                            |                             |                       | 3        |
-        +----------------------------+-----------------------------+-----------------------+----------+
-        | QA_Overall.Num_Modes_02    | Quality Assessment Overall  |                       | 0 to     |
-        |                            |                             |                       | 3        |
-        +----------------------------+-----------------------------+-----------------------+----------+
+        +----------------------------+----------------+------------+----------+
+        | band                       | Description    | Units      | Range    |
+        +============================+================+============+==========+
+        | Dormancy.Num_Modes_01      | Onset Dormancy | days since | 11138 to |
+        |                            |                | 1970-01-01 | 32766    |
+        +----------------------------+----------------+------------+----------+
+        | Dormancy.Num_Modes_02      | Onset Dormancy | days since | 11138 to |
+        |                            |                | 1970-01-01 | 32766    |
+        +----------------------------+----------------+------------+----------+
+        | EVI_Amplitude.Num_Modes_01 | EVI Amplitude  | NBAR-EVI2  | 0 to     |
+        |                            |                |            | 10000    |
+        +----------------------------+----------------+------------+----------+
+        | EVI_Amplitude.Num_Modes_02 | EVI Amplitude  | NBAR-EVI2  | 0 to     |
+        |                            |                |            | 10000    |
+        +----------------------------+----------------+------------+----------+
+        | EVI_Area.Num_Modes_01      | EVI Area       | NBAR-EVI2  | 0 to     |
+        |                            |                |            | 3700     |
+        +----------------------------+----------------+------------+----------+
+        | EVI_Area.Num_Modes_02      | EVI Area       | NBAR-EVI2  | 0 to     |
+        |                            |                |            | 3700     |
+        +----------------------------+----------------+------------+----------+
+        | EVI_Minimum.Num_Modes_01   | Minimum EVI    | NBAR-EVI2  | 0 to     |
+        |                            |                |            | 10000    |
+        +----------------------------+----------------+------------+----------+
+        | EVI_Minimum.Num_Modes_02   | Minimum EVI    | NBAR-EVI2  | 0 to     |
+        |                            |                |            | 10000    |
+        +----------------------------+----------------+------------+----------+
+        | Greenup.Num_Modes_01       | Onset          | days since | 11138 to |
+        |                            | Greenness      | 1970-01-01 | 32766    |
+        |                            | Increase       |            |          |
+        +----------------------------+----------------+------------+----------+
+        | Greenup.Num_Modes_02       | Onset          | days since | 11138 to |
+        |                            | Greenness      | 1970-01-01 | 32766    |
+        |                            | Increase       |            |          |
+        +----------------------------+----------------+------------+----------+
+        | Maturity.Num_Modes_01      | Onset Maturity | days since | 11138 to |
+        |                            |                | 1970-01-01 | 32766    |
+        +----------------------------+----------------+------------+----------+
+        | Maturity.Num_Modes_02      | Onset Maturity | days since | 11138 to |
+        |                            |                | 1970-01-01 | 32766    |
+        +----------------------------+----------------+------------+----------+
+        | MidGreendown.Num_Modes_01  | Middle         | days since | 11138 to |
+        |                            | Greenness      | 1970-01-01 | 32766    |
+        |                            | Decrease       |            |          |
+        +----------------------------+----------------+------------+----------+
+        | MidGreendown.Num_Modes_02  | Middle         | days since | 11138 to |
+        |                            | Greenness      | 1970-01-01 | 32766    |
+        |                            | Decrease       |            |          |
+        +----------------------------+----------------+------------+----------+
+        | MidGreenup.Num_Modes_01    | Middle         | days       | 11138 to |
+        |                            | Greenness      | since_19   | 32766    |
+        |                            | Increase       | 70-01-01   |          |
+        +----------------------------+----------------+------------+----------+
+        | MidGreenup.Num_Modes_02    | Middle         | days since | 11138 to |
+        |                            | Greenness      | 1970-01-01 | 32766    |
+        |                            | Increase       |            |          |
+        +----------------------------+----------------+------------+----------+
+        | NumCycles                  | Number of      |            | 0 to 7   |
+        |                            | Cycles         |            |          |
+        +----------------------------+----------------+------------+----------+
+        | QA_Detailed.Num_Modes_01   | Quality        |            | 0 to     |
+        |                            | Assessment     |            | 16383    |
+        |                            | Detailed       |            |          |
+        +----------------------------+----------------+------------+----------+
+        | QA_Detailed.Num_Modes_02   | Quality        |            | 0 to     |
+        |                            | Assessment     |            | 16383    |
+        |                            | Detailed       |            |          |
+        +----------------------------+----------------+------------+----------+
+        | QA_Overall.Num_Modes_01    | Quality        |            | 0 to 3   |
+        |                            | Assessment     |            |          |
+        |                            | Overall        |            |          |
+        +----------------------------+----------------+------------+----------+
+        | QA_Overall.Num_Modes_02    | Quality        |            | 0 to 3   |
+        |                            | Assessment     |            |          |
+        |                            | Overall        |            |          |
+        +----------------------------+----------------+------------+----------+
 
         MCD15A2H
 
-        +-----------------+--------------------------------+------------+---------+
-        | band            | Description                    | Units      | Range   |
-        +=================+================================+============+=========+
-        | FparExtra_QC    | Extra detail Quality for LAI   | class-flag | 0 to    |
-        |                 | and FPAR                       |            | 254     |
-        +-----------------+--------------------------------+------------+---------+
-        | FparLai_QC      | Quality for LAI and FPAR       | class-flag | 0 to    |
-        |                 |                                |            | 254     |
-        +-----------------+--------------------------------+------------+---------+
-        | FparStdDev_500m | Standard deviation of FPAR     | percent    | 0 to    |
-        |                 |                                |            | 100     |
-        +-----------------+--------------------------------+------------+---------+
-        | Fpar_500m       | Fraction of photosynthetically | percent    | 0 to    |
-        |                 | active radiation               |            | 100     |
-        +-----------------+--------------------------------+------------+---------+
-        | LaiStdDev_500m  | Standard deviation for LAI     | m^2/m^2    | 0 to    |
-        |                 |                                |            | 100     |
-        +-----------------+--------------------------------+------------+---------+
-        | Lai_500m        | Leaf area index                | m^2/m^2    | 0 to    |
-        |                 |                                |            | 100     |
-        +-----------------+--------------------------------+------------+---------+
+        +-----------------+--------------------------+---------+----------+
+        | band            | Description              | Units   | Range    |
+        +=================+==========================+=========+==========+
+        | FparExtra_QC    | Extra detail Quality for | class   | 0 to 254 |
+        |                 | LAI and FPAR             | flag    |          |
+        +-----------------+--------------------------+---------+----------+
+        | FparLai_QC      | Quality for LAI and FPAR | class   | 0 to 254 |
+        |                 |                          | flag    |          |
+        +-----------------+--------------------------+---------+----------+
+        | FparStdDev_500m | Standard deviation of    | percent | 0 to 100 |
+        |                 | FPAR                     |         |          |
+        +-----------------+--------------------------+---------+----------+
+        | Fpar_500m       | Fraction of              | percent | 0 to 100 |
+        |                 | photosynthetically       |         |          |
+        |                 | active radiation         |         |          |
+        +-----------------+--------------------------+---------+----------+
+        | LaiStdDev_500m  | Standard deviation for   | m^2/m^2 | 0 to 100 |
+        |                 | LAI                      |         |          |
+        +-----------------+--------------------------+---------+----------+
+        | Lai_500m        | Leaf area index          | m^2/m^2 | 0 to 100 |
+        +-----------------+--------------------------+---------+----------+
 
         MCD15A3H
 
-        +-----------------+--------------------------------+------------+---------+
-        | band            | Description                    | Units      | Range   |
-        +=================+================================+============+=========+
-        | FparExtra_QC    | Extra detail Quality for LAI   | class-flag | 0 to    |
-        |                 | and FPAR                       |            | 254     |
-        +-----------------+--------------------------------+------------+---------+
-        | FparLai_QC      | Quality for LAI and FPAR       | class-flag | 0 to    |
-        |                 |                                |            | 254     |
-        +-----------------+--------------------------------+------------+---------+
-        | FparStdDev_500m | Standard deviation of FPAR     | percent    | 0 to    |
-        |                 |                                |            | 100     |
-        +-----------------+--------------------------------+------------+---------+
-        | Fpar_500m       | Fraction of photosynthetically | percent    | 0 to    |
-        |                 | active radiation               |            | 100     |
-        +-----------------+--------------------------------+------------+---------+
-        | LaiStdDev_500m  | Standard deviation for LAI     | m^2/m^2    | 0 to    |
-        |                 |                                |            | 100     |
-        +-----------------+--------------------------------+------------+---------+
-        | Lai_500m        | Leaf area index                | m^2/m^2    | 0 to    |
-        |                 |                                |            | 100     |
-        +-----------------+--------------------------------+------------+---------+
+        +-----------------+----------------------+---------+----------+
+        | band            | Description          | Units   | Range    |
+        +=================+======================+=========+==========+
+        | FparExtra_QC    | Extra detail Quality | class   | 0 to 254 |
+        |                 | for LAI and FPAR     | flag    |          |
+        +-----------------+----------------------+---------+----------+
+        | FparLai_QC      | Quality for LAI and  | class   | 0 to 254 |
+        |                 | FPAR                 | flag    |          |
+        +-----------------+----------------------+---------+----------+
+        | FparStdDev_500m | Standard deviation   | percent | 0 to 100 |
+        |                 | of FPAR              |         |          |
+        +-----------------+----------------------+---------+----------+
+        | Fpar_500m       | Fraction of          | percent | 0 to 100 |
+        |                 | photosynthetically   |         |          |
+        |                 | active radiation     |         |          |
+        +-----------------+----------------------+---------+----------+
+        | LaiStdDev_500m  | Standard deviation   | m^2/m^2 | 0 to 100 |
+        |                 | for LAI              |         |          |
+        +-----------------+----------------------+---------+----------+
+        | Lai_500m        | Leaf area index      | m^2/m^2 | 0 to 100 |
+        +-----------------+----------------------+---------+----------+
 
         MCD19A3
 
@@ -1396,277 +1419,294 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
 
         MCD43A1
 
-        +----------------------------------------------+----------------------+-----------+---------+
-        | band                                         | Description          | Units     | Range   |
-        +==============================================+======================+===========+=========+
-        | BDRF_Albedo_Band_Mandatory_Quality_Band1     | Quality Band1        | bit_field | 0 to    |
-        |                                              |                      |           | 254     |
-        +----------------------------------------------+----------------------+-----------+---------+
-        | BDRF_Albedo_Band_Mandatory_Quality_Band2     | Quality Band2        | bit_field | 0 to    |
-        |                                              |                      |           | 254     |
-        +----------------------------------------------+----------------------+-----------+---------+
-        | BDRF_Albedo_Band_Mandatory_Quality_Band3     | Quality Band3        | bit_field | 0 to    |
-        |                                              |                      |           | 254     |
-        +----------------------------------------------+----------------------+-----------+---------+
-        | BDRF_Albedo_Band_Mandatory_Quality_Band4     | Quality Band4        | bit_field | 0 to    |
-        |                                              |                      |           | 254     |
-        +----------------------------------------------+----------------------+-----------+---------+
-        | BDRF_Albedo_Band_Mandatory_Quality_Band5     | Quality Band5        | bit_field | 0 to    |
-        |                                              |                      |           | 254     |
-        +----------------------------------------------+----------------------+-----------+---------+
-        | BDRF_Albedo_Band_Mandatory_Quality_Band6     | Quality Band6        | bit_field | 0 to    |
-        |                                              |                      |           | 254     |
-        +----------------------------------------------+----------------------+-----------+---------+
-        | BDRF_Albedo_Band_Mandatory_Quality_Band7     | Quality Band7        | bit_field | 0 to    |
-        |                                              |                      |           | 254     |
-        +----------------------------------------------+----------------------+-----------+---------+
-        | BDRF_Albedo_Band_Mandatory_Quality_nir       | Quality nir          | bit_field | 0 to    |
-        |                                              |                      |           | 254     |
-        +----------------------------------------------+----------------------+-----------+---------+
-        | BDRF_Albedo_Band_Mandatory_Quality_shortwave | Quality shortwave    | bit_field | 0 to    |
-        |                                              |                      |           | 254     |
-        +----------------------------------------------+----------------------+-----------+---------+
-        | BDRF_Albedo_Band_Mandatory_Quality_vis       | Quality vis          | bit_field | 0 to    |
-        |                                              |                      |           | 254     |
-        +----------------------------------------------+----------------------+-----------+---------+
-        | BRDF_Albedo_Parameters_Band1                 | Parameters Band1     |           | 0 to    |
-        |                                              |                      |           | 32766   |
-        +----------------------------------------------+----------------------+-----------+---------+
-        | BRDF_Albedo_Parameters_Band2                 | Parameters Band2     |           | 0 to    |
-        |                                              |                      |           | 32766   |
-        +----------------------------------------------+----------------------+-----------+---------+
-        | BRDF_Albedo_Parameters_Band3                 | Parameters Band3     |           | 0 to    |
-        |                                              |                      |           | 32766   |
-        +----------------------------------------------+----------------------+-----------+---------+
-        | BRDF_Albedo_Parameters_Band4                 | Parameters Band4     |           | 0 to    |
-        |                                              |                      |           | 32766   |
-        +----------------------------------------------+----------------------+-----------+---------+
-        | BRDF_Albedo_Parameters_Band5                 | Parameters Band5     |           | 0 to    |
-        |                                              |                      |           | 32766   |
-        +----------------------------------------------+----------------------+-----------+---------+
-        | BRDF_Albedo_Parameters_Band6                 | Parameters Band6     |           | 0 to    |
-        |                                              |                      |           | 32766   |
-        +----------------------------------------------+----------------------+-----------+---------+
-        | BRDF_Albedo_Parameters_Band7                 | Parameters Band7     |           | 0 to    |
-        |                                              |                      |           | 32766   |
-        +----------------------------------------------+----------------------+-----------+---------+
-        | BRDF_Albedo_Parameters_nir                   | Parameters nir       |           | 0 to    |
-        |                                              |                      |           | 32766   |
-        +----------------------------------------------+----------------------+-----------+---------+
-        | BRDF_Albedo_Parameters_shortwave             | Parameters shortwave |           | 0 to    |
-        |                                              |                      |           | 32766   |
-        +----------------------------------------------+----------------------+-----------+---------+
-        | BRDF_Albedo_Parameters_vis                   | Parameters vis       |           | 0 to    |
-        |                                              |                      |           | 32766   |
-        +----------------------------------------------+----------------------+-----------+---------+
+        +----------------------------------------------+-------------+-----------+---------+
+        | band                                         | Description | Units     | Range   |
+        +==============================================+=============+===========+=========+
+        | BDRF_Albedo_Band_Mandatory_Quality_Band1     | Quality     | bit field | 0 to    |
+        |                                              | Band1       |           | 254     |
+        +----------------------------------------------+-------------+-----------+---------+
+        | BDRF_Albedo_Band_Mandatory_Quality_Band2     | Quality     | bit field | 0 to    |
+        |                                              | Band2       |           | 254     |
+        +----------------------------------------------+-------------+-----------+---------+
+        | BDRF_Albedo_Band_Mandatory_Quality_Band3     | Quality     | bit field | 0 to    |
+        |                                              | Band3       |           | 254     |
+        +----------------------------------------------+-------------+-----------+---------+
+        | BDRF_Albedo_Band_Mandatory_Quality_Band4     | Quality     | bit field | 0 to    |
+        |                                              | Band4       |           | 254     |
+        +----------------------------------------------+-------------+-----------+---------+
+        | BDRF_Albedo_Band_Mandatory_Quality_Band5     | Quality     | bit field | 0 to    |
+        |                                              | Band5       |           | 254     |
+        +----------------------------------------------+-------------+-----------+---------+
+        | BDRF_Albedo_Band_Mandatory_Quality_Band6     | Quality     | bit field | 0 to    |
+        |                                              | Band6       |           | 254     |
+        +----------------------------------------------+-------------+-----------+---------+
+        | BDRF_Albedo_Band_Mandatory_Quality_Band7     | Quality     | bit field | 0 to    |
+        |                                              | Band7       |           | 254     |
+        +----------------------------------------------+-------------+-----------+---------+
+        | BDRF_Albedo_Band_Mandatory_Quality_nir       | Quality nir | bit field | 0 to    |
+        |                                              |             |           | 254     |
+        +----------------------------------------------+-------------+-----------+---------+
+        | BDRF_Albedo_Band_Mandatory_Quality_shortwave | Quality     | bit field | 0 to    |
+        |                                              | shortwave   |           | 254     |
+        +----------------------------------------------+-------------+-----------+---------+
+        | BDRF_Albedo_Band_Mandatory_Quality_vis       | Quality vis | bit field | 0 to    |
+        |                                              |             |           | 254     |
+        +----------------------------------------------+-------------+-----------+---------+
+        | BRDF_Albedo_Parameters_Band1                 | Parameters  |           | 0 to    |
+        |                                              | Band1       |           | 32766   |
+        +----------------------------------------------+-------------+-----------+---------+
+        | BRDF_Albedo_Parameters_Band2                 | Parameters  |           | 0 to    |
+        |                                              | Band2       |           | 32766   |
+        +----------------------------------------------+-------------+-----------+---------+
+        | BRDF_Albedo_Parameters_Band3                 | Parameters  |           | 0 to    |
+        |                                              | Band3       |           | 32766   |
+        +----------------------------------------------+-------------+-----------+---------+
+        | BRDF_Albedo_Parameters_Band4                 | Parameters  |           | 0 to    |
+        |                                              | Band4       |           | 32766   |
+        +----------------------------------------------+-------------+-----------+---------+
+        | BRDF_Albedo_Parameters_Band5                 | Parameters  |           | 0 to    |
+        |                                              | Band5       |           | 32766   |
+        +----------------------------------------------+-------------+-----------+---------+
+        | BRDF_Albedo_Parameters_Band6                 | Parameters  |           | 0 to    |
+        |                                              | Band6       |           | 32766   |
+        +----------------------------------------------+-------------+-----------+---------+
+        | BRDF_Albedo_Parameters_Band7                 | Parameters  |           | 0 to    |
+        |                                              | Band7       |           | 32766   |
+        +----------------------------------------------+-------------+-----------+---------+
+        | BRDF_Albedo_Parameters_nir                   | Parameters  |           | 0 to    |
+        |                                              | nir         |           | 32766   |
+        +----------------------------------------------+-------------+-----------+---------+
+        | BRDF_Albedo_Parameters_shortwave             | Parameters  |           | 0 to    |
+        |                                              | shortwave   |           | 32766   |
+        +----------------------------------------------+-------------+-----------+---------+
+        | BRDF_Albedo_Parameters_vis                   | Parameters  |           | 0 to    |
+        |                                              | vis         |           | 32766   |
+        +----------------------------------------------+-------------+-----------+---------+
 
         MCD43A4
 
-        +------------------------------------------+-------------------------+--------------------+---------+
-        | band                                     | Description             | Units              | Range   |
-        +==========================================+=========================+====================+=========+
-        | BRDF_Albedo_Band_Mandatory_Quality_Band1 | Quality Band1           | concatenated flags | 0 to    |
-        |                                          |                         |                    | 254     |
-        +------------------------------------------+-------------------------+--------------------+---------+
-        | BRDF_Albedo_Band_Mandatory_Quality_Band2 | Quality Band2           | concatenated flags | 0 to    |
-        |                                          |                         |                    | 254     |
-        +------------------------------------------+-------------------------+--------------------+---------+
-        | BRDF_Albedo_Band_Mandatory_Quality_Band3 | Quality Band3           | concatenated flags | 0 to    |
-        |                                          |                         |                    | 254     |
-        +------------------------------------------+-------------------------+--------------------+---------+
-        | BRDF_Albedo_Band_Mandatory_Quality_Band4 | Quality Band4           | concatenated flags | 0 to    |
-        |                                          |                         |                    | 254     |
-        +------------------------------------------+-------------------------+--------------------+---------+
-        | BRDF_Albedo_Band_Mandatory_Quality_Band5 | Quality Band5           | concatenated flags | 0 to    |
-        |                                          |                         |                    | 254     |
-        +------------------------------------------+-------------------------+--------------------+---------+
-        | BRDF_Albedo_Band_Mandatory_Quality_Band6 | Quality Band6           | concatenated flags | 0 to    |
-        |                                          |                         |                    | 254     |
-        +------------------------------------------+-------------------------+--------------------+---------+
-        | BRDF_Albedo_Band_Mandatory_Quality_Band7 | Quality Band7           | concatenated flags | 0 to    |
-        |                                          |                         |                    | 254     |
-        +------------------------------------------+-------------------------+--------------------+---------+
-        | Nadir_Reflectance_Band1                  | Nadir Reflectance Band1 |                    | 0 to    |
-        |                                          |                         |                    | 32766   |
-        +------------------------------------------+-------------------------+--------------------+---------+
-        | Nadir_Reflectance_Band2                  | Nadir Reflectance Band2 |                    | 0 to    |
-        |                                          |                         |                    | 32766   |
-        +------------------------------------------+-------------------------+--------------------+---------+
-        | Nadir_Reflectance_Band3                  | Nadir Reflectance Band3 |                    | 0 to    |
-        |                                          |                         |                    | 32766   |
-        +------------------------------------------+-------------------------+--------------------+---------+
-        | Nadir_Reflectance_Band4                  | Nadir Reflectance Band4 |                    | 0 to    |
-        |                                          |                         |                    | 32766   |
-        +------------------------------------------+-------------------------+--------------------+---------+
-        | Nadir_Reflectance_Band5                  | Nadir Reflectance Band5 |                    | 0 to    |
-        |                                          |                         |                    | 32766   |
-        +------------------------------------------+-------------------------+--------------------+---------+
-        | Nadir_Reflectance_Band6                  | Nadir Reflectance Band6 |                    | 0 to    |
-        |                                          |                         |                    | 32766   |
-        +------------------------------------------+-------------------------+--------------------+---------+
-        | Nadir_Reflectance_Band7                  | Nadir Reflectance Band7 |                    | 0 to    |
-        |                                          |                         |                    | 32766   |
-        +------------------------------------------+-------------------------+--------------------+---------+
+        +------------------------------------------+-------------+--------------+---------+
+        | band                                     | Description | Units        | Range   |
+        +==========================================+=============+==============+=========+
+        | BRDF_Albedo_Band_Mandatory_Quality_Band1 | Quality     | concatenated | 0 to    |
+        |                                          | Band1       | flags        | 254     |
+        +------------------------------------------+-------------+--------------+---------+
+        | BRDF_Albedo_Band_Mandatory_Quality_Band2 | Quality     | concatenated | 0 to    |
+        |                                          | Band2       | flags        | 254     |
+        +------------------------------------------+-------------+--------------+---------+
+        | BRDF_Albedo_Band_Mandatory_Quality_Band3 | Quality     | concatenated | 0 to    |
+        |                                          | Band3       | flags        | 254     |
+        +------------------------------------------+-------------+--------------+---------+
+        | BRDF_Albedo_Band_Mandatory_Quality_Band4 | Quality     | concatenated | 0 to    |
+        |                                          | Band4       | flags        | 254     |
+        +------------------------------------------+-------------+--------------+---------+
+        | BRDF_Albedo_Band_Mandatory_Quality_Band5 | Quality     | concatenated | 0 to    |
+        |                                          | Band5       | flags        | 254     |
+        +------------------------------------------+-------------+--------------+---------+
+        | BRDF_Albedo_Band_Mandatory_Quality_Band6 | Quality     | concatenated | 0 to    |
+        |                                          | Band6       | flags        | 254     |
+        +------------------------------------------+-------------+--------------+---------+
+        | BRDF_Albedo_Band_Mandatory_Quality_Band7 | Quality     | concatenated | 0 to    |
+        |                                          | Band7       | flags        | 254     |
+        +------------------------------------------+-------------+--------------+---------+
+        | Nadir_Reflectance_Band1                  | Nadir       |              | 0 to    |
+        |                                          | Reflectance |              | 32766   |
+        |                                          | Band1       |              |         |
+        +------------------------------------------+-------------+--------------+---------+
+        | Nadir_Reflectance_Band2                  | Nadir       |              | 0 to    |
+        |                                          | Reflectance |              | 32766   |
+        |                                          | Band2       |              |         |
+        +------------------------------------------+-------------+--------------+---------+
+        | Nadir_Reflectance_Band3                  | Nadir       |              | 0 to    |
+        |                                          | Reflectance |              | 32766   |
+        |                                          | Band3       |              |         |
+        +------------------------------------------+-------------+--------------+---------+
+        | Nadir_Reflectance_Band4                  | Nadir       |              | 0 to    |
+        |                                          | Reflectance |              | 32766   |
+        |                                          | Band4       |              |         |
+        +------------------------------------------+-------------+--------------+---------+
+        | Nadir_Reflectance_Band5                  | Nadir       |              | 0 to    |
+        |                                          | Reflectance |              | 32766   |
+        |                                          | Band5       |              |         |
+        +------------------------------------------+-------------+--------------+---------+
+        | Nadir_Reflectance_Band6                  | Nadir       |              | 0 to    |
+        |                                          | Reflectance |              | 32766   |
+        |                                          | Band6       |              |         |
+        +------------------------------------------+-------------+--------------+---------+
+        | Nadir_Reflectance_Band7                  | Nadir       |              | 0 to    |
+        |                                          | Reflectance |              | 32766   |
+        |                                          | Band7       |              |         |
+        +------------------------------------------+-------------+--------------+---------+
 
         MCD64A1
 
-        +-----------------------+------------------------------+-------------+---------+
-        | band                  | Description                  | Units       | Range   |
-        +=======================+==============================+=============+=========+
-        | Burn_Date             | ordinal day of burn          | day_of_year | 0 to    |
-        |                       |                              |             | 366     |
-        +-----------------------+------------------------------+-------------+---------+
-        | Burn_Date_Uncertainty | uncertainty in day of burn   | days        | 0 to    |
-        |                       |                              |             | 100     |
-        +-----------------------+------------------------------+-------------+---------+
-        | First_Day             | first day of reliable change | day_of_year | 1 to    |
-        |                       | detection                    |             | 366     |
-        +-----------------------+------------------------------+-------------+---------+
-        | Last_Day              | last day of reliable change  | day_of_year | 1 to    |
-        |                       | detection                    |             | 366     |
-        +-----------------------+------------------------------+-------------+---------+
-        | QA                    | quality assurance indicators | bit_field   | 0 to    |
-        |                       |                              |             | 255     |
-        +-----------------------+------------------------------+-------------+---------+
+        +-----------------------+----------------------+---------+---------+
+        | band                  | Description          | Units   | Range   |
+        +=======================+======================+=========+=========+
+        | Burn_Date             | ordinal day of burn  | day of  | 0 to    |
+        |                       |                      | year    | 366     |
+        +-----------------------+----------------------+---------+---------+
+        | Burn_Date_Uncertainty | uncertainty in day   | days    | 0 to    |
+        |                       | of burn              |         | 100     |
+        +-----------------------+----------------------+---------+---------+
+        | First_Day             | first day of         | day of  | 1 to    |
+        |                       | reliable change      | year    | 366     |
+        |                       | detection            |         |         |
+        +-----------------------+----------------------+---------+---------+
+        | Last_Day              | last day of reliable | day of  | 1 to    |
+        |                       | change detection     | year    | 366     |
+        +-----------------------+----------------------+---------+---------+
+        | QA                    | quality assurance    | bit     | 0 to    |
+        |                       | indicators           | field   | 255     |
+        +-----------------------+----------------------+---------+---------+
 
         MOD09A1
 
-        +----------------------+--------------------------------+-------------+------------+
-        | band                 | Description                    | Units       | Range      |
-        +======================+================================+=============+============+
-        | sur_refl_b01         | Surface reflectance for band 1 | reflectance | -100 to    |
-        |                      |                                |             | 16000      |
-        +----------------------+--------------------------------+-------------+------------+
-        | sur_refl_b02         | Surface reflectance for band 2 | reflectance | -100 to    |
-        |                      |                                |             | 16000      |
-        +----------------------+--------------------------------+-------------+------------+
-        | sur_refl_b03         | Surface reflectance for band 3 | reflectance | -100 to    |
-        |                      |                                |             | 16000      |
-        +----------------------+--------------------------------+-------------+------------+
-        | sur_refl_b04         | Surface reflectance for band 4 | reflectance | -100 to    |
-        |                      |                                |             | 16000      |
-        +----------------------+--------------------------------+-------------+------------+
-        | sur_refl_b05         | Surface reflectance for band 5 | reflectance | -100 to    |
-        |                      |                                |             | 16000      |
-        +----------------------+--------------------------------+-------------+------------+
-        | sur_refl_b06         | Surface reflectance for band 6 | reflectance | -100 to    |
-        |                      |                                |             | 16000      |
-        +----------------------+--------------------------------+-------------+------------+
-        | sur_refl_b07         | Surface reflectance for band 7 | reflectance | -100 to    |
-        |                      |                                |             | 16000      |
-        +----------------------+--------------------------------+-------------+------------+
-        | sur_refl_day_of_year | Surface reflectance day of     | day_of_year | 0 to       |
-        |                      | year                           |             | 366        |
-        +----------------------+--------------------------------+-------------+------------+
-        | sur_refl_qc_500m     | Surface reflectance 500m       | bit_field   | 0 to       |
-        |                      | quality control flags          |             | 4294966531 |
-        +----------------------+--------------------------------+-------------+------------+
-        | sur_refl_raz         | Relative azimuth               | degree      | -18000 to  |
-        |                      |                                |             | 18000      |
-        +----------------------+--------------------------------+-------------+------------+
-        | sur_refl_state_500m  | Surface reflectance 500m state | bit_field   | 0 to       |
-        |                      | flags                          |             | 57343      |
-        +----------------------+--------------------------------+-------------+------------+
-        | sur_refl_szen        | Solar zenith                   | degree      | 0 to       |
-        |                      |                                |             | 18000      |
-        +----------------------+--------------------------------+-------------+------------+
-        | sur_refl_vzen        | View zenith                    | degree      | 0 to       |
-        |                      |                                |             | 18000      |
-        +----------------------+--------------------------------+-------------+------------+
+        +----------------------+---------------------+-------------+------------+
+        | band                 | Description         | Units       | Range      |
+        +======================+=====================+=============+============+
+        | sur_refl_b01         | Surface reflectance | reflectance | -100 to    |
+        |                      | for band 1          |             | 16000      |
+        +----------------------+---------------------+-------------+------------+
+        | sur_refl_b02         | Surface reflectance | reflectance | -100 to    |
+        |                      | for band 2          |             | 16000      |
+        +----------------------+---------------------+-------------+------------+
+        | sur_refl_b03         | Surface reflectance | reflectance | -100 to    |
+        |                      | for band 3          |             | 16000      |
+        +----------------------+---------------------+-------------+------------+
+        | sur_refl_b04         | Surface reflectance | reflectance | -100 to    |
+        |                      | for band 4          |             | 16000      |
+        +----------------------+---------------------+-------------+------------+
+        | sur_refl_b05         | Surface reflectance | reflectance | -100 to    |
+        |                      | for band 5          |             | 16000      |
+        +----------------------+---------------------+-------------+------------+
+        | sur_refl_b06         | Surface reflectance | reflectance | -100 to    |
+        |                      | for band 6          |             | 16000      |
+        +----------------------+---------------------+-------------+------------+
+        | sur_refl_b07         | Surface reflectance | reflectance | -100 to    |
+        |                      | for band 7          |             | 16000      |
+        +----------------------+---------------------+-------------+------------+
+        | sur_refl_day of year | Surface reflectance | day of year | 0 to 366   |
+        |                      | day of year         |             |            |
+        +----------------------+---------------------+-------------+------------+
+        | sur_refl_qc_500m     | Surface reflectance | bit field   | 0 to       |
+        |                      | 500m quality        |             | 4294966531 |
+        |                      | control flags       |             |            |
+        +----------------------+---------------------+-------------+------------+
+        | sur_refl_raz         | Relative azimuth    | degree      | -18000 to  |
+        |                      |                     |             | 18000      |
+        +----------------------+---------------------+-------------+------------+
+        | sur_refl_state_500m  | Surface reflectance | bit field   | 0 to 57343 |
+        |                      | 500m state flags    |             |            |
+        +----------------------+---------------------+-------------+------------+
+        | sur_refl_szen        | Solar zenith        | degree      | 0 to 18000 |
+        +----------------------+---------------------+-------------+------------+
+        | sur_refl_vzen        | View zenith         | degree      | 0 to 18000 |
+        +----------------------+---------------------+-------------+------------+
 
         MOD11A2
 
-        +------------------+--------------------------------+---------+---------+
-        | band             | Description                    | Range   | Units   |
-        +==================+================================+=========+=========+
-        | Clear_sky_days   | Day clear-sky coverage         | 1 to    |         |
-        |                  |                                | 255     |         |
-        +------------------+--------------------------------+---------+---------+
-        | Clear_sky_nights | Night clear-sky coverage       | 1 to    |         |
-        |                  |                                | 255     |         |
-        +------------------+--------------------------------+---------+---------+
-        | Day_view_angl    | View zenith angle of day       | 0 to    | degree  |
-        |                  | observation                    | 130     |         |
-        +------------------+--------------------------------+---------+---------+
-        | Day_view_time    | Local time of day observation  | 0 to    | hrs     |
-        |                  |                                | 240     |         |
-        +------------------+--------------------------------+---------+---------+
-        | Emis_31          | Band 31 emissivity             | 1 to    |         |
-        |                  |                                | 255     |         |
-        +------------------+--------------------------------+---------+---------+
-        | Emis_32          | Band 32 emissivity             | 1 to    |         |
-        |                  |                                | 255     |         |
-        +------------------+--------------------------------+---------+---------+
-        | LST_Day_1km      | Daytime Land Surface           | 7500 to | degK    |
-        |                  | Temperature                    | 65535   |         |
-        +------------------+--------------------------------+---------+---------+
-        | LST_Night_1km    | Night Land Surface Temperature | 7500 to | degK    |
-        |                  |                                | 65535   |         |
-        +------------------+--------------------------------+---------+---------+
-        | Night_view_angl  | View zenith angle of night     | 0 to    | degree  |
-        |                  | observation                    | 130     |         |
-        +------------------+--------------------------------+---------+---------+
-        | Night_view_time  | Local time of night            | 0 to    | hrs     |
-        |                  | observation                    | 240     |         |
-        +------------------+--------------------------------+---------+---------+
-        | QC_Day           | Daytime LST Quality Indicators | 0 to    |         |
-        |                  |                                | 255     |         |
-        +------------------+--------------------------------+---------+---------+
-        | QC_Night         | Nighttime LST Quality          | 0 to    |         |
-        |                  | indicators                     | 255     |         |
-        +------------------+--------------------------------+---------+---------+
+        +------------------+--------------------+---------+---------+
+        | band             | Description        | Range   | Units   |
+        +==================+====================+=========+=========+
+        | Clear_sky_days   | Day clear-sky      | 1 to    |         |
+        |                  | coverage           | 255     |         |
+        +------------------+--------------------+---------+---------+
+        | Clear_sky_nights | Night clear-sky    | 1 to    |         |
+        |                  | coverage           | 255     |         |
+        +------------------+--------------------+---------+---------+
+        | Day_view_angl    | View zenith angle  | 0 to    | degree  |
+        |                  | of day observation | 130     |         |
+        +------------------+--------------------+---------+---------+
+        | Day_view_time    | Local time of day  | 0 to    | hrs     |
+        |                  | observation        | 240     |         |
+        +------------------+--------------------+---------+---------+
+        | Emis_31          | Band 31 emissivity | 1 to    |         |
+        |                  |                    | 255     |         |
+        +------------------+--------------------+---------+---------+
+        | Emis_32          | Band 32 emissivity | 1 to    |         |
+        |                  |                    | 255     |         |
+        +------------------+--------------------+---------+---------+
+        | LST_Day_1km      | Daytime Land       | 7500 to | degK    |
+        |                  | Surface            | 65535   |         |
+        |                  | Temperature        |         |         |
+        +------------------+--------------------+---------+---------+
+        | LST_Night_1km    | Night Land Surface | 7500 to | degK    |
+        |                  | Temperature        | 65535   |         |
+        +------------------+--------------------+---------+---------+
+        | Night_view_angl  | View zenith angle  | 0 to    | degree  |
+        |                  | of night           | 130     |         |
+        |                  | observation        |         |         |
+        +------------------+--------------------+---------+---------+
+        | Night_view_time  | Local time of      | 0 to    | hrs     |
+        |                  | night observation  | 240     |         |
+        +------------------+--------------------+---------+---------+
+        | QC_Day           | Daytime LST        | 0 to    |         |
+        |                  | Quality Indicators | 255     |         |
+        +------------------+--------------------+---------+---------+
+        | QC_Night         | Nighttime LST      | 0 to    |         |
+        |                  | Quality indicators | 255     |         |
+        +------------------+--------------------+---------+---------+
 
         MOD13Q1
 
-        +----------------------------------------+-------------------------------+-------------+----------+
-        | band                                   | Description                   | Units       | Range    |
-        +========================================+===============================+=============+==========+
-        | 250m_16_days_blue_reflectance          | Surface Reflectance Band 3    | reflectance | 0 to     |
-        |                                        |                               |             | 10000    |
-        +----------------------------------------+-------------------------------+-------------+----------+
-        | 250m_16_days_composite_day_of_the_year | Day of year VI pixel          | day_of_year | 1 to     |
-        |                                        |                               |             | 366      |
-        +----------------------------------------+-------------------------------+-------------+----------+
-        | 250m_16_days_EVI                       | 16 day EVI average            |             | -2000 to |
-        |                                        |                               |             | 10000    |
-        +----------------------------------------+-------------------------------+-------------+----------+
-        | 250m_16_days_MIR_reflectance           | Surface Reflectance Band 7    | reflectance | 0 to     |
-        |                                        |                               |             | 10000    |
-        +----------------------------------------+-------------------------------+-------------+----------+
-        | 250m_16_days_NDVI                      | 16 day NDVI average           |             | -2000 to |
-        |                                        |                               |             | 10000    |
-        +----------------------------------------+-------------------------------+-------------+----------+
-        | 250m_16_days_NIR_reflectance           | Surface Reflectance Band 2    | reflectance | 0 to     |
-        |                                        |                               |             | 10000    |
-        +----------------------------------------+-------------------------------+-------------+----------+
-        | 250m_16_days_pixel_reliability         | Quality reliability of VI     | rank        | 0 to     |
-        |                                        | pixel                         |             | 3        |
-        +----------------------------------------+-------------------------------+-------------+----------+
-        | 250m_16_days_red_reflectance           | Surface Reflectance Band 1    | reflectance | 0 to     |
-        |                                        |                               |             | 10000    |
-        +----------------------------------------+-------------------------------+-------------+----------+
-        | 250m_16_days_relative_azimuth_angle    | Relative azimuth angle of VI  | degrees     | -3600 to |
-        |                                        | pixel                         |             | 3600     |
-        +----------------------------------------+-------------------------------+-------------+----------+
-        | 250m_16_days_sun_zenith_angle          | Sun zenith angle of VI pixel  | degrees     | -9000 to |
-        |                                        |                               |             | 9000     |
-        +----------------------------------------+-------------------------------+-------------+----------+
-        | 250m_16_days_view_zenith_angle         | View zenith angle of VI Pixel | degrees     | -9000 to |
-        |                                        |                               |             | 9000     |
-        +----------------------------------------+-------------------------------+-------------+----------+
-        | 250m_16_days_VI_Quality                | VI quality indicators         | bit_field   | 0 to     |
-        |                                        |                               |             | 65534    |
-        +----------------------------------------+-------------------------------+-------------+----------+
+        +----------------------------------------+---------------+-------------+----------+
+        | band                                   | Description   | Units       | Range    |
+        +========================================+===============+=============+==========+
+        | 250m_16_days_blue_reflectance          | Surface       | reflectance | 0 to     |
+        |                                        | Reflectance   |             | 10000    |
+        |                                        | Band 3        |             |          |
+        +----------------------------------------+---------------+-------------+----------+
+        | 250m_16_days_composite_day_of_the_year | Day of year   | day of year | 1 to 366 |
+        |                                        | VI pixel      |             |          |
+        +----------------------------------------+---------------+-------------+----------+
+        | 250m_16_days_EVI                       | 16 day EVI    |             | -2000 to |
+        |                                        | average       |             | 10000    |
+        +----------------------------------------+---------------+-------------+----------+
+        | 250m_16_days_MIR_reflectance           | Surface       | reflectance | 0 to     |
+        |                                        | Reflectance   |             | 10000    |
+        |                                        | Band 7        |             |          |
+        +----------------------------------------+---------------+-------------+----------+
+        | 250m_16_days_NDVI                      | 16 day NDVI   |             | -2000 to |
+        |                                        | average       |             | 10000    |
+        +----------------------------------------+---------------+-------------+----------+
+        | 250m_16_days_NIR_reflectance           | Surface       | reflectance | 0 to     |
+        |                                        | Reflectance   |             | 10000    |
+        |                                        | Band 2        |             |          |
+        +----------------------------------------+---------------+-------------+----------+
+        | 250m_16_days_pixel_reliability         | Quality       | rank        | 0 to 3   |
+        |                                        | reliability   |             |          |
+        |                                        | of VI pixel   |             |          |
+        +----------------------------------------+---------------+-------------+----------+
+        | 250m_16_days_red_reflectance           | Surface       | reflectance | 0 to     |
+        |                                        | Reflectance   |             | 10000    |
+        |                                        | Band 1        |             |          |
+        +----------------------------------------+---------------+-------------+----------+
+        | 250m_16_days_relative_azimuth_angle    | Relative      | degrees     | -3600 to |
+        |                                        | azimuth angle |             | 3600     |
+        |                                        | of VI pixel   |             |          |
+        +----------------------------------------+---------------+-------------+----------+
+        | 250m_16_days_sun_zenith_angle          | Sun zenith    | degrees     | -9000 to |
+        |                                        | angle of VI   |             | 9000     |
+        |                                        | pixel         |             |          |
+        +----------------------------------------+---------------+-------------+----------+
+        | 250m_16_days_view_zenith_angle         | View zenith   | degrees     | -9000 to |
+        |                                        | angle of VI   |             | 9000     |
+        |                                        | Pixel         |             |          |
+        +----------------------------------------+---------------+-------------+----------+
+        | 250m_16_days_VI_Quality                | VI quality    | bit field   | 0 to     |
+        |                                        | indicators    |             | 65534    |
+        +----------------------------------------+---------------+-------------+----------+
 
         MOD14A2
 
         +----------+---------------+------------+---------+
         | band     | Description   | Units      | Range   |
         +==========+===============+============+=========+
-        | FireMask | fire mask     | class-flag | 1 to    |
+        | FireMask | fire mask     | class flag | 1 to    |
         |          |               |            | 9       |
         +----------+---------------+------------+---------+
-        | QA       | pixel quality | bit_field  | 0 to    |
+        | QA       | pixel quality | bit field  | 0 to    |
         |          |               |            | 6       |
         +----------+---------------+------------+---------+
 
@@ -1675,10 +1715,10 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         +-----------------+--------------------------------+------------+---------+
         | band            | Description                    | Units      | Range   |
         +=================+================================+============+=========+
-        | FparExtra_QC    | Extra detail Quality for LAI   | class-flag | 0 to    |
+        | FparExtra_QC    | Extra detail Quality for LAI   | class flag | 0 to    |
         |                 | and FPAR                       |            | 254     |
         +-----------------+--------------------------------+------------+---------+
-        | FparLai_QC      | Quality for LAI and FPAR       | class-flag | 0 to    |
+        | FparLai_QC      | Quality for LAI and FPAR       | class flag | 0 to    |
         |                 |                                |            | 254     |
         +-----------------+--------------------------------+------------+---------+
         | FparStdDev_500m | Standard deviation for FPAR    | percent    | 0 to    |
@@ -1786,7 +1826,7 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         +----------------------------+----------------------------+-----------+---------+
         | band                       | Description                | Units     | Range   |
         +============================+============================+===========+=========+
-        | Cloud                      | Cloud cover indicators     | bit_field | 0 to    |
+        | Cloud                      | Cloud cover indicators     | bit field | 0 to    |
         |                            |                            |           | 255     |
         +----------------------------+----------------------------+-----------+---------+
         | Percent_NonTree_Vegetation | Percent nontree vegetation | percent   | 0 to    |
@@ -1804,7 +1844,7 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         | Percent_Tree_Cover_SD      | percent tree cover SD      | percent   | 0 to    |
         |                            |                            |           | 10000   |
         +----------------------------+----------------------------+-----------+---------+
-        | Quality                    | Quality Control indicators | bit_field | 0 to    |
+        | Quality                    | Quality Control indicators | bit field | 0 to    |
         |                            |                            |           | 255     |
         +----------------------------+----------------------------+-----------+---------+
 
@@ -1834,16 +1874,16 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         | sur_refl_b07         | Surface reflectance for band 7 | reflectance | -100 to    |
         |                      |                                |             | 16000      |
         +----------------------+--------------------------------+-------------+------------+
-        | sur_refl_day_of_year | Surface reflectance day of     | day_of_year | 0 to       |
+        | sur_refl_day of year | Surface reflectance day of     | day of year | 0 to       |
         |                      | year                           |             | 366        |
         +----------------------+--------------------------------+-------------+------------+
-        | sur_refl_qc_500m     | Surface reflectance 500m       | bit_field   | 0 to       |
+        | sur_refl_qc_500m     | Surface reflectance 500m       | bit field   | 0 to       |
         |                      | quality control flags          |             | 4294966531 |
         +----------------------+--------------------------------+-------------+------------+
         | sur_refl_raz         | Relative azimuth               | degree      | -18000 to  |
         |                      |                                |             | 18000      |
         +----------------------+--------------------------------+-------------+------------+
-        | sur_refl_state_500m  | Surface reflectance 500m state | bit_field   | 0 to       |
+        | sur_refl_state_500m  | Surface reflectance 500m state | bit field   | 0 to       |
         |                      | flags                          |             | 57343      |
         +----------------------+--------------------------------+-------------+------------+
         | sur_refl_szen        | Solar zenith                   | degree      | 0 to       |
@@ -1903,7 +1943,7 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         | 250m_16_days_blue_reflectance          | Surface Reflectance Band 3    | reflectance | 0 to     |
         |                                        |                               |             | 10000    |
         +----------------------------------------+-------------------------------+-------------+----------+
-        | 250m_16_days_composite_day_of_the_year | Day of year VI pixel          | day_of_year | 1 to     |
+        | 250m_16_days_composite_day_of_the_year | Day of year VI pixel          | day of year | 1 to     |
         |                                        |                               |             | 366      |
         +----------------------------------------+-------------------------------+-------------+----------+
         | 250m_16_days_EVI                       | 16 day EVI average            |             | -2000 to |
@@ -1933,7 +1973,7 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         | 250m_16_days_view_zenith_angle         | View zenith angle of VI Pixel | degrees     | -9000 to |
         |                                        |                               |             | 9000     |
         +----------------------------------------+-------------------------------+-------------+----------+
-        | 250m_16_days_VI_Quality                | VI quality indicators         | bit_field   | 0 to     |
+        | 250m_16_days_VI_Quality                | VI quality indicators         | bit field   | 0 to     |
         |                                        |                               |             | 65534    |
         +----------------------------------------+-------------------------------+-------------+----------+
 
@@ -1942,10 +1982,10 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         +----------+---------------+------------+---------+
         | band     | Description   | Units      | Range   |
         +==========+===============+============+=========+
-        | FireMask | fire mask     | class-flag | 1 to    |
+        | FireMask | fire mask     | class flag | 1 to    |
         |          |               |            | 9       |
         +----------+---------------+------------+---------+
-        | QA       | pixel quality | bit_field  | 0 to    |
+        | QA       | pixel quality | bit field  | 0 to    |
         |          |               |            | 6       |
         +----------+---------------+------------+---------+
 
@@ -1954,10 +1994,10 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         +-----------------+--------------------------------+------------+---------+
         | band            | Description                    | Units      | Range   |
         +=================+================================+============+=========+
-        | FparExtra_QC    | Extra detail Quality for LAI   | class-flag | 0 to    |
+        | FparExtra_QC    | Extra detail Quality for LAI   | class flag | 0 to    |
         |                 | and FPAR                       |            | 254     |
         +-----------------+--------------------------------+------------+---------+
-        | FparLai_QC      | Quality for LAI and FPAR       | class-flag | 0 to    |
+        | FparLai_QC      | Quality for LAI and FPAR       | class flag | 0 to    |
         |                 |                                |            | 254     |
         +-----------------+--------------------------------+------------+---------+
         | FparStdDev_500m | Standard deviation for FPAR    | percent    | 0 to    |
@@ -2065,7 +2105,7 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         +-----------------------+--------------------------------+-------------+
         | band                  | Description                    | Units       |
         +=======================+================================+=============+
-        | EVI_Quality           | MODIS enhanced vegetation      | bit_field   |
+        | EVI_Quality           | MODIS enhanced vegetation      | bit field   |
         |                       | index quality flag             |             |
         +-----------------------+--------------------------------+-------------+
         | SIF_740_daily_corr    | daily corrected SIF at 740nm   | mW/m2/nm/sr |
@@ -2097,7 +2137,7 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         | SolarZenith             | Solar zenith                 | degree      | 0 to       |
         |                         |                              |             | 18000      |
         +-------------------------+------------------------------+-------------+------------+
-        | SurfReflect_Day_Of_Year | Surface reflectance day of   | day_of_year | 1 to       |
+        | SurfReflect_day of year | Surface reflectance day of   | day of year | 1 to       |
         |                         | year                         |             | 366        |
         +-------------------------+------------------------------+-------------+------------+
         | SurfReflect_M1          | Surface reflectance for band | reflectance | -100 to    |
@@ -2127,10 +2167,10 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         | SurfReflect_M8          | Surface reflectance for band | reflectance | -100 to    |
         |                         | M8                           |             | 16000      |
         +-------------------------+------------------------------+-------------+------------+
-        | SurfReflect_QC          | Surface reflectance quality  | bit_field   | 0 to       |
+        | SurfReflect_QC          | Surface reflectance quality  | bit field   | 0 to       |
         |                         | control flags                |             | 2147483647 |
         +-------------------------+------------------------------+-------------+------------+
-        | SurfReflect_State       | Surface reflectance state    | bit_field   | 0 to       |
+        | SurfReflect_State       | Surface reflectance state    | bit field   | 0 to       |
         |                         | flags                        |             | 13311      |
         +-------------------------+------------------------------+-------------+------------+
 
@@ -2148,10 +2188,10 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         | SurfReflect_I3         | Surface reflectance for band   | reflectance | -100 to |
         |                        | I3                             |             | 16000   |
         +------------------------+--------------------------------+-------------+---------+
-        | SurfReflect_QC_500m    | Surface reflectance 250m       | bit_field   | 0 to    |
+        | SurfReflect_QC_500m    | Surface reflectance 250m       | bit field   | 0 to    |
         |                        | quality control flags          |             | 32767   |
         +------------------------+--------------------------------+-------------+---------+
-        | SurfReflect_State_500m | Surface reflectance 250m state | bit_field   | 0 to    |
+        | SurfReflect_State_500m | Surface reflectance 250m state | bit field   | 0 to    |
         |                        | flags                          |             | 13311   |
         +------------------------+--------------------------------+-------------+---------+
 
@@ -2163,7 +2203,7 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         | 500_m_16_days_blue_reflectance          | Blue band (M3 478-498 nm)     | reflectance | 0 to      |
         |                                         | reflectance                   |             | 10000     |
         +-----------------------------------------+-------------------------------+-------------+-----------+
-        | 500_m_16_days_composite_day_of_the_year | Day of the year               | day_of_year | 1 to      |
+        | 500_m_16_days_composite_day_of_the_year | Day of the year               | day of year | 1 to      |
         |                                         |                               |             | 366       |
         +-----------------------------------------+-------------------------------+-------------+-----------+
         | 500_m_16_days_EVI                       | 16 day EVI average            |             | -10000 to |
@@ -2205,196 +2245,237 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         | 500_m_16_days_view_zenith_angle         | View zenith angle             | degrees     | 0 to      |
         |                                         |                               |             | 18000     |
         +-----------------------------------------+-------------------------------+-------------+-----------+
-        | 500_m_16_days_VI_Quality                | VI quality indicators         | bit_field   | 0 to      |
+        | 500_m_16_days_VI_Quality                | VI quality indicators         | bit field   | 0 to      |
         |                                         |                               |             | 65534     |
         +-----------------------------------------+-------------------------------+-------------+-----------+
 
         VNP15A2H
 
-        +--------------+--------------------------------+------------+---------+
-        | band         | Description                    | Units      | Range   |
-        +==============+================================+============+=========+
-        | Fpar         | Fraction of photosynthetically | fraction   | 0 to    |
-        |              | active radiation               |            | 100     |
-        +--------------+--------------------------------+------------+---------+
-        | FparExtra_QC | Extra detail Quality for LAI   | class-flag | 0 to    |
-        |              | and FPAR                       |            | 254     |
-        +--------------+--------------------------------+------------+---------+
-        | FparLai_QC   | Quality for LAI and FPAR       | class-flag | 0 to    |
-        |              |                                |            | 254     |
-        +--------------+--------------------------------+------------+---------+
-        | FparStdDev   | Standard deviation for FPAR    | fraction   | 0 to    |
-        |              |                                |            | 100     |
-        +--------------+--------------------------------+------------+---------+
-        | Lai          | Leaf area index                | m^2/m^2    | 0 to    |
-        |              |                                |            | 100     |
-        +--------------+--------------------------------+------------+---------+
-        | LaiStdDev    | Standard deviation for LAI     | m^2/m^2    | 0 to    |
-        |              |                                |            | 100     |
-        +--------------+--------------------------------+------------+---------+
+        +--------------+----------------------------+----------+---------+
+        | band         | Description                | Units    | Range   |
+        +==============+============================+==========+=========+
+        | Fpar         | Fraction of                | fraction | 0 to    |
+        |              | photosynthetically active  |          | 100     |
+        |              | radiation                  |          |         |
+        +--------------+----------------------------+----------+---------+
+        | FparExtra_QC | Extra detail Quality for   | class    | 0 to    |
+        |              | LAI and FPAR               | flag     | 254     |
+        +--------------+----------------------------+----------+---------+
+        | FparLai_QC   | Quality for LAI and FPAR   | class    | 0 to    |
+        |              |                            | flag     | 254     |
+        +--------------+----------------------------+----------+---------+
+        | FparStdDev   | Standard deviation for     | fraction | 0 to    |
+        |              | FPAR                       |          | 100     |
+        +--------------+----------------------------+----------+---------+
+        | Lai          | Leaf area index            | m^2/m^2  | 0 to    |
+        |              |                            |          | 100     |
+        +--------------+----------------------------+----------+---------+
+        | LaiStdDev    | Standard deviation for LAI | m^2/m^2  | 0 to    |
+        |              |                            |          | 100     |
+        +--------------+----------------------------+----------+---------+
 
         VNP21A2
 
-        +------------------+-------------------------------+---------+---------+
-        | band             | Description                   | Units   | Range   |
-        +==================+===============================+=========+=========+
-        | Emis_14          | Average Band 14 emissivity    |         | 1 to    |
-        |                  |                               |         | 255     |
-        +------------------+-------------------------------+---------+---------+
-        | Emis_15          | Average Band 15 emissivity    |         | 1 to    |
-        |                  |                               |         | 255     |
-        +------------------+-------------------------------+---------+---------+
-        | Emis_16          | Average Band 16 emissivity    |         | 1 to    |
-        |                  |                               |         | 255     |
-        +------------------+-------------------------------+---------+---------+
-        | LST_Day_1KM      | Daytime Land-surface          | degK    | 7500 to |
-        |                  | Temperature                   |         | 65535   |
-        +------------------+-------------------------------+---------+---------+
-        | LST_Night_1KM    | Nighttime Land-surface        | degK    | 7500 to |
-        |                  | Temperature                   |         | 65535   |
-        +------------------+-------------------------------+---------+---------+
-        | QC_Day           | Quality control for daytime   |         | 1 to    |
-        |                  | LST and emissivity            |         | 255     |
-        +------------------+-------------------------------+---------+---------+
-        | QC_Night         | Quality control for nighttime |         | 1 to    |
-        |                  | LST and emissivity            |         | 255     |
-        +------------------+-------------------------------+---------+---------+
-        | View_Angle_Day   | Average view zenith angle of  | degree  | 0 to    |
-        |                  | daytime temperature           |         | 130     |
-        +------------------+-------------------------------+---------+---------+
-        | View_Angle_Night | Average view zenith angle of  | degree  | 0 to    |
-        |                  | nighttime temperature         |         | 130     |
-        +------------------+-------------------------------+---------+---------+
-        | View_Time_Day    | Average time of daytime       | hrs     | 0 to    |
-        |                  | observation                   |         | 240     |
-        +------------------+-------------------------------+---------+---------+
-        | View_Time_Night  | Average time of nighttime     | hrs     | 0 to    |
-        |                  | observation                   |         | 240     |
-        +------------------+-------------------------------+---------+---------+
+        +------------------+--------------------+---------+---------+
+        | band             | Description        | Units   | Range   |
+        +==================+====================+=========+=========+
+        | Emis_14          | Average Band 14    |         | 1 to    |
+        |                  | emissivity         |         | 255     |
+        +------------------+--------------------+---------+---------+
+        | Emis_15          | Average Band 15    |         | 1 to    |
+        |                  | emissivity         |         | 255     |
+        +------------------+--------------------+---------+---------+
+        | Emis_16          | Average Band 16    |         | 1 to    |
+        |                  | emissivity         |         | 255     |
+        +------------------+--------------------+---------+---------+
+        | LST_Day_1KM      | Daytime Land-      | degK    | 7500 to |
+        |                  | surface            |         | 65535   |
+        |                  | Temperature        |         |         |
+        +------------------+--------------------+---------+---------+
+        | LST_Night_1KM    | Nighttime Land-    | degK    | 7500 to |
+        |                  | surface            |         | 65535   |
+        |                  | Temperature        |         |         |
+        +------------------+--------------------+---------+---------+
+        | QC_Day           | Quality control    |         | 1 to    |
+        |                  | for daytime LST    |         | 255     |
+        |                  | and emissivity     |         |         |
+        +------------------+--------------------+---------+---------+
+        | QC_Night         | Quality control    |         | 1 to    |
+        |                  | for nighttime LST  |         | 255     |
+        |                  | and emissivity     |         |         |
+        +------------------+--------------------+---------+---------+
+        | View_Angle_Day   | Average view       | degree  | 0 to    |
+        |                  | zenith angle of    |         | 130     |
+        |                  | daytime            |         |         |
+        |                  | temperature        |         |         |
+        +------------------+--------------------+---------+---------+
+        | View_Angle_Night | Average view       | degree  | 0 to    |
+        |                  | zenith angle of    |         | 130     |
+        |                  | nighttime          |         |         |
+        |                  | temperature        |         |         |
+        +------------------+--------------------+---------+---------+
+        | View_Time_Day    | Average time of    | hrs     | 0 to    |
+        |                  | daytime            |         | 240     |
+        |                  | observation        |         |         |
+        +------------------+--------------------+---------+---------+
+        | View_Time_Night  | Average time of    | hrs     | 0 to    |
+        |                  | nighttime          |         | 240     |
+        |                  | observation        |         |         |
+        +------------------+--------------------+---------+---------+
 
         VNP22Q2
 
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | band                                         | Description                    | Units          | Range   |
-        +==============================================+================================+================+=========+
-        | Cycle_1.Date_Mid_Greenup_Phase_1             | Date at a mid-greenup phase    | day_of_year    | 1 to    |
-        |                                              |                                |                | 32766   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.Date_Mid_Senescence_Phase_1          | Date at a mid-senescence phase | day_of_year    | 1 to    |
-        |                                              |                                |                | 32766   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.EVI2_Growing_Season_Area_1           | Integrated EVI2 during a       | EVI2           | 1 to    |
-        |                                              | growing season                 |                | 32766   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.EVI2_Onset_Greenness_Increase_1      | EVI2 value at greenup onset    | EVI2           | 1 to    |
-        |                                              |                                |                | 10000   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.EVI2_Onset_Greenness_Maximum_1       | EVI2 value at maturity onset   | EVI2           | 1 to    |
-        |                                              |                                |                | 10000   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.GLSP_QC_1                            | Global Land Surface Phenology  |                | 0 to    |
-        |                                              | Quality Control                |                | 100     |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.Greenness_Agreement_Growing_Season_1 | EVI2 agreement between modeled |                | 0 to    |
-        |                                              | values and raw observations    |                | 100     |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.Growing_Season_Length_1              | Growing Season Length          | number_of_days | 1 to    |
-        |                                              |                                |                | 366     |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.Onset_Greenness_Decrease_1           | Date at which canopy greenness | day_of_year    | 1 to    |
-        |                                              | begins to decrease             |                | 32766   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.Onset_Greenness_Increase_1           | Date of onset of greenness     | day_of_year    | 1 to    |
-        |                                              | increase                       |                | 32766   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.Onset_Greenness_Maximum_1            | Date at which canopy greenness | day_of_year    | 1 to    |
-        |                                              | approaches its seasonal        |                | 32766   |
-        |                                              | maximum                        |                |         |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.Onset_Greenness_Minimum_1            | Date at which canopy greenness | day_of_year    | 1 to    |
-        |                                              | reaches a minimum              |                | 32766   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.PGQ_Growing_Season_1                 | Proportion of good quality     |                | 1 to    |
-        |                                              | observations during a growing  |                | 100     |
-        |                                              | season                         |                |         |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.PGQ_Onset_Greenness_Decrease_1       | Proportion of good quality     |                | 1 to    |
-        |                                              | around senescence onset        |                | 100     |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.PGQ_Onset_Greenness_Increase_1       | Proportion of good quality     |                | 1 to    |
-        |                                              | around greenup onset           |                | 100     |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.PGQ_Onset_Greenness_Maximum_1        | Proportion of good quality     |                | 1 to    |
-        |                                              | around maturity onset          |                | 100     |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.PGQ_Onset_Greenness_Minimum_1        | Proportion of good quality     |                | 1 to    |
-        |                                              | around dormancy onset          |                | 100     |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.Rate_Greenness_Decrease_1            | Rates of change in EVI2 values | EVI2/day       | 1 to    |
-        |                                              | during a senesce phase         |                | 32766   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_1.Rate_Greenness_Increase_1            | Rates of change in EVI2 values | EVI2/day       | 1 to    |
-        |                                              | during a greenup phase         |                | 32766   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.Date_Mid_Greenup_Phase_2             | Date at a mid-greenup phase    | day_of_year    | 1 to    |
-        |                                              |                                |                | 32766   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.Date_Mid_Senescence_Phase_2          | Date at a mid-senescence phase | day_of_year    | 1 to    |
-        |                                              |                                |                | 32766   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.EVI2_Growing_Season_Area_2           | Integrated EVI2 during a       | EVI2           | 1 to    |
-        |                                              | growing season                 |                | 32766   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.EVI2_Onset_Greenness_Increase_2      | EVI2 value at greenup onset    | EVI2           | 1 to    |
-        |                                              |                                |                | 10000   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.EVI2_Onset_Greenness_Maximum_2       | EVI2 value at maturity onset   | EVI2           | 1 to    |
-        |                                              |                                |                | 10000   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.GLSP_QC_2                            | Global Land Surface Phenology  |                | 0 to    |
-        |                                              | Quality Control                |                | 100     |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.Greenness_Agreement_Growing_Season_2 | EVI2 agreement between modeled |                | 0 to    |
-        |                                              | values and raw observations    |                | 100     |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.Growing_Season_Length_2              | Growing Season Length          | number_of_days | 1 to    |
-        |                                              |                                |                | 366     |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.Onset_Greenness_Decrease_2           | Date at which canopy greenness | day_of_year    | 1 to    |
-        |                                              | begins to decrease             |                | 32766   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.Onset_Greenness_Increase_2           | Date of onset of greenness     | day_of_year    | 1 to    |
-        |                                              | increase                       |                | 32766   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.Onset_Greenness_Maximum_2            | Date at which canopy greenness | day_of_year    | 1 to    |
-        |                                              | approaches its seasonal        |                | 32766   |
-        |                                              | maximum                        |                |         |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.Onset_Greenness_Minimum_2            | Date at which canopy greenness | day_of_year    | 1 to    |
-        |                                              | reaches a minimum              |                | 32766   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.PGQ_Growing_Season_2                 | Proportion of good quality     |                | 1 to    |
-        |                                              | observations during a growing  |                | 100     |
-        |                                              | season                         |                |         |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.PGQ_Onset_Greenness_Decrease_2       | Proportion of good quality     |                | 1 to    |
-        |                                              | around senescence onset        |                | 100     |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.PGQ_Onset_Greenness_Increase_2       | Proportion of good quality     |                | 1 to    |
-        |                                              | around greenup onset           |                | 100     |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.PGQ_Onset_Greenness_Maximum_2        | Proportion of good quality     |                | 1 to    |
-        |                                              | around maturity onset          |                | 100     |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.PGQ_Onset_Greenness_Minimum_2        | Proportion of good quality     |                | 1 to    |
-        |                                              | around dormancy onset          |                | 100     |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.Rate_Greenness_Decrease_2            | Rates of change in EVI2 values | EVI2/day       | 1 to    |
-        |                                              | during a senesce phase         |                | 32766   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
-        | Cycle_2.Rate_Greenness_Increase_2            | Rates of change in EVI2 values | EVI2/day       | 1 to    |
-        |                                              | during a greenup phase         |                | 32766   |
-        +----------------------------------------------+--------------------------------+----------------+---------+
+        +----------------------------------------------+--------------------+----------+---------+
+        | band                                         | Description        | Units    | Range   |
+        +==============================================+====================+==========+=========+
+        | Cycle_1.Date_Mid_Greenup_Phase_1             | Date at a mid-     | day of   | 1 to    |
+        |                                              | greenup phase      | year     | 32766   |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_1.Date_Mid_Senescence_Phase_1          | Date at a mid-     | day of   | 1 to    |
+        |                                              | senescence phase   | year     | 32766   |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_1.EVI2_Growing_Season_Area_1           | Integrated EVI2    | EVI2     | 1 to    |
+        |                                              | during a growing   |          | 32766   |
+        |                                              | season             |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_1.EVI2_Onset_Greenness_Increase_1      | EVI2 value at      | EVI2     | 1 to    |
+        |                                              | greenup onset      |          | 10000   |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_1.EVI2_Onset_Greenness_Maximum_1       | EVI2 value at      | EVI2     | 1 to    |
+        |                                              | maturity onset     |          | 10000   |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_1.GLSP_QC_1                            | Global Land        |          | 0 to    |
+        |                                              | Surface Phenology  |          | 100     |
+        |                                              | Quality Control    |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_1.Greenness_Agreement_Growing_Season_1 | EVI2 agreement     |          | 0 to    |
+        |                                              | between modeled    |          | 100     |
+        |                                              | values and raw     |          |         |
+        |                                              | observations       |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_1.Growing_Season_Length_1              | Growing Season     | number   | 1 to    |
+        |                                              | Length             | of days  | 366     |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_1.Onset_Greenness_Decrease_1           | Date at which      | day of   | 1 to    |
+        |                                              | canopy greenness   | year     | 32766   |
+        |                                              | begins to decrease |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_1.Onset_Greenness_Increase_1           | Date of onset of   | day of   | 1 to    |
+        |                                              | greenness increase | year     | 32766   |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_1.Onset_Greenness_Maximum_1            | Date at which      | day of   | 1 to    |
+        |                                              | canopy greenness   | year     | 32766   |
+        |                                              | approaches its     |          |         |
+        |                                              | seasonal maximum   |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_1.Onset_Greenness_Minimum_1            | Date at which      | day of   | 1 to    |
+        |                                              | canopy greenness   | year     | 32766   |
+        |                                              | reaches a minimum  |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_1.PGQ_Growing_Season_1                 | Proportion of good |          | 1 to    |
+        |                                              | quality            |          | 100     |
+        |                                              | observations       |          |         |
+        |                                              | during a growing   |          |         |
+        |                                              | season             |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_1.PGQ_Onset_Greenness_Decrease_1       | Proportion of good |          | 1 to    |
+        |                                              | quality around     |          | 100     |
+        |                                              | senescence onset   |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_1.PGQ_Onset_Greenness_Increase_1       | Proportion of good |          | 1 to    |
+        |                                              | quality around     |          | 100     |
+        |                                              | greenup onset      |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_1.PGQ_Onset_Greenness_Maximum_1        | Proportion of good |          | 1 to    |
+        |                                              | quality around     |          | 100     |
+        |                                              | maturity onset     |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_1.PGQ_Onset_Greenness_Minimum_1        | Proportion of good |          | 1 to    |
+        |                                              | quality around     |          | 100     |
+        |                                              | dormancy onset     |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_1.Rate_Greenness_Decrease_1            | Rates of change in | EVI2/day | 1 to    |
+        |                                              | EVI2 values during |          | 32766   |
+        |                                              | a senesce phase    |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_1.Rate_Greenness_Increase_1            | Rates of change in | EVI2/day | 1 to    |
+        |                                              | EVI2 values during |          | 32766   |
+        |                                              | a greenup phase    |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_2.Date_Mid_Greenup_Phase_2             | Date at a mid-     | day of   | 1 to    |
+        |                                              | greenup phase      | year     | 32766   |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_2.Date_Mid_Senescence_Phase_2          | Date at a mid-     | day of   | 1 to    |
+        |                                              | senescence phase   | year     | 32766   |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_2.EVI2_Growing_Season_Area_2           | Integrated EVI2    | EVI2     | 1 to    |
+        |                                              | during a growing   |          | 32766   |
+        |                                              | season             |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_2.EVI2_Onset_Greenness_Increase_2      | EVI2 value at      | EVI2     | 1 to    |
+        |                                              | greenup onset      |          | 10000   |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_2.EVI2_Onset_Greenness_Maximum_2       | EVI2 value at      | EVI2     | 1 to    |
+        |                                              | maturity onset     |          | 10000   |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_2.GLSP_QC_2                            | Global Land        |          | 0 to    |
+        |                                              | Surface Phenology  |          | 100     |
+        |                                              | Quality Control    |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_2.Greenness_Agreement_Growing_Season_2 | EVI2 agreement     |          | 0 to    |
+        |                                              | between modeled    |          | 100     |
+        |                                              | values and raw     |          |         |
+        |                                              | observations       |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_2.Growing_Season_Length_2              | Growing Season     | number_o | 1 to    |
+        |                                              | Length             | f_ days  | 366     |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_2.Onset_Greenness_Decrease_2           | Date at which      | day of   | 1 to    |
+        |                                              | canopy greenness   | year     | 32766   |
+        |                                              | begins to decrease |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_2.Onset_Greenness_Increase_2           | Date of onset of   | day of   | 1 to    |
+        |                                              | greenness increase | year     | 32766   |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_2.Onset_Greenness_Maximum_2            | Date at which      | day of   | 1 to    |
+        |                                              | canopy greenness   | year     | 32766   |
+        |                                              | approaches its     |          |         |
+        |                                              | seasonal maximum   |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_2.Onset_Greenness_Minimum_2            | Date at which      | day of   | 1 to    |
+        |                                              | canopy greenness   | year     | 32766   |
+        |                                              | reaches a minimum  |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_2.PGQ_Growing_Season_2                 | Proportion of good |          | 1 to    |
+        |                                              | quality            |          | 100     |
+        |                                              | observations       |          |         |
+        |                                              | during a growing   |          |         |
+        |                                              | season             |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_2.PGQ_Onset_Greenness_Decrease_2       | Proportion of good |          | 1 to    |
+        |                                              | quality around     |          | 100     |
+        |                                              | senescence onset   |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_2.PGQ_Onset_Greenness_Increase_2       | Proportion of good |          | 1 to    |
+        |                                              | quality around     |          | 100     |
+        |                                              | greenup onset      |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_2.PGQ_Onset_Greenness_Maximum_2        | Proportion of good |          | 1 to    |
+        |                                              | quality around     |          | 100     |
+        |                                              | maturity onset     |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_2.PGQ_Onset_Greenness_Minimum_2        | Proportion of good |          | 1 to    |
+        |                                              | quality around     |          | 100     |
+        |                                              | dormancy onset     |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_2.Rate_Greenness_Decrease_2            | Rates of change in | EVI2/day | 1 to    |
+        |                                              | EVI2 values during |          | 32766   |
+        |                                              | a senesce phase    |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
+        | Cycle_2.Rate_Greenness_Increase_2            | Rates of change in | EVI2/day | 1 to    |
+        |                                              | EVI2 values during |          | 32766   |
+        |                                              | a greenup phase    |          |         |
+        +----------------------------------------------+--------------------+----------+---------+
 
     ${start_date}
 

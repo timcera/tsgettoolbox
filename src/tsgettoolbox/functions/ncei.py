@@ -105,218 +105,222 @@ ncei_ghcnd_docstrings = {
 
     Other possible data collected:
 
-    +------+-------------------------------------------------------------------+
-    | Code | Description                                                       |
-    +======+===================================================================+
-    | ACMC | Average cloudiness midnight to midnight from 30-second ceilometer |
-    |      | data (percent)                                                    |
-    +------+-------------------------------------------------------------------+
-    | ACMH | Average cloudiness midnight to midnight from manual observations  |
-    |      | (percent)                                                         |
-    +------+-------------------------------------------------------------------+
-    | ACSC | Average cloudiness sunrise to sunset from 30-second ceilometer    |
-    |      | data (percent)                                                    |
-    +------+-------------------------------------------------------------------+
-    | ACSH | Average cloudiness sunrise to sunset from manual observations     |
-    |      | (percent)                                                         |
-    +------+-------------------------------------------------------------------+
-    | AWDR | Average daily wind direction (degrees)                            |
-    +------+-------------------------------------------------------------------+
-    | AWND | Average daily wind speed (meters per second)                      |
-    +------+-------------------------------------------------------------------+
-    | DAEV | Number of days included in the multiday evaporation total (MDEV)  |
-    +------+-------------------------------------------------------------------+
-    | DAPR | Number of days included in the multiday precipitation total       |
-    |      | (MDPR)                                                            |
-    +------+-------------------------------------------------------------------+
-    | DASF | Number of days included in the multiday snowfall total (MDSF)     |
-    +------+-------------------------------------------------------------------+
-    | DATN | Number of days included in the multiday minimum temperature       |
-    |      | (MDTN)                                                            |
-    +------+-------------------------------------------------------------------+
-    | DATX | Number of days included in the multiday maximum temperature       |
-    |      | (MDTX)                                                            |
-    +------+-------------------------------------------------------------------+
-    | DAWM | Number of days included in the multiday wind movement (MDWM)      |
-    +------+-------------------------------------------------------------------+
-    | DWPR | Number of days with non-zero precipitation included in multiday   |
-    |      | precipitation total (MDPR)                                        |
-    +------+-------------------------------------------------------------------+
-    | EVAP | Evaporation of water from evaporation pan (mm)                    |
-    +------+-------------------------------------------------------------------+
-    | FMTM | Time of fastest mile or fastest 1-minute wind (hours and minutes, |
-    |      | i.e., HHMM)                                                       |
-    +------+-------------------------------------------------------------------+
-    | FRGB | Base of frozen ground layer (cm)                                  |
-    +------+-------------------------------------------------------------------+
-    | FRGT | Top of frozen ground layer (cm)                                   |
-    +------+-------------------------------------------------------------------+
-    | FRTH | Thickness of frozen ground layer (cm)                             |
-    +------+-------------------------------------------------------------------+
-    | GAHT | Difference between river and gauge height (cm)                    |
-    +------+-------------------------------------------------------------------+
-    | MDEV | Multiday evaporation total (use with DAEV)                        |
-    +------+-------------------------------------------------------------------+
-    | MDPR | Multiday precipitation total (mm; use with DAPR and DWPR, if      |
-    |      | available)                                                        |
-    +------+-------------------------------------------------------------------+
-    | MDSF | Multiday snowfall total                                           |
-    +------+-------------------------------------------------------------------+
-    | MDTN | Multiday minimum temperature (degrees C; use with DATN)           |
-    +------+-------------------------------------------------------------------+
-    | MDTX | Multiday maximum temperature (degrees C; use with DATX)           |
-    +------+-------------------------------------------------------------------+
-    | MDWM | Multiday wind movement (km)                                       |
-    +------+-------------------------------------------------------------------+
-    | MNPN | Daily minimum temperature of water in an evaporation pan (degrees |
-    |      | C)                                                                |
-    +------+-------------------------------------------------------------------+
-    | MXPN | Daily maximum temperature of water in an evaporation pan (degrees |
-    |      | C)                                                                |
-    +------+-------------------------------------------------------------------+
-    | PGTM | Peak gust time (hours and minutes, i.e., HHMM)                    |
-    +------+-------------------------------------------------------------------+
-    | PSUN | Daily percent of possible sunshine (percent)                      |
-    +------+-------------------------------------------------------------------+
-    | TAVG | Average temperature (degrees C) [Note that TAVG from source 'S'   |
-    |      | corresponds to an average for the period ending at 2400 UTC       |
-    |      | rather than local midnight]                                       |
-    +------+-------------------------------------------------------------------+
-    | THIC | Thickness of ice on water (mm)                                    |
-    +------+-------------------------------------------------------------------+
-    | TOBS | Temperature at the time of observation (degrees C)                |
-    +------+-------------------------------------------------------------------+
-    | TSUN | Daily total sunshine (minutes)                                    |
-    +------+-------------------------------------------------------------------+
-    | WDF1 | Direction of fastest 1-minute wind (degrees)                      |
-    +------+-------------------------------------------------------------------+
-    | WDF2 | Direction of fastest 2-minute wind (degrees)                      |
-    +------+-------------------------------------------------------------------+
-    | WDF5 | Direction of fastest 5-second wind (degrees)                      |
-    +------+-------------------------------------------------------------------+
-    | WDFG | Direction of peak wind gust (degrees)                             |
-    +------+-------------------------------------------------------------------+
-    | WDFI | Direction of highest instantaneous wind (degrees)                 |
-    +------+-------------------------------------------------------------------+
-    | WDFM | Fastest mile wind direction (degrees)                             |
-    +------+-------------------------------------------------------------------+
-    | WDMV | 24-hour wind movement (km)                                        |
-    +------+-------------------------------------------------------------------+
-    | WESD | Water equivalent of snow on the ground (mm)                       |
-    +------+-------------------------------------------------------------------+
-    | WESF | Water equivalent of snowfall (mm)                                 |
-    +------+-------------------------------------------------------------------+
-    | WSF1 | Fastest 1-minute wind speed (meters per second)                   |
-    +------+-------------------------------------------------------------------+
-    | WSF2 | Fastest 2-minute wind speed (meters per second)                   |
-    +------+-------------------------------------------------------------------+
-    | WSF5 | Fastest 5-second wind speed (meters per second)                   |
-    +------+-------------------------------------------------------------------+
-    | WSFG | Peak gust wind speed (meters per second)                          |
-    +------+-------------------------------------------------------------------+
-    | WSFI | Highest instantaneous wind speed (meters per second)              |
-    +------+-------------------------------------------------------------------+
-    | WSFM | Fastest mile wind speed (meters per second)                       |
-    +------+-------------------------------------------------------------------+
+    +------+--------------------------------------------------------------+
+    | Code | Description                                                  |
+    +======+==============================================================+
+    | ACMC | Average cloudiness midnight to midnight from 30-second       |
+    |      | ceilometer data (percent)                                    |
+    +------+--------------------------------------------------------------+
+    | ACMH | Average cloudiness midnight to midnight from manual          |
+    |      | observations (percent)                                       |
+    +------+--------------------------------------------------------------+
+    | ACSC | Average cloudiness sunrise to sunset from 30-second          |
+    |      | ceilometer data (percent)                                    |
+    +------+--------------------------------------------------------------+
+    | ACSH | Average cloudiness sunrise to sunset from manual             |
+    |      | observations (percent)                                       |
+    +------+--------------------------------------------------------------+
+    | AWDR | Average daily wind direction (degrees)                       |
+    +------+--------------------------------------------------------------+
+    | AWND | Average daily wind speed (meters per second)                 |
+    +------+--------------------------------------------------------------+
+    | DAEV | Number of days included in the multiday evaporation total    |
+    |      | (MDEV)                                                       |
+    +------+--------------------------------------------------------------+
+    | DAPR | Number of days included in the multiday precipitation total  |
+    |      | (MDPR)                                                       |
+    +------+--------------------------------------------------------------+
+    | DASF | Number of days included in the multiday snowfall total       |
+    |      | (MDSF)                                                       |
+    +------+--------------------------------------------------------------+
+    | DATN | Number of days included in the multiday minimum temperature  |
+    |      | (MDTN)                                                       |
+    +------+--------------------------------------------------------------+
+    | DATX | Number of days included in the multiday maximum temperature  |
+    |      | (MDTX)                                                       |
+    +------+--------------------------------------------------------------+
+    | DAWM | Number of days included in the multiday wind movement (MDWM) |
+    +------+--------------------------------------------------------------+
+    | DWPR | Number of days with non-zero precipitation included in       |
+    |      | multiday precipitation total (MDPR)                          |
+    +------+--------------------------------------------------------------+
+    | EVAP | Evaporation of water from evaporation pan (mm)               |
+    +------+--------------------------------------------------------------+
+    | FMTM | Time of fastest mile or fastest 1-minute wind (hours and     |
+    |      | minutes, i.e., HHMM)                                         |
+    +------+--------------------------------------------------------------+
+    | FRGB | Base of frozen ground layer (cm)                             |
+    +------+--------------------------------------------------------------+
+    | FRGT | Top of frozen ground layer (cm)                              |
+    +------+--------------------------------------------------------------+
+    | FRTH | Thickness of frozen ground layer (cm)                        |
+    +------+--------------------------------------------------------------+
+    | GAHT | Difference between river and gauge height (cm)               |
+    +------+--------------------------------------------------------------+
+    | MDEV | Multiday evaporation total (use with DAEV)                   |
+    +------+--------------------------------------------------------------+
+    | MDPR | Multiday precipitation total (mm; use with DAPR and DWPR, if |
+    |      | available)                                                   |
+    +------+--------------------------------------------------------------+
+    | MDSF | Multiday snowfall total                                      |
+    +------+--------------------------------------------------------------+
+    | MDTN | Multiday minimum temperature (degrees C; use with DATN)      |
+    +------+--------------------------------------------------------------+
+    | MDTX | Multiday maximum temperature (degrees C; use with DATX)      |
+    +------+--------------------------------------------------------------+
+    | MDWM | Multiday wind movement (km)                                  |
+    +------+--------------------------------------------------------------+
+    | MNPN | Daily minimum temperature of water in an evaporation pan     |
+    |      | (degrees C)                                                  |
+    +------+--------------------------------------------------------------+
+    | MXPN | Daily maximum temperature of water in an evaporation pan     |
+    |      | (degrees C)                                                  |
+    +------+--------------------------------------------------------------+
+    | PGTM | Peak gust time (hours and minutes, i.e., HHMM)               |
+    +------+--------------------------------------------------------------+
+    | PSUN | Daily percent of possible sunshine (percent)                 |
+    +------+--------------------------------------------------------------+
+    | TAVG | Average temperature (degrees C) [Note that TAVG from source  |
+    |      | 'S' corresponds to an average for the period ending at 2400  |
+    |      | UTC rather than local midnight]                              |
+    +------+--------------------------------------------------------------+
+    | THIC | Thickness of ice on water (mm)                               |
+    +------+--------------------------------------------------------------+
+    | TOBS | Temperature at the time of observation (degrees C)           |
+    +------+--------------------------------------------------------------+
+    | TSUN | Daily total sunshine (minutes)                               |
+    +------+--------------------------------------------------------------+
+    | WDF1 | Direction of fastest 1-minute wind (degrees)                 |
+    +------+--------------------------------------------------------------+
+    | WDF2 | Direction of fastest 2-minute wind (degrees)                 |
+    +------+--------------------------------------------------------------+
+    | WDF5 | Direction of fastest 5-second wind (degrees)                 |
+    +------+--------------------------------------------------------------+
+    | WDFG | Direction of peak wind gust (degrees)                        |
+    +------+--------------------------------------------------------------+
+    | WDFI | Direction of highest instantaneous wind (degrees)            |
+    +------+--------------------------------------------------------------+
+    | WDFM | Fastest mile wind direction (degrees)                        |
+    +------+--------------------------------------------------------------+
+    | WDMV | 24-hour wind movement (km)                                   |
+    +------+--------------------------------------------------------------+
+    | WESD | Water equivalent of snow on the ground (mm)                  |
+    +------+--------------------------------------------------------------+
+    | WESF | Water equivalent of snowfall (mm)                            |
+    +------+--------------------------------------------------------------+
+    | WSF1 | Fastest 1-minute wind speed (meters per second)              |
+    +------+--------------------------------------------------------------+
+    | WSF2 | Fastest 2-minute wind speed (meters per second)              |
+    +------+--------------------------------------------------------------+
+    | WSF5 | Fastest 5-second wind speed (meters per second)              |
+    +------+--------------------------------------------------------------+
+    | WSFG | Peak gust wind speed (meters per second)                     |
+    +------+--------------------------------------------------------------+
+    | WSFI | Highest instantaneous wind speed (meters per second)         |
+    +------+--------------------------------------------------------------+
+    | WSFM | Fastest mile wind speed (meters per second)                  |
+    +------+--------------------------------------------------------------+
 
     SNXY and SXXY Table
 
-    +-------+------------------------------------------------------------------+
-    | SNXY  | Minimum soil temperature (degrees C) where 'X' corresponds to a  |
-    |       | code for ground cover and 'Y' corresponds to a code for soil     |
-    |       | depth.                                                           |
-    +=======+==================================================================+
-    |       | Ground cover codes include the following:                        |
-    +-------+------------------------------------------------------------------+
-    | X = 0 | unknown                                                          |
-    +-------+------------------------------------------------------------------+
-    | X = 1 | grass                                                            |
-    +-------+------------------------------------------------------------------+
-    | X = 2 | fallow                                                           |
-    +-------+------------------------------------------------------------------+
-    | X = 3 | bare ground                                                      |
-    +-------+------------------------------------------------------------------+
-    | X = 4 | brome grass                                                      |
-    +-------+------------------------------------------------------------------+
-    | X = 5 | sod                                                              |
-    +-------+------------------------------------------------------------------+
-    | X = 6 | straw mulch                                                      |
-    +-------+------------------------------------------------------------------+
-    | X = 7 | grass muck                                                       |
-    +-------+------------------------------------------------------------------+
-    | X = 8 | bare muck                                                        |
-    +-------+------------------------------------------------------------------+
-    |       | Depth codes include the following:                               |
-    +-------+------------------------------------------------------------------+
-    | Y = 1 | 5 cm                                                             |
-    +-------+------------------------------------------------------------------+
-    | Y = 2 | 10 cm                                                            |
-    +-------+------------------------------------------------------------------+
-    | Y = 3 | 20 cm                                                            |
-    +-------+------------------------------------------------------------------+
-    | Y = 4 | 50 cm                                                            |
-    +-------+------------------------------------------------------------------+
-    | Y = 5 | 100 cm                                                           |
-    +-------+------------------------------------------------------------------+
-    | Y = 6 | 150 cm                                                           |
-    +-------+------------------------------------------------------------------+
-    | Y = 7 | 180 cm                                                           |
-    +-------+------------------------------------------------------------------+
-    | SXXY  | Maximum soil temperature (degrees C) where the second 'X'        |
-    |       | corresponds to a code for ground cover and 'Y' corresponds to a  |
-    |       | code for soil depth. See SNXY for ground cover and depth codes.  |
-    +-------+------------------------------------------------------------------+
+    +-------+-------------------------------------------------------------+
+    | SNXY  | Minimum soil temperature (degrees C) where 'X' corresponds  |
+    |       | to a code for ground cover and 'Y' corresponds to a code    |
+    |       | for soil depth.                                             |
+    +=======+=============================================================+
+    |       | Ground cover codes include the following:                   |
+    +-------+-------------------------------------------------------------+
+    | X = 0 | unknown                                                     |
+    +-------+-------------------------------------------------------------+
+    | X = 1 | grass                                                       |
+    +-------+-------------------------------------------------------------+
+    | X = 2 | fallow                                                      |
+    +-------+-------------------------------------------------------------+
+    | X = 3 | bare ground                                                 |
+    +-------+-------------------------------------------------------------+
+    | X = 4 | brome grass                                                 |
+    +-------+-------------------------------------------------------------+
+    | X = 5 | sod                                                         |
+    +-------+-------------------------------------------------------------+
+    | X = 6 | straw mulch                                                 |
+    +-------+-------------------------------------------------------------+
+    | X = 7 | grass muck                                                  |
+    +-------+-------------------------------------------------------------+
+    | X = 8 | bare muck                                                   |
+    +-------+-------------------------------------------------------------+
+    |       | Depth codes include the following:                          |
+    +-------+-------------------------------------------------------------+
+    | Y = 1 | 5 cm                                                        |
+    +-------+-------------------------------------------------------------+
+    | Y = 2 | 10 cm                                                       |
+    +-------+-------------------------------------------------------------+
+    | Y = 3 | 20 cm                                                       |
+    +-------+-------------------------------------------------------------+
+    | Y = 4 | 50 cm                                                       |
+    +-------+-------------------------------------------------------------+
+    | Y = 5 | 100 cm                                                      |
+    +-------+-------------------------------------------------------------+
+    | Y = 6 | 150 cm                                                      |
+    +-------+-------------------------------------------------------------+
+    | Y = 7 | 180 cm                                                      |
+    +-------+-------------------------------------------------------------+
+    | SXXY  | Maximum soil temperature (degrees C) where the second 'X'   |
+    |       | corresponds to a code for ground cover and 'Y' corresponds  |
+    |       | to a code for soil depth. See SNXY for ground cover and     |
+    |       | depth codes.                                                |
+    +-------+-------------------------------------------------------------+
 
     WTXX and WVXX Table
 
-    +------+-------------------------------------------------------------------+
-    | XX   | Description                                                       |
-    +======+===================================================================+
-    | 01   | Fog, ice fog, or freezing fog (may include heavy fog)             |
-    +------+-------------------------------------------------------------------+
-    | 02   | Heavy fog or heaving freezing fog (not always distinguished from  |
-    |      | fog)                                                              |
-    +------+-------------------------------------------------------------------+
-    | 03   | Thunder                                                           |
-    +------+-------------------------------------------------------------------+
-    | 04   | Ice pellets, sleet, snow pellets, or small hail                   |
-    +------+-------------------------------------------------------------------+
-    | 05   | Hail (may include small hail)                                     |
-    +------+-------------------------------------------------------------------+
-    | 06   | Glaze or rime                                                     |
-    +------+-------------------------------------------------------------------+
-    | 07   | Dust, volcanic ash, blowing dust, blowing sand, or blowing        |
-    |      | obstruction                                                       |
-    +------+-------------------------------------------------------------------+
-    | 08   | Smoke or haze                                                     |
-    +------+-------------------------------------------------------------------+
-    | 09   | Blowing or drifting snow                                          |
-    +------+-------------------------------------------------------------------+
-    | 11   | High or damaging winds                                            |
-    +------+-------------------------------------------------------------------+
-    | 12   | Blowing spray                                                     |
-    +------+-------------------------------------------------------------------+
-    | 13   | Mist                                                              |
-    +------+-------------------------------------------------------------------+
-    | 14   | Drizzle                                                           |
-    +------+-------------------------------------------------------------------+
-    | 15   | Freezing drizzle                                                  |
-    +------+-------------------------------------------------------------------+
-    | 16   | Rain (may include freezing rain, drizzle, and freezing drizzle)   |
-    +------+-------------------------------------------------------------------+
-    | 17   | Freezing rain                                                     |
-    +------+-------------------------------------------------------------------+
-    | 18   | Snow, snow pellets, snow grains, or ice crystals                  |
-    +------+-------------------------------------------------------------------+
-    | 19   | Unknown source of precipitation                                   |
-    +------+-------------------------------------------------------------------+
-    | 21   | Ground fog                                                        |
-    +------+-------------------------------------------------------------------+
-    | 22   | Ice fog or freezing fog                                           |
-    +------+-------------------------------------------------------------------+
-    | WVXX | Weather in the Vicinity where XX has one of the following values  |
-    |      | described above: 01, 03, 07, 18, and 20                           |
-    +------+-------------------------------------------------------------------+
+    +------+--------------------------------------------------------------+
+    | XX   | Description                                                  |
+    +======+==============================================================+
+    | 01   | Fog, ice fog, or freezing fog (may include heavy fog)        |
+    +------+--------------------------------------------------------------+
+    | 02   | Heavy fog or heaving freezing fog (not always distinguished  |
+    |      | from fog)                                                    |
+    +------+--------------------------------------------------------------+
+    | 03   | Thunder                                                      |
+    +------+--------------------------------------------------------------+
+    | 04   | Ice pellets, sleet, snow pellets, or small hail              |
+    +------+--------------------------------------------------------------+
+    | 05   | Hail (may include small hail)                                |
+    +------+--------------------------------------------------------------+
+    | 06   | Glaze or rime                                                |
+    +------+--------------------------------------------------------------+
+    | 07   | Dust, volcanic ash, blowing dust, blowing sand, or blowing   |
+    |      | obstruction                                                  |
+    +------+--------------------------------------------------------------+
+    | 08   | Smoke or haze                                                |
+    +------+--------------------------------------------------------------+
+    | 09   | Blowing or drifting snow                                     |
+    +------+--------------------------------------------------------------+
+    | 11   | High or damaging winds                                       |
+    +------+--------------------------------------------------------------+
+    | 12   | Blowing spray                                                |
+    +------+--------------------------------------------------------------+
+    | 13   | Mist                                                         |
+    +------+--------------------------------------------------------------+
+    | 14   | Drizzle                                                      |
+    +------+--------------------------------------------------------------+
+    | 15   | Freezing drizzle                                             |
+    +------+--------------------------------------------------------------+
+    | 16   | Rain (may include freezing rain, drizzle, and freezing       |
+    |      | drizzle)                                                     |
+    +------+--------------------------------------------------------------+
+    | 17   | Freezing rain                                                |
+    +------+--------------------------------------------------------------+
+    | 18   | Snow, snow pellets, snow grains, or ice crystals             |
+    +------+--------------------------------------------------------------+
+    | 19   | Unknown source of precipitation                              |
+    +------+--------------------------------------------------------------+
+    | 21   | Ground fog                                                   |
+    +------+--------------------------------------------------------------+
+    | 22   | Ice fog or freezing fog                                      |
+    +------+--------------------------------------------------------------+
+    | WVXX | Weather in the Vicinity where XX has one of the following    |
+    |      | values described above: 01, 03, 07, 18, and 20               |
+    +------+--------------------------------------------------------------+
 
     """,
     "stationid": r"""stationid
@@ -324,8 +328,8 @@ ncei_ghcnd_docstrings = {
         ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt""",
     "datatypeid": r"""datatypeid : str
         The following table lists the datatypes available for the 'ghcnd'
-        dataset.  If the datatypeid is not given defaults to getting all data
-        available at that station for the requested time period.
+        dataset.  If the datatypeid is not given defaults to getting all
+        data available at that station for the requested time period.
 
         +------+---------------------------------------------------------------+
         | Code | Description                                                   |
@@ -691,685 +695,761 @@ ncei_ghcnd_docstrings = {
         |      | ------------------------------------------------------------- |
         |      | 9 = last minimum temperature <= 16 degrees F/-8.9 degrees C   |
         +------+---------------------------------------------------------------+
+
         """,
     "datatype_temp": """datatypeid : str
         The following table lists the datatypes available for the annual
-        dataset.  If the datatypeid is not given defaults to getting all data
-        available at that station.
+        dataset.  If the datatypeid is not given defaults to getting all
+        data available at that station.
 
-        +--------+-------------------------------------------------------------+
-        | Code   | Description                                                 |
-        +========+=============================================================+
-        | HN7290 | Highest minimum soil temperature for the month (cover:      |
-        |        | grass muck                                                  |
-        +--------+-------------------------------------------------------------+
-        | HN8190 | Highest minimum soil temperature for the month (cover: bare |
-        |        | muck                                                        |
-        +--------+-------------------------------------------------------------+
-        | HN8290 | Highest minimum soil temperature for the month (cover: bare |
-        |        | muck                                                        |
-        +--------+-------------------------------------------------------------+
-        | HN8390 | Highest minimum soil temperature for the month (cover: bare |
-        |        | muck                                                        |
-        +--------+-------------------------------------------------------------+
-        | HO84A0 | Highest soil temperature at observation time (cover: bare   |
-        |        | muck                                                        |
-        +--------+-------------------------------------------------------------+
-        | HO85A0 | Highest soil temperature at observation time (cover: bare   |
-        |        | muck                                                        |
-        +--------+-------------------------------------------------------------+
-        | HX7290 | Highest maximum soil temperature for the month (cover:      |
-        |        | grass muck                                                  |
-        +--------+-------------------------------------------------------------+
-        | HX8190 | Highest maximum soil temperature for the month (cover: bare |
-        |        | muck                                                        |
-        +--------+-------------------------------------------------------------+
-        | HX8290 | Highest maximum soil temperature for the month (cover: bare |
-        |        | muck                                                        |
-        +--------+-------------------------------------------------------------+
-        | HX8390 | Highest maximum soil temperature for the month (cover: bare |
-        |        | muck                                                        |
-        +--------+-------------------------------------------------------------+
-        | LN7290 | Lowest minimum soil temperature for the month (cover: grass |
-        |        | muck                                                        |
-        +--------+-------------------------------------------------------------+
-        | LN8190 | Lowest minimum soil temperature for the month (cover: bare  |
-        |        | muck                                                        |
-        +--------+-------------------------------------------------------------+
-        | LN8290 | Lowest minimum soil temperature for the month (cover: bare  |
-        |        | muck                                                        |
-        +--------+-------------------------------------------------------------+
-        | LN8390 | Lowest minimum soil temperature for the month (cover: bare  |
-        |        | muck                                                        |
-        +--------+-------------------------------------------------------------+
-        | LO84A0 | Lowest soil temperature at observation time (cover: bare    |
-        |        | muck                                                        |
-        +--------+-------------------------------------------------------------+
-        | LO85A0 | Lowest soil temperature at observation time (cover: bare    |
-        |        | muck                                                        |
-        +--------+-------------------------------------------------------------+
-        | LX7290 | Lowest maximum soil temperature for the month (cover: grass |
-        |        | muck                                                        |
-        +--------+-------------------------------------------------------------+
-        | LX8190 | Lowest maximum soil temperature for the month (cover: bare  |
-        |        | muck                                                        |
-        +--------+-------------------------------------------------------------+
-        | LX8290 | Lowest maximum soil temperature for the month (cover: bare  |
-        |        | muck                                                        |
-        +--------+-------------------------------------------------------------+
-        | LX8390 | Lowest maximum soil temperature for the month (cover: bare  |
-        |        | muck                                                        |
-        +--------+-------------------------------------------------------------+
-        | MN7290 | Monthly mean minimum soil temperature (cover: grass muck    |
-        +--------+-------------------------------------------------------------+
-        | MN8190 | Monthly mean minimum soil temperature (cover: bare muck     |
-        +--------+-------------------------------------------------------------+
-        | MN8290 | Monthly mean minimum soil temperature (cover: bare muck     |
-        +--------+-------------------------------------------------------------+
-        | MN8390 | Monthly mean minimum soil temperature (cover: bare muck     |
-        +--------+-------------------------------------------------------------+
-        | MO84A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | bare muck                                                   |
-        +--------+-------------------------------------------------------------+
-        | MO85A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | bare muck                                                   |
-        +--------+-------------------------------------------------------------+
-        | MX7290 | Monthly mean maximum soil temperature (cover: grass muck    |
-        +--------+-------------------------------------------------------------+
-        | MX8190 | Monthly mean maximum soil temperature (cover: bare muck     |
-        +--------+-------------------------------------------------------------+
-        | MX8290 | Monthly mean maximum soil temperature (cover: bare muck     |
-        +--------+-------------------------------------------------------------+
-        | MX8390 | Monthly mean maximum soil temperature (cover: bare muck     |
-        +--------+-------------------------------------------------------------+
-        | HN6190 | Highest minimum soil temperature for the month (cover:      |
-        |        | straw mulch                                                 |
-        +--------+-------------------------------------------------------------+
-        | LN6190 | Lowest minimum soil temperature for the month (cover: straw |
-        |        | mulch                                                       |
-        +--------+-------------------------------------------------------------+
-        | MN6190 | Monthly mean minimum soil temperature (cover: straw mulch   |
-        +--------+-------------------------------------------------------------+
-        | HX6190 | Highest maximum soil temperature for the month (cover:      |
-        |        | straw mulch                                                 |
-        +--------+-------------------------------------------------------------+
-        | LX6190 | Lowest maximum soil temperature for the month (cover: straw |
-        |        | mulch                                                       |
-        +--------+-------------------------------------------------------------+
-        | MX6190 | Monthly mean maximum soil temperature (cover: straw mulch   |
-        +--------+-------------------------------------------------------------+
-        | CLDD   | Cooling Degree Days                                         |
-        +--------+-------------------------------------------------------------+
-        | DP01   | Number of days with greater than or equal to 0.1 inch of    |
-        |        | precipitation                                               |
-        +--------+-------------------------------------------------------------+
-        | DP05   | Number of days with greater than or equal to 0.5 inch of    |
-        |        | precipitation                                               |
-        +--------+-------------------------------------------------------------+
-        | DP10   | Number of days with greater than or equal to 1.0 inch of    |
-        |        | precipitation                                               |
-        +--------+-------------------------------------------------------------+
-        | DPNP   | Departure from normal monthly precipitation.                |
-        +--------+-------------------------------------------------------------+
-        | DPNT   | Departure from normal monthly temperature.                  |
-        +--------+-------------------------------------------------------------+
-        | DSNW   | Number days with snow depth > 1 inch.                       |
-        +--------+-------------------------------------------------------------+
-        | DT00   | Number days with minimum temperature less than or equal to  |
-        |        | 0.0 F                                                       |
-        +--------+-------------------------------------------------------------+
-        | DT32   | Number days with minimum temperature less than or equal to  |
-        |        | 32.0 F                                                      |
-        +--------+-------------------------------------------------------------+
-        | DT70   | Number days with maximum temperature > 70 F. (Alaska only.) |
-        +--------+-------------------------------------------------------------+
-        | DT90   | Number days with maximum temperature greater than or equal  |
-        |        | 90.0 F                                                      |
-        +--------+-------------------------------------------------------------+
-        | DX32   | Number days with maximum temperature < 32 F.                |
-        +--------+-------------------------------------------------------------+
-        | EMNT   | Extreme minimum temperature for the period.                 |
-        +--------+-------------------------------------------------------------+
-        | EMXP   | Extreme maximum precipitation for the period.               |
-        +--------+-------------------------------------------------------------+
-        | EMXT   | Extreme maximum temperature for the period.                 |
-        +--------+-------------------------------------------------------------+
-        | HN0190 | Highest minimum soil temperature for the month (cover:      |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | HN0290 | Highest minimum soil temperature for the month (cover:      |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | HN0390 | Highest minimum soil temperature for the month (cover:      |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | HN1190 | Highest minimum soil temperature for the month (cover:      |
-        |        | grass                                                       |
-        +--------+-------------------------------------------------------------+
-        | HN1290 | Highest minimum soil temperature for the month (cover:      |
-        |        | grass                                                       |
-        +--------+-------------------------------------------------------------+
-        | HN1390 | Highest minimum soil temperature for the month (cover:      |
-        |        | grass                                                       |
-        +--------+-------------------------------------------------------------+
-        | HN2190 | Highest minimum soil temperature for the month (cover:      |
-        |        | fallow                                                      |
-        +--------+-------------------------------------------------------------+
-        | HN2290 | Highest minimum soil temperature for the month (cover:      |
-        |        | fallow                                                      |
-        +--------+-------------------------------------------------------------+
-        | HN2390 | Highest minimum soil temperature for the month (cover:      |
-        |        | fallow                                                      |
-        +--------+-------------------------------------------------------------+
-        | HN3190 | Highest minimum soil temperature for the month (cover: bare |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | HN3290 | Highest minimum soil temperature for the month (cover: bare |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | HN3390 | Highest minimum soil temperature for the month (cover: bare |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | HN5190 | Highest minimum soil temperature for the month (cover: sod  |
-        +--------+-------------------------------------------------------------+
-        | HN5290 | Highest minimum soil temperature for the month (cover: sod  |
-        +--------+-------------------------------------------------------------+
-        | HN5390 | Highest minimum soil temperature for the month (cover: sod  |
-        +--------+-------------------------------------------------------------+
-        | HO01A0 | Highest soil temperature at observation time (cover:        |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | HO01P0 | Highest soil temperature at observation time (cover:        |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | HO02A0 | Highest soil temperature at observation time (cover:        |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | HO02P0 | Highest soil temperature at observation time (cover:        |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | HO03A0 | Highest soil temperature at observation time (cover:        |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | HO03P0 | Highest soil temperature at observation time (cover:        |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | HO04A0 | Highest soil temperature at observation time (cover:        |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | HO04P0 | Highest soil temperature at observation time (cover:        |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | HO05A0 | Highest soil temperature at observation time (cover:        |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | HO05P0 | Highest soil temperature at observation time (cover:        |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | HO11A0 | Highest soil temperature at observation time (cover: grass  |
-        +--------+-------------------------------------------------------------+
-        | HO11P0 | Highest soil temperature at observation time (cover: grass  |
-        +--------+-------------------------------------------------------------+
-        | HO12A0 | Highest soil temperature at observation time (cover: grass  |
-        +--------+-------------------------------------------------------------+
-        | HO12P0 | Highest soil temperature at observation time (cover: grass  |
-        +--------+-------------------------------------------------------------+
-        | HO13A0 | Highest soil temperature at observation time (cover: grass  |
-        +--------+-------------------------------------------------------------+
-        | HO14A0 | Highest soil temperature at observation time (cover: grass  |
-        +--------+-------------------------------------------------------------+
-        | HO15A0 | Highest soil temperature at observation time (cover: grass  |
-        +--------+-------------------------------------------------------------+
-        | HO31A0 | Highest soil temperature at observation time (cover: bare   |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | HO31P0 | Highest soil temperature at observation time (cover: bare   |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | HO32A0 | Highest soil temperature at observation time (cover: bare   |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | HO32P0 | Highest soil temperature at observation time (cover: bare   |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | HO33A0 | Highest soil temperature at observation time (cover: bare   |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | HO33P0 | Highest soil temperature at observation time (cover: bare   |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | HO34A0 | Highest soil temperature at observation time (cover: bare   |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | HO34P0 | Highest soil temperature at observation time (cover: bare   |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | HO35A0 | Highest soil temperature at observation time (cover: bare   |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | HO35P0 | Highest soil temperature at observation time (cover: bare   |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | HO51A0 | Highest soil temperature at observation time (cover: sod    |
-        +--------+-------------------------------------------------------------+
-        | HO51P0 | Highest soil temperature at observation time (cover: sod    |
-        +--------+-------------------------------------------------------------+
-        | HO52A0 | Highest soil temperature at observation time (cover: sod    |
-        +--------+-------------------------------------------------------------+
-        | HO52P0 | Highest soil temperature at observation time (cover: sod    |
-        +--------+-------------------------------------------------------------+
-        | HO53A0 | Highest soil temperature at observation time (cover: sod    |
-        +--------+-------------------------------------------------------------+
-        | HO53P0 | Highest soil temperature at observation time (cover: sod    |
-        +--------+-------------------------------------------------------------+
-        | HO54A0 | Highest soil temperature at observation time (cover: sod    |
-        +--------+-------------------------------------------------------------+
-        | HO54P0 | Highest soil temperature at observation time (cover: sod    |
-        +--------+-------------------------------------------------------------+
-        | HO55A0 | Highest soil temperature at observation time (cover: sod    |
-        +--------+-------------------------------------------------------------+
-        | HO55P0 | Highest soil temperature at observation time (cover: sod    |
-        +--------+-------------------------------------------------------------+
-        | HTDD   | Heating degree days                                         |
-        +--------+-------------------------------------------------------------+
-        | HX0190 | Highest maximum soil temperature for the month (cover:      |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | HX0290 | Highest maximum soil temperature for the month (cover:      |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | HX0390 | Highest maximum soil temperature for the month (cover:      |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | HX1190 | Highest maximum soil temperature for the month (cover:      |
-        |        | grass                                                       |
-        +--------+-------------------------------------------------------------+
-        | HX1290 | Highest maximum soil temperature for the month (cover:      |
-        |        | grass                                                       |
-        +--------+-------------------------------------------------------------+
-        | HX1390 | Highest maximum soil temperature for the month (cover:      |
-        |        | grass                                                       |
-        +--------+-------------------------------------------------------------+
-        | HX2190 | Highest maximum soil temperature for the month (cover:      |
-        |        | fallow                                                      |
-        +--------+-------------------------------------------------------------+
-        | HX2290 | Highest maximum soil temperature for the month (cover:      |
-        |        | fallow                                                      |
-        +--------+-------------------------------------------------------------+
-        | HX2390 | Highest maximum soil temperature for the month (cover:      |
-        |        | fallow                                                      |
-        +--------+-------------------------------------------------------------+
-        | HX3190 | Highest maximum soil temperature for the month (cover: bare |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | HX3290 | Highest maximum soil temperature for the month (cover: bare |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | HX3390 | Highest maximum soil temperature for the month (cover: bare |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | HX5190 | Highest maximum soil temperature for the month (cover: sod  |
-        +--------+-------------------------------------------------------------+
-        | HX5290 | Highest maximum soil temperature for the month (cover: sod  |
-        +--------+-------------------------------------------------------------+
-        | HX5390 | Highest maximum soil temperature for the month (cover: sod  |
-        +--------+-------------------------------------------------------------+
-        | LN0190 | Lowest minimum soil temperature for the month (cover:       |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | LN0290 | Lowest minimum soil temperature for the month (cover:       |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | LN0390 | Lowest minimum soil temperature for the month (cover:       |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | LN1190 | Lowest minimum soil temperature for the month (cover: grass |
-        +--------+-------------------------------------------------------------+
-        | LN1290 | Lowest minimum soil temperature for the month (cover: grass |
-        +--------+-------------------------------------------------------------+
-        | LN1390 | Lowest minimum soil temperature for the month (cover: grass |
-        +--------+-------------------------------------------------------------+
-        | LN2190 | Lowest minimum soil temperature for the month (cover:       |
-        |        | fallow                                                      |
-        +--------+-------------------------------------------------------------+
-        | LN2290 | Lowest minimum soil temperature for the month (cover:       |
-        |        | fallow                                                      |
-        +--------+-------------------------------------------------------------+
-        | LN2390 | Lowest minimum soil temperature for the month (cover:       |
-        |        | fallow                                                      |
-        +--------+-------------------------------------------------------------+
-        | LN3190 | Lowest minimum soil temperature for the month (cover: bare  |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | LN3290 | Lowest minimum soil temperature for the month (cover: bare  |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | LN3390 | Lowest minimum soil temperature for the month (cover: bare  |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | LN5190 | Lowest minimum soil temperature for the month (cover: sod   |
-        +--------+-------------------------------------------------------------+
-        | LN5290 | Lowest minimum soil temperature for the month (cover: sod   |
-        +--------+-------------------------------------------------------------+
-        | LN5390 | Lowest minimum soil temperature for the month (cover: sod   |
-        +--------+-------------------------------------------------------------+
-        | LO01A0 | Lowest soil temperature at observation time (cover: unknown |
-        +--------+-------------------------------------------------------------+
-        | LO01P0 | Lowest soil temperature at observation time (cover: unknown |
-        +--------+-------------------------------------------------------------+
-        | LO02A0 | Lowest soil temperature at observation time (cover: unknown |
-        +--------+-------------------------------------------------------------+
-        | LO02P0 | Lowest soil temperature at observation time (cover: unknown |
-        +--------+-------------------------------------------------------------+
-        | LO03A0 | Lowest soil temperature at observation time (cover: unknown |
-        +--------+-------------------------------------------------------------+
-        | LO03P0 | Lowest soil temperature at observation time (cover: unknown |
-        +--------+-------------------------------------------------------------+
-        | LO04A0 | Lowest soil temperature at observation time (cover: unknown |
-        +--------+-------------------------------------------------------------+
-        | LO04P0 | Lowest soil temperature at observation time (cover: unknown |
-        +--------+-------------------------------------------------------------+
-        | LO05A0 | Lowest soil temperature at observation time (cover: unknown |
-        +--------+-------------------------------------------------------------+
-        | LO05P0 | Lowest soil temperature at observation time (cover: unknown |
-        +--------+-------------------------------------------------------------+
-        | LO11A0 | Lowest soil temperature at observation time (cover: grass   |
-        +--------+-------------------------------------------------------------+
-        | LO12A0 | Lowest soil temperature at observation time (cover: grass   |
-        +--------+-------------------------------------------------------------+
-        | LO12P0 | Lowest soil temperature at observation time (cover: grass   |
-        +--------+-------------------------------------------------------------+
-        | LO13A0 | Lowest soil temperature at observation time (cover: grass   |
-        +--------+-------------------------------------------------------------+
-        | LO14A0 | Lowest soil temperature at observation time (cover: grass   |
-        +--------+-------------------------------------------------------------+
-        | LO15A0 | Lowest soil temperature at observation time (cover: grass   |
-        +--------+-------------------------------------------------------------+
-        | LO31A0 | Lowest soil temperature at observation time (cover: bare    |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | LO31P0 | Lowest soil temperature at observation time (cover: bare    |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | LO32A0 | Lowest soil temperature at observation time (cover: bare    |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | LO32P0 | Lowest soil temperature at observation time (cover: bare    |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | LO33A0 | Lowest soil temperature at observation time (cover: bare    |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | LO33P0 | Lowest soil temperature at observation time (cover: bare    |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | LO34A0 | Lowest soil temperature at observation time (cover: bare    |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | LO34P0 | Lowest soil temperature at observation time (cover: bare    |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | LO35A0 | Lowest soil temperature at observation time (cover: bare    |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | LO35P0 | Lowest soil temperature at observation time (cover: bare    |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | LO51A0 | Lowest soil temperature at observation time (cover: sod     |
-        +--------+-------------------------------------------------------------+
-        | LO51P0 | Lowest soil temperature at observation time (cover: sod     |
-        +--------+-------------------------------------------------------------+
-        | LO52A0 | Lowest soil temperature at observation time (cover: sod     |
-        +--------+-------------------------------------------------------------+
-        | LO52P0 | Lowest soil temperature at observation time (cover: sod     |
-        +--------+-------------------------------------------------------------+
-        | LO53A0 | Lowest soil temperature at observation time (cover: sod     |
-        +--------+-------------------------------------------------------------+
-        | LO53P0 | Lowest soil temperature at observation time (cover: sod     |
-        +--------+-------------------------------------------------------------+
-        | LO54A0 | Lowest soil temperature at observation time (cover: sod     |
-        +--------+-------------------------------------------------------------+
-        | LO54P0 | Lowest soil temperature at observation time (cover: sod     |
-        +--------+-------------------------------------------------------------+
-        | LO55A0 | Lowest soil temperature at observation time (cover: sod     |
-        +--------+-------------------------------------------------------------+
-        | LO55P0 | Lowest soil temperature at observation time (cover: sod     |
-        +--------+-------------------------------------------------------------+
-        | LX0190 | Lowest maximum soil temperature for the month (cover:       |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | LX0290 | Lowest maximum soil temperature for the month (cover:       |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | LX0390 | Lowest maximum soil temperature for the month (cover:       |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | LX1190 | Lowest maximum soil temperature for the month (cover: grass |
-        +--------+-------------------------------------------------------------+
-        | LX1290 | Lowest maximum soil temperature for the month (cover: grass |
-        +--------+-------------------------------------------------------------+
-        | LX1390 | Lowest maximum soil temperature for the month (cover: grass |
-        +--------+-------------------------------------------------------------+
-        | LX2190 | Lowest maximum soil temperature for the month (cover:       |
-        |        | fallow                                                      |
-        +--------+-------------------------------------------------------------+
-        | LX2290 | Lowest maximum soil temperature for the month (cover:       |
-        |        | fallow                                                      |
-        +--------+-------------------------------------------------------------+
-        | LX2390 | Lowest maximum soil temperature for the month (cover:       |
-        |        | fallow                                                      |
-        +--------+-------------------------------------------------------------+
-        | LX3190 | Lowest maximum soil temperature for the month (cover: bare  |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | LX3290 | Lowest maximum soil temperature for the month (cover: bare  |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | LX3390 | Lowest maximum soil temperature for the month (cover: bare  |
-        |        | ground                                                      |
-        +--------+-------------------------------------------------------------+
-        | LX5190 | Lowest maximum soil temperature for the month (cover: sod   |
-        +--------+-------------------------------------------------------------+
-        | LX5290 | Lowest maximum soil temperature for the month (cover: sod   |
-        +--------+-------------------------------------------------------------+
-        | LX5390 | Lowest maximum soil temperature for the month (cover: sod   |
-        +--------+-------------------------------------------------------------+
-        | MMNP   | Mean minimum temperature of evaporation pan water for the   |
-        |        | period.                                                     |
-        +--------+-------------------------------------------------------------+
-        | MMNT   | Monthly Mean minimum temperature                            |
-        +--------+-------------------------------------------------------------+
-        | MMXP   | Mean maximum temperature of evaporation pan water for the   |
-        |        | period.                                                     |
-        +--------+-------------------------------------------------------------+
-        | MMXT   | Monthly Mean maximum temperature                            |
-        +--------+-------------------------------------------------------------+
-        | MN0190 | Monthly mean minimum soil temperature (cover: unknown       |
-        +--------+-------------------------------------------------------------+
-        | MN0290 | Monthly mean minimum soil temperature (cover: unknown       |
-        +--------+-------------------------------------------------------------+
-        | MN0390 | Monthly mean minimum soil temperature (cover: unknown       |
-        +--------+-------------------------------------------------------------+
-        | MN1190 | Monthly mean minimum soil temperature (cover: grass         |
-        +--------+-------------------------------------------------------------+
-        | MN1290 | Monthly mean minimum soil temperature (cover: grass         |
-        +--------+-------------------------------------------------------------+
-        | MN1390 | Monthly mean minimum soil temperature (cover: grass         |
-        +--------+-------------------------------------------------------------+
-        | MN2190 | Monthly mean minimum soil temperature (cover: fallow        |
-        +--------+-------------------------------------------------------------+
-        | MN2290 | Monthly mean minimum soil temperature (cover: fallow        |
-        +--------+-------------------------------------------------------------+
-        | MN2390 | Monthly mean minimum soil temperature (cover: fallow        |
-        +--------+-------------------------------------------------------------+
-        | MN3190 | Monthly mean minimum soil temperature (cover: bare ground   |
-        +--------+-------------------------------------------------------------+
-        | MN3290 | Monthly mean minimum soil temperature (cover: bare ground   |
-        +--------+-------------------------------------------------------------+
-        | MN3390 | Monthly mean minimum soil temperature (cover: bare ground   |
-        +--------+-------------------------------------------------------------+
-        | MN5190 | Monthly mean minimum soil temperature (cover: sod           |
-        +--------+-------------------------------------------------------------+
-        | MN5290 | Monthly mean minimum soil temperature (cover: sod           |
-        +--------+-------------------------------------------------------------+
-        | MN5390 | Monthly mean minimum soil temperature (cover: sod           |
-        +--------+-------------------------------------------------------------+
-        | MNTM   | Monthly mean temperature                                    |
-        +--------+-------------------------------------------------------------+
-        | MO01A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | MO01P0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | MO02A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | MO02P0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | MO03A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | MO03P0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | MO04A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | MO04P0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | MO05A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | MO05P0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | unknown                                                     |
-        +--------+-------------------------------------------------------------+
-        | MO11A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | grass                                                       |
-        +--------+-------------------------------------------------------------+
-        | MO11P0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | grass                                                       |
-        +--------+-------------------------------------------------------------+
-        | MO12A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | grass                                                       |
-        +--------+-------------------------------------------------------------+
-        | MO12P0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | grass                                                       |
-        +--------+-------------------------------------------------------------+
-        | MO13A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | grass                                                       |
-        +--------+-------------------------------------------------------------+
-        | MO13P0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | grass                                                       |
-        +--------+-------------------------------------------------------------+
-        | MO14A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | grass                                                       |
-        +--------+-------------------------------------------------------------+
-        | MO15A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | grass                                                       |
-        +--------+-------------------------------------------------------------+
-        | MO31A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | bare ground                                                 |
-        +--------+-------------------------------------------------------------+
-        | MO31P0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | bare ground                                                 |
-        +--------+-------------------------------------------------------------+
-        | MO32A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | bare ground                                                 |
-        +--------+-------------------------------------------------------------+
-        | MO32P0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | bare ground                                                 |
-        +--------+-------------------------------------------------------------+
-        | MO33A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | bare ground                                                 |
-        +--------+-------------------------------------------------------------+
-        | MO33P0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | bare ground                                                 |
-        +--------+-------------------------------------------------------------+
-        | MO34A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | bare ground                                                 |
-        +--------+-------------------------------------------------------------+
-        | MO34P0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | bare ground                                                 |
-        +--------+-------------------------------------------------------------+
-        | MO35A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | bare ground                                                 |
-        +--------+-------------------------------------------------------------+
-        | MO35P0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | bare ground                                                 |
-        +--------+-------------------------------------------------------------+
-        | MO51A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | sod                                                         |
-        +--------+-------------------------------------------------------------+
-        | MO51P0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | sod                                                         |
-        +--------+-------------------------------------------------------------+
-        | MO52A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | sod                                                         |
-        +--------+-------------------------------------------------------------+
-        | MO52P0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | sod                                                         |
-        +--------+-------------------------------------------------------------+
-        | MO53A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | sod                                                         |
-        +--------+-------------------------------------------------------------+
-        | MO53P0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | sod                                                         |
-        +--------+-------------------------------------------------------------+
-        | MO54A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | sod                                                         |
-        +--------+-------------------------------------------------------------+
-        | MO54P0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | sod                                                         |
-        +--------+-------------------------------------------------------------+
-        | MO55A0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | sod                                                         |
-        +--------+-------------------------------------------------------------+
-        | MO55P0 | Monthly mean soil temperature at observation time (cover:   |
-        |        | sod                                                         |
-        +--------+-------------------------------------------------------------+
-        | MX0190 | Monthly mean maximum soil temperature (cover: unknown       |
-        +--------+-------------------------------------------------------------+
-        | MX0290 | Monthly mean maximum soil temperature (cover: unknown       |
-        +--------+-------------------------------------------------------------+
-        | MX0390 | Monthly mean maximum soil temperature (cover: unknown       |
-        +--------+-------------------------------------------------------------+
-        | MX1190 | Monthly mean maximum soil temperature (cover: grass         |
-        +--------+-------------------------------------------------------------+
-        | MX1290 | Monthly mean maximum soil temperature (cover: grass         |
-        +--------+-------------------------------------------------------------+
-        | MX1390 | Monthly mean maximum soil temperature (cover: grass         |
-        +--------+-------------------------------------------------------------+
-        | MX2190 | Monthly mean maximum soil temperature (cover: fallow        |
-        +--------+-------------------------------------------------------------+
-        | MX2290 | Monthly mean maximum soil temperature (cover: fallow        |
-        +--------+-------------------------------------------------------------+
-        | MX2390 | Monthly mean maximum soil temperature (cover: fallow        |
-        +--------+-------------------------------------------------------------+
-        | MX3190 | Monthly mean maximum soil temperature (cover: bare ground   |
-        +--------+-------------------------------------------------------------+
-        | MX3290 | Monthly mean maximum soil temperature (cover: bare ground   |
-        +--------+-------------------------------------------------------------+
-        | MX3390 | Monthly mean maximum soil temperature (cover: bare ground   |
-        +--------+-------------------------------------------------------------+
-        | MX5190 | Monthly mean maximum soil temperature (cover: sod           |
-        +--------+-------------------------------------------------------------+
-        | MX5290 | Monthly mean maximum soil temperature (cover: sod           |
-        +--------+-------------------------------------------------------------+
-        | MX5390 | Monthly mean maximum soil temperature (cover: sod           |
-        +--------+-------------------------------------------------------------+
-        | MXSD   | Maximum snow depth                                          |
-        +--------+-------------------------------------------------------------+
-        | TEVP   | Total monthly evaporation.                                  |
-        +--------+-------------------------------------------------------------+
-        | TPCP   | Total precipitation                                         |
-        +--------+-------------------------------------------------------------+
-        | TSNW   | Total snow fall                                             |
-        +--------+-------------------------------------------------------------+
-        | TWND   | Total monthly wind movement over evaporation pan.           |
-        +--------+-------------------------------------------------------------+
+        +--------+-------------------------------------------+------------+
+        | Code   | Description                               | Cover      |
+        +========+===========================================+============+
+        | HN7290 | Highest minimum soil temperature for the  | grass muck |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HN8190 | Highest minimum soil temperature for the  | bare muck  |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HN8290 | Highest minimum soil temperature for the  | bare muck  |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HN8390 | Highest minimum soil temperature for the  | bare muck  |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HO84A0 | Highest soil temperature at observation   | bare muck  |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO85A0 | Highest soil temperature at observation   | bare muck  |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HX7290 | Highest maximum soil temperature for the  | grass muck |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HX8190 | Highest maximum soil temperature for the  | bare muck  |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HX8290 | Highest maximum soil temperature for the  | bare muck  |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HX8390 | Highest maximum soil temperature for the  | bare muck  |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LN7290 | Lowest minimum soil temperature for the   | grass muck |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LN8190 | Lowest minimum soil temperature for the   | bare muck  |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LN8290 | Lowest minimum soil temperature for the   | bare muck  |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LN8390 | Lowest minimum soil temperature for the   | bare muck  |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LO84A0 | Lowest soil temperature at observation    | bare muck  |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO85A0 | Lowest soil temperature at observation    | bare muck  |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LX7290 | Lowest maximum soil temperature for the   | grass muck |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LX8190 | Lowest maximum soil temperature for the   | bare muck  |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LX8290 | Lowest maximum soil temperature for the   | bare muck  |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LX8390 | Lowest maximum soil temperature for the   | bare muck  |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | MN7290 | Monthly mean minimum soil temperature     | grass muck |
+        +--------+-------------------------------------------+------------+
+        | MN8190 | Monthly mean minimum soil temperature     | bare muck  |
+        +--------+-------------------------------------------+------------+
+        | MN8290 | Monthly mean minimum soil temperature     | bare muck  |
+        +--------+-------------------------------------------+------------+
+        | MN8390 | Monthly mean minimum soil temperature     | bare muck  |
+        +--------+-------------------------------------------+------------+
+        | MO84A0 | Monthly mean soil temperature at          | bare muck  |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO85A0 | Monthly mean soil temperature at          | bare muck  |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MX7290 | Monthly mean maximum soil temperature     | grass muck |
+        +--------+-------------------------------------------+------------+
+        | MX8190 | Monthly mean maximum soil temperature     | bare muck  |
+        +--------+-------------------------------------------+------------+
+        | MX8290 | Monthly mean maximum soil temperature     | bare muck  |
+        +--------+-------------------------------------------+------------+
+        | MX8390 | Monthly mean maximum soil temperature     | bare muck  |
+        +--------+-------------------------------------------+------------+
+        | HN6190 | Highest minimum soil temperature for the  | straw      |
+        |        | month                                     | mulch      |
+        +--------+-------------------------------------------+------------+
+        | LN6190 | Lowest minimum soil temperature for the   | straw      |
+        |        | month                                     | mulch      |
+        +--------+-------------------------------------------+------------+
+        | MN6190 | Monthly mean minimum soil temperature     | straw      |
+        |        |                                           | mulch      |
+        +--------+-------------------------------------------+------------+
+        | HX6190 | Highest maximum soil temperature for the  | straw      |
+        |        | month                                     | mulch      |
+        +--------+-------------------------------------------+------------+
+        | LX6190 | Lowest maximum soil temperature for the   | straw      |
+        |        | month                                     | mulch      |
+        +--------+-------------------------------------------+------------+
+        | MX6190 | Monthly mean maximum soil temperature     | straw      |
+        |        |                                           | mulch      |
+        +--------+-------------------------------------------+------------+
+        | CLDD   | Cooling Degree Days                       |            |
+        +--------+-------------------------------------------+------------+
+        | DP01   | Number of days with greater than or equal |            |
+        |        | to 0.1 inch of precipitation              |            |
+        +--------+-------------------------------------------+------------+
+        | DP05   | Number of days with greater than or equal |            |
+        |        | to 0.5 inch of precipitation              |            |
+        +--------+-------------------------------------------+------------+
+        | DP10   | Number of days with greater than or equal |            |
+        |        | to 1.0 inch of precipitation              |            |
+        +--------+-------------------------------------------+------------+
+        | DPNP   | Departure from normal monthly             |            |
+        |        | precipitation.                            |            |
+        +--------+-------------------------------------------+------------+
+        | DPNT   | Departure from normal monthly             |            |
+        |        | temperature.                              |            |
+        +--------+-------------------------------------------+------------+
+        | DSNW   | Number days with snow depth > 1 inch.     |            |
+        +--------+-------------------------------------------+------------+
+        | DT00   | Number days with minimum temperature less |            |
+        |        | than or equal to 0.0 F                    |            |
+        +--------+-------------------------------------------+------------+
+        | DT32   | Number days with minimum temperature less |            |
+        |        | than or equal to 32.0 F                   |            |
+        +--------+-------------------------------------------+------------+
+        | DT70   | Number days with maximum temperature > 70 |            |
+        |        | F. (Alaska only.)                         |            |
+        +--------+-------------------------------------------+------------+
+        | DT90   | Number days with maximum temperature      |            |
+        |        | greater than or equal 90.0 F              |            |
+        +--------+-------------------------------------------+------------+
+        | DX32   | Number days with maximum temperature < 32 |            |
+        |        | F.                                        |            |
+        +--------+-------------------------------------------+------------+
+        | EMNT   | Extreme minimum temperature for the       |            |
+        |        | period.                                   |            |
+        +--------+-------------------------------------------+------------+
+        | EMXP   | Extreme maximum precipitation for the     |            |
+        |        | period.                                   |            |
+        +--------+-------------------------------------------+------------+
+        | EMXT   | Extreme maximum temperature for the       |            |
+        |        | period.                                   |            |
+        +--------+-------------------------------------------+------------+
+        | HN0190 | Highest minimum soil temperature for the  | unknown    |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HN0290 | Highest minimum soil temperature for the  | unknown    |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HN0390 | Highest minimum soil temperature for the  | unknown    |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HN1190 | Highest minimum soil temperature for the  | grass      |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HN1290 | Highest minimum soil temperature for the  | grass      |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HN1390 | Highest minimum soil temperature for the  | grass      |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HN2190 | Highest minimum soil temperature for the  | fallow     |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HN2290 | Highest minimum soil temperature for the  | fallow     |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HN2390 | Highest minimum soil temperature for the  | fallow     |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HN3190 | Highest minimum soil temperature for the  | bare       |
+        |        | month                                     | ground     |
+        +--------+-------------------------------------------+------------+
+        | HN3290 | Highest minimum soil temperature for the  | bare       |
+        |        | month                                     | ground     |
+        +--------+-------------------------------------------+------------+
+        | HN3390 | Highest minimum soil temperature for the  | bare       |
+        |        | month                                     | ground     |
+        +--------+-------------------------------------------+------------+
+        | HN5190 | Highest minimum soil temperature for the  | sod        |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HN5290 | Highest minimum soil temperature for the  | sod        |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HN5390 | Highest minimum soil temperature for the  | sod        |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HO01A0 | Highest soil temperature at observation   | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO01P0 | Highest soil temperature at observation   | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO02A0 | Highest soil temperature at observation   | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO02P0 | Highest soil temperature at observation   | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO03A0 | Highest soil temperature at observation   | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO03P0 | Highest soil temperature at observation   | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO04A0 | Highest soil temperature at observation   | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO04P0 | Highest soil temperature at observation   | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO05A0 | Highest soil temperature at observation   | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO05P0 | Highest soil temperature at observation   | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO11A0 | Highest soil temperature at observation   | grass      |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO11P0 | Highest soil temperature at observation   | grass      |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO12A0 | Highest soil temperature at observation   | grass      |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO12P0 | Highest soil temperature at observation   | grass      |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO13A0 | Highest soil temperature at observation   | grass      |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO14A0 | Highest soil temperature at observation   | grass      |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO15A0 | Highest soil temperature at observation   | grass      |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO31A0 | Highest soil temperature at observation   | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | HO31P0 | Highest soil temperature at observation   | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | HO32A0 | Highest soil temperature at observation   | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | HO32P0 | Highest soil temperature at observation   | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | HO33A0 | Highest soil temperature at observation   | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | HO33P0 | Highest soil temperature at observation   | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | HO34A0 | Highest soil temperature at observation   | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | HO34P0 | Highest soil temperature at observation   | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | HO35A0 | Highest soil temperature at observation   | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | HO35P0 | Highest soil temperature at observation   | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | HO51A0 | Highest soil temperature at observation   | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO51P0 | Highest soil temperature at observation   | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO52A0 | Highest soil temperature at observation   | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO52P0 | Highest soil temperature at observation   | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO53A0 | Highest soil temperature at observation   | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO53P0 | Highest soil temperature at observation   | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO54A0 | Highest soil temperature at observation   | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO54P0 | Highest soil temperature at observation   | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO55A0 | Highest soil temperature at observation   | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HO55P0 | Highest soil temperature at observation   | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | HTDD   | Heating degree days                       |            |
+        +--------+-------------------------------------------+------------+
+        | HX0190 | Highest maximum soil temperature for the  | unknown    |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HX0290 | Highest maximum soil temperature for the  | unknown    |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HX0390 | Highest maximum soil temperature for the  | unknown    |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HX1190 | Highest maximum soil temperature for the  | grass      |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HX1290 | Highest maximum soil temperature for the  | grass      |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HX1390 | Highest maximum soil temperature for the  | grass      |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HX2190 | Highest maximum soil temperature for the  | fallow     |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HX2290 | Highest maximum soil temperature for the  | fallow     |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HX2390 | Highest maximum soil temperature for the  | fallow     |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HX3190 | Highest maximum soil temperature for the  | bare       |
+        |        | month                                     | ground     |
+        +--------+-------------------------------------------+------------+
+        | HX3290 | Highest maximum soil temperature for the  | bare       |
+        |        | month                                     | ground     |
+        +--------+-------------------------------------------+------------+
+        | HX3390 | Highest maximum soil temperature for the  | bare       |
+        |        | month                                     | ground     |
+        +--------+-------------------------------------------+------------+
+        | HX5190 | Highest maximum soil temperature for the  | sod        |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HX5290 | Highest maximum soil temperature for the  | sod        |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | HX5390 | Highest maximum soil temperature for the  | sod        |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LN0190 | Lowest minimum soil temperature for the   | unknown    |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LN0290 | Lowest minimum soil temperature for the   | unknown    |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LN0390 | Lowest minimum soil temperature for the   | unknown    |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LN1190 | Lowest minimum soil temperature for the   | grass      |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LN1290 | Lowest minimum soil temperature for the   | grass      |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LN1390 | Lowest minimum soil temperature for the   | grass      |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LN2190 | Lowest minimum soil temperature for the   | fallow     |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LN2290 | Lowest minimum soil temperature for the   | fallow     |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LN2390 | Lowest minimum soil temperature for the   | fallow     |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LN3190 | Lowest minimum soil temperature for the   | bare       |
+        |        | month                                     | ground     |
+        +--------+-------------------------------------------+------------+
+        | LN3390 | Lowest minimum soil temperature for the   | bare       |
+        |        | month                                     | ground     |
+        +--------+-------------------------------------------+------------+
+        | LN5190 | Lowest minimum soil temperature for the   | sod        |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LN5290 | Lowest minimum soil temperature for the   | sod        |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LN5390 | Lowest minimum soil temperature for the   | sod        |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LO01A0 | Lowest soil temperature at observation    | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO01P0 | Lowest soil temperature at observation    | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO02A0 | Lowest soil temperature at observation    | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO02P0 | Lowest soil temperature at observation    | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO03A0 | Lowest soil temperature at observation    | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO03P0 | Lowest soil temperature at observation    | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO04A0 | Lowest soil temperature at observation    | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO04P0 | Lowest soil temperature at observation    | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO05A0 | Lowest soil temperature at observation    | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO05P0 | Lowest soil temperature at observation    | unknown    |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO11A0 | Lowest soil temperature at observation    | grass      |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO12A0 | Lowest soil temperature at observation    | grass      |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO12P0 | Lowest soil temperature at observation    | grass      |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO13A0 | Lowest soil temperature at observation    | grass      |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO14A0 | Lowest soil temperature at observation    | grass      |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO15A0 | Lowest soil temperature at observation    | grass      |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO31A0 | Lowest soil temperature at observation    | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | LO31P0 | Lowest soil temperature at observation    | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | LO32A0 | Lowest soil temperature at observation    | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | LO32P0 | Lowest soil temperature at observation    | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | LO33A0 | Lowest soil temperature at observation    | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | LO33P0 | Lowest soil temperature at observation    | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | LO34A0 | Lowest soil temperature at observation    | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | LO34P0 | Lowest soil temperature at observation    | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | LO35A0 | Lowest soil temperature at observation    | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | LO35P0 | Lowest soil temperature at observation    | bare       |
+        |        | time                                      | ground     |
+        +--------+-------------------------------------------+------------+
+        | LO51A0 | Lowest soil temperature at observation    | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO51P0 | Lowest soil temperature at observation    | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO52A0 | Lowest soil temperature at observation    | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO52P0 | Lowest soil temperature at observation    | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO53A0 | Lowest soil temperature at observation    | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO53P0 | Lowest soil temperature at observation    | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO54A0 | Lowest soil temperature at observation    | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO54P0 | Lowest soil temperature at observation    | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO55A0 | Lowest soil temperature at observation    | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LO55P0 | Lowest soil temperature at observation    | sod        |
+        |        | time                                      |            |
+        +--------+-------------------------------------------+------------+
+        | LX0190 | Lowest maximum soil temperature for the   | unknown    |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LX0290 | Lowest maximum soil temperature for the   | unknown    |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LX0390 | Lowest maximum soil temperature for the   | unknown    |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LX1190 | Lowest maximum soil temperature for the   | grass      |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LX1290 | Lowest maximum soil temperature for the   | grass      |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LX1390 | Lowest maximum soil temperature for the   | grass      |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LX2190 | Lowest maximum soil temperature for the   | fallow     |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LX2290 | Lowest maximum soil temperature for the   | fallow     |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LX2390 | Lowest maximum soil temperature for the   | fallow     |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LX3190 | Lowest maximum soil temperature for the   | bare       |
+        |        | month                                     | ground     |
+        +--------+-------------------------------------------+------------+
+        | LX3290 | Lowest maximum soil temperature for the   | bare       |
+        |        | month                                     | ground     |
+        +--------+-------------------------------------------+------------+
+        | LX3390 | Lowest maximum soil temperature for the   | bare       |
+        |        | month                                     | ground     |
+        +--------+-------------------------------------------+------------+
+        | LX5190 | Lowest maximum soil temperature for the   | sod        |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LX5290 | Lowest maximum soil temperature for the   | sod        |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | LX5390 | Lowest maximum soil temperature for the   | sod        |
+        |        | month                                     |            |
+        +--------+-------------------------------------------+------------+
+        | MMNP   | Mean minimum temperature of evaporation   |            |
+        |        | pan water for the period.                 |            |
+        +--------+-------------------------------------------+------------+
+        | MMNT   | Monthly Mean minimum temperature          |            |
+        +--------+-------------------------------------------+------------+
+        | MMXP   | Mean maximum temperature of evaporation   |            |
+        |        | pan water for the period.                 |            |
+        +--------+-------------------------------------------+------------+
+        | MMXT   | Monthly Mean maximum temperature          |            |
+        +--------+-------------------------------------------+------------+
+        | MN0190 | Monthly mean minimum soil temperature     | unknown    |
+        +--------+-------------------------------------------+------------+
+        | MN0290 | Monthly mean minimum soil temperature     | unknown    |
+        +--------+-------------------------------------------+------------+
+        | MN0390 | Monthly mean minimum soil temperature     | unknown    |
+        +--------+-------------------------------------------+------------+
+        | MN1190 | Monthly mean minimum soil temperature     | grass      |
+        +--------+-------------------------------------------+------------+
+        | MN1290 | Monthly mean minimum soil temperature     | grass      |
+        +--------+-------------------------------------------+------------+
+        | MN1390 | Monthly mean minimum soil temperature     | grass      |
+        +--------+-------------------------------------------+------------+
+        | MN2190 | Monthly mean minimum soil temperature     | fallow     |
+        +--------+-------------------------------------------+------------+
+        | MN2290 | Monthly mean minimum soil temperature     | fallow     |
+        +--------+-------------------------------------------+------------+
+        | MN2390 | Monthly mean minimum soil temperature     | fallow     |
+        +--------+-------------------------------------------+------------+
+        | MN3190 | Monthly mean minimum soil temperature     | bare       |
+        |        |                                           | ground     |
+        +--------+-------------------------------------------+------------+
+        | MN3290 | Monthly mean minimum soil temperature     | bare       |
+        |        |                                           | ground     |
+        +--------+-------------------------------------------+------------+
+        | MN3390 | Monthly mean minimum soil temperature     | bare       |
+        |        |                                           | ground     |
+        +--------+-------------------------------------------+------------+
+        | MN5190 | Monthly mean minimum soil temperature     | sod        |
+        +--------+-------------------------------------------+------------+
+        | MN5290 | Monthly mean minimum soil temperature     | sod        |
+        +--------+-------------------------------------------+------------+
+        | MN5390 | Monthly mean minimum soil temperature     | sod        |
+        +--------+-------------------------------------------+------------+
+        | MNTM   | Monthly mean temperature                  |            |
+        +--------+-------------------------------------------+------------+
+        | MO01A0 | Monthly mean soil temperature at          | unknown    |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO01P0 | Monthly mean soil temperature at          | unknown    |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO02A0 | Monthly mean soil temperature at          | unknown    |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO02P0 | Monthly mean soil temperature at          | unknown    |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO03A0 | Monthly mean soil temperature at          | unknown    |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO03P0 | Monthly mean soil temperature at          | unknown    |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO04A0 | Monthly mean soil temperature at          | unknown    |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO04P0 | Monthly mean soil temperature at          | unknown    |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO05A0 | Monthly mean soil temperature at          | unknown    |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO05P0 | Monthly mean soil temperature at          | unknown    |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO11A0 | Monthly mean soil temperature at          | grass      |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO11P0 | Monthly mean soil temperature at          | grass      |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO12A0 | Monthly mean soil temperature at          | grass      |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO12P0 | Monthly mean soil temperature at          | grass      |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO13A0 | Monthly mean soil temperature at          | grass      |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO13P0 | Monthly mean soil temperature at          | grass      |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO14A0 | Monthly mean soil temperature at          | grass      |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO15A0 | Monthly mean soil temperature at          | grass      |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO31A0 | Monthly mean soil temperature at          | bare       |
+        |        | observation time                          | ground     |
+        +--------+-------------------------------------------+------------+
+        | MO31P0 | Monthly mean soil temperature at          | bare       |
+        |        | observation time                          | ground     |
+        +--------+-------------------------------------------+------------+
+        | MO32A0 | Monthly mean soil temperature at          | bare       |
+        |        | observation time                          | ground     |
+        +--------+-------------------------------------------+------------+
+        | MO32P0 | Monthly mean soil temperature at          | bare       |
+        |        | observation time                          | ground     |
+        +--------+-------------------------------------------+------------+
+        | MO33A0 | Monthly mean soil temperature at          | bare       |
+        |        | observation time                          | ground     |
+        +--------+-------------------------------------------+------------+
+        | MO33P0 | Monthly mean soil temperature at          | bare       |
+        |        | observation time                          | ground     |
+        +--------+-------------------------------------------+------------+
+        | MO34A0 | Monthly mean soil temperature at          | bare       |
+        |        | observation time                          | ground     |
+        +--------+-------------------------------------------+------------+
+        | MO34P0 | Monthly mean soil temperature at          | bare       |
+        |        | observation time                          | ground     |
+        +--------+-------------------------------------------+------------+
+        | MO35A0 | Monthly mean soil temperature at          | bare       |
+        |        | observation time                          | ground     |
+        +--------+-------------------------------------------+------------+
+        | MO35P0 | Monthly mean soil temperature at          | bare       |
+        |        | observation time                          | ground     |
+        +--------+-------------------------------------------+------------+
+        | MO51A0 | Monthly mean soil temperature at          | sod        |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO51P0 | Monthly mean soil temperature at          | sod        |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO52A0 | Monthly mean soil temperature at          | sod        |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO52P0 | Monthly mean soil temperature at          | sod        |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO53A0 | Monthly mean soil temperature at          | sod        |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO53P0 | Monthly mean soil temperature at          | sod        |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO54A0 | Monthly mean soil temperature at          | sod        |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO54P0 | Monthly mean soil temperature at          | sod        |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO55A0 | Monthly mean soil temperature at          | sod        |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MO55P0 | Monthly mean soil temperature at          | sod        |
+        |        | observation time                          |            |
+        +--------+-------------------------------------------+------------+
+        | MX0190 | Monthly mean maximum soil temperature     | unknown    |
+        +--------+-------------------------------------------+------------+
+        | MX0290 | Monthly mean maximum soil temperature     | unknown    |
+        +--------+-------------------------------------------+------------+
+        | MX0390 | Monthly mean maximum soil temperature     | unknown    |
+        +--------+-------------------------------------------+------------+
+        | MX1190 | Monthly mean maximum soil temperature     | grass      |
+        +--------+-------------------------------------------+------------+
+        | MX1290 | Monthly mean maximum soil temperature     | grass      |
+        +--------+-------------------------------------------+------------+
+        | MX1390 | Monthly mean maximum soil temperature     | grass      |
+        +--------+-------------------------------------------+------------+
+        | MX2190 | Monthly mean maximum soil temperature     | fallow     |
+        +--------+-------------------------------------------+------------+
+        | MX2290 | Monthly mean maximum soil temperature     | fallow     |
+        +--------+-------------------------------------------+------------+
+        | MX2390 | Monthly mean maximum soil temperature     | fallow     |
+        +--------+-------------------------------------------+------------+
+        | MX3190 | Monthly mean maximum soil temperature     | bare       |
+        |        |                                           | ground     |
+        +--------+-------------------------------------------+------------+
+        | MX3290 | Monthly mean maximum soil temperature     | bare       |
+        |        |                                           | ground     |
+        +--------+-------------------------------------------+------------+
+        | MX3390 | Monthly mean maximum soil temperature     | bare       |
+        |        |                                           | ground     |
+        +--------+-------------------------------------------+------------+
+        | MX5190 | Monthly mean maximum soil temperature     | sod        |
+        +--------+-------------------------------------------+------------+
+        | MX5290 | Monthly mean maximum soil temperature     | sod        |
+        +--------+-------------------------------------------+------------+
+        | MX5390 | Monthly mean maximum soil temperature     | sod        |
+        +--------+-------------------------------------------+------------+
+        | MXSD   | Maximum snow depth                        |            |
+        +--------+-------------------------------------------+------------+
+        | TEVP   | Total monthly evaporation.                |            |
+        +--------+-------------------------------------------+------------+
+        | TPCP   | Total precipitation                       |            |
+        +--------+-------------------------------------------+------------+
+        | TSNW   | Total snow fall                           |            |
+        +--------+-------------------------------------------+------------+
+        | TWND   | Total monthly wind movement over          |            |
+        |        | evaporation pan.                          |            |
+        +--------+-------------------------------------------+------------+
+
         """,
 }
 
@@ -2116,1392 +2196,1406 @@ def ncei_normal_ann(stationid):
 
     Requires registration and free API key.
 
-    The 1981-2010 Normals comprise all climate normals using the thirty year
-    period of temperature, degree days, precipitation, snowfall, snow depth,
-    wind, etc. Data is organized into hourly, daily, monthly, seasonal and
-    annual.  This document describes the elements and layout of the Seasonal
-    and Annual Normals which are derived from a composite of climate records
-    from numerous sources that were merged and then subjected to a suite of
-    quality assurance reviews.
+    The 1981-2010 Normals comprise all climate normals using the thirty
+    year period of temperature, degree days, precipitation, snowfall, snow
+    depth, wind, etc. Data is organized into hourly, daily, monthly,
+    seasonal and annual.  This document describes the elements and layout
+    of the Seasonal and Annual Normals which are derived from a composite
+    of climate records from numerous sources that were merged and then
+    subjected to a suite of quality assurance reviews.
 
-    flags accompany every normals value and indicate the completeness of the
-    data record used to compute each value, accounting for methodological
-    differences for different product classes. There are six flag options
-    described generally below. Due to methodological differences, the flags are
-    applied somewhat differently between the temperature-based normals and the
-    precipitation-based normals. For the precipitation-based and hourly
-    normals, the following flags were assigned independently for each normals
-    value reported based on number of years available for that individual
-    calculation. For temperature-based normals, strong precedence is given to
-    the monthly normals of maximum and minimum temperature or derived from the
-    flags for these two variables.
+    flags accompany every normals value and indicate the completeness of
+    the data record used to compute each value, accounting for
+    methodological differences for different product classes. There are six
+    flag options described generally below. Due to methodological
+    differences, the flags are applied somewhat differently between the
+    temperature-based normals and the precipitation-based normals. For the
+    precipitation-based and hourly normals, the following flags were
+    assigned independently for each normals value reported based on number
+    of years available for that individual calculation. For
+    temperature-based normals, strong precedence is given to the monthly
+    normals of maximum and minimum temperature or derived from the flags
+    for these two variables.
 
-    +-------+------------------------------------------------------------------+
-    | Code  | Description                                                      |
-    +=======+==================================================================+
-    | C     | complete (all 30 years used)                                     |
-    +-------+------------------------------------------------------------------+
-    | S     | standard (no more than 5 years missing and no more than 3        |
-    |       | consecutive years missing among the sufficiently complete years) |
-    +-------+------------------------------------------------------------------+
-    | R     | representative (observed record utilized incomplete, but value   |
-    |       | was scaled or based on filled values to be representative of the |
-    |       | full period of record)                                           |
-    +-------+------------------------------------------------------------------+
-    | P     | provisional (at least 10 years used, but not sufficiently        |
-    |       | complete to be labeled as standard or representative). Also used |
-    |       | for parameter values on February 29 as well as for interpolated  |
-    |       | daily precipitation, snowfall, and snow depth percentiles.       |
-    +-------+------------------------------------------------------------------+
-    | Q     | quasi-normal (at least 2 years per month, but not sufficiently   |
-    |       | complete to be labeled as provisional or any other higher flag   |
-    |       | code. The associated value was computed using a pseudo-normals   |
-    |       | approach or derived from monthly pseudo-normals.                 |
-    +-------+------------------------------------------------------------------+
-    | Blank | the data value is reported as a special value (see section B     |
-    |       | under III. Additional Information below).                        |
-    +-------+------------------------------------------------------------------+
+    +-------+-------------------------------------------------------------+
+    | Code  | Description                                                 |
+    +=======+=============================================================+
+    | C     | complete (all 30 years used)                                |
+    +-------+-------------------------------------------------------------+
+    | S     | standard (no more than 5 years missing and no more than 3   |
+    |       | consecutive years missing among the sufficiently complete   |
+    |       | years)                                                      |
+    +-------+-------------------------------------------------------------+
+    | R     | representative (observed record utilized incomplete, but    |
+    |       | value was scaled or based on filled values to be            |
+    |       | representative of the full period of record)                |
+    +-------+-------------------------------------------------------------+
+    | P     | provisional (at least 10 years used, but not sufficiently   |
+    |       | complete to be labeled as standard or representative). Also |
+    |       | used for parameter values on February 29 as well as for     |
+    |       | interpolated daily precipitation, snowfall, and snow depth  |
+    |       | percentiles.                                                |
+    +-------+-------------------------------------------------------------+
+    | Q     | quasi-normal (at least 2 years per month, but not           |
+    |       | sufficiently complete to be labeled as provisional or any   |
+    |       | other higher flag code. The associated value was computed   |
+    |       | using a pseudo-normals approach or derived from monthly     |
+    |       | pseudo-normals.                                             |
+    +-------+-------------------------------------------------------------+
+    | Blank | the data value is reported as a special value (see section  |
+    |       | B under III. Additional Information below).                 |
+    +-------+-------------------------------------------------------------+
 
     Note: flags Q and R aren't applicable to average number of days with
     different precipitation, snowfall, and snow depth threshold exceedance;
-    precipitation/snowfall/snow probabilities of occurrence. Further, Q flags
-    are not applicable for standard deviations.
+    precipitation/snowfall/snow probabilities of occurrence. Further,
+    Q flags are not applicable for standard deviations.
 
-    The following table lists the datatypes available for the annual dataset.
-    Not all of these are available at all stations.
+    The following table lists the datatypes available for the annual
+    dataset. Not all of these are available at all stations.
 
-    +-------------------------+------------------------------------------------+
-    | Code                    | Description                                    |
-    +=========================+================================================+
-    | ANN-CLDD-BASExx         | Average annual cooling degree days where xx is |
-    |                         | the base in degree F. 'xx' can be one of 45,   |
-    |                         | 50, 57, 60, 65, 70, 72                         |
-    +-------------------------+------------------------------------------------+
-    | ANN-CLDD-NORMAL         | Average annual cooling degree days with base   |
-    |                         | 65F                                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-DUTR-NORMAL         | Average annual diurnal temperature range       |
-    +-------------------------+------------------------------------------------+
-    | ANN-GRDD-BASExx         | Average annual growing degree days where xx is |
-    |                         | the base in degree F. 'xx' can be one of 40,   |
-    |                         | 45, 50, 55, 57, 60, 65, 70, 72.                |
-    +-------------------------+------------------------------------------------+
-    | ANN-GRDD-TB4886         | Average annual growing degree days with        |
-    |                         | truncated bases 48F and 86F                    |
-    +-------------------------+------------------------------------------------+
-    | ANN-GRDD-TB5086         | Average annual growing degree days with        |
-    |                         | truncated bases 50F and 86F                    |
-    +-------------------------+------------------------------------------------+
-    | ANN-HTDD-BASE40         | Average annual heating degree days with base   |
-    |                         | 40F                                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-HTDD-BASE45         | Average annual heating degree days with base   |
-    |                         | 45F                                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-HTDD-BASE50         | Average annual heating degree days with base   |
-    |                         | 50F                                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-HTDD-BASE55         | Average annual heating degree days with base   |
-    |                         | 55F                                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-HTDD-BASE57         | Average annual heating degree days with base   |
-    |                         | 57F                                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-HTDD-BASE60         | Average annual heating degree days with base   |
-    |                         | 60F                                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-HTDD-NORMAL         | Average annual heating degree days with base   |
-    |                         | 65F                                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-PRCP-AVGNDS-GE001HI | Average number of days during the year with    |
-    |                         | precipitation >= 0.01 in                       |
-    +-------------------------+------------------------------------------------+
-    | ANN-PRCP-AVGNDS-GE010HI | Average number of days during the year with    |
-    |                         | precipitation >= 0.10 in                       |
-    +-------------------------+------------------------------------------------+
-    | ANN-PRCP-AVGNDS-GE050HI | Average number of days during the year with    |
-    |                         | precipitation >= 0.50 in                       |
-    +-------------------------+------------------------------------------------+
-    | ANN-PRCP-AVGNDS-GE100HI | Average number of days during the year with    |
-    |                         | precipitation >= 1.00 in                       |
-    +-------------------------+------------------------------------------------+
-    | ANN-PRCP-NORMAL         | Average annual precipitation totals            |
-    +-------------------------+------------------------------------------------+
-    | ANN-SNOW-AVGNDS-GE001TI | Average number of days during the year with    |
-    |                         | snowfall >= 0.1 in                             |
-    +-------------------------+------------------------------------------------+
-    | ANN-SNOW-AVGNDS-GE010TI | Average number of days during the year with    |
-    |                         | snowfall >= 1.0 in                             |
-    +-------------------------+------------------------------------------------+
-    | ANN-SNOW-AVGNDS-GE030TI | Average number of days during the year with    |
-    |                         | snowfall >= 3.0 in                             |
-    +-------------------------+------------------------------------------------+
-    | ANN-SNOW-AVGNDS-GE050TI | Average number of days during the year with    |
-    |                         | snowfall >= 5.0 in                             |
-    +-------------------------+------------------------------------------------+
-    | ANN-SNOW-AVGNDS-GE100TI | Average number of days during the year with    |
-    |                         | snowfall >= 10.0 in                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-SNOW-NORMAL         | Average annual snowfall totals                 |
-    +-------------------------+------------------------------------------------+
-    | ANN-SNWD-AVGNDS-GE001WI | Average number of days during the year with    |
-    |                         | snow depth >= 1 inch                           |
-    +-------------------------+------------------------------------------------+
-    | ANN-SNWD-AVGNDS-GE003WI | Average number of days during the year with    |
-    |                         | snow depth >= 3 in                             |
-    +-------------------------+------------------------------------------------+
-    | ANN-SNWD-AVGNDS-GE005WI | Average number of days during the year with    |
-    |                         | snow depth >=5 in                              |
-    +-------------------------+------------------------------------------------+
-    | ANN-SNWD-AVGNDS-GE010WI | Average number of days during the year with    |
-    |                         | snow depth >=10 in                             |
-    +-------------------------+------------------------------------------------+
-    | ANN-TAVG-NORMAL         | Average annual average temperature             |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMAX-AVGNDS-GRTH040 | Average number of days per year where tmax is  |
-    |                         | greater than or equal to 40F                   |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMAX-AVGNDS-GRTH050 | Average number of days per year where tmax is  |
-    |                         | greater than or equal to 50F                   |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMAX-AVGNDS-GRTH060 | Average number of days per year where tmax is  |
-    |                         | greater than or equal to 60F                   |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMAX-AVGNDS-GRTH070 | Average number of days per year where tmax is  |
-    |                         | greater than or equal to 70F                   |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMAX-AVGNDS-GRTH080 | Average number of days per year where tmax is  |
-    |                         | greater than or equal to 80F                   |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMAX-AVGNDS-GRTH090 | Average number of days per year where tmax is  |
-    |                         | greater than or equal to 90F                   |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMAX-AVGNDS-GRTH100 | Average number of days per year where tmax is  |
-    |                         | greater than or equal to 100F                  |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMAX-AVGNDS-LSTH032 | Average number of days per year where tmax is  |
-    |                         | less than or equal to 32F                      |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMAX-NORMAL         | Average annual maximum temperature             |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-AVGNDS-LSTH000 | Average number of days per year where tmin is  |
-    |                         | less than or equal to 0F                       |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-AVGNDS-LSTH010 | Average number of days per year where tmin is  |
-    |                         | less than or equal to 10F                      |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-AVGNDS-LSTH020 | Average number of days per year where tmin is  |
-    |                         | less than or equal to 20F                      |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-AVGNDS-LSTH032 | Average number of days per year where tmin is  |
-    |                         | less than or equal to 32F                      |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-AVGNDS-LSTH040 | Average number of days per year where tmin is  |
-    |                         | less than or equal to 40F                      |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-AVGNDS-LSTH050 | Average number of days per year where tmin is  |
-    |                         | less than or equal to 50F                      |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-AVGNDS-LSTH060 | Average number of days per year where tmin is  |
-    |                         | less than or equal to 60F                      |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-AVGNDS-LSTH070 | Average number of days per year where tmin is  |
-    |                         | less than or equal to 70F                      |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-NORMAL         | Average annual minimum temperature             |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T16FP10 | 10 percent probability date of first 16F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T16FP20 | 20 percent probability date of first 16F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T16FP30 | 30 percent probability date of first 16F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T16FP40 | 40 percent probability date of first 16F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T16FP50 | 50 percent probability date of first 16F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T16FP60 | 60 percent probability date of first 16F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T16FP70 | 70 percent probability date of first 16F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T16FP80 | 80 percent probability date of first 16F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T16FP90 | 90 percent probability date of first 16F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T20FP10 | 10 percent probability date of first 20F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T20FP20 | 20 percent probability date of first 20F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T20FP30 | 30 percent probability date of first 20F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T20FP40 | 40 percent probability date of first 20F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T20FP50 | 50 percent probability date of first 20F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T20FP60 | 60 percent probability date of first 20F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T20FP70 | 70 percent probability date of first 20F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T20FP80 | 80 percent probability date of first 20F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T20FP90 | 90 percent probability date of first 20F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T24FP10 | 10 percent probability date of first 24F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T24FP20 | 20 percent probability date of first 24F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T24FP30 | 30 percent probability date of first 24F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T24FP40 | 40 percent probability date of first 24F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T24FP50 | 50 percent probability date of first 24F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T24FP60 | 60 percent probability date of first 24F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T24FP70 | 70 percent probability date of first 24F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T24FP80 | 80 percent probability date of first 24F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T24FP90 | 90 percent probability date of first 24F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T28FP10 | 10 percent probability date of first 28F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T28FP20 | 20 percent probability date of first 28F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T28FP30 | 30 percent probability date of first 28F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T28FP40 | 40 percent probability date of first 28F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T28FP50 | 50 percent probability date of first 28F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T28FP60 | 60 percent probability date of first 28F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T28FP70 | 70 percent probability date of first 28F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T28FP80 | 80 percent probability date of first 28F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T28FP90 | 90 percent probability date of first 28F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T32FP10 | 10 percent probability date of first 32F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T32FP20 | 20 percent probability date of first 32F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T32FP30 | 30 percent probability date of first 32F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T32FP40 | 40 percent probability date of first 32F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T32FP50 | 50 percent probability date of first 32F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T32FP60 | 60 percent probability date of first 32F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T32FP70 | 70 percent probability date of first 32F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T32FP80 | 80 percent probability date of first 32F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T32FP90 | 90 percent probability date of first 32F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T36FP10 | 10 percent probability date of first 36F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T36FP20 | 20 percent probability date of first 36F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T36FP30 | 30 percent probability date of first 36F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T36FP40 | 40 percent probability date of first 36F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T36FP50 | 50 percent probability date of first 36F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T36FP60 | 60 percent probability date of first 36F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T36FP70 | 70 percent probability date of first 36F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T36FP80 | 80 percent probability date of first 36F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBFST-T36FP90 | 90 percent probability date of first 36F       |
-    |                         | occurrence or earlier                          |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T16FP10 | 10 percent probability of 16F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T16FP20 | 20 percent probability of 16F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T16FP30 | 30 percent probability of 16F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T16FP40 | 40 percent probability of 16F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T16FP50 | 50 percent probability of 16F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T16FP60 | 60 percent probability of 16F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T16FP70 | 70 percent probability of 16F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T16FP80 | 80 percent probability of 16F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T16FP90 | 90 percent probability of 16F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T20FP10 | 10 percent probability of 20F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T20FP20 | 20 percent probability of 20F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T20FP30 | 30 percent probability of 20F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T20FP40 | 40 percent probability of 20F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T20FP50 | 50 percent probability of 20F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T20FP60 | 60 percent probability of 20F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T20FP70 | 70 percent probability of 20F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T20FP80 | 80 percent probability of 20F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T20FP90 | 90 percent probability of 20F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T24FP10 | 10 percent probability of 24F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T24FP20 | 20 percent probability of 24F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T24FP30 | 30 percent probability of 24F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T24FP40 | 40 percent probability of 24F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T24FP50 | 50 percent probability of 24F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T24FP60 | 60 percent probability of 24F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T24FP70 | 70 percent probability of 24F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T24FP80 | 80 percent probability of 24F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T24FP90 | 90 percent probability of 24F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T28FP10 | 10 percent probability of 28F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T28FP20 | 20 percent probability of 28F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T28FP30 | 30 percent probability of 28F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T28FP40 | 40 percent probability of 28F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T28FP50 | 50 percent probability of 28F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T28FP60 | 60 percent probability of 28F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T28FP70 | 70 percent probability of 28F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T28FP80 | 80 percent probability of 28F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T28FP90 | 90 percent probability of 28F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T32FP10 | 10 percent probability of 32F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T32FP20 | 20 percent probability of 32F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T32FP30 | 30 percent probability of 32F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T32FP40 | 40 percent probability of 32F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T32FP50 | 50 percent probability of 32F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T32FP60 | 60 percent probability of 32F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T32FP70 | 70 percent probability of 32F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T32FP80 | 80 percent probability of 32F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T32FP90 | 90 percent probability of 32F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T36FP10 | 10 percent probability of 36F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T36FP20 | 20 percent probability of 36F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T36FP30 | 30 percent probability of 36F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T36FP40 | 40 percent probability of 36F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T36FP50 | 50 percent probability of 36F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T36FP60 | 60 percent probability of 36F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T36FP70 | 70 percent probability of 36F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T36FP80 | 80 percent probability of 36F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBGSL-T36FP90 | 90 percent probability of 36F growing season   |
-    |                         | length or longer                               |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T16FP10 | 10 percent probability date of last 16F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T16FP20 | 20 percent probability date of last 16F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T16FP30 | 30 percent probability date of last 16F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T16FP40 | 40 percent probability date of last 16F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T16FP50 | 50 percent probability date of last 16F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T16FP60 | 60 percent probability date of last 16F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T16FP70 | 70 percent probability date of last 16F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T16FP80 | 80 percent probability date of last 16F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T16FP90 | 90 percent probability date of last 16F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T20FP10 | 10 percent probability date of last 20F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T20FP20 | 20 percent probability date of last 20F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T20FP30 | 30 percent probability date of last 20F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T20FP40 | 40 percent probability date of last 20F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T20FP50 | 50 percent probability date of last 20F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T20FP60 | 60 percent probability date of last 20F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T20FP70 | 70 percent probability date of last 20F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T20FP80 | 80 percent probability date of last 20F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T20FP90 | 90 percent probability date of last 20F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T24FP10 | 10 percent probability date of last 24F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T24FP20 | 20 percent probability date of last 24F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T24FP30 | 30 percent probability date of last 24F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T24FP40 | 40 percent probability date of last 24F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T24FP50 | 50 percent probability date of last 24F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T24FP60 | 60 percent probability date of last 24F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T24FP70 | 70 percent probability date of last 24F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T24FP80 | 80 percent probability date of last 24F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T24FP90 | 90 percent probability date of last 24F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T28FP10 | 10 percent probability date of last 28F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T28FP20 | 20 percent probability date of last 28F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T28FP30 | 30 percent probability date of last 28F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T28FP40 | 40 percent probability date of last 28F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T28FP50 | 50 percent probability date of last 28F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T28FP60 | 60 percent probability date of last 28F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T28FP70 | 70 percent probability date of last 28F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T28FP80 | 80 percent probability date of last 28F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T28FP90 | 90 percent probability date of last 28F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T32FP10 | 10 percent probability date of last 32F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T32FP20 | 20 percent probability date of last 32F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T32FP30 | 30 percent probability date of last 32F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T32FP40 | 40 percent probability date of last 32F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T32FP50 | 50 percent probability date of last 32F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T32FP60 | 60 percent probability date of last 32F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T32FP70 | 70 percent probability date of last 32F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T32FP80 | 80 percent probability date of last 32F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T32FP90 | 90 percent probability date of last 32F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T36FP10 | 10 percent probability date of last 36F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T36FP20 | 20 percent probability date of last 36F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T36FP30 | 30 percent probability date of last 36F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T36FP40 | 40 percent probability date of last 36F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T36FP50 | 50 percent probability date of last 36F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T36FP60 | 60 percent probability date of last 36F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T36FP70 | 70 percent probability date of last 36F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T36FP80 | 80 percent probability date of last 36F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBLST-T36FP90 | 90 percent probability date of last 36F        |
-    |                         | occurrence or later                            |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBOCC-LSTH016 | probability of 16F or below at least once in   |
-    |                         | the year                                       |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBOCC-LSTH020 | probability of 20F or below at least once in   |
-    |                         | the year                                       |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBOCC-LSTH024 | probability of 24F or below at least once in   |
-    |                         | the year                                       |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBOCC-LSTH028 | probability of 28F or below at least once in   |
-    |                         | the year                                       |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBOCC-LSTH032 | probability of 32F or below at least once in   |
-    |                         | the year                                       |
-    +-------------------------+------------------------------------------------+
-    | ANN-TMIN-PRBOCC-LSTH036 | probability of 36F or below at least once in   |
-    |                         | the year                                       |
-    +-------------------------+------------------------------------------------+
-    | DJF-CLDD-BASE45         | Average winter cooling degree days with base   |
-    |                         | 45F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-CLDD-BASE50         | Average winter cooling degree days with base   |
-    |                         | 50F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-CLDD-BASE55         | Average winter cooling degree days with base   |
-    |                         | 55F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-CLDD-BASE57         | Average winter cooling degree days with base   |
-    |                         | 57F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-CLDD-BASE60         | Average winter cooling degree days with base   |
-    |                         | 60F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-CLDD-BASE70         | Average winter cooling degree days with base   |
-    |                         | 70F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-CLDD-BASE72         | Average winter cooling degree days with base   |
-    |                         | 72F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-CLDD-NORMAL         | Average winter cooling degree days with base   |
-    |                         | 65F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-DUTR-NORMAL         | Average winter diurnal temperature range       |
-    +-------------------------+------------------------------------------------+
-    | DJF-GRDD-BASE40         | Average winter growing degree days with base   |
-    |                         | 40F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-GRDD-BASE45         | Average winter growing degree days with base   |
-    |                         | 45F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-GRDD-BASE50         | Average winter growing degree days with base   |
-    |                         | 50F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-GRDD-BASE55         | Average winter growing degree days with base   |
-    |                         | 55F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-GRDD-BASE57         | Average winter growing degree days with base   |
-    |                         | 57F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-GRDD-BASE60         | Average winter growing degree days with base   |
-    |                         | 60F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-GRDD-BASE65         | Average winter growing degree days with base   |
-    |                         | 65F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-GRDD-BASE70         | Average winter growing degree days with base   |
-    |                         | 70F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-GRDD-BASE72         | Average winter growing degree days with base   |
-    |                         | 72F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-GRDD-TB4886         | Average winter growing degree days with        |
-    |                         | truncated bases 48F and 86F                    |
-    +-------------------------+------------------------------------------------+
-    | DJF-GRDD-TB5086         | Average winter growing degree days with        |
-    |                         | truncated bases 50F and 86F                    |
-    +-------------------------+------------------------------------------------+
-    | DJF-HTDD-BASE40         | Average winter heating degree days with base   |
-    |                         | 40F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-HTDD-BASE45         | Average winter heating degree days with base   |
-    |                         | 45F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-HTDD-BASE50         | Average winter heating degree days with base   |
-    |                         | 50F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-HTDD-BASE55         | Average winter heating degree days with base   |
-    |                         | 55F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-HTDD-BASE57         | Average winter heating degree days with base   |
-    |                         | 57F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-HTDD-BASE60         | Average winter heating degree days with base   |
-    |                         | 60F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-HTDD-NORMAL         | Average winter heating degree days with base   |
-    |                         | 65F                                            |
-    +-------------------------+------------------------------------------------+
-    | DJF-PRCP-AVGNDS-GE001HI | Average number of days during December-        |
-    |                         | February with precipitation >= 0.01 in         |
-    +-------------------------+------------------------------------------------+
-    | DJF-PRCP-AVGNDS-GE010HI | Average number of days during December-        |
-    |                         | February with precipitation >= 0.10 in         |
-    +-------------------------+------------------------------------------------+
-    | DJF-PRCP-AVGNDS-GE050HI | Average number of days during December-        |
-    |                         | February with precipitation >= 0.50 in         |
-    +-------------------------+------------------------------------------------+
-    | DJF-PRCP-AVGNDS-GE100HI | Average number of days during December-        |
-    |                         | February with precipitation >= 1.00 in         |
-    +-------------------------+------------------------------------------------+
-    | DJF-PRCP-NORMAL         | Average seasonal precipitation totals for      |
-    |                         | December- February                             |
-    +-------------------------+------------------------------------------------+
-    | DJF-SNOW-AVGNDS-GE001TI | Average number of days during December-        |
-    |                         | February with snowfall >= 0.1 in               |
-    +-------------------------+------------------------------------------------+
-    | DJF-SNOW-AVGNDS-GE010TI | Average number of days during December-        |
-    |                         | February with snowfall >= 1.0 in               |
-    +-------------------------+------------------------------------------------+
-    | DJF-SNOW-AVGNDS-GE030TI | Average number of days during December-        |
-    |                         | February with snowfall >= 3.0 in               |
-    +-------------------------+------------------------------------------------+
-    | DJF-SNOW-AVGNDS-GE050TI | Average number of days during December-        |
-    |                         | February with snowfall >= 5.0 in               |
-    +-------------------------+------------------------------------------------+
-    | DJF-SNOW-AVGNDS-GE100TI | Average number of days during December-        |
-    |                         | February with snowfall >= 10.0 in              |
-    +-------------------------+------------------------------------------------+
-    | DJF-SNOW-NORMAL         | Average seasonal snowfall totals for December- |
-    |                         | February                                       |
-    +-------------------------+------------------------------------------------+
-    | DJF-SNWD-AVGNDS-GE001WI | Average number of days during December-        |
-    |                         | February with snow depth >= 1 inch             |
-    +-------------------------+------------------------------------------------+
-    | DJF-SNWD-AVGNDS-GE003WI | Average number of days during December-        |
-    |                         | February with snow depth >= 3 in               |
-    +-------------------------+------------------------------------------------+
-    | DJF-SNWD-AVGNDS-GE005WI | Average number of days during December-        |
-    |                         | February with snow depth >= 5 in               |
-    +-------------------------+------------------------------------------------+
-    | DJF-SNWD-AVGNDS-GE010WI | Average number of days during December-        |
-    |                         | February with snow depth >= 10 in              |
-    +-------------------------+------------------------------------------------+
-    | DJF-TAVG-NORMAL         | Average winter average temperature             |
-    +-------------------------+------------------------------------------------+
-    | DJF-TMAX-AVGNDS-GRTH040 | Average number of days per winter where tmax   |
-    |                         | is greater than or equal to 40F                |
-    +-------------------------+------------------------------------------------+
-    | DJF-TMAX-AVGNDS-GRTH050 | Average number of days per winter where tmax   |
-    |                         | is greater than or equal to 50F                |
-    +-------------------------+------------------------------------------------+
-    | DJF-TMAX-AVGNDS-GRTH060 | Average number of days per winter where tmax   |
-    |                         | is greater than or equal to 60F                |
-    +-------------------------+------------------------------------------------+
-    | DJF-TMAX-AVGNDS-GRTH070 | Average number of days per winter where tmax   |
-    |                         | is greater than or equal to 70F                |
-    +-------------------------+------------------------------------------------+
-    | DJF-TMAX-AVGNDS-GRTH080 | Average number of days per winter where tmax   |
-    |                         | is greater than or equal to 80F                |
-    +-------------------------+------------------------------------------------+
-    | DJF-TMAX-AVGNDS-GRTH090 | Average number of days per winter where tmax   |
-    |                         | is greater than or equal to 90F                |
-    +-------------------------+------------------------------------------------+
-    | DJF-TMAX-AVGNDS-GRTH100 | Average number of days per winter where tmax   |
-    |                         | is greater than or equal to 100F               |
-    +-------------------------+------------------------------------------------+
-    | DJF-TMAX-AVGNDS-LSTH032 | Average number of days per winter where tmax   |
-    |                         | is less than or equal to 32F                   |
-    +-------------------------+------------------------------------------------+
-    | DJF-TMAX-NORMAL         | Average winter maximum temperature             |
-    +-------------------------+------------------------------------------------+
-    | DJF-TMIN-AVGNDS-LSTH000 | Average number of days per winter where tmin   |
-    |                         | is less than or equal to 0F                    |
-    +-------------------------+------------------------------------------------+
-    | DJF-TMIN-AVGNDS-LSTH010 | Average number of days per winter where tmin   |
-    |                         | is less than or equal to 10F                   |
-    +-------------------------+------------------------------------------------+
-    | DJF-TMIN-AVGNDS-LSTH020 | Average number of days per winter where tmin   |
-    |                         | is less than or equal to 20F                   |
-    +-------------------------+------------------------------------------------+
-    | DJF-TMIN-AVGNDS-LSTH032 | Average number of days per winter where tmin   |
-    |                         | is less than or equal to 32F                   |
-    +-------------------------+------------------------------------------------+
-    | DJF-TMIN-AVGNDS-LSTH040 | Average number of days per winter where tmin   |
-    |                         | is less than or equal to 40F                   |
-    +-------------------------+------------------------------------------------+
-    | DJF-TMIN-AVGNDS-LSTH050 | Average number of days per winter where tmin   |
-    |                         | is less than or equal to 50F                   |
-    +-------------------------+------------------------------------------------+
-    | DJF-TMIN-AVGNDS-LSTH060 | Average number of days per winter where tmin   |
-    |                         | is less than or equal to 60F                   |
-    +-------------------------+------------------------------------------------+
-    | DJF-TMIN-AVGNDS-LSTH070 | Average number of days per winter where tmin   |
-    |                         | is less than or equal to 70F                   |
-    +-------------------------+------------------------------------------------+
-    | DJF-TMIN-NORMAL         | Average winter minimum temperature             |
-    +-------------------------+------------------------------------------------+
-    | JJA-CLDD-BASE45         | Average summer cooling degree days with base   |
-    |                         | 45F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-CLDD-BASE50         | Average summer cooling degree days with base   |
-    |                         | 50F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-CLDD-BASE55         | Average summer cooling degree days with base   |
-    |                         | 55F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-CLDD-BASE57         | Average summer cooling degree days with base   |
-    |                         | 57F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-CLDD-BASE60         | Average summer cooling degree days with base   |
-    |                         | 60F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-CLDD-BASE70         | Average summer cooling degree days with base   |
-    |                         | 70F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-CLDD-BASE72         | Average summer cooling degree days with base   |
-    |                         | 72F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-CLDD-NORMAL         | Average summer cooling degree days with base   |
-    |                         | 65F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-DUTR-NORMAL         | Average summer diurnal temperature range       |
-    +-------------------------+------------------------------------------------+
-    | JJA-GRDD-BASE40         | Average summer growing degree days with base   |
-    |                         | 40F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-GRDD-BASE45         | Average summer growing degree days with base   |
-    |                         | 45F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-GRDD-BASE50         | Average summer growing degree days with base   |
-    |                         | 50F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-GRDD-BASE55         | Average summer growing degree days with base   |
-    |                         | 55F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-GRDD-BASE57         | Average summer growing degree days with base   |
-    |                         | 57F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-GRDD-BASE60         | Average summer growing degree days with base   |
-    |                         | 60F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-GRDD-BASE65         | Average summer growing degree days with base   |
-    |                         | 65F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-GRDD-BASE70         | Average summer growing degree days with base   |
-    |                         | 70F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-GRDD-BASE72         | Average summer growing degree days with base   |
-    |                         | 72F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-GRDD-TB4886         | Average summer growing degree days with        |
-    |                         | truncated bases 48F and 86F                    |
-    +-------------------------+------------------------------------------------+
-    | JJA-GRDD-TB5086         | Average summer growing degree days with        |
-    |                         | truncated bases 50F and 86F                    |
-    +-------------------------+------------------------------------------------+
-    | JJA-HTDD-BASE40         | Average summer heating degree days with base   |
-    |                         | 40F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-HTDD-BASE45         | Average summer heating degree days with base   |
-    |                         | 45F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-HTDD-BASE50         | Average summer heating degree days with base   |
-    |                         | 50F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-HTDD-BASE55         | Average summer heating degree days with base   |
-    |                         | 55F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-HTDD-BASE57         | Average summer heating degree days with base   |
-    |                         | 57F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-HTDD-BASE60         | Average summer heating degree days with base   |
-    |                         | 60F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-HTDD-NORMAL         | Average summer heating degree days with base   |
-    |                         | 65F                                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-PRCP-AVGNDS-GE001HI | Average number of days during June-August with |
-    |                         | precipitation >= 0.01 in                       |
-    +-------------------------+------------------------------------------------+
-    | JJA-PRCP-AVGNDS-GE010HI | Average number of days during June-August with |
-    |                         | precipitation >= 0.10 in                       |
-    +-------------------------+------------------------------------------------+
-    | JJA-PRCP-AVGNDS-GE050HI | Average number of days during June-August with |
-    |                         | precipitation >= 0.50 in                       |
-    +-------------------------+------------------------------------------------+
-    | JJA-PRCP-AVGNDS-GE100HI | Average number of days during June-August with |
-    |                         | precipitation >= 1.00 in                       |
-    +-------------------------+------------------------------------------------+
-    | JJA-PRCP-NORMAL         | Average seasonal precipitation totals for      |
-    |                         | June- August                                   |
-    +-------------------------+------------------------------------------------+
-    | JJA-SNOW-AVGNDS-GE001TI | Average number of days during June-August with |
-    |                         | snowfall >= 0.1 in                             |
-    +-------------------------+------------------------------------------------+
-    | JJA-SNOW-AVGNDS-GE010TI | Average number of days during June-August with |
-    |                         | snowfall >= 1.0 in                             |
-    +-------------------------+------------------------------------------------+
-    | JJA-SNOW-AVGNDS-GE030TI | Average number of days during June-August with |
-    |                         | snowfall >= 3.0 in                             |
-    +-------------------------+------------------------------------------------+
-    | JJA-SNOW-AVGNDS-GE050TI | Average number of days during June-August with |
-    |                         | snowfall >= 5.0 in                             |
-    +-------------------------+------------------------------------------------+
-    | JJA-SNOW-AVGNDS-GE100TI | Average number of days during June-August with |
-    |                         | snowfall >= 10.0 in                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-SNOW-NORMAL         | Average seasonal snowfall totals for June-     |
-    |                         | August                                         |
-    +-------------------------+------------------------------------------------+
-    | JJA-SNWD-AVGNDS-GE001WI | Average number of days during June-August with |
-    |                         | snow depth >= 1 inch                           |
-    +-------------------------+------------------------------------------------+
-    | JJA-SNWD-AVGNDS-GE003WI | Average number of days during June-August with |
-    |                         | snow depth >= 3 in                             |
-    +-------------------------+------------------------------------------------+
-    | JJA-SNWD-AVGNDS-GE005WI | Average number of days during June-August with |
-    |                         | snow depth >= 5 in                             |
-    +-------------------------+------------------------------------------------+
-    | JJA-SNWD-AVGNDS-GE010WI | Average number of days during June-August with |
-    |                         | snow depth >= 10 in                            |
-    +-------------------------+------------------------------------------------+
-    | JJA-TAVG-NORMAL         | Average summer average temperature             |
-    +-------------------------+------------------------------------------------+
-    | JJA-TMAX-AVGNDS-GRTH040 | Average number of days per summer where tmax   |
-    |                         | is greater than or equal to 40F                |
-    +-------------------------+------------------------------------------------+
-    | JJA-TMAX-AVGNDS-GRTH050 | Average number of days per summer where tmax   |
-    |                         | is greater than or equal to 50F                |
-    +-------------------------+------------------------------------------------+
-    | JJA-TMAX-AVGNDS-GRTH060 | Average number of days per summer where tmax   |
-    |                         | is greater than or equal to 60F                |
-    +-------------------------+------------------------------------------------+
-    | JJA-TMAX-AVGNDS-GRTH070 | Average number of days per summer where tmax   |
-    |                         | is greater than or equal to 70F                |
-    +-------------------------+------------------------------------------------+
-    | JJA-TMAX-AVGNDS-GRTH080 | Average number of days per summer where tmax   |
-    |                         | is greater than or equal to 80F                |
-    +-------------------------+------------------------------------------------+
-    | JJA-TMAX-AVGNDS-GRTH090 | Average number of days per summer where tmax   |
-    |                         | is greater than or equal to 90F                |
-    +-------------------------+------------------------------------------------+
-    | JJA-TMAX-AVGNDS-GRTH100 | Average number of days per summer where tmax   |
-    |                         | is greater than or equal to 100F               |
-    +-------------------------+------------------------------------------------+
-    | JJA-TMAX-AVGNDS-LSTH032 | Average number of days per summer where tmax   |
-    |                         | is less than or equal to 32F                   |
-    +-------------------------+------------------------------------------------+
-    | JJA-TMAX-NORMAL         | Average summer maximum temperature             |
-    +-------------------------+------------------------------------------------+
-    | JJA-TMIN-AVGNDS-LSTH000 | Average number of days per summer where tmin   |
-    |                         | is less than or equal to 0F                    |
-    +-------------------------+------------------------------------------------+
-    | JJA-TMIN-AVGNDS-LSTH010 | Average number of days per summer where tmin   |
-    |                         | is less than or equal to 10F                   |
-    +-------------------------+------------------------------------------------+
-    | JJA-TMIN-AVGNDS-LSTH020 | Average number of days per summer where tmin   |
-    |                         | is less than or equal to 20F                   |
-    +-------------------------+------------------------------------------------+
-    | JJA-TMIN-AVGNDS-LSTH032 | Average number of days per summer where tmin   |
-    |                         | is less than or equal to 32F                   |
-    +-------------------------+------------------------------------------------+
-    | JJA-TMIN-AVGNDS-LSTH040 | Average number of days per summer where tmin   |
-    |                         | is less than or equal to 40F                   |
-    +-------------------------+------------------------------------------------+
-    | JJA-TMIN-AVGNDS-LSTH050 | Average number of days per summer where tmin   |
-    |                         | is less than or equal to 50F                   |
-    +-------------------------+------------------------------------------------+
-    | JJA-TMIN-AVGNDS-LSTH060 | Average number of days per summer where tmin   |
-    |                         | is less than or equal to 60F                   |
-    +-------------------------+------------------------------------------------+
-    | JJA-TMIN-AVGNDS-LSTH070 | Average number of days per summer where tmin   |
-    |                         | is less than or equal to 70F                   |
-    +-------------------------+------------------------------------------------+
-    | JJA-TMIN-NORMAL         | Average summer minimum temperature             |
-    +-------------------------+------------------------------------------------+
-    | MAM-CLDD-BASE45         | Average spring cooling degree days with base   |
-    |                         | 45F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-CLDD-BASE50         | Average spring cooling degree days with base   |
-    |                         | 50F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-CLDD-BASE55         | Average spring cooling degree days with base   |
-    |                         | 55F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-CLDD-BASE57         | Average spring cooling degree days with base   |
-    |                         | 57F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-CLDD-BASE60         | Average spring cooling degree days with base   |
-    |                         | 60F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-CLDD-BASE70         | Average spring cooling degree days with base   |
-    |                         | 70F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-CLDD-BASE72         | Average spring cooling degree days with base   |
-    |                         | 72F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-CLDD-NORMAL         | Average spring cooling degree days with base   |
-    |                         | 65F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-DUTR-NORMAL         | Average spring diurnal temperature range       |
-    +-------------------------+------------------------------------------------+
-    | MAM-GRDD-BASE40         | Average spring growing degree days with base   |
-    |                         | 40F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-GRDD-BASE45         | Average spring growing degree days with base   |
-    |                         | 45F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-GRDD-BASE50         | Average spring growing degree days with base   |
-    |                         | 50F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-GRDD-BASE55         | Average spring growing degree days with base   |
-    |                         | 55F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-GRDD-BASE57         | Average spring growing degree days with base   |
-    |                         | 57F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-GRDD-BASE60         | Average spring growing degree days with base   |
-    |                         | 60F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-GRDD-BASE65         | Average spring growing degree days with base   |
-    |                         | 65F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-GRDD-BASE70         | Average spring growing degree days with base   |
-    |                         | 70F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-GRDD-BASE72         | Average spring growing degree days with base   |
-    |                         | 72F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-GRDD-TB4886         | Average summer growing degree days with        |
-    |                         | truncated bases 48F and 86F                    |
-    +-------------------------+------------------------------------------------+
-    | MAM-GRDD-TB5086         | Average summer growing degree days with        |
-    |                         | truncated bases 50F and 86F                    |
-    +-------------------------+------------------------------------------------+
-    | MAM-HTDD-BASE40         | Average spring heating degree days with base   |
-    |                         | 40F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-HTDD-BASE45         | Average spring heating degree days with base   |
-    |                         | 45F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-HTDD-BASE50         | Average spring heating degree days with base   |
-    |                         | 50F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-HTDD-BASE55         | Average spring heating degree days with base   |
-    |                         | 55F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-HTDD-BASE57         | Average spring heating degree days with base   |
-    |                         | 57F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-HTDD-BASE60         | Average spring heating degree days with base   |
-    |                         | 60F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-HTDD-NORMAL         | Average spring heating degree days with base   |
-    |                         | 65F                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-PRCP-AVGNDS-GE001HI | Average number of days during March-May with   |
-    |                         | precipitation >= 0.01 in                       |
-    +-------------------------+------------------------------------------------+
-    | MAM-PRCP-AVGNDS-GE010HI | Average number of days during March-May with   |
-    |                         | precipitation >= a 0.10 in                     |
-    +-------------------------+------------------------------------------------+
-    | MAM-PRCP-AVGNDS-GE050HI | Average number of days during March-May with   |
-    |                         | precipitation >= 0.50 in                       |
-    +-------------------------+------------------------------------------------+
-    | MAM-PRCP-AVGNDS-GE100HI | Average number of days during March-May with   |
-    |                         | precipitation >= 1.00 in                       |
-    +-------------------------+------------------------------------------------+
-    | MAM-PRCP-NORMAL         | Average seasonal precipitation totals for      |
-    |                         | March- May                                     |
-    +-------------------------+------------------------------------------------+
-    | MAM-SNOW-AVGNDS-GE001TI | Average number of days during March-May with   |
-    |                         | snowfall >= 0.1 in                             |
-    +-------------------------+------------------------------------------------+
-    | MAM-SNOW-AVGNDS-GE010TI | Average number of days during March-May with   |
-    |                         | snowfall >= 1.0 in                             |
-    +-------------------------+------------------------------------------------+
-    | MAM-SNOW-AVGNDS-GE030TI | Average number of days during March-May with   |
-    |                         | snowfall >= 3.0 in                             |
-    +-------------------------+------------------------------------------------+
-    | MAM-SNOW-AVGNDS-GE050TI | Average number of days during March-May with   |
-    |                         | snowfall >= 5.0 in                             |
-    +-------------------------+------------------------------------------------+
-    | MAM-SNOW-AVGNDS-GE100TI | Average number of days during March-May with   |
-    |                         | snowfall >= 10.0 in                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-SNOW-NORMAL         | Average seasonal snowfall totals for March-    |
-    |                         | May                                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-SNWD-AVGNDS-GE001WI | Average number of days during March-May with   |
-    |                         | snow depth >= 1 inch                           |
-    +-------------------------+------------------------------------------------+
-    | MAM-SNWD-AVGNDS-GE003WI | Average number of days during March-May with   |
-    |                         | snow depth >= 3 in                             |
-    +-------------------------+------------------------------------------------+
-    | MAM-SNWD-AVGNDS-GE005WI | Average number of days during March-May with   |
-    |                         | snow depth >= 5 in                             |
-    +-------------------------+------------------------------------------------+
-    | MAM-SNWD-AVGNDS-GE010WI | Average number of days during March-May with   |
-    |                         | snow depth >= 10 in                            |
-    +-------------------------+------------------------------------------------+
-    | MAM-TAVG-NORMAL         | Average spring average temperature             |
-    +-------------------------+------------------------------------------------+
-    | MAM-TMAX-AVGNDS-GRTH040 | Average number of days per spring where tmax   |
-    |                         | is greater than or equal to 40F                |
-    +-------------------------+------------------------------------------------+
-    | MAM-TMAX-AVGNDS-GRTH050 | Average number of days per spring where tmax   |
-    |                         | is greater than or equal to 50F                |
-    +-------------------------+------------------------------------------------+
-    | MAM-TMAX-AVGNDS-GRTH060 | Average number of days per spring where tmax   |
-    |                         | is greater than or equal to 60F                |
-    +-------------------------+------------------------------------------------+
-    | MAM-TMAX-AVGNDS-GRTH070 | Average number of days per spring where tmax   |
-    |                         | is greater than or equal to 70F                |
-    +-------------------------+------------------------------------------------+
-    | MAM-TMAX-AVGNDS-GRTH080 | Average number of days per spring where tmax   |
-    |                         | is greater than or equal to 80F                |
-    +-------------------------+------------------------------------------------+
-    | MAM-TMAX-AVGNDS-GRTH090 | Average number of days per spring where tmax   |
-    |                         | is greater than or equal to 90F                |
-    +-------------------------+------------------------------------------------+
-    | MAM-TMAX-AVGNDS-GRTH100 | Average number of days per spring where tmax   |
-    |                         | is greater than or equal to 100F               |
-    +-------------------------+------------------------------------------------+
-    | MAM-TMAX-AVGNDS-LSTH032 | Average number of days per spring where tmax   |
-    |                         | is less than or equal to 32F                   |
-    +-------------------------+------------------------------------------------+
-    | MAM-TMAX-NORMAL         | Average spring maximum temperature             |
-    +-------------------------+------------------------------------------------+
-    | MAM-TMIN-AVGNDS-LSTH000 | Average number of days per spring where tmin   |
-    |                         | is less than or equal to 0F                    |
-    +-------------------------+------------------------------------------------+
-    | MAM-TMIN-AVGNDS-LSTH010 | Average number of days per spring where tmin   |
-    |                         | is less than or equal to 10F                   |
-    +-------------------------+------------------------------------------------+
-    | MAM-TMIN-AVGNDS-LSTH020 | Average number of days per spring where tmin   |
-    |                         | is less than or equal to 20F                   |
-    +-------------------------+------------------------------------------------+
-    | MAM-TMIN-AVGNDS-LSTH032 | Average number of days per spring where tmin   |
-    |                         | is less than or equal to 32F                   |
-    +-------------------------+------------------------------------------------+
-    | MAM-TMIN-AVGNDS-LSTH040 | Average number of days per spring where tmin   |
-    |                         | is less than or equal to 40F                   |
-    +-------------------------+------------------------------------------------+
-    | MAM-TMIN-AVGNDS-LSTH050 | Average number of days per spring where tmin   |
-    |                         | is less than or equal to 50F                   |
-    +-------------------------+------------------------------------------------+
-    | MAM-TMIN-AVGNDS-LSTH060 | Average number of days per spring where tmin   |
-    |                         | is less than or equal to 60F                   |
-    +-------------------------+------------------------------------------------+
-    | MAM-TMIN-AVGNDS-LSTH070 | Average number of days per spring where tmin   |
-    |                         | is less than or equal to 70F                   |
-    +-------------------------+------------------------------------------------+
-    | MAM-TMIN-NORMAL         | Average spring minimum temperature             |
-    +-------------------------+------------------------------------------------+
-    | SON-CLDD-BASE45         | Average autumn cooling degree days with base   |
-    |                         | 45F                                            |
-    +-------------------------+------------------------------------------------+
-    | SON-CLDD-BASE50         | Average autumn cooling degree days with base   |
-    |                         | 50F                                            |
-    +-------------------------+------------------------------------------------+
-    | SON-CLDD-BASE55         | Average autumn cooling degree days with base   |
-    |                         | 55F                                            |
-    +-------------------------+------------------------------------------------+
-    | SON-CLDD-BASE57         | Average autumn cooling degree days with base   |
-    |                         | 57F                                            |
-    +-------------------------+------------------------------------------------+
-    | SON-CLDD-BASE60         | Average autumn cooling degree days with base   |
-    |                         | 60F                                            |
-    +-------------------------+------------------------------------------------+
-    | SON-CLDD-BASE70         | Average autumn cooling degree days with base   |
-    |                         | 70F                                            |
-    +-------------------------+------------------------------------------------+
-    | SON-CLDD-BASE72         | Average autumn cooling degree days with base   |
-    |                         | 72F                                            |
-    +-------------------------+------------------------------------------------+
-    | SON-CLDD-NORMAL         | Average autumn cooling degree days with base   |
-    |                         | 65F                                            |
-    +-------------------------+------------------------------------------------+
-    | SON-DUTR-NORMAL         | Average autumn diurnal temperature range       |
-    +-------------------------+------------------------------------------------+
-    | SON-GRDD-BASE40         | Average fall growing degree days with base 40F |
-    +-------------------------+------------------------------------------------+
-    | SON-GRDD-BASE45         | Average fall growing degree days with base 45F |
-    +-------------------------+------------------------------------------------+
-    | SON-GRDD-BASE50         | Average fall growing degree days with base 50F |
-    +-------------------------+------------------------------------------------+
-    | SON-GRDD-BASE55         | Average fall growing degree days with base 55F |
-    +-------------------------+------------------------------------------------+
-    | SON-GRDD-BASE57         | Average fall growing degree days with base 57F |
-    +-------------------------+------------------------------------------------+
-    | SON-GRDD-BASE60         | Average fall growing degree days with base 60F |
-    +-------------------------+------------------------------------------------+
-    | SON-GRDD-BASE65         | Average fall growing degree days with base 65F |
-    +-------------------------+------------------------------------------------+
-    | SON-GRDD-BASE70         | Average fall growing degree days with base 70F |
-    +-------------------------+------------------------------------------------+
-    | SON-GRDD-BASE72         | Average fall growing degree days with base 72F |
-    +-------------------------+------------------------------------------------+
-    | SON-GRDD-TB4886         | Average summer growing degree days with        |
-    |                         | truncated bases 48F and 86F                    |
-    +-------------------------+------------------------------------------------+
-    | SON-GRDD-TB5086         | Average summer growing degree days with        |
-    |                         | truncated bases 50F and 86F                    |
-    +-------------------------+------------------------------------------------+
-    | SON-HTDD-BASE40         | Average autumn heating degree days with base   |
-    |                         | 40F                                            |
-    +-------------------------+------------------------------------------------+
-    | SON-HTDD-BASE45         | Average autumn heating degree days with base   |
-    |                         | 45F                                            |
-    +-------------------------+------------------------------------------------+
-    | SON-HTDD-BASE50         | Average autumn heating degree days with base   |
-    |                         | 50F                                            |
-    +-------------------------+------------------------------------------------+
-    | SON-HTDD-BASE55         | Average autumn heating degree days with base   |
-    |                         | 55F                                            |
-    +-------------------------+------------------------------------------------+
-    | SON-HTDD-BASE57         | Average autumn heating degree days with base   |
-    |                         | 57F                                            |
-    +-------------------------+------------------------------------------------+
-    | SON-HTDD-BASE60         | Average autumn heating degree days with base   |
-    |                         | 60F                                            |
-    +-------------------------+------------------------------------------------+
-    | SON-HTDD-NORMAL         | Average autumn heating degree days with base   |
-    |                         | 65F                                            |
-    +-------------------------+------------------------------------------------+
-    | SON-PRCP-AVGNDS-GE001HI | Average number of days during September-       |
-    |                         | November with precipitation >= 0.01 in         |
-    +-------------------------+------------------------------------------------+
-    | SON-PRCP-AVGNDS-GE010HI | Average number of days during September-       |
-    |                         | November with precipitation >= 0.10 in         |
-    +-------------------------+------------------------------------------------+
-    | SON-PRCP-AVGNDS-GE050HI | Average number of days during September-       |
-    |                         | November with precipitation >= 0.50 in         |
-    +-------------------------+------------------------------------------------+
-    | SON-PRCP-AVGNDS-GE100HI | Average number of days during September-       |
-    |                         | November with precipitation >= 1.00 in         |
-    +-------------------------+------------------------------------------------+
-    | SON-PRCP-NORMAL         | Average seasonal precipitation totals for      |
-    |                         | September- November                            |
-    +-------------------------+------------------------------------------------+
-    | SON-SNOW-AVGNDS-GE001TI | Average number of days during September-       |
-    |                         | November with snowfall >= 0.1 in               |
-    +-------------------------+------------------------------------------------+
-    | SON-SNOW-AVGNDS-GE010TI | Average number of days during September-       |
-    |                         | November with snowfall >= 1.0 in               |
-    +-------------------------+------------------------------------------------+
-    | SON-SNOW-AVGNDS-GE030TI | Average number of days during September-       |
-    |                         | November with snowfall >= 3.0 in               |
-    +-------------------------+------------------------------------------------+
-    | SON-SNOW-AVGNDS-GE050TI | Average number of days during September-       |
-    |                         | November with snowfall >= 5.0 in               |
-    +-------------------------+------------------------------------------------+
-    | SON-SNOW-AVGNDS-GE100TI | Average number of days during September-       |
-    |                         | November with snowfall >= 10.0 in              |
-    +-------------------------+------------------------------------------------+
-    | SON-SNOW-NORMAL         | Average seasonal snowfall totals for           |
-    |                         | September- November                            |
-    +-------------------------+------------------------------------------------+
-    | SON-SNWD-AVGNDS-GE001WI | Average number of days during September-       |
-    |                         | November with snow depth >= 1 inch             |
-    +-------------------------+------------------------------------------------+
-    | SON-SNWD-AVGNDS-GE003WI | Average number of days during September-       |
-    |                         | November with snow depth >= 3 in               |
-    +-------------------------+------------------------------------------------+
-    | SON-SNWD-AVGNDS-GE005WI | Average number of days during September-       |
-    |                         | November with snow depth >= 5 in               |
-    +-------------------------+------------------------------------------------+
-    | SON-SNWD-AVGNDS-GE010WI | Average number of days during September-       |
-    |                         | November with snow depth >= 10 in              |
-    +-------------------------+------------------------------------------------+
-    | SON-TAVG-NORMAL         | Average autumn average temperature             |
-    +-------------------------+------------------------------------------------+
-    | SON-TMAX-AVGNDS-GRTH040 | Average number of days per autumn where tmax   |
-    |                         | is greater than or equal to 40F                |
-    +-------------------------+------------------------------------------------+
-    | SON-TMAX-AVGNDS-GRTH050 | Average number of days per autumn where tmax   |
-    |                         | is greater than or equal to 50F                |
-    +-------------------------+------------------------------------------------+
-    | SON-TMAX-AVGNDS-GRTH060 | Average number of days per autumn where tmax   |
-    |                         | is greater than or equal to 60F                |
-    +-------------------------+------------------------------------------------+
-    | SON-TMAX-AVGNDS-GRTH070 | Average number of days per autumn where tmax   |
-    |                         | is greater than or equal to 70F                |
-    +-------------------------+------------------------------------------------+
-    | SON-TMAX-AVGNDS-GRTH080 | Average number of days per autumn where tmax   |
-    |                         | is greater than or equal to 80F                |
-    +-------------------------+------------------------------------------------+
-    | SON-TMAX-AVGNDS-GRTH090 | Average number of days per autumn where tmax   |
-    |                         | is greater than or equal to 90F                |
-    +-------------------------+------------------------------------------------+
-    | SON-TMAX-AVGNDS-GRTH100 | Average number of days per autumn where tmax   |
-    |                         | is greater than or equal to 100F               |
-    +-------------------------+------------------------------------------------+
-    | SON-TMAX-AVGNDS-LSTH032 | Average number of days per autumn where tmax   |
-    |                         | is less than or equal to 32F                   |
-    +-------------------------+------------------------------------------------+
-    | SON-TMAX-NORMAL         | Average autumn maximum temperature             |
-    +-------------------------+------------------------------------------------+
-    | SON-TMIN-AVGNDS-LSTHxxx | Average number of days per autumn where tmin   |
-    |                         | is less than or equal to 'xxx' degree F. Where |
-    |                         | 'xxx' is one of 000, 010, 020, 032, 040, 050,  |
-    |                         | 060, 070                                       |
-    +-------------------------+------------------------------------------------+
-    | SON-TMIN-NORMAL         | Average autumn minimum temperature             |
-    +-------------------------+------------------------------------------------+
+    +-------------------------+-------------------------------------------+
+    | Code                    | Description                               |
+    +=========================+===========================================+
+    | ANN-CLDD-BASExx         | Average annual cooling degree days where  |
+    |                         | xx is the base in degree F. 'xx' can be   |
+    |                         | one of 45, 50, 57, 60, 65, 70, 72         |
+    +-------------------------+-------------------------------------------+
+    | ANN-CLDD-NORMAL         | Average annual cooling degree days with   |
+    |                         | base 65F                                  |
+    +-------------------------+-------------------------------------------+
+    | ANN-DUTR-NORMAL         | Average annual diurnal temperature range  |
+    +-------------------------+-------------------------------------------+
+    | ANN-GRDD-BASExx         | Average annual growing degree days where  |
+    |                         | xx is the base in degree F. 'xx' can be   |
+    |                         | one of 40, 45, 50, 55, 57, 60, 65, 70,    |
+    |                         | 72.                                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-GRDD-TB4886         | Average annual growing degree days with   |
+    |                         | truncated bases 48F and 86F               |
+    +-------------------------+-------------------------------------------+
+    | ANN-GRDD-TB5086         | Average annual growing degree days with   |
+    |                         | truncated bases 50F and 86F               |
+    +-------------------------+-------------------------------------------+
+    | ANN-HTDD-BASE40         | Average annual heating degree days with   |
+    |                         | base 40F                                  |
+    +-------------------------+-------------------------------------------+
+    | ANN-HTDD-BASE45         | Average annual heating degree days with   |
+    |                         | base 45F                                  |
+    +-------------------------+-------------------------------------------+
+    | ANN-HTDD-BASE50         | Average annual heating degree days with   |
+    |                         | base 50F                                  |
+    +-------------------------+-------------------------------------------+
+    | ANN-HTDD-BASE55         | Average annual heating degree days with   |
+    |                         | base 55F                                  |
+    +-------------------------+-------------------------------------------+
+    | ANN-HTDD-BASE57         | Average annual heating degree days with   |
+    |                         | base 57F                                  |
+    +-------------------------+-------------------------------------------+
+    | ANN-HTDD-BASE60         | Average annual heating degree days with   |
+    |                         | base 60F                                  |
+    +-------------------------+-------------------------------------------+
+    | ANN-HTDD-NORMAL         | Average annual heating degree days with   |
+    |                         | base 65F                                  |
+    +-------------------------+-------------------------------------------+
+    | ANN-PRCP-AVGNDS-GE001HI | Average number of days during the year    |
+    |                         | with precipitation >= 0.01 in             |
+    +-------------------------+-------------------------------------------+
+    | ANN-PRCP-AVGNDS-GE010HI | Average number of days during the year    |
+    |                         | with precipitation >= 0.10 in             |
+    +-------------------------+-------------------------------------------+
+    | ANN-PRCP-AVGNDS-GE050HI | Average number of days during the year    |
+    |                         | with precipitation >= 0.50 in             |
+    +-------------------------+-------------------------------------------+
+    | ANN-PRCP-AVGNDS-GE100HI | Average number of days during the year    |
+    |                         | with precipitation >= 1.00 in             |
+    +-------------------------+-------------------------------------------+
+    | ANN-PRCP-NORMAL         | Average annual precipitation totals       |
+    +-------------------------+-------------------------------------------+
+    | ANN-SNOW-AVGNDS-GE001TI | Average number of days during the year    |
+    |                         | with snowfall >= 0.1 in                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-SNOW-AVGNDS-GE010TI | Average number of days during the year    |
+    |                         | with snowfall >= 1.0 in                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-SNOW-AVGNDS-GE030TI | Average number of days during the year    |
+    |                         | with snowfall >= 3.0 in                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-SNOW-AVGNDS-GE050TI | Average number of days during the year    |
+    |                         | with snowfall >= 5.0 in                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-SNOW-AVGNDS-GE100TI | Average number of days during the year    |
+    |                         | with snowfall >= 10.0 in                  |
+    +-------------------------+-------------------------------------------+
+    | ANN-SNOW-NORMAL         | Average annual snowfall totals            |
+    +-------------------------+-------------------------------------------+
+    | ANN-SNWD-AVGNDS-GE001WI | Average number of days during the year    |
+    |                         | with snow depth >= 1 inch                 |
+    +-------------------------+-------------------------------------------+
+    | ANN-SNWD-AVGNDS-GE003WI | Average number of days during the year    |
+    |                         | with snow depth >= 3 in                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-SNWD-AVGNDS-GE005WI | Average number of days during the year    |
+    |                         | with snow depth >=5 in                    |
+    +-------------------------+-------------------------------------------+
+    | ANN-SNWD-AVGNDS-GE010WI | Average number of days during the year    |
+    |                         | with snow depth >=10 in                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TAVG-NORMAL         | Average annual average temperature        |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMAX-AVGNDS-GRTH040 | Average number of days per year where     |
+    |                         | tmax is greater than or equal to 40F      |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMAX-AVGNDS-GRTH050 | Average number of days per year where     |
+    |                         | tmax is greater than or equal to 50F      |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMAX-AVGNDS-GRTH060 | Average number of days per year where     |
+    |                         | tmax is greater than or equal to 60F      |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMAX-AVGNDS-GRTH070 | Average number of days per year where     |
+    |                         | tmax is greater than or equal to 70F      |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMAX-AVGNDS-GRTH080 | Average number of days per year where     |
+    |                         | tmax is greater than or equal to 80F      |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMAX-AVGNDS-GRTH090 | Average number of days per year where     |
+    |                         | tmax is greater than or equal to 90F      |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMAX-AVGNDS-GRTH100 | Average number of days per year where     |
+    |                         | tmax is greater than or equal to 100F     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMAX-AVGNDS-LSTH032 | Average number of days per year where     |
+    |                         | tmax is less than or equal to 32F         |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMAX-NORMAL         | Average annual maximum temperature        |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-AVGNDS-LSTH000 | Average number of days per year where     |
+    |                         | tmin is less than or equal to 0F          |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-AVGNDS-LSTH010 | Average number of days per year where     |
+    |                         | tmin is less than or equal to 10F         |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-AVGNDS-LSTH020 | Average number of days per year where     |
+    |                         | tmin is less than or equal to 20F         |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-AVGNDS-LSTH032 | Average number of days per year where     |
+    |                         | tmin is less than or equal to 32F         |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-AVGNDS-LSTH040 | Average number of days per year where     |
+    |                         | tmin is less than or equal to 40F         |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-AVGNDS-LSTH050 | Average number of days per year where     |
+    |                         | tmin is less than or equal to 50F         |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-AVGNDS-LSTH060 | Average number of days per year where     |
+    |                         | tmin is less than or equal to 60F         |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-AVGNDS-LSTH070 | Average number of days per year where     |
+    |                         | tmin is less than or equal to 70F         |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-NORMAL         | Average annual minimum temperature        |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T16FP10 | 10 percent probability date of first 16F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T16FP20 | 20 percent probability date of first 16F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T16FP30 | 30 percent probability date of first 16F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T16FP40 | 40 percent probability date of first 16F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T16FP50 | 50 percent probability date of first 16F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T16FP60 | 60 percent probability date of first 16F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T16FP70 | 70 percent probability date of first 16F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T16FP80 | 80 percent probability date of first 16F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T16FP90 | 90 percent probability date of first 16F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T20FP10 | 10 percent probability date of first 20F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T20FP20 | 20 percent probability date of first 20F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T20FP30 | 30 percent probability date of first 20F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T20FP40 | 40 percent probability date of first 20F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T20FP50 | 50 percent probability date of first 20F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T20FP60 | 60 percent probability date of first 20F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T20FP70 | 70 percent probability date of first 20F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T20FP80 | 80 percent probability date of first 20F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T20FP90 | 90 percent probability date of first 20F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T24FP10 | 10 percent probability date of first 24F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T24FP20 | 20 percent probability date of first 24F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T24FP30 | 30 percent probability date of first 24F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T24FP40 | 40 percent probability date of first 24F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T24FP50 | 50 percent probability date of first 24F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T24FP60 | 60 percent probability date of first 24F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T24FP70 | 70 percent probability date of first 24F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T24FP80 | 80 percent probability date of first 24F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T24FP90 | 90 percent probability date of first 24F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T28FP10 | 10 percent probability date of first 28F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T28FP20 | 20 percent probability date of first 28F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T28FP30 | 30 percent probability date of first 28F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T28FP40 | 40 percent probability date of first 28F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T28FP50 | 50 percent probability date of first 28F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T28FP60 | 60 percent probability date of first 28F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T28FP70 | 70 percent probability date of first 28F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T28FP80 | 80 percent probability date of first 28F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T28FP90 | 90 percent probability date of first 28F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T32FP10 | 10 percent probability date of first 32F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T32FP20 | 20 percent probability date of first 32F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T32FP30 | 30 percent probability date of first 32F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T32FP40 | 40 percent probability date of first 32F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T32FP50 | 50 percent probability date of first 32F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T32FP60 | 60 percent probability date of first 32F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T32FP70 | 70 percent probability date of first 32F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T32FP80 | 80 percent probability date of first 32F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T32FP90 | 90 percent probability date of first 32F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T36FP10 | 10 percent probability date of first 36F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T36FP20 | 20 percent probability date of first 36F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T36FP30 | 30 percent probability date of first 36F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T36FP40 | 40 percent probability date of first 36F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T36FP50 | 50 percent probability date of first 36F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T36FP60 | 60 percent probability date of first 36F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T36FP70 | 70 percent probability date of first 36F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T36FP80 | 80 percent probability date of first 36F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBFST-T36FP90 | 90 percent probability date of first 36F  |
+    |                         | occurrence or earlier                     |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T16FP10 | 10 percent probability of 16F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T16FP20 | 20 percent probability of 16F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T16FP30 | 30 percent probability of 16F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T16FP40 | 40 percent probability of 16F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T16FP50 | 50 percent probability of 16F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T16FP60 | 60 percent probability of 16F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T16FP70 | 70 percent probability of 16F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T16FP80 | 80 percent probability of 16F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T16FP90 | 90 percent probability of 16F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T20FP10 | 10 percent probability of 20F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T20FP20 | 20 percent probability of 20F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T20FP30 | 30 percent probability of 20F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T20FP40 | 40 percent probability of 20F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T20FP50 | 50 percent probability of 20F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T20FP60 | 60 percent probability of 20F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T20FP70 | 70 percent probability of 20F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T20FP80 | 80 percent probability of 20F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T20FP90 | 90 percent probability of 20F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T24FP10 | 10 percent probability of 24F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T24FP20 | 20 percent probability of 24F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T24FP30 | 30 percent probability of 24F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T24FP40 | 40 percent probability of 24F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T24FP50 | 50 percent probability of 24F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T24FP60 | 60 percent probability of 24F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T24FP70 | 70 percent probability of 24F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T24FP80 | 80 percent probability of 24F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T24FP90 | 90 percent probability of 24F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T28FP10 | 10 percent probability of 28F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T28FP20 | 20 percent probability of 28F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T28FP30 | 30 percent probability of 28F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T28FP40 | 40 percent probability of 28F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T28FP50 | 50 percent probability of 28F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T28FP60 | 60 percent probability of 28F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T28FP70 | 70 percent probability of 28F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T28FP80 | 80 percent probability of 28F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T28FP90 | 90 percent probability of 28F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T32FP10 | 10 percent probability of 32F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T32FP20 | 20 percent probability of 32F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T32FP30 | 30 percent probability of 32F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T32FP40 | 40 percent probability of 32F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T32FP50 | 50 percent probability of 32F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T32FP60 | 60 percent probability of 32F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T32FP70 | 70 percent probability of 32F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T32FP80 | 80 percent probability of 32F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T32FP90 | 90 percent probability of 32F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T36FP10 | 10 percent probability of 36F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T36FP20 | 20 percent probability of 36F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T36FP30 | 30 percent probability of 36F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T36FP40 | 40 percent probability of 36F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T36FP50 | 50 percent probability of 36F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T36FP60 | 60 percent probability of 36F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T36FP70 | 70 percent probability of 36F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T36FP80 | 80 percent probability of 36F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBGSL-T36FP90 | 90 percent probability of 36F growing     |
+    |                         | season length or longer                   |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T16FP10 | 10 percent probability date of last 16F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T16FP20 | 20 percent probability date of last 16F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T16FP30 | 30 percent probability date of last 16F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T16FP40 | 40 percent probability date of last 16F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T16FP50 | 50 percent probability date of last 16F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T16FP60 | 60 percent probability date of last 16F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T16FP70 | 70 percent probability date of last 16F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T16FP80 | 80 percent probability date of last 16F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T16FP90 | 90 percent probability date of last 16F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T20FP10 | 10 percent probability date of last 20F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T20FP20 | 20 percent probability date of last 20F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T20FP30 | 30 percent probability date of last 20F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T20FP40 | 40 percent probability date of last 20F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T20FP50 | 50 percent probability date of last 20F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T20FP60 | 60 percent probability date of last 20F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T20FP70 | 70 percent probability date of last 20F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T20FP80 | 80 percent probability date of last 20F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T20FP90 | 90 percent probability date of last 20F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T24FP10 | 10 percent probability date of last 24F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T24FP20 | 20 percent probability date of last 24F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T24FP30 | 30 percent probability date of last 24F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T24FP40 | 40 percent probability date of last 24F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T24FP50 | 50 percent probability date of last 24F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T24FP60 | 60 percent probability date of last 24F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T24FP70 | 70 percent probability date of last 24F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T24FP80 | 80 percent probability date of last 24F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T24FP90 | 90 percent probability date of last 24F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T28FP10 | 10 percent probability date of last 28F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T28FP20 | 20 percent probability date of last 28F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T28FP30 | 30 percent probability date of last 28F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T28FP40 | 40 percent probability date of last 28F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T28FP50 | 50 percent probability date of last 28F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T28FP60 | 60 percent probability date of last 28F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T28FP70 | 70 percent probability date of last 28F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T28FP80 | 80 percent probability date of last 28F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T28FP90 | 90 percent probability date of last 28F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T32FP10 | 10 percent probability date of last 32F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T32FP20 | 20 percent probability date of last 32F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T32FP30 | 30 percent probability date of last 32F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T32FP40 | 40 percent probability date of last 32F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T32FP50 | 50 percent probability date of last 32F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T32FP60 | 60 percent probability date of last 32F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T32FP70 | 70 percent probability date of last 32F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T32FP80 | 80 percent probability date of last 32F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T32FP90 | 90 percent probability date of last 32F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T36FP10 | 10 percent probability date of last 36F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T36FP20 | 20 percent probability date of last 36F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T36FP30 | 30 percent probability date of last 36F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T36FP40 | 40 percent probability date of last 36F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T36FP50 | 50 percent probability date of last 36F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T36FP60 | 60 percent probability date of last 36F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T36FP70 | 70 percent probability date of last 36F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T36FP80 | 80 percent probability date of last 36F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBLST-T36FP90 | 90 percent probability date of last 36F   |
+    |                         | occurrence or later                       |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBOCC-LSTH016 | probability of 16F or below at least once |
+    |                         | in the year                               |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBOCC-LSTH020 | probability of 20F or below at least once |
+    |                         | in the year                               |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBOCC-LSTH024 | probability of 24F or below at least once |
+    |                         | in the year                               |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBOCC-LSTH028 | probability of 28F or below at least once |
+    |                         | in the year                               |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBOCC-LSTH032 | probability of 32F or below at least once |
+    |                         | in the year                               |
+    +-------------------------+-------------------------------------------+
+    | ANN-TMIN-PRBOCC-LSTH036 | probability of 36F or below at least once |
+    |                         | in the year                               |
+    +-------------------------+-------------------------------------------+
+    | DJF-CLDD-BASE45         | Average winter cooling degree days with   |
+    |                         | base 45F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-CLDD-BASE50         | Average winter cooling degree days with   |
+    |                         | base 50F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-CLDD-BASE55         | Average winter cooling degree days with   |
+    |                         | base 55F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-CLDD-BASE57         | Average winter cooling degree days with   |
+    |                         | base 57F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-CLDD-BASE60         | Average winter cooling degree days with   |
+    |                         | base 60F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-CLDD-BASE70         | Average winter cooling degree days with   |
+    |                         | base 70F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-CLDD-BASE72         | Average winter cooling degree days with   |
+    |                         | base 72F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-CLDD-NORMAL         | Average winter cooling degree days with   |
+    |                         | base 65F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-DUTR-NORMAL         | Average winter diurnal temperature range  |
+    +-------------------------+-------------------------------------------+
+    | DJF-GRDD-BASE40         | Average winter growing degree days with   |
+    |                         | base 40F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-GRDD-BASE45         | Average winter growing degree days with   |
+    |                         | base 45F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-GRDD-BASE50         | Average winter growing degree days with   |
+    |                         | base 50F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-GRDD-BASE55         | Average winter growing degree days with   |
+    |                         | base 55F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-GRDD-BASE57         | Average winter growing degree days with   |
+    |                         | base 57F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-GRDD-BASE60         | Average winter growing degree days with   |
+    |                         | base 60F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-GRDD-BASE65         | Average winter growing degree days with   |
+    |                         | base 65F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-GRDD-BASE70         | Average winter growing degree days with   |
+    |                         | base 70F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-GRDD-BASE72         | Average winter growing degree days with   |
+    |                         | base 72F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-GRDD-TB4886         | Average winter growing degree days with   |
+    |                         | truncated bases 48F and 86F               |
+    +-------------------------+-------------------------------------------+
+    | DJF-GRDD-TB5086         | Average winter growing degree days with   |
+    |                         | truncated bases 50F and 86F               |
+    +-------------------------+-------------------------------------------+
+    | DJF-HTDD-BASE40         | Average winter heating degree days with   |
+    |                         | base 40F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-HTDD-BASE45         | Average winter heating degree days with   |
+    |                         | base 45F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-HTDD-BASE50         | Average winter heating degree days with   |
+    |                         | base 50F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-HTDD-BASE55         | Average winter heating degree days with   |
+    |                         | base 55F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-HTDD-BASE57         | Average winter heating degree days with   |
+    |                         | base 57F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-HTDD-BASE60         | Average winter heating degree days with   |
+    |                         | base 60F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-HTDD-NORMAL         | Average winter heating degree days with   |
+    |                         | base 65F                                  |
+    +-------------------------+-------------------------------------------+
+    | DJF-PRCP-AVGNDS-GE001HI | Average number of days during December-   |
+    |                         | February with precipitation >= 0.01 in    |
+    +-------------------------+-------------------------------------------+
+    | DJF-PRCP-AVGNDS-GE010HI | Average number of days during December-   |
+    |                         | February with precipitation >= 0.10 in    |
+    +-------------------------+-------------------------------------------+
+    | DJF-PRCP-AVGNDS-GE050HI | Average number of days during December-   |
+    |                         | February with precipitation >= 0.50 in    |
+    +-------------------------+-------------------------------------------+
+    | DJF-PRCP-AVGNDS-GE100HI | Average number of days during December-   |
+    |                         | February with precipitation >= 1.00 in    |
+    +-------------------------+-------------------------------------------+
+    | DJF-PRCP-NORMAL         | Average seasonal precipitation totals for |
+    |                         | December- February                        |
+    +-------------------------+-------------------------------------------+
+    | DJF-SNOW-AVGNDS-GE001TI | Average number of days during December-   |
+    |                         | February with snowfall >= 0.1 in          |
+    +-------------------------+-------------------------------------------+
+    | DJF-SNOW-AVGNDS-GE010TI | Average number of days during December-   |
+    |                         | February with snowfall >= 1.0 in          |
+    +-------------------------+-------------------------------------------+
+    | DJF-SNOW-AVGNDS-GE030TI | Average number of days during December-   |
+    |                         | February with snowfall >= 3.0 in          |
+    +-------------------------+-------------------------------------------+
+    | DJF-SNOW-AVGNDS-GE050TI | Average number of days during December-   |
+    |                         | February with snowfall >= 5.0 in          |
+    +-------------------------+-------------------------------------------+
+    | DJF-SNOW-AVGNDS-GE100TI | Average number of days during December-   |
+    |                         | February with snowfall >= 10.0 in         |
+    +-------------------------+-------------------------------------------+
+    | DJF-SNOW-NORMAL         | Average seasonal snowfall totals for      |
+    |                         | December- February                        |
+    +-------------------------+-------------------------------------------+
+    | DJF-SNWD-AVGNDS-GE001WI | Average number of days during December-   |
+    |                         | February with snow depth >= 1 inch        |
+    +-------------------------+-------------------------------------------+
+    | DJF-SNWD-AVGNDS-GE003WI | Average number of days during December-   |
+    |                         | February with snow depth >= 3 in          |
+    +-------------------------+-------------------------------------------+
+    | DJF-SNWD-AVGNDS-GE005WI | Average number of days during December-   |
+    |                         | February with snow depth >= 5 in          |
+    +-------------------------+-------------------------------------------+
+    | DJF-SNWD-AVGNDS-GE010WI | Average number of days during December-   |
+    |                         | February with snow depth >= 10 in         |
+    +-------------------------+-------------------------------------------+
+    | DJF-TAVG-NORMAL         | Average winter average temperature        |
+    +-------------------------+-------------------------------------------+
+    | DJF-TMAX-AVGNDS-GRTH040 | Average number of days per winter where   |
+    |                         | tmax is greater than or equal to 40F      |
+    +-------------------------+-------------------------------------------+
+    | DJF-TMAX-AVGNDS-GRTH050 | Average number of days per winter where   |
+    |                         | tmax is greater than or equal to 50F      |
+    +-------------------------+-------------------------------------------+
+    | DJF-TMAX-AVGNDS-GRTH060 | Average number of days per winter where   |
+    |                         | tmax is greater than or equal to 60F      |
+    +-------------------------+-------------------------------------------+
+    | DJF-TMAX-AVGNDS-GRTH070 | Average number of days per winter where   |
+    |                         | tmax is greater than or equal to 70F      |
+    +-------------------------+-------------------------------------------+
+    | DJF-TMAX-AVGNDS-GRTH080 | Average number of days per winter where   |
+    |                         | tmax is greater than or equal to 80F      |
+    +-------------------------+-------------------------------------------+
+    | DJF-TMAX-AVGNDS-GRTH090 | Average number of days per winter where   |
+    |                         | tmax is greater than or equal to 90F      |
+    +-------------------------+-------------------------------------------+
+    | DJF-TMAX-AVGNDS-GRTH100 | Average number of days per winter where   |
+    |                         | tmax is greater than or equal to 100F     |
+    +-------------------------+-------------------------------------------+
+    | DJF-TMAX-AVGNDS-LSTH032 | Average number of days per winter where   |
+    |                         | tmax is less than or equal to 32F         |
+    +-------------------------+-------------------------------------------+
+    | DJF-TMAX-NORMAL         | Average winter maximum temperature        |
+    +-------------------------+-------------------------------------------+
+    | DJF-TMIN-AVGNDS-LSTH000 | Average number of days per winter where   |
+    |                         | tmin is less than or equal to 0F          |
+    +-------------------------+-------------------------------------------+
+    | DJF-TMIN-AVGNDS-LSTH010 | Average number of days per winter where   |
+    |                         | tmin is less than or equal to 10F         |
+    +-------------------------+-------------------------------------------+
+    | DJF-TMIN-AVGNDS-LSTH020 | Average number of days per winter where   |
+    |                         | tmin is less than or equal to 20F         |
+    +-------------------------+-------------------------------------------+
+    | DJF-TMIN-AVGNDS-LSTH032 | Average number of days per winter where   |
+    |                         | tmin is less than or equal to 32F         |
+    +-------------------------+-------------------------------------------+
+    | DJF-TMIN-AVGNDS-LSTH040 | Average number of days per winter where   |
+    |                         | tmin is less than or equal to 40F         |
+    +-------------------------+-------------------------------------------+
+    | DJF-TMIN-AVGNDS-LSTH050 | Average number of days per winter where   |
+    |                         | tmin is less than or equal to 50F         |
+    +-------------------------+-------------------------------------------+
+    | DJF-TMIN-AVGNDS-LSTH060 | Average number of days per winter where   |
+    |                         | tmin is less than or equal to 60F         |
+    +-------------------------+-------------------------------------------+
+    | DJF-TMIN-AVGNDS-LSTH070 | Average number of days per winter where   |
+    |                         | tmin is less than or equal to 70F         |
+    +-------------------------+-------------------------------------------+
+    | DJF-TMIN-NORMAL         | Average winter minimum temperature        |
+    +-------------------------+-------------------------------------------+
+    | JJA-CLDD-BASE45         | Average summer cooling degree days with   |
+    |                         | base 45F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-CLDD-BASE50         | Average summer cooling degree days with   |
+    |                         | base 50F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-CLDD-BASE55         | Average summer cooling degree days with   |
+    |                         | base 55F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-CLDD-BASE57         | Average summer cooling degree days with   |
+    |                         | base 57F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-CLDD-BASE60         | Average summer cooling degree days with   |
+    |                         | base 60F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-CLDD-BASE70         | Average summer cooling degree days with   |
+    |                         | base 70F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-CLDD-BASE72         | Average summer cooling degree days with   |
+    |                         | base 72F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-CLDD-NORMAL         | Average summer cooling degree days with   |
+    |                         | base 65F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-DUTR-NORMAL         | Average summer diurnal temperature range  |
+    +-------------------------+-------------------------------------------+
+    | JJA-GRDD-BASE40         | Average summer growing degree days with   |
+    |                         | base 40F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-GRDD-BASE45         | Average summer growing degree days with   |
+    |                         | base 45F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-GRDD-BASE50         | Average summer growing degree days with   |
+    |                         | base 50F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-GRDD-BASE55         | Average summer growing degree days with   |
+    |                         | base 55F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-GRDD-BASE57         | Average summer growing degree days with   |
+    |                         | base 57F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-GRDD-BASE60         | Average summer growing degree days with   |
+    |                         | base 60F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-GRDD-BASE65         | Average summer growing degree days with   |
+    |                         | base 65F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-GRDD-BASE70         | Average summer growing degree days with   |
+    |                         | base 70F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-GRDD-BASE72         | Average summer growing degree days with   |
+    |                         | base 72F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-GRDD-TB4886         | Average summer growing degree days with   |
+    |                         | truncated bases 48F and 86F               |
+    +-------------------------+-------------------------------------------+
+    | JJA-GRDD-TB5086         | Average summer growing degree days with   |
+    |                         | truncated bases 50F and 86F               |
+    +-------------------------+-------------------------------------------+
+    | JJA-HTDD-BASE40         | Average summer heating degree days with   |
+    |                         | base 40F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-HTDD-BASE45         | Average summer heating degree days with   |
+    |                         | base 45F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-HTDD-BASE50         | Average summer heating degree days with   |
+    |                         | base 50F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-HTDD-BASE55         | Average summer heating degree days with   |
+    |                         | base 55F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-HTDD-BASE57         | Average summer heating degree days with   |
+    |                         | base 57F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-HTDD-BASE60         | Average summer heating degree days with   |
+    |                         | base 60F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-HTDD-NORMAL         | Average summer heating degree days with   |
+    |                         | base 65F                                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-PRCP-AVGNDS-GE001HI | Average number of days during June-August |
+    |                         | with precipitation >= 0.01 in             |
+    +-------------------------+-------------------------------------------+
+    | JJA-PRCP-AVGNDS-GE010HI | Average number of days during June-August |
+    |                         | with precipitation >= 0.10 in             |
+    +-------------------------+-------------------------------------------+
+    | JJA-PRCP-AVGNDS-GE050HI | Average number of days during June-August |
+    |                         | with precipitation >= 0.50 in             |
+    +-------------------------+-------------------------------------------+
+    | JJA-PRCP-AVGNDS-GE100HI | Average number of days during June-August |
+    |                         | with precipitation >= 1.00 in             |
+    +-------------------------+-------------------------------------------+
+    | JJA-PRCP-NORMAL         | Average seasonal precipitation totals for |
+    |                         | June- August                              |
+    +-------------------------+-------------------------------------------+
+    | JJA-SNOW-AVGNDS-GE001TI | Average number of days during June-August |
+    |                         | with snowfall >= 0.1 in                   |
+    +-------------------------+-------------------------------------------+
+    | JJA-SNOW-AVGNDS-GE010TI | Average number of days during June-August |
+    |                         | with snowfall >= 1.0 in                   |
+    +-------------------------+-------------------------------------------+
+    | JJA-SNOW-AVGNDS-GE030TI | Average number of days during June-August |
+    |                         | with snowfall >= 3.0 in                   |
+    +-------------------------+-------------------------------------------+
+    | JJA-SNOW-AVGNDS-GE050TI | Average number of days during June-August |
+    |                         | with snowfall >= 5.0 in                   |
+    +-------------------------+-------------------------------------------+
+    | JJA-SNOW-AVGNDS-GE100TI | Average number of days during June-August |
+    |                         | with snowfall >= 10.0 in                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-SNOW-NORMAL         | Average seasonal snowfall totals for      |
+    |                         | June- August                              |
+    +-------------------------+-------------------------------------------+
+    | JJA-SNWD-AVGNDS-GE001WI | Average number of days during June-August |
+    |                         | with snow depth >= 1 inch                 |
+    +-------------------------+-------------------------------------------+
+    | JJA-SNWD-AVGNDS-GE003WI | Average number of days during June-August |
+    |                         | with snow depth >= 3 in                   |
+    +-------------------------+-------------------------------------------+
+    | JJA-SNWD-AVGNDS-GE005WI | Average number of days during June-August |
+    |                         | with snow depth >= 5 in                   |
+    +-------------------------+-------------------------------------------+
+    | JJA-SNWD-AVGNDS-GE010WI | Average number of days during June-August |
+    |                         | with snow depth >= 10 in                  |
+    +-------------------------+-------------------------------------------+
+    | JJA-TAVG-NORMAL         | Average summer average temperature        |
+    +-------------------------+-------------------------------------------+
+    | JJA-TMAX-AVGNDS-GRTH040 | Average number of days per summer where   |
+    |                         | tmax is greater than or equal to 40F      |
+    +-------------------------+-------------------------------------------+
+    | JJA-TMAX-AVGNDS-GRTH050 | Average number of days per summer where   |
+    |                         | tmax is greater than or equal to 50F      |
+    +-------------------------+-------------------------------------------+
+    | JJA-TMAX-AVGNDS-GRTH060 | Average number of days per summer where   |
+    |                         | tmax is greater than or equal to 60F      |
+    +-------------------------+-------------------------------------------+
+    | JJA-TMAX-AVGNDS-GRTH070 | Average number of days per summer where   |
+    |                         | tmax is greater than or equal to 70F      |
+    +-------------------------+-------------------------------------------+
+    | JJA-TMAX-AVGNDS-GRTH080 | Average number of days per summer where   |
+    |                         | tmax is greater than or equal to 80F      |
+    +-------------------------+-------------------------------------------+
+    | JJA-TMAX-AVGNDS-GRTH090 | Average number of days per summer where   |
+    |                         | tmax is greater than or equal to 90F      |
+    +-------------------------+-------------------------------------------+
+    | JJA-TMAX-AVGNDS-GRTH100 | Average number of days per summer where   |
+    |                         | tmax is greater than or equal to 100F     |
+    +-------------------------+-------------------------------------------+
+    | JJA-TMAX-AVGNDS-LSTH032 | Average number of days per summer where   |
+    |                         | tmax is less than or equal to 32F         |
+    +-------------------------+-------------------------------------------+
+    | JJA-TMAX-NORMAL         | Average summer maximum temperature        |
+    +-------------------------+-------------------------------------------+
+    | JJA-TMIN-AVGNDS-LSTH000 | Average number of days per summer where   |
+    |                         | tmin is less than or equal to 0F          |
+    +-------------------------+-------------------------------------------+
+    | JJA-TMIN-AVGNDS-LSTH010 | Average number of days per summer where   |
+    |                         | tmin is less than or equal to 10F         |
+    +-------------------------+-------------------------------------------+
+    | JJA-TMIN-AVGNDS-LSTH020 | Average number of days per summer where   |
+    |                         | tmin is less than or equal to 20F         |
+    +-------------------------+-------------------------------------------+
+    | JJA-TMIN-AVGNDS-LSTH032 | Average number of days per summer where   |
+    |                         | tmin is less than or equal to 32F         |
+    +-------------------------+-------------------------------------------+
+    | JJA-TMIN-AVGNDS-LSTH040 | Average number of days per summer where   |
+    |                         | tmin is less than or equal to 40F         |
+    +-------------------------+-------------------------------------------+
+    | JJA-TMIN-AVGNDS-LSTH050 | Average number of days per summer where   |
+    |                         | tmin is less than or equal to 50F         |
+    +-------------------------+-------------------------------------------+
+    | JJA-TMIN-AVGNDS-LSTH060 | Average number of days per summer where   |
+    |                         | tmin is less than or equal to 60F         |
+    +-------------------------+-------------------------------------------+
+    | JJA-TMIN-AVGNDS-LSTH070 | Average number of days per summer where   |
+    |                         | tmin is less than or equal to 70F         |
+    +-------------------------+-------------------------------------------+
+    | JJA-TMIN-NORMAL         | Average summer minimum temperature        |
+    +-------------------------+-------------------------------------------+
+    | MAM-CLDD-BASE45         | Average spring cooling degree days with   |
+    |                         | base 45F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-CLDD-BASE50         | Average spring cooling degree days with   |
+    |                         | base 50F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-CLDD-BASE55         | Average spring cooling degree days with   |
+    |                         | base 55F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-CLDD-BASE57         | Average spring cooling degree days with   |
+    |                         | base 57F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-CLDD-BASE60         | Average spring cooling degree days with   |
+    |                         | base 60F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-CLDD-BASE70         | Average spring cooling degree days with   |
+    |                         | base 70F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-CLDD-BASE72         | Average spring cooling degree days with   |
+    |                         | base 72F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-CLDD-NORMAL         | Average spring cooling degree days with   |
+    |                         | base 65F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-DUTR-NORMAL         | Average spring diurnal temperature range  |
+    +-------------------------+-------------------------------------------+
+    | MAM-GRDD-BASE40         | Average spring growing degree days with   |
+    |                         | base 40F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-GRDD-BASE45         | Average spring growing degree days with   |
+    |                         | base 45F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-GRDD-BASE50         | Average spring growing degree days with   |
+    |                         | base 50F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-GRDD-BASE55         | Average spring growing degree days with   |
+    |                         | base 55F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-GRDD-BASE57         | Average spring growing degree days with   |
+    |                         | base 57F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-GRDD-BASE60         | Average spring growing degree days with   |
+    |                         | base 60F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-GRDD-BASE65         | Average spring growing degree days with   |
+    |                         | base 65F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-GRDD-BASE70         | Average spring growing degree days with   |
+    |                         | base 70F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-GRDD-BASE72         | Average spring growing degree days with   |
+    |                         | base 72F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-GRDD-TB4886         | Average summer growing degree days with   |
+    |                         | truncated bases 48F and 86F               |
+    +-------------------------+-------------------------------------------+
+    | MAM-GRDD-TB5086         | Average summer growing degree days with   |
+    |                         | truncated bases 50F and 86F               |
+    +-------------------------+-------------------------------------------+
+    | MAM-HTDD-BASE40         | Average spring heating degree days with   |
+    |                         | base 40F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-HTDD-BASE45         | Average spring heating degree days with   |
+    |                         | base 45F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-HTDD-BASE50         | Average spring heating degree days with   |
+    |                         | base 50F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-HTDD-BASE55         | Average spring heating degree days with   |
+    |                         | base 55F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-HTDD-BASE57         | Average spring heating degree days with   |
+    |                         | base 57F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-HTDD-BASE60         | Average spring heating degree days with   |
+    |                         | base 60F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-HTDD-NORMAL         | Average spring heating degree days with   |
+    |                         | base 65F                                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-PRCP-AVGNDS-GE001HI | Average number of days during March-May   |
+    |                         | with precipitation >= 0.01 in             |
+    +-------------------------+-------------------------------------------+
+    | MAM-PRCP-AVGNDS-GE010HI | Average number of days during March-May   |
+    |                         | with precipitation >= a 0.10 in           |
+    +-------------------------+-------------------------------------------+
+    | MAM-PRCP-AVGNDS-GE050HI | Average number of days during March-May   |
+    |                         | with precipitation >= 0.50 in             |
+    +-------------------------+-------------------------------------------+
+    | MAM-PRCP-AVGNDS-GE100HI | Average number of days during March-May   |
+    |                         | with precipitation >= 1.00 in             |
+    +-------------------------+-------------------------------------------+
+    | MAM-PRCP-NORMAL         | Average seasonal precipitation totals for |
+    |                         | March- May                                |
+    +-------------------------+-------------------------------------------+
+    | MAM-SNOW-AVGNDS-GE001TI | Average number of days during March-May   |
+    |                         | with snowfall >= 0.1 in                   |
+    +-------------------------+-------------------------------------------+
+    | MAM-SNOW-AVGNDS-GE010TI | Average number of days during March-May   |
+    |                         | with snowfall >= 1.0 in                   |
+    +-------------------------+-------------------------------------------+
+    | MAM-SNOW-AVGNDS-GE030TI | Average number of days during March-May   |
+    |                         | with snowfall >= 3.0 in                   |
+    +-------------------------+-------------------------------------------+
+    | MAM-SNOW-AVGNDS-GE050TI | Average number of days during March-May   |
+    |                         | with snowfall >= 5.0 in                   |
+    +-------------------------+-------------------------------------------+
+    | MAM-SNOW-AVGNDS-GE100TI | Average number of days during March-May   |
+    |                         | with snowfall >= 10.0 in                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-SNOW-NORMAL         | Average seasonal snowfall totals for      |
+    |                         | March- May                                |
+    +-------------------------+-------------------------------------------+
+    | MAM-SNWD-AVGNDS-GE001WI | Average number of days during March-May   |
+    |                         | with snow depth >= 1 inch                 |
+    +-------------------------+-------------------------------------------+
+    | MAM-SNWD-AVGNDS-GE003WI | Average number of days during March-May   |
+    |                         | with snow depth >= 3 in                   |
+    +-------------------------+-------------------------------------------+
+    | MAM-SNWD-AVGNDS-GE005WI | Average number of days during March-May   |
+    |                         | with snow depth >= 5 in                   |
+    +-------------------------+-------------------------------------------+
+    | MAM-SNWD-AVGNDS-GE010WI | Average number of days during March-May   |
+    |                         | with snow depth >= 10 in                  |
+    +-------------------------+-------------------------------------------+
+    | MAM-TAVG-NORMAL         | Average spring average temperature        |
+    +-------------------------+-------------------------------------------+
+    | MAM-TMAX-AVGNDS-GRTH040 | Average number of days per spring where   |
+    |                         | tmax is greater than or equal to 40F      |
+    +-------------------------+-------------------------------------------+
+    | MAM-TMAX-AVGNDS-GRTH050 | Average number of days per spring where   |
+    |                         | tmax is greater than or equal to 50F      |
+    +-------------------------+-------------------------------------------+
+    | MAM-TMAX-AVGNDS-GRTH060 | Average number of days per spring where   |
+    |                         | tmax is greater than or equal to 60F      |
+    +-------------------------+-------------------------------------------+
+    | MAM-TMAX-AVGNDS-GRTH070 | Average number of days per spring where   |
+    |                         | tmax is greater than or equal to 70F      |
+    +-------------------------+-------------------------------------------+
+    | MAM-TMAX-AVGNDS-GRTH080 | Average number of days per spring where   |
+    |                         | tmax is greater than or equal to 80F      |
+    +-------------------------+-------------------------------------------+
+    | MAM-TMAX-AVGNDS-GRTH090 | Average number of days per spring where   |
+    |                         | tmax is greater than or equal to 90F      |
+    +-------------------------+-------------------------------------------+
+    | MAM-TMAX-AVGNDS-GRTH100 | Average number of days per spring where   |
+    |                         | tmax is greater than or equal to 100F     |
+    +-------------------------+-------------------------------------------+
+    | MAM-TMAX-AVGNDS-LSTH032 | Average number of days per spring where   |
+    |                         | tmax is less than or equal to 32F         |
+    +-------------------------+-------------------------------------------+
+    | MAM-TMAX-NORMAL         | Average spring maximum temperature        |
+    +-------------------------+-------------------------------------------+
+    | MAM-TMIN-AVGNDS-LSTH000 | Average number of days per spring where   |
+    |                         | tmin is less than or equal to 0F          |
+    +-------------------------+-------------------------------------------+
+    | MAM-TMIN-AVGNDS-LSTH010 | Average number of days per spring where   |
+    |                         | tmin is less than or equal to 10F         |
+    +-------------------------+-------------------------------------------+
+    | MAM-TMIN-AVGNDS-LSTH020 | Average number of days per spring where   |
+    |                         | tmin is less than or equal to 20F         |
+    +-------------------------+-------------------------------------------+
+    | MAM-TMIN-AVGNDS-LSTH032 | Average number of days per spring where   |
+    |                         | tmin is less than or equal to 32F         |
+    +-------------------------+-------------------------------------------+
+    | MAM-TMIN-AVGNDS-LSTH040 | Average number of days per spring where   |
+    |                         | tmin is less than or equal to 40F         |
+    +-------------------------+-------------------------------------------+
+    | MAM-TMIN-AVGNDS-LSTH050 | Average number of days per spring where   |
+    |                         | tmin is less than or equal to 50F         |
+    +-------------------------+-------------------------------------------+
+    | MAM-TMIN-AVGNDS-LSTH060 | Average number of days per spring where   |
+    |                         | tmin is less than or equal to 60F         |
+    +-------------------------+-------------------------------------------+
+    | MAM-TMIN-AVGNDS-LSTH070 | Average number of days per spring where   |
+    |                         | tmin is less than or equal to 70F         |
+    +-------------------------+-------------------------------------------+
+    | MAM-TMIN-NORMAL         | Average spring minimum temperature        |
+    +-------------------------+-------------------------------------------+
+    | SON-CLDD-BASE45         | Average autumn cooling degree days with   |
+    |                         | base 45F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-CLDD-BASE50         | Average autumn cooling degree days with   |
+    |                         | base 50F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-CLDD-BASE55         | Average autumn cooling degree days with   |
+    |                         | base 55F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-CLDD-BASE57         | Average autumn cooling degree days with   |
+    |                         | base 57F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-CLDD-BASE60         | Average autumn cooling degree days with   |
+    |                         | base 60F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-CLDD-BASE70         | Average autumn cooling degree days with   |
+    |                         | base 70F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-CLDD-BASE72         | Average autumn cooling degree days with   |
+    |                         | base 72F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-CLDD-NORMAL         | Average autumn cooling degree days with   |
+    |                         | base 65F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-DUTR-NORMAL         | Average autumn diurnal temperature range  |
+    +-------------------------+-------------------------------------------+
+    | SON-GRDD-BASE40         | Average fall growing degree days with     |
+    |                         | base 40F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-GRDD-BASE45         | Average fall growing degree days with     |
+    |                         | base 45F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-GRDD-BASE50         | Average fall growing degree days with     |
+    |                         | base 50F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-GRDD-BASE55         | Average fall growing degree days with     |
+    |                         | base 55F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-GRDD-BASE57         | Average fall growing degree days with     |
+    |                         | base 57F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-GRDD-BASE60         | Average fall growing degree days with     |
+    |                         | base 60F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-GRDD-BASE65         | Average fall growing degree days with     |
+    |                         | base 65F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-GRDD-BASE70         | Average fall growing degree days with     |
+    |                         | base 70F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-GRDD-BASE72         | Average fall growing degree days with     |
+    |                         | base 72F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-GRDD-TB4886         | Average summer growing degree days with   |
+    |                         | truncated bases 48F and 86F               |
+    +-------------------------+-------------------------------------------+
+    | SON-GRDD-TB5086         | Average summer growing degree days with   |
+    |                         | truncated bases 50F and 86F               |
+    +-------------------------+-------------------------------------------+
+    | SON-HTDD-BASE40         | Average autumn heating degree days with   |
+    |                         | base 40F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-HTDD-BASE45         | Average autumn heating degree days with   |
+    |                         | base 45F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-HTDD-BASE50         | Average autumn heating degree days with   |
+    |                         | base 50F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-HTDD-BASE55         | Average autumn heating degree days with   |
+    |                         | base 55F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-HTDD-BASE57         | Average autumn heating degree days with   |
+    |                         | base 57F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-HTDD-BASE60         | Average autumn heating degree days with   |
+    |                         | base 60F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-HTDD-NORMAL         | Average autumn heating degree days with   |
+    |                         | base 65F                                  |
+    +-------------------------+-------------------------------------------+
+    | SON-PRCP-AVGNDS-GE001HI | Average number of days during September-  |
+    |                         | November with precipitation >= 0.01 in    |
+    +-------------------------+-------------------------------------------+
+    | SON-PRCP-AVGNDS-GE010HI | Average number of days during September-  |
+    |                         | November with precipitation >= 0.10 in    |
+    +-------------------------+-------------------------------------------+
+    | SON-PRCP-AVGNDS-GE050HI | Average number of days during September-  |
+    |                         | November with precipitation >= 0.50 in    |
+    +-------------------------+-------------------------------------------+
+    | SON-PRCP-AVGNDS-GE100HI | Average number of days during September-  |
+    |                         | November with precipitation >= 1.00 in    |
+    +-------------------------+-------------------------------------------+
+    | SON-PRCP-NORMAL         | Average seasonal precipitation totals for |
+    |                         | September- November                       |
+    +-------------------------+-------------------------------------------+
+    | SON-SNOW-AVGNDS-GE001TI | Average number of days during September-  |
+    |                         | November with snowfall >= 0.1 in          |
+    +-------------------------+-------------------------------------------+
+    | SON-SNOW-AVGNDS-GE010TI | Average number of days during September-  |
+    |                         | November with snowfall >= 1.0 in          |
+    +-------------------------+-------------------------------------------+
+    | SON-SNOW-AVGNDS-GE030TI | Average number of days during September-  |
+    |                         | November with snowfall >= 3.0 in          |
+    +-------------------------+-------------------------------------------+
+    | SON-SNOW-AVGNDS-GE050TI | Average number of days during September-  |
+    |                         | November with snowfall >= 5.0 in          |
+    +-------------------------+-------------------------------------------+
+    | SON-SNOW-AVGNDS-GE100TI | Average number of days during September-  |
+    |                         | November with snowfall >= 10.0 in         |
+    +-------------------------+-------------------------------------------+
+    | SON-SNOW-NORMAL         | Average seasonal snowfall totals for      |
+    |                         | September- November                       |
+    +-------------------------+-------------------------------------------+
+    | SON-SNWD-AVGNDS-GE001WI | Average number of days during September-  |
+    |                         | November with snow depth >= 1 inch        |
+    +-------------------------+-------------------------------------------+
+    | SON-SNWD-AVGNDS-GE003WI | Average number of days during September-  |
+    |                         | November with snow depth >= 3 in          |
+    +-------------------------+-------------------------------------------+
+    | SON-SNWD-AVGNDS-GE005WI | Average number of days during September-  |
+    |                         | November with snow depth >= 5 in          |
+    +-------------------------+-------------------------------------------+
+    | SON-SNWD-AVGNDS-GE010WI | Average number of days during September-  |
+    |                         | November with snow depth >= 10 in         |
+    +-------------------------+-------------------------------------------+
+    | SON-TAVG-NORMAL         | Average autumn average temperature        |
+    +-------------------------+-------------------------------------------+
+    | SON-TMAX-AVGNDS-GRTH040 | Average number of days per autumn where   |
+    |                         | tmax is greater than or equal to 40F      |
+    +-------------------------+-------------------------------------------+
+    | SON-TMAX-AVGNDS-GRTH050 | Average number of days per autumn where   |
+    |                         | tmax is greater than or equal to 50F      |
+    +-------------------------+-------------------------------------------+
+    | SON-TMAX-AVGNDS-GRTH060 | Average number of days per autumn where   |
+    |                         | tmax is greater than or equal to 60F      |
+    +-------------------------+-------------------------------------------+
+    | SON-TMAX-AVGNDS-GRTH070 | Average number of days per autumn where   |
+    |                         | tmax is greater than or equal to 70F      |
+    +-------------------------+-------------------------------------------+
+    | SON-TMAX-AVGNDS-GRTH080 | Average number of days per autumn where   |
+    |                         | tmax is greater than or equal to 80F      |
+    +-------------------------+-------------------------------------------+
+    | SON-TMAX-AVGNDS-GRTH090 | Average number of days per autumn where   |
+    |                         | tmax is greater than or equal to 90F      |
+    +-------------------------+-------------------------------------------+
+    | SON-TMAX-AVGNDS-GRTH100 | Average number of days per autumn where   |
+    |                         | tmax is greater than or equal to 100F     |
+    +-------------------------+-------------------------------------------+
+    | SON-TMAX-AVGNDS-LSTH032 | Average number of days per autumn where   |
+    |                         | tmax is less than or equal to 32F         |
+    +-------------------------+-------------------------------------------+
+    | SON-TMAX-NORMAL         | Average autumn maximum temperature        |
+    +-------------------------+-------------------------------------------+
+    | SON-TMIN-AVGNDS-LSTHxxx | Average number of days per autumn where   |
+    |                         | tmin is less than or equal to 'xxx'       |
+    |                         | degree F. Where 'xxx' is one of 000, 010, |
+    |                         | 020, 032, 040, 050, 060, 070              |
+    +-------------------------+-------------------------------------------+
+    | SON-TMIN-NORMAL         | Average autumn minimum temperature        |
+    +-------------------------+-------------------------------------------+
 
     Parameters
     ----------
@@ -3531,206 +3625,216 @@ def ncei_normal_dly(stationid):
     Total Missing:
 
     Defined as total number of days observation/element is missing in that
-    month.  This can be taken as a measure of quality or completeness as the
-    higher the number of days sampled in the month, the more representative the
-    value is for the entire month.
+    month.  This can be taken as a measure of quality or completeness as
+    the higher the number of days sampled in the month, the more
+    representative the value is for the entire month.
 
     Consecutive Missing:
 
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing.
 
-    The following table lists the datatypes available for the annual dataset.
-    Not all datatypes are available for all stations.
+    The following table lists the datatypes available for the annual
+    dataset. Not all datatypes are available for all stations.
 
-    +-------------------------+------------------------------------------------+
-    | Code                    | Description                                    |
-    +=========================+================================================+
-    | DLY-CLDD-BASE45         | Average daily cooling degree days with base    |
-    |                         | 45F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-CLDD-BASE50         | Average daily cooling degree days with base    |
-    |                         | 50F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-CLDD-BASE55         | Average daily cooling degree days with base    |
-    |                         | 55F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-CLDD-BASE57         | Average daily cooling degree days with base    |
-    |                         | 57F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-CLDD-BASE60         | Average daily cooling degree days with base    |
-    |                         | 60F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-CLDD-BASE70         | Average daily cooling degree days with base    |
-    |                         | 70F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-CLDD-BASE72         | Average daily cooling degree days with base    |
-    |                         | 72F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-CLDD-NORMAL         | Average daily cooling degree days with base    |
-    |                         | 65F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-DUTR-NORMAL         | Average daily diurnal temperature range        |
-    +-------------------------+------------------------------------------------+
-    | DLY-DUTR-STDDEV         | Long-term standard deviations of daily diurnal |
-    |                         | temperature range                              |
-    +-------------------------+------------------------------------------------+
-    | DLY-GRDD-BASE40         | Average daily growing degree days with base    |
-    |                         | 40F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-GRDD-BASE45         | Average daily growing degree days with base    |
-    |                         | 45F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-GRDD-BASE50         | Average daily growing degree days with base    |
-    |                         | 50F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-GRDD-BASE55         | Average daily growing degree days with base    |
-    |                         | 55F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-GRDD-BASE57         | Average daily growing degree days with base    |
-    |                         | 57F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-GRDD-BASE60         | Average daily growing degree days with base    |
-    |                         | 60F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-GRDD-BASE65         | Average daily growing degree days with base    |
-    |                         | 65F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-GRDD-BASE70         | Average daily growing degree days with base    |
-    |                         | 70F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-GRDD-BASE72         | Average daily growing degree days with base    |
-    |                         | 72F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-GRDD-TB4886         | Average daily growing degree days with         |
-    |                         | truncated bases 48F and 86F                    |
-    +-------------------------+------------------------------------------------+
-    | DLY-GRDD-TB5086         | Average daily growing degree days with         |
-    |                         | truncated bases 50F and 86F                    |
-    +-------------------------+------------------------------------------------+
-    | DLY-HTDD-BASE40         | Average daily heating degree days with base    |
-    |                         | 40F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-HTDD-BASE45         | Average daily heating degree days with base    |
-    |                         | 45F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-HTDD-BASE50         | Average daily heating degree days with base    |
-    |                         | 50F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-HTDD-BASE55         | Average daily heating degree days with base    |
-    |                         | 55F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-HTDD-BASE57         | Average daily heating degree days with base    |
-    |                         | 57F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-HTDD-BASE60         | Average daily heating degree days with base    |
-    |                         | 60F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-HTDD-NORMAL         | Average daily heating degree days with base    |
-    |                         | 65F                                            |
-    +-------------------------+------------------------------------------------+
-    | DLY-PRCP-25PCTL         | 25th percentiles of daily nonzero              |
-    |                         | precipitation totals for 29-day windows        |
-    |                         | centered on each day of the year               |
-    +-------------------------+------------------------------------------------+
-    | DLY-PRCP-50PCTL         | 50th percentiles of daily nonzero              |
-    |                         | precipitation totals for 29-day windows        |
-    |                         | centered on each day of the year               |
-    +-------------------------+------------------------------------------------+
-    | DLY-PRCP-75PCTL         | 75th percentiles of daily nonzero              |
-    |                         | precipitation totals for 29-day windows        |
-    |                         | centered on each day of the year               |
-    +-------------------------+------------------------------------------------+
-    | DLY-PRCP-PCTALL-GE001HI | Probability of precipitation >= 0.01 in for    |
-    |                         | 29-day windows centered on each day of the     |
-    |                         | year                                           |
-    +-------------------------+------------------------------------------------+
-    | DLY-PRCP-PCTALL-GE010HI | Probability of precipitation >= 0.10 in for    |
-    |                         | 29-day windows centered on each day of the     |
-    |                         | year                                           |
-    +-------------------------+------------------------------------------------+
-    | DLY-PRCP-PCTALL-GE050HI | Probability of precipitation >= 0.50 in for    |
-    |                         | 29-day windows centered on each day of the     |
-    |                         | year                                           |
-    +-------------------------+------------------------------------------------+
-    | DLY-PRCP-PCTALL-GE100HI | Probability of precipitation >= 1.00 in for    |
-    |                         | 29-day windows centered on each day of the     |
-    |                         | year                                           |
-    +-------------------------+------------------------------------------------+
-    | DLY-SNOW-25PCTL         | 25th percentiles of daily nonzero snowfall     |
-    |                         | totals for 29-day windows centered on each day |
-    |                         | of the year                                    |
-    +-------------------------+------------------------------------------------+
-    | DLY-SNOW-50PCTL         | 50th percentiles of daily nonzero snowfall     |
-    |                         | totals for 29-day windows centered on each day |
-    |                         | of the year                                    |
-    +-------------------------+------------------------------------------------+
-    | DLY-SNOW-75PCTL         | 75th percentiles of daily nonzero snowfall     |
-    |                         | totals for 29-day windows centered on each day |
-    |                         | of the year                                    |
-    +-------------------------+------------------------------------------------+
-    | DLY-SNOW-PCTALL-GE001TI | Probability of snowfall >= 0.1 in for 29-day   |
-    |                         | windows centered on each day of the year       |
-    +-------------------------+------------------------------------------------+
-    | DLY-SNOW-PCTALL-GE010TI | Probability of snowfall >= 1.0 in for 29-day   |
-    |                         | windows centered on each day of the year       |
-    +-------------------------+------------------------------------------------+
-    | DLY-SNOW-PCTALL-GE030TI | Probability of snowfall >= 3.0 in for 29-day   |
-    |                         | windows centered on each day of the year       |
-    +-------------------------+------------------------------------------------+
-    | DLY-SNOW-PCTALL-GE050TI | Probability of snowfall >= 5.0 in for 29-day   |
-    |                         | windows centered on each day of the year       |
-    +-------------------------+------------------------------------------------+
-    | DLY-SNOW-PCTALL-GE100TI | Probability of snowfall >= 10 in for 29-day    |
-    |                         | windows centered on each day of the year       |
-    +-------------------------+------------------------------------------------+
-    | DLY-SNWD-25PCTL         | 25th percentiles of daily nonzero snow depth   |
-    |                         | for 29-day windows centered on each day of the |
-    |                         | year                                           |
-    +-------------------------+------------------------------------------------+
-    | DLY-SNWD-50PCTL         | 50th percentiles of daily nonzero snow depth   |
-    |                         | for 29-day windows centered on each day of the |
-    |                         | year                                           |
-    +-------------------------+------------------------------------------------+
-    | DLY-SNWD-75PCTL         | 75th percentiles of daily nonzero snow depth   |
-    |                         | for 29-day windows centered on each day of the |
-    |                         | year                                           |
-    +-------------------------+------------------------------------------------+
-    | DLY-SNWD-PCTALL-GE001WI | Probability of snow depth >= 1 inch for 29-day |
-    |                         | windows centered on each day of the year       |
-    +-------------------------+------------------------------------------------+
-    | DLY-SNWD-PCTALL-GE003WI | Probability of snow depth >= 3 in for 29-day   |
-    |                         | windows centered on each day of the year       |
-    +-------------------------+------------------------------------------------+
-    | DLY-SNWD-PCTALL-GE005WI | Probability of snow depth >= 5 in for 29-day   |
-    |                         | windows centered on each day of the year       |
-    +-------------------------+------------------------------------------------+
-    | DLY-SNWD-PCTALL-GE010WI | Probability of snow depth >= 10 in for 29-day  |
-    |                         | windows centered on each day of the year       |
-    +-------------------------+------------------------------------------------+
-    | DLY-TAVG-NORMAL         | Average daily average temperature              |
-    +-------------------------+------------------------------------------------+
-    | DLY-TAVG-STDDEV         | Long-term standard deviations of daily average |
-    |                         | temperature                                    |
-    +-------------------------+------------------------------------------------+
-    | DLY-TMAX-NORMAL         | Average daily maximum temperature              |
-    +-------------------------+------------------------------------------------+
-    | DLY-TMAX-STDDEV         | Long-term standard deviations of daily maximum |
-    |                         | temperature                                    |
-    +-------------------------+------------------------------------------------+
-    | DLY-TMIN-NORMAL         | Average daily minimum temperature              |
-    +-------------------------+------------------------------------------------+
-    | DLY-TMIN-STDDEV         | Long-term standard deviations of daily minimum |
-    |                         | temperature                                    |
-    +-------------------------+------------------------------------------------+
-    | MTD-PRCP-NORMAL         | Average month-to-date precipitation totals     |
-    +-------------------------+------------------------------------------------+
-    | MTD-SNOW-NORMAL         | Average month-to-date snowfall totals          |
-    +-------------------------+------------------------------------------------+
-    | YTD-PRCP-NORMAL         | Average year-to-date precipitation totals      |
-    +-------------------------+------------------------------------------------+
-    | YTD-SNOW-NORMAL         | Average year-to-date snowfall totals           |
-    +-------------------------+------------------------------------------------+
+    +-------------------------+-------------------------------------------+
+    | Code                    | Description                               |
+    +=========================+===========================================+
+    | DLY-CLDD-BASE45         | Average daily cooling degree days with    |
+    |                         | base 45F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-CLDD-BASE50         | Average daily cooling degree days with    |
+    |                         | base 50F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-CLDD-BASE55         | Average daily cooling degree days with    |
+    |                         | base 55F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-CLDD-BASE57         | Average daily cooling degree days with    |
+    |                         | base 57F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-CLDD-BASE60         | Average daily cooling degree days with    |
+    |                         | base 60F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-CLDD-BASE70         | Average daily cooling degree days with    |
+    |                         | base 70F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-CLDD-BASE72         | Average daily cooling degree days with    |
+    |                         | base 72F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-CLDD-NORMAL         | Average daily cooling degree days with    |
+    |                         | base 65F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-DUTR-NORMAL         | Average daily diurnal temperature range   |
+    +-------------------------+-------------------------------------------+
+    | DLY-DUTR-STDDEV         | Long-term standard deviations of daily    |
+    |                         | diurnal temperature range                 |
+    +-------------------------+-------------------------------------------+
+    | DLY-GRDD-BASE40         | Average daily growing degree days with    |
+    |                         | base 40F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-GRDD-BASE45         | Average daily growing degree days with    |
+    |                         | base 45F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-GRDD-BASE50         | Average daily growing degree days with    |
+    |                         | base 50F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-GRDD-BASE55         | Average daily growing degree days with    |
+    |                         | base 55F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-GRDD-BASE57         | Average daily growing degree days with    |
+    |                         | base 57F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-GRDD-BASE60         | Average daily growing degree days with    |
+    |                         | base 60F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-GRDD-BASE65         | Average daily growing degree days with    |
+    |                         | base 65F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-GRDD-BASE70         | Average daily growing degree days with    |
+    |                         | base 70F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-GRDD-BASE72         | Average daily growing degree days with    |
+    |                         | base 72F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-GRDD-TB4886         | Average daily growing degree days with    |
+    |                         | truncated bases 48F and 86F               |
+    +-------------------------+-------------------------------------------+
+    | DLY-GRDD-TB5086         | Average daily growing degree days with    |
+    |                         | truncated bases 50F and 86F               |
+    +-------------------------+-------------------------------------------+
+    | DLY-HTDD-BASE40         | Average daily heating degree days with    |
+    |                         | base 40F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-HTDD-BASE45         | Average daily heating degree days with    |
+    |                         | base 45F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-HTDD-BASE50         | Average daily heating degree days with    |
+    |                         | base 50F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-HTDD-BASE55         | Average daily heating degree days with    |
+    |                         | base 55F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-HTDD-BASE57         | Average daily heating degree days with    |
+    |                         | base 57F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-HTDD-BASE60         | Average daily heating degree days with    |
+    |                         | base 60F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-HTDD-NORMAL         | Average daily heating degree days with    |
+    |                         | base 65F                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-PRCP-25PCTL         | 25th percentiles of daily nonzero         |
+    |                         | precipitation totals for 29-day windows   |
+    |                         | centered on each day of the year          |
+    +-------------------------+-------------------------------------------+
+    | DLY-PRCP-50PCTL         | 50th percentiles of daily nonzero         |
+    |                         | precipitation totals for 29-day windows   |
+    |                         | centered on each day of the year          |
+    +-------------------------+-------------------------------------------+
+    | DLY-PRCP-75PCTL         | 75th percentiles of daily nonzero         |
+    |                         | precipitation totals for 29-day windows   |
+    |                         | centered on each day of the year          |
+    +-------------------------+-------------------------------------------+
+    | DLY-PRCP-PCTALL-GE001HI | Probability of precipitation >= 0.01 in   |
+    |                         | for 29-day windows centered on each day   |
+    |                         | of the year                               |
+    +-------------------------+-------------------------------------------+
+    | DLY-PRCP-PCTALL-GE010HI | Probability of precipitation >= 0.10 in   |
+    |                         | for 29-day windows centered on each day   |
+    |                         | of the year                               |
+    +-------------------------+-------------------------------------------+
+    | DLY-PRCP-PCTALL-GE050HI | Probability of precipitation >= 0.50 in   |
+    |                         | for 29-day windows centered on each day   |
+    |                         | of the year                               |
+    +-------------------------+-------------------------------------------+
+    | DLY-PRCP-PCTALL-GE100HI | Probability of precipitation >= 1.00 in   |
+    |                         | for 29-day windows centered on each day   |
+    |                         | of the year                               |
+    +-------------------------+-------------------------------------------+
+    | DLY-SNOW-25PCTL         | 25th percentiles of daily nonzero         |
+    |                         | snowfall totals for 29-day windows        |
+    |                         | centered on each day of the year          |
+    +-------------------------+-------------------------------------------+
+    | DLY-SNOW-50PCTL         | 50th percentiles of daily nonzero         |
+    |                         | snowfall totals for 29-day windows        |
+    |                         | centered on each day of the year          |
+    +-------------------------+-------------------------------------------+
+    | DLY-SNOW-75PCTL         | 75th percentiles of daily nonzero         |
+    |                         | snowfall totals for 29-day windows        |
+    |                         | centered on each day of the year          |
+    +-------------------------+-------------------------------------------+
+    | DLY-SNOW-PCTALL-GE001TI | Probability of snowfall >= 0.1 in for     |
+    |                         | 29-day windows centered on each day of    |
+    |                         | the year                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-SNOW-PCTALL-GE010TI | Probability of snowfall >= 1.0 in for     |
+    |                         | 29-day windows centered on each day of    |
+    |                         | the year                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-SNOW-PCTALL-GE030TI | Probability of snowfall >= 3.0 in for     |
+    |                         | 29-day windows centered on each day of    |
+    |                         | the year                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-SNOW-PCTALL-GE050TI | Probability of snowfall >= 5.0 in for     |
+    |                         | 29-day windows centered on each day of    |
+    |                         | the year                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-SNOW-PCTALL-GE100TI | Probability of snowfall >= 10 in for      |
+    |                         | 29-day windows centered on each day of    |
+    |                         | the year                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-SNWD-25PCTL         | 25th percentiles of daily nonzero snow    |
+    |                         | depth for 29-day windows centered on each |
+    |                         | day of the year                           |
+    +-------------------------+-------------------------------------------+
+    | DLY-SNWD-50PCTL         | 50th percentiles of daily nonzero snow    |
+    |                         | depth for 29-day windows centered on each |
+    |                         | day of the year                           |
+    +-------------------------+-------------------------------------------+
+    | DLY-SNWD-75PCTL         | 75th percentiles of daily nonzero snow    |
+    |                         | depth for 29-day windows centered on each |
+    |                         | day of the year                           |
+    +-------------------------+-------------------------------------------+
+    | DLY-SNWD-PCTALL-GE001WI | Probability of snow depth >= 1 inch for   |
+    |                         | 29-day windows centered on each day of    |
+    |                         | the year                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-SNWD-PCTALL-GE003WI | Probability of snow depth >= 3 in for     |
+    |                         | 29-day windows centered on each day of    |
+    |                         | the year                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-SNWD-PCTALL-GE005WI | Probability of snow depth >= 5 in for     |
+    |                         | 29-day windows centered on each day of    |
+    |                         | the year                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-SNWD-PCTALL-GE010WI | Probability of snow depth >= 10 in for    |
+    |                         | 29-day windows centered on each day of    |
+    |                         | the year                                  |
+    +-------------------------+-------------------------------------------+
+    | DLY-TAVG-NORMAL         | Average daily average temperature         |
+    +-------------------------+-------------------------------------------+
+    | DLY-TAVG-STDDEV         | Long-term standard deviations of daily    |
+    |                         | average temperature                       |
+    +-------------------------+-------------------------------------------+
+    | DLY-TMAX-NORMAL         | Average daily maximum temperature         |
+    +-------------------------+-------------------------------------------+
+    | DLY-TMAX-STDDEV         | Long-term standard deviations of daily    |
+    |                         | maximum temperature                       |
+    +-------------------------+-------------------------------------------+
+    | DLY-TMIN-NORMAL         | Average daily minimum temperature         |
+    +-------------------------+-------------------------------------------+
+    | DLY-TMIN-STDDEV         | Long-term standard deviations of daily    |
+    |                         | minimum temperature                       |
+    +-------------------------+-------------------------------------------+
+    | MTD-PRCP-NORMAL         | Average month-to-date precipitation       |
+    |                         | totals                                    |
+    +-------------------------+-------------------------------------------+
+    | MTD-SNOW-NORMAL         | Average month-to-date snowfall totals     |
+    +-------------------------+-------------------------------------------+
+    | YTD-PRCP-NORMAL         | Average year-to-date precipitation totals |
+    +-------------------------+-------------------------------------------+
+    | YTD-SNOW-NORMAL         | Average year-to-date snowfall totals      |
+    +-------------------------+-------------------------------------------+
 
     Parameters
     ----------
@@ -3750,81 +3854,81 @@ def ncei_normal_hly(stationid):
 
     Requires registration and free API key.
 
-    For every datatype and record there is a set of meta-data flags.
-    For the GHCNDMS dataset, the flags are::
+    For every datatype and record there is a set of meta-data flags. For
+    the GHCNDMS dataset, the flags are::
 
         'Total Missing','Consecutive Missing'
 
     Total Missing:
 
     Defined as total number of days observation/element is missing in that
-    month.  This can be taken as a measure of quality or completeness as the
-    higher the number of days sampled in the month, the more representative the
-    value is for the entire month.
+    month.  This can be taken as a measure of quality or completeness as
+    the higher the number of days sampled in the month, the more
+    representative the value is for the entire month.
 
     Consecutive Missing:
 
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing.
 
-    The following table lists the datatypes available for the annual dataset.
-    Not all datatypes are available for all stations.
+    The following table lists the datatypes available for the annual
+    dataset. Not all datatypes are available for all stations.
 
-    +-----------------+-------------------------------------------------+
-    | Code            | Description                                     |
-    +=================+=================================================+
-    | HLY-CLDH-NORMAL | Cooling degree hours                            |
-    +-----------------+-------------------------------------------------+
-    | HLY-CLOD-PCTBKN | Clouds broken percentage                        |
-    +-----------------+-------------------------------------------------+
-    | HLY-CLOD-PCTCLR | Clouds clear percentage                         |
-    +-----------------+-------------------------------------------------+
-    | HLY-CLOD-PCTFEW | Clouds few percentage                           |
-    +-----------------+-------------------------------------------------+
-    | HLY-CLOD-PCTOVC | Clouds overcast percentage                      |
-    +-----------------+-------------------------------------------------+
-    | HLY-CLOD-PCTSCT | Clouds scattered percentage                     |
-    +-----------------+-------------------------------------------------+
-    | HLY-DEWP-10PCTL | Dew point 10th percentile                       |
-    +-----------------+-------------------------------------------------+
-    | HLY-DEWP-90PCTL | Dew point 90th percentile                       |
-    +-----------------+-------------------------------------------------+
-    | HLY-DEWP-NORMAL | Dew point mean                                  |
-    +-----------------+-------------------------------------------------+
-    | HLY-HIDX-NORMAL | Heat index mean                                 |
-    +-----------------+-------------------------------------------------+
-    | HLY-HTDH-NORMAL | Heating degree hours                            |
-    +-----------------+-------------------------------------------------+
-    | HLY-PRES-10PCTL | Sea level pressure 10th percentile              |
-    +-----------------+-------------------------------------------------+
-    | HLY-PRES-90PCTL | Sea level pressure 90th percentile              |
-    +-----------------+-------------------------------------------------+
-    | HLY-PRES-NORMAL | Sea level pressure mean                         |
-    +-----------------+-------------------------------------------------+
-    | HLY-TEMP-10PCTL | Temperature 10th percentile                     |
-    +-----------------+-------------------------------------------------+
-    | HLY-TEMP-90PCTL | Temperature 90th percentile                     |
-    +-----------------+-------------------------------------------------+
-    | HLY-TEMP-NORMAL | Temperature mean                                |
-    +-----------------+-------------------------------------------------+
-    | HLY-WCHL-NORMAL | Wind chill mean                                 |
-    +-----------------+-------------------------------------------------+
-    | HLY-WIND-1STDIR | Prevailing wind direction (1-8)                 |
-    +-----------------+-------------------------------------------------+
-    | HLY-WIND-1STPCT | Prevailing wind percentage                      |
-    +-----------------+-------------------------------------------------+
-    | HLY-WIND-2NDDIR | Secondary wind direction (1-8)                  |
-    +-----------------+-------------------------------------------------+
-    | HLY-WIND-2NDPCT | Secondary wind percentage                       |
-    +-----------------+-------------------------------------------------+
-    | HLY-WIND-AVGSPD | Average wind speed                              |
-    +-----------------+-------------------------------------------------+
-    | HLY-WIND-PCTCLM | Percentage calm                                 |
-    +-----------------+-------------------------------------------------+
-    | HLY-WIND-VCTDIR | Mean wind vector direction                      |
-    +-----------------+-------------------------------------------------+
-    | HLY-WIND-VCTSPD | Mean wind vector magnitude                      |
-    +-----------------+-------------------------------------------------+
+    +-----------------+----------------------------------------+
+    | Code            | Description                            |
+    +=================+========================================+
+    | HLY-CLDH-NORMAL | Cooling degree hours                   |
+    +-----------------+----------------------------------------+
+    | HLY-CLOD-PCTBKN | Clouds broken percentage               |
+    +-----------------+----------------------------------------+
+    | HLY-CLOD-PCTCLR | Clouds clear percentage                |
+    +-----------------+----------------------------------------+
+    | HLY-CLOD-PCTFEW | Clouds few percentage                  |
+    +-----------------+----------------------------------------+
+    | HLY-CLOD-PCTOVC | Clouds overcast percentage             |
+    +-----------------+----------------------------------------+
+    | HLY-CLOD-PCTSCT | Clouds scattered percentage            |
+    +-----------------+----------------------------------------+
+    | HLY-DEWP-10PCTL | Dew point 10th percentile              |
+    +-----------------+----------------------------------------+
+    | HLY-DEWP-90PCTL | Dew point 90th percentile              |
+    +-----------------+----------------------------------------+
+    | HLY-DEWP-NORMAL | Dew point mean                         |
+    +-----------------+----------------------------------------+
+    | HLY-HIDX-NORMAL | Heat index mean                        |
+    +-----------------+----------------------------------------+
+    | HLY-HTDH-NORMAL | Heating degree hours                   |
+    +-----------------+----------------------------------------+
+    | HLY-PRES-10PCTL | Sea level pressure 10th percentile     |
+    +-----------------+----------------------------------------+
+    | HLY-PRES-90PCTL | Sea level pressure 90th percentile     |
+    +-----------------+----------------------------------------+
+    | HLY-PRES-NORMAL | Sea level pressure mean                |
+    +-----------------+----------------------------------------+
+    | HLY-TEMP-10PCTL | Temperature 10th percentile            |
+    +-----------------+----------------------------------------+
+    | HLY-TEMP-90PCTL | Temperature 90th percentile            |
+    +-----------------+----------------------------------------+
+    | HLY-TEMP-NORMAL | Temperature mean                       |
+    +-----------------+----------------------------------------+
+    | HLY-WCHL-NORMAL | Wind chill mean                        |
+    +-----------------+----------------------------------------+
+    | HLY-WIND-1STDIR | Prevailing wind direction (1-8)        |
+    +-----------------+----------------------------------------+
+    | HLY-WIND-1STPCT | Prevailing wind percentage             |
+    +-----------------+----------------------------------------+
+    | HLY-WIND-2NDDIR | Secondary wind direction (1-8)         |
+    +-----------------+----------------------------------------+
+    | HLY-WIND-2NDPCT | Secondary wind percentage              |
+    +-----------------+----------------------------------------+
+    | HLY-WIND-AVGSPD | Average wind speed                     |
+    +-----------------+----------------------------------------+
+    | HLY-WIND-PCTCLM | Percentage calm                        |
+    +-----------------+----------------------------------------+
+    | HLY-WIND-VCTDIR | Mean wind vector direction             |
+    +-----------------+----------------------------------------+
+    | HLY-WIND-VCTSPD | Mean wind vector magnitude             |
+    +-----------------+----------------------------------------+
 
     Parameters
     ----------
@@ -3844,251 +3948,255 @@ def ncei_normal_mly(stationid):
 
     Requires registration and free API key.
 
-    For every datatype and record there is a set of meta-data flags.
-    For the GHCNDMS dataset, the flags are::
+    For every datatype and record there is a set of meta-data flags. For
+    the GHCNDMS dataset, the flags are::
 
         'Total Missing','Consecutive Missing'
 
     Total Missing:
 
     Defined as total number of days observation/element is missing in that
-    month.  This can be taken as a measure of quality or completeness as the
-    higher the number of days sampled in the month, the more representative the
-    value is for the entire month.
+    month.  This can be taken as a measure of quality or completeness as
+    the higher the number of days sampled in the month, the more
+    representative the value is for the entire month.
 
     Consecutive Missing:
 
     Defined as the maximum number of consecutive days in the month that an
     observation/element is missing.
 
-    The following table lists the datatypes available for the annual dataset.
-    Not all of the datatypes are available for all stations.
+    The following table lists the datatypes available for the annual
+    dataset. Not all of the datatypes are available for all stations.
 
-    +-------------------------+------------------------------------------------+
-    | Code                    | Description                                    |
-    +=========================+================================================+
-    | MLY-CLDD-BASE45         | Average monthly cooling degree days with base  |
-    |                         | 45F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-CLDD-BASE50         | Average monthly cooling degree days with base  |
-    |                         | 50F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-CLDD-BASE55         | Average monthly cooling degree days with base  |
-    |                         | 55F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-CLDD-BASE57         | Average monthly cooling degree days with base  |
-    |                         | 57F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-CLDD-BASE60         | Average monthly cooling degree days with base  |
-    |                         | 60F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-CLDD-BASE70         | Average monthly cooling degree days with base  |
-    |                         | 70F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-CLDD-BASE72         | Average monthly cooling degree days with base  |
-    |                         | 72F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-CLDD-NORMAL         | Average monthly cooling degree days with base  |
-    |                         | 65F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-DUTR-NORMAL         | Average monthly diurnal temperature range      |
-    +-------------------------+------------------------------------------------+
-    | MLY-DUTR-STDDEV         | Long-term standard deviations of monthly       |
-    |                         | diurnal temperature range                      |
-    +-------------------------+------------------------------------------------+
-    | MLY-GRDD-BASE40         | Average monthly growing degree days with base  |
-    |                         | 40F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-GRDD-BASE45         | Average monthly growing degree days with base  |
-    |                         | 45F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-GRDD-BASE50         | Average monthly growing degree days with base  |
-    |                         | 50F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-GRDD-BASE55         | Average monthly growing degree days with base  |
-    |                         | 55F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-GRDD-BASE57         | Average monthly growing degree days with base  |
-    |                         | 57F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-GRDD-BASE60         | Average monthly growing degree days with base  |
-    |                         | 60F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-GRDD-BASE65         | Average monthly growing degree days with base  |
-    |                         | 65F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-GRDD-BASE70         | Average monthly growing degree days with base  |
-    |                         | 70F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-GRDD-BASE72         | Average monthly growing degree days with base  |
-    |                         | 72F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-GRDD-TB4886         | Average monthly growing degree days with       |
-    |                         | truncated bases 48F and 86F                    |
-    +-------------------------+------------------------------------------------+
-    | MLY-GRDD-TB5086         | Average monthly growing degree days with       |
-    |                         | truncated bases 50F and 86F                    |
-    +-------------------------+------------------------------------------------+
-    | MLY-HTDD-BASE40         | Average monthly heating degree days with base  |
-    |                         | 40F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-HTDD-BASE45         | Average monthly heating degree days with base  |
-    |                         | 45F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-HTDD-BASE50         | Average monthly heating degree days with base  |
-    |                         | 50F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-HTDD-BASE55         | Average monthly heating degree days with base  |
-    |                         | 55F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-HTDD-BASE57         | Average monthly heating degree days with base  |
-    |                         | 57F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-HTDD-BASE60         | Average monthly heating degree days with base  |
-    |                         | 60F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-HTDD-NORMAL         | Average monthly heating degree days with base  |
-    |                         | 65F                                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-PRCP-25PCTL         | 25th percentiles of monthly precipitation      |
-    |                         | totals                                         |
-    +-------------------------+------------------------------------------------+
-    | MLY-PRCP-50PCTL         | 50th percentiles of monthly precipitation      |
-    |                         | totals                                         |
-    +-------------------------+------------------------------------------------+
-    | MLY-PRCP-75PCTL         | 75th percentiles of monthly precipitation      |
-    |                         | totals                                         |
-    +-------------------------+------------------------------------------------+
-    | MLY-PRCP-AVGNDS-GE001HI | Average number of days per month with          |
-    |                         | precipitation >= 0.01 in                       |
-    +-------------------------+------------------------------------------------+
-    | MLY-PRCP-AVGNDS-GE010HI | Average number of days per month with          |
-    |                         | precipitation >= 0.10 in                       |
-    +-------------------------+------------------------------------------------+
-    | MLY-PRCP-AVGNDS-GE050HI | Average number of days per month with          |
-    |                         | precipitation >= 0.50 in                       |
-    +-------------------------+------------------------------------------------+
-    | MLY-PRCP-AVGNDS-GE100HI | Average number of days per month with          |
-    |                         | precipitation >= 1.00 in                       |
-    +-------------------------+------------------------------------------------+
-    | MLY-PRCP-NORMAL         | Average monthly precipitation totals           |
-    +-------------------------+------------------------------------------------+
-    | MLY-SNOW-25PCTL         | 25th percentiles of monthly snowfall totals    |
-    +-------------------------+------------------------------------------------+
-    | MLY-SNOW-50PCTL         | 50th percentiles of monthly snowfall totals    |
-    +-------------------------+------------------------------------------------+
-    | MLY-SNOW-75PCTL         | 75th percentiles of monthly snowfall totals    |
-    +-------------------------+------------------------------------------------+
-    | MLY-SNOW-AVGNDS-GE001TI | Average number of days per month with Snowfall |
-    |                         | >= 0.1 in                                      |
-    +-------------------------+------------------------------------------------+
-    | MLY-SNOW-AVGNDS-GE010TI | Average number of days per month with Snowfall |
-    |                         | >= 1.0 in                                      |
-    +-------------------------+------------------------------------------------+
-    | MLY-SNOW-AVGNDS-GE030TI | Average number of days per month with Snowfall |
-    |                         | >= 3.0 in                                      |
-    +-------------------------+------------------------------------------------+
-    | MLY-SNOW-AVGNDS-GE050TI | Average number of days per month with Snowfall |
-    |                         | >= 5.0 in                                      |
-    +-------------------------+------------------------------------------------+
-    | MLY-SNOW-AVGNDS-GE100TI | Average number of days per month with Snowfall |
-    |                         | >= 10.0 in                                     |
-    +-------------------------+------------------------------------------------+
-    | MLY-SNOW-NORMAL         | Average monthly snowfall totals                |
-    +-------------------------+------------------------------------------------+
-    | MLY-SNWD-AVGNDS-GE001WI | Average number of days per month with snow     |
-    |                         | depth >= 1 inch                                |
-    +-------------------------+------------------------------------------------+
-    | MLY-SNWD-AVGNDS-GE003WI | Average number of days per month with snow     |
-    |                         | depth >= 3 in                                  |
-    +-------------------------+------------------------------------------------+
-    | MLY-SNWD-AVGNDS-GE005WI | Average number of days per month with snow     |
-    |                         | depth >= 5 in                                  |
-    +-------------------------+------------------------------------------------+
-    | MLY-SNWD-AVGNDS-GE010WI | Average number of days per month with snow     |
-    |                         | depth >= 10 in                                 |
-    +-------------------------+------------------------------------------------+
-    | MLY-TAVG-NORMAL         | Average monthly average temperature            |
-    +-------------------------+------------------------------------------------+
-    | MLY-TAVG-STDDEV         | Long-term standard deviations of monthly       |
-    |                         | average temperature                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMAX-AVGNDS-GRTH040 | Average number of days per month where tmax is |
-    |                         | greater than or equal to 40F                   |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMAX-AVGNDS-GRTH050 | Average number of days per month where tmax is |
-    |                         | greater than or equal to 50F                   |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMAX-AVGNDS-GRTH060 | Average number of days per month where tmax is |
-    |                         | greater than or equal to 60F                   |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMAX-AVGNDS-GRTH070 | Average number of days per month where tmax is |
-    |                         | greater than or equal to 70F                   |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMAX-AVGNDS-GRTH080 | Average number of days per month where tmax is |
-    |                         | greater than or equal to 80F                   |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMAX-AVGNDS-GRTH090 | Average number of days per month where tmax is |
-    |                         | greater than or equal to 90F                   |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMAX-AVGNDS-GRTH100 | Average number of days per month where tmax is |
-    |                         | greater than or equal to 100F                  |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMAX-AVGNDS-LSTH032 | Average number of days per month where tmax is |
-    |                         | less than or equal to 32F                      |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMAX-NORMAL         | Average monthly maximum temperature            |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMAX-STDDEV         | Long-term standard deviations of monthly       |
-    |                         | maximum temperature                            |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMIN-AVGNDS-LSTH000 | Average number of days per month where tmin is |
-    |                         | less than or equal to 0F                       |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMIN-AVGNDS-LSTH010 | Average number of days per month where tmin is |
-    |                         | less than or equal to 10F                      |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMIN-AVGNDS-LSTH020 | Average number of days per month where tmin is |
-    |                         | less than or equal to 20F                      |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMIN-AVGNDS-LSTH032 | Average number of days per month where tmin is |
-    |                         | less than or equal to 32F                      |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMIN-AVGNDS-LSTH040 | Average number of days per month where tmin is |
-    |                         | less than or equal to 40F                      |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMIN-AVGNDS-LSTH050 | Average number of days per month where tmin is |
-    |                         | less than or equal to 50F                      |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMIN-AVGNDS-LSTH060 | Average number of days per month where tmin is |
-    |                         | less than or equal to 60F                      |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMIN-AVGNDS-LSTH070 | Average number of days per month where tmin is |
-    |                         | less than or equal to 70F                      |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMIN-NORMAL         | Average monthly minimum temperature            |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMIN-PRBOCC-LSTH016 | probability of 16F or below at least once in   |
-    |                         | the month                                      |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMIN-PRBOCC-LSTH020 | probability of 20F or below at least once in   |
-    |                         | the month                                      |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMIN-PRBOCC-LSTH024 | probability of 24F or below at least once in   |
-    |                         | the month                                      |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMIN-PRBOCC-LSTH028 | probability of 28F or below at least once in   |
-    |                         | the month                                      |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMIN-PRBOCC-LSTH032 | probability of 32F or below at least once in   |
-    |                         | the month                                      |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMIN-PRBOCC-LSTH036 | probability of 36F or below at least once in   |
-    |                         | the month                                      |
-    +-------------------------+------------------------------------------------+
-    | MLY-TMIN-STDDEV         | Long-term standard deviations of monthly       |
-    |                         | minimum temperature                            |
-    +-------------------------+------------------------------------------------+
+    +----------------------+----------------------------------------+
+    | Code                 | Description                            |
+    +======================+========================================+
+    | MLY-CLDD-BASE45      | Average monthly cooling degree days    |
+    |                      | with base 45F                          |
+    +----------------------+----------------------------------------+
+    | MLY-CLDD-BASE50      | Average monthly cooling degree days    |
+    |                      | with base 50F                          |
+    +----------------------+----------------------------------------+
+    | MLY-CLDD-BASE55      | Average monthly cooling degree days    |
+    |                      | with base 55F                          |
+    +----------------------+----------------------------------------+
+    | MLY-CLDD-BASE57      | Average monthly cooling degree days    |
+    |                      | with base 57F                          |
+    +----------------------+----------------------------------------+
+    | MLY-CLDD-BASE60      | Average monthly cooling degree days    |
+    |                      | with base 60F                          |
+    +----------------------+----------------------------------------+
+    | MLY-CLDD-BASE70      | Average monthly cooling degree days    |
+    |                      | with base 70F                          |
+    +----------------------+----------------------------------------+
+    | MLY-CLDD-BASE72      | Average monthly cooling degree days    |
+    |                      | with base 72F                          |
+    +----------------------+----------------------------------------+
+    | MLY-CLDD-NORMAL      | Average monthly cooling degree days    |
+    |                      | with base 65F                          |
+    +----------------------+----------------------------------------+
+    | MLY-DUTR-NORMAL      | Average monthly diurnal temperature    |
+    |                      | range                                  |
+    +----------------------+----------------------------------------+
+    | MLY-DUTR-STDDEV      | Long-term standard deviations of       |
+    |                      | monthly diurnal temperature range      |
+    +----------------------+----------------------------------------+
+    | MLY-GRDD-BASE40      | Average monthly growing degree days    |
+    |                      | with base 40F                          |
+    +----------------------+----------------------------------------+
+    | MLY-GRDD-BASE45      | Average monthly growing degree days    |
+    |                      | with base 45F                          |
+    +----------------------+----------------------------------------+
+    | MLY-GRDD-BASE50      | Average monthly growing degree days    |
+    |                      | with base 50F                          |
+    +----------------------+----------------------------------------+
+    | MLY-GRDD-BASE55      | Average monthly growing degree days    |
+    |                      | with base 55F                          |
+    +----------------------+----------------------------------------+
+    | MLY-GRDD-BASE57      | Average monthly growing degree days    |
+    |                      | with base 57F                          |
+    +----------------------+----------------------------------------+
+    | MLY-GRDD-BASE60      | Average monthly growing degree days    |
+    |                      | with base 60F                          |
+    +----------------------+----------------------------------------+
+    | MLY-GRDD-BASE65      | Average monthly growing degree days    |
+    |                      | with base 65F                          |
+    +----------------------+----------------------------------------+
+    | MLY-GRDD-BASE70      | Average monthly growing degree days    |
+    |                      | with base 70F                          |
+    +----------------------+----------------------------------------+
+    | MLY-GRDD-BASE72      | Average monthly growing degree days    |
+    |                      | with base 72F                          |
+    +----------------------+----------------------------------------+
+    | MLY-GRDD-TB4886      | Average monthly growing degree days    |
+    |                      | with truncated bases 48F and 86F       |
+    +----------------------+----------------------------------------+
+    | MLY-GRDD-TB5086      | Average monthly growing degree days    |
+    |                      | with truncated bases 50F and 86F       |
+    +----------------------+----------------------------------------+
+    | MLY-HTDD-BASE40      | Average monthly heating degree days    |
+    |                      | with base 40F                          |
+    +----------------------+----------------------------------------+
+    | MLY-HTDD-BASE45      | Average monthly heating degree days    |
+    |                      | with base 45F                          |
+    +----------------------+----------------------------------------+
+    | MLY-HTDD-BASE50      | Average monthly heating degree days    |
+    |                      | with base 50F                          |
+    +----------------------+----------------------------------------+
+    | MLY-HTDD-BASE55      | Average monthly heating degree days    |
+    |                      | with base 55F                          |
+    +----------------------+----------------------------------------+
+    | MLY-HTDD-BASE57      | Average monthly heating degree days    |
+    |                      | with base 57F                          |
+    +----------------------+----------------------------------------+
+    | MLY-HTDD-BASE60      | Average monthly heating degree days    |
+    |                      | with base 60F                          |
+    +----------------------+----------------------------------------+
+    | MLY-HTDD-NORMAL      | Average monthly heating degree days    |
+    |                      | with base 65F                          |
+    +----------------------+----------------------------------------+
+    | MLY-PRCP-25PCTL      | 25th percentiles of monthly            |
+    |                      | precipitation totals                   |
+    +----------------------+----------------------------------------+
+    | MLY-PRCP-50PCTL      | 50th percentiles of monthly            |
+    |                      | precipitation totals                   |
+    +----------------------+----------------------------------------+
+    | MLY-PRCP-75PCTL      | 75th percentiles of monthly            |
+    |                      | precipitation totals                   |
+    +----------------------+----------------------------------------+
+    | MLY-PRCP-AVGNDS-     | Average number of days per month with  |
+    | GE001HI              | precipitation >= 0.01 in               |
+    +----------------------+----------------------------------------+
+    | MLY-PRCP-AVGNDS-     | Average number of days per month with  |
+    | GE010HI              | precipitation >= 0.10 in               |
+    +----------------------+----------------------------------------+
+    | MLY-PRCP-AVGNDS-     | Average number of days per month with  |
+    | GE050HI              | precipitation >= 0.50 in               |
+    +----------------------+----------------------------------------+
+    | MLY-PRCP-AVGNDS-     | Average number of days per month with  |
+    | GE100HI              | precipitation >= 1.00 in               |
+    +----------------------+----------------------------------------+
+    | MLY-PRCP-NORMAL      | Average monthly precipitation totals   |
+    +----------------------+----------------------------------------+
+    | MLY-SNOW-25PCTL      | 25th percentiles of monthly snowfall   |
+    |                      | totals                                 |
+    +----------------------+----------------------------------------+
+    | MLY-SNOW-50PCTL      | 50th percentiles of monthly snowfall   |
+    |                      | totals                                 |
+    +----------------------+----------------------------------------+
+    | MLY-SNOW-75PCTL      | 75th percentiles of monthly snowfall   |
+    |                      | totals                                 |
+    +----------------------+----------------------------------------+
+    | MLY-SNOW-AVGNDS-     | Average number of days per month with  |
+    | GE001TI              | Snowfall >= 0.1 in                     |
+    +----------------------+----------------------------------------+
+    | MLY-SNOW-AVGNDS-     | Average number of days per month with  |
+    | GE010TI              | Snowfall >= 1.0 in                     |
+    +----------------------+----------------------------------------+
+    | MLY-SNOW-AVGNDS-     | Average number of days per month with  |
+    | GE030TI              | Snowfall >= 3.0 in                     |
+    +----------------------+----------------------------------------+
+    | MLY-SNOW-AVGNDS-     | Average number of days per month with  |
+    | GE050TI              | Snowfall >= 5.0 in                     |
+    +----------------------+----------------------------------------+
+    | MLY-SNOW-AVGNDS-     | Average number of days per month with  |
+    | GE100TI              | Snowfall >= 10.0 in                    |
+    +----------------------+----------------------------------------+
+    | MLY-SNOW-NORMAL      | Average monthly snowfall totals        |
+    +----------------------+----------------------------------------+
+    | MLY-SNWD-AVGNDS-     | Average number of days per month with  |
+    | GE001WI              | snow depth >= 1 inch                   |
+    +----------------------+----------------------------------------+
+    | MLY-SNWD-AVGNDS-     | Average number of days per month with  |
+    | GE003WI              | snow depth >= 3 in                     |
+    +----------------------+----------------------------------------+
+    | MLY-SNWD-AVGNDS-     | Average number of days per month with  |
+    | GE005WI              | snow depth >= 5 in                     |
+    +----------------------+----------------------------------------+
+    | MLY-SNWD-AVGNDS-     | Average number of days per month with  |
+    | GE010WI              | snow depth >= 10 in                    |
+    +----------------------+----------------------------------------+
+    | MLY-TAVG-NORMAL      | Average monthly average temperature    |
+    +----------------------+----------------------------------------+
+    | MLY-TAVG-STDDEV      | Long-term standard deviations of       |
+    |                      | monthly average temperature            |
+    +----------------------+----------------------------------------+
+    | MLY-TMAX-AVGNDS-     | Average number of days per month where |
+    | GRTH040              | tmax is greater than or equal to 40F   |
+    +----------------------+----------------------------------------+
+    | MLY-TMAX-AVGNDS-     | Average number of days per month where |
+    | GRTH050              | tmax is greater than or equal to 50F   |
+    +----------------------+----------------------------------------+
+    | MLY-TMAX-AVGNDS-     | Average number of days per month where |
+    | GRTH060              | tmax is greater than or equal to 60F   |
+    +----------------------+----------------------------------------+
+    | MLY-TMAX-AVGNDS-     | Average number of days per month where |
+    | GRTH070              | tmax is greater than or equal to 70F   |
+    +----------------------+----------------------------------------+
+    | MLY-TMAX-AVGNDS-     | Average number of days per month where |
+    | GRTH080              | tmax is greater than or equal to 80F   |
+    +----------------------+----------------------------------------+
+    | MLY-TMAX-AVGNDS-     | Average number of days per month where |
+    | GRTH090              | tmax is greater than or equal to 90F   |
+    +----------------------+----------------------------------------+
+    | MLY-TMAX-AVGNDS-     | Average number of days per month where |
+    | GRTH100              | tmax is greater than or equal to 100F  |
+    +----------------------+----------------------------------------+
+    | MLY-TMAX-AVGNDS-     | Average number of days per month where |
+    | LSTH032              | tmax is less than or equal to 32F      |
+    +----------------------+----------------------------------------+
+    | MLY-TMAX-NORMAL      | Average monthly maximum temperature    |
+    +----------------------+----------------------------------------+
+    | MLY-TMAX-STDDEV      | Long-term standard deviations of       |
+    |                      | monthly maximum temperature            |
+    +----------------------+----------------------------------------+
+    | MLY-TMIN-AVGNDS-     | Average number of days per month where |
+    | LSTH000              | tmin is less than or equal to 0F       |
+    +----------------------+----------------------------------------+
+    | MLY-TMIN-AVGNDS-     | Average number of days per month where |
+    | LSTH010              | tmin is less than or equal to 10F      |
+    +----------------------+----------------------------------------+
+    | MLY-TMIN-AVGNDS-     | Average number of days per month where |
+    | LSTH020              | tmin is less than or equal to 20F      |
+    +----------------------+----------------------------------------+
+    | MLY-TMIN-AVGNDS-     | Average number of days per month where |
+    | LSTH032              | tmin is less than or equal to 32F      |
+    +----------------------+----------------------------------------+
+    | MLY-TMIN-AVGNDS-     | Average number of days per month where |
+    | LSTH040              | tmin is less than or equal to 40F      |
+    +----------------------+----------------------------------------+
+    | MLY-TMIN-AVGNDS-     | Average number of days per month where |
+    | LSTH050              | tmin is less than or equal to 50F      |
+    +----------------------+----------------------------------------+
+    | MLY-TMIN-AVGNDS-     | Average number of days per month where |
+    | LSTH060              | tmin is less than or equal to 60F      |
+    +----------------------+----------------------------------------+
+    | MLY-TMIN-AVGNDS-     | Average number of days per month where |
+    | LSTH070              | tmin is less than or equal to 70F      |
+    +----------------------+----------------------------------------+
+    | MLY-TMIN-NORMAL      | Average monthly minimum temperature    |
+    +----------------------+----------------------------------------+
+    | MLY-TMIN-PRBOCC-     | probability of 16F or below at least   |
+    | LSTH016              | once in the month                      |
+    +----------------------+----------------------------------------+
+    | MLY-TMIN-PRBOCC-     | probability of 20F or below at least   |
+    | LSTH020              | once in the month                      |
+    +----------------------+----------------------------------------+
+    | MLY-TMIN-PRBOCC-     | probability of 24F or below at least   |
+    | LSTH024              | once in the month                      |
+    +----------------------+----------------------------------------+
+    | MLY-TMIN-PRBOCC-     | probability of 28F or below at least   |
+    | LSTH028              | once in the month                      |
+    +----------------------+----------------------------------------+
+    | MLY-TMIN-PRBOCC-     | probability of 32F or below at least   |
+    | LSTH032              | once in the month                      |
+    +----------------------+----------------------------------------+
+    | MLY-TMIN-PRBOCC-     | probability of 36F or below at least   |
+    | LSTH036              | once in the month                      |
+    +----------------------+----------------------------------------+
+    | MLY-TMIN-STDDEV      | Long-term standard deviations of       |
+    |                      | monthly minimum temperature            |
+    +----------------------+----------------------------------------+
 
     Parameters
     ----------
@@ -4205,40 +4313,41 @@ def ncei_annual(stationid, start_date=None, end_date=None):
 
     Measurement flag
 
-    +-------+------------------------------------------------------------------+
-    | Code  | Description                                                      |
-    +=======+==================================================================+
-    | A     | Accumulated amount. This value is a total that may include data  |
-    |       | from a previous month or months (TPCP)                           |
-    +-------+------------------------------------------------------------------+
-    | B     | Adjusted Total. Monthly value totals based on proportional       |
-    |       | available data across the entire month. (CLDD, HTDD.             |
-    +-------+------------------------------------------------------------------+
-    | E     | An estimated monthly or annual total                             |
-    +-------+------------------------------------------------------------------+
-    | I     | Monthly means or totals based on incomplete time series. 1 to 9  |
-    |       | days are missing. (MMNT,MMXP, MMXT, MNTM, TPCP, TSNW).           |
-    +-------+------------------------------------------------------------------+
-    | M     | Used to indicate data element missing.                           |
-    +-------+------------------------------------------------------------------+
-    | S     | Precipitation for the amount is continuing to be accumulated.    |
-    |       | Total will be included in a subsequent value (TPCP). Example:    |
-    |       | Days 1-20 had 1.35 in of precipitation, then a period of         |
-    |       | accumulation began. The element TPCP would then be 00135S and    |
-    |       | the total accumulated amount value appears in a subsequent       |
-    |       | monthly value. If TPCP = 0 there was no precipitation measured   |
-    |       | during the month. flag 1 is set to "S" and the total accumulated |
-    |       | amount appears in a subsequent monthly value.                    |
-    +-------+------------------------------------------------------------------+
-    | T     | Trace of precipitation, snowfall, or snow depth. The             |
-    |       | precipitation data value will = "00000". (EMXP, MXSD, TPCP,      |
-    |       | TSNW).                                                           |
-    +-------+------------------------------------------------------------------+
-    | \+    | The phenomena in question occurred on several days. The date in  |
-    |       | the DAY field is the last day of occurrence.                     |
-    +-------+------------------------------------------------------------------+
-    | Blank | No report.                                                       |
-    +-------+------------------------------------------------------------------+
+    +-------+-------------------------------------------------------------+
+    | Code  | Description                                                 |
+    +=======+=============================================================+
+    | A     | Accumulated amount. This value is a total that may include  |
+    |       | data from a previous month or months (TPCP)                 |
+    +-------+-------------------------------------------------------------+
+    | B     | Adjusted Total. Monthly value totals based on proportional  |
+    |       | available data across the entire month. (CLDD, HTDD.        |
+    +-------+-------------------------------------------------------------+
+    | E     | An estimated monthly or annual total                        |
+    +-------+-------------------------------------------------------------+
+    | I     | Monthly means or totals based on incomplete time series. 1  |
+    |       | to 9 days are missing. (MMNT,MMXP, MMXT, MNTM, TPCP, TSNW). |
+    +-------+-------------------------------------------------------------+
+    | M     | Used to indicate data element missing.                      |
+    +-------+-------------------------------------------------------------+
+    | S     | Precipitation for the amount is continuing to be            |
+    |       | accumulated. Total will be included in a subsequent value   |
+    |       | (TPCP). Example: Days 1-20 had 1.35 in of precipitation,    |
+    |       | then a period of accumulation began. The element TPCP would |
+    |       | then be 00135S and the total accumulated amount value       |
+    |       | appears in a subsequent monthly value. If TPCP = 0 there    |
+    |       | was no precipitation measured during the month. flag 1 is   |
+    |       | set to "S" and the total accumulated amount appears in a    |
+    |       | subsequent monthly value.                                   |
+    +-------+-------------------------------------------------------------+
+    | T     | Trace of precipitation, snowfall, or snow depth. The        |
+    |       | precipitation data value will = "00000". (EMXP, MXSD, TPCP, |
+    |       | TSNW).                                                      |
+    +-------+-------------------------------------------------------------+
+    | \+    | The phenomena in question occurred on several days. The     |
+    |       | date in the DAY field is the last day of occurrence.        |
+    +-------+-------------------------------------------------------------+
+    | Blank | No report.                                                  |
+    +-------+-------------------------------------------------------------+
 
     Quality flag
 
@@ -4262,46 +4371,46 @@ def ncei_annual(stationid, start_date=None, end_date=None):
 
     Units flag
 
-    +------+-------------------------------------------------------------------+
-    | Code | Description                                                       |
-    +======+===================================================================+
-    | C    | Whole degree C                                                    |
-    +------+-------------------------------------------------------------------+
-    | D    | Whole F Degree Day                                                |
-    +------+-------------------------------------------------------------------+
-    | F    | Whole degree F                                                    |
-    +------+-------------------------------------------------------------------+
-    | HI   | Hundredths of in                                                  |
-    +------+-------------------------------------------------------------------+
-    | I    | Whole in                                                          |
-    +------+-------------------------------------------------------------------+
-    | M    | Whole miles                                                       |
-    +------+-------------------------------------------------------------------+
-    | MH   | Miles per hour                                                    |
-    +------+-------------------------------------------------------------------+
-    | MM   | mm                                                                |
-    +------+-------------------------------------------------------------------+
-    | NA   | No units applicable (dimensionless)                               |
-    +------+-------------------------------------------------------------------+
-    | TC   | Tenths of degrees C                                               |
-    +------+-------------------------------------------------------------------+
-    | TF   | Tenths of degrees F                                               |
-    +------+-------------------------------------------------------------------+
-    | TI   | Tenths of in                                                      |
-    +------+-------------------------------------------------------------------+
-    | TM   | Tenths of mm                                                      |
-    +------+-------------------------------------------------------------------+
-    | 1    | Soils, degrees F, soil depths in in and hundredths                |
-    +------+-------------------------------------------------------------------+
-    | 2    | Soils, degrees C, soil depth in whole cm                          |
-    +------+-------------------------------------------------------------------+
-    | 3    | Soils, degrees C, soil, soil depth in in and hundredths           |
-    +------+-------------------------------------------------------------------+
-    | 4    | Soils, degrees F, soil depth in whole cm                          |
-    +------+-------------------------------------------------------------------+
-    | 5    | Soils, If the soil station closed during the current month, '5'   |
-    |      | indicates the station has closed.                                 |
-    +------+-------------------------------------------------------------------+
+    +------+--------------------------------------------------------------+
+    | Code | Description                                                  |
+    +======+==============================================================+
+    | C    | Whole degree C                                               |
+    +------+--------------------------------------------------------------+
+    | D    | Whole F Degree Day                                           |
+    +------+--------------------------------------------------------------+
+    | F    | Whole degree F                                               |
+    +------+--------------------------------------------------------------+
+    | HI   | Hundredths of in                                             |
+    +------+--------------------------------------------------------------+
+    | I    | Whole in                                                     |
+    +------+--------------------------------------------------------------+
+    | M    | Whole miles                                                  |
+    +------+--------------------------------------------------------------+
+    | MH   | Miles per hour                                               |
+    +------+--------------------------------------------------------------+
+    | MM   | mm                                                           |
+    +------+--------------------------------------------------------------+
+    | NA   | No units applicable (dimensionless)                          |
+    +------+--------------------------------------------------------------+
+    | TC   | Tenths of degrees C                                          |
+    +------+--------------------------------------------------------------+
+    | TF   | Tenths of degrees F                                          |
+    +------+--------------------------------------------------------------+
+    | TI   | Tenths of in                                                 |
+    +------+--------------------------------------------------------------+
+    | TM   | Tenths of mm                                                 |
+    +------+--------------------------------------------------------------+
+    | 1    | Soils, degrees F, soil depths in in and hundredths           |
+    +------+--------------------------------------------------------------+
+    | 2    | Soils, degrees C, soil depth in whole cm                     |
+    +------+--------------------------------------------------------------+
+    | 3    | Soils, degrees C, soil, soil depth in in and hundredths      |
+    +------+--------------------------------------------------------------+
+    | 4    | Soils, degrees F, soil depth in whole cm                     |
+    +------+--------------------------------------------------------------+
+    | 5    | Soils, If the soil station closed during the current month,  |
+    |      | '5' indicates the station has closed.                        |
+    +------+--------------------------------------------------------------+
 
     Parameters
     ----------
@@ -4343,290 +4452,311 @@ def ncei_ghcndms(stationid, start_date=None, end_date=None):
     The following table lists the datatypes available for the 'ghcndms'
     dataset.  Not all datatypes are available for all stations.
 
-    +------+-------------------------------------------------------------------+
-    | Code | Description                                                       |
-    +======+===================================================================+
-    | ACMC | Average cloudiness midnight to midnight from 30-second ceilometer |
-    |      | data                                                              |
-    +------+-------------------------------------------------------------------+
-    | ACMH | Average cloudiness midnight to midnight from manual observations  |
-    +------+-------------------------------------------------------------------+
-    | ACSC | Average cloudiness sunrise to sunset from 30-second ceilometer    |
-    |      | data                                                              |
-    +------+-------------------------------------------------------------------+
-    | ACSH | Average cloudiness sunrise to sunset from manual observations     |
-    +------+-------------------------------------------------------------------+
-    | AWND | Average wind speed                                                |
-    +------+-------------------------------------------------------------------+
-    | DAEV | Number of days included in the multiday evaporation total (MDEV)  |
-    +------+-------------------------------------------------------------------+
-    | DAPR | Number of days included in the multiday precipitation total       |
-    |      | (MDPR)                                                            |
-    +------+-------------------------------------------------------------------+
-    | DASF | Number of days included in the multiday snow fall total (MDSF)    |
-    +------+-------------------------------------------------------------------+
-    | DATN | Number of days included in the multiday minimum temperature       |
-    |      | (MDTN)                                                            |
-    +------+-------------------------------------------------------------------+
-    | DATX | Number of days included in the multiday maximum temperature       |
-    |      | (MDTX)                                                            |
-    +------+-------------------------------------------------------------------+
-    | DAWM | Number of days included in the multiday wind movement (MDWM)      |
-    +------+-------------------------------------------------------------------+
-    | DWPR | Number of days with non-zero precipitation included in multiday   |
-    |      | precipitation total (MDPR)                                        |
-    +------+-------------------------------------------------------------------+
-    | EVAP | Evaporation of water from evaporation pan                         |
-    +------+-------------------------------------------------------------------+
-    | FMTM | Time of fastest mile or fastest 1-minute wind                     |
-    +------+-------------------------------------------------------------------+
-    | FRGB | Base of frozen ground layer                                       |
-    +------+-------------------------------------------------------------------+
-    | FRGT | Top of frozen ground layer                                        |
-    +------+-------------------------------------------------------------------+
-    | FRTH | Thickness of frozen ground layer                                  |
-    +------+-------------------------------------------------------------------+
-    | GAHT | Difference between river and gauge height                         |
-    +------+-------------------------------------------------------------------+
-    | MDEV | Multiday evaporation total (use with DAEV)                        |
-    +------+-------------------------------------------------------------------+
-    | MDPR | Multiday precipitation total (use with DAPR and DWPR, if          |
-    |      | available)                                                        |
-    +------+-------------------------------------------------------------------+
-    | MDSF | Multiday snowfall total                                           |
-    +------+-------------------------------------------------------------------+
-    | MDTN | Multiday minimum temperature (use with DATN)                      |
-    +------+-------------------------------------------------------------------+
-    | MDTX | Multiday maximum temperature (use with DATX)                      |
-    +------+-------------------------------------------------------------------+
-    | MDWM | Multiday wind movement                                            |
-    +------+-------------------------------------------------------------------+
-    | MNPN | Daily minimum temperature of water in an evaporation pan          |
-    +------+-------------------------------------------------------------------+
-    | MXPN | Daily maximum temperature of water in an evaporation pan          |
-    +------+-------------------------------------------------------------------+
-    | PGTM | Peak gust time                                                    |
-    +------+-------------------------------------------------------------------+
-    | PRCP | Precipitation                                                     |
-    +------+-------------------------------------------------------------------+
-    | PSUN | Daily percent of possible sunshine for the period                 |
-    +------+-------------------------------------------------------------------+
-    | SN01 | Minimum soil temperature with unknown cover at 5 cm depth         |
-    +------+-------------------------------------------------------------------+
-    | SN02 | Minimum soil temperature with unknown cover at 10 cm depth        |
-    +------+-------------------------------------------------------------------+
-    | SN03 | Minimum soil temperature with unknown cover at 20 cm depth        |
-    +------+-------------------------------------------------------------------+
-    | SN11 | Minimum soil temperature with grass cover at 5 cm depth           |
-    +------+-------------------------------------------------------------------+
-    | SN12 | Minimum soil temperature with grass cover at 10 cm depth          |
-    +------+-------------------------------------------------------------------+
-    | SN13 | Minimum soil temperature with grass cover at 20 cm depth          |
-    +------+-------------------------------------------------------------------+
-    | SN14 | Minimum soil temperature with grass cover at 50 cm depth          |
-    +------+-------------------------------------------------------------------+
-    | SN21 | Minimum soil temperature with fallow cover at 5 cm depth          |
-    +------+-------------------------------------------------------------------+
-    | SN22 | Minimum soil temperature with fallow cover at 10 cm depth         |
-    +------+-------------------------------------------------------------------+
-    | SN23 | Minimum soil temperature with fallow cover at 20 cm depth         |
-    +------+-------------------------------------------------------------------+
-    | SN31 | Minimum soil temperature with bare ground cover at 5 cm depth     |
-    +------+-------------------------------------------------------------------+
-    | SN32 | Minimum soil temperature with bare ground cover at 10 cm depth    |
-    +------+-------------------------------------------------------------------+
-    | SN33 | Minimum soil temperature with bare ground cover at 20 cm depth    |
-    +------+-------------------------------------------------------------------+
-    | SN34 | Minimum soil temperature with bare ground cover at 50 cm depth    |
-    +------+-------------------------------------------------------------------+
-    | SN35 | Minimum soil temperature with bare ground cover at 100 cm depth   |
-    +------+-------------------------------------------------------------------+
-    | SN36 | Minimum soil temperature with bare ground cover at 150 cm depth   |
-    +------+-------------------------------------------------------------------+
-    | SN51 | Minimum soil temperature with sod cover at 5 cm depth             |
-    +------+-------------------------------------------------------------------+
-    | SN52 | Minimum soil temperature with sod cover at 10 cm depth            |
-    +------+-------------------------------------------------------------------+
-    | SN53 | Minimum soil temperature with sod cover at 20 cm depth            |
-    +------+-------------------------------------------------------------------+
-    | SN54 | Minimum soil temperature with sod cover at 50 cm depth            |
-    +------+-------------------------------------------------------------------+
-    | SN55 | Minimum soil temperature with sod cover at 100 cm depth           |
-    +------+-------------------------------------------------------------------+
-    | SN56 | Minimum soil temperature with sod cover at 150 cm depth           |
-    +------+-------------------------------------------------------------------+
-    | SN57 | Minimum soil temperature with sod cover at 180 cm depth           |
-    +------+-------------------------------------------------------------------+
-    | SN61 | Minimum soil temperature with straw multch cover at 5 cm depth    |
-    +------+-------------------------------------------------------------------+
-    | SN72 | Minimum soil temperature with grass muck cover at 10 cm depth     |
-    +------+-------------------------------------------------------------------+
-    | SN81 | Minimum soil temperature with bare muck cover at 5 cm depth       |
-    +------+-------------------------------------------------------------------+
-    | SN82 | Minimum soil temperature with bare muck cover at 10 cm depth      |
-    +------+-------------------------------------------------------------------+
-    | SN83 | Minimum soil temperature with bare muck cover at 20 cm depth      |
-    +------+-------------------------------------------------------------------+
-    | SNOW | Snowfall                                                          |
-    +------+-------------------------------------------------------------------+
-    | SNWD | Snow depth                                                        |
-    +------+-------------------------------------------------------------------+
-    | SX01 | Maximum soil temperature with unknown cover at 5 cm depth         |
-    +------+-------------------------------------------------------------------+
-    | SX02 | Maximum soil temperature with unknown cover at 10 cm depth        |
-    +------+-------------------------------------------------------------------+
-    | SX03 | Maximum soil temperature with unknown cover at 20 cm depth        |
-    +------+-------------------------------------------------------------------+
-    | SX11 | Maximum soil temperature with grass cover at 5 cm depth           |
-    +------+-------------------------------------------------------------------+
-    | SX12 | Maximum soil temperature with grass cover at 10 cm depth          |
-    +------+-------------------------------------------------------------------+
-    | SX13 | Maximum soil temperature with grass cover at 20 cm depth          |
-    +------+-------------------------------------------------------------------+
-    | SX14 | Maximum soil temperature with grass cover at 50 cm depth          |
-    +------+-------------------------------------------------------------------+
-    | SX15 | Maximum soil temperature with grass cover at 100 cm depth         |
-    +------+-------------------------------------------------------------------+
-    | SX17 | Maximum soil temperature with grass cover at 180 cm depth         |
-    +------+-------------------------------------------------------------------+
-    | SX21 | Maximum soil temperature with fallow cover at 5 cm depth          |
-    +------+-------------------------------------------------------------------+
-    | SX22 | Maximum soil temperature with fallow cover at 10 cm depth         |
-    +------+-------------------------------------------------------------------+
-    | SX23 | Maximum soil temperature with fallow cover at 20 cm depth         |
-    +------+-------------------------------------------------------------------+
-    | SX31 | Maximum soil temperature with bare ground cover at 5 cm depth     |
-    +------+-------------------------------------------------------------------+
-    | SX32 | Maximum soil temperature with bare ground cover at 10 cm depth    |
-    +------+-------------------------------------------------------------------+
-    | SX33 | Maximum soil temperature with bare ground cover at 20 cm depth    |
-    +------+-------------------------------------------------------------------+
-    | SX34 | Maximum soil temperature with bare ground cover at 50 cm depth    |
-    +------+-------------------------------------------------------------------+
-    | SX35 | Maximum soil temperature with bare ground cover at 100 cm depth   |
-    +------+-------------------------------------------------------------------+
-    | SX36 | Maximum soil temperature with bare ground cover at 150 cm depth   |
-    +------+-------------------------------------------------------------------+
-    | SX51 | Maximum soil temperature with sod cover at 5 cm depth             |
-    +------+-------------------------------------------------------------------+
-    | SX52 | Maximum soil temperature with sod cover at 10 cm depth            |
-    +------+-------------------------------------------------------------------+
-    | SX53 | Maximum soil temperature with sod cover at 20 cm depth            |
-    +------+-------------------------------------------------------------------+
-    | SX54 | Maximum soil temperature with sod cover at 50 cm depth            |
-    +------+-------------------------------------------------------------------+
-    | SX55 | Maximum soil temperature with sod cover at 100 cm depth           |
-    +------+-------------------------------------------------------------------+
-    | SX56 | Maximum soil temperature with sod cover at 150 cm depth           |
-    +------+-------------------------------------------------------------------+
-    | SX57 | Maximum soil temperature with sod cover at 180 cm depth           |
-    +------+-------------------------------------------------------------------+
-    | SX61 | Maximum soil temperature with straw mulch cover at 5 cm depth     |
-    +------+-------------------------------------------------------------------+
-    | SX72 | Maximum soil temperature with grass muck cover at 10 cm depth     |
-    +------+-------------------------------------------------------------------+
-    | SX81 | Maximum soil temperature with bare muck cover at 5 cm depth       |
-    +------+-------------------------------------------------------------------+
-    | SX82 | Maximum soil temperature with bare muck cover at 10 cm depth      |
-    +------+-------------------------------------------------------------------+
-    | SX83 | Maximum soil temperature with bare muck cover at 20 cm depth      |
-    +------+-------------------------------------------------------------------+
-    | TAVG | Average Temperature.                                              |
-    +------+-------------------------------------------------------------------+
-    | THIC | Thickness of ice on water                                         |
-    +------+-------------------------------------------------------------------+
-    | TMAX | Maximum temperature                                               |
-    +------+-------------------------------------------------------------------+
-    | TMIN | Minimum temperature                                               |
-    +------+-------------------------------------------------------------------+
-    | TOBS | Temperature at the time of observation                            |
-    +------+-------------------------------------------------------------------+
-    | TSUN | Total sunshine for the period                                     |
-    +------+-------------------------------------------------------------------+
-    | WDF1 | Direction of fastest 1-minute wind                                |
-    +------+-------------------------------------------------------------------+
-    | WDF2 | Direction of fastest 2-minute wind                                |
-    +------+-------------------------------------------------------------------+
-    | WDF5 | Direction of fastest 5-second wind                                |
-    +------+-------------------------------------------------------------------+
-    | WDFG | Direction of peak wind gust                                       |
-    +------+-------------------------------------------------------------------+
-    | WDFI | Direction of highest instantaneous wind                           |
-    +------+-------------------------------------------------------------------+
-    | WDFM | Fastest mile wind direction                                       |
-    +------+-------------------------------------------------------------------+
-    | WDMV | Total wind movement                                               |
-    +------+-------------------------------------------------------------------+
-    | WESD | Water equivalent of snow on the ground                            |
-    +------+-------------------------------------------------------------------+
-    | WESF | Water equivalent of snowfall                                      |
-    +------+-------------------------------------------------------------------+
-    | WSF1 | Fastest 1-minute wind speed                                       |
-    +------+-------------------------------------------------------------------+
-    | WSF2 | Fastest 2-minute wind speed                                       |
-    +------+-------------------------------------------------------------------+
-    | WSF5 | Fastest 5-second wind speed                                       |
-    +------+-------------------------------------------------------------------+
-    | WSFG | Peak gust wind speed                                              |
-    +------+-------------------------------------------------------------------+
-    | WSFI | Highest instantaneous wind speed                                  |
-    +------+-------------------------------------------------------------------+
-    | WSFM | Fastest mile wind speed                                           |
-    +------+-------------------------------------------------------------------+
-    | WT01 | Fog, ice fog, or freezing fog (may include heavy fog)             |
-    +------+-------------------------------------------------------------------+
-    | WT02 | Heavy fog or heaving freezing fog (not always distinguished from  |
-    |      | fog)                                                              |
-    +------+-------------------------------------------------------------------+
-    | WT03 | Thunder                                                           |
-    +------+-------------------------------------------------------------------+
-    | WT04 | Ice pellets, sleet, snow pellets, or small hail                   |
-    +------+-------------------------------------------------------------------+
-    | WT05 | Hail (may include small hail)                                     |
-    +------+-------------------------------------------------------------------+
-    | WT06 | Glaze or rime                                                     |
-    +------+-------------------------------------------------------------------+
-    | WT07 | Dust, volcanic ash, blowing dust, blowing sand, or blowing        |
-    |      | obstruction                                                       |
-    +------+-------------------------------------------------------------------+
-    | WT08 | Smoke or haze                                                     |
-    +------+-------------------------------------------------------------------+
-    | WT09 | Blowing or drifting snow                                          |
-    +------+-------------------------------------------------------------------+
-    | WT10 | Tornado, waterspout, or funnel cloud                              |
-    +------+-------------------------------------------------------------------+
-    | WT11 | High or damaging winds                                            |
-    +------+-------------------------------------------------------------------+
-    | WT12 | Blowing spray                                                     |
-    +------+-------------------------------------------------------------------+
-    | WT13 | Mist                                                              |
-    +------+-------------------------------------------------------------------+
-    | WT14 | Drizzle                                                           |
-    +------+-------------------------------------------------------------------+
-    | WT15 | Freezing drizzle                                                  |
-    +------+-------------------------------------------------------------------+
-    | WT16 | Rain (may include freezing rain, drizzle, and freezing drizzle)   |
-    +------+-------------------------------------------------------------------+
-    | WT17 | Freezing rain                                                     |
-    +------+-------------------------------------------------------------------+
-    | WT18 | Snow, snow pellets, snow grains, or ice crystals                  |
-    +------+-------------------------------------------------------------------+
-    | WT19 | Unknown source of precipitation                                   |
-    +------+-------------------------------------------------------------------+
-    | WT21 | Ground fog                                                        |
-    +------+-------------------------------------------------------------------+
-    | WT22 | Ice fog or freezing fog                                           |
-    +------+-------------------------------------------------------------------+
-    | WV01 | Fog, ice fog, or freezing fog (may include heavy fog)             |
-    +------+-------------------------------------------------------------------+
-    | WV03 | Thunder                                                           |
-    +------+-------------------------------------------------------------------+
-    | WV07 | Ash, dust, sand, or other blowing obstruction                     |
-    +------+-------------------------------------------------------------------+
-    | WV18 | Snow or ice crystals                                              |
-    +------+-------------------------------------------------------------------+
-    | WV20 | Rain or snow shower                                               |
-    +------+-------------------------------------------------------------------+
+    +------+--------------------------------------------------------------+
+    | Code | Description                                                  |
+    +======+==============================================================+
+    | ACMC | Average cloudiness midnight to midnight from 30-second       |
+    |      | ceilometer data                                              |
+    +------+--------------------------------------------------------------+
+    | ACMH | Average cloudiness midnight to midnight from manual          |
+    |      | observations                                                 |
+    +------+--------------------------------------------------------------+
+    | ACSC | Average cloudiness sunrise to sunset from 30-second          |
+    |      | ceilometer data                                              |
+    +------+--------------------------------------------------------------+
+    | ACSH | Average cloudiness sunrise to sunset from manual             |
+    |      | observations                                                 |
+    +------+--------------------------------------------------------------+
+    | AWND | Average wind speed                                           |
+    +------+--------------------------------------------------------------+
+    | DAEV | Number of days included in the multiday evaporation total    |
+    |      | (MDEV)                                                       |
+    +------+--------------------------------------------------------------+
+    | DAPR | Number of days included in the multiday precipitation total  |
+    |      | (MDPR)                                                       |
+    +------+--------------------------------------------------------------+
+    | DASF | Number of days included in the multiday snow fall total      |
+    |      | (MDSF)                                                       |
+    +------+--------------------------------------------------------------+
+    | DATN | Number of days included in the multiday minimum temperature  |
+    |      | (MDTN)                                                       |
+    +------+--------------------------------------------------------------+
+    | DATX | Number of days included in the multiday maximum temperature  |
+    |      | (MDTX)                                                       |
+    +------+--------------------------------------------------------------+
+    | DAWM | Number of days included in the multiday wind movement (MDWM) |
+    +------+--------------------------------------------------------------+
+    | DWPR | Number of days with non-zero precipitation included in       |
+    |      | multiday precipitation total (MDPR)                          |
+    +------+--------------------------------------------------------------+
+    | EVAP | Evaporation of water from evaporation pan                    |
+    +------+--------------------------------------------------------------+
+    | FMTM | Time of fastest mile or fastest 1-minute wind                |
+    +------+--------------------------------------------------------------+
+    | FRGB | Base of frozen ground layer                                  |
+    +------+--------------------------------------------------------------+
+    | FRGT | Top of frozen ground layer                                   |
+    +------+--------------------------------------------------------------+
+    | FRTH | Thickness of frozen ground layer                             |
+    +------+--------------------------------------------------------------+
+    | GAHT | Difference between river and gauge height                    |
+    +------+--------------------------------------------------------------+
+    | MDEV | Multiday evaporation total (use with DAEV)                   |
+    +------+--------------------------------------------------------------+
+    | MDPR | Multiday precipitation total (use with DAPR and DWPR, if     |
+    |      | available)                                                   |
+    +------+--------------------------------------------------------------+
+    | MDSF | Multiday snowfall total                                      |
+    +------+--------------------------------------------------------------+
+    | MDTN | Multiday minimum temperature (use with DATN)                 |
+    +------+--------------------------------------------------------------+
+    | MDTX | Multiday maximum temperature (use with DATX)                 |
+    +------+--------------------------------------------------------------+
+    | MDWM | Multiday wind movement                                       |
+    +------+--------------------------------------------------------------+
+    | MNPN | Daily minimum temperature of water in an evaporation pan     |
+    +------+--------------------------------------------------------------+
+    | MXPN | Daily maximum temperature of water in an evaporation pan     |
+    +------+--------------------------------------------------------------+
+    | PGTM | Peak gust time                                               |
+    +------+--------------------------------------------------------------+
+    | PRCP | Precipitation                                                |
+    +------+--------------------------------------------------------------+
+    | PSUN | Daily percent of possible sunshine for the period            |
+    +------+--------------------------------------------------------------+
+    | SN01 | Minimum soil temperature with unknown cover at 5 cm depth    |
+    +------+--------------------------------------------------------------+
+    | SN02 | Minimum soil temperature with unknown cover at 10 cm depth   |
+    +------+--------------------------------------------------------------+
+    | SN03 | Minimum soil temperature with unknown cover at 20 cm depth   |
+    +------+--------------------------------------------------------------+
+    | SN11 | Minimum soil temperature with grass cover at 5 cm depth      |
+    +------+--------------------------------------------------------------+
+    | SN12 | Minimum soil temperature with grass cover at 10 cm depth     |
+    +------+--------------------------------------------------------------+
+    | SN13 | Minimum soil temperature with grass cover at 20 cm depth     |
+    +------+--------------------------------------------------------------+
+    | SN14 | Minimum soil temperature with grass cover at 50 cm depth     |
+    +------+--------------------------------------------------------------+
+    | SN21 | Minimum soil temperature with fallow cover at 5 cm depth     |
+    +------+--------------------------------------------------------------+
+    | SN22 | Minimum soil temperature with fallow cover at 10 cm depth    |
+    +------+--------------------------------------------------------------+
+    | SN23 | Minimum soil temperature with fallow cover at 20 cm depth    |
+    +------+--------------------------------------------------------------+
+    | SN31 | Minimum soil temperature with bare ground cover at 5 cm      |
+    |      | depth                                                        |
+    +------+--------------------------------------------------------------+
+    | SN32 | Minimum soil temperature with bare ground cover at 10 cm     |
+    |      | depth                                                        |
+    +------+--------------------------------------------------------------+
+    | SN33 | Minimum soil temperature with bare ground cover at 20 cm     |
+    |      | depth                                                        |
+    +------+--------------------------------------------------------------+
+    | SN34 | Minimum soil temperature with bare ground cover at 50 cm     |
+    |      | depth                                                        |
+    +------+--------------------------------------------------------------+
+    | SN35 | Minimum soil temperature with bare ground cover at 100 cm    |
+    |      | depth                                                        |
+    +------+--------------------------------------------------------------+
+    | SN36 | Minimum soil temperature with bare ground cover at 150 cm    |
+    |      | depth                                                        |
+    +------+--------------------------------------------------------------+
+    | SN51 | Minimum soil temperature with sod cover at 5 cm depth        |
+    +------+--------------------------------------------------------------+
+    | SN52 | Minimum soil temperature with sod cover at 10 cm depth       |
+    +------+--------------------------------------------------------------+
+    | SN53 | Minimum soil temperature with sod cover at 20 cm depth       |
+    +------+--------------------------------------------------------------+
+    | SN54 | Minimum soil temperature with sod cover at 50 cm depth       |
+    +------+--------------------------------------------------------------+
+    | SN55 | Minimum soil temperature with sod cover at 100 cm depth      |
+    +------+--------------------------------------------------------------+
+    | SN56 | Minimum soil temperature with sod cover at 150 cm depth      |
+    +------+--------------------------------------------------------------+
+    | SN57 | Minimum soil temperature with sod cover at 180 cm depth      |
+    +------+--------------------------------------------------------------+
+    | SN61 | Minimum soil temperature with straw multch cover at 5 cm     |
+    |      | depth                                                        |
+    +------+--------------------------------------------------------------+
+    | SN72 | Minimum soil temperature with grass muck cover at 10 cm      |
+    |      | depth                                                        |
+    +------+--------------------------------------------------------------+
+    | SN81 | Minimum soil temperature with bare muck cover at 5 cm depth  |
+    +------+--------------------------------------------------------------+
+    | SN82 | Minimum soil temperature with bare muck cover at 10 cm depth |
+    +------+--------------------------------------------------------------+
+    | SN83 | Minimum soil temperature with bare muck cover at 20 cm depth |
+    +------+--------------------------------------------------------------+
+    | SNOW | Snowfall                                                     |
+    +------+--------------------------------------------------------------+
+    | SNWD | Snow depth                                                   |
+    +------+--------------------------------------------------------------+
+    | SX01 | Maximum soil temperature with unknown cover at 5 cm depth    |
+    +------+--------------------------------------------------------------+
+    | SX02 | Maximum soil temperature with unknown cover at 10 cm depth   |
+    +------+--------------------------------------------------------------+
+    | SX03 | Maximum soil temperature with unknown cover at 20 cm depth   |
+    +------+--------------------------------------------------------------+
+    | SX11 | Maximum soil temperature with grass cover at 5 cm depth      |
+    +------+--------------------------------------------------------------+
+    | SX12 | Maximum soil temperature with grass cover at 10 cm depth     |
+    +------+--------------------------------------------------------------+
+    | SX13 | Maximum soil temperature with grass cover at 20 cm depth     |
+    +------+--------------------------------------------------------------+
+    | SX14 | Maximum soil temperature with grass cover at 50 cm depth     |
+    +------+--------------------------------------------------------------+
+    | SX15 | Maximum soil temperature with grass cover at 100 cm depth    |
+    +------+--------------------------------------------------------------+
+    | SX17 | Maximum soil temperature with grass cover at 180 cm depth    |
+    +------+--------------------------------------------------------------+
+    | SX21 | Maximum soil temperature with fallow cover at 5 cm depth     |
+    +------+--------------------------------------------------------------+
+    | SX22 | Maximum soil temperature with fallow cover at 10 cm depth    |
+    +------+--------------------------------------------------------------+
+    | SX23 | Maximum soil temperature with fallow cover at 20 cm depth    |
+    +------+--------------------------------------------------------------+
+    | SX31 | Maximum soil temperature with bare ground cover at 5 cm      |
+    |      | depth                                                        |
+    +------+--------------------------------------------------------------+
+    | SX32 | Maximum soil temperature with bare ground cover at 10 cm     |
+    |      | depth                                                        |
+    +------+--------------------------------------------------------------+
+    | SX33 | Maximum soil temperature with bare ground cover at 20 cm     |
+    |      | depth                                                        |
+    +------+--------------------------------------------------------------+
+    | SX34 | Maximum soil temperature with bare ground cover at 50 cm     |
+    |      | depth                                                        |
+    +------+--------------------------------------------------------------+
+    | SX35 | Maximum soil temperature with bare ground cover at 100 cm    |
+    |      | depth                                                        |
+    +------+--------------------------------------------------------------+
+    | SX36 | Maximum soil temperature with bare ground cover at 150 cm    |
+    |      | depth                                                        |
+    +------+--------------------------------------------------------------+
+    | SX51 | Maximum soil temperature with sod cover at 5 cm depth        |
+    +------+--------------------------------------------------------------+
+    | SX52 | Maximum soil temperature with sod cover at 10 cm depth       |
+    +------+--------------------------------------------------------------+
+    | SX53 | Maximum soil temperature with sod cover at 20 cm depth       |
+    +------+--------------------------------------------------------------+
+    | SX54 | Maximum soil temperature with sod cover at 50 cm depth       |
+    +------+--------------------------------------------------------------+
+    | SX55 | Maximum soil temperature with sod cover at 100 cm depth      |
+    +------+--------------------------------------------------------------+
+    | SX56 | Maximum soil temperature with sod cover at 150 cm depth      |
+    +------+--------------------------------------------------------------+
+    | SX57 | Maximum soil temperature with sod cover at 180 cm depth      |
+    +------+--------------------------------------------------------------+
+    | SX61 | Maximum soil temperature with straw mulch cover at 5 cm      |
+    |      | depth                                                        |
+    +------+--------------------------------------------------------------+
+    | SX72 | Maximum soil temperature with grass muck cover at 10 cm      |
+    |      | depth                                                        |
+    +------+--------------------------------------------------------------+
+    | SX81 | Maximum soil temperature with bare muck cover at 5 cm depth  |
+    +------+--------------------------------------------------------------+
+    | SX82 | Maximum soil temperature with bare muck cover at 10 cm depth |
+    +------+--------------------------------------------------------------+
+    | SX83 | Maximum soil temperature with bare muck cover at 20 cm depth |
+    +------+--------------------------------------------------------------+
+    | TAVG | Average Temperature.                                         |
+    +------+--------------------------------------------------------------+
+    | THIC | Thickness of ice on water                                    |
+    +------+--------------------------------------------------------------+
+    | TMAX | Maximum temperature                                          |
+    +------+--------------------------------------------------------------+
+    | TMIN | Minimum temperature                                          |
+    +------+--------------------------------------------------------------+
+    | TOBS | Temperature at the time of observation                       |
+    +------+--------------------------------------------------------------+
+    | TSUN | Total sunshine for the period                                |
+    +------+--------------------------------------------------------------+
+    | WDF1 | Direction of fastest 1-minute wind                           |
+    +------+--------------------------------------------------------------+
+    | WDF2 | Direction of fastest 2-minute wind                           |
+    +------+--------------------------------------------------------------+
+    | WDF5 | Direction of fastest 5-second wind                           |
+    +------+--------------------------------------------------------------+
+    | WDFG | Direction of peak wind gust                                  |
+    +------+--------------------------------------------------------------+
+    | WDFI | Direction of highest instantaneous wind                      |
+    +------+--------------------------------------------------------------+
+    | WDFM | Fastest mile wind direction                                  |
+    +------+--------------------------------------------------------------+
+    | WDMV | Total wind movement                                          |
+    +------+--------------------------------------------------------------+
+    | WESD | Water equivalent of snow on the ground                       |
+    +------+--------------------------------------------------------------+
+    | WESF | Water equivalent of snowfall                                 |
+    +------+--------------------------------------------------------------+
+    | WSF1 | Fastest 1-minute wind speed                                  |
+    +------+--------------------------------------------------------------+
+    | WSF2 | Fastest 2-minute wind speed                                  |
+    +------+--------------------------------------------------------------+
+    | WSF5 | Fastest 5-second wind speed                                  |
+    +------+--------------------------------------------------------------+
+    | WSFG | Peak gust wind speed                                         |
+    +------+--------------------------------------------------------------+
+    | WSFI | Highest instantaneous wind speed                             |
+    +------+--------------------------------------------------------------+
+    | WSFM | Fastest mile wind speed                                      |
+    +------+--------------------------------------------------------------+
+    | WT01 | Fog, ice fog, or freezing fog (may include heavy fog)        |
+    +------+--------------------------------------------------------------+
+    | WT02 | Heavy fog or heaving freezing fog (not always distinguished  |
+    |      | from fog)                                                    |
+    +------+--------------------------------------------------------------+
+    | WT03 | Thunder                                                      |
+    +------+--------------------------------------------------------------+
+    | WT04 | Ice pellets, sleet, snow pellets, or small hail              |
+    +------+--------------------------------------------------------------+
+    | WT05 | Hail (may include small hail)                                |
+    +------+--------------------------------------------------------------+
+    | WT06 | Glaze or rime                                                |
+    +------+--------------------------------------------------------------+
+    | WT07 | Dust, volcanic ash, blowing dust, blowing sand, or blowing   |
+    |      | obstruction                                                  |
+    +------+--------------------------------------------------------------+
+    | WT08 | Smoke or haze                                                |
+    +------+--------------------------------------------------------------+
+    | WT09 | Blowing or drifting snow                                     |
+    +------+--------------------------------------------------------------+
+    | WT10 | Tornado, waterspout, or funnel cloud                         |
+    +------+--------------------------------------------------------------+
+    | WT11 | High or damaging winds                                       |
+    +------+--------------------------------------------------------------+
+    | WT12 | Blowing spray                                                |
+    +------+--------------------------------------------------------------+
+    | WT13 | Mist                                                         |
+    +------+--------------------------------------------------------------+
+    | WT14 | Drizzle                                                      |
+    +------+--------------------------------------------------------------+
+    | WT15 | Freezing drizzle                                             |
+    +------+--------------------------------------------------------------+
+    | WT16 | Rain (may include freezing rain, drizzle, and freezing       |
+    |      | drizzle)                                                     |
+    +------+--------------------------------------------------------------+
+    | WT17 | Freezing rain                                                |
+    +------+--------------------------------------------------------------+
+    | WT18 | Snow, snow pellets, snow grains, or ice crystals             |
+    +------+--------------------------------------------------------------+
+    | WT19 | Unknown source of precipitation                              |
+    +------+--------------------------------------------------------------+
+    | WT21 | Ground fog                                                   |
+    +------+--------------------------------------------------------------+
+    | WT22 | Ice fog or freezing fog                                      |
+    +------+--------------------------------------------------------------+
+    | WV01 | Fog, ice fog, or freezing fog (may include heavy fog)        |
+    +------+--------------------------------------------------------------+
+    | WV03 | Thunder                                                      |
+    +------+--------------------------------------------------------------+
+    | WV07 | Ash, dust, sand, or other blowing obstruction                |
+    +------+--------------------------------------------------------------+
+    | WV18 | Snow or ice crystals                                         |
+    +------+--------------------------------------------------------------+
+    | WV20 | Rain or snow shower                                          |
+    +------+--------------------------------------------------------------+
 
     Parameters
     ----------

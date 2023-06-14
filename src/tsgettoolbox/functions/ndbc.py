@@ -313,186 +313,196 @@ def ndbc(station, table, startUTC, endUTC=None):
 
         'adcp' Ocean Current Data
 
-        +-----------------+----------------------------------------------------+
-        | Variable        | Description                                        |
-        +=================+====================================================+
-        | DEP01,DEP02,... | The distance from the sea surface to the middle of |
-        |                 | the depth cells, or bins, measured in meters.      |
-        +-----------------+----------------------------------------------------+
-        | DIR01,DIR02,... | The direction the ocean current is flowing toward. |
-        |                 | 0-360 degrees, 360 is due north, 0 means no        |
-        |                 | measurable current.                                |
-        +-----------------+----------------------------------------------------+
-        | SPD01,SPD02,... | The speed of the ocean current measured in cm/s.   |
-        +-----------------+----------------------------------------------------+
+        +-----------------+-----------------------------------------------+
+        | Variable        | Description                                   |
+        +=================+===============================================+
+        | DEP01,DEP02,... | The distance from the sea surface to the      |
+        |                 | middle of the depth cells, or bins, measured  |
+        |                 | in meters.                                    |
+        +-----------------+-----------------------------------------------+
+        | DIR01,DIR02,... | The direction the ocean current is flowing    |
+        |                 | toward. 0-360 degrees, 360 is due north, 0    |
+        |                 | means no measurable current.                  |
+        +-----------------+-----------------------------------------------+
+        | SPD01,SPD02,... | The speed of the ocean current measured in    |
+        |                 | cm/s.                                         |
+        +-----------------+-----------------------------------------------+
 
         'cwind' Continuous Winds
 
-        +-------+--------------------------------------------------------------+
-        | Code  | Description                                                  |
-        +=======+==============================================================+
-        | WDIR  | Ten-minute average wind direction measurements in degrees    |
-        |       | clockwise from true North. (DIR in Historical files)         |
-        +-------+--------------------------------------------------------------+
-        | WSPD  | Ten-minute average wind speed values in m/s. (SPD in         |
-        |       | Historical files)                                            |
-        +-------+--------------------------------------------------------------+
-        | GDR   | Direction, in degrees clockwise from true North, of the GST, |
-        |       | reported at the last hourly 10-minute segment.               |
-        +-------+--------------------------------------------------------------+
-        | GST   | Maximum 5-second peak gust during the measurement hour,      |
-        |       | reported at the last hourly 10-minute segment.               |
-        +-------+--------------------------------------------------------------+
-        | GTIME | The minute of the hour that the GSP occurred, reported at    |
-        |       | the last hourly 10-minute segment.                           |
-        +-------+--------------------------------------------------------------+
+        +-------+---------------------------------------------------------+
+        | Code  | Description                                             |
+        +=======+=========================================================+
+        | WDIR  | Ten-minute average wind direction measurements in       |
+        |       | degrees clockwise from true North. (DIR in Historical   |
+        |       | files)                                                  |
+        +-------+---------------------------------------------------------+
+        | WSPD  | Ten-minute average wind speed values in m/s. (SPD in    |
+        |       | Historical files)                                       |
+        +-------+---------------------------------------------------------+
+        | GDR   | Direction, in degrees clockwise from true North, of the |
+        |       | GST, reported at the last hourly 10-minute segment.     |
+        +-------+---------------------------------------------------------+
+        | GST   | Maximum 5-second peak gust during the measurement hour, |
+        |       | reported at the last hourly 10-minute segment.          |
+        +-------+---------------------------------------------------------+
+        | GTIME | The minute of the hour that the GSP occurred, reported  |
+        |       | at the last hourly 10-minute segment.                   |
+        +-------+---------------------------------------------------------+
 
         'ocean' Oceanographic Data
 
-        +-----------+----------------------------------------------------------+
-        | Code      | Description                                              |
-        +===========+==========================================================+
-        | DEPTH     | Depth (meters) at which measurements are taken.          |
-        +-----------+----------------------------------------------------------+
-        | OTMP      | The direct measurement (Celsius) of the Ocean            |
-        |           | Temperature (as opposed to the indirect measurement (see |
-        |           | WTMP above)).                                            |
-        +-----------+----------------------------------------------------------+
-        | COND      | Conductivity is a measure of the electrical conductivity |
-        |           | properties of seawater in milliSiemens per centimeter.   |
-        +-----------+----------------------------------------------------------+
-        | SAL       | Salinity is computed by a known functional relationship  |
-        |           | between the measured electrical conductivity of seawater |
-        |           | (CON), temperature (OTMP) and pressure. Salinity is      |
-        |           | computed using the Practical Salinity Scale of 1978      |
-        |           | (PSS78) and reported in Practical Salinity Units.        |
-        +-----------+----------------------------------------------------------+
-        | O2PERCENT | Dissolved oxygen as a percentage.                        |
-        +-----------+----------------------------------------------------------+
-        | O2PPM     | Dissolved oxygen in parts per million.                   |
-        +-----------+----------------------------------------------------------+
-        | CLCON     | Chlorophyll concentration in micrograms per liter        |
-        |           | (ug/l).                                                  |
-        +-----------+----------------------------------------------------------+
-        | TURB      | Turbidity is an expression of the optical property that  |
-        |           | causes light to be scattered and absorbed rather than    |
-        |           | transmitted in straight lines through the sample (APHA   |
-        |           | 1980). Units are Formazine Turbidity Units (FTU).        |
-        +-----------+----------------------------------------------------------+
-        | PH        | A measure of the acidity or alkalinity of the seawater.  |
-        +-----------+----------------------------------------------------------+
-        | EH        | Redox (oxidation and reduction) potential of seawater in |
-        |           | millivolts.                                              |
-        +-----------+----------------------------------------------------------+
+        +-----------+-----------------------------------------------------+
+        | Code      | Description                                         |
+        +===========+=====================================================+
+        | DEPTH     | Depth (meters) at which measurements are taken.     |
+        +-----------+-----------------------------------------------------+
+        | OTMP      | The direct measurement (Celsius) of the Ocean       |
+        |           | Temperature (as opposed to the indirect measurement |
+        |           | (see WTMP above)).                                  |
+        +-----------+-----------------------------------------------------+
+        | COND      | Conductivity is a measure of the electrical         |
+        |           | conductivity properties of seawater in milliSiemens |
+        |           | per centimeter.                                     |
+        +-----------+-----------------------------------------------------+
+        | SAL       | Salinity is computed by a known functional          |
+        |           | relationship between the measured electrical        |
+        |           | conductivity of seawater (CON), temperature (OTMP)  |
+        |           | and pressure. Salinity is computed using the        |
+        |           | Practical Salinity Scale of 1978 (PSS78) and        |
+        |           | reported in Practical Salinity Units.               |
+        +-----------+-----------------------------------------------------+
+        | O2PERCENT | Dissolved oxygen as a percentage.                   |
+        +-----------+-----------------------------------------------------+
+        | O2PPM     | Dissolved oxygen in parts per million.              |
+        +-----------+-----------------------------------------------------+
+        | CLCON     | Chlorophyll concentration in micrograms per liter   |
+        |           | (ug/l).                                             |
+        +-----------+-----------------------------------------------------+
+        | TURB      | Turbidity is an expression of the optical property  |
+        |           | that causes light to be scattered and absorbed      |
+        |           | rather than transmitted in straight lines through   |
+        |           | the sample (APHA 1980). Units are Formazine         |
+        |           | Turbidity Units (FTU).                              |
+        +-----------+-----------------------------------------------------+
+        | PH        | A measure of the acidity or alkalinity of the       |
+        |           | seawater.                                           |
+        +-----------+-----------------------------------------------------+
+        | EH        | Redox (oxidation and reduction) potential of        |
+        |           | seawater in millivolts.                             |
+        +-----------+-----------------------------------------------------+
 
         'srad' Shortwave Radiation
 
-        +-------+--------------------------------------------------------------+
-        | Code  | Description                                                  |
-        +=======+==============================================================+
-        | SRAD1 | Average shortwave radiation in watts per square meter for    |
-        | SWRAD | the preceding hour. Sample frequency is 2 times per second   |
-        |       | (2 Hz).  If present, SRAD1 is from a LI-COR LI-200           |
-        |       | pyranometer sensor, and SWRAD is from an Eppley PSP          |
-        |       | Precision Spectral Pyranometer.                              |
-        +-------+--------------------------------------------------------------+
-        | LWRAD | Average downwelling longwave radiation in watts per square   |
-        |       | meter for the preceding hour. Sample frequency is 2 times    |
-        |       | per second (2 Hz). If present, LWRAD is from an Eppley PIR   |
-        |       | Precision Infrared Radiometer.                               |
-        +-------+--------------------------------------------------------------+
+        +-------+---------------------------------------------------------+
+        | Code  | Description                                             |
+        +=======+=========================================================+
+        | SRAD1 | Average shortwave radiation in watts per square meter   |
+        | SWRAD | for the preceding hour. Sample frequency is 2 times per |
+        |       | second (2 Hz).  If present, SRAD1 is from a LI-COR      |
+        |       | LI-200 pyranometer sensor, and SWRAD is from an Eppley  |
+        |       | PSP Precision Spectral Pyranometer.                     |
+        +-------+---------------------------------------------------------+
+        | LWRAD | Average downwelling longwave radiation in watts per     |
+        |       | square meter for the preceding hour. Sample frequency   |
+        |       | is 2 times per second (2 Hz). If present, LWRAD is from |
+        |       | an Eppley PIR Precision Infrared Radiometer.            |
+        +-------+---------------------------------------------------------+
 
         'stdmet' Standard Meteorology Table
 
-        +------+---------------------------------------------------------------+
-        | Code | Description                                                   |
-        +======+===============================================================+
-        | WDIR | Wind direction (the direction the wind is coming from in      |
-        |      | degrees clockwise from true N) during the same period used    |
-        |      | for WSPD. See Wind Averaging Methods                          |
-        +------+---------------------------------------------------------------+
-        | WSPD | Wind speed (m/s) averaged over an eight-minute period for     |
-        |      | buoys and a two-minute period for land stations. Reported     |
-        |      | Hourly. See Wind Averaging Methods.                           |
-        +------+---------------------------------------------------------------+
-        | GST  | Peak 5 or 8 second gust speed (m/s) measured during the       |
-        |      | eight-minute or two-minute period. The 5 or 8 second period   |
-        |      | can be determined by payload, See the Sensor Reporting,       |
-        |      | Sampling, and Accuracy section.                               |
-        +------+---------------------------------------------------------------+
-        | WVHT | Significant wave height (meters) is calculated as the average |
-        |      | of the highest one-third of all of the wave heights during    |
-        |      | the 20-minute sampling period. See the Wave Measurements      |
-        |      | section.                                                      |
-        +------+---------------------------------------------------------------+
-        | DPD  | Dominant wave period (seconds) is the period with the maximum |
-        |      | wave energy. See the Wave Measurements section.               |
-        +------+---------------------------------------------------------------+
-        | APD  | Average wave period (seconds) of all waves during the         |
-        |      | 20-minute period. See the Wave Measurements section.          |
-        +------+---------------------------------------------------------------+
-        | MWD  | The direction from which the waves at the dominant period     |
-        |      | (DPD) are coming. The units are degrees from true North       |
-        |      | increasing clockwise, with North as 0 (zero) degree East as   |
-        |      | 90 degrees. See the Wave Measurements section.                |
-        +------+---------------------------------------------------------------+
-        | PRES | Sea level pressure (hPa). For C-MAN sites and Great Lakes     |
-        |      | buoys, the recorded pressure is reduced to sea level using    |
-        |      | the method described in NWS Technical Procedure Bulletin 291  |
-        |      | (11/14/80).  ( labeled BAR in Historical files)               |
-        +------+---------------------------------------------------------------+
-        | ATMP | Air temperature (Celsius). For sensor heights on buoys, see   |
-        |      | Hull Descriptions. For sensor heights at C-MAN stations, see  |
-        |      | C-MAN Sensor Locations                                        |
-        +------+---------------------------------------------------------------+
-        | WTMP | Sea surface temperature (Celsius). For buoys the depth is     |
-        |      | referenced to the hull's waterline. For fixed platforms it    |
-        |      | varies with tide, but is referenced to, or near Mean Lower    |
-        |      | Low Water (MLLW).                                             |
-        +------+---------------------------------------------------------------+
-        | DEWP | Dewpoint temperature taken at the same height as the air      |
-        |      | temperature measurement.                                      |
-        +------+---------------------------------------------------------------+
-        | VIS  | Station visibility (nautical miles). Note that buoy stations  |
-        |      | are limited to reports from 0 to 1.6 nmi.                     |
-        +------+---------------------------------------------------------------+
-        | PTDY | Pressure Tendency is the direction (plus or minus) and the    |
-        |      | amount of pressure change (hPa)for a three hour period ending |
-        |      | at the time of observation. (not in Historical files)         |
-        +------+---------------------------------------------------------------+
-        | TIDE | The water level in feet above or below Mean Lower Low Water   |
-        |      | (MLLW).                                                       |
-        +------+---------------------------------------------------------------+
+        +------+----------------------------------------------------------+
+        | Code | Description                                              |
+        +======+==========================================================+
+        | WDIR | Wind direction (the direction the wind is coming from in |
+        |      | degrees clockwise from true N) during the same period    |
+        |      | used for WSPD. See Wind Averaging Methods                |
+        +------+----------------------------------------------------------+
+        | WSPD | Wind speed (m/s) averaged over an eight-minute period    |
+        |      | for buoys and a two-minute period for land stations.     |
+        |      | Reported Hourly. See Wind Averaging Methods.             |
+        +------+----------------------------------------------------------+
+        | GST  | Peak 5 or 8 second gust speed (m/s) measured during the  |
+        |      | eight-minute or two-minute period. The 5 or 8 second     |
+        |      | period can be determined by payload, See the Sensor      |
+        |      | Reporting, Sampling, and Accuracy section.               |
+        +------+----------------------------------------------------------+
+        | WVHT | Significant wave height (meters) is calculated as the    |
+        |      | average of the highest one-third of all of the wave      |
+        |      | heights during the 20-minute sampling period. See the    |
+        |      | Wave Measurements section.                               |
+        +------+----------------------------------------------------------+
+        | DPD  | Dominant wave period (seconds) is the period with the    |
+        |      | maximum wave energy. See the Wave Measurements section.  |
+        +------+----------------------------------------------------------+
+        | APD  | Average wave period (seconds) of all waves during the    |
+        |      | 20-minute period. See the Wave Measurements section.     |
+        +------+----------------------------------------------------------+
+        | MWD  | The direction from which the waves at the dominant       |
+        |      | period (DPD) are coming. The units are degrees from true |
+        |      | North increasing clockwise, with North as 0 (zero)       |
+        |      | degree East as 90 degrees. See the Wave Measurements     |
+        |      | section.                                                 |
+        +------+----------------------------------------------------------+
+        | PRES | Sea level pressure (hPa). For C-MAN sites and Great      |
+        |      | Lakes buoys, the recorded pressure is reduced to sea     |
+        |      | level using the method described in NWS Technical        |
+        |      | Procedure Bulletin 291 (11/14/80).  ( labeled BAR in     |
+        |      | Historical files)                                        |
+        +------+----------------------------------------------------------+
+        | ATMP | Air temperature (Celsius). For sensor heights on buoys,  |
+        |      | see Hull Descriptions. For sensor heights at C-MAN       |
+        |      | stations, see C-MAN Sensor Locations                     |
+        +------+----------------------------------------------------------+
+        | WTMP | Sea surface temperature (Celsius). For buoys the depth   |
+        |      | is referenced to the hull's waterline. For fixed         |
+        |      | platforms it varies with tide, but is referenced to, or  |
+        |      | near Mean Lower Low Water (MLLW).                        |
+        +------+----------------------------------------------------------+
+        | DEWP | Dewpoint temperature taken at the same height as the air |
+        |      | temperature measurement.                                 |
+        +------+----------------------------------------------------------+
+        | VIS  | Station visibility (nautical miles). Note that buoy      |
+        |      | stations are limited to reports from 0 to 1.6 nmi.       |
+        +------+----------------------------------------------------------+
+        | PTDY | Pressure Tendency is the direction (plus or minus) and   |
+        |      | the amount of pressure change (hPa)for a three hour      |
+        |      | period ending at the time of observation. (not in        |
+        |      | Historical files)                                        |
+        +------+----------------------------------------------------------+
+        | TIDE | The water level in feet above or below Mean Lower Low    |
+        |      | Water (MLLW).                                            |
+        +------+----------------------------------------------------------+
 
         'supl' Supplemental Measurements Data
 
-        +-------+--------------------------------------------------------------+
-        | Code  | Description                                                  |
-        +=======+==============================================================+
-        | PRES  | Lowest recorded 1 minute atmospheric pressure for the hour   |
-        |       | to the nearest 0.1 hPa.                                      |
-        +-------+--------------------------------------------------------------+
-        | PTIME | The time at which PRES occurred (hour and minute).           |
-        +-------+--------------------------------------------------------------+
-        | WSPD  | Highest recorded 1 minute wind speed for the hour to the     |
-        |       | nearest 0.1 m/s.                                             |
-        +-------+--------------------------------------------------------------+
-        | WDIR  | WSPD corresponding direction to the nearest degree.          |
-        +-------+--------------------------------------------------------------+
-        | WTIME | The time at which WSPD occurred (hour and minute).           |
-        +-------+--------------------------------------------------------------+
+        +-------+---------------------------------------------------------+
+        | Code  | Description                                             |
+        +=======+=========================================================+
+        | PRES  | Lowest recorded 1 minute atmospheric pressure for the   |
+        |       | hour to the nearest 0.1 hPa.                            |
+        +-------+---------------------------------------------------------+
+        | PTIME | The time at which PRES occurred (hour and minute).      |
+        +-------+---------------------------------------------------------+
+        | WSPD  | Highest recorded 1 minute wind speed for the hour to    |
+        |       | the nearest 0.1 m/s.                                    |
+        +-------+---------------------------------------------------------+
+        | WDIR  | WSPD corresponding direction to the nearest degree.     |
+        +-------+---------------------------------------------------------+
+        | WTIME | The time at which WSPD occurred (hour and minute).      |
+        +-------+---------------------------------------------------------+
 
         'wlevel' Water Level
 
-        +--------+-------------------------------------------------------------+
-        | Code   | Description                                                 |
-        +========+=============================================================+
-        | WLEVEL | Six-minute water levels representing the height, in feet,   |
-        |        | of the water above or below Mean Lower Low Water (MLLW),    |
-        |        | offset by 10 ft. to prevent negative values. Please         |
-        |        | subtract 10 ft. from every value to obtain the true water   |
-        |        | level value, in reference to MLLW.                          |
-        +--------+-------------------------------------------------------------+
+        +--------+--------------------------------------------------------+
+        | Code   | Description                                            |
+        +========+========================================================+
+        | WLEVEL | Six-minute water levels representing the height, in    |
+        |        | feet, of the water above or below Mean Lower Low Water |
+        |        | (MLLW), offset by 10 ft. to prevent negative values.   |
+        |        | Please subtract 10 ft. from every value to obtain the  |
+        |        | true water level value, in reference to MLLW.          |
+        +--------+--------------------------------------------------------+
 
     startUTC
         an ISO 8601 date/time string
