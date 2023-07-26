@@ -1,0 +1,30 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: tsgettoolbox
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Timothy
+    family-names: Cera
+    email: tim@cerazone.net
+    orcid: 'https://orcid.org/0000-0003-4613-7697'
+repository-code: 'https://github.com/timcera/tsgettoolbox'
+url: 'https://timcera.bitbucket.io'
+repository: 'https://bitbucket.org/timcera/tsgettoolbox'
+repository-artifact: 'https://pypi.org/project/tsgettoolbox/'
+abstract: >-
+  tsgettoolbox is a small Python library for downloading and
+  reformatting hydrologic and meteorologic time-series data
+  from various internet sources.
+keywords:
+  - time-series
+  - uri
+  - url
+  - hydrology
+  - meteorology
+  - rest
+license: BSD-3-Clause
