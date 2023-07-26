@@ -89,7 +89,7 @@ repos:
             stages: [commit-msg]
 
     - repo: https://github.com/mwouts/jupytext
-      rev: v1.14.7
+      rev: v1.15.0-dev1
       hooks:
           - id: jupytext
             args: [--from, ipynb, --to, auto:percent, --sync]

@@ -1,10 +1,10 @@
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = [
+    "oldest-supported-numpy",
     "setuptools>=45",
     "setuptools_scm[toml]>=6.2",
-    "wheel",
-    "oldest-supported-numpy"
+    "wheel"
 ]
 
 [project]
@@ -13,49 +13,48 @@ authors = [
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
-    "Intended Audience :: Science/Research",
-    "Intended Audience :: End Users/Desktop",
-    "Intended Audience :: Developers",
     "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Science/Research",
     "License :: OSI Approved :: BSD License",
     "Natural Language :: English",
     "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
-    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3 :: Only",
     "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Information Analysis",
     "Topic :: Software Development :: Libraries :: Python Modules"
 ]
 dependencies = [
     "async_retriever",
+    "beautifulsoup4",
     "cftime",
     "cltoolbox",
     "dapclient",
     "geojson",
     "haversine",
-    "httpretty",
     "isodate",
     "lxml",
     "mechanize",
-    "pydantic",
     "pydaymet",
+    "python-dateutil",
     "requests",
     "siphon",
     "suds-community",
-    "toolbox_utils >= 5.0.0, < 6.0.0",
-    "zeep"
+    "toolbox_utils >= 5.0.0, < 6.0.0"
 ]
 description = "Will get time series from different sources on the internet"
 dynamic = ["readme", "version"]
 keywords = [
+    "rest",
     "time-series",
     "uri",
     "url",
-    "web_services",
-    "rest"
+    "web_services"
 ]
 license = {text = "BSD-3-Clause"}
 name = "tsgettoolbox"
@@ -88,6 +87,7 @@ dev = [
     "velin",
     "vulture"
 ]
+test = ["httpretty"]
 
 [project.scripts]
 tsgettoolbox = "tsgettoolbox.tsgettoolbox:main"
