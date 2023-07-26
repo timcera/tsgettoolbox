@@ -37,6 +37,7 @@ dependencies = [
     "dapclient",
     "geojson",
     "haversine",
+    "httpretty",
     "isodate",
     "lxml",
     "mechanize",
@@ -87,7 +88,6 @@ dev = [
     "velin",
     "vulture"
 ]
-test = ["httpretty"]
 
 [project.scripts]
 tsgettoolbox = "tsgettoolbox.tsgettoolbox:main"
