@@ -27,7 +27,9 @@ from io import BytesIO
 
 import async_retriever as ar
 import pandas as pd
-from pandas._libs.lib import no_default
+
+# from pandas._libs.lib import no_default
+from pandas.api.extensions import no_default
 from tabulate import tabulate as tb
 from toolbox_utils import tsutils
 
@@ -656,23 +658,23 @@ _MERRA_UPDATE_META = r"""
         |                               |  180, 90    | 2016-02-29    |
         +-------------------------------+-------------+---------------+"""
 
-ldas_first_line = "global:grid:::Land Data Assimilation System, includes all ldas_* (NLDAS, GLDAS2, TRMM, SMERGE, GRACE, MERRA)"
-nldas_fora_first_line = "NAmerica:0.125deg:1979-:H:NLDAS Weather Forcing A (surface)"
-nldas_noah_first_line = "NAmerica:0.125deg:1979-:H:NLDAS NOAH hydrology model results"
-gldas_noah_first_line = "global:0.25deg:2000-:3H:GLDAS NOAH hydrology model results"
+LDAS_FIRST_LINE = "global:grid:::Land Data Assimilation System, includes all ldas_* (NLDAS, GLDAS2, TRMM, SMERGE, GRACE, MERRA)"
+NLDAS_FORA_FIRST_LINE = "NAmerica:0.125deg:1979-:H:NLDAS Weather Forcing A (surface)"
+NLDAS_NOAH_FIRST_LINE = "NAmerica:0.125deg:1979-:H:NLDAS NOAH hydrology model results"
+GLDAS_NOAH_FIRST_LINE = "global:0.25deg:2000-:3H:GLDAS NOAH hydrology model results"
 # lprm_amsr_rzsm3_first_line = (
 #     "global 25km 2002-2010 D:AMSR-E/Aqua root zone soil moisture"
 # )
-trmm_tmpa_first_line = "global:0.25deg:1997-:3H:TRMM (TMPA) rainfall estimate"
-smerge_first_line = "global:0.125deg:1997-:D:SMERGE-Noah-CCI root zone soil moisture"
-grace_first_line = "NAmerica:0.125deg:2002-:7D:Groundwater and soil moisture from GRACE"
-merra_first_line = "global:0.5x0.625deg:1980-:H:MERRA-2 Land surface forcings"
-merra_update_first_line = "global:0.5x0.667deg:1980-2016:H:MERRA-2 Analysis update"
+TRMM_TMPA_FIRST_LINE = "global:0.25deg:1997-:3H:TRMM (TMPA) rainfall estimate"
+SMERGE_FIRST_LINE = "global:0.125deg:1997-:D:SMERGE-Noah-CCI root zone soil moisture"
+GRACE_FIRST_LINE = "NAmerica:0.125deg:2002-:7D:Groundwater and soil moisture from GRACE"
+MERRA_FIRST_LINE = "global:0.5x0.625deg:1980-:H:MERRA-2 Land surface forcings"
+MERRA_UPDATE_FIRST_LINE = "global:0.5x0.667deg:1980-2016:H:MERRA-2 Analysis update"
 
 ldas = foundation_api(
     "ldas",
     units_table=make_units_table(_UNITS_MAP),
-    first_line=ldas_first_line,
+    first_line=LDAS_FIRST_LINE,
     meta_table="".join(
         [
             _META_HEADER,
@@ -692,42 +694,42 @@ ldas = foundation_api(
 ldas_gldas_noah = foundation_api(
     "ldas_gldas_noah",
     units_table=make_units_table(_GLDAS_NOAH),
-    first_line=gldas_noah_first_line,
+    first_line=GLDAS_NOAH_FIRST_LINE,
     meta_table=_META_HEADER + _GLDAS_NOAH_META + "\n",
 )
 
 ldas_grace = foundation_api(
     "ldas_grace",
     units_table=make_units_table(_GRACE),
-    first_line=grace_first_line,
+    first_line=GRACE_FIRST_LINE,
     meta_table=_META_HEADER + _GRACE_META + "\n",
 )
 
 ldas_merra = foundation_api(
     "ldas_merra",
     units_table=make_units_table(_MERRA),
-    first_line=merra_first_line,
+    first_line=MERRA_FIRST_LINE,
     meta_table=_META_HEADER + _MERRA_META + "\n",
 )
 
 ldas_merra_update = foundation_api(
     "ldas_merra_update",
     units_table=make_units_table(_MERRA_UPDATE),
-    first_line=merra_update_first_line,
+    first_line=MERRA_UPDATE_FIRST_LINE,
     meta_table=_META_HEADER + _MERRA_UPDATE_META + "\n",
 )
 
 ldas_nldas_fora = foundation_api(
     "ldas_nldas_fora",
     units_table=make_units_table(_NLDAS_FORA),
-    first_line=nldas_fora_first_line,
+    first_line=NLDAS_FORA_FIRST_LINE,
     meta_table=_META_HEADER + _NLDAS_FORA_META + "\n",
 )
 
 ldas_nldas_noah = foundation_api(
     "ldas_nldas_noah",
     units_table=make_units_table(_NLDAS_NOAH),
-    first_line=nldas_noah_first_line,
+    first_line=NLDAS_NOAH_FIRST_LINE,
     meta_table=_META_HEADER + _NLDAS_NOAH_META + "\n",
 )
 
@@ -741,14 +743,14 @@ ldas_nldas_noah = foundation_api(
 ldas_smerge = foundation_api(
     "ldas_smerge",
     units_table=make_units_table(_SMERGE),
-    first_line=smerge_first_line,
+    first_line=SMERGE_FIRST_LINE,
     meta_table=_META_HEADER + _SMERGE_META + "\n",
 )
 
 ldas_trmm_tmpa = foundation_api(
     "ldas_trmm_tmpa",
     units_table=make_units_table(_TRMM_TMPA),
-    first_line=trmm_tmpa_first_line,
+    first_line=TRMM_TMPA_FIRST_LINE,
     meta_table=_META_HEADER + _TRMM_TMPA_META + "\n",
 )
 
@@ -813,12 +815,10 @@ def base_ldas(
     if startDate is None:
         startDate = tsutils.parsedate(_project_start_dates[project])
     else:
-        try:
+        with suppress(TypeError):
             startDate = tsutils.parsedate(startDate)
             if startDate < tsutils.parsedate(_project_start_dates[project]):
                 startDate = tsutils.parsedate(_project_start_dates[project])
-        except TypeError:
-            pass
     if endDate is None:
         endDate = tsutils.parsedate(
             (datetime.datetime.now() - datetime.timedelta(days=60)).strftime(
@@ -866,19 +866,19 @@ def base_ldas(
 
     joined = [[r, kw] for r, kw in zip(resp, kwds) if b"ERROR" not in r]
 
-    resp = [i[0] for i in joined]
-    kw = [i[1] for i in joined]
+    responses = [i[0] for i in joined]
+    keywords = [i[1] for i in joined]
 
     ndf = pd.DataFrame()
-    for k, r in zip(kw, resp):
+    for keyword, response in zip(keywords, responses):
         names = None
         if project in ("GLDAS2", "TRMM", "SMERGE", "GRACE", "MERRA"):
             names = [
                 "Datetime",
-                f"{k['params']['variable'].split(':')[-1]}:{_UNITS_MAP[k['params']['variable']][1]}",
+                f"{keyword['params']['variable'].split(':')[-1]}:{_UNITS_MAP[keyword['params']['variable']][1]}",
             ]
         df = pd.read_csv(
-            BytesIO(r),
+            BytesIO(response),
             sep=_project_sep[project],
             header=_project_header[project],
             skiprows=_project_skiprows[project],
@@ -897,8 +897,8 @@ def base_ldas(
             else:
                 df[0] = pd.to_datetime(df[0])
                 df.set_index(0, inplace=True)
-            variable_name = k["params"]["variable"].split(":")[-1]
-            unit = _UNITS_MAP[k["params"]["variable"]][1]
+            variable_name = keyword["params"]["variable"].split(":")[-1]
+            unit = _UNITS_MAP[keyword["params"]["variable"]][1]
             df.columns = [f"{variable_name}:{unit}"]
 
         df.index.name = "Datetime:UTC"

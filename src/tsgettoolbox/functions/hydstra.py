@@ -172,7 +172,6 @@ def hydstra_ts(
                         """
                     )
                 )
-                datasource = ""  # for now, this presumably causes a 404 on the URL call
         else:
             datasource = "A"
 
@@ -185,7 +184,7 @@ def hydstra_ts(
         directcode = True
 
     if aggcode is None:
-        if directcode is True:
+        if directcode:
             raise ValueError(
                 tsutils.error_wrapper(
                     """
@@ -193,7 +192,6 @@ def hydstra_ts(
                     """
                 )
             )
-            datatype = ""
         try:
             datatype = variables[variable][1]
         except KeyError:
@@ -202,8 +200,8 @@ def hydstra_ts(
         # aggcode used directly, perhaps overriding default
         datatype = aggcode
 
-    if datasource != "" and datatype != "":
-        timeseries = hu.hydstra_get_ts(
+    return (
+        hu.hydstra_get_ts(
             urlbase,
             station,
             datasource,
@@ -215,13 +213,13 @@ def hydstra_ts(
             quality=quality,
             maxqual=maxqual,
         )
-    else:
-        timeseries = pd.DataFrame()
-    return timeseries
+        if datasource != "" and datatype != ""
+        else pd.DataFrame()
+    )
 
 
 @tsutils.doc(hydstra_docstrings)
-def hydstra_catalog(server, station, isleep=5, tablefmt="csv_nos"):
+def hydstra_catalog(server, station, isleep=5):
     r"""global:station:::Kisters Hydstra Webservice - variable catalog for a station
 
     Creates a table of datasources and variables available for a station,
@@ -234,15 +232,12 @@ def hydstra_catalog(server, station, isleep=5, tablefmt="csv_nos"):
     ${station}
 
     ${isleep}
-
-    ${tablefmt}
     """
     urlbase = hu.hydstra_get_server_url(server)
     skipds = hu.hydstra_get_server_skipds(server)
-    catalogdf = hu.hydstra_get_station_catalog(
+    return hu.hydstra_get_station_catalog(
         urlbase, station, SkipDataSources=skipds, isleep=isleep
     )
-    return catalogdf
 
 
 @tsutils.doc(hydstra_docstrings)
@@ -258,8 +253,7 @@ def hydstra_stations(server, activeonly=False, latlong=True):
     ${latlong}
     ${tablefmt}"""
     urlbase = hu.hydstra_get_server_url(server)
-    sitedf = hu.hydstra_get_stations(urlbase, activeonly=activeonly, latlong=latlong)
-    return sitedf
+    return hu.hydstra_get_stations(urlbase, activeonly=activeonly, latlong=latlong)
 
 
 if __name__ == "__main__":

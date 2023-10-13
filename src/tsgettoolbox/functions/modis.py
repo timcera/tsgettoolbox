@@ -2554,9 +2554,9 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         query_params["enddate"] = tsutils.parsedate(end_date)
 
     products_url = "https://modis.ornl.gov/rst/api/v1/products?tool=GlobalSubset"
-    r = ar.retrieve_text([products_url])[0]
-    r = json.loads(r)
-    pdf = pd.json_normalize(r, record_path=["products"])
+    r_text = ar.retrieve_text([products_url])[0]
+    r_text = json.loads(r_text)
+    pdf = pd.json_normalize(r_text, record_path=["products"])
     products = pdf["product"].to_list()
 
     if query_params["product"] not in products:
@@ -2571,9 +2571,9 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         )
 
     band_url = f"https://modis.ornl.gov/rst/api/v1/{query_params['product']}/bands"
-    r = ar.retrieve_text([band_url])[0]
-    r = json.loads(r)
-    bdf = pd.json_normalize(r, record_path=["bands"])
+    r_text = ar.retrieve_text([band_url])[0]
+    r_text = json.loads(r_text)
+    bdf = pd.json_normalize(r_text, record_path=["bands"])
     bands = bdf["band"].to_list()
 
     if query_params["band"] not in bands:
@@ -2592,9 +2592,9 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
     end_date = query_params["enddate"]
 
     dates_url = f"https://modis.ornl.gov/rst/api/v1/{query_params['product']}/dates?latitude={query_params['latitude']}&longitude={query_params['longitude']}"
-    r = ar.retrieve_text([dates_url])[0]
-    r = json.loads(r)
-    ddf = pd.json_normalize(r, record_path=["dates"])
+    r_text = ar.retrieve_text([dates_url])[0]
+    r_text = json.loads(r_text)
+    ddf = pd.json_normalize(r_text, record_path=["dates"])
     modis_date = ddf["modis_date"].to_numpy()
     dates = ddf["calendar_date"].to_list()
     dates = [pd.to_datetime(i) for i in dates]
@@ -2612,8 +2612,8 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         f"https://modis.ornl.gov/rst/api/v1/{query_params['product']}/subset?band={query_params['band']}&latitude={query_params['latitude']}&longitude={query_params['longitude']}&startDate={i[0]}&endDate={i[-1]}&kmAboveBelow=0&kmLeftRight=0"
         for i in dates
     ]
-    r = ar.retrieve_text(subset_url)
-    sdf = [pd.json_normalize(json.loads(i), record_path=["subset"]) for i in r]
+    r_text = ar.retrieve_text(subset_url)
+    sdf = [pd.json_normalize(json.loads(i), record_path=["subset"]) for i in r_text]
     sdf = pd.concat(sdf)
 
     sdf = sdf.drop(["modis_date", "tile", "proc_date"], axis="columns")

@@ -5,7 +5,6 @@ swtwc               US/region station:USACE Southwest Division, Tulsa
 import datetime
 
 import pandas as pd
-from toolbox_utils import tsutils
 
 from tsgettoolbox.ulmo.usace.swtwc.core import get_station_data
 
@@ -29,8 +28,7 @@ def swtwc(station_code, date=None):
     df = alldict["values"]
     df.columns = [f"{i}:{alldict['variables'][i]['unit']}" for i in df.columns]
     df.columns = [i.replace("  ", "_").replace(" ", "_") for i in df.columns]
-    df = df.tz_localize(alldict["timezone"])
-    return df
+    return df.tz_localize(alldict["timezone"])
 
 
 if __name__ == "__main__":

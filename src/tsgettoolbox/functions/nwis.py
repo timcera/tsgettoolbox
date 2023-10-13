@@ -1120,10 +1120,7 @@ def usgs_site_rdb_to_df(url, **kwargs):
 
 def usgs_measurements_peak_rdb_to_df(url, **kwargs):
     """Convert from USGS RDB type to pd.DataFrame."""
-    rdb_format = "rdb"
-    if "measurements" in url:
-        rdb_format = "rdb_expanded"
-
+    rdb_format = "rdb_expanded" if "measurements" in url else "rdb"
     # Need to enforce rdb format
     kwargs["format"] = rdb_format
     kwargs["agency_cd"] = "USGS"
@@ -2479,25 +2476,23 @@ def epa_wqp(
         Date of last desired data-collection activity.  A very wide range of
         date strings can be used but the closer to ISO 8601 the better.
     """
-    url = r"https://www.waterqualitydata.us/data/Result/search"
-
-    if not (
-        bBox
-        or lat
-        or lon
-        or within
-        or countrycode
-        or statecode
-        or countycode
-        or siteType
-        or organization
-        or siteid
-        or huc
-        or sampleMedia
-        or characteristicType
-        or characteristicName
-        or pCode
-        or activityId
+    if (
+        not bBox
+        and not lat
+        and not lon
+        and not within
+        and not countrycode
+        and not statecode
+        and not countycode
+        and not siteType
+        and not organization
+        and not siteid
+        and not huc
+        and not sampleMedia
+        and not characteristicType
+        and not characteristicName
+        and not pCode
+        and not activityId
     ):
         raise (
             ValueError(
@@ -2565,6 +2560,7 @@ def epa_wqp(
             startDateHi, strftime="%m-%d-%Y"
         )
 
+    url = r"https://www.waterqualitydata.us/data/Result/search"
     if os.path.exists("debug_tsgettoolbox"):
         logging.warning(url, query_params)
 

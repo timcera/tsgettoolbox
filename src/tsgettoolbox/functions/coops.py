@@ -12,6 +12,7 @@ from typing import List, Literal, Optional, Union
 import async_retriever as ar
 import dateutil.parser as parser
 import pandas as pd
+from dateutil.tz import tzoffset
 from toolbox_utils import tsutils
 
 __all__ = ["coops"]
@@ -173,8 +174,8 @@ deltas = {
     product=tsutils.make_list,
     time_zone=str.upper,
     datum=str.upper,
-    begin_date=tsutils.parsedate,
-    end_date=tsutils.parsedate,
+    begin_date=pd.Timestamp,
+    end_date=pd.Timestamp,
 )
 def coops(
     station: str,
@@ -240,23 +241,23 @@ def coops(
         option will be used if present regardless of any other option, then
         'range', ...etc.:
 
-        +-------------------+--------------------------------------------------+
-        | Parameter Name(s) | Description                                      |
-        +===================+==================================================+
-        | date              | 'latest', 'today', or 'recent'                   |
-        +-------------------+--------------------------------------------------+
-        | range             | Specify a number of hours to go back from now    |
-        |                   | and retrieve data for that date range            |
-        +-------------------+--------------------------------------------------+
-        | begin_date and    | Specify a begin date and a number of hours to    |
-        | range             | retrieve data starting from that date            |
-        +-------------------+--------------------------------------------------+
-        | begin_date and    | Specify the date/time range of retrieval         |
-        | end_date          |                                                  |
-        +-------------------+--------------------------------------------------+
-        | end_date and      | Specify an end date and a number of hours to     |
-        | range             | retrieve data ending at that date                |
-        +-------------------+--------------------------------------------------+
+        +-------------------+-------------------------------------------------+
+        | Parameter Name(s) | Description                                     |
+        +===================+=================================================+
+        | date              | 'latest', 'today', or 'recent'                  |
+        +-------------------+-------------------------------------------------+
+        | range             | Specify a number of hours to go back from now   |
+        |                   | and retrieve data for that date range           |
+        +-------------------+-------------------------------------------------+
+        | begin_date and    | Specify a begin date and a number of hours to   |
+        | range             | retrieve data starting from that date           |
+        +-------------------+-------------------------------------------------+
+        | begin_date and    | Specify the date/time range of retrieval        |
+        | end_date          |                                                 |
+        +-------------------+-------------------------------------------------+
+        | end_date and      | Specify an end date and a number of hours to    |
+        | range             | retrieve data ending at that date               |
+        +-------------------+-------------------------------------------------+
 
         +--------------------------------------+-----------------+
         | Description of "--date" option       | Option          |
@@ -316,46 +317,46 @@ def coops(
 
         Specify the observation requested.
 
-        +------------------------+---------------------------------------------+
-        | Option                 | Description                                 |
-        +========================+=============================================+
-        | water_level            | Six minute preliminary or verified water    |
-        |                        | levels, depending on availability.          |
-        +------------------------+---------------------------------------------+
-        | air_temperature        | Air temperature                             |
-        +------------------------+---------------------------------------------+
-        | water_temperature      | Water temperature                           |
-        +------------------------+---------------------------------------------+
-        | wind                   | Wind speed, direction, and gusts            |
-        +------------------------+---------------------------------------------+
-        | air_gap                | (distance between a bridge and the water's  |
-        |                        | surface)                                    |
-        +------------------------+---------------------------------------------+
-        | conductivity           | The water's conductivity                    |
-        +------------------------+---------------------------------------------+
-        | visibility             | Visibility from the station's visibility    |
-        |                        | sensor. A measure of atmospheric clarity.   |
-        +------------------------+---------------------------------------------+
-        | humidity               | Relative humidity                           |
-        +------------------------+---------------------------------------------+
-        | salinity               | Salinity and specific gravity               |
-        +------------------------+---------------------------------------------+
-        | hourly_height          | Verified hourly height water level data     |
-        +------------------------+---------------------------------------------+
-        | high_low               | Verified high/low water level data          |
-        +------------------------+---------------------------------------------+
-        | daily_mean             | Verified daily mean water level data        |
-        +------------------------+---------------------------------------------+
-        | monthly_mean           | Verified monthly mean water level data      |
-        +------------------------+---------------------------------------------+
-        | one_minute_water_level | One minute water level data                 |
-        +------------------------+---------------------------------------------+
-        | predictions            | Six minute predictions water level data     |
-        +------------------------+---------------------------------------------+
-        | datums                 | datums data                                 |
-        +------------------------+---------------------------------------------+
-        | currents               | Currents data                               |
-        +------------------------+---------------------------------------------+
+        +------------------------+--------------------------------------------+
+        | Option                 | Description                                |
+        +========================+============================================+
+        | water_level            | Six minute preliminary or verified water   |
+        |                        | levels, depending on availability.         |
+        +------------------------+--------------------------------------------+
+        | air_temperature        | Air temperature                            |
+        +------------------------+--------------------------------------------+
+        | water_temperature      | Water temperature                          |
+        +------------------------+--------------------------------------------+
+        | wind                   | Wind speed, direction, and gusts           |
+        +------------------------+--------------------------------------------+
+        | air_gap                | (distance between a bridge and the water's |
+        |                        | surface)                                   |
+        +------------------------+--------------------------------------------+
+        | conductivity           | The water's conductivity                   |
+        +------------------------+--------------------------------------------+
+        | visibility             | Visibility from the station's visibility   |
+        |                        | sensor. A measure of atmospheric clarity.  |
+        +------------------------+--------------------------------------------+
+        | humidity               | Relative humidity                          |
+        +------------------------+--------------------------------------------+
+        | salinity               | Salinity and specific gravity              |
+        +------------------------+--------------------------------------------+
+        | hourly_height          | Verified hourly height water level data    |
+        +------------------------+--------------------------------------------+
+        | high_low               | Verified high/low water level data         |
+        +------------------------+--------------------------------------------+
+        | daily_mean             | Verified daily mean water level data       |
+        +------------------------+--------------------------------------------+
+        | monthly_mean           | Verified monthly mean water level data     |
+        +------------------------+--------------------------------------------+
+        | one_minute_water_level | One minute water level data                |
+        +------------------------+--------------------------------------------+
+        | predictions            | Six minute predictions water level data    |
+        +------------------------+--------------------------------------------+
+        | datums                 | datums data                                |
+        +------------------------+--------------------------------------------+
+        | currents               | Currents data                              |
+        +------------------------+--------------------------------------------+
 
         The returned data for each "product" documented below is
         derived from
@@ -363,166 +364,170 @@ def coops(
 
         product = "water_level"
 
-        +-----------------------------+----------------------------------------+
-        | tsgettoolbox Column Name    | Description                            |
-        +=============================+========================================+
-        | water_level:{units}         | Measurement                            |
-        +-----------------------------+----------------------------------------+
-        | water_level_sigma:{units}   | Standard deviation of 1 second samples |
-        |                             | used to compute the water level height |
-        +-----------------------------+----------------------------------------+
-        | water_level_CntSigma OR     | if preliminary Count of number of 1    |
-        | water_level_Inferred        | second that falls outside a 3-sigma    |
-        |                             | band about the mean if verified A flag |
-        |                             | that when set to 1 indicates that the  |
-        |                             | water level value has been inferred    |
-        +-----------------------------+----------------------------------------+
-        | water_level_FlatTol         | A flag that when set to 1 indicates    |
-        |                             | that the flat tolerance limit was      |
-        |                             | exceeded                               |
-        +-----------------------------+----------------------------------------+
-        | water_level_RateTol         | A flag that when set to 1 indicates    |
-        |                             | that the rate of change tolerance      |
-        |                             | limit was exceeded                     |
-        +-----------------------------+----------------------------------------+
-        | water_level_LimitTol OR     | if preliminary A flag that when set to |
-        | water_level_TempRateTol     | 1 indicates that either the maximum or |
-        |                             | minimum expected value was exceeded if |
-        |                             | verified A flag that when set to 1     |
-        |                             | indicates that the rate of change in   |
-        |                             | temperature tolerance limit was        |
-        |                             | exceeded                               |
-        +-----------------------------+----------------------------------------+
-        | water_level_quality:{units} | Quality Assurance/Quality Control "p"  |
-        |                             | = preliminary "v" = verified           |
-        +-----------------------------+----------------------------------------+
+        +-----------------------------+---------------------------------------+
+        | tsgettoolbox Column Name    | Description                           |
+        +=============================+=======================================+
+        | water_level:{units}         | Measurement                           |
+        +-----------------------------+---------------------------------------+
+        | water_level_sigma:{units}   | Standard deviation of 1 second        |
+        |                             | samples used to compute the water     |
+        |                             | level height                          |
+        +-----------------------------+---------------------------------------+
+        | water_level_CntSigma OR     | if preliminary Count of number of 1   |
+        | water_level_Inferred        | second that falls outside a 3-sigma   |
+        |                             | band about the mean if verified A     |
+        |                             | flag that when set to 1 indicates     |
+        |                             | that the water level value has been   |
+        |                             | inferred                              |
+        +-----------------------------+---------------------------------------+
+        | water_level_FlatTol         | A flag that when set to 1 indicates   |
+        |                             | that the flat tolerance limit was     |
+        |                             | exceeded                              |
+        +-----------------------------+---------------------------------------+
+        | water_level_RateTol         | A flag that when set to 1 indicates   |
+        |                             | that the rate of change tolerance     |
+        |                             | limit was exceeded                    |
+        +-----------------------------+---------------------------------------+
+        | water_level_LimitTol OR     | if preliminary A flag that when set   |
+        | water_level_TempRateTol     | to 1 indicates that either the        |
+        |                             | maximum or minimum expected value was |
+        |                             | exceeded if verified A flag that when |
+        |                             | set to 1 indicates that the rate of   |
+        |                             | change in temperature tolerance limit |
+        |                             | was exceeded                          |
+        +-----------------------------+---------------------------------------+
+        | water_level_quality:{units} | Quality Assurance/Quality Control "p" |
+        |                             | = preliminary "v" = verified          |
+        +-----------------------------+---------------------------------------+
 
         product = "air_pressure", "air_temperature", "humidity",
         "water_temperature", or "conductivity"
 
-        +-------------------+--------------------------------------------------+
-        | tsgettoolbox      | Description                                      |
-        | Column Name       |                                                  |
-        +===================+==================================================+
-        | {product}:{units} | Measurement                                      |
-        +-------------------+--------------------------------------------------+
-        | {product}_MaxTol  | A flag that when set to 1 indicates that the     |
-        |                   | maximum expected value was exceeded              |
-        +-------------------+--------------------------------------------------+
-        | {product}_MinTol  | A flag that when set to 1 indicates that the     |
-        |                   | minimum expected value was exceeded              |
-        +-------------------+--------------------------------------------------+
-        | {product}_RateTol | A flag that when set to 1 indicates that the     |
-        |                   | rate of change tolerance limit was exceeded      |
-        +-------------------+--------------------------------------------------+
+        +-------------------+-------------------------------------------------+
+        | tsgettoolbox      | Description                                     |
+        | Column Name       |                                                 |
+        +===================+=================================================+
+        | {product}:{units} | Measurement                                     |
+        +-------------------+-------------------------------------------------+
+        | {product}_MaxTol  | A flag that when set to 1 indicates that the    |
+        |                   | maximum expected value was exceeded             |
+        +-------------------+-------------------------------------------------+
+        | {product}_MinTol  | A flag that when set to 1 indicates that the    |
+        |                   | minimum expected value was exceeded             |
+        +-------------------+-------------------------------------------------+
+        | {product}_RateTol | A flag that when set to 1 indicates that the    |
+        |                   | rate of change tolerance limit was exceeded     |
+        +-------------------+-------------------------------------------------+
 
         Hourly Height: product = "hourly_height"
 
-        +-----------------------------+----------------------------------------+
-        | tsgettoolbox Column Name    | Description                            |
-        +=============================+========================================+
-        | hourly_height:{units}       | Value - Measured water level height    |
-        +-----------------------------+----------------------------------------+
-        | hourly_height_sigma:{units} | Sigma - Standard deviation of 1 second |
-        |                             | samples used to compute the water      |
-        |                             | level height                           |
-        +-----------------------------+----------------------------------------+
-        | hourly_height_Inferred      | A flag that when set to 1 indicates    |
-        |                             | that the water level value has been    |
-        |                             | inferred                               |
-        +-----------------------------+----------------------------------------+
-        | hourly_height_LimitTol      | A flag that when set to 1 indicates    |
-        |                             | that either the maximum or minimum     |
-        |                             | expected value was exceeded            |
-        +-----------------------------+----------------------------------------+
+        +-----------------------------+---------------------------------------+
+        | tsgettoolbox Column Name    | Description                           |
+        +=============================+=======================================+
+        | hourly_height:{units}       | Value - Measured water level height   |
+        +-----------------------------+---------------------------------------+
+        | hourly_height_sigma:{units} | Sigma - Standard deviation of 1       |
+        |                             | second samples used to compute the    |
+        |                             | water level height                    |
+        +-----------------------------+---------------------------------------+
+        | hourly_height_Inferred      | A flag that when set to 1 indicates   |
+        |                             | that the water level value has been   |
+        |                             | inferred                              |
+        +-----------------------------+---------------------------------------+
+        | hourly_height_LimitTol      | A flag that when set to 1 indicates   |
+        |                             | that either the maximum or minimum    |
+        |                             | expected value was exceeded           |
+        +-----------------------------+---------------------------------------+
 
         High Low: product = "high_low"
 
-        +-------------------+--------------------------------------------------+
-        | tsgettoolbox      | Description                                      |
-        | Column Name       |                                                  |
-        +===================+==================================================+
-        | high_low:{units}  | Value - Measured water level height              |
-        +-------------------+--------------------------------------------------+
-        | high_low_Type     | Type - Designation of Water level height. HH =   |
-        |                   | Higher High water H = High water L = Low water   |
-        |                   | LL = Lower Low water                             |
-        +-------------------+--------------------------------------------------+
-        | high_low_Inferred | A flag that when set to 1 indicates that the     |
-        |                   | water level value has been inferred              |
-        +-------------------+--------------------------------------------------+
-        | high_low_LimitTol | A flag that when set to 1 indicates that either  |
-        |                   | the maximum or minimum expected value was        |
-        |                   | exceeded                                         |
-        +-------------------+--------------------------------------------------+
+        +-------------------+-------------------------------------------------+
+        | tsgettoolbox      | Description                                     |
+        | Column Name       |                                                 |
+        +===================+=================================================+
+        | high_low:{units}  | Value - Measured water level height             |
+        +-------------------+-------------------------------------------------+
+        | high_low_Type     | Type - Designation of Water level height. HH =  |
+        |                   | Higher High water H = High water L = Low water  |
+        |                   | LL = Lower Low water                            |
+        +-------------------+-------------------------------------------------+
+        | high_low_Inferred | A flag that when set to 1 indicates that the    |
+        |                   | water level value has been inferred             |
+        +-------------------+-------------------------------------------------+
+        | high_low_LimitTol | A flag that when set to 1 indicates that either |
+        |                   | the maximum or minimum expected value was       |
+        |                   | exceeded                                        |
+        +-------------------+-------------------------------------------------+
 
         Daily Mean: product = "daily_mean"
 
-        +---------------------+------------------------------------------------+
-        | tsgettoolbox Column | Description                                    |
-        | Name                |                                                |
-        +=====================+================================================+
-        | daily_mean:{units}  | Value – Mean hourly data over a 24 hour period |
-        +---------------------+------------------------------------------------+
-        | daily_mean_Inferred | A flag that when set to 1 indicates that the   |
-        |                     | water level value has been inferred            |
-        +---------------------+------------------------------------------------+
-        | daily_mean_LimitTol | A flag that when set to 1 indicates that       |
-        |                     | either the maximum or minimum expected value   |
-        |                     | was exceeded                                   |
-        +---------------------+------------------------------------------------+
+        +---------------------+-----------------------------------------------+
+        | tsgettoolbox Column | Description                                   |
+        | Name                |                                               |
+        +=====================+===============================================+
+        | daily_mean:{units}  | Value – Mean hourly data over a 24 hour       |
+        |                     | period                                        |
+        +---------------------+-----------------------------------------------+
+        | daily_mean_Inferred | A flag that when set to 1 indicates that the  |
+        |                     | water level value has been inferred           |
+        +---------------------+-----------------------------------------------+
+        | daily_mean_LimitTol | A flag that when set to 1 indicates that      |
+        |                     | either the maximum or minimum expected value  |
+        |                     | was exceeded                                  |
+        +---------------------+-----------------------------------------------+
 
         Monthly Mean: product = "monthly_mean"
 
-        +--------------+-------------------------------------------------------+
-        | tsgettoolbox | Description                                           |
-        | Column Name  |                                                       |
-        +==============+=======================================================+
-        | year         | Year                                                  |
-        +--------------+-------------------------------------------------------+
-        | month        | Month                                                 |
-        +--------------+-------------------------------------------------------+
-        | highest      | Highest Tide                                          |
-        +--------------+-------------------------------------------------------+
-        | MHHW         | Mean Higher-High Water                                |
-        +--------------+-------------------------------------------------------+
-        | MHW          | Mean High Water                                       |
-        +--------------+-------------------------------------------------------+
-        | MSL          | Mean Sea Level                                        |
-        +--------------+-------------------------------------------------------+
-        | MTL          | Mean Tide Level                                       |
-        +--------------+-------------------------------------------------------+
-        | MLW          | Mean Low Water                                        |
-        +--------------+-------------------------------------------------------+
-        | MLLW         | Mean Lower-Low Water                                  |
-        +--------------+-------------------------------------------------------+
-        | DTL          | Mean Diurnal Tide Level                               |
-        +--------------+-------------------------------------------------------+
-        | GT           | Great Diurnal Range                                   |
-        +--------------+-------------------------------------------------------+
-        | MN           | Mean Range of Tide                                    |
-        +--------------+-------------------------------------------------------+
-        | DHQ          | Mean Diurnal High Water Inequality                    |
-        +--------------+-------------------------------------------------------+
-        | DLQ          | Mean Diurnal Low Water Inequality                     |
-        +--------------+-------------------------------------------------------+
-        | HWI          | Greenwich High Water Interval (in Hours)              |
-        +--------------+-------------------------------------------------------+
-        | LWI          | Greenwich Low Water Interval (in Hours)               |
-        +--------------+-------------------------------------------------------+
-        | lowest       | Lowest Tide                                           |
-        +--------------+-------------------------------------------------------+
-        | inferred     | A flag that when set to 1 indicates that the water    |
-        |              | level value has been inferred                         |
-        +--------------+-------------------------------------------------------+
+        +--------------+------------------------------------------------------+
+        | tsgettoolbox | Description                                          |
+        | Column Name  |                                                      |
+        +==============+======================================================+
+        | year         | Year                                                 |
+        +--------------+------------------------------------------------------+
+        | month        | Month                                                |
+        +--------------+------------------------------------------------------+
+        | highest      | Highest Tide                                         |
+        +--------------+------------------------------------------------------+
+        | MHHW         | Mean Higher-High Water                               |
+        +--------------+------------------------------------------------------+
+        | MHW          | Mean High Water                                      |
+        +--------------+------------------------------------------------------+
+        | MSL          | Mean Sea Level                                       |
+        +--------------+------------------------------------------------------+
+        | MTL          | Mean Tide Level                                      |
+        +--------------+------------------------------------------------------+
+        | MLW          | Mean Low Water                                       |
+        +--------------+------------------------------------------------------+
+        | MLLW         | Mean Lower-Low Water                                 |
+        +--------------+------------------------------------------------------+
+        | DTL          | Mean Diurnal Tide Level                              |
+        +--------------+------------------------------------------------------+
+        | GT           | Great Diurnal Range                                  |
+        +--------------+------------------------------------------------------+
+        | MN           | Mean Range of Tide                                   |
+        +--------------+------------------------------------------------------+
+        | DHQ          | Mean Diurnal High Water Inequality                   |
+        +--------------+------------------------------------------------------+
+        | DLQ          | Mean Diurnal Low Water Inequality                    |
+        +--------------+------------------------------------------------------+
+        | HWI          | Greenwich High Water Interval (in Hours)             |
+        +--------------+------------------------------------------------------+
+        | LWI          | Greenwich Low Water Interval (in Hours)              |
+        +--------------+------------------------------------------------------+
+        | lowest       | Lowest Tide                                          |
+        +--------------+------------------------------------------------------+
+        | inferred     | A flag that when set to 1 indicates that the water   |
+        |              | level value has been inferred                        |
+        +--------------+------------------------------------------------------+
 
         One Minute Water Level: product = "one_minute_water_level"
 
-        +--------------------------------+-------------------------------------+
-        | tsgettoolbox Column Name       | Description                         |
-        +================================+=====================================+
-        | one_minute_water_level:{units} | Value - Measured water level height |
-        +--------------------------------+-------------------------------------+
+        +--------------------------------+------------------------------------+
+        | tsgettoolbox Column Name       | Description                        |
+        +================================+====================================+
+        | one_minute_water_level:{units} | Value - Measured water level       |
+        |                                | height                             |
+        +--------------------------------+------------------------------------+
 
         Tide Predictions: product = "predictions"
 
@@ -536,46 +541,47 @@ def coops(
 
         Air Gap: product = "air_gap"
 
-        +-----------------------+----------------------------------------------+
-        | tsgettoolbox Column   | Description                                  |
-        | Name                  |                                              |
-        +=======================+==============================================+
-        | air_gap:{units}       | Value - Measured air gap                     |
-        +-----------------------+----------------------------------------------+
-        | air_gap_sigma:{units} | Sigma - Standard deviation of 1 second       |
-        |                       | samples used to compute the air gap          |
-        +-----------------------+----------------------------------------------+
-        | air_gap_CntSigma      | Count of number of 1 second that falls       |
-        |                       | outside a 3-sigma band about the mean        |
-        +-----------------------+----------------------------------------------+
-        | air_gap_FlatTol       | A flag that when set to 1 indicates that the |
-        |                       | flat tolerance limit was exceeded            |
-        +-----------------------+----------------------------------------------+
-        | air_gap_RateTol       | A flag that when set to 1 indicates that the |
-        |                       | rate of change tolerance limit was exceeded  |
-        +-----------------------+----------------------------------------------+
-        | air_gap_MinMaxTol     | A flag that when set to 1 indicates that     |
-        |                       | either the maximum or minimum expected air   |
-        |                       | gap limit was exceeded                       |
-        +-----------------------+----------------------------------------------+
+        +-----------------------+---------------------------------------------+
+        | tsgettoolbox Column   | Description                                 |
+        | Name                  |                                             |
+        +=======================+=============================================+
+        | air_gap:{units}       | Value - Measured air gap                    |
+        +-----------------------+---------------------------------------------+
+        | air_gap_sigma:{units} | Sigma - Standard deviation of 1 second      |
+        |                       | samples used to compute the air gap         |
+        +-----------------------+---------------------------------------------+
+        | air_gap_CntSigma      | Count of number of 1 second that falls      |
+        |                       | outside a 3-sigma band about the mean       |
+        +-----------------------+---------------------------------------------+
+        | air_gap_FlatTol       | A flag that when set to 1 indicates that    |
+        |                       | the flat tolerance limit was exceeded       |
+        +-----------------------+---------------------------------------------+
+        | air_gap_RateTol       | A flag that when set to 1 indicates that    |
+        |                       | the rate of change tolerance limit was      |
+        |                       | exceeded                                    |
+        +-----------------------+---------------------------------------------+
+        | air_gap_MinMaxTol     | A flag that when set to 1 indicates that    |
+        |                       | either the maximum or minimum expected air  |
+        |                       | gap limit was exceeded                      |
+        +-----------------------+---------------------------------------------+
 
         Wind: product = "wind"
 
-        +------------------------+---------------------------------------------+
-        | tsgettoolbox Column    | Description                                 |
-        | Name                   |                                             |
-        +========================+=============================================+
-        | wind_speed:{units}     | Speed - Measured wind speed                 |
-        +------------------------+---------------------------------------------+
-        | wind_direction:degrees | Direction - wind direction in degrees       |
-        +------------------------+---------------------------------------------+
-        | wind_direction:text    | Direction - wind direction in text          |
-        +------------------------+---------------------------------------------+
-        | wind_gust:{units}      | Gust - Measured wind gust speed             |
-        +------------------------+---------------------------------------------+
-        | wind{suffix}           | Data Flags - in order of listing "X,R"      |
-        |                        | Flags described above                       |
-        +------------------------+---------------------------------------------+
+        +------------------------+--------------------------------------------+
+        | tsgettoolbox Column    | Description                                |
+        | Name                   |                                            |
+        +========================+============================================+
+        | wind_speed:{units}     | Speed - Measured wind speed                |
+        +------------------------+--------------------------------------------+
+        | wind_direction:degrees | Direction - wind direction in degrees      |
+        +------------------------+--------------------------------------------+
+        | wind_direction:text    | Direction - wind direction in text         |
+        +------------------------+--------------------------------------------+
+        | wind_gust:{units}      | Gust - Measured wind gust speed            |
+        +------------------------+--------------------------------------------+
+        | wind{suffix}           | Data Flags - in order of listing "X,R"     |
+        |                        | Flags described above                      |
+        +------------------------+--------------------------------------------+
 
         Visibility: product = "visibility"
 
@@ -601,16 +607,16 @@ def coops(
 
         Currents: product = "currents"
 
-        +----------------------------+-----------------------------------------+
-        | tsgettoolbox Column Name   | Description                             |
-        +============================+=========================================+
-        | currents_speed:{units}     | Speed - Measured current speed          |
-        +----------------------------+-----------------------------------------+
-        | currents_direction:degrees | Direction - current direction in        |
-        |                            | degrees                                 |
-        +----------------------------+-----------------------------------------+
-        | currents_bin_number        | Bin number                              |
-        +----------------------------+-----------------------------------------+
+        +----------------------------+----------------------------------------+
+        | tsgettoolbox Column Name   | Description                            |
+        +============================+========================================+
+        | currents_speed:{units}     | Speed - Measured current speed         |
+        +----------------------------+----------------------------------------+
+        | currents_direction:degrees | Direction - current direction in       |
+        |                            | degrees                                |
+        +----------------------------+----------------------------------------+
+        | currents_bin_number        | Bin number                             |
+        +----------------------------+----------------------------------------+
 
     datum
         [optional, default is 'NAVD']
@@ -645,17 +651,17 @@ def coops(
         The time zone is specified as 'gmt', 'lst'
         or 'lst_ldt'.
 
-        +---------+------------------------------------------------------------+
-        | Option  | Description                                                |
-        +=========+============================================================+
-        | gmt     | Greenwich Mean Time                                        |
-        +---------+------------------------------------------------------------+
-        | lst     | Local Standard Time. The time local to the requested       |
-        |         | station.                                                   |
-        +---------+------------------------------------------------------------+
-        | lst_ldt | Local Standard/Local Daylight Time. The time local to the  |
-        |         | requested station.                                         |
-        +---------+------------------------------------------------------------+
+        +---------+-----------------------------------------------------------+
+        | Option  | Description                                               |
+        +=========+===========================================================+
+        | gmt     | Greenwich Mean Time                                       |
+        +---------+-----------------------------------------------------------+
+        | lst     | Local Standard Time. The time local to the requested      |
+        |         | station.                                                  |
+        +---------+-----------------------------------------------------------+
+        | lst_ldt | Local Standard/Local Daylight Time. The time local to the |
+        |         | requested station.                                        |
+        +---------+-----------------------------------------------------------+
 
     interval
         [optional, defaults to 'h']
@@ -682,6 +688,12 @@ def coops(
         bin.
     """
     disable_caching = False
+
+    if begin_date is pd.NaT:
+        begin_date = None
+    if end_date is pd.NaT:
+        end_date = None
+
     params = {
         "station": station,
         "product": product,
@@ -736,16 +748,19 @@ def coops(
         try:
             test_end = pd.Timestamp(station_data[0]["removed"])
         except KeyError:
-            test_end = pd.Timestamp(datetime.datetime.utcnow())
+            test_end = pd.Timestamp(datetime.datetime.now(datetime.timezone.utc))
         if test_end is pd.NaT:
-            test_end = datetime.datetime.utcnow()
+            test_end = pd.Timestamp(datetime.datetime.now(datetime.timezone.utc))
+        datatz = tzoffset(None, station_data[0]["timezone"] * 60 * 60)
+        test_end = test_end.tz_convert(datatz)
+        end_date = end_date.tz_localize(datatz)
         if (end_date is None) or (end_date > test_end):
             end_date = test_end
 
-    if params["begin_date"] is not None:
+    if params["begin_date"]:
         params["begin_date"] = params["begin_date"].strftime("%Y%m%d")
 
-    if params["end_date"] is not None:
+    if params["end_date"]:
         params["end_date"] = params["end_date"].strftime("%Y%m%d")
 
     if len(product) > 1 and "datums" in product:
@@ -883,8 +898,10 @@ def coops(
         }
         resp = resp.rename(rename_cols, axis="columns")
         ndf = ndf.join(resp, how="outer")
-    with suppress():
+    try:
         ndf.index = pd.to_datetime(ndf.index)
+    except:
+        pass
     return ndf
 
 

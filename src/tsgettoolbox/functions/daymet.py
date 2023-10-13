@@ -71,6 +71,7 @@ def daymet(
         ]
     ] = None,
     time_scale: Literal["daily", "monthly", "annual"] = "daily",
+    snow: bool = False,
 ):
     r"""NAmerica:1km:1980-:D,M:Daymet, daily meteorology by the Oak Ridge National Laboratory
 
@@ -161,17 +162,6 @@ def daymet(
 
         Separate snowfall from precipitation using Martinez and Gupta (2010)
         method.
-
-    pet_soil_heat : float
-        [optional, defaults to 0.0]
-
-        Used in the "penman_monteith" and "priestley_taylor" calculations.
-
-    pet_alpha : float
-        [optional, defaults to 1.26]
-
-        Used in the "priestley_taylor" calculation where the default 1.26 is
-        for humid regions and 1.74 for arid.
     """
     years = tsutils.make_list(years)
     avail_params = [
@@ -239,6 +229,7 @@ def daymet(
             variables=obs_data,
             crs="epsg:4326",
             time_scale=time_scale,
+            snow=snow,
         )
         ndf = ndf.rename(lambda x: x.split()[0], axis="columns")
         ndf = ndf[obs_data]
@@ -252,6 +243,7 @@ def daymet(
                 crs="epsg:4326",
                 time_scale=time_scale,
                 pet=pet,
+                snow=snow,
             )
             df = df.rename(lambda x: x.split()[0], axis="columns")
             df = df.drop("tmax", axis="columns")
@@ -280,7 +272,7 @@ if __name__ == "__main__":
         years=[2000, 2001],
     )
 
-    print("Daymet")
+    print("Daymet 1")
     print(r)
 
     r = daymet(
@@ -291,7 +283,7 @@ if __name__ == "__main__":
         end_date="2000-01-02",
     )
 
-    print("Daymet")
+    print("Daymet 2")
     print(r)
 
     r = daymet(
@@ -299,7 +291,7 @@ if __name__ == "__main__":
         lon=-85.2,
     )
 
-    print("Daymet")
+    print("Daymet 3")
     print(r)
 
     r = daymet(
@@ -310,7 +302,7 @@ if __name__ == "__main__":
         time_scale="annual",
     )
 
-    print("Daymet")
+    print("Daymet 4")
     print(r)
 
     r = daymet(
@@ -321,7 +313,7 @@ if __name__ == "__main__":
         time_scale="monthly",
     )
 
-    print("Daymet")
+    print("Daymet 5")
     print(r)
 
     r = daymet(
@@ -331,7 +323,7 @@ if __name__ == "__main__":
         time_scale="annual",
     )
 
-    print("Daymet")
+    print("Daymet 6")
     print(r)
 
     r = daymet(
@@ -341,7 +333,7 @@ if __name__ == "__main__":
         time_scale="monthly",
     )
 
-    print("Daymet")
+    print("Daymet 7")
     print(r)
 
     r = daymet(
@@ -350,5 +342,5 @@ if __name__ == "__main__":
         measuredParams="penman_monteith",
     )
 
-    print("Daymet")
+    print("Daymet 8")
     print(r)

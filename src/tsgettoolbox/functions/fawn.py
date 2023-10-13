@@ -117,10 +117,10 @@ locs__ = {
 }
 
 rev_locs = {}
-for key in locs__:
+for key, value in locs__.items():
     rev_locs[key] = key
     rev_locs[str(key)] = key
-    for i in locs__[key]:
+    for i in value:
         rev_locs[i.lower()] = key
 
 # variable names for stations are "loc__XXX" where XXX is one of the keys
@@ -145,9 +145,9 @@ vars__ = {
 }
 
 rev_vars = {}
-for key in vars__:
+for key, value in vars__.items():
     rev_vars[key] = key
-    for i in vars__[key]:
+    for i in value:
         rev_vars[i] = key
 
 # new_units_table = [
@@ -377,11 +377,7 @@ def fawn(
             continue
 
         # With multi-index pandas won't combine_first with an empty ndf.
-        if len(ndf) == 0:
-            ndf = df
-        else:
-            ndf = ndf.combine_first(df)
-
+        ndf = df if len(ndf) == 0 else ndf.combine_first(df)
     if len(ndf) == 0:
         raise ValueError(
             tsutils.error_wrapper(

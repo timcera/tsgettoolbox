@@ -525,8 +525,6 @@ def ndbc(station, table, startUTC, endUTC=None):
 
 
 if __name__ == "__main__":
-    """ """
-
     df = ndbc_to_df(
         r"https://www.ndbc.noaa.gov/data/",
         table="stdmet",

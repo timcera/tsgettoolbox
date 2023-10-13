@@ -62,14 +62,13 @@ def row_datestring_to_datetime(row):
 def dateint_to_datetime(date_int64):
     """Convert a date integer to a datetime object."""
     strf = f"{date_int64}"
-    year = int(strf[0:4])
+    year = int(strf[:4])
     month = int(strf[4:6])
     day = int(strf[6:8])
     hour = int(strf[8:10])
     minute = int(strf[10:12])
     second = int(strf[12:14])
-    dattim = dt.datetime(year, month, day, hour, minute, second)
-    return dattim
+    return dt.datetime(year, month, day, hour, minute, second)
 
 
 def datetime_to_dateint(dattim):
@@ -81,8 +80,7 @@ def datetime_to_dateint(dattim):
     minute = dattim.minute
     second = dattim.second
     date_str = f"{year:04}{month:02}{day:02}{hour:02}{minute:02}{second:02}"
-    date_int = int(date_str)
-    return date_int
+    return int(date_str)
 
 
 def hydstra_get_ts(
@@ -109,14 +107,9 @@ def hydstra_get_ts(
             url, encoding="cp1252", encoding_errors="replace", dtype={"site": str}
         )
     except NameError:
-        sys.stderr.write("GetTs: NameError on URL\n")
-        sys.stderr.write("    " + url)
-        df = pd.DataFrame()
+        df = _extracted_from_hydstra_get_ts_25("GetTs: NameError on URL\n", url)
     except ue.HTTPError:
-        # return empty dataframe if 404:missing or other HTTP error)
-        sys.stderr.write("GetTs: HTTPError on URL\n")
-        sys.stderr.write("    " + url)
-        df = pd.DataFrame()
+        df = _extracted_from_hydstra_get_ts_25("GetTs: HTTPError on URL\n", url)
         return df
 
     # postprocess into final dataframe
@@ -142,6 +135,13 @@ def hydstra_get_ts(
     return df
 
 
+# TODO Rename this here and in `hydstra_get_ts`
+def _extracted_from_hydstra_get_ts_25(arg0, url):
+    sys.stderr.write(arg0)
+    sys.stderr.write("    " + url)
+    return pd.DataFrame()
+
+
 def hydstra_get_json_response(url):
     """Get a JSON response from Hydstra."""
     rdict = {}
@@ -149,21 +149,17 @@ def hydstra_get_json_response(url):
     try:
         response = requests.get(url).text
     except NameError:
-        sys.stderr.write("GetJsonResponse: NameError on URL \n")
-        sys.stderr.write("    " + url)
-        response = ""
-        return rdict
+        return _extracted_from_hydstra_get_json_response_8(
+            "GetJsonResponse: NameError on URL \n", url, rdict
+        )
     except ue.HTTPError:
-        sys.stderr.write("GetJsonResponse: HTTPError on URL\n")
-        sys.stderr.write("    " + url)
-        response = ""
-        return rdict
+        return _extracted_from_hydstra_get_json_response_8(
+            "GetJsonResponse: HTTPError on URL\n", url, rdict
+        )
     except SyntaxError:
-        sys.stderr.write("GetJsonResponse: SyntaxError on URL\n")
-        sys.stderr.write("    " + url)
-        response = ""
-        return rdict
-
+        return _extracted_from_hydstra_get_json_response_8(
+            "GetJsonResponse: SyntaxError on URL\n", url, rdict
+        )
     # convert response text from json to dictionary
     # this function seems more reliable than native json library
     # for nested jason, and safer than eval()
@@ -171,8 +167,8 @@ def hydstra_get_json_response(url):
         ldict = ast.literal_eval(response)
     except SyntaxError:
         sys.stderr.write("GetJsonResponse: Syntax error parsing response\n")
-        sys.stderr.write("    " + response)
-        sys.stderr.write("    " + url)
+        sys.stderr.write(f"    {response}")
+        sys.stderr.write("    {url}")
         return rdict
 
     # dictionary now has a key 'error_num', and if none, also a key 'return'
@@ -182,10 +178,17 @@ def hydstra_get_json_response(url):
         sys.stderr.write("GetJsonResponse Error: " + str(ldict["error_num"]))
         sys.stderr.write("    " + ldict["error_msg"])
         sys.stderr.write("    " + url)
-        sys.stderr.write("    " + response)
+        sys.stderr.write(f"    {response}")
     else:
         # parse return object, which is another dictionary
         rdict = ldict["return"]
+    return rdict
+
+
+# TODO Rename this here and in `hydstra_get_json_response`
+def _extracted_from_hydstra_get_json_response_8(arg0, url, rdict):
+    sys.stderr.write(arg0)
+    sys.stderr.write(f"    {url}")
     return rdict
 
 
@@ -196,15 +199,13 @@ def _process(url, desired_key):
     try:
         numsites = len(rdict["sites"])
         if numsites == 0:
-            sys.stderr.write(
-                f"Get{desired_key}: Zero stations in database:{str(rdict)}"
+            return _extracted_from__process_8(
+                desired_key, ": Zero stations in database:", rdict, url
             )
-            sys.stderr.write(f"    {url}")
-            return []
     except KeyError:
-        sys.stderr.write(f"Get{desired_key}: KeyError on Sites:{str(rdict)}")
-        sys.stderr.write(f"    {url}")
-        return []
+        return _extracted_from__process_8(
+            desired_key, ": KeyError on Sites:", rdict, url
+        )
     if numsites == 1:
         sdict = rdict["sites"][0]
         vlist = sdict[desired_key]
@@ -215,6 +216,13 @@ def _process(url, desired_key):
             f"Get{desired_key}: {numsites} stations given - bug? {str(rdict)}"
         )
     return varlist
+
+
+# TODO Rename this here and in `_process`
+def _extracted_from__process_8(desired_key, arg1, rdict, url):
+    sys.stderr.write(f"Get{desired_key}{arg1}{str(rdict)}")
+    sys.stderr.write(f"    {url}")
+    return []
 
 
 def hydstra_get_variables(urlbase, stationid, datasource):
@@ -232,20 +240,22 @@ def hydstra_get_stations(urlbase, activeonly=False, latlong=True):
     try:
         dbdf = pd.read_csv(url, encoding="cp1252", encoding_errors="replace")
     except NameError:
-        sys.stderr.write("GetTs: NameError on URL\n")
-        sys.stderr.write(f"    {url}")
-        dbdf = pd.DataFrame()
+        dbdf = _extracted_from_hydstra_get_stations_8("GetTs: NameError on URL\n", url)
     except ue.HTTPError:
-        # return empty dataframe if 404:missing or other HTTP error)
-        sys.stderr.write("GetTs: HTTPError on URL\n")
-        sys.stderr.write(f"    {url}")
-        dbdf = pd.DataFrame()
+        dbdf = _extracted_from_hydstra_get_stations_8("GetTs: HTTPError on URL\n", url)
     if activeonly:
         dbdf = dbdf[dbdf["active"] is True]
     if not latlong:
         dbdf = dbdf.drop(columns=["latitude", "longitude"])
 
     return dbdf
+
+
+# TODO Rename this here and in `hydstra_get_stations`
+def _extracted_from_hydstra_get_stations_8(arg0, url):
+    sys.stderr.write(arg0)
+    sys.stderr.write(f"    {url}")
+    return pd.DataFrame()
 
 
 def hydstra_get_datasources(urlbase, stationid):
@@ -256,8 +266,10 @@ def hydstra_get_datasources(urlbase, stationid):
     return _process(url, "datasources")
 
 
-def hydstra_get_station_catalog(urlbase, stationid, SkipDataSources=[], isleep=0):
+def hydstra_get_station_catalog(urlbase, stationid, SkipDataSources=None, isleep=0):
     """Get a catalog of data for a station."""
+    if SkipDataSources is None:
+        SkipDataSources = []
     # initialize dataframe and catalog headers
     icat = 0
     catalog = pd.DataFrame()
@@ -327,10 +339,7 @@ def hydstra_get_all_catalog(urlbase, activeonly=False, istart=0, iend=-1, isleep
     stationdf = hydstra_get_stations(urlbase, activeonly)
     # print('Got stations: ', len(stationdf))
 
-    if iend == -1:
-        istop = len(stationdf)
-    else:
-        istop = max(len(stationdf), iend)
+    istop = len(stationdf) if iend == -1 else max(len(stationdf), iend)
     for i in range(istart, istop):
         stationid = stationdf.at[i, "station"]
         # print(stationid, " in station loop", i, istart, istop)
@@ -349,28 +358,24 @@ def hydstra_get_server_url(server):
         "sjrwmd": "https://secure.sjrwmd.com/hydweb/cgi/webservice.exe",
         "orangeco_ca": "http://Hydstra.OCPublicWorks.com/cgi/webservice.exe",
     }
-    urlbase = servdict.get(server, server)
-
-    return urlbase
+    return servdict.get(server, server)
 
 
 def hydstra_get_server_vars(server):
     """Get the variables for a Hydstra server."""
-    if server == "sjrwmd":
-        variables = SJR_Variables
-    elif server == "orangeco_ca":
-        variables = OC_Variables
+    if server == "orangeco_ca":
+        return OC_Variables
+    elif server == "sjrwmd":
+        return SJR_Variables
     else:
-        variables = Gen_Variables
-    return variables
+        return Gen_Variables
 
 
 def hydstra_get_server_skipds(server):
     """Get the data sources to skip for a Hydstra server."""
-    if server == "sjrwmd":
-        skipds = SJR_SkipDataSources
-    elif server == "orangeco_ca":
-        skipds = OC_SkipDataSources
+    if server == "orangeco_ca":
+        return OC_SkipDataSources
+    elif server == "sjrwmd":
+        return SJR_SkipDataSources
     else:
-        skipds = Gen_SkipDataSources
-    return skipds
+        return Gen_SkipDataSources

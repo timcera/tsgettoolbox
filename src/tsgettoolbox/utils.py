@@ -2,10 +2,13 @@
 tsgettoolbox utility functions.
 """
 
+
 import configparser as cp
+import contextlib
 import datetime
 import io
 import os
+import xml
 from multiprocessing import Pool
 
 import cftime
@@ -14,8 +17,7 @@ import pandas as pd
 import requests
 from dapclient.client import open_url
 from haversine import haversine_vector
-from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
+from requests.adapters import HTTPAdapter, Retry
 from siphon.ncss import NCSS
 from toolbox_utils import tsutils
 
@@ -45,11 +47,11 @@ api_key = ReplaceThisStringWithYourKey
     os.chmod(configfile, 0o600)
 
     inifile = cp.ConfigParser()
-    inifile.readfp(open(configfile, encoding="ascii"))
+    inifile.read_file(open(configfile, encoding="ascii"))
 
     try:
         api_key = inifile.get(service, "api_key")
-    except BaseException:
+    except KeyError:
         with open(configfile, "a", encoding="ascii") as fpconfig:
             fpconfig.write(
                 f"""
@@ -61,7 +63,7 @@ api_key = ReplaceThisStringWithYourKey
             )
         api_key = "ReplaceThisStringWithYourKey"
 
-    inifile.readfp(open(configfile, encoding="ascii"))
+    inifile.read_file(open(configfile, encoding="ascii"))
     api_key = inifile.get(service, "api_key")
     if api_key == "ReplaceThisStringWithYourKey":
         raise ValueError(
@@ -118,11 +120,7 @@ def file_downloader(baseurl, station, startdate=None, enddate=None):
         startdate = pd.to_datetime(startdate)
     else:
         startdate = pd.to_datetime("1901-01-01")
-    if enddate:
-        enddate = pd.to_datetime(enddate)
-    else:
-        enddate = datetime.datetime.now()
-
+    enddate = pd.to_datetime(enddate) if enddate else datetime.datetime.now()
     station = station.split(":")[-1]
     urls = []
     for year in range(startdate.year, enddate.year + 1):
@@ -144,12 +142,9 @@ def file_downloader(baseurl, station, startdate=None, enddate=None):
 def dapdownloader(url, lat, lon, var, start_date=None, end_date=None):
     """Download data from a OpenDAP server using NCSS."""
     for u in tsutils.make_list(url):
-        try:
+        with contextlib.suppress(xml.etree.ElementTree.ParseError):
             ncss = NCSS(u.format(**locals()))
             break
-        except xml.etree.ElementTree.ParseError:
-            pass
-
     avail_vars = list(ncss.variables)
     var = tsutils.make_list(var)
 

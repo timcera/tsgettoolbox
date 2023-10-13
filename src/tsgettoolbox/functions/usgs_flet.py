@@ -91,7 +91,7 @@ _vars = {
 }
 
 
-docs = r"""
+DOCS = r"""
 
     Daily reference and potential evapotranspiration, and supporting
     meteorological, solar insolation, and blue-sky albedo data, Florida, 2019
@@ -175,11 +175,11 @@ docs = r"""
 def assign_docstring(indocstring: str) -> Callable:
     """Assign docstring."""
 
-    def f(fn):
-        fn.__doc__ = f"{fn.__doc__}\n{indocstring}"
-        return fn
+    def returned_function(function_to_decorate):
+        function_to_decorate.__doc__ = f"{function_to_decorate.__doc__}\n{indocstring}"
+        return function_to_decorate
 
-    return f
+    return returned_function
 
 
 def _rename_columns(x):
@@ -189,7 +189,7 @@ def _rename_columns(x):
     return ":".join(words)
 
 
-@assign_docstring(docs)
+@assign_docstring(DOCS)
 def usgs_flet_narr(
     lat,
     lon,
@@ -219,7 +219,7 @@ def usgs_flet_narr(
     return df
 
 
-@assign_docstring(docs)
+@assign_docstring(DOCS)
 def usgs_flet_stns(
     lat,
     lon,
