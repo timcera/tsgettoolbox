@@ -18,7 +18,7 @@ def unavco_to_df(url, **query_params):
     """Get data from unavco and return a dataframe."""
     try:
         station = query_params.pop("station")
-    except KeyError:
+    except KeyError as e:
         raise KeyError(
             f"""
 *
@@ -26,7 +26,7 @@ def unavco_to_df(url, **query_params):
 *   {query_params}.
 *
 """
-        )
+        ) from e
     url = f"{url}/{station}/beta"
     comment = None if "/met/" in url or "/strain/" in url else "#"
     query_params["starttime"] = tsutils.parsedate(query_params["starttime"]).isoformat()

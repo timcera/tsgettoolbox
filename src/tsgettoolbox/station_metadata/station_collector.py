@@ -73,15 +73,13 @@ prepped = ireq.prepare()
 dreq = s.send(prepped)
 dreq.raise_for_status()
 
-data_file = open("jsonoutput.csv", "w", newline="")
-csv_writer = csv.writer(data_file)
+with open("jsonoutput.csv", "w", newline="") as data_file:
+    csv_writer = csv.writer(data_file)
 
-count = 0
-for data in dreq.json():
-    if count == 0:
-        header = data.keys()
-        csv_writer.writerow(header)
-        count += 1
-    csv_writer.writerow(data.values())
-
-data_file.close()
+    count = 0
+    for data in dreq.json():
+        if count == 0:
+            header = data.keys()
+            csv_writer.writerow(header)
+            count += 1
+        csv_writer.writerow(data.values())

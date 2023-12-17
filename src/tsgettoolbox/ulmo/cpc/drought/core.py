@@ -106,9 +106,9 @@ def get_data(
         ``as_dataframe`` parameter for more.
     """
     start_date = util.convert_date(start) if start is not None else None
-    end_date = util.convert_date(end) if end is not None else None
-    if not end_date:
-        end_date = datetime.date.today()
+    end_date = (
+        util.convert_date(end) if end is not None else None
+    ) or datetime.date.today()
     if not start_date:
         start_date = datetime.date(end_date.year, 1, 1)
 
@@ -151,9 +151,7 @@ def get_data(
     # this does what data.reset_index() should do, but at least as of 0.10.1, that sets
     # will cast period objects to ints
     data.index = period_index.to_timestamp()  # np.arange(len(data))
-    if as_dataframe:
-        return data
-    return _as_data_dict(data)
+    return data if as_dataframe else _as_data_dict(data)
 
 
 def _as_data_dict(dataframe):
@@ -217,9 +215,7 @@ def _first_sunday(year):
 def _get_data_format(year):
     if year >= 2001:
         return "format5"
-    if 1997 <= year <= 2000:
-        return "format4"
-    return "format2"
+    return "format4" if 1997 <= year <= 2000 else "format2"
 
 
 def _get_data_url(year):

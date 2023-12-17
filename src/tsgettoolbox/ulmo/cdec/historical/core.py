@@ -103,9 +103,7 @@ def get_sensors(sensor_id=None):
     df = pd.read_html(url, header=0)[0]
     df.set_index("Sensor No")
 
-    if sensor_id is None:
-        return df
-    return df.loc[sensor_id]
+    return df if sensor_id is None else df.loc[sensor_id]
 
 
 def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
@@ -153,12 +151,12 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
 
         try:
             sensor_list = pd.read_html(url, match="Sensor Description")[0]
-        except:
+        except Exception:
             sensor_list = pd.read_html(url)[0]
 
         try:
             sensor_list.columns = ["sensor_id", "variable", "resolution", "timerange"]
-        except:
+        except Exception:
             sensor_list.columns = [
                 "variable",
                 "sensor_id",

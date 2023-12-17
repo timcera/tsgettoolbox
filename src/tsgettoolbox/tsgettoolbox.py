@@ -154,8 +154,6 @@ def main():
         measuredParams="all",
         time_scale="daily",
         snow=False,
-        pet_soil_heat=0.0,
-        pet_alpha=1.26,
     ):
         tsutils.printiso(
             daymet(
@@ -167,8 +165,6 @@ def main():
                 measuredParams=measuredParams,
                 time_scale=time_scale,
                 snow=snow,
-                pet_soil_heat=pet_soil_heat,
-                pet_alpha=pet_alpha,
             )
         )
 

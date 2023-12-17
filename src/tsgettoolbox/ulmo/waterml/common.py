@@ -289,8 +289,7 @@ def _parse_site_info(site_info, namespace):
         "network": site_code.attrib.get("network"),
     }
 
-    agency = site_code.attrib.get("agencyCode")
-    if agency:
+    if agency := site_code.attrib.get("agencyCode"):
         return_dict["agency"] = agency
 
     geog_location = site_info.find(namespace.join(["", "geoLocation/", "geogLocation"]))
@@ -305,20 +304,18 @@ def _parse_site_info(site_info, namespace):
     if elevation_m is not None:
         return_dict["elevation_m"] = elevation_m.text
 
-    notes = {
+    if notes := {
         util.camel_to_underscore(note.attrib["title"].replace(" ", "")): note.text
         for note in site_info.findall(f"{namespace}note")
-    }
-    if notes:
+    }:
         return_dict["notes"] = notes
 
-    site_properties = {
+    if site_properties := {
         util.camel_to_underscore(
             site_property.attrib["name"].replace(" ", "")
         ): site_property.text
         for site_property in site_info.findall(f"{namespace}siteProperty")
-    }
-    if site_properties:
+    }:
         return_dict["site_property"] = site_properties
 
     return return_dict
@@ -445,8 +442,7 @@ def _parse_variable(variable_element, namespace):
             "vocabulary": variable_code.attrib.get("vocabulary"),
         }
     )
-    network = variable_code.attrib.get("network")
-    if network:
+    if network := variable_code.attrib.get("network"):
         return_dict["network"] = network
 
     statistic = variable_element.find(

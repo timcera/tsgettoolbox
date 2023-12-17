@@ -50,7 +50,7 @@ __all__ = [
 
 ncei_ghcnd_docstrings = {
     "info": r"""If you use this data, please read
-    ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt about "How to
+    https://www.ncei.noaa.gov/pub/data/ghcn/daily/readme.txt about "How to
     cite".
 
     GHCN (Global Historical Climatology Network)-Daily is an integrated
@@ -325,7 +325,7 @@ ncei_ghcnd_docstrings = {
     """,
     "stationid": r"""stationid
         The station id. from the first column of
-        ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt""",
+        https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt""",
     "datatypeid": r"""datatypeid : str
         The following table lists the datatypes available for the 'ghcnd'
         dataset.  If the datatypeid is not given defaults to getting all
@@ -3967,7 +3967,7 @@ def ncei_normal_mly(stationid):
     The following table lists the datatypes available for the annual
     dataset. Not all of the datatypes are available for all stations.
 
-    +----------------------+----------------------------------------+
+    +-------------------------+----------------------------------------+
     | Code                 | Description                            |
     +======================+========================================+
     | MLY-CLDD-BASE45      | Average monthly cooling degree days    |

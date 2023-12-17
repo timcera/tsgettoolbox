@@ -120,14 +120,14 @@ def _twdb_assemble_dataframe(
         water_levels.reverse()
     try:
         battery_voltage = float(battery_voltage)
-    except:
+    except Exception:
         battery_voltage = pd.np.nan
 
     for hrs, water_level in enumerate(water_levels):
         timestamp = base_timestamp - timedelta(hours=hrs)
         try:
             water_level = float(water_level)
-        except:
+        except Exception:
             water_level = pd.np.nan
             water_level = np.nan
 

@@ -112,8 +112,8 @@ def get_site(site_code, path=None, complevel=None, complib=None):
     sites = get_sites(path=sites_store_path, complevel=complevel, complib=complib)
     try:
         return sites[site_code]
-    except KeyError:
-        raise LookupError(f"could not find site: {site_code}")
+    except KeyError as e:
+        raise LookupError(f"could not find site: {site_code}") from e
 
 
 def get_site_data(
@@ -226,8 +226,9 @@ def remove_values(
             if values_path in store:
                 values_df = store[values_path]
                 original_datetimes = set(values_df.dropna(how="all").index.tolist())
-                datetimes_to_remove = original_datetimes.intersection(set(datetimes))
-                if datetimes_to_remove:
+                if datetimes_to_remove := original_datetimes.intersection(
+                    set(datetimes)
+                ):
                     values_df.loc[list(datetimes_to_remove), "value"] = np.nan
                     core.log.info(
                         f"{len(datetimes_to_remove)} {variable_code} values were set to NaNs in file"

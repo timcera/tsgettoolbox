@@ -124,7 +124,7 @@ readme = {file = "README.rst"}
 version = {file = "VERSION"}
 
 [tool.setuptools.packages.find]
-exclude = ["examples*", "tools*", "docs*", "tsgettoolbox.tests*"]
+exclude = ["tests*", "examples*", "tools*", "docs*", "tsgettoolbox.tests*"]
 where = ["src"]
 
 [tool.setuptools_scm]

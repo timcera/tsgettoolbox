@@ -1131,7 +1131,7 @@ def usgs_measurements_peak_rdb_to_df(url, **kwargs):
     r = usgs_site_rdb_to_df(url, **kwargs)
     try:
         url = url.replace("XX", statelookup[int(r.loc[0, "state_cd"])].lower())
-    except KeyError:
+    except KeyError as e:
         raise ValueError(
             tsutils.error_wrapper(
                 """
@@ -1139,13 +1139,10 @@ def usgs_measurements_peak_rdb_to_df(url, **kwargs):
                 to NWIS.
                 """
             )
-        )
+        ) from e
 
     ndf = _read_rdb(url, [kwargs])
-    dname = "peak_dt"
-    if "measurements" in kwargs:
-        dname = "measurement_dt"
-
+    dname = "measurement_dt" if "measurements" in kwargs else "peak_dt"
     ndf["Datetime"] = pd.to_datetime(ndf[dname], errors="coerce")
     ndf.set_index(["Datetime"], inplace=True)
     ndf.drop([dname, "agency_cd", "site_no"], axis=1, inplace=True)

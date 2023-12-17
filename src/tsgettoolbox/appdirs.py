@@ -563,10 +563,7 @@ if system == "win32":
             pass
         except ImportError:
             try:
-                if PY3:
-                    pass
-                else:
-                    pass
+                pass
             except ImportError:
                 _get_win_folder = _get_win_folder_from_environ
             else:

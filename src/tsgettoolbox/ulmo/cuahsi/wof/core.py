@@ -216,9 +216,7 @@ def get_values(
     elif waterml_version == "1.1":
         values = waterml.v1_1.parse_site_values(response_buffer)
 
-    if variable_code is not None:
-        return list(values.values())[0]
-    return values
+    return list(values.values())[0] if variable_code is not None else values
 
 
 def get_variable_info(

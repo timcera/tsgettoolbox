@@ -148,10 +148,8 @@ def get_historical_data(site_code, start=None, end=None, as_dataframe=False):
     # uses \xa0 for blank
 
     for row in gridview.findAll("tr"):
-        vals = [_parse_val(aux.text) for aux in row.findAll("td")]
-        if not vals:
-            continue
-        results.append(dict(zip(headers, vals)))
+        if vals := [_parse_val(aux.text) for aux in row.findAll("td")]:
+            results.append(dict(zip(headers, vals)))
 
     data = _create_dataframe(results)
 
@@ -161,9 +159,7 @@ def get_historical_data(site_code, start=None, end=None, as_dataframe=False):
     if end and not data.empty:
         data = data.loc[: util.convert_date(end)]
 
-    if as_dataframe:
-        return data
-    return data.to_dict(orient="records")
+    return data if as_dataframe else data.to_dict(orient="records")
 
 
 def get_recent_data(site_code, as_dataframe=False):
@@ -198,9 +194,7 @@ def get_recent_data(site_code, as_dataframe=False):
     data.rename(columns=columns, inplace=True)
     data = data.astype(float)
 
-    if as_dataframe:
-        return data
-    return util.dict_from_dataframe(data)
+    return data if as_dataframe else util.dict_from_dataframe(data)
 
 
 def _nan_values(value):
@@ -254,7 +248,7 @@ def _extract_headers_for_next_request(request):
     payload = {}
     for tag in BeautifulSoup(request.content, "html.parser").findAll("input"):
         tag_dict = dict(tag.attrs)
-        if tag_dict.get("value", None) == "tabular":
+        if tag_dict.get("value") == "tabular":
             #
             continue
         # some tags don't have a value and are used w/ JS to toggle a set of checkboxes

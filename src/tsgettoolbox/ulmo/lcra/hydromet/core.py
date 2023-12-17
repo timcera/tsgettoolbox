@@ -293,7 +293,7 @@ def _values_dict_to_df(values_dict):
     df = pandas.DataFrame(values_dict)
     df.index = df["Date - Time"].apply(util.convert_datetime)
     df.drop("Date - Time", axis=1, inplace=True)
-    df.sort_index(inplace=True)
+    df = df.sort_index()
     df.dropna(axis=1, how="all", inplace=True)
     df.dropna(axis=0, how="all", inplace=True)
     return df
@@ -328,7 +328,7 @@ def _extract_headers_for_next_request(request):
     payload = {}
     for tag in BeautifulSoup(request.content, "html.parser").findAll("input"):
         tag_dict = dict(tag.attrs)
-        if tag_dict.get("value", None) == "tabular":
+        if tag_dict.get("value") == "tabular":
             #
             continue
         # some tags don't have a value and are used w/ JS to toggle a set of checkboxes

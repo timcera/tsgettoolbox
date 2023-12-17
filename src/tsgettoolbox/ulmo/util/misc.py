@@ -162,11 +162,7 @@ def open_file_for_url(url, path, check_modified=True, use_file=None, use_bytes=N
         yield use_file
     else:
         open_path = use_file
-    if use_bytes is None:
-        open_file = open(open_path)
-    else:
-        open_file = open(open_path, "rb")
-
+    open_file = open(open_path) if use_bytes is None else open(open_path, "rb")
     yield open_file
 
     if not leave_open:
@@ -290,9 +286,7 @@ def _path_last_modified(path):
 def _request_file_size_matches(request, path):
     """returns True if request content-length header matches file size"""
     content_length = request.headers.get("content-length")
-    if content_length and int(content_length) == os.path.getsize(path):
-        return True
-    return False
+    return bool(content_length and int(content_length) == os.path.getsize(path))
 
 
 def _request_is_newer_than_file(request, path):
@@ -313,6 +307,4 @@ def _request_is_newer_than_file(request, path):
     request_last_modified = _parse_rfc_1123_timestamp(
         request.headers.get("last-modified")
     )
-    if request_last_modified > path_last_modified:
-        return True
-    return False
+    return request_last_modified > path_last_modified

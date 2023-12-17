@@ -233,9 +233,7 @@ def get_stations(
         is_invalid = is_nan | is_empty
         stations.loc[is_invalid, "wm_oid"] = np.nan
 
-    if as_dataframe:
-        return stations
-    return util.dict_from_dataframe(stations)
+    return stations if as_dataframe else util.dict_from_dataframe(stations)
 
 
 def _get_ghcn_file(filename, check_modified=True):

@@ -217,9 +217,7 @@ def _passes_row_filter(row, country=None, state=None, start_str=None, end_str=No
         return False
     if start_str is not None and row["END"] != "" and row["END"] <= start_str:
         return False
-    if end_str is not None and row["BEGIN"] != "" and end_str <= row["BEGIN"]:
-        return False
-    return True
+    return end_str is None or row["BEGIN"] == "" or end_str > row["BEGIN"]
 
 
 def _process_station(station_row):

@@ -77,8 +77,7 @@ def decode(dataframe, parser, **kwargs):
         if not parsed.empty:
             df.append(parsed)
 
-    df = pd.concat(df)
-    return df
+    return pd.concat(df)
 
 
 def get_data(
@@ -168,7 +167,7 @@ def get_data(
     else:
         try:
             drs_since = _format_time(data["message_timestamp_utc"][-1])
-        except:
+        except Exception:
             drs_since = "now -2 days"
 
     drs_until = _format_time(end) if end else "now"

@@ -135,9 +135,7 @@ def get_data(
     df = df.reset_index()
     df = _resolve_location_names(df, location_names, by_state)
 
-    if as_dataframe:
-        return df
-    return list(df.T.to_dict().values())
+    return df if as_dataframe else list(df.T.to_dict().values())
 
 
 def _get_element_data(element, by_state, use_file, location_names):

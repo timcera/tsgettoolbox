@@ -74,9 +74,7 @@ def get_data(county=None, start=None, end=None, as_dataframe=False, data_dir=Non
     if county:
         df = df[df["fips"] == county]
 
-    if as_dataframe:
-        return df
-    return _as_data_dict(df)
+    return df if as_dataframe else _as_data_dict(df)
 
 
 def _as_data_dict(df):

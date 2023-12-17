@@ -6,7 +6,6 @@ coops               global station 1T,6T,H,D,M: Center for Operational
 import datetime
 import warnings
 from collections import defaultdict
-from contextlib import suppress
 from typing import List, Literal, Optional, Union
 
 import async_retriever as ar
@@ -900,7 +899,7 @@ def coops(
         ndf = ndf.join(resp, how="outer")
     try:
         ndf.index = pd.to_datetime(ndf.index)
-    except:
+    except Exception:
         pass
     return ndf
 

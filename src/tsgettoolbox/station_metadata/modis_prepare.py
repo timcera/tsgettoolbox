@@ -68,8 +68,7 @@ for prod in pdf.index:
     if "fill_value" in bdf.columns:
         for val in bdf.itertuples():
             try:
-                testval = val.fill_value
-                if testval:
+                if testval := val.fill_value:
                     fill_value[val.Index] = int(val.fill_value)
             except ValueError:
                 pass
@@ -81,7 +80,7 @@ for prod in pdf.index:
         for val in bdf.itertuples():
             try:
                 testval = float(val.scale_factor)
-                if testval != 1 and testval is not np.nan:
+                if testval != 1 and testval != np.nan:
                     scale_factor[val.Index] = float(val.scale_factor)
             except ValueError:
                 pass
