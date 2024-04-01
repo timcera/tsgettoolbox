@@ -17,11 +17,11 @@ import logging
 import isodate
 import requests
 
-from tsgettoolbox.ulmo import util
-from tsgettoolbox.ulmo.waterml import v1_1 as wml
+from ... import util
+from ...waterml import v1_1 as wml
 
-INSTANTANEOUS_URL = "http://waterservices.usgs.gov/nwis/iv/"
-DAILY_URL = "http://waterservices.usgs.gov/nwis/dv/"
+INSTANTANEOUS_URL = "https://waterservices.usgs.gov/nwis/iv/"
+DAILY_URL = "https://waterservices.usgs.gov/nwis/dv/"
 
 # configure logging
 LOG_FORMAT = "%(message)s"
@@ -42,7 +42,9 @@ def get_sites(
     site_type=None,
     **kwargs,
 ):
-    """Fetches site information from USGS services.
+    """
+    Fetches site information from USGS services.
+
     See the `USGS Site Service`_ documentation for a detailed description of options.
     For convenience, major options have been included with pythonic names.
     At least one major filter must be specified. Options that are not listed
@@ -101,6 +103,7 @@ def get_sites(
     return_sites : dict
         a python dict with site codes mapped to site information
     """
+
     if input_file is None:
         # Checking to see if the correct amount of major filters are being used.
         # The NWIS site requires only one major filter to be used at a time.
@@ -143,7 +146,7 @@ def get_sites(
         if parameter_code:
             url_params["parameterCd"] = _as_str(parameter_code)
 
-        url_params |= kwargs
+        url_params.update(kwargs)
 
         if not service:
             return_sites = {}
@@ -160,12 +163,12 @@ def get_sites(
                     input_file=input_file,
                     **kwargs,
                 )
-                return_sites |= new_sites
+                return_sites.update(new_sites)
             return return_sites
 
         url = _get_service_url(service)
         log.info(f"making request for sites: {url}")
-        req = requests.get(url, params=url_params)
+        req = requests.get(url, params=url_params, timeout=60)
         log.info(f"processing data from request: {req.request.url}")
         req.raise_for_status()
         input_file = io.BytesIO(util.to_bytes(req.content))
@@ -242,9 +245,9 @@ def get_site_data(
         a python dict with parameter codes mapped to value dicts
     """
     url_params = {"format": "waterml", "site": site_code}
-    if type(parameter_code) is str:
+    if isinstance(parameter_code, str):
         url_params["parameterCd"] = parameter_code
-    elif type(parameter_code) is list:
+    elif isinstance(parameter_code, list):
         url_params["parameterCd"] = ",".join(parameter_code)
     if statistic_code:
         url_params["statCd"] = statistic_code
@@ -253,7 +256,7 @@ def get_site_data(
 
     if start is not None and end is not None and period is not None:
         raise ValueError(
-            "must use either a date range with start/end OR a " "period, but not both"
+            "must use either a date range with start/end OR a period, but not both"
         )
     if period is not None:
         if isinstance(period, str):
@@ -279,7 +282,7 @@ def get_site_data(
         url_params["endDT"] = datetime_formatter(end_datetime)
 
     if service is not None:
-        url_params |= kwargs
+        url_params.update(kwargs)
         values = _get_site_values(
             service, url_params, input_file=input_file, methods=methods
         )
@@ -294,7 +297,7 @@ def get_site_data(
             input_file=input_file,
             methods=methods,
         )
-        kw |= kwargs
+        kw.update(kwargs)
         values = get_site_data(site_code, service="daily", **kw)
         values.update(get_site_data(site_code, service="instantaneous", **kw))
 
@@ -330,11 +333,12 @@ def _extract_site_properties(site):
 def _get_service_url(service):
     if service in ("daily", "dv"):
         return DAILY_URL
-    if service in ("instantaneous", "iv"):
+    elif service in ("instantaneous", "iv"):
         return INSTANTANEOUS_URL
-    raise ValueError(
-        "service must be either 'daily' ('dv') or " "'instantaneous' ('iv')"
-    )
+    else:
+        raise ValueError(
+            "service must be either 'daily' ('dv') or 'instantaneous' ('iv')"
+        )
 
 
 def _get_site_values(service, url_params, input_file=None, methods=None):
@@ -347,7 +351,7 @@ def _get_site_values(service, url_params, input_file=None, methods=None):
         service_url = _get_service_url(service)
 
         try:
-            req = requests.get(service_url, params=url_params)
+            req = requests.get(service_url, params=url_params, timeout=60)
         except requests.exceptions.ConnectionError:
             log.info(
                 f"There was a connection error with query:\n\t{service_url}\n\t{url_params}"

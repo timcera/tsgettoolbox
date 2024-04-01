@@ -10,19 +10,21 @@
     .. _Global Historical Climate Network - Daily: http://www.ncdc.noaa.gov/oa/climate/ghcn-daily/
 
 """
+
 import itertools
 import os
 
 import numpy as np
 import pandas
 
-from tsgettoolbox.ulmo import util
+from ... import util
 
 GHCN_DAILY_DIR = os.path.join(util.get_ulmo_dir(), "ncdc/ghcn_daily")
 
 
 def get_data(station_id, elements=None, update=True, as_dataframe=False):
     """Retrieves data for a given station.
+
 
     Parameters
     ----------
@@ -41,6 +43,7 @@ def get_data(station_id, elements=None, update=True, as_dataframe=False):
         pandas.DataFrame objects will be returned. The pandas dataframe is used
         internally, so setting this to ``True`` is a little bit faster as it
         skips a serialization step.
+
 
     Returns
     -------
@@ -75,7 +78,7 @@ def get_data(station_id, elements=None, update=True, as_dataframe=False):
         )
     )
 
-    station_file_path = _get_ghcn_file(f"{station_id}.dly", check_modified=update)
+    station_file_path = _get_ghcn_file(station_id + ".dly", check_modified=update)
     station_data = util.parse_fwf(station_file_path, columns, na_values=[-9999])
 
     dataframes = {}
@@ -114,16 +117,17 @@ def get_data(station_id, elements=None, update=True, as_dataframe=False):
             months = pandas.PeriodIndex([pandas.Period(date, "M") for date in dates])
             for column_name in dataframe.columns:
                 col = column_name + str(day_of_month)
-                dataframe[column_name][dates] = element_df[col][months]
+                dataframe[column_name][dates] = element_df[col][months].values
 
         dataframes[element_name] = dataframe
 
     if as_dataframe:
         return dataframes
-    return {
-        key: util.dict_from_dataframe(dataframe)
-        for key, dataframe in dataframes.items()
-    }
+    else:
+        return {
+            key: util.dict_from_dataframe(dataframe)
+            for key, dataframe in dataframes.items()
+        }
 
 
 def get_stations(
@@ -136,6 +140,7 @@ def get_stations(
     as_dataframe=False,
 ):
     """Retrieves station information, optionally limited to specific parameters.
+
 
     Parameters
     ----------
@@ -168,12 +173,14 @@ def get_stations(
         returned. The pandas dataframe is used internally, so setting this to
         ``True`` is a little bit faster as it skips a serialization step.
 
+
     Returns
     -------
     stations_dict : dict or pandas.DataFrame
         A dict or pandas.DataFrame representing station information for stations
         matching the arguments. See the ``as_dataframe`` parameter for more.
     """
+
     columns = [
         ("country", 0, 2, None),
         ("network", 2, 3, None),

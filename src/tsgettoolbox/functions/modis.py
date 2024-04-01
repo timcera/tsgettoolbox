@@ -2543,9 +2543,11 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
         "longitude": lon,
         "product": product,
         "band": band,
-        "startdate": pd.to_datetime("1900-01-01T00")
-        if start_date is None
-        else tsutils.parsedate(start_date),
+        "startdate": (
+            pd.to_datetime("1900-01-01T00")
+            if start_date is None
+            else tsutils.parsedate(start_date)
+        ),
     }
 
     if end_date is None:

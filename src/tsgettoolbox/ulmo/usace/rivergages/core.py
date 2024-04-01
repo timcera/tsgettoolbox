@@ -8,24 +8,27 @@
     .. _United States Army Corps of Engineers: http://www.usace.army.mil/
     .. _Rivergages: http://rivergages.mvr.usace.army.mil/WaterControl/new/layout.cfm
 """
+
 import datetime
 import os.path
 
 import requests
 from bs4 import BeautifulSoup
 
-from tsgettoolbox.ulmo import util
+from ... import util
 
 USACE_RIVERGAGES_DIR = os.path.join(util.get_ulmo_dir(), "usace/rivergages/")
 URL = "https://rivergages.mvr.usace.army.mil/WaterControl/datamining2.cfm"
 DEFAULT_START_DATE = datetime.date(1800, 1, 1)
+
+requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS = "ALL"
 
 
 def get_stations():
     path = os.path.join(USACE_RIVERGAGES_DIR, "datamining_field_list.cfm")
 
     with util.open_file_for_url(URL, path, use_bytes=True) as f:
-        soup = BeautifulSoup(f, features="lxml")
+        soup = BeautifulSoup(f)
         options = soup.find("select", id="fld_station").find_all("option")
         stations = _parse_options(options)
 
@@ -55,24 +58,24 @@ def get_station_data(
     }
 
     req = requests.post(
-        URL, params=dict(sid=station_code), data=form_data, verify=False
+        URL, params={"sid": station_code}, verify=False, data=form_data, timeout=60
     )
-    soup = BeautifulSoup(req.content, features="lxml")
+    soup = BeautifulSoup(req.content)
     data_table = soup.find("table").find_all("table")[-1]
 
     return dict([_parse_value(value_tr) for value_tr in data_table.find_all("tr")[2:]])
 
 
 def get_station_parameters(station_code):
-    req = requests.get(URL, params=dict(sid=station_code), verify=False)
-    soup = BeautifulSoup(req.content, features="lxml")
+    req = requests.get(URL, params={"sid": station_code}, timeout=60, verify=False)
+    soup = BeautifulSoup(req.content)
 
     options = soup.find("select", id="fld_parameter").find_all()
     return _parse_options(options)
 
 
 def _format_date(date):
-    return f"{date.month}/{date.day}/{date.year}"
+    return f"{date.month:02}/{date.day:02}/{date.year}"
 
 
 def _parse_options(options):

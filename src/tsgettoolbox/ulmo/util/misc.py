@@ -13,7 +13,7 @@ import pandas
 import requests
 from lxml import etree
 
-from tsgettoolbox import appdirs
+from ... import appdirs
 
 # pre-compiled regexes for underscore conversion
 first_cap_re = re.compile("(.)([A-Z][a-z]+)")
@@ -162,7 +162,11 @@ def open_file_for_url(url, path, check_modified=True, use_file=None, use_bytes=N
         yield use_file
     else:
         open_path = use_file
-    open_file = open(open_path) if use_bytes is None else open(open_path, "rb")
+    if use_bytes is None:
+        open_file = open(open_path)
+    else:
+        open_file = open(open_path, "rb")
+
     yield open_file
 
     if not leave_open:
@@ -214,6 +218,7 @@ def save_pretty_printed_xml(filename, response_buffer):
 
 def to_bytes(s):
     """convert str to bytes for py 2/3 compat"""
+
     return s if isinstance(s, bytes) else s.encode("utf-8", "ignore")
 
 
@@ -246,7 +251,7 @@ def _ftp_last_modified(ftp, file_path):
 
 
 def _http_download_file(url, path):
-    request = requests.get(url, verify=False)
+    request = requests.get(url, timeout=60)
     mkdir_if_doesnt_exist(os.path.dirname(path))
     chunk_size = 64 * 1024
     with open(path, "wb") as f:
@@ -255,7 +260,7 @@ def _http_download_file(url, path):
 
 
 def _http_download_if_new(url, path, check_modified):
-    head = requests.head(url, verify=False)
+    head = requests.head(url, timeout=60, verify=False)
     if not os.path.exists(path) or not _request_file_size_matches(head, path):
         _http_download_file(url, path)
     elif check_modified and _request_is_newer_than_file(head, path):
@@ -276,11 +281,10 @@ def _path_last_modified(path):
     """returns a datetime.datetime object representing the last time the file at
     a given path was last modified
     """
-    return (
-        datetime.datetime.utcfromtimestamp(os.path.getmtime(path))
-        if os.path.exists(path)
-        else None
-    )
+    if not os.path.exists(path):
+        return None
+
+    return datetime.datetime.utcfromtimestamp(os.path.getmtime(path))
 
 
 def _request_file_size_matches(request, path):

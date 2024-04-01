@@ -3,8 +3,9 @@
     ~~~~~~~~~~~~~
     This module provides direct access to `CUAHSI WaterOneFlow`_ web services.
 
-    .. _CUAHSI WaterOneFlow: http://his.cuahsi.org/wofws.html
+    .. _CUAHSI WaterOneFlow: https://his.cuahsi.org/wofws.html
 """
+
 import io
 import os
 
@@ -12,7 +13,7 @@ import isodate
 import suds.client
 from suds.cache import ObjectCache
 
-from tsgettoolbox.ulmo import util, waterml
+from ... import util, waterml
 
 _suds_client = None
 
@@ -60,7 +61,7 @@ def get_sites(wsdl_url, suds_cache=("default",), timeout=None, user_cache=False)
         response_buffer = io.BytesIO(util.to_bytes(response))
         sites = waterml.v1_1.parse_site_infos(response_buffer)
 
-    return {f"{site['network']}:{site['code']}": site for site in list(sites.values())}
+    return {site["network"] + ":" + site["code"]: site for site in list(sites.values())}
 
 
 def get_site_info(
@@ -114,7 +115,7 @@ def get_site_info(
         return {}
     site_info = list(sites.values())[0]
     series_dict = {
-        f"{series['variable']['vocabulary']}:{series['variable']['code']}": series
+        series["variable"]["vocabulary"] + ":" + series["variable"]["code"]: series
         for series in site_info["series"]
     }
     site_info["series"] = series_dict
@@ -180,7 +181,7 @@ def get_values(
     available will typically be returned. However, some service providers will return
     an error if either start or end are omitted; this is specially true for services
     hosted or redirected by CUAHSI via the CUAHSI HydroPortal, which have a 'WSDL' url
-    using the domain http://hydroportal.cuahsi.org. For HydroPortal, a start datetime
+    using the domain https://hydroportal.cuahsi.org. For HydroPortal, a start datetime
     of '1753-01-01' has been known to return valid results while catching the oldest
     start times, though the response may be broken up into chunks ('paged').
     """
@@ -275,19 +276,23 @@ def get_variable_info(
 
     if variable_code is not None and len(variable_info) == 1:
         return list(variable_info.values())[0]
-    return {
-        f"{var['vocabulary']}:{var['code']}": var
-        for var in list(variable_info.values())
-    }
+    else:
+        return {
+            f"{var['vocabulary']}:{var['code']}": var
+            for var in list(variable_info.values())
+        }
 
 
 def _waterml_version(suds_client):
     tns_str = str(suds_client.wsdl.tns[1])
     if tns_str == "http://www.cuahsi.org/his/1.0/ws/":
         return "1.0"
-    if tns_str == "http://www.cuahsi.org/his/1.1/ws/":
+    elif tns_str == "http://www.cuahsi.org/his/1.1/ws/":
         return "1.1"
-    raise NotImplementedError("only WaterOneFlow 1.0 and 1.1 are currently supported")
+    else:
+        raise NotImplementedError(
+            "only WaterOneFlow 1.0 and 1.1 are currently supported"
+        )
 
 
 def _get_client(wsdl_url, suds_cache=("default",), suds_timeout=None, user_cache=False):

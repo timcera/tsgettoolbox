@@ -11,8 +11,8 @@ import pandas
 import tables
 from tables.scripts import ptrepack
 
-from tsgettoolbox.ulmo import util
-from tsgettoolbox.ulmo.usgs.nwis import core
+from ... import util
+from . import core
 
 # default hdf5 file path
 DEFAULT_HDF5_FILE_PATH = util.get_default_h5file_path("usgs/")
@@ -160,7 +160,7 @@ def get_site_data(
     data_dict : dict
         a python dict with parameter codes mapped to value dicts
     """
-    site_data_path = _get_store_path(path, f"{site_code}.h5")
+    site_data_path = _get_store_path(path, site_code + ".h5")
 
     comp_kwargs = _compression_kwargs(complevel=complevel, complib=complib)
 
@@ -204,7 +204,7 @@ def remove_values(
     -------
     None : ``None``
     """
-    site_data_path = _get_store_path(path, f"{site_code}.h5")
+    site_data_path = _get_store_path(path, site_code + ".h5")
 
     comp_kwargs = _compression_kwargs(complevel=complevel, complib=complib)
 
@@ -218,27 +218,26 @@ def remove_values(
             return
 
         for variable_code, datetimes in datetime_dicts.items():
-            variable_group_path = f"{site_code}/{variable_code}"
-            values_path = f"{variable_group_path}/values"
+            variable_group_path = site_code + "/" + variable_code
+            values_path = variable_group_path + "/" + "values"
 
             datetimes = [util.convert_datetime(dt) for dt in datetimes]
 
             if values_path in store:
                 values_df = store[values_path]
                 original_datetimes = set(values_df.dropna(how="all").index.tolist())
-                if datetimes_to_remove := original_datetimes.intersection(
-                    set(datetimes)
-                ):
-                    values_df.loc[list(datetimes_to_remove), "value"] = np.nan
-                    core.log.info(
-                        f"{len(datetimes_to_remove)} {variable_code} values were set to NaNs in file"
-                    )
-
-                else:
+                datetimes_to_remove = original_datetimes.intersection(set(datetimes))
+                if not datetimes_to_remove:
                     core.log.info(
                         f"No {variable_code} values matching the given datetimes to remove were found."
                     )
                     continue
+                else:
+                    values_df.ix[list(datetimes_to_remove), "value"] = np.nan
+                    core.log.info(
+                        f"{len(datetimes_to_remove)} {variable_code} values were set to NaNs in file"
+                    )
+
             else:
                 core.log.warning(
                     f"Values path {values_path} not found in {site_data_path}."
@@ -309,7 +308,7 @@ def update_site_list(
         Path to the hdf5 file to be queried, if ``None`` then the default path
         will be used. If a file path is a directory, then multiple hdf5 files
         will be kept so that file sizes remain small for faster repacking.
-    input_file : ``None``, file path or file object
+    input_file: ``None``, file path or file object
         If ``None`` (default), then the NWIS web services will be queried, but
         if a file is passed then this file will be used instead of requesting
         data from the NWIS web services.
@@ -396,14 +395,14 @@ def update_site_data(
         Path to the hdf5 file to be queried, if ``None`` then the default path
         will be used. If a file path is a directory, then multiple hdf5 files
         will be kept so that file sizes remain small for faster repacking.
-    methods : ``None``, str or Python dict
+    methods: ``None``, str or Python dict
         If ``None`` (default), it's assumed that there is a single method for
         each parameter. This raises an error if more than one method ids are
         encountered. If str, this is the method id for the requested
         parameter/s and can use "all" if method ids are not known beforehand. If
         dict, provide the parameter_code to method id mapping. Parameter's
         method id is specific to site.
-    input_file : ``None``, file path or file object
+    input_file: ``None``, file path or file object
         If ``None`` (default), then the NWIS web services will be queried, but
         if a file is passed then this file will be used instead of requesting
         data from the NWIS web services.
@@ -415,11 +414,12 @@ def update_site_data(
         become quite destructive.  If you set this to False, you can manually
         repack files with repack().
 
+
     Returns
     -------
     None : ``None``
     """
-    site_data_path = _get_store_path(path, f"{site_code}.h5")
+    site_data_path = _get_store_path(path, site_code + ".h5")
 
     if input_file is None and start is None and end is None and period is None:
         prior_last_refresh = _get_last_refresh(site_code, site_data_path)
@@ -445,11 +445,11 @@ def update_site_data(
     something_changed = False
     with _get_store(site_data_path, mode="a", **comp_kwargs) as store:
         for variable_code, data_dict in new_site_data.items():
-            variable_group_path = f"{site_code}/{variable_code}"
+            variable_group_path = site_code + "/" + variable_code
 
             site_dict = data_dict.pop("site")
 
-            values_path = f"{variable_group_path}/values"
+            values_path = variable_group_path + "/values"
             new_values = _values_dicts_to_df(data_dict.pop("values", {}))
 
             last_refresh = data_dict.get("last_refresh")
@@ -557,7 +557,8 @@ def _get_store_path(path, default_file_name):
         path = DEFAULT_HDF5_FILE_PATH
     if isinstance(path, str) and (path.endswith("/") or path.endswith("\\")):
         return os.path.join(path, default_file_name)
-    return path
+    else:
+        return path
 
 
 def _nans_to_none(df):
@@ -582,7 +583,9 @@ def _nest_dataframe_dicts(unnested_df, nested_column, keys):
 
 def _ptrepack(src, dst, complevel, complib):
     """run ptrepack to repack from src to dst"""
+
     # check_output(['ptrepack','--complevel=%s' % complevel, '--complib=%s' % complib, src, dst])
+
     # fix for for pytables not finding files on windows because of drive in path
     src = os.path.splitdrive(src)[-1]
     dst = os.path.splitdrive(dst)[-1]
@@ -603,7 +606,7 @@ def _sites_df_to_dict(df):
     df = _nest_dataframe_dicts(df, "location", ["latitude", "longitude", "srs"])
     for tz_type in ["default_tz", "dst_tz"]:
         tz_keys = ["abbreviation", "offset"]
-        rename_dict = {f"{tz_type}_{key}": key for key in tz_keys}
+        rename_dict = {tz_type + "_" + key: key for key in tz_keys}
         df = df.rename(columns=rename_dict)
         df = _nest_dataframe_dicts(df, tz_type, tz_keys)
     df = _nest_dataframe_dicts(
@@ -622,7 +625,7 @@ def _sites_dict_to_df(sites_dict):
     for tz_type in ["default_tz", "dst_tz"]:
         tz_keys = ["abbreviation", "offset"]
         df = _unnest_dataframe_dicts(df, tz_type, tz_keys)
-        rename_dict = {key: f"{tz_type}_{key}" for key in tz_keys}
+        rename_dict = {key: tz_type + "_" + key for key in tz_keys}
         df = df.rename(columns=rename_dict)
 
     return df
@@ -672,7 +675,7 @@ def _values_df_to_dicts(values_df):
 def _variable_group_to_dict(store, variable_group, start=None):
     _v_attrs = variable_group._v_attrs
     variable_dict = {key: getattr(_v_attrs, key) for key in _v_attrs._f_list()}
-    values_path = f"{variable_group._v_pathname}/values"
+    values_path = variable_group._v_pathname + "/values"
     values_df = store[values_path]
     if start:
         values_df = values_df[values_df.index > start]

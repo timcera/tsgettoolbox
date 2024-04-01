@@ -1,6 +1,6 @@
 import datetime
 
-import test_util
+import utils
 
 from tsgettoolbox import ulmo
 
@@ -72,7 +72,7 @@ def test_get_stations():
             },
         ),
     ]
-    with test_util.mocked_urls("ncdc/gsod/isd-history.csv"):
+    with utils.mocked_urls("ncdc/gsod/isd-history.csv"):
         stations = ulmo.ncdc.gsod.get_stations()
 
     assert 27000 < len(stations) < 32000
@@ -85,7 +85,7 @@ def test_get_stations():
 
 
 def test_get_stations_with_country():
-    with test_util.mocked_urls("ncdc/gsod/isd-history.csv"):
+    with utils.mocked_urls("ncdc/gsod/isd-history.csv"):
         stations = ulmo.ncdc.gsod.get_stations(country="AF")
         assert len(stations) > 100
         assert "409900-99999" in stations
@@ -100,7 +100,7 @@ def test_get_stations_with_country():
 
 
 def test_get_stations_with_state():
-    with test_util.mocked_urls("ncdc/gsod/isd-history.csv"):
+    with utils.mocked_urls("ncdc/gsod/isd-history.csv"):
         stations = ulmo.ncdc.gsod.get_stations(state="TX")
         assert len(stations) > 450
         assert "999999-93987" in stations
@@ -113,7 +113,7 @@ def test_get_stations_with_state():
 
 
 def test_get_stations_with_start():
-    with test_util.mocked_urls("ncdc/gsod/isd-history.csv"):
+    with utils.mocked_urls("ncdc/gsod/isd-history.csv"):
         stations = ulmo.ncdc.gsod.get_stations(start="2011-3-2")
     assert len(stations) > 15000
     assert "062390-99999" in stations
@@ -121,7 +121,7 @@ def test_get_stations_with_start():
 
 
 def test_get_stations_with_end():
-    with test_util.mocked_urls("ncdc/gsod/isd-history.csv"):
+    with utils.mocked_urls("ncdc/gsod/isd-history.csv"):
         stations = ulmo.ncdc.gsod.get_stations(end="1960-11-5")
     assert len(stations) > 8500
     assert "534780-99999" in stations
@@ -278,7 +278,7 @@ def test_get_station_data():
             for year in range(start_year, end_year + 1)
         }
 
-        with test_util.mocked_urls(url_files):
+        with utils.mocked_urls(url_files):
             station_data = ulmo.ncdc.gsod.get_data(**kwargs)
 
         for test_value in test_values:

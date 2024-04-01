@@ -15,7 +15,7 @@ import os
 import numpy as np
 import pandas
 
-from tsgettoolbox.ulmo import util
+from ... import util
 
 CSV_SWITCHOVER = pandas.Timestamp("2016-10-01")
 
@@ -34,7 +34,7 @@ def get_data(county=None, start=None, end=None, as_dataframe=False, data_dir=Non
     start : ``None`` or date (see :ref:`dates-and-times`)
         Results will be limited to data on or after this date. Default is the
         start of the calendar year for the end date.
-    as_dataframe : bool
+    as_dataframe: bool
         If ``False`` (default), a dict with a nested set of dicts will be
         returned with data indexed by 5-character Texas county FIPS code. If ``True``
         then a pandas.DataFrame object will be returned.  The pandas dataframe
@@ -45,6 +45,7 @@ def get_data(county=None, start=None, end=None, as_dataframe=False, data_dir=Non
         (default), then a user-specific directory for holding application data
         will be used (the directory will depend on the platform/operating
         system).
+
 
     Returns
     -------
@@ -372,11 +373,11 @@ def _fips_dataframe():
 
 
 def _get_text_url(date):
-    return f"https://twc.tamu.edu/weather_images/summ/summ{date.strftime('%Y%m%d')}.txt"
+    return f"http://twc.tamu.edu/weather_images/summ/summ{date.strftime('%Y%m%d')}.txt"
 
 
 def _get_csv_url(date):
-    return f"https://twc.tamu.edu/weather_images/summ/summ{date.strftime('%Y%m%d')}.csv"
+    return f"http://twc.tamu.edu/weather_images/summ/summ{date.strftime('%Y%m%d')}.csv"
 
 
 def _parse_text_file(data_file):
@@ -388,6 +389,7 @@ def _parse_text_file(data_file):
                 ANDREWS                          485       614       357
                 ...
     """
+
     dtype = [
         ("county", "|U15"),
         ("avg", "i4"),
@@ -417,6 +419,7 @@ def _parse_csv_file(data_file):
         Anderson,429,684,559,+5
         Andrews,92,356,168,+7
     """
+
     if not data_file.readline().lower().startswith(b"county"):
         return pandas.DataFrame()
     data_file.seek(0)

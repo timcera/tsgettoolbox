@@ -8,12 +8,13 @@
     .. _National Climatic Data Center: http://www.ncdc.noaa.gov
     .. _Climate Index Reference Sequential (CIRS): http://www1.ncdc.noaa.gov/pub/data/cirs/
 """
-import distutils
+
+import distutils.version
 import os.path
 
-import pandas
+import pandas as pd
 
-from tsgettoolbox.ulmo import util
+from ... import util
 
 CIRS_DIR = util.get_ulmo_dir("ncdc/cirs")
 
@@ -94,6 +95,7 @@ def get_data(
         A list of value dicts or a pandas.DataFrame containing data. See
         the ``as_dataframe`` parameter for more.
     """
+
     if isinstance(elements, str):
         elements = [elements]
     elif elements is None:
@@ -128,7 +130,6 @@ def get_data(
             for append_key in ["division", "state", "state_code"]
             if append_key in element_df.columns
         )
-
         element_df.set_index(keys, inplace=True)
 
         df = element_df if df is None else df.join(element_df, how="outer")
@@ -155,11 +156,11 @@ def _get_element_data(element, by_state, use_file, location_names):
 
 def _get_element_file(use_file, element, elements, by_state):
     if isinstance(use_file, str) and os.path.basename(use_file) == "":
-        if len(elements) > 1 and not ValueError(
-            "'use_file' must be a path to a directory if using "
-            "'use_file' with multiple elements"
-        ):
-            raise AssertionError
+        if len(elements) > 1:
+            assert ValueError(
+                "'use_file' must be a path to a directory if using "
+                "'use_file' with multiple elements"
+            )
 
         return use_file + _get_filename(element, by_state, os.path.dirname(use_file))
 
@@ -219,7 +220,7 @@ def _parse_values(file_handle, by_state, location_names, element):
     parsed = util.parse_fwf(file_handle, columns, na_values=na_values)
 
     month_columns = [id_column[0] for id_column in id_columns]
-    melted = pandas.melt(parsed, id_vars=month_columns).rename(
+    melted = pd.melt(parsed, id_vars=month_columns).rename(
         columns={"variable": "month"}
     )
 
@@ -238,25 +239,27 @@ def _parse_values(file_handle, by_state, location_names, element):
 def _resolve_location_names(df, location_names, by_state):
     if location_names is None:
         return df
-    if location_names not in ("abbr", "full"):
+    elif location_names not in ("abbr", "full"):
         raise ValueError(
             "location_names should be set to either None, 'abbr' or 'full'"
         )
-    locations = _states_regions_dataframe()[location_names]
-    with_locations = df.join(locations, on="location_code")
+    else:
+        locations = _states_regions_dataframe()[location_names]
+        with_locations = df.join(locations, on="location_code")
 
-    if by_state:
-        return with_locations.rename(
-            columns={
-                location_names: "location",
-            }
-        )
-    return with_locations.rename(
-        columns={
-            location_names: "state",
-            "location_code": "state_code",
-        }
-    )
+        if by_state:
+            return with_locations.rename(
+                columns={
+                    location_names: "location",
+                }
+            )
+        else:
+            return with_locations.rename(
+                columns={
+                    location_names: "state",
+                    "location_code": "state_code",
+                }
+            )
 
 
 def _states_regions_dataframe():
@@ -374,4 +377,4 @@ def _states_regions_dataframe():
         462: ("% Prod: Soybean Belt", "%prod:sb"),
         465: ("% Prod: Cotton Belt", "%prod:cb"),
     }
-    return pandas.DataFrame(STATES_REGIONS).T.rename(columns={0: "full", 1: "abbr"})
+    return pd.DataFrame(STATES_REGIONS).T.rename(columns={0: "full", 1: "abbr"})

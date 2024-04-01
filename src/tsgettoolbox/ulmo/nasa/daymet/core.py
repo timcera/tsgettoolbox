@@ -43,28 +43,28 @@ log.setLevel(logging.INFO)
 def get_variables():
     """retrieve a list of variables available
 
+    Parameters
+    ----------
+    None
+
     Returns
     -------
-    dictionary of variables with variable abbreviations as keys
+        dictionary of variables with variable abbreviations as keys
         and description as values
     """
     return VARIABLES
 
 
 def get_daymet_singlepixel(
-    latitude,
-    longitude,
-    variables=None,
-    years=None,
-    as_dataframe=True,
+    latitude, longitude, variables=None, years=None, as_dataframe=True
 ):
     """Fetches a time series of climate variables from the DAYMET single pixel extraction
 
     Parameters
     ----------
-    latitude : float
+    latitude: float
         The latitude (WGS84), value between 52.0 and 14.5.
-    longitude : float
+    longitude: float
         The longitude (WGS84), value between -131.0 and -53.0.
     variables : list of str
         Daymet parameters to fetch. default = ['tmax', 'tmin', 'prcp'].
@@ -76,7 +76,7 @@ def get_daymet_singlepixel(
             * 'swe': snow-water equivalent
             * 'prcp': precipitation;
             * 'dayl' : daylength.
-    years : list of int
+    years: list of int
         List of years to return.
         Daymet version 2 available 1980 to the latest full calendar year.
         If ``None`` (default), all years will be returned
@@ -88,9 +88,9 @@ def get_daymet_singlepixel(
     -------
     single_pixel_timeseries : pandas dataframe or csv filename
     """
+
     if variables is None:
         variables = ["tmax", "tmin", "prcp"]
-
     _check_coordinates(latitude, longitude)
     _check_variables(variables)
     if years is not None:
@@ -105,30 +105,32 @@ def get_daymet_singlepixel(
     df = pd.read_csv(url, header=6)
     df.year, df.yday = df.year.astype("int"), df.yday.astype("int")
     df.index = pd.to_datetime(
-        f"{df.year.astype('str')}-{df.yday.astype('str')}", format="%Y-%j"
+        df.year.astype("str") + "-" + df.yday.astype("str"), format="%Y-%j"
     )
     df.columns = [c[: c.index("(")].strip() if "(" in c else c for c in df.columns]
     if as_dataframe:
         return df
-    return {
-        key: dict(zip(df[key].index.format(), df[key]))
-        for key in df.columns
-        if key not in ["yday", "year"]
-    }
+    else:
+        return {
+            key: dict(zip(df[key].index.format(), df[key]))
+            for key in df.columns
+            if key not in ["yday", "year"]
+        }
 
 
 def _check_variables(variables):
     """make sure all variables are in list"""
-    if bad_variables := [v for v in variables if v not in VARIABLES.keys()]:
+    bad_variables = [v for v in variables if v not in VARIABLES]
+    if bad_variables:
         raise ValueError(
-            f"""the variable(s) provided ('{"', '".join(bad_variables)}') not
-one of available options: '{str(VARIABLES.keys())[2:-2]}'"""
+            f"the variable(s) provided ({bad_variables}) not\none of available options: {str(VARIABLES.keys())[2:-2]}"
         )
 
 
 def _check_years(years):
     """make sure all years are in available year range"""
-    if bad_years := [str(year) for year in years if not MIN_YEAR <= year <= MAX_Year]:
+    bad_years = [str(year) for year in years if not MIN_YEAR <= year <= MAX_Year]
+    if bad_years:
         raise ValueError(
             f"the year(s) provided ({', '.join(bad_years)}) \nnot in available timerange ({MIN_YEAR}-{MAX_Year})"
         )

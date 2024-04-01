@@ -46,7 +46,7 @@ def unavco_to_df(url, **query_params):
             BytesIO(i),
             header=0,
             index_col=0,
-            parse_dates=[0],
+            parse_dates=True,
             comment=comment,
             skiprows=5,
         )

@@ -6,6 +6,6 @@
 """
 
 # ulmo version PEP-0440
-__version__ = "0.8.6"
+__version__ = "0.8.8"
 
-from . import cdec, cpc, cuahsi, lcra, nasa, ncdc, twc, usace, usgs, util
+from . import cdec, cpc, cuahsi, lcra, nasa, ncdc, noaa, twc, usace, usgs, util

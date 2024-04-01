@@ -7,11 +7,10 @@ import isodate
 import pandas as pd
 import requests
 
-from tsgettoolbox.ulmo import util
-
+from ... import util
 from . import parsers
 
-dcs_url = "https://dcs1.noaa.gov/Account/FieldTestData"
+DCS_URL = "https://dcs1.noaa.gov/Account/FieldTestData"
 
 DEFAULT_FILE_PATH = "noaa/goes/"
 
@@ -51,7 +50,7 @@ def decode(dataframe, parser, **kwargs):
         return dataframe
 
     df = []
-    for timestamp, data in dataframe.iterrows():
+    for _, data in dataframe.iterrows():
         parsed = parser(data, **kwargs)
         parsed.dropna(how="all", inplace=True)
         if parsed.empty:
@@ -96,13 +95,14 @@ def get_data(dcp_address, hours, use_cache=False, cache_path=None, as_dataframe=
     message_data : {pandas.DataFrame, dict}
         Either a pandas dataframe or a dict indexed by dcp message times
     """
+
     if isinstance(dcp_address, list):
         dcp_address = ",".join(dcp_address)
 
     data = pd.DataFrame()
 
     if use_cache:
-        dcp_data_path = _get_store_path(cache_path, f"{dcp_address}.h5")
+        dcp_data_path = _get_store_path(cache_path, dcp_address + ".h5")
         if os.path.exists(dcp_data_path):
             data = pd.read_hdf(dcp_data_path, dcp_address)
     params = {"addr": (dcp_address,), "hours": (hours,)}
@@ -115,7 +115,7 @@ def get_data(dcp_address, hours, use_cache=False, cache_path=None, as_dataframe=
         data.sort_index(inplace=True)
         if use_cache:
             # write to a tmp file and move to avoid ballooning h5 file
-            tmp = f"{dcp_data_path}.tmp"
+            tmp = dcp_data_path + ".tmp"
             data.to_hdf(tmp, dcp_address)
             shutil.move(tmp, dcp_data_path)
 
@@ -127,7 +127,7 @@ def get_data(dcp_address, hours, use_cache=False, cache_path=None, as_dataframe=
 
 
 def _fetch_url(params):
-    r = requests.post(dcs_url, params=params, timeout=60)
+    r = requests.post(DCS_URL, params=params, timeout=60)
     return r.json()
 
 
@@ -157,7 +157,7 @@ def _format_time(timestamp):
 
     if isinstance(timestamp, datetime):
         return timestamp.strftime("%Y/%j %H:%M:%S")
-    if isinstance(timestamp, timedelta):
+    elif isinstance(timestamp, timedelta):
         return _format_period(timestamp)
 
 

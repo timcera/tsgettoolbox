@@ -2,7 +2,6 @@
 tsgettoolbox utility functions.
 """
 
-
 import configparser as cp
 import contextlib
 import datetime

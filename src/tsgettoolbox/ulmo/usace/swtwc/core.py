@@ -12,28 +12,26 @@
 
 import datetime
 import os.path
+from io import StringIO
 
 import numpy as np
 import pandas
 import requests
 from bs4 import BeautifulSoup
 
-from tsgettoolbox.ulmo import util
-
-try:
-    import io as StringIO
-except ImportError:
-    from cStringIO import StringIO
+from ... import util
 
 USACE_SWTWC_DIR = os.path.join(util.get_ulmo_dir(), "usace/swtwc")
 
 
 def get_station_data(station_code, date=None, as_dataframe=False):
-    """Fetches data for a station at a given date.
+    """
+    Fetches data for a station at a given date.
+
 
     Parameters
     ----------
-    station_code : str
+    station_code: str
         The station code to fetch data for. A list of stations can be retrieved with
         ``get_stations()``
     date : ``None`` or date (see :ref:`dates-and-times`)
@@ -46,11 +44,13 @@ def get_station_data(station_code, date=None, as_dataframe=False):
         dict will be a pandas.DataFrame object containing the equivalent
         information.
 
+
     Returns
     -------
     data_dict : dict
         A dict containing station information and values.
     """
+
     if date is None:
         date_str = "current"
         year = datetime.date.today().year
@@ -60,19 +60,19 @@ def get_station_data(station_code, date=None, as_dataframe=False):
         year = date.year
 
     filename = f"{station_code}.{date_str}.html"
-    data_url = f"http://www.swt-wc.usace.army.mil/webdata/gagedata/{filename}"
+    data_url = f"https://www.swt-wc.usace.army.mil/webdata/gagedata/{filename}"
 
     # requests without User-Agent header get rejected
     headers = {
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36"
     }
-    resp = requests.get(data_url, headers=headers)
-    soup = BeautifulSoup(resp.content, features="lxml")
+    resp = requests.get(data_url, headers=headers, timeout=60)
+    soup = BeautifulSoup(resp.content)
     pre = soup.find("pre")
     if pre is None:
         error_msg = f"no data could be found for station code {station_code} and date {date} (url: {data_url})"
         raise ValueError(error_msg)
-    sio = StringIO.StringIO(str(pre.text.strip()))
+    sio = StringIO(str(pre.text.strip()))
 
     first_line = sio.readline()
     split = first_line[8:].strip().split()
@@ -109,10 +109,7 @@ def get_station_data(station_code, date=None, as_dataframe=False):
         variable_name: lambda x: float(x) if x != "----" else np.nan
         for variable_name in variable_names
     }
-
-    def date_parser(x):
-        return _convert_datetime(x, year)
-
+    date_parser = lambda x: _convert_datetime(x, year)
     dataframe = pandas.read_fwf(
         sio,
         names=column_names,
@@ -143,12 +140,12 @@ def get_stations():
     stations_dict : dict
         a python dict with station codes mapped to station information
     """
-    stations_url = "http://www.swt-wc.usace.army.mil/shefids.htm"
+    stations_url = "https://www.swt-wc.usace.army.mil/shefids.htm"
 
     headers = {
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36"
     }
-    resp = requests.get(stations_url, headers=headers)
+    resp = requests.get(stations_url, headers=headers, timeout=60)
     soup = BeautifulSoup(resp.content)
     pre = soup.find("pre")
     links = pre.find_all("a")

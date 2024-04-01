@@ -8,6 +8,7 @@
     .. _National Climatic Data Center: http://www.ncdc.noaa.gov
     .. _Global Summary of the Day: http://www.ncdc.noaa.gov/oa/gsod.html
 """
+
 import csv
 import datetime
 import gzip
@@ -17,7 +18,7 @@ import tarfile
 
 import numpy as np
 
-from tsgettoolbox.ulmo import util
+from ... import util
 
 NCDC_GSOD_DIR = os.path.join(util.get_ulmo_dir(), "ncdc/gsod")
 NCDC_GSOD_STATIONS_FILE = os.path.join(NCDC_GSOD_DIR, "isd-history.csv")
@@ -29,12 +30,17 @@ def get_parameters():
     retrieve a list of parameter codes available.
     Reference for GSOD parameters : https://www1.ncdc.noaa.gov/pub/data/gsod/readme.txt
 
+    Parameters
+    ----------
+        None
+
     Returns
     -------
-    dictionary of variables with parameter codes as keys
+        dictionary of variables with parameter codes as keys
         and GSOD codes as values.
     """
-    return {
+
+    VARIABLES = {
         "mean_temp": "TEMP",
         "mean_temp_count": "TEMP",
         "dew_point": "DEWP",
@@ -58,10 +64,13 @@ def get_parameters():
         "snow_depth": "SNDP",
         "FRSHTT": "FRSHTT",
     }
+    return VARIABLES
 
 
 def get_data(station_codes, start=None, end=None, parameters=None):
-    """Retrieves data for a set of stations.
+    """
+    Retrieve data for a set of stations.
+
 
     Parameters
     ----------
@@ -120,20 +129,21 @@ def get_data(station_codes, start=None, end=None, parameters=None):
                             mask = mask & (year_data["date"] <= end_date)
                         year_data = year_data[mask]
 
-                    data_dict[station] = (
-                        year_data
-                        if data_dict[station] is None
-                        else np.append(data_dict[station], year_data)
-                    )
-
+                    if not data_dict[station] is None:
+                        # XXX: this could be more efficient for large numbers
+                        # of years with a list comprehension or generator
+                        data_dict[station] = np.append(data_dict[station], year_data)
+                    else:
+                        data_dict[station] = year_data
     for station, data_array in data_dict.items():
-        if data_dict[station] is not None:
+        if not data_dict[station] is None:
             data_dict[station] = _record_array_to_value_dicts(data_array)
     return data_dict
 
 
 def get_stations(country=None, state=None, start=None, end=None, update=True):
     """Retrieve information on the set of available stations.
+
 
     Parameters
     ----------
@@ -154,6 +164,7 @@ def get_stations(country=None, state=None, start=None, end=None, update=True):
         download if it is newer the previously downloaded copy. If ``False``,
         then a new stations file will only be downloaded if a previously
         downloaded file cannot be found.
+
 
     Returns
     -------
@@ -217,36 +228,45 @@ def _passes_row_filter(row, country=None, state=None, start_str=None, end_str=No
         return False
     if start_str is not None and row["END"] != "" and row["END"] <= start_str:
         return False
-    return end_str is None or row["BEGIN"] == "" or end_str > row["BEGIN"]
+    if end_str is not None and row["BEGIN"] != "" and end_str <= row["BEGIN"]:
+        return False
+    return True
 
 
 def _process_station(station_row):
     """converts a csv row to a more human-friendly version"""
-    return {
+    station_dict = {
         "begin": _convert_date_string(station_row["BEGIN"]),
         "icao": station_row["ICAO"],
         "country": station_row["CTRY"],
-        "elevation": round(float(station_row["ELEV(M)"]), 1)
-        if station_row["ELEV(M)"] not in ("", "-99999")
-        else None,
+        "elevation": (
+            round(float(station_row["ELEV(M)"]), 1)
+            if station_row["ELEV(M)"] not in ("", "-99999")
+            else None
+        ),
         "end": _convert_date_string(station_row["END"]),
-        "latitude": round(float(station_row["LAT"]), 3)
-        if station_row["LAT"] not in ("", "-99999")
-        else None,
-        "longitude": round(float(station_row["LON"]), 3)
-        if station_row["LON"] not in ("", "-999999")
-        else None,
+        "latitude": (
+            round(float(station_row["LAT"]), 3)
+            if station_row["LAT"] not in ("", "-99999")
+            else None
+        ),
+        "longitude": (
+            round(float(station_row["LON"]), 3)
+            if station_row["LON"] not in ("", "-999999")
+            else None
+        ),
         "name": station_row["STATION NAME"],
         "state": station_row["STATE"],
         "USAF": station_row["USAF"],
         "WBAN": station_row["WBAN"],
     }
+    return station_dict
 
 
 def _read_gsod_file(gsod_tar, station, year):
-    tar_station_filename = f"{station}-{str(year)}.op.gz"
+    tar_station_filename = f"{station}-{year}.op.gz"
     try:
-        gsod_tar.getmember(f"./{tar_station_filename}")
+        gsod_tar.getmember("./" + tar_station_filename)
     except KeyError:
         return None
 
@@ -254,7 +274,7 @@ def _read_gsod_file(gsod_tar, station, year):
     util.mkdir_if_doesnt_exist(ncdc_temp_dir)
     temp_path = os.path.join(ncdc_temp_dir, tar_station_filename)
 
-    gsod_tar.extract(f"./{tar_station_filename}", ncdc_temp_dir)
+    gsod_tar.extract("./" + tar_station_filename, ncdc_temp_dir)
     with gzip.open(temp_path, "rb") as gunzip_f:
         columns = [
             # name, length, # of spaces separating previous column, dtype
@@ -311,10 +331,11 @@ def _read_gsod_file(gsod_tar, station, year):
 
 def _record_array_to_value_dicts(record_array):
     names = record_array.dtype.names
-    return [
+    value_dicts = [
         {name: value[name_index] for name_index, name in enumerate(names)}
         for value in record_array
     ]
+    return value_dicts
 
 
 def _station_code(station):

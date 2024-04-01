@@ -2,13 +2,13 @@ import datetime
 
 import tables
 
-from tsgettoolbox.ulmo import util
-from tsgettoolbox.ulmo.ncdc.gsod import core
+from ... import util
+from ...ncdc.gsod import core
 
 # default hdf5 file path
-HDF5_FILE_PATH = util.get_default_h5file_path("tmp.hdf5")
+HDF5_FILE_PATH = util.get_default_h5file_path()
 
-# raise NotImplementedError("ncdc.gsod.pytables is still a work in progress")
+raise NotImplementedError("ncdc.gsod.pytables is still a work in progress")
 
 
 class NCDCValue(tables.IsDescription):
@@ -21,10 +21,12 @@ class NCDCValue(tables.IsDescription):
 def get_data(station_codes, start=None, end=None, parameters=None, path=None):
     if isinstance(station_codes, str):
         return _get_station_data(station_codes, start, end, parameters)
-    {
-        station_code: _get_station_data(station_codes, start, end, parameters)
-        for station_code in station_codes
-    }
+    else:
+        return_dict = {}
+        for station_code in station_codes:
+            return_dict[station_code] = _get_station_data(
+                station_codes, start, end, parameters
+            )
 
 
 def get_stations(update=True, path=None):
@@ -35,10 +37,10 @@ def get_stations(update=True, path=None):
 def update_data(station_codes=None, start_year=None, end_year=None, path=None):
     if not start_year:
         last_updated = _last_updated()
-        start_year = (
-            last_updated.year if last_updated else core.NCDC_GSOD_START_DATE.year
-        )
-
+        if not last_updated:
+            start_year = core.NCDC_GSOD_START_DATE.year
+        else:
+            start_year = last_updated.year
     if not end_year:
         end_year = datetime.datetime.now().year
 
@@ -123,3 +125,6 @@ if __name__ == "__main__":
         code for code, station in stations.items() if station["state"] == "TX"
     ]
     update_data(texas_stations, 2012, 2012, path=test_path)
+    import pdb
+
+    pdb.set_trace()

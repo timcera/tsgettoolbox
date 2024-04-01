@@ -170,7 +170,7 @@ class BadGzipFile(OSError):
 
 def date_parser(*x):
     """Parse a list of year strings into datetime objects."""
-    x = [int(i) for i in x]
+    x = [int(i) for i in x[0]]
     if x[0] < 100:
         x[0] = x[0] + 1900
     return datetime.datetime(*x)
@@ -224,21 +224,37 @@ def ndbc_to_df(url, **query_params):
         except ValueError:
             skiprows = [1]
 
-        if words1[4] == "mm":
-            parse_dates = {"datetime": [0, 1, 2, 3, 4]}
-        else:
-            parse_dates = {"datetime": [0, 1, 2, 3]}
-
         tdf = pd.read_csv(
             f,
             header=0,
             skiprows=skiprows,
             sep=r"\s+",
-            parse_dates=parse_dates,
-            date_parser=date_parser,
-            index_col=0,
             na_values=["MM", 999.0, 99.0, 9999, 99999],
         )
+
+        if "mm" in tdf.columns:
+            tdf["datetime"] = pd.to_datetime(
+                {
+                    "year": tdf["#YY"],
+                    "month": tdf["MM"],
+                    "day": tdf["DD"],
+                    "hour": tdf["hh"],
+                    "minute": tdf["mm"],
+                }
+            )
+            tdf = tdf.drop(columns=["#YY", "MM", "DD", "hh", "mm"])
+        else:
+            tdf["datetime"] = pd.to_datetime(
+                {
+                    "year": tdf["#YY"],
+                    "month": tdf["MM"],
+                    "day": tdf["DD"],
+                    "hour": tdf["hh"],
+                }
+            )
+            tdf = tdf.drop(columns=["#YY", "MM", "DD", "hh"])
+
+        tdf.set_index("datetime", inplace=True)
 
         if len(tdf) > 0:
             tdf.rename(columns=_rename, inplace=True)
@@ -265,7 +281,6 @@ def ndbc_to_df(url, **query_params):
     df = df[~df.index.duplicated()]
 
     df.columns = [i.replace(r"%", "PERCENT") for i in df.columns]
-
     df = df.tz_localize("UTC")
     return df.loc[sdate:edate, :]
 

@@ -4,6 +4,7 @@
 
    Collection of useful functions for common use cases
 """
+
 import os
 import warnings
 from contextlib import contextmanager
@@ -57,11 +58,11 @@ def update_or_append_sortable(table, update_values, sortby):
     except StopIteration:
         current_row = None
 
-    for update_value in update_values:
+    for i, update_value in enumerate(update_values):
         if not current_row or update_value[sortby] < current_row[sortby]:
             update_value["__flag_for_append"] = True
 
-        else:
+        elif current_row:
             # advance the table iterator until you are >= update_value
             while current_row and current_row[sortby] < update_value[sortby]:
                 try:

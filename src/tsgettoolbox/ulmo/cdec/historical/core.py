@@ -3,13 +3,13 @@
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     This module provides access to data provided by the `California Department
-    of Water Resources`_ `California Data Exchange Center`_ web site.
+    of Water Resources`_ `California Data Exchange Center`_ website.
 
     .. _California Department of Water Resources: http://www.water.ca.gov/
     .. _California Data Exchange Center: http://cdec.water.ca.gov
 
 
-    SELECTED CDEC SENSOR NUMBERS (these are not be available for all sites):
+    SELECTED CDEC SENSOR NUMBERS (these are not available for all sites):
 
     1    river stage [ft]
     2    precipitation, accumulated [in]
@@ -54,14 +54,15 @@
 
 import pandas as pd
 
-from tsgettoolbox.ulmo import util
+from ... import util
 
 DEFAULT_START_DATE = "01/01/1901"
 DEFAULT_END_DATE = "Now"
 
 
 def get_stations():
-    """Fetches information on all CDEC sites.
+    """
+    Fetches information on all CDEC sites.
 
     Returns
     -------
@@ -71,9 +72,16 @@ def get_stations():
     # I haven't found a better list of stations, seems pretty janky
     # to just have them in a file, and not sure if/when it is updated.
     url = "http://cdec.water.ca.gov/misc/all_stations.csv"
-    # the csv is malformed, so some rows think there are 7 fields
-    col_names = ["id", "meta_url", "name", "num", "lat", "lon", "junk"]
-    return pd.read_csv(url, names=col_names, header=None, quotechar="'", index_col=0)
+    # the csv is malformed, so some rows think there are 7-8 fields
+    col_names = ["id", "meta_url", "name", "num", "lat", "lon"]
+    return pd.read_csv(
+        url,
+        names=col_names,
+        header=None,
+        quotechar="'",
+        index_col=0,
+        on_bad_lines="skip",
+    )
 
 
 def get_sensors(sensor_id=None):
@@ -228,7 +236,7 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
     for station_id, sensor_list in list(sensors.items()):
         station_data = {}
 
-        for index, row in sensor_list.iterrows():
+        for _, row in sensor_list.iterrows():
             res = row.loc["resolution"]
             var = row.loc["variable"]
             sensor_id = row.loc["sensor_id"]
@@ -255,7 +263,19 @@ def _limit_sensor_list(sensor_list, sensor_ids, resolution):
 
 
 def _download_raw(station_id, sensor_num, dur_code, start_date, end_date):
-    url = f"http://cdec.water.ca.gov/dynamicapp/req/CSVDataServlet?Stations={station_id}&dur_code={dur_code}&SensorNums={str(sensor_num)}&Start={start_date}&End={end_date}"
+    url = (
+        "https://cdec.water.ca.gov/dynamicapp/req/CSVDataServlet"
+        + "?Stations="
+        + station_id
+        + "&dur_code="
+        + dur_code
+        + "&SensorNums="
+        + str(sensor_num)
+        + "&Start="
+        + start_date
+        + "&End="
+        + end_date
+    )
 
     df = pd.read_csv(url, parse_dates=[4, 5], index_col="DATE TIME", na_values="---")
     df.columns = [
@@ -273,10 +293,10 @@ def _download_raw(station_id, sensor_num, dur_code, start_date, end_date):
 
 
 def _res_to_dur_code(res):
-    map = {"hourly": "H", "daily": "D", "monthly": "M", "event": "E"}
+    code_map = {"hourly": "H", "daily": "D", "monthly": "M", "event": "E"}
 
-    return map[res]
+    return code_map[res]
 
 
 def _format_date(date):
-    return f"{date.month}/{date.day}/{date.year}"
+    return f"{date.month:02}/{date.day:02}/{date.year}"

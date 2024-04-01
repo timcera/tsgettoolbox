@@ -17,7 +17,7 @@ import os
 import requests
 from geojson import Feature, FeatureCollection, Polygon
 
-from tsgettoolbox.ulmo import util
+from ... import util
 
 # NED ftp url.
 NED_FTP_URL = "ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/NED/<layer>/IMG/"
@@ -61,6 +61,7 @@ def get_raster_availability(layer, bbox=None):
     metadata : geojson FeatureCollection
         returns metadata including download urls as a FeatureCollection
     """
+
     base_url = "https://www.sciencebase.gov/catalog/items"
     params = [
         ("parentId", layer_dict[layer]),
@@ -83,7 +84,7 @@ def get_raster_availability(layer, bbox=None):
     features = []
     url = base_url
     while url:
-        r = requests.get(url, params)
+        r = requests.get(url, params, timeout=30)
         print(f"retrieving raster availability from {r.url}")
         params = []  # not needed after first request
         content = r.json()
@@ -125,11 +126,11 @@ def get_raster(
         in the format (min longitude, min latitude, max longitude, max latitude)
     path : ``None`` or path
         if ``None`` default path will be used
-    update_cache : ``True`` or ``False`` (default)
+    update_cache: ``True`` or ``False`` (default)
         if ``False`` and output file already exists use it.
-    check_modified : ``True`` or ``False`` (default)
+    check_modified: ``True`` or ``False`` (default)
         if tile exists in path, check if newer file exists online and download if available.
-    mosaic : ``True`` or ``False`` (default)
+    mosaic: ``True`` or ``False`` (default)
         if ``True``, mosaic and clip downloaded tiles to the extents of the bbox provided. Requires
         rasterio package and GDAL.
 
@@ -167,6 +168,7 @@ def _check_layer(layer):
     """
     make sure the passed layer name is one of the handled options
     """
+
     if layer not in get_available_layers():
         err_msg = f"The specified layer parameter ({layer})"
         err_msg += "\nis not in the available options:"
@@ -189,7 +191,7 @@ def _download_features(
     tile_fmt = ".img"
     for feature_id in feature_ids:
         url = SCIENCEBASE_ITEM_URL % feature_id
-        metadata = requests.get(url).json()
+        metadata = requests.get(url, timeout=60).json()
         layer = [a for a in list(layer_dict.keys()) if a in metadata["title"]][0]
         layer_path = os.path.join(path, layer_dict[layer])
         tile_urls = [

@@ -2,7 +2,7 @@ from datetime import datetime
 
 import numpy as np
 import pandas as pd
-import test_util
+import utils
 from pandas.testing import assert_frame_equal
 
 from tsgettoolbox.ulmo.noaa import goes
@@ -29,7 +29,7 @@ message_test_sets = [
 def test_parse_dcp_message_timestamp():
     for test_set in message_test_sets:
         dcp_data_file = f"noaa/goes/{test_set['dcp_address']}.txt"
-        with test_util.mocked_urls(dcp_data_file, force=True):
+        with utils.mocked_urls(dcp_data_file, force=True):
             data = goes.get_data(test_set["dcp_address"], hours=12)
             assert data["message_timestamp_utc"][-1] == datetime.fromtimestamp(
                 int(test_set["message_timestamp"].strip("/Date()")) / 1000

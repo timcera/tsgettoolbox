@@ -1,1 +1,1 @@
-from . import eddn, ned, nwis
+from . import ned, nwis

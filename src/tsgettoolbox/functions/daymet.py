@@ -30,8 +30,14 @@ _units_map = {
     "priestley_taylor": ":mm",
 }
 
+_time_scale_map = {
+    "daily": (pd.offsets.Day(0), pd.offsets.Day(0)),
+    "monthly": (pd.offsets.MonthBegin(0), pd.offsets.MonthEnd(0)),
+    "annual": (pd.offsets.YearBegin(0), pd.offsets.YearEnd(0)),
+}
 
-@tsutils.transform_args(measuredParams=tsutils.make_list)
+
+@tsutils.transform_args(measuredParams=tsutils.make_list, years=tsutils.make_list)
 @tsutils.doc(tsutils.docstrings)
 def daymet(
     lat: float,
@@ -211,18 +217,30 @@ def daymet(
                     )
                 )
 
+    time_code = _time_scale_map[time_scale]
+
     dates = None
     if years is not None:
         dates = years
     else:
         if end_date is None:
-            end_date = pd.Timestamp(f"{datetime.datetime.now().year - 1}-12-31")
-        dates = (pd.Timestamp(start_date), pd.Timestamp(end_date))
+            end_date = pd.Timestamp(
+                f"{datetime.datetime.now().year - 1}-12-31"
+            ).strftime("%Y-%m-%d")
+        dates = (
+            (pd.Timestamp(start_date) + time_code[0]).strftime("%Y-%m-%d"),
+            (pd.Timestamp(end_date) + time_code[1]).strftime("%Y-%m-%d"),
+        )
 
     obs_data = [i for i in measuredParams if i not in pet_types]
 
     ndf = pd.DataFrame()
     if obs_data:
+        print(lon, lat)
+        print(dates)
+        print(obs_data)
+        print(time_scale)
+        print(snow)
         ndf = pydaymet.get_bycoords(
             (lon, lat),
             dates,
@@ -273,6 +291,7 @@ if __name__ == "__main__":
     )
 
     print("Daymet 1")
+    print("years=[2000, 2001]")
     print(r)
 
     r = daymet(
@@ -284,25 +303,29 @@ if __name__ == "__main__":
     )
 
     print("Daymet 2")
+    print("start_date='1995-04-01', end_date='2000-01-02'")
     print(r)
 
     r = daymet(
         lat=43.1,
         lon=-85.2,
+        end_date="2002-12-31",
     )
 
     print("Daymet 3")
+    print("end_date='2002-12-31'")
     print(r)
 
     r = daymet(
         lat=43.1,
         lon=-85.2,
-        start_date="1980",
-        end_date="1981",
+        start_date="1991",
+        end_date="1995",
         time_scale="annual",
     )
 
     print("Daymet 4")
+    print("start_date='1991', end_date='1995', time_scale='annual'")
     print(r)
 
     r = daymet(
@@ -314,16 +337,18 @@ if __name__ == "__main__":
     )
 
     print("Daymet 5")
+    print("start_date='1980', end_date='1981', time_scale='monthly'")
     print(r)
 
     r = daymet(
         lat=43.1,
         lon=-85.2,
-        start_date="2000-04",
+        start_date="2010-04",
         time_scale="annual",
     )
 
     print("Daymet 6")
+    print("start_date='2010-04', time_scale='annual'")
     print(r)
 
     r = daymet(
@@ -334,6 +359,7 @@ if __name__ == "__main__":
     )
 
     print("Daymet 7")
+    print("start_date='2000-04', time_scale='monthly'")
     print(r)
 
     r = daymet(
@@ -343,4 +369,5 @@ if __name__ == "__main__":
     )
 
     print("Daymet 8")
+    print("measuredParams='penman_monteith'")
     print(r)

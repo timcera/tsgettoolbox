@@ -19,6 +19,7 @@ def twdb_fts(df_row, drop_dcp_metadata=True, dual_well=False):
     format examples:
     C510D20018036133614G39-0NN170WXW00097  :WL 31 #60 -72.91 -72.89 -72.89 -72.89 -72.91 -72.92 -72.93 -72.96 -72.99 -72.97 -72.95 -72.95
     """
+
     message = df_row["dcp_message"].lower()
     message_timestamp = df_row["message_timestamp_utc"]
     if _invalid_message_check(message):
@@ -115,6 +116,7 @@ def twdb_texuni(dataframe, drop_dcp_metadata=True, dual_well=False):
     '"\r\n+0.000,-245.3,\r\n+0.000,-245.3,\r\n+0.000,-245.3,\r\n+0.000,-245.4,\r\n+0.000,-245.4,\r\n+0.000,-245.4,\r\n+0.000,-245.4,\r\n+0.000,-245.4,\r\n+0.000,-245.4,\r\n+0.000,-245.4,\r\n+0.000,-245.4,\r\n+0.000,-245.4,\r\n+0.000,-245.4,\r\n+0.000,-245.4,\r\n+0.000,-245.4,\r\n+0.000,-245.4,\r\n+0.000,-245.5,\r\n+0.000,-245.5,\r\n+0.000,-245.6,\r\n+0.000,-245.6,\r\n+0.000,-245.6,\r\n+0.000,-245.6,\r\n+0.000,-245.6,\r\n+0.000,-245.6,\r\n+412.0,+2013.,+307.0,+1300.,+12.75,+0.000,-245.4,-245.3,-245.6,+29.55,'
     ' \r\n+0.000,-109.8,\r\n+0.000,-109.8,\r\n+0.000,-109.8,\r\n+0.000,-109.8,\r\n+0.000,-109.8,\r\n+0.000,-109.9,\r\n+0.000,-109.9,\r\n+0.000,-109.9,\r\n+0.000,-109.9,\r\n+0.000,-109.9,\r\n+0.000,-110.0,\r\n+0.000,-110.0,\r\n+0.000,-109.9,\r\n+0.000,-109.9,\r\n+0.000,-109.9,\r\n+0.000,-109.9,\r\n+0.000,-110.0,\r\n+0.000,-110.0,\r\n+0.000,-110.0,\r\n+0.000,-110.1,\r\n+0.000,-110.1,\r\n+0.000,-110.1,\r\n+0.000,-110.1,\r\n+0.000,-110.1,\r\n+340.0,+2013.,+307.0,+1400.,+12.07,+0.000,-109.9,-109.8,-110.1,+30.57,'
     """
+
     message = dataframe["dcp_message"]
     message_timestamp = dataframe["message_timestamp_utc"]
     channel = "wl"
@@ -148,12 +150,13 @@ def _twdb_assemble_dataframe(message_timestamp, channel, channel_data, reverse=F
             value = np.nan
 
         data.append([timestamp, channel, value])
-    if data:
+    if len(data) > 0:
         df = pd.DataFrame(data, columns=["timestamp_utc", "channel", "channel_data"])
         df.index = pd.to_datetime(df["timestamp_utc"])
         del df["timestamp_utc"]
         return df
-    return pd.DataFrame()
+    else:
+        return pd.DataFrame()
 
 
 def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=True):
@@ -179,7 +182,8 @@ def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=Tru
     data = []
     if dual_well:
         fields = message.strip('" \x10\x00').split("\r")
-        channel_data = {"bv": [fields[0].split(":")[1].split()[0]]}
+        channel_data = {}
+        channel_data["bv"] = [fields[0].split(":")[1].split()[0]]
         for field in fields[1:]:
             df = pd.DataFrame()
             try:
@@ -206,8 +210,9 @@ def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=Tru
 
     fields = message.strip('" ').split()
 
+    water_data = {}
     channel_name = "wl"
-    water_data = {channel_name: []}
+    water_data[channel_name] = []
     for field in fields:
         df = pd.DataFrame()
         field = field.lower().strip("\x10\x00")
@@ -247,11 +252,12 @@ def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=Tru
                 pass
         data.append(df)
 
-    data.extend(
-        _twdb_assemble_dataframe(message_timestamp, channel, value, reverse=reverse)
-        for channel, value in water_data.items()
-    )
-
+    for channel in water_data:
+        data.append(
+            _twdb_assemble_dataframe(
+                message_timestamp, channel, water_data[channel], reverse=reverse
+            )
+        )
     df = pd.concat(data)
 
     if not drop_dcp_metadata:
@@ -264,15 +270,25 @@ def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=Tru
 def _parse_value(water_level_str):
     well_val = water_level_str.split(":")
     if len(water_level_str.split(":")) == 2:
-        val = np.nan if well_val[1] == "" else well_val[1].strip("-")
-        return well_val[0], val
-    return water_level_str
+        if well_val[1] == "":
+            val = np.nan
+        else:
+            val = well_val[1].strip("-")
+        value_dict = (well_val[0], val)
+        return value_dict
+    else:
+        return water_level_str
 
 
 def _invalid_message_check(message):
+    is_invalid = False
     invalid_messages = ["dadds", "operator", "no"]
-    return any(invalid in message for invalid in invalid_messages)
+    for invalid in invalid_messages:
+        if invalid in message:
+            is_invalid = True
+    return is_invalid
 
 
 def _empty_df(message_timestamp):
-    return _twdb_assemble_dataframe(message_timestamp, np.nan, [np.nan])
+    df = _twdb_assemble_dataframe(message_timestamp, np.nan, [np.nan])
+    return df

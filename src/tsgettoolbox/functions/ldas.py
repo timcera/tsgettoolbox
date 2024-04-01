@@ -365,7 +365,7 @@ _project_start_dates = {
 _project_sep = {
     "MERRA": "\t",
     "GLDAS2": "\t",
-    "NLDAS": no_default,
+    "NLDAS": r"\s+",
     "TRMM": "\t",
     "SMERGE": "\t",
     "GRACE": "\t",
@@ -387,15 +387,6 @@ _project_skiprows = {
     "TRMM": None,
     "SMERGE": None,
     "GRACE": None,
-}
-
-_project_delim_whitespace = {
-    "MERRA": False,
-    "GLDAS2": False,
-    "NLDAS": True,
-    "TRMM": False,
-    "SMERGE": False,
-    "GRACE": False,
 }
 
 _project_index_col = {
@@ -882,7 +873,6 @@ def base_ldas(
             sep=_project_sep[project],
             header=_project_header[project],
             skiprows=_project_skiprows[project],
-            delim_whitespace=_project_delim_whitespace[project],
             names=names,
             index_col=_project_index_col[project],
             na_values=[-9999, -9999.0],
@@ -959,6 +949,8 @@ if __name__ == "__main__":
             endDate="2014-07-04T21",
         )
         print(r)
+        if len(r.index) == 0:
+            continue
         if r.index[0] != pd.Timestamp("2013-06-01T09", tz="UTC"):
             print("yeah")
         if r.index[-1] != pd.Timestamp("2014-07-04T21", tz="UTC"):

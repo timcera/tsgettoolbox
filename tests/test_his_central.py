@@ -6,7 +6,7 @@ from tsgettoolbox import ulmo
 def test_get_services():
     ulmo.cuahsi.his_central.core.HIS_CENTRAL_WSDL_URL.split("?")[0]
 
-    # with test_util.mocked_urls(url_files):
+    # with utils.mocked_urls(url_files):
     services = ulmo.cuahsi.his_central.get_services()
 
     check_services = [

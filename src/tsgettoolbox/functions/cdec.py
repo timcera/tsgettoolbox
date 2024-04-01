@@ -3,6 +3,7 @@ cdec                US/CA station I,H,D,M: California Department of Water
                     Resources
 """
 
+import datetime
 import warnings
 from typing import Optional, Union
 
@@ -73,11 +74,11 @@ sensor_num_map = {
 
 
 DEFAULT_START_DATE = "01/01/1901"
-DEFAULT_END_DATE = "Now"
 
 
 def get_stations():
-    """Fetch information on all CDEC sites.
+    """
+    Fetch information on all CDEC sites.
 
     Returns
     -------
@@ -89,8 +90,15 @@ def get_stations():
     # to just have them in a file, and not sure if/when it is updated.
     url = "https://cdec.water.ca.gov/misc/all_stations.csv"
     # the csv is malformed, so some rows think there are 7 fields
-    col_names = ["id", "meta_url", "name", "num", "lat", "lon", "junk"]
-    return pd.read_csv(url, names=col_names, header=None, quotechar="'", index_col=0)
+    # col_names = ["id", "meta_url", "name", "num", "lat", "lon", "junk"]
+    return pd.read_csv(
+        url,
+        names=["id", "meta_url"],
+        usecols=[0, 1],
+        header=None,
+        quotechar="'",
+        index_col=0,
+    )
 
 
 def get_sensors(sensor_id=None):
@@ -177,9 +185,9 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
         var_resolution = [x[1:-1] for x in sensor_list["duration"]]
 
         sensor_list["resolution"] = var_resolution
-        sensor_list[
-            "variable"
-        ] = var_names  # [x + y for x, y in zip(var_names, var_resolution)]
+        sensor_list["variable"] = (
+            var_names  # [x + y for x, y in zip(var_names, var_resolution)]
+        )
 
         station_sensors[station_id] = _limit_sensor_list(
             sensor_list, sensor_ids, resolutions
@@ -221,7 +229,11 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
     else:
         start_date = pd.Timestamp(start).date()
     if end is None:
-        end_date = pd.Timestamp(DEFAULT_END_DATE).date()
+        end_date = (
+            pd.to_datetime(datetime.datetime.utcnow())
+            .tz_localize("UTC")
+            .tz_convert("America/Los_Angeles")
+        )
     else:
         end_date = pd.Timestamp(end).date()
 
@@ -301,7 +313,10 @@ def download_data(
         nnd.columns = [key]
         nd = nd.join(nnd, how="outer")
     nd.rename(
-        lambda x: x.replace(",", "_").replace(" ", "_").replace("__", "_"),
+        lambda x: x.replace(",", "_")
+        .replace(" ", "_")
+        .replace("__", "_")
+        .replace("DEG_F", "degF"),
         axis="columns",
         inplace=True,
     )

@@ -5,7 +5,7 @@ from tsgettoolbox import tsgettoolbox
 
 # def test_get_stations():
 #     stations_file = "cdec/historical/all_stations.csv"
-#     with test_util.mocked_urls(stations_file):
+#     with utils.mocked_urls(stations_file):
 #         stations = ulmo.cdec.historical.get_stations()
 #     assert 2000 < len(stations)
 #     assert u"PRA" in stations.index
@@ -13,7 +13,7 @@ from tsgettoolbox import tsgettoolbox
 #
 # def test_get_sensors():
 #     sensors_file = "cdec/historical/sensors.htm"
-#     with test_util.mocked_urls(sensors_file):
+#     with utils.mocked_urls(sensors_file):
 #         sensors = ulmo.cdec.historical.get_sensors()
 #     assert 200 < len(sensors)
 #     sensors.index = sensors["Sensor No"].astype(int)
@@ -26,7 +26,7 @@ from tsgettoolbox import tsgettoolbox
 #     for station_id, test_value in test_sets:
 #
 #         stations_file = "cdec/historical/%s.htm" % (station_id)
-#         with test_util.mocked_urls(stations_file):
+#         with utils.mocked_urls(stations_file):
 #             available_sensors = ulmo.cdec.historical.get_station_sensors([station_id])
 #
 #         assert set(available_sensors[station_id].sensor_id.to_dict().values()) <= set(
@@ -46,7 +46,7 @@ def test_get_station_data():
         data_file = f"tests/files/cdec/historical/{station_id}.csv"
 
         # url_files = {sensors_regex: sensors_file, data_regex: data_file}
-        # with test_util.mocked_urls(url_files):
+        # with utils.mocked_urls(url_files):
         station_data = tsgettoolbox.cdec(
             station_id,
             sensor_num=var_name,

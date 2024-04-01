@@ -257,8 +257,8 @@ def terraclimate(
     else:
         variables = tsutils.make_list(variables)
 
-    # turl = "http://thredds.northwestknowledge.net:8080/thredds/dodsC/agg_terraclimate_{}_1958_CurrentYear_GLOBE.nc"
     turl = "http://www.reacchpna.org/thredds/dodsC/agg_terraclimate_{}_1958_CurrentYear_GLOBE.nc"
+    turl = "http://thredds.northwestknowledge.net:8080/thredds/dodsC/agg_terraclimate_{}_1958_CurrentYear_GLOBE.nc"
     return utils.opendap(
         turl,
         lat,

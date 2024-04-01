@@ -12,13 +12,14 @@
 import datetime
 import logging
 
+import numpy as np
 import pandas
 import requests
 from bs4 import BeautifulSoup
 from dateutil.relativedelta import relativedelta
 from geojson import Feature, FeatureCollection, Point
 
-from tsgettoolbox.ulmo import util
+from ... import util
 
 # configure logging
 LOG_FORMAT = "%(message)s"
@@ -26,8 +27,8 @@ logging.basicConfig(format=LOG_FORMAT)
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
-historical_data_url = "https://hydromet.lcra.org/chronhist.aspx"
-current_data_url = "https://hydrometdata.lcra.org"
+HISTORICAL_DATA_URL = "https://hydromet.lcra.org/chronhist.aspx"
+CURRENT_DATA_URL = "https://hydrometdata.lcra.org"
 PARAMETERS = {
     "stage": "the level of water above a benchmark in feet",
     "flow": "streamflow in cubic feet per second",
@@ -66,7 +67,6 @@ def get_sites_by_type(site_type):
     sites_dict: dict
         A python dict with four char long site codes mapped to site information.
     """
-    sites_base_url = "https://hydromet.lcra.org/navgagelist.asp?Stype=%s"
     # the url doesn't provide list of sites for the following parameters but
     # they are available with the paired parameter. e.g., flow is available
     # at stage sites.
@@ -77,10 +77,12 @@ def get_sites_by_type(site_type):
     if site_type == "tds":
         site_type = "cndvty"
 
-    if site_type not in site_types.keys():
+    if site_type not in site_types:
         return {}
 
-    res = requests.get(sites_base_url % site_type)
+    res = requests.get(
+        f"https://hydromet.lcra.org/navgagelist.asp?Stype={site_type}", timeout=10
+    )
     soup = BeautifulSoup(res.content, "html")
     sites_str = [
         site.text.replace("&nbsp", "").replace("\xa0", "") for site in soup.findAll("a")
@@ -91,7 +93,7 @@ def get_sites_by_type(site_type):
 def get_all_sites():
     """Returns list of all LCRA hydromet sites as geojson featurecollection."""
     sites_url = "https://hydromet.lcra.org/data/datafull.xml"
-    res = requests.get(sites_url)
+    res = requests.get(sites_url, timeout=10)
     soup = BeautifulSoup(res.content, "xml")
     rows = soup.findAll("row")
     features = [_create_feature(row) for row in rows]
@@ -113,7 +115,7 @@ def get_current_data(service, as_geojson=False):
 
     Returns
     -------
-    current_values_dicts : a list of dicts or
+        current_values_dicts : a list of dicts or
         current_values_geojson : a geojson featurecollection.
     """
     request_body_template = (
@@ -122,7 +124,7 @@ def get_current_data(service, as_geojson=False):
         'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
         'xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">\n '
         "  <soap12:Body>\n"
-        '    <%s xmlns="https://hydrometdata.lcra.org" />\n'
+        '    <%s xmlns="http://hydrometdata.lcra.org" />\n'
         "  </soap12:Body> \n"
         "</soap12:Envelope>"
     )
@@ -135,7 +137,9 @@ def get_current_data(service, as_geojson=False):
         return {}
     request_body = request_body_template % service
     headers = {"Content-Type": "text/xml; charset=utf-8"}
-    res = requests.post(current_data_url, data=request_body, headers=headers)
+    res = requests.post(
+        CURRENT_DATA_URL, data=request_body, headers=headers, timeout=10
+    )
     if res.status_code != 200:
         log.info(f"http request failed with status code {res.status_code}")
         return {}
@@ -192,7 +196,7 @@ def get_site_data(
     if parameter_code.lower() not in PARAMETERS:
         log.info(f"{parameter_code} is not an LCRA parameter")
         return None
-    initial_request = requests.get(historical_data_url, verify=False)
+    initial_request = requests.get(HISTORICAL_DATA_URL, timeout=10)
     if initial_request.status_code != 200:
         return None
     list_request_headers = {
@@ -200,7 +204,7 @@ def get_site_data(
         "DropDownList1": site_code,
     }
     list_request = _make_next_request(
-        historical_data_url, initial_request, list_request_headers
+        HISTORICAL_DATA_URL, initial_request, list_request_headers
     )
     if list_request.status_code != 200:
         return None
@@ -227,15 +231,16 @@ def get_site_data(
             return None
     else:
         values_dict = []
-        chunks = pandas.np.ceil((end_date - start_date).days / 180.0)
-        for chunk in pandas.np.arange(chunks) + 1:
+        chunks = np.ceil((end_date - start_date).days / 180.0)
+        for chunk in np.arange(chunks) + 1:
             request_start_date = start_date + relativedelta(days=180 * (chunk - 1))
             chunk_end_date = start_date + relativedelta(days=180 * chunk)
             request_end_date = (
                 end_date if chunk_end_date >= end_date else chunk_end_date
             )
             log.info(
-                f"getting chunk: {chunk}, start: {request_start_date}, end: {request_end_date}, parameter: {parameter_code}"
+                "getting chunk: %i, start: %s, end: %s, parameter: %s"
+                % (chunk, request_start_date, request_end_date, parameter_code)
             )
             values_chunk = _get_data(
                 site_code[:4],
@@ -277,7 +282,6 @@ def _parse_current_values(site_el):
                 if value_el.get_text().strip() == ""
                 else util.convert_datetime(value_el.get_text())
             )
-
         elif value_el.name.lower() == "location":
             site_values[value_el.name.lower()] = value_el.get_text().strip()
         elif value_el.get_text().strip() == "":
@@ -294,8 +298,8 @@ def _values_dict_to_df(values_dict):
     df.index = df["Date - Time"].apply(util.convert_datetime)
     df.drop("Date - Time", axis=1, inplace=True)
     df = df.sort_index()
-    df.dropna(axis=1, how="all", inplace=True)
-    df.dropna(axis=0, how="all", inplace=True)
+    df = df.dropna(axis=1, how="all")
+    df = df.dropna(axis=0, how="all")
     return df
 
 
@@ -310,10 +314,11 @@ def _get_data(site_code, parameter_code, list_request, start, end):
         "Date1": start.strftime("%m/%d/%Y"),
         "Date2": end.strftime("%m/%d/%Y"),
         "DropDownList1": site_code,
-        "DropDownList2": parameter_code,
     }
+
+    data_request_headers["DropDownList2"] = parameter_code
     data_request = _make_next_request(
-        historical_data_url, list_request, data_request_headers
+        HISTORICAL_DATA_URL, list_request, data_request_headers
     )
 
     if data_request.status_code != 200:
@@ -339,7 +344,9 @@ def _extract_headers_for_next_request(request):
 def _make_next_request(url, previous_request, data):
     data_headers = _extract_headers_for_next_request(previous_request)
     data_headers.update(data)
-    return requests.post(url, cookies=previous_request.cookies, data=data_headers)
+    return requests.post(
+        url, cookies=previous_request.cookies, data=data_headers, timeout=10
+    )
 
 
 def _parse_val(val):

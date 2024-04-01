@@ -7,15 +7,19 @@
     .. _Lower Colorado River Authority: http://www.lcra.org
     .. _Water Quality: http://waterquality.lcra.org/
 """
+
 import logging
 
 # import datetime
 import os.path as op
 
+import numpy as np
+import pandas as pd
+import requests
 from bs4 import BeautifulSoup
 from geojson import Feature, FeatureCollection, Point
 
-from tsgettoolbox.ulmo import util
+from ... import util
 
 # import unicode
 
@@ -25,9 +29,6 @@ LCRA_WATERQUALITY_DIR = op.join(util.get_ulmo_dir(), "lcra/waterquality")
 
 log = logging.getLogger(__name__)
 
-import numpy as np
-import pandas as pd
-import requests
 
 source_map = {
     "LCRA": "Lower Colorado River Authority",
@@ -64,8 +65,8 @@ def get_sites(source_agency=None):
     -------
     sites_geojson : geojson FeatureCollection
     """
-    sites_url = "http://waterquality.lcra.org/"
-    response = requests.get(sites_url, verify=False)
+    sites_url = "https://waterquality.lcra.org/"
+    response = requests.get(sites_url, timeout=60)
     lines = response.content.decode("utf-8").split("\n")
     sites_unprocessed = [
         line.strip().strip("createMarker").strip("(").strip(")").split(",")
@@ -86,7 +87,8 @@ def get_sites(source_agency=None):
 
 
 def get_historical_data(site_code, start=None, end=None, as_dataframe=False):
-    """Fetches data for a site at a given date.
+    """
+    Fetch data for a site at a given date.
 
     Parameters
     ----------
@@ -108,6 +110,7 @@ def get_historical_data(site_code, start=None, end=None, as_dataframe=False):
     data_dict : dict
         A dict containing site information and values.
     """
+
     if isinstance(site_code, (str)):
         pass
     elif isinstance(site_code, (int)):
@@ -117,14 +120,16 @@ def get_historical_data(site_code, start=None, end=None, as_dataframe=False):
             "Unsure of the site_code parameter type. \
                 Try string or int"
         )
-        raise
+        raise ValueError(
+            f"Unsure of the site_code parameter type. Got {site_code}. Try string or int"
+        )
 
     waterquality_url = (
         f"http://waterquality.lcra.org/parameter.aspx?qrySite={site_code}"
     )
     waterquality_url2 = "http://waterquality.lcra.org/events.aspx"
 
-    initial_request = requests.get(waterquality_url)
+    initial_request = requests.get(waterquality_url, timeout=60)
     initialsoup = BeautifulSoup(initial_request.content, "html.parser")
 
     sitevals = [
@@ -154,10 +159,10 @@ def get_historical_data(site_code, start=None, end=None, as_dataframe=False):
     data = _create_dataframe(results)
 
     if start and not data.empty:
-        data = data.loc[util.convert_date(start) :]
+        data = data.ix[util.convert_date(start) :]
 
     if end and not data.empty:
-        data = data.loc[: util.convert_date(end)]
+        data = data.ix[: util.convert_date(end)]
 
     return data if as_dataframe else data.to_dict(orient="records")
 
@@ -185,7 +190,7 @@ def get_recent_data(site_code, as_dataframe=False):
         return {}
     data_url = f"http://waterquality.lcra.org/salinity.aspx?sNum={site_code}&name={real_time_sites[site_code]}"
     data = pd.read_html(data_url, header=0)[1]
-    data.index = data["Date - Time"].apply(lambda x: util.convert_datetime(x))
+    data.index = data["Date - Time"].apply(util.convert_datetime)
     data.drop("Date - Time", axis=1, inplace=True)
     data = data.applymap(_nan_values)
     data.dropna(how="all", axis=0, inplace=True)
@@ -201,9 +206,9 @@ def _nan_values(value):
     return np.nan if value in [-998.0, "--"] else value
 
 
-def _beautify_header(str):
+def _beautify_header(input_str):
     return (
-        str.replace("\xb0", "deg")
+        input_str.replace("\xb0", "deg")
         .lower()
         .replace("(", "")
         .replace(")", "")
@@ -272,7 +277,8 @@ def _get_source(site_type_code):
 def _get_parameter(site_type_code):
     if site_type_code in ["Salinity", "Conductivity"]:
         return site_type_code
-    return None
+    else:
+        return None
 
 
 def _get_water_body(site_type_code):
@@ -282,7 +288,9 @@ def _get_water_body(site_type_code):
 def _make_next_request(url, previous_request, data):
     data_headers = _extract_headers_for_next_request(previous_request)
     data_headers.update(data)
-    return requests.post(url, cookies=previous_request.cookies, data=data_headers)
+    return requests.post(
+        url, cookies=previous_request.cookies, data=data_headers, timeout=60
+    )
 
 
 def _parse_val(val):

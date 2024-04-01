@@ -16,7 +16,7 @@ import numpy as np
 import pandas
 import requests
 
-from tsgettoolbox.ulmo import util
+from ... import util
 
 # directory where drought data will be stashed
 CPC_DROUGHT_DIR = os.path.join(util.get_ulmo_dir(), "cpc/drought")
@@ -78,21 +78,22 @@ STATE_CODES = {
 def get_data(
     state=None, climate_division=None, start=None, end=None, as_dataframe=False
 ):
-    """Retreives data.
+    """
+    Retrieve data.
 
     Parameters
     ----------
-    state : ``None`` or str
+    state: ``None`` or str
         If specified, results will be limited to the state corresponding to the
         given 2-character state code.
-    climate_division : ``None`` or int
+    climate_division: ``None`` or int
         If specified, results will be limited to the climate division.
-    start : ``None`` or date (see :ref:`dates-and-times`)
+    start: ``None`` or date (see :ref:`dates-and-times`)
         Results will be limited to those after the given date. Default is the
         start of the current calendar year.
-    end : ``None`` or date (see :ref:`dates-and-times`)
+    end: ``None`` or date (see :ref:`dates-and-times`)
         If specified, results will be limited to data before this date.
-    as_dataframe : bool
+    as_dataframe: bool
         If ``False`` (default), a dict with a nested set of dicts will be
         returned with data indexed by state, then climate division. If ``True``
         then a pandas.DataFrame object will be returned.  The pandas dataframe
@@ -105,15 +106,18 @@ def get_data(
         A dict or pandas.DataFrame representing the data. See the
         ``as_dataframe`` parameter for more.
     """
-    start_date = util.convert_date(start) if start is not None else None
-    end_date = (
-        util.convert_date(end) if end is not None else None
-    ) or datetime.date.today()
-    if not start_date:
-        start_date = datetime.date(end_date.year, 1, 1)
 
-    start_year, start_week = _week_number(start_date)
-    end_year, end_week = _week_number(end_date)
+    end_date = (
+        None if end is None else util.convert_date(end)
+    ) or datetime.date.today()
+
+    start_date = (None if start is None else util.convert_date(start)) or datetime.date(
+        end_date.year, 1, 1
+    )
+
+    start_year, _ = _week_number(start_date)
+    end_year, _ = _week_number(end_date)
+
     state_code = STATE_CODES.get(state.upper()) if state else None
     data = None
     for year in range(start_year, end_year + 1):
@@ -142,15 +146,15 @@ def get_data(
 
     # restrict results to date range
     period_index = pandas.PeriodIndex(data["period"])
-    periods_in_range = (period_index >= start_date.isoformat()) & (
-        period_index <= end_date.isoformat()
-    )
-    period_index = period_index[periods_in_range]
+    periods_in_range = (period_index >= start_date) & (period_index <= end_date)
     data = data[periods_in_range]
 
     # this does what data.reset_index() should do, but at least as of 0.10.1, that sets
     # will cast period objects to ints
-    data.index = period_index.to_timestamp()  # np.arange(len(data))
+    try:
+        data.index = period_index.to_timestamp()
+    except:
+        data.index = np.arange(len(data))
     return data if as_dataframe else _as_data_dict(data)
 
 
@@ -160,7 +164,7 @@ def _as_data_dict(dataframe):
         state_dict = {}
         state_dataframe = dataframe[dataframe["state"] == state]
         for name, group in state_dataframe.groupby(["state", "climate_division"]):
-            s, climate_division = name
+            _, climate_division = name
             climate_division_data = group.T.drop(["state", "climate_division"])
             values = [_value_dict(value) for k, value in climate_division_data.items()]
             state_dict[climate_division] = values
@@ -219,7 +223,7 @@ def _get_data_format(year):
 
 
 def _get_data_url(year):
-    current_year, current_week = _week_number(datetime.date.today())
+    current_year, _ = _week_number(datetime.date.today())
     if year == current_year:
         return ("https://ftp.cpc.ncep.noaa.gov/htdocs/temp4/current.data", True)
     if year == current_year - 1:
@@ -311,9 +315,6 @@ def _parse_data_file(data_file, palmer_format, year, current_year_flag):
         ("cmi", "f8"),
     ]
 
-    def decodef(x):
-        return x.decode("utf-8")
-
     data_array = np.genfromtxt(
         data_file, dtype=dtype, delimiter=delim_sequence, usecols=use_columns
     )
@@ -339,7 +340,7 @@ def _reindex_data(dataframe):
 
 
 def _url_exists(url):
-    return requests.head(url).status_code == 200
+    return requests.head(url, timeout=10).status_code == 200
 
 
 def _value_dict(value):

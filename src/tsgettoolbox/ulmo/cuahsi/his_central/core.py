@@ -6,12 +6,13 @@
 
     .. _CUAHSI HIS Central: http://hiscentral.cuahsi.org/
 """
+
 import os
 
 import suds.client
 from suds.cache import ObjectCache
 
-from tsgettoolbox.ulmo import util
+from ... import util
 
 HIS_CENTRAL_WSDL_URL = "http://hiscentral.cuahsi.org/webservices/hiscentral.asmx?WSDL"
 
