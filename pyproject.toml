@@ -34,17 +34,25 @@ dependencies = [
     "cftime",
     "cltoolbox",
     "dapclient",
+    "dateparser",
     "geojson",
     "haversine",
     "httpretty",
     "isodate",
     "lxml",
     "mechanize",
+    "numpy >= 1.20, < 2.0 ; python_version <= '3.9'",
+    "pandas[excel]",
+    "pint != 0.21.*, < 0.22 ; python_version < '3.9'",
+    "pint-pandas",
+    "pydantic",
     "pydaymet",
     "python-dateutil",
     "requests",
+    "scipy",
     "siphon",
-    "suds-community"
+    "suds-community",
+    "tabulate"
 ]
 description = "Will get time series from different sources on the internet"
 dynamic = ["readme", "version"]
