@@ -6,9 +6,9 @@ hydstra_stations    Kisters Hydstra Webservice - station list for a server
 """
 
 import pandas as pd
-from toolbox_utils import tsutils
 
 from tsgettoolbox import hydstra_utils as hu
+from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 hydstra_docstrings = {
     "server": r"""server

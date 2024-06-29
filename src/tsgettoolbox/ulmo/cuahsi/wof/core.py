@@ -1,9 +1,9 @@
 """
-    ulmo.wof.core
-    ~~~~~~~~~~~~~
-    This module provides direct access to `CUAHSI WaterOneFlow`_ web services.
+ulmo.wof.core
+~~~~~~~~~~~~~
+This module provides direct access to `CUAHSI WaterOneFlow`_ web services.
 
-    .. _CUAHSI WaterOneFlow: https://his.cuahsi.org/wofws.html
+.. _CUAHSI WaterOneFlow: https://his.cuahsi.org/wofws.html
 """
 
 import io

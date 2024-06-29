@@ -1,12 +1,12 @@
 """
-    ulmo.lcra.hydromet.core
-    ~~~~~~~~~~~~~~~~~~~~~~~
-    This module provides access to hydrologic and climate data in the Colorado
-    River Basin (Texas) provided by the `Lower Colorado River Authority`_
-    `Hydromet`_ web site and web service.
+ulmo.lcra.hydromet.core
+~~~~~~~~~~~~~~~~~~~~~~~
+This module provides access to hydrologic and climate data in the Colorado
+River Basin (Texas) provided by the `Lower Colorado River Authority`_
+`Hydromet`_ web site and web service.
 
-    .. _Lower Colorado River Authority: http://www.lcra.org
-    .. _Hydromet: http://hydromet.lcra.org
+.. _Lower Colorado River Authority: http://www.lcra.org
+.. _Hydromet: http://hydromet.lcra.org
 """
 
 import datetime

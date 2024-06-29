@@ -1,8 +1,8 @@
 """
-   ulmo.util.raster
-   ~~~~~~~~~~~~~~~~
+ulmo.util.raster
+~~~~~~~~~~~~~~~~
 
-   Collection of useful functions for raster manipulation
+Collection of useful functions for raster manipulation
 """
 
 import hashlib

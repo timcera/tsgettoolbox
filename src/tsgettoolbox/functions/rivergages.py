@@ -13,8 +13,8 @@ from contextlib import contextmanager
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
-from toolbox_utils import tsutils
 
+from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 from tsgettoolbox.utils import dirs
 
 URL = "http://rivergages.mvr.usace.army.mil/WaterControl/datamining2.cfm"

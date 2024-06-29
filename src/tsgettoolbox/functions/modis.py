@@ -9,7 +9,8 @@ import json
 import async_retriever as ar
 import numpy as np
 import pandas as pd
-from toolbox_utils import tsutils
+
+from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = ["modis"]
 

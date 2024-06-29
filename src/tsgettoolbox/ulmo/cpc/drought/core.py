@@ -1,12 +1,12 @@
 """
-    ulmo.cpc.drought.core
-    ~~~~~~~~~~~~~~~~~~~~~
+ulmo.cpc.drought.core
+~~~~~~~~~~~~~~~~~~~~~
 
-    This module provides direct access to `Climate Predicition Center`_ `Weekly
-    Drought Index`_ dataset.
+This module provides direct access to `Climate Predicition Center`_ `Weekly
+Drought Index`_ dataset.
 
-    .. _Climate Prediction Center: http://www.cpc.ncep.noaa.gov/
-    .. _Weekly Drought Index: http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
+.. _Climate Prediction Center: http://www.cpc.ncep.noaa.gov/
+.. _Weekly Drought Index: http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
 """
 
 import datetime
@@ -153,7 +153,7 @@ def get_data(
     # will cast period objects to ints
     try:
         data.index = period_index.to_timestamp()
-    except:
+    except AttributeError:
         data.index = np.arange(len(data))
     return data if as_dataframe else _as_data_dict(data)
 

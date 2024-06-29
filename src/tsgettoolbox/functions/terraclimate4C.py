@@ -6,9 +6,9 @@ terraclimate4C      global 1/24deg M:Monthly normals from Terraclimate
 # http://thredds.northwestknowledge.net:8080/thredds/terraclimate_aggregated.html
 
 import pandas as pd
-from toolbox_utils import tsutils
 
 from tsgettoolbox import utils
+from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = ["terraclimate4C"]
 

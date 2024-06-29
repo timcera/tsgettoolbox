@@ -1,10 +1,10 @@
 """
-    ulmo.cuahsi.his_central.core
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ulmo.cuahsi.his_central.core
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    This module provides direct access to the `CUAHSI HIS Central`_ web service.
+This module provides direct access to the `CUAHSI HIS Central`_ web service.
 
-    .. _CUAHSI HIS Central: http://hiscentral.cuahsi.org/
+.. _CUAHSI HIS Central: http://hiscentral.cuahsi.org/
 """
 
 import os

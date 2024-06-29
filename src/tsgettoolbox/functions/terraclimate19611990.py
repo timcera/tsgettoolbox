@@ -6,9 +6,9 @@ terraclimate19611990
 # http://thredds.northwestknowledge.net:8080/thredds/terraclimate_aggregated.html
 
 import pandas as pd
-from toolbox_utils import tsutils
 
 from tsgettoolbox import utils
+from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = ["terraclimate19611990"]
 

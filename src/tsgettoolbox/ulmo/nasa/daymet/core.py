@@ -1,11 +1,11 @@
 """
-    ulmo.nasa.daymet.core
-    ~~~~~~~~~~~~~~~~~~~~~
+ulmo.nasa.daymet.core
+~~~~~~~~~~~~~~~~~~~~~
 
-    This module provides direct access to `NASA EARTHDATA ORNL DAAC
-    Daymet`_ web services.
+This module provides direct access to `NASA EARTHDATA ORNL DAAC
+Daymet`_ web services.
 
-    .. _NASA EARTHDATA ORNL DAAC Daymet: https://daymet.ornl.gov/dataaccess.html
+.. _NASA EARTHDATA ORNL DAAC Daymet: https://daymet.ornl.gov/dataaccess.html
 
 """
 

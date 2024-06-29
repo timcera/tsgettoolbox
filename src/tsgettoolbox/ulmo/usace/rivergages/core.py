@@ -1,12 +1,12 @@
 """
-    ulmo.usace.rivergages.core
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+ulmo.usace.rivergages.core
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    This module provides access to data provided by the `United States Army
-    Corps of Engineers`_ `Rivergages`_ web site.
+This module provides access to data provided by the `United States Army
+Corps of Engineers`_ `Rivergages`_ web site.
 
-    .. _United States Army Corps of Engineers: http://www.usace.army.mil/
-    .. _Rivergages: http://rivergages.mvr.usace.army.mil/WaterControl/new/layout.cfm
+.. _United States Army Corps of Engineers: http://www.usace.army.mil/
+.. _Rivergages: http://rivergages.mvr.usace.army.mil/WaterControl/new/layout.cfm
 """
 
 import datetime

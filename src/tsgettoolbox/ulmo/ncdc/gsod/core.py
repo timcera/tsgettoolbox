@@ -1,12 +1,12 @@
 """
-    ulmo.ncdc.gsod.core
-    ~~~~~~~~~~~~~~~~~~~
+ulmo.ncdc.gsod.core
+~~~~~~~~~~~~~~~~~~~
 
-    This module provides direct access to `National Climatic Data Center`_
-    `Global Summary of the Day`_ dataset.
+This module provides direct access to `National Climatic Data Center`_
+`Global Summary of the Day`_ dataset.
 
-    .. _National Climatic Data Center: http://www.ncdc.noaa.gov
-    .. _Global Summary of the Day: http://www.ncdc.noaa.gov/oa/gsod.html
+.. _National Climatic Data Center: http://www.ncdc.noaa.gov
+.. _Global Summary of the Day: http://www.ncdc.noaa.gov/oa/gsod.html
 """
 
 import csv
@@ -129,14 +129,14 @@ def get_data(station_codes, start=None, end=None, parameters=None):
                             mask = mask & (year_data["date"] <= end_date)
                         year_data = year_data[mask]
 
-                    if not data_dict[station] is None:
+                    if data_dict[station] is not None:
                         # XXX: this could be more efficient for large numbers
                         # of years with a list comprehension or generator
                         data_dict[station] = np.append(data_dict[station], year_data)
                     else:
                         data_dict[station] = year_data
     for station, data_array in data_dict.items():
-        if not data_dict[station] is None:
+        if data_dict[station] is not None:
             data_dict[station] = _record_array_to_value_dicts(data_array)
     return data_dict
 

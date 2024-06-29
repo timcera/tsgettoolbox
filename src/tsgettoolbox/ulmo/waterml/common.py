@@ -167,7 +167,7 @@ def _element_dict(element, exclude_children=None, prepend_attributes=True):
     element_dict = {}
     element_name = util.camel_to_underscore(element.tag.split("}")[-1])
 
-    if len(element) == 0 and not element.text is None:
+    if len(element) == 0 and element.text is not None:
         element_dict[element_name] = element.text
 
     element_dict.update(
@@ -181,7 +181,7 @@ def _element_dict(element, exclude_children=None, prepend_attributes=True):
     )
 
     for child in element.iterchildren():
-        if not child.tag.split("}")[-1] in exclude_children:
+        if child.tag.split("}")[-1] not in exclude_children:
             element_dict.update(_element_dict(child))
 
     return element_dict
@@ -223,7 +223,7 @@ def _parse_geog_location(geog_location, namespace):
     }
 
     srs = geog_location.attrib.get("srs")
-    if not srs is None:
+    if srs is not None:
         return_dict["srs"] = srs
 
     return return_dict
@@ -265,7 +265,7 @@ def _parse_series(series, namespace):
 
     for include_element in include_elements:
         element = series.find(namespace + include_element)
-        if not element is None:
+        if element is not None:
             name = util.camel_to_underscore(element.tag)
             element_dict = _scrub_prefix(_element_dict(element), name)
             series_dict[name] = element_dict
@@ -303,15 +303,15 @@ def _parse_site_info(site_info, namespace):
         return_dict["agency"] = agency
 
     geog_location = site_info.find(namespace.join(["", "geoLocation/", "geogLocation"]))
-    if not geog_location is None:
+    if geog_location is not None:
         return_dict["location"] = _parse_geog_location(geog_location, namespace)
 
     timezone_info = site_info.find(namespace + "timeZoneInfo")
-    if not timezone_info is None:
+    if timezone_info is not None:
         return_dict["timezone_info"] = _parse_timezone_info(timezone_info, namespace)
 
     elevation_m = site_info.find(namespace + "elevation_m")
-    if not elevation_m is None:
+    if elevation_m is not None:
         return_dict["elevation_m"] = elevation_m.text
 
     # WaterML 1.0 notes
@@ -356,7 +356,7 @@ def _parse_timezone_info(timezone_info, namespace):
         return_dict["uses_dst"] = False
 
     dst_element = timezone_info.find(namespace + "daylightSavingsTimeZone")
-    if not dst_element is None:
+    if dst_element is not None:
         return_dict["dst_tz"] = _parse_timezone_element(dst_element)
 
     return_dict["default_tz"] = _parse_timezone_element(
@@ -373,7 +373,7 @@ def _parse_time_info(time_info_element, namespace):
     return_dict = {}
 
     is_regular = time_info_element.attrib.get("isRegular")
-    if not is_regular is None:
+    if is_regular is not None:
         if is_regular.lower() == "true":
             is_regular = True
         elif is_regular.lower() == "false":
@@ -386,11 +386,11 @@ def _parse_time_info(time_info_element, namespace):
         interval_tag = "timeSupport"
 
     interval_element = time_info_element.find(namespace + interval_tag)
-    if not interval_element is None:
+    if interval_element is not None:
         return_dict["interval"] = interval_element.text
 
     unit_element = _find_unit(time_info_element, namespace)
-    if not unit_element is None:
+    if unit_element is not None:
         return_dict["units"] = _parse_unit(unit_element, namespace)
 
     return return_dict

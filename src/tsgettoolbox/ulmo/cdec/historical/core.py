@@ -1,54 +1,54 @@
 """
-    ulmo.cdec.historical.core
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+ulmo.cdec.historical.core
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    This module provides access to data provided by the `California Department
-    of Water Resources`_ `California Data Exchange Center`_ website.
+This module provides access to data provided by the `California Department
+of Water Resources`_ `California Data Exchange Center`_ website.
 
-    .. _California Department of Water Resources: http://www.water.ca.gov/
-    .. _California Data Exchange Center: http://cdec.water.ca.gov
+.. _California Department of Water Resources: http://www.water.ca.gov/
+.. _California Data Exchange Center: http://cdec.water.ca.gov
 
 
-    SELECTED CDEC SENSOR NUMBERS (these are not available for all sites):
+SELECTED CDEC SENSOR NUMBERS (these are not available for all sites):
 
-    1    river stage [ft]
-    2    precipitation, accumulated [in]
-    3    SWE [in]
-    4    air temperature [F]
-    5    EC [ms/cm]
-    6    reservoir elevation [ft]
-    7    reservoir scheduled release [cfs]
-    8    full natural flow [cfs]
-    15   reservoir storage [af]
-    20   flow -- river discharge [cfs]
-    22   reservoir storage change [af]
-    23   reservoir outflow [cfs]
-    24   Evapotranspiration [in]
-    25   water temperature [F]
-    27   water turbidity [ntu]
-    28   chlorophyll [ug/l]
-    41   flow -- mean daily [cfs]
-    45   precipitation, incremental [in]
-    46   runoff volume [af]
-    61   water dissolved oxygen [mg/l]
-    62   water pH value [pH]
-    64   pan evaporation (incremental) [in]
-    65   full natural flow [af]
-    66   flow -- monthly volume [af]
-    67   accretions (estimated) [af]
-    71   spillway discharge [cfs]
-    74   lake evaporation (computed) [cfs]
-    76   reservoir inflow [cfs]
-    85   control regulating discharge [cfs]
-    94   top conservation storage (reservoir) [af]
-    100  water EC [us/cm]
+1    river stage [ft]
+2    precipitation, accumulated [in]
+3    SWE [in]
+4    air temperature [F]
+5    EC [ms/cm]
+6    reservoir elevation [ft]
+7    reservoir scheduled release [cfs]
+8    full natural flow [cfs]
+15   reservoir storage [af]
+20   flow -- river discharge [cfs]
+22   reservoir storage change [af]
+23   reservoir outflow [cfs]
+24   Evapotranspiration [in]
+25   water temperature [F]
+27   water turbidity [ntu]
+28   chlorophyll [ug/l]
+41   flow -- mean daily [cfs]
+45   precipitation, incremental [in]
+46   runoff volume [af]
+61   water dissolved oxygen [mg/l]
+62   water pH value [pH]
+64   pan evaporation (incremental) [in]
+65   full natural flow [af]
+66   flow -- monthly volume [af]
+67   accretions (estimated) [af]
+71   spillway discharge [cfs]
+74   lake evaporation (computed) [cfs]
+76   reservoir inflow [cfs]
+85   control regulating discharge [cfs]
+94   top conservation storage (reservoir) [af]
+100  water EC [us/cm]
 
-    CDEC DURATION CODES:
+CDEC DURATION CODES:
 
-    E    event
-    H    hourly
-    D    daily
-    M    monthly
+E    event
+H    hourly
+D    daily
+M    monthly
 
 """
 

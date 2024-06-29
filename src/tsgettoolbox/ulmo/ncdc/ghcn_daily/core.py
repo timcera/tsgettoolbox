@@ -1,13 +1,13 @@
 """
-    ulmo.ncdc.ghcn_daily.core
-    ~~~~~~~~~~~~~~~~~~~~~~~~~
+ulmo.ncdc.ghcn_daily.core
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    This module provides direct access to `National Climatic Data Center`_
-    `Global Historical Climate Network - Daily`_ dataset.
+This module provides direct access to `National Climatic Data Center`_
+`Global Historical Climate Network - Daily`_ dataset.
 
 
-    .. _National Climatic Data Center: http://www.ncdc.noaa.gov
-    .. _Global Historical Climate Network - Daily: http://www.ncdc.noaa.gov/oa/climate/ghcn-daily/
+.. _National Climatic Data Center: http://www.ncdc.noaa.gov
+.. _Global Historical Climate Network - Daily: http://www.ncdc.noaa.gov/oa/climate/ghcn-daily/
 
 """
 

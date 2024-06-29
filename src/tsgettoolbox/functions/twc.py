@@ -16,9 +16,8 @@ import async_retriever as ar
 import numpy as np
 import pandas as pd
 import requests
-from toolbox_utils import tsutils
 
-from tsgettoolbox.utils import dirs
+from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = ["twc"]
 
@@ -603,7 +602,6 @@ def get_data(county, start=None, end=None):
     dates = pd.date_range(start_date, end_date, freq="D")
 
     text_dates = dates[dates < CSV_SWITCHOVER]
-    csv_dates = dates[dates >= CSV_SWITCHOVER]
 
     county = [inv_codes.get(c, c) for c in county]
 
@@ -628,18 +626,14 @@ def get_data(county, start=None, end=None):
         resp.columns = ["KBDI_AVG", "KBDI_MAX", "KBDI_MIN"]
         resp = resp.unstack()
         resp = resp.transpose()
-        print(resp)
-        break
+        data_df.append(resp)
 
-    print(df)
-    fips_df = _fips_dataframe()
-    df = pd.merge(df, fips_df, left_on="county", right_on="name")
-    del df["name"]
+    df = pd.concat(data_df)
 
     if county:
         df = df[df["fips"] == county]
 
-    return df if as_dataframe else _as_data_dict(df)
+    return df
 
 
 def twc_tsget_df(county=None, start_date=None, end_date=None):

@@ -7,9 +7,8 @@ usgs_flet_stns      US/FL 2km D:USGS FL ET data from station interpolated
 
 from typing import Callable
 
-from toolbox_utils import tsutils
-
 from tsgettoolbox import utils
+from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = ["usgs_flet_narr", "usgs_flet_stns"]
 
@@ -167,9 +166,7 @@ DOCS = r"""
 
     {start_date}
     {end_date}
-    """.format(
-    **tsutils.docstrings
-)
+    """.format(**tsutils.docstrings)
 
 
 def assign_docstring(indocstring: str) -> Callable:

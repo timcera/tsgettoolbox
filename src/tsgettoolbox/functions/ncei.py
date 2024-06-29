@@ -31,10 +31,10 @@ from contextlib import contextmanager
 import numpy as np
 import pandas as pd
 import requests
-from toolbox_utils import tsutils
 
 from tsgettoolbox import utils
 from tsgettoolbox.cdo_api_py.cdo_api_py import Client
+from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 from tsgettoolbox.utils import dirs
 
 
@@ -4525,7 +4525,7 @@ def ncei_normal_mly(stationid):
     The following table lists the datatypes available for the annual
     dataset. Not all of the datatypes are available for all stations.
 
-    +-------------------------+----------------------------------------+
+    +----------------------+----------------------------------------+
     | Code                 | Description                            |
     +======================+========================================+
     | MLY-CLDD-BASE45      | Average monthly cooling degree days    |

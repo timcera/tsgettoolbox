@@ -15,8 +15,8 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 import requests
-from toolbox_utils import tsutils
 
+from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 from tsgettoolbox.utils import dirs
 
 __all__ = ["cpc"]
@@ -518,7 +518,7 @@ def get_data(
     # will cast period objects to ints
     try:
         data.index = period_index.to_timestamp()
-    except:
+    except AttributeError:
         data.index = np.arange(len(data))
     return data if as_dataframe else _as_data_dict(data)
 

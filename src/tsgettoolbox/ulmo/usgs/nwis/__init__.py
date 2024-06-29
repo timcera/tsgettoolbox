@@ -1,9 +1,17 @@
 """
-    `USGS National Water Information System`_ web services
+`USGS National Water Information System`_ web services
 
 
-    .. _USGS National Water Information System: http://waterdata.usgs.gov/nwis
+.. _USGS National Water Information System: http://waterdata.usgs.gov/nwis
 """
+
+__all__ = [
+    "core",
+    "get_site_data",
+    "get_sites",
+    "hdf5",
+    "pytables",
+]
 
 from ... import util
 from . import core

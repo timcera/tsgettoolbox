@@ -1,11 +1,11 @@
 """
-    ulmo.lcra.waterquality.core
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    This module provides access to data provided by the `Lower Colorado
-    River Authority`_ `Water Quality`_ web site.
+ulmo.lcra.waterquality.core
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This module provides access to data provided by the `Lower Colorado
+River Authority`_ `Water Quality`_ web site.
 
-    .. _Lower Colorado River Authority: http://www.lcra.org
-    .. _Water Quality: http://waterquality.lcra.org/
+.. _Lower Colorado River Authority: http://www.lcra.org
+.. _Water Quality: http://waterquality.lcra.org/
 """
 
 import logging

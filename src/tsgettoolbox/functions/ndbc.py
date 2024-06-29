@@ -10,7 +10,8 @@ from io import BytesIO, StringIO
 
 import async_retriever as ar
 import pandas as pd
-from toolbox_utils import tsutils
+
+from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = ["ndbc"]
 
@@ -209,14 +210,12 @@ def ndbc_to_df(url, **query_params):
             nresp.append(GzipFile(fileobj=i).read())
 
     skiprows = []
-    parse_dates = []
     for r in nresp:
         f = StringIO(r.decode("utf-8"))
-        head1 = f.readline()
+        _ = f.readline()
         head2 = f.readline()
         f.seek(0)
 
-        words1 = head1.split()
         words2 = head2.split()
         try:
             _ = int(words2[0])

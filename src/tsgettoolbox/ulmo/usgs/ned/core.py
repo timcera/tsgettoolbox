@@ -1,13 +1,13 @@
 """
-    ulmo.usgs.ned.core
-    ~~~~~~~~~~~~~~~~~~~~~
+ulmo.usgs.ned.core
+~~~~~~~~~~~~~~~~~~~~~
 
-    This module provides access to the `National Elevation Dataset` provided by the `United States Geological
-    Survey`_ `National Map`_ system.
+This module provides access to the `National Elevation Dataset` provided by the `United States Geological
+Survey`_ `National Map`_ system.
 
-    .. _National Elevation Dataset: http://ned.usgs.gov/
-    .. _United States Geological Survey: http://www.usgs.gov/
-    .. _National Map: http://nationalmap.gov
+.. _National Elevation Dataset: http://ned.usgs.gov/
+.. _United States Geological Survey: http://www.usgs.gov/
+.. _National Map: http://nationalmap.gov
 
 """
 
@@ -190,7 +190,10 @@ def _download_features(
     tiles = []
     tile_fmt = ".img"
     for feature_id in feature_ids:
-        url = SCIENCEBASE_ITEM_URL % feature_id
+        url = (
+            "https://www.sciencebase.gov/catalogMaps/mapping/ows/{0}?service=wcs&request=getcapabilities&version=1.0.0"
+            % feature_id
+        )
         metadata = requests.get(url, timeout=60).json()
         layer = [a for a in list(layer_dict.keys()) if a in metadata["title"]][0]
         layer_path = os.path.join(path, layer_dict[layer])

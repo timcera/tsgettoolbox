@@ -1,8 +1,8 @@
 """
-   ulmo.util
-   ~~~~~~~~~~
+ulmo.util
+~~~~~~~~~~
 
-   Collection of useful functions for common use cases
+Collection of useful functions for common use cases
 """
 
 import os

@@ -11,7 +11,8 @@ from typing import List, Literal, Optional, Union
 
 import pandas as pd
 import pydaymet
-from toolbox_utils import tsutils
+
+from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = ["daymet"]
 
@@ -236,11 +237,6 @@ def daymet(
 
     ndf = pd.DataFrame()
     if obs_data:
-        print(lon, lat)
-        print(dates)
-        print(obs_data)
-        print(time_scale)
-        print(snow)
         ndf = pydaymet.get_bycoords(
             (lon, lat),
             dates,

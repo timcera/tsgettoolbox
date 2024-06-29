@@ -7,9 +7,9 @@ import datetime
 import warnings
 from typing import Optional, Union
 
-import numpy as np
 import pandas as pd
-from toolbox_utils import tsutils
+
+from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = ["cdec"]
 
@@ -260,8 +260,8 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
                 url,
                 parse_dates=["DATE TIME"],
                 index_col="DATE TIME",
-                na_values="m",
-            )["VALUE"].replace("---", np.nan)
+                na_values=["m", "---"],
+            )["VALUE"]
             station_data[var].columns = ["datetime", "value"]
 
         d[station_id] = station_data

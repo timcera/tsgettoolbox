@@ -1,12 +1,12 @@
 """
-    ulmo.usace.swtwc.core
-    ~~~~~~~~~~~~~~~~~~~~~
+ulmo.usace.swtwc.core
+~~~~~~~~~~~~~~~~~~~~~
 
-    This module provides access to data provided by the `United States Army
-    Corps of Engineers`_ `Tulsa District Water Control`_ web site.
+This module provides access to data provided by the `United States Army
+Corps of Engineers`_ `Tulsa District Water Control`_ web site.
 
-    .. _United States Army Corps of Engineers: http://www.usace.army.mil/
-    .. _Tulsa District Water Control: http://www.swt-wc.usace.army.mil/
+.. _United States Army Corps of Engineers: http://www.usace.army.mil/
+.. _Tulsa District Water Control: http://www.swt-wc.usace.army.mil/
 
 """
 
@@ -109,7 +109,10 @@ def get_station_data(station_code, date=None, as_dataframe=False):
         variable_name: lambda x: float(x) if x != "----" else np.nan
         for variable_name in variable_names
     }
-    date_parser = lambda x: _convert_datetime(x, year)
+
+    def date_parser(x):
+        _convert_datetime(x, year)
+
     dataframe = pandas.read_fwf(
         sio,
         names=column_names,

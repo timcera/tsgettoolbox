@@ -1,13 +1,14 @@
 # ---
 # jupyter:
 #   jupytext:
+#     formats: ipynb,py:percent
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.14.1
+#       jupytext_version: 1.16.2
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
@@ -19,13 +20,19 @@
 
 # %%
 # %matplotlib inline
+
+from tstoolbox import tstoolbox
+
+# %%
 from tsgettoolbox import tsgettoolbox
 
 # %% [markdown]
 # Let's say that I want flow (parameterCd=00060) for site '02325000'.  All of the tsgettoolbox functions create a _pandas_ DataFrame.
 
 # %%
-df = tsgettoolbox.nwis_dv(sites="02325000", startDT="2000-01-01", parameterCd="00060")
+df = tsgettoolbox.nwis_dv(
+    sites="02325000", startDT="2000-01-01", endDT="2010-01-01", parameterCd="00060"
+).convert_dtypes()
 
 # %%
 df.head()  # The .head() function gives the first 5 values of the time-series
@@ -35,13 +42,11 @@ df.head()  # The .head() function gives the first 5 values of the time-series
 # Now lets use "tstoolbox" to plot the time-series.  The 'input_ts' option is used to read in the time-series from the DataFrame.
 
 # %%
-from tstoolbox import tstoolbox
+df = df.astype("float64")
+df
 
 # %%
-tstoolbox.plot(input_ts=df, ofilename="plot_api.png")
-
-# %% [markdown]
-# ![](plot_api.png)
+tstoolbox.plot(input_ts=df, ofilename="flow.png")
 
 # %% [markdown]
 # 'tstoolbox plot' has many options that can be used to modify the plot.
@@ -55,16 +60,8 @@ tstoolbox.plot(
     legend=False,
 )
 
-# %% [markdown]
-# ![](flow_api.png)
-
 # %%
 mdf = tstoolbox.aggregate(input_ts=df, agg_interval="M", statistic="mean")
 
 # %%
 tstoolbox.plot(input_ts=mdf, drawstyle="steps-pre", ofilename="flow_api_monthly.png")
-
-# %% [markdown]
-# ![](flow_api_monthly.png)
-
-# %%

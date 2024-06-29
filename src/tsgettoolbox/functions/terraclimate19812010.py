@@ -8,9 +8,9 @@ terraclimate19812010
 import datetime
 
 import pandas as pd
-from toolbox_utils import tsutils
 
 from tsgettoolbox import utils
+from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = ["terraclimate19812010"]
 

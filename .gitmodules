@@ -1,3 +1,6 @@
 [submodule "src/tsgettoolbox/cdo-api-py"]
 	path = src/tsgettoolbox/cdo_api_py
 	url = git@github.com:timcera/cdo-api-py.git
+[submodule "src/tsgettoolbox/toolbox_utils"]
+	path = src/tsgettoolbox/toolbox_utils
+	url = git@github.com:timcera/toolbox_utils.git

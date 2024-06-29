@@ -1,12 +1,12 @@
 """
-    ulmo.ncdc.cirs.core
-    ~~~~~~~~~~~~~~~~~~~
+ulmo.ncdc.cirs.core
+~~~~~~~~~~~~~~~~~~~
 
-    This module provides direct access to the `National Climatic Data Center`_
-    `Climate Index Reference Sequential (CIRS)`_ drought dataset.
+This module provides direct access to the `National Climatic Data Center`_
+`Climate Index Reference Sequential (CIRS)`_ drought dataset.
 
-    .. _National Climatic Data Center: http://www.ncdc.noaa.gov
-    .. _Climate Index Reference Sequential (CIRS): http://www1.ncdc.noaa.gov/pub/data/cirs/
+.. _National Climatic Data Center: http://www.ncdc.noaa.gov
+.. _Climate Index Reference Sequential (CIRS): http://www1.ncdc.noaa.gov/pub/data/cirs/
 """
 
 import distutils.version

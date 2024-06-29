@@ -18,9 +18,9 @@ from dapclient.client import open_url
 from haversine import haversine_vector
 from requests.adapters import HTTPAdapter, Retry
 from siphon.ncss import NCSS
-from toolbox_utils import tsutils
 
-from tsgettoolbox import appdirs
+from . import appdirs
+from .toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = []
 

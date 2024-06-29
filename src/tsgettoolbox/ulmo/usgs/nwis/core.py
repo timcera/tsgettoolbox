@@ -1,11 +1,11 @@
 """
-    ulmo.usgs.core
-    ~~~~~~~~~~~~~~
+ulmo.usgs.core
+~~~~~~~~~~~~~~
 
-    This module provides direct access to `USGS National Water Information
-    System`_ web services.
+This module provides direct access to `USGS National Water Information
+System`_ web services.
 
-    .. _USGS National Water Information System: http://waterdata.usgs.gov/nwis
+.. _USGS National Water Information System: http://waterdata.usgs.gov/nwis
 
 """
 

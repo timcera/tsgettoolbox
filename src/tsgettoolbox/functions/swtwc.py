@@ -127,7 +127,10 @@ def get_station_data(station_code, date=None, as_dataframe=False):
         variable_name: lambda x: float(x) if x != "----" else np.nan
         for variable_name in variable_names
     }
-    date_parser = lambda x: _convert_datetime(x, year)
+
+    def date_parser(x):
+        return _convert_datetime(x, year)
+
     dataframe = pd.read_fwf(
         sio,
         names=column_names,

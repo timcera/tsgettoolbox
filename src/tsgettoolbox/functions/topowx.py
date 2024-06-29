@@ -5,9 +5,8 @@ topowx_daily        US 30arcsecond 1948- D:Topoclimatic Daily Air
                     Temperature Dataset.
 """
 
-from toolbox_utils import tsutils
-
 from tsgettoolbox import utils
+from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = [
     "topowx",
