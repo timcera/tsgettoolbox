@@ -50,6 +50,8 @@ jobs:
                     - os: windows-latest
                       python-versions: '3.12'
                       pandas-versions: 2.2.0
+                    - os: windows-latest
+                      python-versions: '3.13'
 
         steps:
             - name: Checkout repository
