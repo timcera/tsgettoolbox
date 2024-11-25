@@ -9,10 +9,10 @@ This module provides direct access to the `National Climatic Data Center`_
 .. _Climate Index Reference Sequential (CIRS): http://www1.ncdc.noaa.gov/pub/data/cirs/
 """
 
-import distutils.version
 import os.path
 
 import pandas as pd
+from packaging.version import Version
 
 from ... import util
 
@@ -188,7 +188,7 @@ def _most_recent(files, element, by_state):
 
 def _file_key(filename):
     version_str = filename.split("-")[2][1:]
-    return distutils.version.StrictVersion(version_str)
+    return Version(version_str)
 
 
 def _parse_values(file_handle, by_state, location_names, element):
