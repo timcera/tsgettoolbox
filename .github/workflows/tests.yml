@@ -63,13 +63,17 @@ jobs:
                   python-version: ${{ matrix.python-versions }}
 
             - name: >
-                  Install dependencies with pandas
-                  version ${{ matrix.pandas-versions }}
+                  Install dependencies pytest
               run: |
                   python -m pip install --upgrade pip
                   python -m pip install pytest pytest-cov
-                  python -m pip install \
-                      pandas==${{ matrix.pandas-versions }} \
+
+            - name: >
+                  Install package and dependencies
+                  version ${{ matrix.pandas-versions }}
+              run: >
+                  python -m pip install
+                      pandas==${{ matrix.pandas-versions }}
                       'numpy<2' .
 
             - name: Test with pytest
