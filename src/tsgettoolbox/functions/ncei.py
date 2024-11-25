@@ -19,7 +19,6 @@ ncei_ish            global:station::H:Integrated Surface Database
 """
 
 import datetime
-import distutils
 import email.utils
 import ftplib
 import os
@@ -31,6 +30,7 @@ from contextlib import contextmanager
 import numpy as np
 import pandas as pd
 import requests
+from packaging.version import Version
 
 from tsgettoolbox import utils
 from tsgettoolbox.cdo_api_py.cdo_api_py import Client
@@ -1571,7 +1571,7 @@ def _parse_values(file_handle, by_state, location_names, element):
 
 def _file_key(filename):
     version_str = filename.split("-")[2][1:]
-    return distutils.version.StrictVersion(version_str)
+    return Version(version_str)
 
 
 def _most_recent(files, element, by_state):
