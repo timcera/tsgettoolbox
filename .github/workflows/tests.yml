@@ -67,9 +67,10 @@ jobs:
                   version ${{ matrix.pandas-versions }}
               run: |
                   python -m pip install --upgrade pip
-                  python -m pip install pandas==${{ matrix.pandas-versions }}
+                  python -m pip install \
+                      pandas==${{ matrix.pandas-versions }} \
+                      'numpy<2'
                   python -m pip install pytest pytest-cov
-                  python -m pip install requests_mock
                   python -m pip install .
 
             - name: Test with pytest
