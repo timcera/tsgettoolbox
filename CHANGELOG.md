@@ -1,3 +1,10 @@
+## v25.1.12 (2024-11-25)
+
+### Fix
+
+- eliminate distutils
+- remove deprecated distutils
+
 ## v25.1.11 (2024-07-04)
 
 ## v25.1.10 (2024-03-31)
