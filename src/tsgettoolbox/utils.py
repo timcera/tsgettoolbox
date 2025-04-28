@@ -14,8 +14,14 @@ import cftime
 import numpy as np
 import pandas as pd
 import requests
-from dapclient.client import open_url
+
+try:
+    from pydantic import validate_call
+except ImportError:
+    from pydantic import validate_arguments as validate_call
+
 from haversine import haversine_vector
+from pydap.client import open_url
 from requests.adapters import HTTPAdapter, Retry
 from siphon.ncss import NCSS
 
@@ -138,7 +144,7 @@ def file_downloader(baseurl, station, startdate=None, enddate=None):
     return final[startdate:enddate]
 
 
-def dapdownloader(url, lat, lon, var, start_date=None, end_date=None):
+def dapdownloader(url: str, lat, lon, var, start_date=None, end_date=None):
     """Download data from a OpenDAP server using NCSS."""
     for u in tsutils.make_list(url):
         with contextlib.suppress(xml.etree.ElementTree.ParseError):
@@ -146,6 +152,8 @@ def dapdownloader(url, lat, lon, var, start_date=None, end_date=None):
             break
     avail_vars = list(ncss.variables)
     var = tsutils.make_list(var)
+    lat = tsutils.make_list(lat)
+    lon = tsutils.make_list(lon)
 
     if not var:
         var = avail_vars
@@ -164,10 +172,10 @@ def dapdownloader(url, lat, lon, var, start_date=None, end_date=None):
     query.time_range(start_date, end_date)
     query.variables(*var)
 
-    if tsutils.make_list(lon) == 2 and tsutils.make_list(lat) == 2:
+    if len(lon) == 2 and len(lat) == 2:
         query.lonlat_box(lon[0], lon[1], lat[0], lat[1])
     else:
-        query.lonlat_point(lon, lat)
+        query.lonlat_point(lon[0], lat[0])
 
     ncss.validate_query(query)
 
@@ -205,6 +213,7 @@ def dapdownloader(url, lat, lon, var, start_date=None, end_date=None):
     return ndf
 
 
+@validate_call
 def opendap(
     url: str,
     lat: float,
@@ -220,7 +229,7 @@ def opendap(
     single_var_url=False,
     tzname="UTC",
 ):
-    """Read data from a OpenDAP server using dapclient."""
+    """Read data from a OpenDAP server using pydap."""
     if variables is None:
         variables = sorted(variable_map.keys())
     else:

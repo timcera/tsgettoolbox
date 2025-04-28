@@ -57,11 +57,8 @@ __all__ = [
     "terraclimate4C",
     "terraclimate19611990",
     "terraclimate19812010",
-    "topowx",
     "twc",
     "unavco",
-    "usgs_flet_narr",
-    "usgs_flet_stns",
 ]
 import warnings
 
@@ -121,10 +118,8 @@ from .functions.terraclimate2C import terraclimate2C
 from .functions.terraclimate4C import terraclimate4C
 from .functions.terraclimate19611990 import terraclimate19611990
 from .functions.terraclimate19812010 import terraclimate19812010
-from .functions.topowx import topowx, topowx_daily
 from .functions.twc import twc
 from .functions.unavco import unavco
-from .functions.usgs_flet import usgs_flet_narr, usgs_flet_stns
 
 warnings.filterwarnings("ignore")
 
@@ -1114,44 +1109,6 @@ def main():
             )
         )
 
-    @cltoolbox.command("topowx", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(topowx)
-    def topowx_cli(
-        lat,
-        lon,
-        variables=None,
-        start_date=None,
-        end_date=None,
-    ):
-        tsutils.printiso(
-            topowx(
-                lat,
-                lon,
-                variables=variables,
-                start_date=start_date,
-                end_date=end_date,
-            )
-        )
-
-    @cltoolbox.command("topowx_daily", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(topowx_daily)
-    def topowx_daily_cli(
-        lat,
-        lon,
-        variables=None,
-        start_date=None,
-        end_date=None,
-    ):
-        tsutils.printiso(
-            topowx_daily(
-                lat,
-                lon,
-                variables=variables,
-                start_date=start_date,
-                end_date=end_date,
-            )
-        )
-
     @cltoolbox.command("twc", formatter_class=HelpFormatter)
     @tsutils.copy_doc(twc)
     def twc_cli(county, start_date=None, end_date=None):
@@ -1162,44 +1119,6 @@ def main():
     def unavco_cli(station, database="met", starttime=None, endtime=None):
         tsutils.printiso(
             unavco(station, database=database, starttime=starttime, endtime=endtime)
-        )
-
-    @cltoolbox.command("usgs_flet_narr", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(usgs_flet_narr)
-    def usgs_flet_narr_cli(
-        lat,
-        lon,
-        variables=None,
-        start_date=None,
-        end_date=None,
-    ):
-        tsutils.printiso(
-            usgs_flet_narr(
-                lat,
-                lon,
-                variables=variables,
-                start_date=start_date,
-                end_date=end_date,
-            )
-        )
-
-    @cltoolbox.command("usgs_flet_stns", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(usgs_flet_stns)
-    def usgs_flet_stns_cli(
-        lat,
-        lon,
-        variables=None,
-        start_date=None,
-        end_date=None,
-    ):
-        tsutils.printiso(
-            usgs_flet_stns(
-                lat,
-                lon,
-                variables=variables,
-                start_date=start_date,
-                end_date=end_date,
-            )
         )
 
     @cltoolbox.command("about")

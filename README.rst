@@ -211,24 +211,11 @@ coops --help'.
         global 1/24deg M:Monthly normals using TerraClimate monthly data from
         1981 to 2010.
 
-    topowx
-        US 30arcsecond 1948- M:Topoclimatic Monthly Air Temperature Dataset.
-
-    topowx_daily
-        US 30arcsecond 1948- D:Topoclimatic Daily Air Temperature Dataset.
-
     twc
         US/TX station D:Download Texas Weather Connection (TWC) data.
 
     unavco
         US station: Download data from the Unavco web services.
-
-    usgs_flet_narr
-        US/FL 2km D:USGS FL ET data from NARR meteorologic data.
-
-    usgs_flet_stns
-        US/FL 2km D:USGS FL ET data from station interpolated meteorologic
-        data.
 
 Usage Summary - Python Library
 ------------------------------

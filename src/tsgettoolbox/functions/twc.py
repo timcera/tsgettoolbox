@@ -266,8 +266,6 @@ def _get_csv_url(date):
 def _date_dataframe(date, data_dir):
     if date.to_timestamp() < CSV_SWITCHOVER:
         url = _get_text_url(date)
-        print(url)
-        print(data_dir)
         with _open_data_file(url, data_dir) as data_file:
             date_df = _parse_text_file(data_file)
     else:
@@ -579,8 +577,9 @@ def get_data(county, start=None, end=None):
     Parameters
     ----------
     county : ``None`` or str
-        If specified, results will be limited to the county corresponding to the
-        given 5-character Texas county fips code i.e. 48???.
+        If specified, results will be limited to the county corresponding to
+        the given 5-character Texas county fips code i.e. 48??? or the given
+        county name.
     start : ``None`` or date (see :ref:`dates-and-times`)
         Results will be limited to data on or after this date. Default is the
         start of the calendar year for the end date.
@@ -601,14 +600,15 @@ def get_data(county, start=None, end=None):
 
     dates = pd.date_range(start_date, end_date, freq="D")
 
-    text_dates = dates[dates < CSV_SWITCHOVER]
+    if county is None:
+        county = list(codes.values())
 
     county = [inv_codes.get(c, c) for c in county]
 
     data_df = []
-    for date in text_dates:
-        resp = (
-            pd.read_fwf(
+    for date in dates:
+        if date < CSV_SWITCHOVER:
+            resp = pd.read_fwf(
                 StringIO(
                     ar.retrieve_text(
                         [
@@ -618,21 +618,37 @@ def get_data(county, start=None, end=None):
                 ),
                 skiprows=[0, 1],
                 header=None,
-                index_col=0,
+                usecols=[0, 1, 2, 3],
             )
-            .dropna()
-            .loc[county, :]
-        )
-        resp.columns = ["KBDI_AVG", "KBDI_MAX", "KBDI_MIN"]
-        resp = resp.unstack()
-        resp = resp.transpose()
+
+            resp.columns = ["COUNTY", "KBDI_AVG", "KBDI_MAX", "KBDI_MIN"]
+        else:
+            resp = pd.read_csv(
+                StringIO(
+                    ar.retrieve_text(
+                        [
+                            f"https://twc.tamu.edu/weather_images/summ/summ{date.strftime('%Y%m%d')}.csv"
+                        ]
+                    )[0]
+                ),
+                header=0,
+                usecols=[0, 1, 2, 3],
+            )
+            resp.columns = ["COUNTY", "KBDI_MIN", "KBDI_MAX", "KBDI_AVG"]
+
+        resp = resp[["COUNTY", "KBDI_MIN", "KBDI_MAX", "KBDI_AVG"]].dropna()
+        resp["COUNTY"] = resp["COUNTY"].str.upper()
+        resp = resp.loc[resp["COUNTY"].isin(county), :]
+        resp["Date"] = date
+
         data_df.append(resp)
 
     df = pd.concat(data_df)
-
-    if county:
-        df = df[df["fips"] == county]
-
+    df = df.reset_index()
+    df = df.pivot(
+        index="Date", columns="COUNTY", values=["KBDI_MIN", "KBDI_MAX", "KBDI_AVG"]
+    )
+    df.columns = ["_".join(a) for a in df.columns.to_flat_index()]
     return df
 
 
@@ -642,7 +658,6 @@ def twc_tsget_df(county=None, start_date=None, end_date=None):
         start=pd.to_datetime(start_date),
         end=pd.to_datetime(end_date),
     )
-    df = df.set_index("date")
     return df
 
 

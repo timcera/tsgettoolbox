@@ -37,7 +37,7 @@ def parse_site_values(content_io, namespace, query_isodate=None, methods=None):
             if method is None:
                 if len(values_elements) > 1:
                     raise ValueError(
-                        f"found more than one method for {variable['code']}. need to specifyspecify code or \"all\"."
+                        f'found more than one method for {variable["code"]}. need to specifyspecify code or "all".'
                     )
                 values_element = values_elements[0]
                 values = _parse_values(values_element, namespace)

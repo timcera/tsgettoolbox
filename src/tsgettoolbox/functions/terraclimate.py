@@ -270,7 +270,6 @@ def terraclimate(
         tzname=None,
         missing_value=None,
         time_name="time",
-        user_charset="utf-8",
         single_var_url=True,
     )
 

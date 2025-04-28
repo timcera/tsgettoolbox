@@ -262,16 +262,6 @@ terraclimate4C
 .. program-output:: tsgettoolbox terraclimate4C --help
    :prompt:
 
-topowx
-~~~~~~
-.. program-output:: tsgettoolbox topowx --help
-   :prompt:
-
-topowx_daily
-~~~~~~~~~~~~
-.. program-output:: tsgettoolbox topowx_daily --help
-   :prompt:
-
 twc
 ~~~
 .. program-output:: tsgettoolbox twc --help
@@ -280,14 +270,4 @@ twc
 unavco
 ~~~~~~
 .. program-output:: tsgettoolbox unavco --help
-   :prompt:
-
-usgs_flet_narr
-~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox usgs_flet_narr --help
-   :prompt:
-
-usgs_flet_stns
-~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox usgs_flet_stns --help
    :prompt:

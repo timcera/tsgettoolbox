@@ -191,7 +191,24 @@ def core(data):
             return pd.DataFrame()
 
     response.seek(0)
-    return pd.read_csv(response, index_col=[0, 1], parse_dates=True)
+    mapparsestr = {
+        "daily": "%d %b %Y",
+        "monthly": "%b %Y",
+        "hourly": "%d %b %Y %I:%M %p",
+        "all": "%b %d %Y %I:%M %p",
+    }
+    df = pd.read_csv(response, parse_dates=True)
+    try:
+        df["Period"] = pd.to_datetime(
+            df["Period"], format=mapparsestr[data["reportType"]]
+        )
+    except KeyError:
+        df["Period"] = pd.to_datetime(
+            df["Observation Time"], format=mapparsestr[data["reportType"]]
+        )
+        df = df.drop(columns=["Observation Time"])
+    df = df.set_index(["FAWN Station", "Period"])
+    return df
 
 
 @tsutils.doc(tsutils.docstrings)
@@ -406,7 +423,10 @@ def fawn(
     ndf.columns = ["_".join(tup).rstrip("_") for tup in ndf.columns.values]
 
     if reportType != "entire":
+        _pd_major, _pd_minor, _ = pd.__version__.split(".")
         mapfreqstr = {"daily": "D", "monthly": "M", "hourly": "H", "all": "15T"}
+        if (int(_pd_major), int(_pd_minor)) >= (2, 1):
+            mapfreqstr = {"daily": "D", "monthly": "M", "hourly": "h", "all": "15min"}
         ndf.index = ndf.index.to_period(mapfreqstr[reportType])
     return ndf
 

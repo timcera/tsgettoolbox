@@ -403,7 +403,7 @@ def make_units_table(units_dict):
     """Make a table of units for each variable."""
     new_units_table = [
         [
-            f"{key[key.index(':') + 1:]}\n{val[0]}",
+            f"{key[key.index(':') + 1 :]}\n{val[0]}",
             f"{val[1]}",
         ]
         for key, val in units_dict.items()
@@ -875,7 +875,7 @@ def base_ldas(
             skiprows=_project_skiprows[project],
             names=names,
             index_col=_project_index_col[project],
-            na_values=[-9999, -9999.0],
+            na_values=[-9999, -9999.0, 9999.9],
         ).dropna()
         df.index = pd.to_datetime(df.index)
         if project == "NLDAS":

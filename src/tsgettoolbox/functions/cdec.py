@@ -88,9 +88,8 @@ def get_stations():
     """
     # I haven't found a better list of stations, seems pretty janky
     # to just have them in a file, and not sure if/when it is updated.
-    url = "https://cdec.water.ca.gov/misc/all_stations.csv"
-    # the csv is malformed, so some rows think there are 7 fields
-    # col_names = ["id", "meta_url", "name", "num", "lat", "lon", "junk"]
+    url = "http://cdec.water.ca.gov/misc/all_stations.csv"
+    # the csv is malformed, so some rows think there are 7-8 fields
     return pd.read_csv(
         url,
         names=["id", "meta_url"],
@@ -115,9 +114,9 @@ def get_sensors(sensor_id=None):
     -------
     df : pandas DataFrame
         a python dict with site codes mapped to site information
-
     """
-    url = "https://cdec.water.ca.gov/misc/senslist.html"
+
+    url = "http://cdec.water.ca.gov/misc/senslist.html"
     df = pd.read_html(url, header=0)[0]
     df.set_index("Sensor No")
 
@@ -165,30 +164,35 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
         station_ids = get_stations().index
 
     for station_id in station_ids:
-        url = f"https://cdec.water.ca.gov/dynamicapp/staMeta?station_id={station_id}"
-        sensor_list = pd.read_html(url)
-        sensor_list = sensor_list[1]
-        sensor_list.columns = [
-            "sensor_description",
-            "sensor_number",
-            "duration",
-            "plot",
-            "data_collection",
-            "data_available",
-        ]
-        v = list(sensor_list["sensor_description"].to_dict().values())
+        url = "http://cdec.water.ca.gov/dynamicapp/staMeta?station_id=%s" % station_id
+
+        try:
+            sensor_list = pd.read_html(url, match="Sensor Description")[0]
+        except ValueError:
+            sensor_list = pd.read_html(url)[0]
+
+        try:
+            sensor_list.columns = ["sensor_id", "variable", "resolution", "timerange"]
+        except ValueError:
+            sensor_list.columns = [
+                "variable",
+                "sensor_id",
+                "resolution",
+                "varcode",
+                "method",
+                "timerange",
+            ]
+
+        v = list(sensor_list["variable"].to_dict().values())
         split = [i.split(",") for i in v]
-        var_names = ["_".join(x[:-1]).strip() for x in split]
+        var_names = [" ".join([i.strip() for i in x][:-1]).strip() for x in split]
+        var_names = [i.replace(" ", "_") for i in var_names]
         units = [x[-1][1:] for x in split]
         units = [unit_conv.get(i, i) for i in units]
         var_names = [":".join([i, j]) for i, j in zip(var_names, units)]
-        var_resolution = [x[1:-1] for x in sensor_list["duration"]]
-
+        var_resolution = [x[1:-1] for x in sensor_list["resolution"]]
         sensor_list["resolution"] = var_resolution
-        sensor_list["variable"] = (
-            var_names  # [x + y for x, y in zip(var_names, var_resolution)]
-        )
-
+        sensor_list["variable"] = var_names
         station_sensors[station_id] = _limit_sensor_list(
             sensor_list, sensor_ids, resolutions
         )
@@ -253,9 +257,9 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
         for _, row in sensor_list.iterrows():
             res = row["resolution"]
             var = row["variable"]
-            sensor_id = row["sensor_number"]
+            sensor_id = row["sensor_id"]
 
-            url = f"https://cdec.water.ca.gov/dynamicapp/req/CSVDataServlet?Stations={station_id}&dur_code={dur_code_map[res]}&SensorNums={sensor_id}&Start={start_date_str}&End={end_date_str}"
+            url = f"http://cdec.water.ca.gov/dynamicapp/req/CSVDataServlet?Stations={station_id}&dur_code={dur_code_map[res]}&SensorNums={sensor_id}&Start={start_date_str}&End={end_date_str}"
             station_data[var] = pd.read_csv(
                 url,
                 parse_dates=["DATE TIME"],
@@ -272,7 +276,8 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
 def _limit_sensor_list(sensor_list, sensor_ids, resolution):
     """Limit the sensor list to the provided sensor ids and resolutions."""
     if sensor_ids is not None:
-        sensor_list = sensor_list[sensor_list["sensor_number"].isin(sensor_ids)]
+        sensor_list = sensor_list[[x in sensor_ids for x in sensor_list.sensor_id]]
+
     if resolution is not None:
         ncode = [fname_code_map[i] for i in resolution]
         sensor_list = sensor_list[sensor_list["resolution"].isin(ncode)]
