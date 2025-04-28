@@ -39,6 +39,7 @@ dependencies = [
     "haversine",
     "httpretty",
     "isodate",
+    "jinja2", # needed here until included in pydap
     "lxml",
     "mechanize",
     "numpy >= 1.20, < 2.0 ; python_version <= '3.9'",
