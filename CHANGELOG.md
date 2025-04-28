@@ -1,3 +1,11 @@
+## v25.2.1 (2025-04-28)
+
+## v25.2.0 (2025-04-28)
+
+### Feat
+
+- removed USGS THREDDS support since that service was removed
+
 ## v25.1.12 (2024-11-25)
 
 ### Fix
