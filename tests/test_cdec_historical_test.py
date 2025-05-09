@@ -36,7 +36,7 @@ from tsgettoolbox import tsgettoolbox
 
 def test_get_station_data():
     # tsgettoolbox cdec [-h] [--dur_code DUR_CODE]
-    #                       [--sensor_num SENSOR_NUM]
+    #                       [--sensor_nums SENSOR_NUM]
     #                       [--start_date START_DATE]
     #                       [--end_date END_DATE]
     #                       station_id
@@ -49,7 +49,7 @@ def test_get_station_data():
         # with utils.mocked_urls(url_files):
         station_data = tsgettoolbox.cdec(
             station_id,
-            sensor_num=var_name,
+            sensor_nums=var_name,
             start_date=test_values[0],
             end_date=test_values[1],
         )
