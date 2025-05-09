@@ -143,13 +143,13 @@ def main():
     @cltoolbox.command("cdec", formatter_class=HelpFormatter)
     @tsutils.copy_doc(cdec)
     def cdec_cli(
-        station_id, dur_code=None, sensor_num=None, start_date=None, end_date=None
+        station_id, dur_code=None, sensor_nums=None, start_date=None, end_date=None
     ):
         tsutils.printiso(
             cdec(
                 station_id,
                 dur_code=dur_code,
-                sensor_num=sensor_num,
+                sensor_nums=sensor_nums,
                 start_date=start_date,
                 end_date=end_date,
             )

@@ -13,6 +13,7 @@ import logging
 import os
 import warnings
 from io import BytesIO
+from urllib.parse import urlencode
 
 import async_retriever as ar
 import pandas as pd
@@ -913,11 +914,10 @@ def _read_rdb(url, kwds):
 
     if "503 Service Unavailable" in resp[0]:
         raise Exception(resp[0])
-    print([url] * len(kwds), [{"params": {**p, "format": "rdb"}} for p in kwds])
     data = [r.strip().split("\n") for r in resp if r[0] == "#"]
     data = [t.split("\t") for d in data for t in d if "#" not in t]
     if not data:
-        raise ValueError()
+        raise ValueError(f"{url}?{urlencode(kwds[0])}")
 
     column_names, _, *record = data
 
@@ -2573,23 +2573,29 @@ def epa_wqp(
 
 
 if __name__ == "__main__":
-    R = usgs_gwlevels_rdb_to_df(
-        r"http://waterservices.usgs.gov/nwis/gwlevels/",
-        sites="375907091432201",
-        startDT="2017-01-01",
-        endDT="2017-12-30",
-    )
-    print("USGS_GWLEVELS single")
-    print(R)
+    try:
+        R = usgs_gwlevels_rdb_to_df(
+            r"http://waterservices.usgs.gov/nwis/gwlevels/",
+            sites="375907091432201",
+            startDT="2017-01-01",
+            endDT="2017-12-30",
+        )
+        print("USGS_GWLEVELS single")
+        print(R)
+    except ValueError as e:
+        print("Error: ", e)
 
-    R = usgs_gwlevels_rdb_to_df(
-        r"http://waterservices.usgs.gov/nwis/gwlevels/",
-        hucs="03110201",
-        startDT="2017-01-01",
-        endDT="2017-12-30",
-    )
-    print("USGS_GWLEVELS multiple")
-    print(R)
+    try:
+        R = usgs_gwlevels_rdb_to_df(
+            r"http://waterservices.usgs.gov/nwis/gwlevels/",
+            hucs="03110201",
+            startDT="2017-01-01",
+            endDT="2017-12-30",
+        )
+        print("USGS_GWLEVELS multiple")
+        print(R)
+    except ValueError as e:
+        print("Error: ", e)
 
     R = usgs_iv_dv_rdb_to_df(
         r"http://waterservices.usgs.gov/nwis/iv/",

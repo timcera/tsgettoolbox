@@ -161,7 +161,7 @@ deltas = {
     "hourly_height": 365,
     "high_low": 365,
     "daily_mean": 3650,
-    "monthly_mean": 3650,
+    "monthly_mean": 365 * 200,
     "one_minute_water_level": 4,
     "predictions": 31,
     "datums": 31,
@@ -186,29 +186,34 @@ def coops(
     product: Union[
         List[
             Literal[
-                "water_level",
-                "air_temperature",
-                "water_temperature",
-                "wind",
                 "air_gap",
+                "air_pressure",
+                "air_temperature",
                 "conductivity",
-                "visibility",
-                "humidity",
-                "salinity",
-                "hourly_height",
-                "high_low",
+                "currents",
+                "currents_header",
+                "currents_predictions",
                 "daily_mean",
+                "datums",
+                "high_low",
+                "hourly_height",
+                "humidity",
                 "monthly_mean",
+                "ofs_water_level",
                 "one_minute_water_level",
                 "predictions",
-                "datums",
-                "currents",
-                "air_pressure",
+                "salinity",
+                "visibility",
+                "water_level",
+                "water_temperature",
+                "wind",
             ]
         ],
         str,
     ] = "hourly_height",
-    datum: Literal["MHHW", "MHW", "MTL", "MSL", "MLW", "MLLW", "NAVD", "STND"] = "NAVD",
+    datum: Literal[
+        "CRD", "IGLD", "LWD", "MHHW", "MHW", "MTL", "MSL", "MLW", "MLLW", "NAVD", "STND"
+    ] = "NAVD",
     time_zone: Literal["GMT", "UTC", "LST", "LST_LDT"] = "GMT",
     interval="h",
     bin=None,
@@ -315,31 +320,14 @@ def coops(
     product : str
         [optional, default is 'hourly_height']
 
-        Specify the observation requested.
+        Specify the data product.
 
         +------------------------+--------------------------------------------+
-        | Option                 | Description                                |
+        | Water Level Data       | Description                                |
+        | Products               |                                            |
         +========================+============================================+
         | water_level            | Six minute preliminary or verified water   |
         |                        | levels, depending on availability.         |
-        +------------------------+--------------------------------------------+
-        | air_temperature        | Air temperature                            |
-        +------------------------+--------------------------------------------+
-        | water_temperature      | Water temperature                          |
-        +------------------------+--------------------------------------------+
-        | wind                   | Wind speed, direction, and gusts           |
-        +------------------------+--------------------------------------------+
-        | air_gap                | (distance between a bridge and the water's |
-        |                        | surface)                                   |
-        +------------------------+--------------------------------------------+
-        | conductivity           | The water's conductivity                   |
-        +------------------------+--------------------------------------------+
-        | visibility             | Visibility from the station's visibility   |
-        |                        | sensor. A measure of atmospheric clarity.  |
-        +------------------------+--------------------------------------------+
-        | humidity               | Relative humidity                          |
-        +------------------------+--------------------------------------------+
-        | salinity               | Salinity and specific gravity              |
         +------------------------+--------------------------------------------+
         | hourly_height          | Verified hourly height water level data    |
         +------------------------+--------------------------------------------+
@@ -351,11 +339,58 @@ def coops(
         +------------------------+--------------------------------------------+
         | one_minute_water_level | One minute water level data                |
         +------------------------+--------------------------------------------+
-        | predictions            | Six minute predictions water level data    |
+        | predictions            | Water level predictions at specified       |
+        |                        | intervals by the `interval` argument       |
         +------------------------+--------------------------------------------+
         | datums                 | datums data                                |
         +------------------------+--------------------------------------------+
-        | currents               | Currents data                              |
+        | air_gap                | (distance between a bridge and the water's |
+        |                        | surface)                                   |
+        +------------------------+--------------------------------------------+
+
+        +------------------------+--------------------------------------------+
+        | Meteorological         | Description                                |
+        | Products               |                                            |
+        +========================+============================================+
+        | air_temperature        | Air temperature                            |
+        +------------------------+--------------------------------------------+
+        | water_temperature      | Water temperature                          |
+        +------------------------+--------------------------------------------+
+        | wind                   | Wind speed, direction, and gusts           |
+        +------------------------+--------------------------------------------+
+        | air_pressure           | Barometric pressure                        |
+        +------------------------+--------------------------------------------+
+        | conductivity           | The water's conductivity                   |
+        +------------------------+--------------------------------------------+
+        | visibility             | Visibility from the station's visibility   |
+        |                        | sensor. A measure of atmospheric clarity.  |
+        +------------------------+--------------------------------------------+
+        | humidity               | Relative humidity                          |
+        +------------------------+--------------------------------------------+
+        | salinity               | Salinity and specific gravity              |
+        +------------------------+--------------------------------------------+
+
+
+        +------------------------+--------------------------------------------+
+        | Currents Products      | Description                                |
+        +========================+============================================+
+        | currents               | Currents data.  Defaults to 6 minute       |
+        |                        | interval, which can be change to hourly    |
+        |                        | using `interval="h"`.                      |
+        +------------------------+--------------------------------------------+
+        | currents_predictions   | Predicted currents at `interval` argument  |
+        |                        | intervals.                                 |
+        +------------------------+--------------------------------------------+
+        | currents_header        | Header information for currents data.      |
+        |                        | Limited to one month.                      |
+        +------------------------+--------------------------------------------+
+
+        +------------------------+--------------------------------------------+
+        | Operation Model        | Description                                |
+        | Products               |                                            |
+        +========================+============================================+
+        | ofs_water_level        | Water level data from the NOS OFS models.  |
+        |                        | From 2020 to present.                      |
         +------------------------+--------------------------------------------+
 
         The returned data for each "product" documented below is
@@ -625,25 +660,37 @@ def coops(
         reported against.  Note! Datum is mandatory for all water level
         products and defaults to "NAVD".
 
-        +--------+-------------------------------+
-        | Option | Description                   |
-        +========+===============================+
-        | MHHW   | Mean Higher High Water        |
-        +--------+-------------------------------+
-        | MHW    | Mean High Water               |
-        +--------+-------------------------------+
-        | MTL    | Mean Tide Level               |
-        +--------+-------------------------------+
-        | MSL    | Mean Sea Level                |
-        +--------+-------------------------------+
-        | MLW    | Mean Low Water                |
-        +--------+-------------------------------+
-        | MLLW   | Mean Lower Low Water          |
-        +--------+-------------------------------+
-        | NAVD   | North American Vertical Datum |
-        +--------+-------------------------------+
-        | STND   | Station Datum                 |
-        +--------+-------------------------------+
+        +--------+-------------------------------+----------------------------+
+        | Option | Description                   | Restrictions               |
+        +========+===============================+============================+
+        | CRD    | Colombia River Datum          | Only available for the     |
+        |        |                               | Columbia River             |
+        +--------+-------------------------------+----------------------------+
+        | IGLD   | International Great Lakes     | Only available for the     |
+        |        | Datum                         | Great Lakes                |
+        +--------+-------------------------------+----------------------------+
+        | LWD    | Great Lakes Low Water Datum   | Only available for the     |
+        |        |                               | Great Lakes                |
+        +--------+-------------------------------+----------------------------+
+        | MHHW   | Mean Higher High Water        |                            |
+        +--------+-------------------------------+----------------------------+
+        | MHW    | Mean High Water               |                            |
+        +--------+-------------------------------+----------------------------+
+        | MTL    | Mean Tide Level               |                            |
+        +--------+-------------------------------+----------------------------+
+        | MSL    | Mean Sea Level                |                            |
+        +--------+-------------------------------+----------------------------+
+        | MLW    | Mean Low Water                |                            |
+        +--------+-------------------------------+----------------------------+
+        | MLLW   | Mean Lower Low Water          | Subordinate tide           |
+        |        |                               | prediction stations must   |
+        |        |                               | use this datum             |
+        +--------+-------------------------------+----------------------------+
+        | NAVD   | North American Vertical Datum | Not available for all      |
+        |        |                               | stations                   |
+        +--------+-------------------------------+----------------------------+
+        | STND   | Station Datum                 |                            |
+        +--------+-------------------------------+----------------------------+
 
     time_zone
         [optional, default is 'GMT']
@@ -666,21 +713,65 @@ def coops(
     interval
         [optional, defaults to 'h']
 
-        Deliver the meteorological and prediction data at hourly
-        intervals.  Does not override 6 minute intervals for
-        --product='water_level' or 1 minute intervals for
-        --product='one_minute_water_level'.
+        Not used for observed water level data products::
 
-        +--------+-----------------------------------------------+
-        | Option | Description                                   |
-        +========+===============================================+
-        | h      | Hourly meteorological data                    |
-        +--------+-----------------------------------------------+
-        | hilo   | High/low predictions for subordinate stations |
-        +--------+-----------------------------------------------+
+            product="water_level"             # 6 minute
+            product="hourly_height"           # hourly
+            product="high_low"                # variable interval
+            product="daily_mean"              # daily
+            product="monthly_mean"            # monthly
+            product="one_minute_water_level"  # one minute
 
-    bin
-        [optional, defaults to None]
+        Interval of the predicted water level.
+
+        +-----------------------+--------------------------------------+
+        | product="predictions" | Description                          |
+        +=======================+======================================+
+        | h                     | Hourly water level predictions       |
+        +-----------------------+--------------------------------------+
+        | 1, 5, 6, 10, 15, 30,  | Interval in minutes. Only these      |
+        | 60                    | intervals are available.             |
+        +-----------------------+--------------------------------------+
+        | hilo                  | High/low predictions for subordinate |
+        |                       | stations                             |
+        +-----------------------+--------------------------------------+
+
+        Interval of the currents data.  Defaults to 6 minute intervals.
+
+        +-----------------------+----------------------------------+
+        | product="currents"    | Description                      |
+        +=======================+==================================+
+        | h                     | Hourly current data              |
+        +-----------------------+----------------------------------+
+
+        Interval of the predicted currents.
+
+        +--------------------------------+------------------------------------+
+        | product="currents_predictions" | Description                        |
+        +================================+====================================+
+        | h                              | Hourly current predictions         |
+        +--------------------------------+------------------------------------+
+        | 1, 6, 10, 30, 60               | Interval in minutes. Only these    |
+        |                                | intervals are available.           |
+        +--------------------------------+------------------------------------+
+        | max_slack                      | Current predictions of max         |
+        |                                | flood/ebb                          |
+        +--------------------------------+------------------------------------+
+
+        Interval of the meteorological data.  Defaults to 6 minute intervals.
+
+        +-----------------------------+----------------------------+
+        | product="air_temperature"   | Description                |
+        | product="water_temperature" |                            |
+        | product="wind"              |                            |
+        | product="air_pressure"      |                            |
+        | product="conductivity"      |                            |
+        | product="visibility"        |                            |
+        | product="humidity"          |                            |
+        | product="salinity"          |                            |
+        +=============================+============================+
+        | h                           | Hourly meteorological data |
+        +-----------------------------+----------------------------+
 
         The bin number for the specified currents station Example:'--bin=4'
         Will retrieve data for bin number 4. Note! If a bin is not specified
@@ -789,14 +880,14 @@ def coops(
                 periods.append((period_start, period_end))
                 period_start = period_end
 
-        urls = [r"https://tidesandcurrents.noaa.gov/api/datagetter"]
+        urls = [r"https://tidesandcurrents.noaa.gov/api/prod/datagetter"]
         kwds = [{"params": params}]
 
         if params["begin_date"] is not None and params["end_date"] is not None:
             urls, kwds = zip(
                 *[
                     (
-                        r"https://tidesandcurrents.noaa.gov/api/datagetter",
+                        r"https://tidesandcurrents.noaa.gov/api/prod/datagetter",
                         {
                             "params": {
                                 "station": station,
@@ -907,7 +998,7 @@ def coops(
 
 if __name__ == "__main__":
     """
-    https://tidesandcurrents.noaa.gov/api/datagetter?begin_date=20020101
+    https://tidesandcurrents.noaa.gov/api/prod/datagetter?begin_date=20020101
     &end_date=20020102&range=1&station=8720218&product=water_level
     """
 

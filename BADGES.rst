@@ -18,11 +18,6 @@
     :target: https://pypi.python.org/pypi/tsgettoolbox/
     :height: 20
 
-.. image:: https://img.shields.io/pypi/dd/tsgettoolbox.svg
-    :alt: tsgettoolbox downloads
-    :target: https://pypi.python.org/pypi/tsgettoolbox/
-    :height: 20
-
 .. image:: https://img.shields.io/pypi/pyversions/tsgettoolbox
     :alt: PyPI - Python Version
     :target: https://pypi.org/project/tsgettoolbox/

@@ -5,6 +5,7 @@ cdec                US/CA station I,H,D,M: California Department of Water
 
 import datetime
 import warnings
+from pathlib import Path
 from typing import Optional, Union
 
 import pandas as pd
@@ -32,44 +33,44 @@ fname_code_map = {
 }
 
 sensor_num_map = {
-    "river stage": 1,
+    "river_stage": 1,
     "stage": 1,
     "precipitation": 2,
     "swe": 3,
-    "snow water equivalent": 3,
-    "air temperature": 4,
+    "snow_water_equivalent": 3,
+    "air_temperature": 4,
     "ec": 5,
-    "reservoir elevation": 6,
-    "reservoir scheduled release": 7,
-    "full natural flow:cfs": 8,
-    "reservoir storage": 15,
+    "reservoir_elevation": 6,
+    "reservoir_scheduled_release": 7,
+    "full_natural_flow:cfs": 8,
+    "reservoir_storage": 15,
     "flow": 20,
-    "reservoir storage change": 22,
-    "reservoir outflow": 23,
+    "reservoir_storage_change": 22,
+    "reservoir_outflow": 23,
     "evapotranspiration": 24,
-    "water temperature": 25,
-    "water turbidity": 27,
+    "water_temperature": 25,
+    "water_turbidity": 27,
     "turbidity": 27,
     "chlorophyll": 28,
-    "flow daily": 41,
+    "flow_daily": 41,
     "precipitation incremental": 45,
-    "runoff volume": 46,
-    "dissolved oxygen": 61,
-    "water dissolved oxygen": 61,
+    "runoff_volume": 46,
+    "dissolved_oxygen": 61,
+    "water_dissolved_oxygen": 61,
     "do": 61,
     "ph": 62,
-    "pan evaporation": 64,
-    "full natural flow: acre ft": 65,
-    "flow monthly": 66,
+    "pan_evaporation": 64,
+    "full_natural_flow:acre_ft": 65,
+    "flow_monthly": 66,
     "accretions": 67,
-    "spillway discharge": 71,
-    "spillway flow": 71,
-    "lake evaporation": 74,
+    "spillway_discharge": 71,
+    "spillway_flow": 71,
+    "lake_evaporation": 74,
     "evaporation": 74,
-    "reservoir inflow": 76,
-    "control regulating discharge": 85,
-    "top conservation storage": 94,
-    "water ec": 100,
+    "reservoir_inflow": 76,
+    "control_regulating_discharge": 85,
+    "top_conservation_storage": 94,
+    "water_ec": 100,
 }
 
 
@@ -260,6 +261,8 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
             sensor_id = row["sensor_id"]
 
             url = f"http://cdec.water.ca.gov/dynamicapp/req/CSVDataServlet?Stations={station_id}&dur_code={dur_code_map[res]}&SensorNums={sensor_id}&Start={start_date_str}&End={end_date_str}"
+            if Path("debug_tsgettoolbox").exists():
+                print(url)
             station_data[var] = pd.read_csv(
                 url,
                 parse_dates=["DATE TIME"],
@@ -289,15 +292,15 @@ def _limit_sensor_list(sensor_list, sensor_ids, resolution):
 
 
 def download_data(
-    station_id, sensor_num=None, dur_code=None, start_date=None, end_date=None
+    station_id, sensor_nums=None, dur_code=None, start_date=None, end_date=None
 ):
     """Download data for a single CDEC station and sensor id."""
-    if isinstance(sensor_num, (str, bytes)):
-        sensor_num = [
-            int(sensor_num_map.get(i.lower(), i)) for i in sensor_num.split(".")
+    if isinstance(sensor_nums, (str, bytes)):
+        sensor_nums = [
+            int(sensor_num_map.get(i.lower(), i)) for i in sensor_nums.split(".")
         ]
-    elif isinstance(sensor_num, int):
-        sensor_num = [sensor_num]
+    elif isinstance(sensor_nums, int):
+        sensor_nums = [sensor_nums]
 
     if isinstance(dur_code, (str, bytes)):
         dur_code = dur_code.split(",")
@@ -306,7 +309,7 @@ def download_data(
 
     d = get_data(
         [station_id],
-        sensor_ids=tsutils.make_list(sensor_num),
+        sensor_ids=tsutils.make_list(sensor_nums),
         resolutions=tsutils.make_list(dur_code),
         start=start_date,
         end=end_date,
@@ -338,7 +341,7 @@ def download_data(
 def cdec(
     station_id: str,
     dur_code: Optional[Union[list, str]] = None,
-    sensor_num=None,
+    sensor_nums=None,
     start_date=None,
     end_date=None,
 ):
@@ -363,7 +366,7 @@ def cdec(
         Each string is the CDEC station ID and consist of three capital
         letters.
 
-    sensor_num : integer, comma separated integers or ``None``
+    sensor_nums : int, str, list of int or str, or ``None``
         [optional, default is None]
 
         If ``None`` will get all sensors at `station_id`.
@@ -371,71 +374,71 @@ def cdec(
         SELECTED CDEC SENSOR NUMBERS (these are not available for all
         sites):
 
-        +------------+-------------------------------------------+
-        | sensor_num | Description                               |
-        +============+===========================================+
-        | 1          | river stage [ft]                          |
-        +------------+-------------------------------------------+
-        | 2          | precipitation accumulated [in]            |
-        +------------+-------------------------------------------+
-        | 3          | SWE [in]                                  |
-        +------------+-------------------------------------------+
-        | 4          | air temperature [F]                       |
-        +------------+-------------------------------------------+
-        | 5          | EC [ms/cm]                                |
-        +------------+-------------------------------------------+
-        | 6          | reservoir elevation [ft]                  |
-        +------------+-------------------------------------------+
-        | 7          | reservoir scheduled release [cfs]         |
-        +------------+-------------------------------------------+
-        | 8          | full natural flow [cfs]                   |
-        +------------+-------------------------------------------+
-        | 15         | reservoir storage [af]                    |
-        +------------+-------------------------------------------+
-        | 20         | flow -- river discharge [cfs]             |
-        +------------+-------------------------------------------+
-        | 22         | reservoir storage change [af]             |
-        +------------+-------------------------------------------+
-        | 23         | reservoir outflow [cfs]                   |
-        +------------+-------------------------------------------+
-        | 24         | Evapotranspiration [in]                   |
-        +------------+-------------------------------------------+
-        | 25         | water temperature [F]                     |
-        +------------+-------------------------------------------+
-        | 27         | water turbidity [ntu]                     |
-        +------------+-------------------------------------------+
-        | 28         | chlorophyll [ug/l]                        |
-        +------------+-------------------------------------------+
-        | 41         | flow -- mean daily [cfs]                  |
-        +------------+-------------------------------------------+
-        | 45         | precipitation incremental [in]            |
-        +------------+-------------------------------------------+
-        | 46         | runoff volume [af]                        |
-        +------------+-------------------------------------------+
-        | 61         | water dissolved oxygen [mg/l]             |
-        +------------+-------------------------------------------+
-        | 62         | water pH value [pH]                       |
-        +------------+-------------------------------------------+
-        | 64         | pan evaporation (incremental) [in]        |
-        +------------+-------------------------------------------+
-        | 65         | full natural flow [af]                    |
-        +------------+-------------------------------------------+
-        | 66         | flow -- monthly volume [af]               |
-        +------------+-------------------------------------------+
-        | 67         | accretions (estimated) [af]               |
-        +------------+-------------------------------------------+
-        | 71         | spillway discharge [cfs]                  |
-        +------------+-------------------------------------------+
-        | 74         | lake evaporation (computed) [cfs]         |
-        +------------+-------------------------------------------+
-        | 76         | reservoir inflow [cfs]                    |
-        +------------+-------------------------------------------+
-        | 85         | control regulating discharge [cfs]        |
-        +------------+-------------------------------------------+
-        | 94         | top conservation storage (reservoir) [af] |
-        +------------+-------------------------------------------+
-        | 100        | water EC [us/cm]                          |
-        +------------+-------------------------------------------+
+        +-------------+-------------------------------------------+
+        | sensor_nums | Description                               |
+        +=============+===========================================+
+        | 1           | river stage [ft]                          |
+        +-------------+-------------------------------------------+
+        | 2           | precipitation accumulated [in]            |
+        +-------------+-------------------------------------------+
+        | 3           | SWE [in]                                  |
+        +-------------+-------------------------------------------+
+        | 4           | air temperature [F]                       |
+        +-------------+-------------------------------------------+
+        | 5           | EC [ms/cm]                                |
+        +-------------+-------------------------------------------+
+        | 6           | reservoir elevation [ft]                  |
+        +-------------+-------------------------------------------+
+        | 7           | reservoir scheduled release [cfs]         |
+        +-------------+-------------------------------------------+
+        | 8           | full natural flow [cfs]                   |
+        +-------------+-------------------------------------------+
+        | 15          | reservoir storage [af]                    |
+        +-------------+-------------------------------------------+
+        | 20          | flow -- river discharge [cfs]             |
+        +-------------+-------------------------------------------+
+        | 22          | reservoir storage change [af]             |
+        +-------------+-------------------------------------------+
+        | 23          | reservoir outflow [cfs]                   |
+        +-------------+-------------------------------------------+
+        | 24          | Evapotranspiration [in]                   |
+        +-------------+-------------------------------------------+
+        | 25          | water temperature [F]                     |
+        +-------------+-------------------------------------------+
+        | 27          | water turbidity [ntu]                     |
+        +-------------+-------------------------------------------+
+        | 28          | chlorophyll [ug/l]                        |
+        +-------------+-------------------------------------------+
+        | 41          | flow -- mean daily [cfs]                  |
+        +-------------+-------------------------------------------+
+        | 45          | precipitation incremental [in]            |
+        +-------------+-------------------------------------------+
+        | 46          | runoff volume [af]                        |
+        +-------------+-------------------------------------------+
+        | 61          | water dissolved oxygen [mg/l]             |
+        +-------------+-------------------------------------------+
+        | 62          | water pH value [pH]                       |
+        +-------------+-------------------------------------------+
+        | 64          | pan evaporation (incremental) [in]        |
+        +-------------+-------------------------------------------+
+        | 65          | full natural flow [af]                    |
+        +-------------+-------------------------------------------+
+        | 66          | flow -- monthly volume [af]               |
+        +-------------+-------------------------------------------+
+        | 67          | accretions (estimated) [af]               |
+        +-------------+-------------------------------------------+
+        | 71          | spillway discharge [cfs]                  |
+        +-------------+-------------------------------------------+
+        | 74          | lake evaporation (computed) [cfs]         |
+        +-------------+-------------------------------------------+
+        | 76          | reservoir inflow [cfs]                    |
+        +-------------+-------------------------------------------+
+        | 85          | control regulating discharge [cfs]        |
+        +-------------+-------------------------------------------+
+        | 94          | top conservation storage (reservoir) [af] |
+        +-------------+-------------------------------------------+
+        | 100         | water EC [us/cm]                          |
+        +-------------+-------------------------------------------+
 
     dur_code : str, comma separated strings, or ``None``
         [optional, default is None]
@@ -463,7 +466,7 @@ def cdec(
     return download_data(
         station_id,
         dur_code=dur_code,
-        sensor_num=sensor_num,
+        sensor_nums=sensor_nums,
         start_date=tsutils.parsedate(start_date),
         end_date=tsutils.parsedate(end_date),
     )
@@ -475,7 +478,7 @@ if __name__ == "__main__":
         start_date="2017-01-01",
         end_date="2017-02-02",
         dur_code="daily",
-        sensor_num=45,
+        sensor_nums=45,
     )
 
     print("PAR PRECIPITATION")
@@ -486,7 +489,7 @@ if __name__ == "__main__":
         start_date="2020-01-01",
         end_date="2020-10-02",
         dur_code="H",
-        sensor_num=6,
+        sensor_nums=6,
     )
 
     print("PAR RESERVOIR ELEVATION")

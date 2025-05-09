@@ -39,3 +39,4 @@ docs/_function_autosummary/*
 cache
 debug_*
 toss
+.mypy_cache

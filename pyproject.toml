@@ -49,7 +49,7 @@ dependencies = [
     "pint-pandas",
     "pydantic",
     "pydap",
-    "pydaymet",
+    "pydaymet < 0.18.0",
     "python-dateutil",
     "requests",
     "scipy",

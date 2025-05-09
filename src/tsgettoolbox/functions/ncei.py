@@ -2234,7 +2234,7 @@ def ncei_ghcnd_ftp(stationid, start_date=None, end_date=None):
             ndf = tmpdf
 
     # Set missing values to None
-    ndf.replace(to_replace=[-9999], value=[None], inplace=True)
+    ndf = ndf.replace(to_replace=[-9999], value=[None]).astype("float64")
 
     if mcols := [
         i
@@ -5763,6 +5763,7 @@ def ncei_ish(stationid, start_date=None, end_date=None):
                 if "astype" in modifiers:
                     addto[vname] = addto[vname].astype(modifiers["astype"])
                 if "replace" in modifiers:
+                    pd.set_option("future.no_silent_downcasting", True)
                     addto[vname] = addto[vname].replace(modifiers["replace"], np.nan)
                 if "factor" in modifiers:
                     addto[vname] = addto[vname] * modifiers["factor"]
