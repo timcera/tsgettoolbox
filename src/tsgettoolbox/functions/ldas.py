@@ -46,59 +46,60 @@ __all__ = [
 ]
 
 _NLDAS_FORA = {
-    "NLDAS:NLDAS_FORA0125_H.002:APCPsfc": ["Precipitation hourly total", "mm"],
-    "NLDAS:NLDAS_FORA0125_H.002:DLWRFsfc": [
+    "NLDAS2:NLDAS_FORA0125_H_v2.0:Rainf": ["Precipitation hourly total", "mm"],
+    "NLDAS2:NLDAS_FORA0125_H_v2.0:LWdown": [
         "Surface DW longwave radiation flux",
         "W/m**2",
     ],
-    "NLDAS:NLDAS_FORA0125_H.002:DSWRFsfc": [
+    "NLDAS2:NLDAS_FORA0125_H_v2.0:SWdown": [
         "Surface DW shortwave radiation flux",
         "W/m**2",
     ],
-    "NLDAS:NLDAS_FORA0125_H.002:PEVAPsfc": ["Potential evaporation", "mm"],
-    "NLDAS:NLDAS_FORA0125_H.002:SPFH2m": [
+    "NLDAS2:NLDAS_FORA0125_H_v2.0:PotEvap": ["Potential evaporation", "mm"],
+    "NLDAS2:NLDAS_FORA0125_H_v2.0:Qair": [
         "2-m above ground specific humidity",
         "kg/kg",
     ],
-    "NLDAS:NLDAS_FORA0125_H.002:TMP2m": ["2-m above ground temperature", "K"],
-    "NLDAS:NLDAS_FORA0125_H.002:UGRD10m": ["10-m above ground zonal wind", "m/s"],
-    "NLDAS:NLDAS_FORA0125_H.002:VGRD10m": ["10-m above ground meridional wind", "m/s"],
+    "NLDAS2:NLDAS_FORA0125_H_v2.0:Tair": ["2-m above ground temperature", "K"],
+    "NLDAS2:NLDAS_FORA0125_H_v2.0:Wind_E": ["10-m above ground zonal wind", "m/s"],
+    "NLDAS2:NLDAS_FORA0125_H_v2.0:Wind_N": ["10-m above ground meridional wind", "m/s"],
+    "NLDAS2:NLDAS_FORA0125_H_v2.0:PSurf": ["Surface pressure", "Pa"],
 }
 _NLDAS_NOAH = {
-    "NLDAS:NLDAS_NOAH0125_H.002:EVPsfc": ["Total evapotranspiration", "mm"],
-    "NLDAS:NLDAS_NOAH0125_H.002:GFLUXsfc": ["Ground heat flux", "W/m**2"],
-    "NLDAS:NLDAS_NOAH0125_H.002:LHTFLsfc": ["Latent heat flux", "W/m**2"],
-    "NLDAS:NLDAS_NOAH0125_H.002:SHTFLsfc": ["Sensible heat flux", "W/m**2"],
-    "NLDAS:NLDAS_NOAH0125_H.002:SSRUNsfc": [
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:Evap": ["Total evapotranspiration", "mm"],
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:Qg": ["Ground heat flux", "W/m**2"],
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:Qle": ["Latent heat flux", "W/m**2"],
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:Qh": ["Sensible heat flux", "W/m**2"],
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:Qs": [
         "Surface runoff (non-infiltrating)",
         "mm",
     ],
-    "NLDAS:NLDAS_NOAH0125_H.002:BGRUNsfc": ["Subsurface runoff (baseflow)", "mm"],
-    "NLDAS:NLDAS_NOAH0125_H.002:SOILM0-10cm": [
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:Qsb": ["Subsurface runoff (baseflow)", "mm"],
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:SOILM0-10cm": [
         "0-10 cm soil moisture content",
         "mm",
     ],
-    "NLDAS:NLDAS_NOAH0125_H.002:SOILM0-100cm": [
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:SOILM_0_100cm": [
         "0-100 cm soil moisture content",
         "mm",
     ],
-    "NLDAS:NLDAS_NOAH0125_H.002:SOILM0-200cm": [
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:SOILM_0_200cm": [
         "0-200 cm soil moisture content",
         "mm",
     ],
-    "NLDAS:NLDAS_NOAH0125_H.002:SOILM10-40cm": [
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:SOILM_10_40cm": [
         "10-40 cm soil moisture content",
         "mm",
     ],
-    "NLDAS:NLDAS_NOAH0125_H.002:SOILM40-100cm": [
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:SOILM_40_100cm": [
         "40-100 cm soil moisture content",
         "mm",
     ],
-    "NLDAS:NLDAS_NOAH0125_H.002:SOILM100-200cm": [
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:SOILM_100_200cm": [
         "100-200 cm soil moisture content",
         "mm",
     ],
-    "NLDAS:NLDAS_NOAH0125_H.002:TSOIL0-10cm": ["0-10 cm soil temperature", "K"],
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:TSOIL_0_10cm": ["0-10 cm soil temperature", "K"],
 }
 _GLDAS_NOAH = {
     "GLDAS2:GLDAS_NOAH025_3H_v2.1:AvgSurfT_inst": [
@@ -339,7 +340,7 @@ _varmap = {
     "GRACEDADM_CLSM0125US_7D.4": "GRACE",
     "GLDAS_NOAH025_3H_v2.1": "GLDAS2",
     "NLDAS_NOAH0125_H.002": "NLDAS",
-    "NLDAS_FORA0125_H.002": "NLDAS",
+    "NLDAS_FORA0125_H_v2.0": "NLDAS2",
     "LPRM_AMSRE_D_SOILM3.002": "LPRM",
     "LPRM_AMSRE_A_SOILM3.002": "LPRM",
     "LPRM_AMSRE_D_RZSM3.001": "LPRM",
@@ -357,6 +358,7 @@ _project_start_dates = {
     "MERRA": "1980-01-01T00",
     "GLDAS2": "1948-01-01T00",
     "NLDAS": "1979-01-01T13",
+    "NLDAS2": "1979-01-01T13",
     "TRMM": "1997-12-31T00",
     "SMERGE": "1997-01-02T00",
     "GRACE": "2002-10-04T00",
@@ -366,6 +368,7 @@ _project_sep = {
     "MERRA": "\t",
     "GLDAS2": "\t",
     "NLDAS": r"\s+",
+    "NLDAS2": r"\s+",
     "TRMM": "\t",
     "SMERGE": "\t",
     "GRACE": "\t",
@@ -374,6 +377,7 @@ _project_sep = {
 _project_header = {
     "MERRA": "infer",
     "GLDAS2": "infer",
+    "NLDAS2": None,
     "NLDAS": None,
     "TRMM": "infer",
     "SMERGE": "infer",
@@ -383,6 +387,7 @@ _project_header = {
 _project_skiprows = {
     "MERRA": None,
     "GLDAS2": None,
+    "NLDAS2": 13,
     "NLDAS": 40,
     "TRMM": None,
     "SMERGE": None,
@@ -392,6 +397,7 @@ _project_skiprows = {
 _project_index_col = {
     "MERRA": "Datetime",
     "GLDAS2": "Datetime",
+    "NLDAS2": None,
     "NLDAS": None,
     "TRMM": "Datetime",
     "SMERGE": "Datetime",
@@ -534,7 +540,7 @@ _META_HEADER = r"""
 _NLDAS_FORA_META = r"""
         | NLDAS Primary Forcing Data    | 0.125x0.125 | 1 hour        |
         | NLDAS_FORA0125_H              | degree      |               |
-        | V002                          |             |               |
+        | V2.0                          |             |               |
         |                               | -125,25 to  | 1979-01-01T13 |
         |                               |  -67,53     | til recent    |
         +-------------------------------+-------------+---------------+"""
@@ -878,7 +884,7 @@ def base_ldas(
             na_values=[-9999, -9999.0, 9999.9],
         ).dropna()
         df.index = pd.to_datetime(df.index)
-        if project == "NLDAS":
+        if project in ("NLDAS", "NLDAS2"):
             if len(df.columns) == 3:
                 df["dt"] = df[0].str.cat(df[1], sep="T")
                 df["dt"] = pd.to_datetime(df["dt"])
