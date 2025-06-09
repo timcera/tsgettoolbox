@@ -75,7 +75,7 @@ _NLDAS_NOAH = {
         "mm",
     ],
     "NLDAS2:NLDAS_NOAH0125_H_v2.0:Qsb": ["Subsurface runoff (baseflow)", "mm"],
-    "NLDAS2:NLDAS_NOAH0125_H_v2.0:SOILM0-10cm": [
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:SOILM_0_10cm": [
         "0-10 cm soil moisture content",
         "mm",
     ],
