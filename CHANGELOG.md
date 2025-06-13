@@ -1,3 +1,10 @@
+## v25.2.2 (2025-06-12)
+
+### Fix
+
+- update to the latest names for all the ldas download URLs
+- several small fixes
+
 ## v25.2.1 (2025-04-28)
 
 ## v25.2.0 (2025-04-28)
