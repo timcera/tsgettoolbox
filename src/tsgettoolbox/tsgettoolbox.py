@@ -15,10 +15,11 @@ __all__ = [
     "hydstra_stations",
     "hydstra_ts",
     "ldas",
+    "ldas_gldas_noah_v2_0",
+    "ldas_gldas_noah_v2_1",
     "ldas_gldas_noah",
     "ldas_grace",
     "ldas_merra",
-    "ldas_merra_update",
     "ldas_nldas_fora",
     "ldas_nldas_noah",
     "ldas_smerge",
@@ -71,9 +72,10 @@ from .functions.hydstra import hydstra_catalog, hydstra_stations, hydstra_ts
 from .functions.ldas import (
     ldas,
     ldas_gldas_noah,
+    ldas_gldas_noah_v2_0,
+    ldas_gldas_noah_v2_1,
     ldas_grace,
     ldas_merra,
-    ldas_merra_update,
     ldas_nldas_fora,
     ldas_nldas_noah,
     ldas_smerge,
@@ -321,11 +323,17 @@ def main():
 
     ldas_gldas_noah_cli = foundation_cli(ldas_gldas_noah, "ldas_gldas_noah")  # noqa: F841
 
+    ldas_gldas_noah_v2_0_cli = foundation_cli(  # noqa: F841
+        ldas_gldas_noah_v2_0, "ldas_gldas_noah_v2_0"
+    )
+
+    ldas_gldas_noah_v2_1_cli = foundation_cli(  # noqa: F841
+        ldas_gldas_noah_v2_1, "ldas_gldas_noah_v2_1"
+    )
+
     ldas_grace_cli = foundation_cli(ldas_grace, "ldas_grace")  # noqa: F841
 
     ldas_merra_cli = foundation_cli(ldas_merra, "ldas_merra")  # noqa: F841
-
-    ldas_merra_update_cli = foundation_cli(ldas_merra_update, "ldas_merra_update")  # noqa: F841
 
     ldas_nldas_fora_cli = foundation_cli(ldas_nldas_fora, "ldas_nldas_fora")  # noqa: F841
 

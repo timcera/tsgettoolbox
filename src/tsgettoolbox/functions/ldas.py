@@ -1,20 +1,20 @@
 """
-ldas                grid: Land Data Assimilation System, includes all
-                    ldas_* (NLDAS, GLDAS2, TRMM, SMERGE, GRACE, MERRA)
-ldas_gldas_noah     global 0.25deg 2000- 3H:GLDAS NOAH hydrology model results
-ldas_grace          NAmerica 0.125deg 2002- 7D:Groundwater and soil
-                    moisture from GRACE
-ldas_merra          global 0.5x0.625deg 1980- H:MERRA-2 Land surface
-                    forcings
-ldas_merra_update   global 0.5x0.667deg 1980-2016 H:MERRA-2 Analysis
-                    update
-ldas_nldas_fora     NAmerica 0.125deg 1979- H:NLDAS Weather Forcing A
-                    (surface)
-ldas_nldas_noah     NAmerica 0.125deg 1979- H:NLDAS NOAH hydrology model
-                    results
-ldas_smerge         global 0.125deg 1997- D:SMERGE-Noah-CCI root zone soil
-                    moisture
-ldas_trmm_tmpa      global 0.25deg 1997- 3H:TRMM (TMPA) rainfall estimate
+ldas                 grid: Land Data Assimilation System, includes all
+                     ldas_* (NLDAS, GLDAS2, TRMM, SMERGE, GRACE, MERRA)
+ldas_gldas_noah_v2_0 global 0.25deg 1948-2014 3H:GLDAS NOAH hydrology model results
+ldas_gldas_noah_v2_1 global 0.25deg 2000- 3H:GLDAS NOAH hydrology model results
+ldas_gldas_noah      deprecated alias to ldas_gldas_noah_v2_1
+ldas_grace           NAmerica 0.125deg 2002- 7D:Groundwater and soil
+                     moisture from GRACE
+ldas_merra           global 0.5x0.625deg 1980- H:MERRA-2 Land surface
+                     forcings
+ldas_nldas_fora      NAmerica 0.125deg 1979- H:NLDAS Weather Forcing A
+                     (surface)
+ldas_nldas_noah      NAmerica 0.125deg 1979- H:NLDAS NOAH hydrology model
+                     results
+ldas_smerge          global 0.125deg 1997- D:SMERGE-Noah-CCI root zone soil
+                     moisture
+ldas_trmm_tmpa       global 0.25deg 1997- 3H:TRMM (TMPA) rainfall estimate
 """
 
 import datetime
@@ -35,10 +35,12 @@ from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = [
     "ldas",
+    "ldas_gldas_noah_v2_0",
+    "ldas_gldas_noah_v2_1",
     "ldas_gldas_noah",
     "ldas_grace",
     "ldas_merra",
-    "ldas_merra_update",
+    # "ldas_merra_update",
     "ldas_nldas_fora",
     "ldas_nldas_noah",
     "ldas_smerge",
@@ -46,66 +48,222 @@ __all__ = [
 ]
 
 _NLDAS_FORA = {
-    "NLDAS:NLDAS_FORA0125_H.002:APCPsfc": ["Precipitation hourly total", "mm"],
-    "NLDAS:NLDAS_FORA0125_H.002:DLWRFsfc": [
+    "NLDAS2:NLDAS_FORA0125_H_v2.0:LWdown": [
         "Surface DW longwave radiation flux",
         "W/m**2",
     ],
-    "NLDAS:NLDAS_FORA0125_H.002:DSWRFsfc": [
-        "Surface DW shortwave radiation flux",
-        "W/m**2",
-    ],
-    "NLDAS:NLDAS_FORA0125_H.002:PEVAPsfc": ["Potential evaporation", "mm"],
-    "NLDAS:NLDAS_FORA0125_H.002:SPFH2m": [
+    "NLDAS2:NLDAS_FORA0125_H_v2.0:PotEvap": ["Potential evaporation", "mm"],
+    "NLDAS2:NLDAS_FORA0125_H_v2.0:PSurf": ["Surface pressure", "Pa"],
+    "NLDAS2:NLDAS_FORA0125_H_v2.0:Qair": [
         "2-m above ground specific humidity",
         "kg/kg",
     ],
-    "NLDAS:NLDAS_FORA0125_H.002:TMP2m": ["2-m above ground temperature", "K"],
-    "NLDAS:NLDAS_FORA0125_H.002:UGRD10m": ["10-m above ground zonal wind", "m/s"],
-    "NLDAS:NLDAS_FORA0125_H.002:VGRD10m": ["10-m above ground meridional wind", "m/s"],
+    "NLDAS2:NLDAS_FORA0125_H_v2.0:Rainf": ["Precipitation hourly total", "mm"],
+    "NLDAS2:NLDAS_FORA0125_H_v2.0:SWdown": [
+        "Surface DW shortwave radiation flux",
+        "W/m**2",
+    ],
+    "NLDAS2:NLDAS_FORA0125_H_v2.0:Tair": ["2-m above ground temperature", "K"],
+    "NLDAS2:NLDAS_FORA0125_H_v2.0:Wind_E": ["10-m above ground zonal wind", "m/s"],
+    "NLDAS2:NLDAS_FORA0125_H_v2.0:Wind_N": ["10-m above ground meridional wind", "m/s"],
 }
+
 _NLDAS_NOAH = {
-    "NLDAS:NLDAS_NOAH0125_H.002:EVPsfc": ["Total evapotranspiration", "mm"],
-    "NLDAS:NLDAS_NOAH0125_H.002:GFLUXsfc": ["Ground heat flux", "W/m**2"],
-    "NLDAS:NLDAS_NOAH0125_H.002:LHTFLsfc": ["Latent heat flux", "W/m**2"],
-    "NLDAS:NLDAS_NOAH0125_H.002:SHTFLsfc": ["Sensible heat flux", "W/m**2"],
-    "NLDAS:NLDAS_NOAH0125_H.002:SSRUNsfc": [
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:Evap": ["Total evapotranspiration", "mm"],
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:LWdown": [
+        "Surface DW longwave radiation flux",
+        "W/m**2",
+    ],
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:Qg": ["Ground heat flux", "W/m**2"],
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:Qle": ["Latent heat flux", "W/m**2"],
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:Qh": ["Sensible heat flux", "W/m**2"],
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:Qs": [
         "Surface runoff (non-infiltrating)",
         "mm",
     ],
-    "NLDAS:NLDAS_NOAH0125_H.002:BGRUNsfc": ["Subsurface runoff (baseflow)", "mm"],
-    "NLDAS:NLDAS_NOAH0125_H.002:SOILM0-10cm": [
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:Qsb": ["Subsurface runoff (baseflow)", "mm"],
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:SoilM_0_10cm": [
         "0-10 cm soil moisture content",
         "mm",
     ],
-    "NLDAS:NLDAS_NOAH0125_H.002:SOILM0-100cm": [
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:SoilM_0_100cm": [
         "0-100 cm soil moisture content",
         "mm",
     ],
-    "NLDAS:NLDAS_NOAH0125_H.002:SOILM0-200cm": [
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:SoilM_0_200cm": [
         "0-200 cm soil moisture content",
         "mm",
     ],
-    "NLDAS:NLDAS_NOAH0125_H.002:SOILM10-40cm": [
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:SoilM_10_40cm": [
         "10-40 cm soil moisture content",
         "mm",
     ],
-    "NLDAS:NLDAS_NOAH0125_H.002:SOILM40-100cm": [
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:SoilM_40_100cm": [
         "40-100 cm soil moisture content",
         "mm",
     ],
-    "NLDAS:NLDAS_NOAH0125_H.002:SOILM100-200cm": [
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:SoilM_100_200cm": [
         "100-200 cm soil moisture content",
         "mm",
     ],
-    "NLDAS:NLDAS_NOAH0125_H.002:TSOIL0-10cm": ["0-10 cm soil temperature", "K"],
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:SoilT_0_10cm": ["0-10 cm soil temperature", "K"],
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:SoilT_10_40cm": ["10-40 cm soil temperature", "K"],
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:SoilT_40_100cm": ["40-100 cm soil temperature", "K"],
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:SoilT_100_200cm": [
+        "100-200 cm soil temperature",
+        "K",
+    ],
+    "NLDAS2:NLDAS_NOAH0125_H_v2.0:SWdown": [
+        "Surface DW shortwave radiation flux",
+        "W/m**2",
+    ],
 }
-_GLDAS_NOAH = {
+
+_NLDAS_MOSAIC = {
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:Evap": ["Total evapotranspiration", "mm"],
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:Qg": ["Ground heat flux", "W/m**2"],
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:Qle": ["Latent heat flux", "W/m**2"],
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:Qh": ["Sensible heat flux", "W/m**2"],
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:Qs": [
+        "Surface runoff (non-infiltrating)",
+        "mm",
+    ],
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:Qsb": ["Subsurface runoff (baseflow)", "mm"],
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:SoilM_0_10cm": [
+        "0-10 cm soil moisture content",
+        "mm",
+    ],
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:SoilM_0_100cm": [
+        "0-100 cm soil moisture content",
+        "mm",
+    ],
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:SoilM_0_200cm": [
+        "0-200 cm soil moisture content",
+        "mm",
+    ],
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:SoilM_10_40cm": [
+        "10-40 cm soil moisture content",
+        "mm",
+    ],
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:SoilM_40_200cm": [
+        "40-200 cm soil moisture content",
+        "mm",
+    ],
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:SoilT": ["Soil temperature", "K"],
+}
+
+# https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi?variable=NLDAS2:NLDAS_VIC0125_H_v2.0:Evap&startDate=2019-01-01T00&endDate=2022-01-01T00&location=GEOM:POINT(-86.9375,%2033.9375)&type=asc2
+_NLDAS_VIC = {
+    "NLDAS2:NLDAS_VIC0125_H_v2.0:Evap": ["Total evapotranspiration", "mm"],
+    "NLDAS2:NLDAS_VIC0125_H_v2.0:Qg": ["Ground heat flux", "W/m**2"],
+    "NLDAS2:NLDAS_VIC0125_H_v2.0:Qle": ["Latent heat flux", "W/m**2"],
+    "NLDAS2:NLDAS_VIC0125_H_v2.0:Qh": ["Sensible heat flux", "W/m**2"],
+    "NLDAS2:NLDAS_VIC0125_H_v2.0:Qs": [
+        "Surface runoff (non-infiltrating)",
+        "mm",
+    ],
+    "NLDAS2:NLDAS_VIC0125_H_v2.0:Qsb": ["Subsurface runoff (baseflow)", "mm"],
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:SoilM_0_100cm": [
+        "0-100 cm soil moisture content",
+        "mm",
+    ],
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:SoilM_layer1": [
+        "VIC layer 1 soil moisture content",
+        "mm",
+    ],
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:SoilM_layer2": [
+        "VIC layer 2 soil moisture content",
+        "mm",
+    ],
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:SoilM_layer3": [
+        "VIC layer 3 soil moisture content",
+        "mm",
+    ],
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:SoilM_total": [
+        "VIC total column depth soil moisture content",
+        "mm",
+    ],
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:SoilT_layer1": ["VIC layer 1 soil temperature", "K"],
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:SoilT_layer2": ["VIC layer 3 soil temperature", "K"],
+    "NLDAS2:NLDAS_MOS0125_H_v2.0:SoilT_layer3": ["VIC layer 3 soil temperature", "K"],
+}
+
+# https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi?variable=GLDAS2:GLDAS_NOAH025_3H_v2.0:AvgSurfT_inst&startDate=2011-01-01T00:00&endDate=2012-12-31T21:00&location=GEOM:POINT(-93.125,%2041.125)&type=asc2
+_GLDAS_NOAH_v2_0 = {
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:AvgSurfT_inst": [
+        "Average surface skin temperature",
+        "K",
+    ],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:ESoil_tavg": [
+        "Direct evaporation from bare soil",
+        "W/m**2",
+    ],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:Evap_tavg": ["Evapotranspiration", "mm/s"],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:LWdown_f_tavg": [
+        "Downward long-wave radiation flux",
+        "W/m**2",
+    ],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:PotEvap_tavg": [
+        "Potential evaporation rate",
+        "W/m**2",
+    ],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:Psurf_f_inst": ["Surface air pressure", "Pa"],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:Qair_f_inst": ["Specific humidity", "kg/kg"],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:Qs_acc": ["Storm surface runoff", "mm"],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:Qsb_acc": ["Baseflow-groundwater runoff", "mm"],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:Rainf_f_tavg": [
+        "Total precipitation rate",
+        "mm/s",
+    ],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:Rainf_tavg": ["Rain precipitation rate", "mm/s"],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:RootMoist_inst": ["Root zone soil moisture", "mm"],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:Snowf_tavg": ["Snow precipitation rate", "mm/s"],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:SoilMoi0_10cm_inst": [
+        "Soil moisture content (0-10 cm)",
+        "mm",
+    ],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:SoilMoi10_40cm_inst": [
+        "Soil moisture content (10-40 cm)",
+        "mm",
+    ],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:SoilMoi40_100cm_inst": [
+        "Soil moisture content (40-100 cm)",
+        "mm",
+    ],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:SoilMoi100_200cm_inst": [
+        "Soil moisture content (100-200 cm)",
+        "mm",
+    ],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:SoilTMP0_10cm_inst": [
+        "Soil temperature (0-10 cm)",
+        "K",
+    ],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:SoilTMP10_40cm_inst": [
+        "Soil temperature (10-40 cm)",
+        "K",
+    ],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:SoilTMP100_200cm_inst": [
+        "Soil temperature (100-200 cm)",
+        "K",
+    ],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:SWdown_f_tavg": [
+        "Downward shortwave radiation flux",
+        "W/m**2",
+    ],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:Tair_f_inst": ["Near surface air temperature", "K"],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.0:Wind_f_inst": ["Near surface wind speed", "m/s"],
+}
+
+_GLDAS_NOAH_v2_1 = {
     "GLDAS2:GLDAS_NOAH025_3H_v2.1:AvgSurfT_inst": [
         "Average surface skin temperature",
         "K",
     ],
     "GLDAS2:GLDAS_NOAH025_3H_v2.1:Evap_tavg": ["Evapotranspiration", "mm/s"],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.1:LWdown_f_tavg": [
+        "Downward long-wave radiation flux",
+        "W/m**2",
+    ],
     "GLDAS2:GLDAS_NOAH025_3H_v2.1:Psurf_f_inst": ["Surface air pressure", "Pa"],
     "GLDAS2:GLDAS_NOAH025_3H_v2.1:Qair_f_inst": ["Specific humidity", "kg/kg"],
     "GLDAS2:GLDAS_NOAH025_3H_v2.1:Qs_acc": ["Storm surface runoff", "mm"],
@@ -115,6 +273,7 @@ _GLDAS_NOAH = {
         "mm/s",
     ],
     "GLDAS2:GLDAS_NOAH025_3H_v2.1:Rainf_tavg": ["Rain precipitation rate", "mm/s"],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.1:RootMoist_inst": ["Root zone soil moisture", "mm"],
     "GLDAS2:GLDAS_NOAH025_3H_v2.1:Snowf_tavg": ["Snow precipitation rate", "mm/s"],
     "GLDAS2:GLDAS_NOAH025_3H_v2.1:SoilMoi0_10cm_inst": [
         "Soil moisture content (0-10 cm)",
@@ -128,68 +287,77 @@ _GLDAS_NOAH = {
         "Soil moisture content (40-100 cm)",
         "mm",
     ],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.1:SoilMoi100_200cm_inst": [
+        "Soil moisture content (100-200 cm)",
+        "mm",
+    ],
     "GLDAS2:GLDAS_NOAH025_3H_v2.1:SoilTMP0_10cm_inst": [
         "Soil temperature (0-10 cm)",
         "K",
     ],
+    "GLDAS2:GLDAS_NOAH025_3H_v2.1:SWdown_f_tavg": [
+        "Downward shortwave radiation flux",
+        "W/m**2",
+    ],
     "GLDAS2:GLDAS_NOAH025_3H_v2.1:Tair_f_inst": ["Near surface air temperature", "K"],
     "GLDAS2:GLDAS_NOAH025_3H_v2.1:Wind_f_inst": ["Near surface wind speed", "m/s"],
 }
+
 # # Commented out because currently has issues starting in 2020-08-17.
 # _LPRM_AMSRE_SURFACE = {
-#     "LPRM:LPRM_AMSRE_D_SOILM3.002:opt_depth_c": [
+#     "LPRM:LPRM_AMSRE_D_SoilM3.002:opt_depth_c": [
 #         "Optical depth from LPRM AMSRE C-band descending",
 #         "unitless",
 #     ],
-#     "LPRM:LPRM_AMSRE_D_SOILM3.002:opt_depth_x": [
+#     "LPRM:LPRM_AMSRE_D_SoilM3.002:opt_depth_x": [
 #         "Optical depth from LPRM AMSRE X-band descending",
 #         "unitless",
 #     ],
-#     "LPRM:LPRM_AMSRE_D_SOILM3.002:sm_c_error": [
+#     "LPRM:LPRM_AMSRE_D_SoilM3.002:sm_c_error": [
 #         "Soil moisture uncertainty of LPRM AMSRE C-band descending",
 #         "percent",
 #     ],
-#     "LPRM:LPRM_AMSRE_D_SOILM3.002:sm_x_error": [
+#     "LPRM:LPRM_AMSRE_D_SoilM3.002:sm_x_error": [
 #         "Soil moisture uncertainty of LPRM AMSRE X-band descending",
 #         "percent",
 #     ],
-#     "LPRM:LPRM_AMSRE_D_SOILM3.002:soil_moisture_c": [
+#     "LPRM:LPRM_AMSRE_D_SoilM3.002:soil_moisture_c": [
 #         "Soil moisture, volumetric, from LPRM AMSRE C-band descending",
 #         "percent",
 #     ],
-#     "LPRM:LPRM_AMSRE_D_SOILM3.002:soil_moisture_x": [
+#     "LPRM:LPRM_AMSRE_D_SoilM3.002:soil_moisture_x": [
 #         "Soil moisture, volumetric, from LPRM AMSRE X-band descending",
 #         "percent",
 #     ],
-#     "LPRM:LPRM_AMSRE_D_SOILM3.002:Ts": [
+#     "LPRM:LPRM_AMSRE_D_SoilM3.002:Ts": [
 #         "Skin temperature (2mm) from LPRM AMSRE descending",
 #         "K",
 #     ],
-#     "LPRM:LPRM_AMSRE_A_SOILM3.002:opt_depth_c": [
+#     "LPRM:LPRM_AMSRE_A_SoilM3.002:opt_depth_c": [
 #         "Optical depth from LPRM AMSRE C-band ascending",
 #         "unitless",
 #     ],
-#     "LPRM:LPRM_AMSRE_A_SOILM3.002:opt_depth_x": [
+#     "LPRM:LPRM_AMSRE_A_SoilM3.002:opt_depth_x": [
 #         "Optical depth from LPRM AMSRE X-band ascending",
 #         "unitless",
 #     ],
-#     "LPRM:LPRM_AMSRE_A_SOILM3.002:sm_c_error": [
+#     "LPRM:LPRM_AMSRE_A_SoilM3.002:sm_c_error": [
 #         "Soil moisture uncertainty of LPRM AMSRE C-band ascending",
 #         "percent",
 #     ],
-#     "LPRM:LPRM_AMSRE_A_SOILM3.002:sm_x_error": [
+#     "LPRM:LPRM_AMSRE_A_SoilM3.002:sm_x_error": [
 #         "Soil moisture uncertainty of LPRM AMSRE X-band ascending",
 #         "percent",
 #     ],
-#     "LPRM:LPRM_AMSRE_A_SOILM3.002:soil_moisture_c": [
+#     "LPRM:LPRM_AMSRE_A_SoilM3.002:soil_moisture_c": [
 #         "Soil moisture, volumetric, from LPRM AMSRE C-band ascending",
 #         "percent",
 #     ],
-#     "LPRM:LPRM_AMSRE_A_SOILM3.002:soil_moisture_x": [
+#     "LPRM:LPRM_AMSRE_A_SoilM3.002:soil_moisture_x": [
 #         "Soil moisture, volumetric, from LPRM AMSRE X-band ascending",
 #         "percent",
 #     ],
-#     "LPRM:LPRM_AMSRE_A_SOILM3.002:Ts": [
+#     "LPRM:LPRM_AMSRE_A_SoilM3.002:Ts": [
 #         "Skin temperature (2mm) from LPRM AMSRE ascending",
 #         "K",
 #     ],
@@ -205,11 +373,11 @@ _GLDAS_NOAH = {
 # _UNITS_MAP.update(_LPRM_AMSR_RZSM3)
 #
 # _LPRM_AMSR2_25 = {
-#     "LPRM:LPRM_AMSR2_A_SOILM3.001:soil_moisture_c1": [
+#     "LPRM:LPRM_AMSR2_A_SoilM3.001:soil_moisture_c1": [
 #         "Volumetric Soil Moisture from 6.9 GHZ, ascending",
 #         "percent",
 #     ],
-#     "LPRM:LPRM_AMSR2_D_SOILM3.001:soil_moisture_c1": [
+#     "LPRM:LPRM_AMSR2_D_SoilM3.001:soil_moisture_c1": [
 #         "Volumetric Soil Moisture from 6.9 GHZ, descending",
 #         "percent",
 #     ],
@@ -217,11 +385,11 @@ _GLDAS_NOAH = {
 # _UNITS_MAP.update(_LPRM_AMSR2_25)
 #
 # _LPRM_AMSR2_10 = {
-#     "LPRM:LPRM_AMSR2_DS_A_SOILM3.001:soil_moisture_c1": [
+#     "LPRM:LPRM_AMSR2_DS_A_SoilM3.001:soil_moisture_c1": [
 #         "Volumetric Soil Moisture from 6.9 GHZ, ascending",
 #         "percent",
 #     ],
-#     "LPRM:LPRM_AMSR2_DS_D_SOILM3.001:soil_moisture_c1": [
+#     "LPRM:LPRM_AMSR2_DS_D_SoilM3.001:soil_moisture_c1": [
 #         "Volumetric Soil Moisture from 6.9 GHZ, descending",
 #         "percent",
 #     ],
@@ -229,35 +397,35 @@ _GLDAS_NOAH = {
 # _UNITS_MAP.update(_LPRM_AMSR2_10)
 #
 # _TMI_TRMM = {
-#     "LPRM:LPRM_TMI_DY_SOILM3.001:opt_depth_x": [
+#     "LPRM:LPRM_TMI_DY_SoilM3.001:opt_depth_x": [
 #         "Optical depth from LPRM/TMI/TRMM X-band",
 #         "unitless",
 #     ],
-#     "LPRM:LPRM_TMI_DY_SOILM3.001:sm_x_error": [
+#     "LPRM:LPRM_TMI_DY_SoilM3.001:sm_x_error": [
 #         "Uncertainty of Soil Moisture in LPRM/TMI/TRMM X-band",
 #         "m3/m3",
 #     ],
-#     "LPRM:LPRM_TMI_DY_SOILM3.001:soil_moisture_x": [
+#     "LPRM:LPRM_TMI_DY_SoilM3.001:soil_moisture_x": [
 #         "Soil Moisture, Volumetric, from LPRM/TMI/TRMM X-band",
 #         "percent",
 #     ],
-#     "LPRM:LPRM_TMI_DY_SOILM3.001:ts": [
+#     "LPRM:LPRM_TMI_DY_SoilM3.001:ts": [
 #         "Skin temperature (2mm) from LPRM/TMI/TRMM",
 #         "K",
 #     ],
-#     "LPRM:LPRM_TMI_NT_SOILM3.001:opt_depth_x": [
+#     "LPRM:LPRM_TMI_NT_SoilM3.001:opt_depth_x": [
 #         "Optical depth from LPRM/TMI/TRMM X-band",
 #         "unitless",
 #     ],
-#     "LPRM:LPRM_TMI_NT_SOILM3.001:sm_x_error": [
+#     "LPRM:LPRM_TMI_NT_SoilM3.001:sm_x_error": [
 #         "Uncertainty of Soil moisture in LPRM/TMI/TRMM X-band",
 #         "m3/m3",
 #     ],
-#     "LPRM:LPRM_TMI_NT_SOILM3.001:soil_moisture_x": [
+#     "LPRM:LPRM_TMI_NT_SoilM3.001:soil_moisture_x": [
 #         "Volumetric Soil Moisture from LPRM/TMI/TRMM X-band",
 #         "percent",
 #     ],
-#     "LPRM:LPRM_TMI_NT_SOILM3.001:ts": [
+#     "LPRM:LPRM_TMI_NT_SoilM3.001:ts": [
 #         "Skin temperature (2mm) from LPRM/TMI/TRMM",
 #         "K",
 #     ],
@@ -267,6 +435,7 @@ _GLDAS_NOAH = {
 _TRMM_TMPA = {
     "TRMM:TRMM_3B42.7:precipitation": ["Precipitation", "mm/hr"],
 }
+
 _SMERGE = {
     "SMERGE:SMERGE_RZSM0_40CM_2.0:CCI_ano": [
         "CCI soil moisture anomalies 0-40 cm",
@@ -277,6 +446,7 @@ _SMERGE = {
         "m3/m3",
     ],
 }
+
 _GRACE = {
     "GRACE:GRACEDADM_CLSM0125US_7D.4:gws_inst": [
         "Groundwater storage percentile",
@@ -292,6 +462,7 @@ _GRACE = {
     ],
 }
 
+# https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi?variable=MERRA:M2I1NXLFO.5124:QLML&startDate=2015-01-01T00&endDate=2017-12-31T23:45&location=GEOM:POINT(-125,%2025)&type=asc2
 _MERRA = {
     "MERRA:M2I1NXLFO.5124:QLML": ["Surface specific humidity:instant", "1"],
     "MERRA:M2I1NXLFO.5124:TLML": [
@@ -309,54 +480,68 @@ _MERRA = {
         "Incident shortwave radiation land:average",
         "W/m**2",
     ],
+    "MERRA:M2T1NXSLV.5124:U50M": [
+        "50-meter eastward wind:time average",
+        "m/s",
+    ],
+    "MERRA:M2T1NXSLV.5124:V50M": [
+        "50-meter northward wind:time average",
+        "m/s",
+    ],
 }
 
-_MERRA_UPDATE = {
-    "MERRA:MST1NXMLD.520:BASEFLOW": ["Baseflow", "mm/s"],
-    "MERRA:MST1NXMLD.520:LHLAND": ["Latent heat flux from land", "W/m**2"],
-    "MERRA:MST1NXMLD.520:PRECSNO": ["Surface snowfall", "mm/s"],
-    "MERRA:MST1NXMLD.520:PRECTOT": ["Total surface precipitation", "mm/s"],
-    "MERRA:MST1NXMLD.520:RUNOFF": ["Overland runoff", "mm/s"],
-    "MERRA:MST1NXMLD.520:SFMC": ["Top soil layer soil moisture content", "m3/m3"],
-    "MERRA:MST1NXMLD.520:SHLAND": ["Sensible heat flux from land", "W/m**2"],
-    "MERRA:MST1NXMLD.520:TSOIL1": ["Soil temperature in layer 1", "K"],
-}
+# _MERRA_UPDATE = {
+#     "MERRA:MST1NXMLD.520:BASEFLOW": ["Baseflow", "mm/s"],
+#     "MERRA:MST1NXMLD.520:LHLAND": ["Latent heat flux from land", "W/m**2"],
+#     "MERRA:MST1NXMLD.520:PRECSNO": ["Surface snowfall", "mm/s"],
+#     "MERRA:MST1NXMLD.520:PRECTOT": ["Total surface precipitation", "mm/s"],
+#     "MERRA:MST1NXMLD.520:RUNOFF": ["Overland runoff", "mm/s"],
+#     "MERRA:MST1NXMLD.520:SFMC": ["Top soil layer soil moisture content", "m3/m3"],
+#     "MERRA:MST1NXMLD.520:SHLAND": ["Sensible heat flux from land", "W/m**2"],
+#     "MERRA:MST1NXMLD.520:TSOIL1": ["Soil temperature in layer 1", "K"],
+# }
 
 _UNITS_MAP = _NLDAS_FORA
 _UNITS_MAP.update(_NLDAS_NOAH)
-_UNITS_MAP.update(_GLDAS_NOAH)
+_UNITS_MAP.update(_GLDAS_NOAH_v2_0)
+_UNITS_MAP.update(_GLDAS_NOAH_v2_1)
 _UNITS_MAP.update(_TRMM_TMPA)
 _UNITS_MAP.update(_SMERGE)
 _UNITS_MAP.update(_GRACE)
 _UNITS_MAP.update(_MERRA)
-_UNITS_MAP.update(_MERRA_UPDATE)
+# _UNITS_MAP.update(_MERRA_UPDATE)
 
 _varmap = {
     "MST1NXMLD.520": "MERRA",
     "M2T1NXLFO.5124": "MERRA",
     "M2T1NXFLX.5124": "MERRA",
     "M2I1NXLFO.5124": "MERRA",
+    "M2T1NXSLV.5124": "MERRA",
     "GRACEDADM_CLSM0125US_7D.4": "GRACE",
+    "GLDAS_NOAH025_3H_v2.0": "GLDAS2",
     "GLDAS_NOAH025_3H_v2.1": "GLDAS2",
     "NLDAS_NOAH0125_H.002": "NLDAS",
-    "NLDAS_FORA0125_H.002": "NLDAS",
-    "LPRM_AMSRE_D_SOILM3.002": "LPRM",
-    "LPRM_AMSRE_A_SOILM3.002": "LPRM",
+    "NLDAS_FORA0125_H_v2.0": "NLDAS2",
+    "NLDAS_NOAH0125_H_v2.0": "NLDAS2",
+    "LPRM_AMSRE_D_SoilM3.002": "LPRM",
+    "LPRM_AMSRE_A_SoilM3.002": "LPRM",
     "LPRM_AMSRE_D_RZSM3.001": "LPRM",
-    "LPRM_AMSR2_A_SOILM3.001": "LPRM",
-    "LPRM_AMSR2_D_SOILM3.001": "LPRM",
-    "LPRM_AMSR2_DS_A_SOILM3.001": "LPRM",
-    "LPRM_AMSR2_DS_D_SOILM3.001": "LPRM",
-    "LPRM_TMI_DY_SOILM3.001": "LPRM",
-    "LPRM_TMI_NT_SOILM3.001": "LPRM",
+    "LPRM_AMSR2_A_SoilM3.001": "LPRM",
+    "LPRM_AMSR2_D_SoilM3.001": "LPRM",
+    "LPRM_AMSR2_DS_A_SoilM3.001": "LPRM",
+    "LPRM_AMSR2_DS_D_SoilM3.001": "LPRM",
+    "LPRM_TMI_DY_SoilM3.001": "LPRM",
+    "LPRM_TMI_NT_SoilM3.001": "LPRM",
     "TRMM_3B42.7": "TRMM",
     "SMERGE_RZSM0_40CM_2.0": "SMERGE",
 }
 
 _project_start_dates = {
     "MERRA": "1980-01-01T00",
-    "GLDAS2": "1948-01-01T00",
+    "GLDAS2_v2_0": "1948-01-01T00",
+    "GLDAS2_v2_1": "2000-01-01T00",
     "NLDAS": "1979-01-01T13",
+    "NLDAS2": "1979-01-01T13",
     "TRMM": "1997-12-31T00",
     "SMERGE": "1997-01-02T00",
     "GRACE": "2002-10-04T00",
@@ -364,8 +549,10 @@ _project_start_dates = {
 
 _project_sep = {
     "MERRA": "\t",
-    "GLDAS2": "\t",
+    "GLDAS2_v2_0": "\t",
+    "GLDAS2_v2_1": "\t",
     "NLDAS": r"\s+",
+    "NLDAS2": r"\s+",
     "TRMM": "\t",
     "SMERGE": "\t",
     "GRACE": "\t",
@@ -373,7 +560,9 @@ _project_sep = {
 
 _project_header = {
     "MERRA": "infer",
-    "GLDAS2": "infer",
+    "GLDAS2_v2_0": None,
+    "GLDAS2_v2_1": None,
+    "NLDAS2": None,
     "NLDAS": None,
     "TRMM": "infer",
     "SMERGE": "infer",
@@ -382,7 +571,9 @@ _project_header = {
 
 _project_skiprows = {
     "MERRA": None,
-    "GLDAS2": None,
+    "GLDAS2_v2_0": 12,
+    "GLDAS2_v2_1": 12,
+    "NLDAS2": 13,
     "NLDAS": 40,
     "TRMM": None,
     "SMERGE": None,
@@ -391,7 +582,9 @@ _project_skiprows = {
 
 _project_index_col = {
     "MERRA": "Datetime",
-    "GLDAS2": "Datetime",
+    "GLDAS2_v2_0": 0,
+    "GLDAS2_v2_1": 0,
+    "NLDAS2": None,
     "NLDAS": None,
     "TRMM": "Datetime",
     "SMERGE": "Datetime",
@@ -534,7 +727,7 @@ _META_HEADER = r"""
 _NLDAS_FORA_META = r"""
         | NLDAS Primary Forcing Data    | 0.125x0.125 | 1 hour        |
         | NLDAS_FORA0125_H              | degree      |               |
-        | V002                          |             |               |
+        | V2.0                          |             |               |
         |                               | -125,25 to  | 1979-01-01T13 |
         |                               |  -67,53     | til recent    |
         +-------------------------------+-------------+---------------+"""
@@ -545,12 +738,19 @@ _NLDAS_NOAH_META = r"""
         |                               | -125,25 to  | 1979-01-01T13 |
         |                               |  -67,53     | til recent    |
         +-------------------------------+-------------+---------------+"""
-_GLDAS_NOAH_META = r"""
+_GLDAS_NOAH_v2_1_META = r"""
         | GLDAS Noah Land Surface Model | 0.25x0.25   | 3 hour        |
         | GLDAS_NOAH025_3H              | degree      |               |
         | V2.1                          |             |               |
         |                               | -180,-60 to | 2000-01-01 to |
         |                               |  180, 90    | recent        |
+        +-------------------------------+-------------+---------------+"""
+_GLDAS_NOAH_v2_0_META = r"""
+        | GLDAS Noah Land Surface Model | 0.25x0.25   | 3 hour        |
+        | GLDAS_NOAH025_3H              | degree      |               |
+        | V2.0                          |             |               |
+        |                               | -180,-60 to | 1948-01-01 to |
+        |                               |  180, 90    | 2014-12-31    |
         +-------------------------------+-------------+---------------+"""
 # _LPRM_AMSR_SURFACE_META = """
 #         | AMSR-E/Aqua surface           | 25x25 km    | 1 day         |
@@ -568,36 +768,36 @@ _GLDAS_NOAH_META = r"""
 # _LPRM_AMSR2_25_META = """
 #         | AMSR2/GCOM-W1 surface         | 25x25 km    | 1 day         |
 #         | soil moisture                 |             |               |
-#         | LPRM_AMSR2_A_SOILM3           | -180,-90 to | 2012-07-19 to |
+#         | LPRM_AMSR2_A_SoilM3           | -180,-90 to | 2012-07-19 to |
 #         | V001                          |  180, 90    | recent        |
 #         +-------------------------------+-------------+---------------+
 #         | AMSR2/GCOM-W1 surface         | 25x25 km    | 1 day         |
 #         | soil moisture                 |             |               |
-#         | LPRM_AMSR2_D_SOILM3           | -180,-90 to | 2012-07-19 to |
+#         | LPRM_AMSR2_D_SoilM3           | -180,-90 to | 2012-07-19 to |
 #         | V001                          |  180, 90    | recent        |
 #         +-------------------------------+-------------+---------------+
 # """
 # _LPRM_AMSR2_10_META = """
 #         | AMSR2/GCOM-W1 surface         | 10x10 km    | 1 day         |
 #         | soil moisture                 |             |               |
-#         | LPRM_AMSR2_DS_A_SOILM3        | -180,-90 to | 2012-07-19 to |
+#         | LPRM_AMSR2_DS_A_SoilM3        | -180,-90 to | 2012-07-19 to |
 #         | V001                          |  180, 90    | recent        |
 #         +-------------------------------+-------------+---------------+
 #         | ASMR2/GCOM-W1 surface         | 10x10 km    | 1 day         |
 #         | soil moisture                 |             |               |
-#         | LPRM_AMSR2_DS_D_SOILM3        | -180,-90 to | 2012-07-19 to |
+#         | LPRM_AMSR2_DS_D_SoilM3        | -180,-90 to | 2012-07-19 to |
 #         | V001                          |  180, 90    | recent        |
 #         +-------------------------------+-------------+---------------+
 # """
 # _LPRM_TRMM_META = """
 #         | TMI/TRMM surface              | 25x25 km    | 1 day         |
 #         | soil moisture                 |             |               |
-#         | LPRM_TMI_NT_SOILM3            | -180,-40 to | 1997-12-07 to |
+#         | LPRM_TMI_NT_SoilM3            | -180,-40 to | 1997-12-07 to |
 #         | V001                          |  180, 40    | 2015-04-08    |
 #         +-------------------------------+-------------+---------------+
 #         | TMI/TRMM surface              | 25x25 km    | 1 day         |
 #         | soil moisture                 |             |               |
-#         | LPRM_TMI_DY_SOILM3            | -180,-40 to | 1997-12-07 to |
+#         | LPRM_TMI_DY_SoilM3            | -180,-40 to | 1997-12-07 to |
 #         | V001                          |  180, 40    | 2015-04-08    |
 #         +-------------------------------+-------------+---------------+
 # """
@@ -652,7 +852,12 @@ _MERRA_UPDATE_META = r"""
 LDAS_FIRST_LINE = "global:grid:::Land Data Assimilation System, includes all ldas_* (NLDAS, GLDAS2, TRMM, SMERGE, GRACE, MERRA)"
 NLDAS_FORA_FIRST_LINE = "NAmerica:0.125deg:1979-:H:NLDAS Weather Forcing A (surface)"
 NLDAS_NOAH_FIRST_LINE = "NAmerica:0.125deg:1979-:H:NLDAS NOAH hydrology model results"
-GLDAS_NOAH_FIRST_LINE = "global:0.25deg:2000-:3H:GLDAS NOAH hydrology model results"
+GLDAS_NOAH_v2_0_FIRST_LINE = (
+    "global:0.25deg:1948-2014:3H:GLDAS NOAH hydrology model results"
+)
+GLDAS_NOAH_v2_1_FIRST_LINE = (
+    "global:0.25deg:2000-:3H:GLDAS NOAH hydrology model results"
+)
 # lprm_amsr_rzsm3_first_line = (
 #     "global 25km 2002-2010 D:AMSR-E/Aqua root zone soil moisture"
 # )
@@ -660,7 +865,7 @@ TRMM_TMPA_FIRST_LINE = "global:0.25deg:1997-:3H:TRMM (TMPA) rainfall estimate"
 SMERGE_FIRST_LINE = "global:0.125deg:1997-:D:SMERGE-Noah-CCI root zone soil moisture"
 GRACE_FIRST_LINE = "NAmerica:0.125deg:2002-:7D:Groundwater and soil moisture from GRACE"
 MERRA_FIRST_LINE = "global:0.5x0.625deg:1980-:H:MERRA-2 Land surface forcings"
-MERRA_UPDATE_FIRST_LINE = "global:0.5x0.667deg:1980-2016:H:MERRA-2 Analysis update"
+# MERRA_UPDATE_FIRST_LINE = "global:0.5x0.667deg:1980-2016:H:MERRA-2 Analysis update"
 
 ldas = foundation_api(
     "ldas",
@@ -669,10 +874,11 @@ ldas = foundation_api(
     meta_table="".join(
         [
             _META_HEADER,
-            _GLDAS_NOAH_META,
+            _GLDAS_NOAH_v2_0_META,
+            _GLDAS_NOAH_v2_1_META,
             _GRACE_META,
             _MERRA_META,
-            _MERRA_UPDATE_META,
+            # _MERRA_UPDATE_META,
             _NLDAS_FORA_META,
             _NLDAS_NOAH_META,
             _SMERGE_META,
@@ -682,11 +888,25 @@ ldas = foundation_api(
     + "\n",
 )
 
+ldas_gldas_noah_v2_0 = foundation_api(
+    "ldas_gldas_noah_v2_0",
+    units_table=make_units_table(_GLDAS_NOAH_v2_0),
+    first_line=GLDAS_NOAH_v2_0_FIRST_LINE,
+    meta_table=_META_HEADER + _GLDAS_NOAH_v2_0_META + "\n",
+)
+
+ldas_gldas_noah_v2_1 = foundation_api(
+    "ldas_gldas_noah_v2_1",
+    units_table=make_units_table(_GLDAS_NOAH_v2_1),
+    first_line=GLDAS_NOAH_v2_1_FIRST_LINE,
+    meta_table=_META_HEADER + _GLDAS_NOAH_v2_1_META + "\n",
+)
+
 ldas_gldas_noah = foundation_api(
     "ldas_gldas_noah",
-    units_table=make_units_table(_GLDAS_NOAH),
-    first_line=GLDAS_NOAH_FIRST_LINE,
-    meta_table=_META_HEADER + _GLDAS_NOAH_META + "\n",
+    units_table=make_units_table(_GLDAS_NOAH_v2_1),
+    first_line=GLDAS_NOAH_v2_1_FIRST_LINE,
+    meta_table=_META_HEADER + _GLDAS_NOAH_v2_1_META + "\n",
 )
 
 ldas_grace = foundation_api(
@@ -703,12 +923,12 @@ ldas_merra = foundation_api(
     meta_table=_META_HEADER + _MERRA_META + "\n",
 )
 
-ldas_merra_update = foundation_api(
-    "ldas_merra_update",
-    units_table=make_units_table(_MERRA_UPDATE),
-    first_line=MERRA_UPDATE_FIRST_LINE,
-    meta_table=_META_HEADER + _MERRA_UPDATE_META + "\n",
-)
+# ldas_merra_update = foundation_api(
+#     "ldas_merra_update",
+#     units_table=make_units_table(_MERRA_UPDATE),
+#     first_line=MERRA_UPDATE_FIRST_LINE,
+#     meta_table=_META_HEADER + _MERRA_UPDATE_META + "\n",
+# )
 
 ldas_nldas_fora = foundation_api(
     "ldas_nldas_fora",
@@ -802,6 +1022,11 @@ def base_ldas(
             nvariables.append(":".join([project] + words))
         else:
             nvariables.append(var)
+        if project == "GLDAS2":
+            if "v2.0" in nvariables[-1]:
+                project = "GLDAS2_v2_0"
+            elif "v2.1" in nvariables[-1]:
+                project = "GLDAS2_v2_1"
 
     if startDate is None:
         startDate = tsutils.parsedate(_project_start_dates[project])
@@ -852,18 +1077,21 @@ def base_ldas(
 
     if os.path.exists("debug_tsgettoolbox"):
         logging.warning(f"{urls}, {kwds}")
-
     resp = ar.retrieve_binary(urls, kwds, max_workers=1)
 
     joined = [[r, kw] for r, kw in zip(resp, kwds) if b"ERROR" not in r]
 
-    responses = [i[0] for i in joined]
-    keywords = [i[1] for i in joined]
-
     ndf = pd.DataFrame()
-    for keyword, response in zip(keywords, responses):
+    for response, keyword in joined:
         names = None
-        if project in ("GLDAS2", "TRMM", "SMERGE", "GRACE", "MERRA"):
+        if project in (
+            "GLDAS2_v2_0",
+            "GLDAS2_v2_1",
+            "TRMM",
+            "SMERGE",
+            "GRACE",
+            "MERRA",
+        ):
             names = [
                 "Datetime",
                 f"{keyword['params']['variable'].split(':')[-1]}:{_UNITS_MAP[keyword['params']['variable']][1]}",
@@ -878,7 +1106,7 @@ def base_ldas(
             na_values=[-9999, -9999.0, 9999.9],
         ).dropna()
         df.index = pd.to_datetime(df.index)
-        if project == "NLDAS":
+        if project in ("NLDAS", "NLDAS2"):
             if len(df.columns) == 3:
                 df["dt"] = df[0].str.cat(df[1], sep="T")
                 df["dt"] = pd.to_datetime(df["dt"])
@@ -893,7 +1121,7 @@ def base_ldas(
 
         df.index.name = "Datetime:UTC"
         with suppress(TypeError):
-            return df.tz_localize("UTC")
+            df = df.tz_localize("UTC")
         ndf = ndf.combine_first(df)
 
     return ndf
@@ -924,6 +1152,8 @@ if __name__ == "__main__":
         variables="GLDAS2:GLDAS_NOAH025_3H_v2.1:SoilMoi10_40cm_inst",
         lon=100,
         lat=34,
+        startDate="2001-01-01T00",
+        endDate="2001-02-02T00",
     )
 
     print("LDAS TEST")
