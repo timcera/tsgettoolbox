@@ -570,14 +570,14 @@ _project_header = {
 }
 
 _project_skiprows = {
-    "MERRA": None,
-    "GLDAS2_v2_0": 12,
-    "GLDAS2_v2_1": 12,
-    "NLDAS2": 13,
-    "NLDAS": 40,
-    "TRMM": None,
-    "SMERGE": None,
-    "GRACE": None,
+    "MERRA": 2,
+    "GLDAS2_v2_0": 14,
+    "GLDAS2_v2_1": 14,
+    "NLDAS2": 15,
+    "NLDAS": 42,
+    "TRMM": 2,
+    "SMERGE": 2,
+    "GRACE": 2,
 }
 
 _project_index_col = {
