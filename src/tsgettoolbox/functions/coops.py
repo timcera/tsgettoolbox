@@ -133,13 +133,6 @@ _settings_map["predictions"] = [
     [""],
 ]
 
-# datums data for the currents stations.
-_settings_map["datums"] = [
-    {"metric": "m", "english": "ft"},
-    None,
-    [""],
-]
-
 # Currents data for currents stations.
 _settings_map["currents"] = [
     {"metric": "m/s", "english": "ft/s"},
@@ -164,7 +157,6 @@ deltas = {
     "monthly_mean": 365 * 200,
     "one_minute_water_level": 4,
     "predictions": 31,
-    "datums": 31,
     "currents": 31,
     "air_pressure": 365,
 }
@@ -194,7 +186,6 @@ def coops(
                 "currents_header",
                 "currents_predictions",
                 "daily_mean",
-                "datums",
                 "high_low",
                 "hourly_height",
                 "humidity",
@@ -341,8 +332,6 @@ def coops(
         +------------------------+--------------------------------------------+
         | predictions            | Water level predictions at specified       |
         |                        | intervals by the `interval` argument       |
-        +------------------------+--------------------------------------------+
-        | datums                 | datums data                                |
         +------------------------+--------------------------------------------+
         | air_gap                | (distance between a bridge and the water's |
         |                        | surface)                                   |
@@ -854,23 +843,8 @@ def coops(
     if params["end_date"]:
         params["end_date"] = params["end_date"].strftime("%Y%m%d")
 
-    if len(product) > 1 and "datums" in product:
-        raise ValueError(
-            tsutils.error_wrapper(
-                """
-                The "datums" product is not a time-series and can't be mixed
-                with other products."
-                """
-            )
-        )
-
     ndf = pd.DataFrame()
     for produc in product:
-        if produc == "datums":
-            params["range"] = 1
-            params["begin_date"] = None
-            params["end_date"] = None
-
         periods = []
         if params["begin_date"] is not None and params["end_date"] is not None:
             delta = datetime.timedelta(days=deltas[produc])
@@ -915,9 +889,7 @@ def coops(
             for i in kwds
         ]
         resp = ar.retrieve_json(urls, kwds, disable=disable_caching)
-        if produc == "datums":
-            resp = [i["datums"] for i in resp if "datums" in i]
-        elif produc == "predictions":
+        if produc == "predictions":
             resp = [i["predictions"] for i in resp if "predictions" in i]
         else:
             resp = [i["data"] for i in resp if "data" in i]
@@ -934,9 +906,7 @@ def coops(
 
         resp = [item for sublist in resp for item in sublist]
         resp = pd.DataFrame(resp)
-        if produc == "datums":
-            resp = resp.set_index("n")
-        elif produc == "monthly_mean":
+        if produc == "monthly_mean":
             resp["t"] = pd.to_datetime(resp[["year", "month"]].assign(Day=1))
             resp = resp.drop(["year", "month"], axis="columns")
             resp = resp.set_index("t")
@@ -947,9 +917,6 @@ def coops(
         if time_zone_name == "GMT":
             time_zone_name = "UTC"
         resp.index.name = f"Datetime:{time_zone_name}"
-
-        if produc == "datums":
-            resp.index.name = "Datums"
 
         if "f" in resp.columns:
             addcols = resp["f"].str.split(pat=",", expand=True)

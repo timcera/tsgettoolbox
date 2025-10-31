@@ -31,11 +31,11 @@ import numpy as np
 import pandas as pd
 import requests
 from packaging.version import Version
+from platformdirs import user_data_dir
 
 from tsgettoolbox import utils
 from tsgettoolbox.cdo_api_py.cdo_api_py import Client
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
-from tsgettoolbox.utils import dirs
 
 
 def mkdir_if_doesnt_exist(dir_path):
@@ -45,7 +45,7 @@ def mkdir_if_doesnt_exist(dir_path):
 
 
 def get_tsget_dir(sub_dir=None):
-    return_dir = dirs.user_data_dir
+    return_dir = user_data_dir("tsgettoolbox", "tsgettoolbox")
     if sub_dir:
         return_dir = os.path.join(return_dir, sub_dir)
     mkdir_if_doesnt_exist(return_dir)

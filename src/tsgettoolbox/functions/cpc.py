@@ -15,9 +15,9 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 import requests
+from platformdirs import user_data_dir
 
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
-from tsgettoolbox.utils import dirs
 
 __all__ = ["cpc"]
 
@@ -38,9 +38,9 @@ def mkdir_if_doesnt_exist(dir_path):
 
 
 def get_tsget_dir(sub_dir=None):
-    return_dir = dirs.user_data_dir
+    return_dir = user_data_dir(appname="tsgettoolbox", ensure_exists=True)
     if sub_dir:
-        return_dir = os.path.join(dirs, sub_dir)
+        return_dir = os.path.join(return_dir, sub_dir)
     mkdir_if_doesnt_exist(return_dir)
     return return_dir
 

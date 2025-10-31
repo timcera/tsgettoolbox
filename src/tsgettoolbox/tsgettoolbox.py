@@ -23,7 +23,6 @@ __all__ = [
     "ldas_nldas_fora",
     "ldas_nldas_noah",
     "ldas_smerge",
-    "ldas_trmm_tmpa",
     "metdata",
     "modis",
     "ncei_annual",
@@ -79,7 +78,6 @@ from .functions.ldas import (
     ldas_nldas_fora,
     ldas_nldas_noah,
     ldas_smerge,
-    ldas_trmm_tmpa,
 )
 from .functions.metdata import metdata
 from .functions.modis import modis
@@ -339,11 +337,7 @@ def main():
 
     ldas_nldas_noah_cli = foundation_cli(ldas_nldas_noah, "ldas_nldas_noah")  # noqa: F841
 
-    # ldas_amsre_rzsm3_cli = foundation_cli(ldas_amsre_rzsm3)  # noqa: F841
-
     ldas_smerge_cli = foundation_cli(ldas_smerge, "ldas_smerge")  # noqa: F841
-
-    ldas_trmm_tmpa_cli = foundation_cli(ldas_trmm_tmpa, "ldas_trmm_tmpa")  # noqa: F841
 
     @cltoolbox.command("metdata", formatter_class=HelpFormatter)
     @tsutils.copy_doc(metdata)

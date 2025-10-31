@@ -13,9 +13,9 @@ from contextlib import contextmanager
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+from platformdirs import user_data_dir
 
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
-from tsgettoolbox.utils import dirs
 
 URL = "http://rivergages.mvr.usace.army.mil/WaterControl/datamining2.cfm"
 DEFAULT_START_DATE = datetime.date(1800, 1, 1)
@@ -33,7 +33,7 @@ def mkdir_if_doesnt_exist(dir_path):
 
 
 def get_tsget_dir(sub_dir=None):
-    return_dir = dirs.user_data_dir
+    return_dir = user_data_dir("tsgettoolbox", "tsgettoolbox")
     if sub_dir:
         return_dir = os.path.join(return_dir, sub_dir)
     mkdir_if_doesnt_exist(return_dir)

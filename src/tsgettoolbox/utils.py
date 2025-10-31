@@ -5,48 +5,94 @@ tsgettoolbox utility functions.
 import configparser as cp
 import contextlib
 import datetime
+import getpass
 import io
 import os
+import platform
+import sys
+import textwrap
 import xml
 from multiprocessing import Pool
+from netrc import netrc
+from pathlib import Path
 
 import cftime
 import numpy as np
 import pandas as pd
 import requests
+from haversine import haversine_vector
+from platformdirs import user_config_dir
+from pydap.client import open_url
+from requests.adapters import HTTPAdapter, Retry
+from siphon.ncss import NCSS
+
+from .toolbox_utils.src.toolbox_utils import tsutils
 
 try:
     from pydantic import validate_call
 except ImportError:
     from pydantic import validate_arguments as validate_call
 
-from haversine import haversine_vector
-from pydap.client import open_url
-from requests.adapters import HTTPAdapter, Retry
-from siphon.ncss import NCSS
-
-from . import appdirs
-from .toolbox_utils.src.toolbox_utils import tsutils
-
 __all__ = []
 
-dirs = appdirs.AppDirs("tsgettoolbox", "tsgettoolbox")
+
+def read_netrc(machine):
+    """Read machine auth from .netrc key if exists else create key."""
+    netrcfile = "_netrc" if platform.system() == "Windows" else ".netrc"
+    netrcpath = Path.home() / netrcfile
+    if not netrcpath.exists():
+        with open(netrcpath, "w", encoding="ascii") as fpnetrc:
+            fpnetrc.write("")
+
+    nrc = netrc(str(netrcpath))
+    auths = nrc.authenticators(machine)
+    if auths is None:
+        if machine == "urs.earthdata.nasa.gov":
+            print(
+                textwrap.dedent(
+                    f"""\
+                    *
+                    * To access NASA Earthdata services you need to create a free
+                    * account at https://urs.earthdata.nasa.gov/users/new
+                    *
+                    * After creating your account you can enter your credentials
+                    * below to have them stored in
+                    * '{netrcpath}'
+                    * file for future use.
+                    *
+                    """
+                ),
+                file=sys.stderr,
+            )
+        username = input(f"Username for '{machine}': ")
+        password = getpass.getpass(f"Password for '{machine}': ")
+        nrc.hosts[machine] = (username, None, password)
+        with open(netrcpath, "w", encoding="ascii") as fpnetrc:
+            fpnetrc.write(repr(nrc))
+        os.chmod(netrcpath, 0o600)
+
+    nrc = netrc(str(netrcpath))
+    auths = nrc.authenticators(machine)
+    return auths[0], auths[2]
 
 
 def read_api_key(service):
     """Read API key from file if exists else create key place holder."""
-    if not os.path.exists(dirs.user_config_dir):
-        os.makedirs(dirs.user_config_dir)
-    configfile = os.path.join(dirs.user_config_dir, "config.ini")
+    dirs = user_config_dir("tsgettoolbox", "tsgettoolbox")
+    if not os.path.exists(dirs):
+        os.makedirs(dirs)
+    configfile = os.path.join(dirs, "config.ini")
     if not os.path.exists(configfile):
         with open(configfile, "w", encoding="ascii") as fpconfig:
             fpconfig.write(
-                f"""
+                textwrap.dedent(
+                    f"""\
 
-[{service}]
-api_key = ReplaceThisStringWithYourKey
+                    [{service}]
+                    api_key = ReplaceThisStringWithYourKey
 
-"""
+                    """
+                )
             )
     # Make sure read only by user.
     os.chmod(configfile, 0o600)
@@ -59,12 +105,14 @@ api_key = ReplaceThisStringWithYourKey
     except KeyError:
         with open(configfile, "a", encoding="ascii") as fpconfig:
             fpconfig.write(
-                f"""
+                textwrap.dedent(
+                    f"""\
 
-[{service}]
-api_key = ReplaceThisStringWithYourKey
+                    [{service}]
+                    api_key = ReplaceThisStringWithYourKey
 
-"""
+                    """
+                )
             )
         api_key = "ReplaceThisStringWithYourKey"
 
@@ -72,12 +120,13 @@ api_key = ReplaceThisStringWithYourKey
     api_key = inifile.get(service, "api_key")
     if api_key == "ReplaceThisStringWithYourKey":
         raise ValueError(
-            f"""
-*
-*   Need to edit {configfile}
-*   to add your API key that you got from {service}.
-*
-"""
+            textwrap.dedent(f"""\
+                *
+                * Need to edit '{configfile}'
+                * to add your API key that you got from
+                * '{service}'.
+                *
+                """)
         )
 
     return api_key

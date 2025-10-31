@@ -492,7 +492,7 @@ def metdata(
     else:
         cvars = tsutils.make_list(variables)
 
-    turl = "http://thredds.northwestknowledge.net:8080/thredds/dodsC/agg_met_{}_1979_CurrentYear_CONUS.nc"
+    turl = "dap2://thredds.northwestknowledge.net:8080/thredds/dodsC/agg_met_{}_1979_CurrentYear_CONUS.nc"
     # turl = "http://thredds.northwestknowledge.net:8080/thredds/ncss/grid/agg_met_{}_1979_CurrentYear_CONUS.nc"
     return utils.opendap(
         turl,
