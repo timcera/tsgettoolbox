@@ -1,3 +1,19 @@
+## v26.0.0 (2025-11-01)
+
+### BREAKING CHANGE
+
+- with the parameter name change old ldas scripts won't work
+
+### Fix
+
+- ldas parameter names have changed in the move to giovanni
+- for some reason "cz bump" didn't update the VERSION file with the new version
+
+### Refactor
+
+- sourcery refactor
+- remove unused file.csv
+
 ## v25.2.2 (2025-06-12)
 
 ### Fix
