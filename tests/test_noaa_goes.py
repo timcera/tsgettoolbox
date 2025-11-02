@@ -31,10 +31,10 @@ def test_parse_dcp_message_timestamp():
         dcp_data_file = f"noaa/goes/{test_set['dcp_address']}.txt"
         with utils.mocked_urls(dcp_data_file, force=True):
             data = goes.get_data(test_set["dcp_address"], hours=12)
-            assert data["message_timestamp_utc"][-1] == datetime.fromtimestamp(
+            assert data["message_timestamp_utc"].iloc[-1] == datetime.fromtimestamp(
                 int(test_set["message_timestamp"].strip("/Date()")) / 1000
             )
-        assert data["message_timestamp_utc"][-1] == datetime.fromtimestamp(
+        assert data["message_timestamp_utc"].iloc[-1] == datetime.fromtimestamp(
             int(test_set["message_timestamp"].strip("/Date()")) / 1000
         )
 
