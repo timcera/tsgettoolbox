@@ -15,13 +15,14 @@ __all__ = [
     "hydstra_stations",
     "hydstra_ts",
     "ldas",
+    "ldas_gldas_noah",
     "ldas_gldas_noah_v2_0",
     "ldas_gldas_noah_v2_1",
-    "ldas_gldas_noah",
     "ldas_grace",
     "ldas_merra",
     "ldas_nldas_fora",
     "ldas_nldas_noah",
+    "ldas_nldas_vic",
     "ldas_smerge",
     "metdata",
     "modis",
@@ -77,6 +78,7 @@ from .functions.ldas import (
     ldas_merra,
     ldas_nldas_fora,
     ldas_nldas_noah,
+    ldas_nldas_vic,
     ldas_smerge,
 )
 from .functions.metdata import metdata
@@ -328,6 +330,8 @@ def main():
     ldas_nldas_fora_cli = foundation_cli(ldas_nldas_fora, "ldas_nldas_fora")  # noqa: F841
 
     ldas_nldas_noah_cli = foundation_cli(ldas_nldas_noah, "ldas_nldas_noah")  # noqa: F841
+
+    ldas_nldas_vic_cli = foundation_cli(ldas_nldas_vic, "ldas_nldas_vic")  # noqa: F841
 
     ldas_smerge_cli = foundation_cli(ldas_smerge, "ldas_smerge")  # noqa: F841
 
