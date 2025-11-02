@@ -3,6 +3,7 @@ coops               global station 1T,6T,H,D,M: Center for Operational
                     Oceanographic Products and Services
 """
 
+import contextlib
 import datetime
 import warnings
 from collections import defaultdict
@@ -909,10 +910,7 @@ def coops(
         if produc == "monthly_mean":
             resp["t"] = pd.to_datetime(resp[["year", "month"]].assign(Day=1))
             resp = resp.drop(["year", "month"], axis="columns")
-            resp = resp.set_index("t")
-        else:
-            resp = resp.set_index("t")
-
+        resp = resp.set_index("t")
         time_zone_name = params["time_zone"].upper()
         if time_zone_name == "GMT":
             time_zone_name = "UTC"
@@ -956,10 +954,8 @@ def coops(
         }
         resp = resp.rename(rename_cols, axis="columns")
         ndf = ndf.join(resp, how="outer")
-    try:
+    with contextlib.suppress(Exception):
         ndf.index = pd.to_datetime(ndf.index)
-    except Exception:
-        pass
     return ndf
 
 

@@ -165,7 +165,7 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
         station_ids = get_stations().index
 
     for station_id in station_ids:
-        url = "http://cdec.water.ca.gov/dynamicapp/staMeta?station_id=%s" % station_id
+        url = f"http://cdec.water.ca.gov/dynamicapp/staMeta?station_id={station_id}"
 
         try:
             sensor_list = pd.read_html(url, match="Sensor Description")[0]

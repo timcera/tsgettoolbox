@@ -175,11 +175,7 @@ def open_file_for_url(url, path, check_modified=True, use_file=None, use_bytes=N
         yield use_file
     else:
         open_path = use_file
-    if use_bytes is None:
-        open_file = open(open_path)
-    else:
-        open_file = open(open_path, "rb")
-
+    open_file = open(open_path) if use_bytes is None else open(open_path, "rb")
     yield open_file
 
     if not leave_open:

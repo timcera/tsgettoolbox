@@ -913,7 +913,7 @@ def _read_rdb(url, kwds):
     )
 
     if "503 Service Unavailable" in resp[0]:
-        raise Exception(resp[0])
+        raise ValueError(resp[0])
     data = [r.strip().split("\n") for r in resp if r[0] == "#"]
     data = [t.split("\t") for d in data for t in d if "#" not in t]
     if not data:

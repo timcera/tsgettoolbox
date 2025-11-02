@@ -218,8 +218,6 @@ def daymet(
                     )
                 )
 
-    time_code = _time_scale_map[time_scale]
-
     dates = None
     if years is not None:
         dates = years
@@ -228,6 +226,8 @@ def daymet(
             end_date = pd.Timestamp(
                 f"{datetime.datetime.now().year - 1}-12-31"
             ).strftime("%Y-%m-%d")
+        time_code = _time_scale_map[time_scale]
+
         dates = (
             (pd.Timestamp(start_date) + time_code[0]).strftime("%Y-%m-%d"),
             (pd.Timestamp(end_date) + time_code[1]).strftime("%Y-%m-%d"),

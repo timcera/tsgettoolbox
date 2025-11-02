@@ -211,11 +211,7 @@ def open_file_for_url(url, path, check_modified=True, use_file=None, use_bytes=N
         yield use_file
     else:
         open_path = use_file
-    if use_bytes is None:
-        open_file = open(open_path)
-    else:
-        open_file = open(open_path, "rb")
-
+    open_file = open(open_path) if use_bytes is None else open(open_path, "rb")
     yield open_file
 
     if not leave_open:
@@ -239,11 +235,7 @@ def open_file_for_url(url, path, check_modified=True, use_file=None, use_bytes=N
         yield use_file
     else:
         open_path = use_file
-    if use_bytes is None:
-        open_file = open(open_path)
-    else:
-        open_file = open(open_path, "rb")
-
+    open_file = open(open_path) if use_bytes is None else open(open_path, "rb")
     yield open_file
 
     if not leave_open:
@@ -551,16 +543,6 @@ def _as_data_dict(df):
 
     return county_dict
 
-    df["date"] = df["date"].map(str)
-    county_dict = {}
-    for county in df["fips"].unique():
-        county_df = df[df["fips"] == county]
-        county_data = county_df.T.drop(["fips"])
-        values = [v.to_dict() for k, v in county_data.items()]
-        county_dict[county] = values
-
-    return county_dict
-
 
 def convert_date(date):
     """returns a datetime.date object from either a string representation or
@@ -653,12 +635,11 @@ def get_data(county, start=None, end=None):
 
 
 def twc_tsget_df(county=None, start_date=None, end_date=None):
-    df = get_data(
+    return get_data(
         county=county,
         start=pd.to_datetime(start_date),
         end=pd.to_datetime(end_date),
     )
-    return df
 
 
 @tsutils.doc(tsutils.docstrings)
