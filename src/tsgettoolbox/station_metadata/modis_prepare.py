@@ -11,9 +11,8 @@ r = json.loads(r)
 pdf = pd.json_normalize(r, record_path=["products"])
 pdf = pdf.set_index("product")
 
-ndesc = pdf["description"].str.split(")", expand=True)
-pdf["description"] = f"{ndesc[0]})"
 pdf.columns = ["Description", "Frequency", "Resolution\n(m)"]
+print()
 print(
     tabulate(pdf, tablefmt="grid", maxcolwidths=[None, 25, None, None], headers="keys")
 )

@@ -1,139 +1,206 @@
+
 +--------------+---------------------------+-------------+--------------+
 | product      | Description               | Frequency   |   Resolution |
 |              |                           |             |          (m) |
 +==============+===========================+=============+==============+
 | ECO4ESIPTJPL | ECOSTRESS Evaporative     | Varies      |           70 |
 |              | Stress Index PT-JPL (ESI) |             |              |
+|              | Daily L4 Global 70 m      |             |              |
 +--------------+---------------------------+-------------+--------------+
 | ECO4WUE      | ECOSTRESS Water Use       | Varies      |           70 |
-|              | Efficiency (WUE)          |             |              |
+|              | Efficiency (WUE) Daily L4 |             |              |
+|              | Global 70 m               |             |              |
 +--------------+---------------------------+-------------+--------------+
 | GEDI03       | GEDI Gridded Land Surface | One-time    |         1000 |
-|              | Metrics (LSM)             |             |              |
+|              | Metrics (LSM) L3 1km      |             |              |
+|              | EASE-Grid, Version 2      |             |              |
 +--------------+---------------------------+-------------+--------------+
 | GEDI04_B     | GEDI Gridded Aboveground  | One-time    |         1000 |
 |              | Biomass Density (AGBD)    |             |              |
+|              | L4B 1km EASE-Grid,        |             |              |
+|              | Version 2.1               |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MCD12Q1      | MODIS/Terra+Aqua Land     | Yearly      |          500 |
-|              | Cover Type (LC)           |             |              |
+|              | Cover Type (LC) Yearly L3 |             |              |
+|              | Global 500 m SIN Grid     |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MCD12Q2      | MODIS/Terra+Aqua Land     | Yearly      |          500 |
 |              | Cover Dynamics (LCD)      |             |              |
+|              | Yearly L3 Global 500 m    |             |              |
+|              | SIN Grid                  |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MCD15A2H     | MODIS/Terra+Aqua Leaf     | 8-Day       |          500 |
 |              | Area Index/FPAR           |             |              |
-|              | (LAI/FPAR)                |             |              |
+|              | (LAI/FPAR)  8-Day L4      |             |              |
+|              | Global 500 m SIN Grid     |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MCD15A3H     | MODIS/Terra+Aqua Leaf     | 4-Day       |          500 |
 |              | Area Index/FPAR           |             |              |
-|              | (LAI/FPAR)                |             |              |
-+--------------+---------------------------+-------------+--------------+
-| MCD19A3      | MODIS/Terra+Aqua BRDF     | 8-Day       |         1000 |
-|              | Model Parameters (MAIAC)  |             |              |
+|              | (LAI/FPAR) 4-Day L4       |             |              |
+|              | Global 500 m SIN Grid     |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MCD43A       | MODIS/Terra+Aqua BRDF and | Daily       |          500 |
 |              | Calculated Albedo         |             |              |
-|              | (BRDF/MCD43A)             |             |              |
+|              | (BRDF/MCD43A) 16-Day L3   |             |              |
+|              | Global 500m SIN Grid      |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MCD43A1      | MODIS/Terra+Aqua          | Daily       |          500 |
 |              | BRDF/Albedo Model         |             |              |
-|              | Parameters (BRDF)         |             |              |
+|              | Parameters (BRDF) 16-Day  |             |              |
+|              | L3 Global 500m SIN Grid   |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MCD43A4      | MODIS/Terra+Aqua Nadir    | Daily       |          500 |
 |              | BRDF-Adjusted Reflectance |             |              |
-|              | (NBAR)                    |             |              |
+|              | (NBAR) Daily L3 Global    |             |              |
+|              | 500 m SIN Grid            |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MCD64A1      | MODIS/Terra+Aqua Burned   | Monthly     |          500 |
 |              | Area (Burned Area)        |             |              |
+|              | Monthly L3 Global 500 m   |             |              |
+|              | SIN Grid                  |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MOD09A1      | MODIS/Terra Surface       | 8-Day       |          500 |
-|              | Reflectance (SREF)        |             |              |
+|              | Reflectance (SREF) 8-Day  |             |              |
+|              | L3 Global 500m SIN Grid   |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MOD11A2      | MODIS/Terra Land Surface  | 8-Day       |         1000 |
 |              | Temperature and           |             |              |
-|              | Emissivity (LST)          |             |              |
+|              | Emissivity (LST) 8-Day L3 |             |              |
+|              | Global 1 km SIN Grid      |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MOD13Q1      | MODIS/Terra Vegetation    | 16-Day      |          250 |
-|              | Indices (NDVI/EVI)        |             |              |
+|              | Indices (NDVI/EVI) 16-Day |             |              |
+|              | L3 Global 250m SIN Grid   |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MOD14A2      | MODIS/Terra Thermal       | 8-Day       |         1000 |
 |              | Anomalies/Fire (Fire)     |             |              |
+|              | 8-Day L3 Global 1 km SIN  |             |              |
+|              | Grid                      |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MOD15A2H     | MODIS/Terra Leaf Area     | 8-Day       |          500 |
 |              | Index/FPAR (LAI/FPAR)     |             |              |
+|              | 8-Day L4 Global 500 m SIN |             |              |
+|              | Grid                      |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MOD16A2      | MODIS/Terra Net           | 8-Day       |          500 |
 |              | Evapotranspiration (ET)   |             |              |
+|              | 8-Day L4 Global 500 m SIN |             |              |
+|              | Grid                      |             |              |
++--------------+---------------------------+-------------+--------------+
+| MOD16A2GF    | MODIS/Terra Net           | 8-Day       |          500 |
+|              | Evapotranspiration Gap-   |             |              |
+|              | Filled (ET) 8-Day L4      |             |              |
+|              | Global 500 m SIN Grid     |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MOD17A2H     | MODIS/Terra Gross Primary | 8-Day       |          500 |
-|              | Productivity (GPP)        |             |              |
+|              | Productivity (GPP) 8-Day  |             |              |
+|              | L4 Global 500 m SIN Grid  |             |              |
++--------------+---------------------------+-------------+--------------+
+| MOD17A2HGF   | MODIS/Terra Gross Primary | 8-Day       |          500 |
+|              | Productivity Gap-Filled   |             |              |
+|              | (GPP) 8-Day L4 Global 500 |             |              |
+|              | m SIN Grid                |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MOD17A3HGF   | MODIS/Terra Net Primary   | Yearly      |          500 |
 |              | Production Gap-Filled     |             |              |
-|              | (NPP)                     |             |              |
+|              | (NPP) Yearly L4 Global    |             |              |
+|              | 500 m SIN Grid            |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MOD21A2      | MODIS/Terra Land Surface  | 8-Day       |         1000 |
 |              | Temperature/3-Band        |             |              |
-|              | Emissivity (LSTE)         |             |              |
+|              | Emissivity (LSTE) 8-Day   |             |              |
+|              | L3 Global 1 km SIN Grid   |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MOD44B       | MODIS/Terra Vegetation    | Yearly      |          250 |
 |              | Continuous Fields (VCF)   |             |              |
+|              | Yearly L3 Global 250 m    |             |              |
+|              | SIN Grid                  |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MYD09A1      | MODIS/Aqua Surface        | 8-Day       |          500 |
-|              | Reflectance (SREF)        |             |              |
+|              | Reflectance (SREF) 8-Day  |             |              |
+|              | L3 Global 500m SIN Grid   |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MYD11A2      | MODIS/Aqua Land Surface   | 8-Day       |         1000 |
 |              | Temperature and           |             |              |
-|              | Emissivity (LST)          |             |              |
+|              | Emissivity (LST) 8-Day L3 |             |              |
+|              | Global 1 km SIN Grid      |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MYD13Q1      | MODIS/Aqua Vegetation     | 16-Day      |          250 |
-|              | Indices (NDVI/EVI)        |             |              |
+|              | Indices (NDVI/EVI) 16-Day |             |              |
+|              | L3 Global 250m SIN Grid   |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MYD14A2      | MODIS/Aqua Thermal        | 8-Day       |         1000 |
 |              | Anomalies/Fire (Fire)     |             |              |
+|              | 8-Day L3 Global 1 km SIN  |             |              |
+|              | Grid                      |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MYD15A2H     | MODIS/Aqua Leaf Area      | 8-Day       |          500 |
 |              | Index/FPAR (LAI/FPAR)     |             |              |
+|              | 8-Day L4 Global 500 m SIN |             |              |
+|              | Grid                      |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MYD16A2      | MODIS/Aqua Net            | 8-Day       |          500 |
 |              | Evapotranspiration (ET)   |             |              |
+|              | 8-Day L4 Global 500 m SIN |             |              |
+|              | Grid                      |             |              |
++--------------+---------------------------+-------------+--------------+
+| MYD16A2GF    | MODIS/Aqua Net            | 8-Day       |          500 |
+|              | Evapotranspiration Gap-   |             |              |
+|              | Filled (ET) 8-Day L4      |             |              |
+|              | Global 500 m SIN Grid     |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MYD17A2H     | MODIS/Aqua Gross Primary  | 8-Day       |          500 |
-|              | Productivity (GPP)        |             |              |
+|              | Productivity (GPP) 8-Day  |             |              |
+|              | L4 Global 500 m SIN Grid  |             |              |
++--------------+---------------------------+-------------+--------------+
+| MYD17A2HGF   | MODIS/Aqua Gross Primary  | 8-Day       |          500 |
+|              | Productivity Gap-Filled   |             |              |
+|              | (GPP) 8-Day L4 Global 500 |             |              |
+|              | m SIN Grid                |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MYD17A3HGF   | MODIS/Aqua Net Primary    | Yearly      |          500 |
 |              | Production Gap-Filled     |             |              |
-|              | (NPP)                     |             |              |
+|              | (NPP) Yearly L4 Global    |             |              |
+|              | 500 m SIN Grid            |             |              |
 +--------------+---------------------------+-------------+--------------+
 | MYD21A2      | MODIS/Aqua Land Surface   | 8-Day       |         1000 |
 |              | Temperature/3-Band        |             |              |
-|              | Emissivity (LSTE)         |             |              |
+|              | Emissivity (LSTE) 8-Day   |             |              |
+|              | L3 Global 1 km SIN Grid   |             |              |
 +--------------+---------------------------+-------------+--------------+
 | SIF005       | SIF Estimates from Fused  | Monthly     |         5000 |
 |              | SCIAMACHY and GOME-2      |             |              |
-|              | (SIF)                     |             |              |
+|              | (SIF), Version 2          |             |              |
 +--------------+---------------------------+-------------+--------------+
 | SIF_ANN      | SIF Estimates from OCO-2  | 16-day      |         5000 |
-|              | SIF and MODIS (SIF)       |             |              |
+|              | SIF and MODIS (SIF),      |             |              |
+|              | Version 2                 |             |              |
 +--------------+---------------------------+-------------+--------------+
 | VNP09A1      | VIIRS/S-NPP Surface       | 8-Day       |         1000 |
-|              | Reflectance (SREF)        |             |              |
+|              | Reflectance (SREF) 8-Day  |             |              |
+|              | L3 Global 1 km SIN Grid   |             |              |
 +--------------+---------------------------+-------------+--------------+
 | VNP09H1      | VIIRS/S-NPP Surface       | 8-Day       |          500 |
-|              | Reflectance (SREF)        |             |              |
+|              | Reflectance (SREF) 8-Day  |             |              |
+|              | L3 Global 500m SIN Grid   |             |              |
 +--------------+---------------------------+-------------+--------------+
 | VNP13A1      | VIIRS/S-NPP Vegetation    | 16-Day      |          500 |
-|              | Indices (NDVI/EVI)        |             |              |
+|              | Indices (NDVI/EVI) 16-Day |             |              |
+|              | L3 Global 500m SIN Grid   |             |              |
 +--------------+---------------------------+-------------+--------------+
 | VNP15A2H     | VIIRS/S-NPP Leaf Area     | 8-Day       |          500 |
 |              | Index/FPAR (LAI/FPAR)     |             |              |
+|              | 8-Day L4 Global 500 m SIN |             |              |
+|              | Grid                      |             |              |
 +--------------+---------------------------+-------------+--------------+
 | VNP21A2      | VIIRS/S-NPP Land Surface  | 8-Day       |         1000 |
 |              | Temperature and           |             |              |
-|              | Emissivity (LSTE)         |             |              |
+|              | Emissivity (LSTE) 8-Day   |             |              |
+|              | L3 Global 1 km SIN Grid   |             |              |
 +--------------+---------------------------+-------------+--------------+
 | VNP22Q2      | VIIRS/S-NPP Land Cover    | Yearly      |          500 |
-|              | Dynamics (LCD)            |             |              |
+|              | Dynamics (LCD) Yearly L3  |             |              |
+|              | Global 500 m SIN Grid     |             |              |
 +--------------+---------------------------+-------------+--------------+
 
 ECO4ESIPTJPL
@@ -330,6 +397,12 @@ MCD12Q2
 | QA_Overall.Num_Modes_02    | Quality Assessment Overall  |                       | 0 to     |
 |                            |                             |                       | 3        |
 +----------------------------+-----------------------------+-----------------------+----------+
+| Senescence.Num_Modes_01    | Onset Greenness Decrease    | days_since_1970-01-01 | 11138 to |
+|                            |                             |                       | 32766    |
++----------------------------+-----------------------------+-----------------------+----------+
+| Senescence.Num_Modes_02    | Onset Greenness Decrease    | days_since_1970-01-01 | 11138 to |
+|                            |                             |                       | 32766    |
++----------------------------+-----------------------------+-----------------------+----------+
 
 MCD15A2H
 
@@ -379,27 +452,6 @@ MCD15A3H
 |                 |                                |            | 100     |
 +-----------------+--------------------------------+------------+---------+
 
-MCD19A3
-
-+------------+------------------------------+---------+-----------+
-| band       | Description                  | Units   | Range     |
-+============+==============================+=========+===========+
-| Kgeo       | RTLS geometric kernel        |         | -32766 to |
-|            | parameter for bands 1-8      |         | 32767     |
-+------------+------------------------------+---------+-----------+
-| Kiso       | RTLS isotropic kernel        |         | -32766 to |
-|            | parameter for bands 1-8      |         | 32767     |
-+------------+------------------------------+---------+-----------+
-| Kvol       | RTLS volumetric kernel       |         | -32766 to |
-|            | parameter for bands 1-8      |         | 32767     |
-+------------+------------------------------+---------+-----------+
-| Sur_albedo | Surface albedo for bands 1-8 |         | -100 to   |
-|            |                              |         | 16000     |
-+------------+------------------------------+---------+-----------+
-| UpdateDay  | Number of days since last    |         | 0 to      |
-|            | update to the current day    |         | 254       |
-+------------+------------------------------+---------+-----------+
-
 MCD43A
 
 +------------------+----------------------------+---------+
@@ -429,34 +481,34 @@ MCD43A1
 +----------------------------------------------+----------------------+-----------+---------+
 | band                                         | Description          | Units     | Range   |
 +==============================================+======================+===========+=========+
-| BDRF_Albedo_Band_Mandatory_Quality_Band1     | Quality Band1        | bit_field | 0 to    |
+| BRDF_Albedo_Band_Mandatory_Quality_Band1     | Quality Band1        | bit_field | 0 to    |
 |                                              |                      |           | 254     |
 +----------------------------------------------+----------------------+-----------+---------+
-| BDRF_Albedo_Band_Mandatory_Quality_Band2     | Quality Band2        | bit_field | 0 to    |
+| BRDF_Albedo_Band_Mandatory_Quality_Band2     | Quality Band2        | bit_field | 0 to    |
 |                                              |                      |           | 254     |
 +----------------------------------------------+----------------------+-----------+---------+
-| BDRF_Albedo_Band_Mandatory_Quality_Band3     | Quality Band3        | bit_field | 0 to    |
+| BRDF_Albedo_Band_Mandatory_Quality_Band3     | Quality Band3        | bit_field | 0 to    |
 |                                              |                      |           | 254     |
 +----------------------------------------------+----------------------+-----------+---------+
-| BDRF_Albedo_Band_Mandatory_Quality_Band4     | Quality Band4        | bit_field | 0 to    |
+| BRDF_Albedo_Band_Mandatory_Quality_Band4     | Quality Band4        | bit_field | 0 to    |
 |                                              |                      |           | 254     |
 +----------------------------------------------+----------------------+-----------+---------+
-| BDRF_Albedo_Band_Mandatory_Quality_Band5     | Quality Band5        | bit_field | 0 to    |
+| BRDF_Albedo_Band_Mandatory_Quality_Band5     | Quality Band5        | bit_field | 0 to    |
 |                                              |                      |           | 254     |
 +----------------------------------------------+----------------------+-----------+---------+
-| BDRF_Albedo_Band_Mandatory_Quality_Band6     | Quality Band6        | bit_field | 0 to    |
+| BRDF_Albedo_Band_Mandatory_Quality_Band6     | Quality Band6        | bit_field | 0 to    |
 |                                              |                      |           | 254     |
 +----------------------------------------------+----------------------+-----------+---------+
-| BDRF_Albedo_Band_Mandatory_Quality_Band7     | Quality Band7        | bit_field | 0 to    |
+| BRDF_Albedo_Band_Mandatory_Quality_Band7     | Quality Band7        | bit_field | 0 to    |
 |                                              |                      |           | 254     |
 +----------------------------------------------+----------------------+-----------+---------+
-| BDRF_Albedo_Band_Mandatory_Quality_nir       | Quality nir          | bit_field | 0 to    |
+| BRDF_Albedo_Band_Mandatory_Quality_nir       | Quality nir          | bit_field | 0 to    |
 |                                              |                      |           | 254     |
 +----------------------------------------------+----------------------+-----------+---------+
-| BDRF_Albedo_Band_Mandatory_Quality_shortwave | Quality shortwave    | bit_field | 0 to    |
+| BRDF_Albedo_Band_Mandatory_Quality_shortwave | Quality shortwave    | bit_field | 0 to    |
 |                                              |                      |           | 254     |
 +----------------------------------------------+----------------------+-----------+---------+
-| BDRF_Albedo_Band_Mandatory_Quality_vis       | Quality vis          | bit_field | 0 to    |
+| BRDF_Albedo_Band_Mandatory_Quality_vis       | Quality vis          | bit_field | 0 to    |
 |                                              |                      |           | 254     |
 +----------------------------------------------+----------------------+-----------+---------+
 | BRDF_Albedo_Parameters_Band1                 | Parameters Band1     |           | 0 to    |
@@ -745,7 +797,43 @@ MOD16A2
 |            | (LE)                         |             | 32700     |
 +------------+------------------------------+-------------+-----------+
 
+MOD16A2GF
+
++------------+------------------------------+-------------+-----------+
+| band       | Description                  | Units       | Range     |
++============+==============================+=============+===========+
+| ET_500m    | Evapotranspiration           | kg/m^2/8day | -32767 to |
+|            |                              |             | 32700     |
++------------+------------------------------+-------------+-----------+
+| ET_QC_500m | QC for ET/LE                 |             | 0 to      |
+|            |                              |             | 254       |
++------------+------------------------------+-------------+-----------+
+| LE_500m    | Latent heat flux (LE)        | J/m^2/day   | -32767 to |
+|            |                              |             | 32700     |
++------------+------------------------------+-------------+-----------+
+| PET_500m   | Potential evapotranspiration | kg/m^2/8day | -32767 to |
+|            |                              |             | 32700     |
++------------+------------------------------+-------------+-----------+
+| PLE_500m   | Potential latent heat flux   | J/m^2/day   | -32767 to |
+|            | (LE)                         |             | 32700     |
++------------+------------------------------+-------------+-----------+
+
 MOD17A2H
+
++-------------+--------------------------+-------------------+-----------+
+| band        | Description              | Units             | Range     |
++=============+==========================+===================+===========+
+| Gpp_500m    | Gross Primary Production | kgC/m^2 in 8 days | 0 to      |
+|             |                          |                   | 30000     |
++-------------+--------------------------+-------------------+-----------+
+| PsnNet_500m | Net Photosynthesis       | kgC/m^2 in 8 days | -30000 to |
+|             |                          |                   | 30000     |
++-------------+--------------------------+-------------------+-----------+
+| Psn_QC_500m | Quality Control bits     |                   | 0 to      |
+|             |                          |                   | 254       |
++-------------+--------------------------+-------------------+-----------+
+
+MOD17A2HGF
 
 +-------------+--------------------------+-------------------+-----------+
 | band        | Description              | Units             | Range     |
@@ -1024,7 +1112,43 @@ MYD16A2
 |            | (LE)                         |             | 32700     |
 +------------+------------------------------+-------------+-----------+
 
+MYD16A2GF
+
++------------+------------------------------+-------------+-----------+
+| band       | Description                  | Units       | Range     |
++============+==============================+=============+===========+
+| ET_500m    | Evapotranspiration           | kg/m^2/8day | -32767 to |
+|            |                              |             | 32700     |
++------------+------------------------------+-------------+-----------+
+| ET_QC_500m | QC for ET/LE                 |             | 0 to      |
+|            |                              |             | 254       |
++------------+------------------------------+-------------+-----------+
+| LE_500m    | Latent heat flux (LE)        | J/m^2/day   | -32767 to |
+|            |                              |             | 32700     |
++------------+------------------------------+-------------+-----------+
+| PET_500m   | Potential evapotranspiration | kg/m^2/8day | -32767 to |
+|            |                              |             | 32700     |
++------------+------------------------------+-------------+-----------+
+| PLE_500m   | Potential latent heat flux   | J/m^2/day   | -32767 to |
+|            | (LE)                         |             | 32700     |
++------------+------------------------------+-------------+-----------+
+
 MYD17A2H
+
++-------------+--------------------------+-------------------+-----------+
+| band        | Description              | Units             | Range     |
++=============+==========================+===================+===========+
+| Gpp_500m    | Gross Primary Production | kgC/m^2 in 8 days | 0 to      |
+|             |                          |                   | 30000     |
++-------------+--------------------------+-------------------+-----------+
+| PsnNet_500m | Net Photosynthesis       | kgC/m^2 in 8 days | -30000 to |
+|             |                          |                   | 30000     |
++-------------+--------------------------+-------------------+-----------+
+| Psn_QC_500m | Quality Control bits     |                   | 0 to      |
+|             |                          |                   | 254       |
++-------------+--------------------------+-------------------+-----------+
+
+MYD17A2HGF
 
 +-------------+--------------------------+-------------------+-----------+
 | band        | Description              | Units             | Range     |
@@ -1425,8 +1549,8 @@ VNP22Q2
 | Cycle_2.Rate_Greenness_Increase_2            | Rates of change in EVI2 values | EVI2/day       | 1 to    |
 |                                              | during a greenup phase         |                | 32766   |
 +----------------------------------------------+--------------------------------+----------------+---------+
-fill_value={'MU': -9999, 'PE': 255, 'PS': 0, 'SE': -9999, 'V1': -9999, 'V2': -9999, 'LC_Prop1': 255, 'LC_Prop1_Assessment': 255, 'LC_Prop2': 255, 'LC_Prop2_Assessment': 255, 'LC_Prop3': 255, 'LC_Prop3_Assessment': 255, 'LC_Type1': 255, 'LC_Type2': 255, 'LC_Type3': 255, 'LC_Type4': 255, 'LC_Type5': 255, 'LW': 255, 'QC': 255, 'Dormancy.Num_Modes_01': 32767, 'Dormancy.Num_Modes_02': 32767, 'EVI_Amplitude.Num_Modes_01': 32767, 'EVI_Amplitude.Num_Modes_02': 32767, 'EVI_Area.Num_Modes_01': 32767, 'EVI_Area.Num_Modes_02': 32767, 'EVI_Minimum.Num_Modes_01': 32767, 'EVI_Minimum.Num_Modes_02': 32767, 'Greenup.Num_Modes_01': 32767, 'Greenup.Num_Modes_02': 32767, 'Maturity.Num_Modes_01': 32767, 'Maturity.Num_Modes_02': 32767, 'MidGreendown.Num_Modes_01': 32767, 'MidGreendown.Num_Modes_02': 32767, 'MidGreenup.Num_Modes_01': 32767, 'MidGreenup.Num_Modes_02': 32767, 'NumCycles': 32767, 'QA_Detailed.Num_Modes_01': 32767, 'QA_Detailed.Num_Modes_02': 32767, 'QA_Overall.Num_Modes_01': 32767, 'QA_Overall.Num_Modes_02': 32767, 'FparExtra_QC': 255, 'FparLai_QC': 255, 'FparStdDev_500m': 255, 'Fpar_500m': 255, 'LaiStdDev_500m': 255, 'Lai_500m': 255, 'Kgeo': -32767, 'Kiso': -32767, 'Kvol': -32767, 'Sur_albedo': -28672, 'UpdateDay': 255, 'BDRF_Albedo_Band_Mandatory_Quality_Band1': 255, 'BDRF_Albedo_Band_Mandatory_Quality_Band2': 255, 'BDRF_Albedo_Band_Mandatory_Quality_Band3': 255, 'BDRF_Albedo_Band_Mandatory_Quality_Band4': 255, 'BDRF_Albedo_Band_Mandatory_Quality_Band5': 255, 'BDRF_Albedo_Band_Mandatory_Quality_Band6': 255, 'BDRF_Albedo_Band_Mandatory_Quality_Band7': 255, 'BDRF_Albedo_Band_Mandatory_Quality_nir': 255, 'BDRF_Albedo_Band_Mandatory_Quality_shortwave': 255, 'BDRF_Albedo_Band_Mandatory_Quality_vis': 255, 'BRDF_Albedo_Parameters_Band1': 32767, 'BRDF_Albedo_Parameters_Band2': 32767, 'BRDF_Albedo_Parameters_Band3': 32767, 'BRDF_Albedo_Parameters_Band4': 32767, 'BRDF_Albedo_Parameters_Band5': 32767, 'BRDF_Albedo_Parameters_Band6': 32767, 'BRDF_Albedo_Parameters_Band7': 32767, 'BRDF_Albedo_Parameters_nir': 32767, 'BRDF_Albedo_Parameters_shortwave': 32767, 'BRDF_Albedo_Parameters_vis': 32767, 'BRDF_Albedo_Band_Mandatory_Quality_Band1': 255, 'BRDF_Albedo_Band_Mandatory_Quality_Band2': 255, 'BRDF_Albedo_Band_Mandatory_Quality_Band3': 255, 'BRDF_Albedo_Band_Mandatory_Quality_Band4': 255, 'BRDF_Albedo_Band_Mandatory_Quality_Band5': 255, 'BRDF_Albedo_Band_Mandatory_Quality_Band6': 255, 'BRDF_Albedo_Band_Mandatory_Quality_Band7': 255, 'Nadir_Reflectance_Band1': 32767, 'Nadir_Reflectance_Band2': 32767, 'Nadir_Reflectance_Band3': 32767, 'Nadir_Reflectance_Band4': 32767, 'Nadir_Reflectance_Band5': 32767, 'Nadir_Reflectance_Band6': 32767, 'Nadir_Reflectance_Band7': 32767, 'Burn_Date': -1, 'Burn_Date_Uncertainty': 0, 'First_Day': -1, 'Last_Day': -1, 'sur_refl_b01': -28672, 'sur_refl_b02': -28672, 'sur_refl_b03': -28672, 'sur_refl_b04': -28672, 'sur_refl_b05': -28672, 'sur_refl_b06': -28672, 'sur_refl_b07': -28672, 'sur_refl_day_of_year': -1, 'sur_refl_qc_500m': -1, 'sur_refl_raz': 0, 'sur_refl_state_500m': 65535, 'sur_refl_szen': 0, 'sur_refl_vzen': 0, 'Clear_sky_days': 0, 'Clear_sky_nights': 0, 'Day_view_angl': 255, 'Day_view_time': 255, 'Emis_31': 0, 'Emis_32': 0, 'LST_Day_1km': 0, 'LST_Night_1km': 0, 'Night_view_angl': 255, 'Night_view_time': 255, '250m_16_days_blue_reflectance': -1000, '250m_16_days_composite_day_of_the_year': -1, '250m_16_days_EVI': -3000, '250m_16_days_MIR_reflectance': -1000, '250m_16_days_NDVI': -3000, '250m_16_days_NIR_reflectance': -1000, '250m_16_days_pixel_reliability': -1, '250m_16_days_red_reflectance': -1000, '250m_16_days_relative_azimuth_angle': -4000, '250m_16_days_sun_zenith_angle': -10000, '250m_16_days_view_zenith_angle': -10000, '250m_16_days_VI_Quality': -1, 'FireMask': 0, 'ET_500m': 32767, 'ET_QC_500m': 255, 'LE_500m': 32767, 'PET_500m': 32767, 'PLE_500m': 32767, 'Gpp_500m': 32767, 'PsnNet_500m': 32767, 'Psn_QC_500m': 255, 'Npp_500m': 32767, 'Npp_QC_500m': 255, 'Emis_29': 0, 'LST_Day_1KM': 0, 'LST_Night_1KM': 0, 'View_Angle_Day': 255, 'View_Angle_Night': 255, 'View_Time_Day': 255, 'View_Time_Night': 255, 'Cloud': 0, 'Percent_NonTree_Vegetation': 253, 'Percent_NonVegetated': 253, 'Percent_NonVegetated_SD': -100, 'Percent_Tree_Cover': 253, 'Percent_Tree_Cover_SD': -100, 'Quality': 0, 'EVI_Quality': -1, 'SIF_740_daily_corr': -999, 'SIF_740_daily_corr_SD': -999, 'sif_ann': -999, 'RelativeAzimuth': 0, 'SensorZenith': 0, 'SolarZenith': 0, 'SurfReflect_Day_Of_Year': 65535, 'SurfReflect_M1': -28672, 'SurfReflect_M10': -28672, 'SurfReflect_M11': -28672, 'SurfReflect_M2': -28672, 'SurfReflect_M3': -28672, 'SurfReflect_M4': -28672, 'SurfReflect_M5': -28672, 'SurfReflect_M7': -28672, 'SurfReflect_M8': -28672, 'SurfReflect_QC': 4294967295, 'SurfReflect_State': 65535, 'SurfReflect_I1': -28672, 'SurfReflect_I2': -28672, 'SurfReflect_I3': -28672, 'SurfReflect_QC_500m': 65535, 'SurfReflect_State_500m': 65535, '500_m_16_days_blue_reflectance': -1000, '500_m_16_days_composite_day_of_the_year': -1, '500_m_16_days_EVI': -15000, '500_m_16_days_EVI2': -15000, '500_m_16_days_green_reflectance': -1000, '500_m_16_days_NDVI': -15000, '500_m_16_days_NIR_reflectance': -1000, '500_m_16_days_pixel_reliability': -4, '500_m_16_days_red_reflectance': -1000, '500_m_16_days_relative_azimuth_angle': -20000, '500_m_16_days_sun_zenith_angle': -20000, '500_m_16_days_SWIR1_reflectance': -1000, '500_m_16_days_SWIR2_reflectance': -1000, '500_m_16_days_SWIR3_reflectance': -1000, '500_m_16_days_view_zenith_angle': -20000, '500_m_16_days_VI_Quality': 65535, 'Fpar': 255, 'FparStdDev': 255, 'Lai': 255, 'LaiStdDev': 255, 'Emis_14': 0, 'Emis_15': 0, 'Emis_16': 0, 'QC_Day': 0, 'QC_Night': 0, 'Cycle_1.Date_Mid_Greenup_Phase_1': 32767, 'Cycle_1.Date_Mid_Senescence_Phase_1': 32767, 'Cycle_1.EVI2_Growing_Season_Area_1': 32767, 'Cycle_1.EVI2_Onset_Greenness_Increase_1': 32767, 'Cycle_1.EVI2_Onset_Greenness_Maximum_1': 32767, 'Cycle_1.GLSP_QC_1': 255, 'Cycle_1.Greenness_Agreement_Growing_Season_1': 255, 'Cycle_1.Growing_Season_Length_1': 32767, 'Cycle_1.Onset_Greenness_Decrease_1': 32767, 'Cycle_1.Onset_Greenness_Increase_1': 32767, 'Cycle_1.Onset_Greenness_Maximum_1': 32767, 'Cycle_1.Onset_Greenness_Minimum_1': 32767, 'Cycle_1.PGQ_Growing_Season_1': 255, 'Cycle_1.PGQ_Onset_Greenness_Decrease_1': 255, 'Cycle_1.PGQ_Onset_Greenness_Increase_1': 255, 'Cycle_1.PGQ_Onset_Greenness_Maximum_1': 255, 'Cycle_1.PGQ_Onset_Greenness_Minimum_1': 255, 'Cycle_1.Rate_Greenness_Decrease_1': 32767, 'Cycle_1.Rate_Greenness_Increase_1': 32767, 'Cycle_2.Date_Mid_Greenup_Phase_2': 32767, 'Cycle_2.Date_Mid_Senescence_Phase_2': 32767, 'Cycle_2.EVI2_Growing_Season_Area_2': 32767, 'Cycle_2.EVI2_Onset_Greenness_Increase_2': 32767, 'Cycle_2.EVI2_Onset_Greenness_Maximum_2': 32767, 'Cycle_2.GLSP_QC_2': 255, 'Cycle_2.Greenness_Agreement_Growing_Season_2': 255, 'Cycle_2.Growing_Season_Length_2': 32767, 'Cycle_2.Onset_Greenness_Decrease_2': 32767, 'Cycle_2.Onset_Greenness_Increase_2': 32767, 'Cycle_2.Onset_Greenness_Maximum_2': 32767, 'Cycle_2.Onset_Greenness_Minimum_2': 32767, 'Cycle_2.PGQ_Growing_Season_2': 255, 'Cycle_2.PGQ_Onset_Greenness_Decrease_2': 255, 'Cycle_2.PGQ_Onset_Greenness_Increase_2': 255, 'Cycle_2.PGQ_Onset_Greenness_Maximum_2': 255, 'Cycle_2.PGQ_Onset_Greenness_Minimum_2': 255, 'Cycle_2.Rate_Greenness_Decrease_2': 32767, 'Cycle_2.Rate_Greenness_Increase_2': 32767}
-scale_factor={'EVI_Amplitude.Num_Modes_01': 0.0001, 'EVI_Amplitude.Num_Modes_02': 0.0001, 'EVI_Area.Num_Modes_01': 0.1, 'EVI_Area.Num_Modes_02': 0.1, 'EVI_Minimum.Num_Modes_01': 0.0001, 'EVI_Minimum.Num_Modes_02': 0.0001, 'FparStdDev_500m': 0.01, 'Fpar_500m': 0.01, 'LaiStdDev_500m': 0.1, 'Lai_500m': 0.1, 'Kgeo': 0.0001, 'Kiso': 0.0001, 'Kvol': 0.0001, 'Sur_albedo': 0.0001, 'nir_actual': 0.001, 'nir_black': 0.001, 'nir_white': 0.001, 'shortwave_actual': 0.001, 'shortwave_black': 0.001, 'shortwave_white': 0.001, 'vis_actual': 0.001, 'vis_black': 0.001, 'vis_white': 0.001, 'BRDF_Albedo_Parameters_Band1': 0.001, 'BRDF_Albedo_Parameters_Band2': 0.001, 'BRDF_Albedo_Parameters_Band3': 0.001, 'BRDF_Albedo_Parameters_Band4': 0.001, 'BRDF_Albedo_Parameters_Band5': 0.001, 'BRDF_Albedo_Parameters_Band6': 0.001, 'BRDF_Albedo_Parameters_Band7': 0.001, 'BRDF_Albedo_Parameters_nir': 0.001, 'BRDF_Albedo_Parameters_shortwave': 0.001, 'BRDF_Albedo_Parameters_vis': 0.001, 'Nadir_Reflectance_Band1': 0.0001, 'Nadir_Reflectance_Band2': 0.0001, 'Nadir_Reflectance_Band3': 0.0001, 'Nadir_Reflectance_Band4': 0.0001, 'Nadir_Reflectance_Band5': 0.0001, 'Nadir_Reflectance_Band6': 0.0001, 'Nadir_Reflectance_Band7': 0.0001, 'sur_refl_b01': 0.0001, 'sur_refl_b02': 0.0001, 'sur_refl_b03': 0.0001, 'sur_refl_b04': 0.0001, 'sur_refl_b05': 0.0001, 'sur_refl_b06': 0.0001, 'sur_refl_b07': 0.0001, 'sur_refl_raz': 0.01, 'sur_refl_szen': 0.01, 'sur_refl_vzen': 0.01, 'Day_view_time': 0.1, 'Emis_31': 0.002, 'Emis_32': 0.002, 'LST_Day_1km': 0.02, 'LST_Night_1km': 0.02, 'Night_view_time': 0.1, '250m_16_days_blue_reflectance': 0.0001, '250m_16_days_EVI': 0.0001, '250m_16_days_MIR_reflectance': 0.0001, '250m_16_days_NDVI': 0.0001, '250m_16_days_NIR_reflectance': 0.0001, '250m_16_days_red_reflectance': 0.0001, '250m_16_days_relative_azimuth_angle': 0.1, '250m_16_days_sun_zenith_angle': 0.01, '250m_16_days_view_zenith_angle': 0.01, 'ET_500m': 0.1, 'LE_500m': 10000.0, 'PET_500m': 0.1, 'PLE_500m': 10000.0, 'Gpp_500m': 0.0001, 'PsnNet_500m': 0.0001, 'Npp_500m': 0.0001, 'Emis_29': 0.002, 'LST_Day_1KM': 0.02, 'LST_Night_1KM': 0.02, 'View_Time_Day': 0.1, 'View_Time_Night': 0.1, 'Percent_NonVegetated_SD': 0.01, 'Percent_Tree_Cover_SD': 0.01, 'RelativeAzimuth': 0.01, 'SensorZenith': 0.01, 'SolarZenith': 0.01, 'SurfReflect_M1': 0.0001, 'SurfReflect_M10': 0.0001, 'SurfReflect_M11': 0.0001, 'SurfReflect_M2': 0.0001, 'SurfReflect_M3': 0.0001, 'SurfReflect_M4': 0.0001, 'SurfReflect_M5': 0.0001, 'SurfReflect_M7': 0.0001, 'SurfReflect_M8': 0.0001, 'SurfReflect_I1': 0.0001, 'SurfReflect_I2': 0.0001, 'SurfReflect_I3': 0.0001, '500_m_16_days_blue_reflectance': 0.0001, '500_m_16_days_EVI': 0.0001, '500_m_16_days_EVI2': 0.0001, '500_m_16_days_green_reflectance': 0.0001, '500_m_16_days_NDVI': 0.0001, '500_m_16_days_NIR_reflectance': 0.0001, '500_m_16_days_red_reflectance': 0.0001, '500_m_16_days_relative_azimuth_angle': 0.01, '500_m_16_days_sun_zenith_angle': 0.01, '500_m_16_days_SWIR1_reflectance': 0.0001, '500_m_16_days_SWIR2_reflectance': 0.0001, '500_m_16_days_SWIR3_reflectance': 0.0001, '500_m_16_days_view_zenith_angle': 0.01, 'Fpar': 0.01, 'FparStdDev': 0.01, 'Lai': 0.1, 'LaiStdDev': 0.1, 'Emis_14': 0.002, 'Emis_15': 0.002, 'Emis_16': 0.002, 'Cycle_1.EVI2_Growing_Season_Area_1': 0.01, 'Cycle_1.EVI2_Onset_Greenness_Increase_1': 0.0001, 'Cycle_1.EVI2_Onset_Greenness_Maximum_1': 0.0001, 'Cycle_1.Rate_Greenness_Decrease_1': 0.0001, 'Cycle_1.Rate_Greenness_Increase_1': 0.0001, 'Cycle_2.EVI2_Growing_Season_Area_2': 0.01, 'Cycle_2.EVI2_Onset_Greenness_Increase_2': 0.0001, 'Cycle_2.EVI2_Onset_Greenness_Maximum_2': 0.0001, 'Cycle_2.Rate_Greenness_Decrease_2': 0.0001, 'Cycle_2.Rate_Greenness_Increase_2': 0.0001}
+fill_value={'MU': -9999, 'PE': 255, 'PS': 0, 'SE': -9999, 'V1': -9999, 'V2': -9999, 'LC_Prop1': 255, 'LC_Prop1_Assessment': 255, 'LC_Prop2': 255, 'LC_Prop2_Assessment': 255, 'LC_Prop3': 255, 'LC_Prop3_Assessment': 255, 'LC_Type1': 255, 'LC_Type2': 255, 'LC_Type3': 255, 'LC_Type4': 255, 'LC_Type5': 255, 'LW': 255, 'QC': 255, 'Dormancy.Num_Modes_01': 32767, 'Dormancy.Num_Modes_02': 32767, 'EVI_Amplitude.Num_Modes_01': 32767, 'EVI_Amplitude.Num_Modes_02': 32767, 'EVI_Area.Num_Modes_01': 32767, 'EVI_Area.Num_Modes_02': 32767, 'EVI_Minimum.Num_Modes_01': 32767, 'EVI_Minimum.Num_Modes_02': 32767, 'Greenup.Num_Modes_01': 32767, 'Greenup.Num_Modes_02': 32767, 'Maturity.Num_Modes_01': 32767, 'Maturity.Num_Modes_02': 32767, 'MidGreendown.Num_Modes_01': 32767, 'MidGreendown.Num_Modes_02': 32767, 'MidGreenup.Num_Modes_01': 32767, 'MidGreenup.Num_Modes_02': 32767, 'NumCycles': 32767, 'QA_Detailed.Num_Modes_01': 32767, 'QA_Detailed.Num_Modes_02': 32767, 'QA_Overall.Num_Modes_01': 32767, 'QA_Overall.Num_Modes_02': 32767, 'Senescence.Num_Modes_01': 32767, 'Senescence.Num_Modes_02': 32767, 'FparExtra_QC': 255, 'FparLai_QC': 255, 'FparStdDev_500m': 255, 'Fpar_500m': 255, 'LaiStdDev_500m': 255, 'Lai_500m': 255, 'BRDF_Albedo_Band_Mandatory_Quality_Band1': 255, 'BRDF_Albedo_Band_Mandatory_Quality_Band2': 255, 'BRDF_Albedo_Band_Mandatory_Quality_Band3': 255, 'BRDF_Albedo_Band_Mandatory_Quality_Band4': 255, 'BRDF_Albedo_Band_Mandatory_Quality_Band5': 255, 'BRDF_Albedo_Band_Mandatory_Quality_Band6': 255, 'BRDF_Albedo_Band_Mandatory_Quality_Band7': 255, 'BRDF_Albedo_Band_Mandatory_Quality_nir': 255, 'BRDF_Albedo_Band_Mandatory_Quality_shortwave': 255, 'BRDF_Albedo_Band_Mandatory_Quality_vis': 255, 'BRDF_Albedo_Parameters_Band1': 32767, 'BRDF_Albedo_Parameters_Band2': 32767, 'BRDF_Albedo_Parameters_Band3': 32767, 'BRDF_Albedo_Parameters_Band4': 32767, 'BRDF_Albedo_Parameters_Band5': 32767, 'BRDF_Albedo_Parameters_Band6': 32767, 'BRDF_Albedo_Parameters_Band7': 32767, 'BRDF_Albedo_Parameters_nir': 32767, 'BRDF_Albedo_Parameters_shortwave': 32767, 'BRDF_Albedo_Parameters_vis': 32767, 'Nadir_Reflectance_Band1': 32767, 'Nadir_Reflectance_Band2': 32767, 'Nadir_Reflectance_Band3': 32767, 'Nadir_Reflectance_Band4': 32767, 'Nadir_Reflectance_Band5': 32767, 'Nadir_Reflectance_Band6': 32767, 'Nadir_Reflectance_Band7': 32767, 'Burn_Date': -1, 'Burn_Date_Uncertainty': 0, 'First_Day': -1, 'Last_Day': -1, 'sur_refl_b01': -28672, 'sur_refl_b02': -28672, 'sur_refl_b03': -28672, 'sur_refl_b04': -28672, 'sur_refl_b05': -28672, 'sur_refl_b06': -28672, 'sur_refl_b07': -28672, 'sur_refl_day_of_year': -1, 'sur_refl_qc_500m': -1, 'sur_refl_raz': 0, 'sur_refl_state_500m': 65535, 'sur_refl_szen': 0, 'sur_refl_vzen': 0, 'Clear_sky_days': 0, 'Clear_sky_nights': 0, 'Day_view_angl': 255, 'Day_view_time': 255, 'Emis_31': 0, 'Emis_32': 0, 'LST_Day_1km': 0, 'LST_Night_1km': 0, 'Night_view_angl': 255, 'Night_view_time': 255, '250m_16_days_blue_reflectance': -1000, '250m_16_days_composite_day_of_the_year': -1, '250m_16_days_EVI': -3000, '250m_16_days_MIR_reflectance': -1000, '250m_16_days_NDVI': -3000, '250m_16_days_NIR_reflectance': -1000, '250m_16_days_pixel_reliability': -1, '250m_16_days_red_reflectance': -1000, '250m_16_days_relative_azimuth_angle': -4000, '250m_16_days_sun_zenith_angle': -10000, '250m_16_days_view_zenith_angle': -10000, '250m_16_days_VI_Quality': -1, 'FireMask': 0, 'ET_500m': 32767, 'ET_QC_500m': 255, 'LE_500m': 32767, 'PET_500m': 32767, 'PLE_500m': 32767, 'Gpp_500m': 32767, 'PsnNet_500m': 32767, 'Psn_QC_500m': 255, 'Npp_500m': 32767, 'Npp_QC_500m': 255, 'Emis_29': 0, 'LST_Day_1KM': 0, 'LST_Night_1KM': 0, 'View_Angle_Day': 255, 'View_Angle_Night': 255, 'View_Time_Day': 255, 'View_Time_Night': 255, 'Cloud': 0, 'Percent_NonTree_Vegetation': 253, 'Percent_NonVegetated': 253, 'Percent_NonVegetated_SD': -100, 'Percent_Tree_Cover': 253, 'Percent_Tree_Cover_SD': -100, 'Quality': 0, 'EVI_Quality': -1, 'SIF_740_daily_corr': -999, 'SIF_740_daily_corr_SD': -999, 'sif_ann': -999, 'RelativeAzimuth': 0, 'SensorZenith': 0, 'SolarZenith': 0, 'SurfReflect_Day_Of_Year': 65535, 'SurfReflect_M1': -28672, 'SurfReflect_M10': -28672, 'SurfReflect_M11': -28672, 'SurfReflect_M2': -28672, 'SurfReflect_M3': -28672, 'SurfReflect_M4': -28672, 'SurfReflect_M5': -28672, 'SurfReflect_M7': -28672, 'SurfReflect_M8': -28672, 'SurfReflect_QC': 4294967295, 'SurfReflect_State': 65535, 'SurfReflect_I1': -28672, 'SurfReflect_I2': -28672, 'SurfReflect_I3': -28672, 'SurfReflect_QC_500m': 65535, 'SurfReflect_State_500m': 65535, '500_m_16_days_blue_reflectance': -1000, '500_m_16_days_composite_day_of_the_year': -1, '500_m_16_days_EVI': -15000, '500_m_16_days_EVI2': -15000, '500_m_16_days_green_reflectance': -1000, '500_m_16_days_NDVI': -15000, '500_m_16_days_NIR_reflectance': -1000, '500_m_16_days_pixel_reliability': -4, '500_m_16_days_red_reflectance': -1000, '500_m_16_days_relative_azimuth_angle': -20000, '500_m_16_days_sun_zenith_angle': -20000, '500_m_16_days_SWIR1_reflectance': -1000, '500_m_16_days_SWIR2_reflectance': -1000, '500_m_16_days_SWIR3_reflectance': -1000, '500_m_16_days_view_zenith_angle': -20000, '500_m_16_days_VI_Quality': 65535, 'Fpar': 255, 'FparStdDev': 255, 'Lai': 255, 'LaiStdDev': 255, 'Emis_14': 0, 'Emis_15': 0, 'Emis_16': 0, 'QC_Day': 0, 'QC_Night': 0, 'Cycle_1.Date_Mid_Greenup_Phase_1': 32767, 'Cycle_1.Date_Mid_Senescence_Phase_1': 32767, 'Cycle_1.EVI2_Growing_Season_Area_1': 32767, 'Cycle_1.EVI2_Onset_Greenness_Increase_1': 32767, 'Cycle_1.EVI2_Onset_Greenness_Maximum_1': 32767, 'Cycle_1.GLSP_QC_1': 255, 'Cycle_1.Greenness_Agreement_Growing_Season_1': 255, 'Cycle_1.Growing_Season_Length_1': 32767, 'Cycle_1.Onset_Greenness_Decrease_1': 32767, 'Cycle_1.Onset_Greenness_Increase_1': 32767, 'Cycle_1.Onset_Greenness_Maximum_1': 32767, 'Cycle_1.Onset_Greenness_Minimum_1': 32767, 'Cycle_1.PGQ_Growing_Season_1': 255, 'Cycle_1.PGQ_Onset_Greenness_Decrease_1': 255, 'Cycle_1.PGQ_Onset_Greenness_Increase_1': 255, 'Cycle_1.PGQ_Onset_Greenness_Maximum_1': 255, 'Cycle_1.PGQ_Onset_Greenness_Minimum_1': 255, 'Cycle_1.Rate_Greenness_Decrease_1': 32767, 'Cycle_1.Rate_Greenness_Increase_1': 32767, 'Cycle_2.Date_Mid_Greenup_Phase_2': 32767, 'Cycle_2.Date_Mid_Senescence_Phase_2': 32767, 'Cycle_2.EVI2_Growing_Season_Area_2': 32767, 'Cycle_2.EVI2_Onset_Greenness_Increase_2': 32767, 'Cycle_2.EVI2_Onset_Greenness_Maximum_2': 32767, 'Cycle_2.GLSP_QC_2': 255, 'Cycle_2.Greenness_Agreement_Growing_Season_2': 255, 'Cycle_2.Growing_Season_Length_2': 32767, 'Cycle_2.Onset_Greenness_Decrease_2': 32767, 'Cycle_2.Onset_Greenness_Increase_2': 32767, 'Cycle_2.Onset_Greenness_Maximum_2': 32767, 'Cycle_2.Onset_Greenness_Minimum_2': 32767, 'Cycle_2.PGQ_Growing_Season_2': 255, 'Cycle_2.PGQ_Onset_Greenness_Decrease_2': 255, 'Cycle_2.PGQ_Onset_Greenness_Increase_2': 255, 'Cycle_2.PGQ_Onset_Greenness_Maximum_2': 255, 'Cycle_2.PGQ_Onset_Greenness_Minimum_2': 255, 'Cycle_2.Rate_Greenness_Decrease_2': 32767, 'Cycle_2.Rate_Greenness_Increase_2': 32767}
+scale_factor={'EVI_Amplitude.Num_Modes_01': 0.0001, 'EVI_Amplitude.Num_Modes_02': 0.0001, 'EVI_Area.Num_Modes_01': 0.1, 'EVI_Area.Num_Modes_02': 0.1, 'EVI_Minimum.Num_Modes_01': 0.0001, 'EVI_Minimum.Num_Modes_02': 0.0001, 'FparExtra_QC': nan, 'FparLai_QC': nan, 'FparStdDev_500m': 0.01, 'Fpar_500m': 0.01, 'LaiStdDev_500m': 0.1, 'Lai_500m': 0.1, 'nir_actual': 0.001, 'nir_black': 0.001, 'nir_white': 0.001, 'shortwave_actual': 0.001, 'shortwave_black': 0.001, 'shortwave_white': 0.001, 'vis_actual': 0.001, 'vis_black': 0.001, 'vis_white': 0.001, 'BRDF_Albedo_Band_Mandatory_Quality_Band1': nan, 'BRDF_Albedo_Band_Mandatory_Quality_Band2': nan, 'BRDF_Albedo_Band_Mandatory_Quality_Band3': nan, 'BRDF_Albedo_Band_Mandatory_Quality_Band4': nan, 'BRDF_Albedo_Band_Mandatory_Quality_Band5': nan, 'BRDF_Albedo_Band_Mandatory_Quality_Band6': nan, 'BRDF_Albedo_Band_Mandatory_Quality_Band7': nan, 'BRDF_Albedo_Band_Mandatory_Quality_nir': nan, 'BRDF_Albedo_Band_Mandatory_Quality_shortwave': nan, 'BRDF_Albedo_Band_Mandatory_Quality_vis': nan, 'BRDF_Albedo_Parameters_Band1': 0.001, 'BRDF_Albedo_Parameters_Band2': 0.001, 'BRDF_Albedo_Parameters_Band3': 0.001, 'BRDF_Albedo_Parameters_Band4': 0.001, 'BRDF_Albedo_Parameters_Band5': 0.001, 'BRDF_Albedo_Parameters_Band6': 0.001, 'BRDF_Albedo_Parameters_Band7': 0.001, 'BRDF_Albedo_Parameters_nir': 0.001, 'BRDF_Albedo_Parameters_shortwave': 0.001, 'BRDF_Albedo_Parameters_vis': 0.001, 'Nadir_Reflectance_Band1': 0.0001, 'Nadir_Reflectance_Band2': 0.0001, 'Nadir_Reflectance_Band3': 0.0001, 'Nadir_Reflectance_Band4': 0.0001, 'Nadir_Reflectance_Band5': 0.0001, 'Nadir_Reflectance_Band6': 0.0001, 'Nadir_Reflectance_Band7': 0.0001, 'QA': nan, 'sur_refl_b01': 0.0001, 'sur_refl_b02': 0.0001, 'sur_refl_b03': 0.0001, 'sur_refl_b04': 0.0001, 'sur_refl_b05': 0.0001, 'sur_refl_b06': 0.0001, 'sur_refl_b07': 0.0001, 'sur_refl_day_of_year': nan, 'sur_refl_qc_500m': nan, 'sur_refl_raz': 0.01, 'sur_refl_state_500m': nan, 'sur_refl_szen': 0.01, 'sur_refl_vzen': 0.01, 'Clear_sky_days': nan, 'Clear_sky_nights': nan, 'Day_view_time': 0.1, 'Emis_31': 0.002, 'Emis_32': 0.002, 'LST_Day_1km': 0.02, 'LST_Night_1km': 0.02, 'Night_view_time': 0.1, 'QC_Day': nan, 'QC_Night': nan, '250m_16_days_blue_reflectance': 0.0001, '250m_16_days_composite_day_of_the_year': nan, '250m_16_days_EVI': 0.0001, '250m_16_days_MIR_reflectance': 0.0001, '250m_16_days_NDVI': 0.0001, '250m_16_days_NIR_reflectance': 0.0001, '250m_16_days_pixel_reliability': nan, '250m_16_days_red_reflectance': 0.0001, '250m_16_days_relative_azimuth_angle': 0.1, '250m_16_days_sun_zenith_angle': 0.01, '250m_16_days_view_zenith_angle': 0.01, '250m_16_days_VI_Quality': nan, 'ET_500m': 0.1, 'LE_500m': 10000.0, 'PET_500m': 0.1, 'PLE_500m': 10000.0, 'Gpp_500m': 0.0001, 'PsnNet_500m': 0.0001, 'Psn_QC_500m': nan, 'Npp_500m': 0.0001, 'Emis_29': 0.002, 'LST_Day_1KM': 0.02, 'LST_Night_1KM': 0.02, 'View_Time_Day': 0.1, 'View_Time_Night': 0.1, 'Cloud': nan, 'Percent_NonVegetated_SD': 0.01, 'Percent_Tree_Cover_SD': 0.01, 'Quality': nan, 'RelativeAzimuth': 0.01, 'SensorZenith': 0.01, 'SolarZenith': 0.01, 'SurfReflect_Day_Of_Year': nan, 'SurfReflect_M1': 0.0001, 'SurfReflect_M10': 0.0001, 'SurfReflect_M11': 0.0001, 'SurfReflect_M2': 0.0001, 'SurfReflect_M3': 0.0001, 'SurfReflect_M4': 0.0001, 'SurfReflect_M5': 0.0001, 'SurfReflect_M7': 0.0001, 'SurfReflect_M8': 0.0001, 'SurfReflect_QC': nan, 'SurfReflect_State': nan, 'SurfReflect_I1': 0.0001, 'SurfReflect_I2': 0.0001, 'SurfReflect_I3': 0.0001, 'SurfReflect_QC_500m': nan, 'SurfReflect_State_500m': nan, '500_m_16_days_blue_reflectance': 0.0001, '500_m_16_days_composite_day_of_the_year': nan, '500_m_16_days_EVI': 0.0001, '500_m_16_days_EVI2': 0.0001, '500_m_16_days_green_reflectance': 0.0001, '500_m_16_days_NDVI': 0.0001, '500_m_16_days_NIR_reflectance': 0.0001, '500_m_16_days_pixel_reliability': nan, '500_m_16_days_red_reflectance': 0.0001, '500_m_16_days_relative_azimuth_angle': 0.01, '500_m_16_days_sun_zenith_angle': 0.01, '500_m_16_days_SWIR1_reflectance': 0.0001, '500_m_16_days_SWIR2_reflectance': 0.0001, '500_m_16_days_SWIR3_reflectance': 0.0001, '500_m_16_days_view_zenith_angle': 0.01, '500_m_16_days_VI_Quality': nan, 'Fpar': 0.01, 'FparStdDev': 0.01, 'Lai': 0.1, 'LaiStdDev': 0.1, 'Emis_14': 0.002, 'Emis_15': 0.002, 'Emis_16': 0.002, 'Cycle_1.EVI2_Growing_Season_Area_1': 0.01, 'Cycle_1.EVI2_Onset_Greenness_Increase_1': 0.0001, 'Cycle_1.EVI2_Onset_Greenness_Maximum_1': 0.0001, 'Cycle_1.GLSP_QC_1': nan, 'Cycle_1.Greenness_Agreement_Growing_Season_1': nan, 'Cycle_1.Growing_Season_Length_1': nan, 'Cycle_1.PGQ_Growing_Season_1': nan, 'Cycle_1.PGQ_Onset_Greenness_Decrease_1': nan, 'Cycle_1.PGQ_Onset_Greenness_Increase_1': nan, 'Cycle_1.PGQ_Onset_Greenness_Maximum_1': nan, 'Cycle_1.PGQ_Onset_Greenness_Minimum_1': nan, 'Cycle_1.Rate_Greenness_Decrease_1': 0.0001, 'Cycle_1.Rate_Greenness_Increase_1': 0.0001, 'Cycle_2.EVI2_Growing_Season_Area_2': 0.01, 'Cycle_2.EVI2_Onset_Greenness_Increase_2': 0.0001, 'Cycle_2.EVI2_Onset_Greenness_Maximum_2': 0.0001, 'Cycle_2.GLSP_QC_2': nan, 'Cycle_2.Greenness_Agreement_Growing_Season_2': nan, 'Cycle_2.Growing_Season_Length_2': nan, 'Cycle_2.PGQ_Growing_Season_2': nan, 'Cycle_2.PGQ_Onset_Greenness_Decrease_2': nan, 'Cycle_2.PGQ_Onset_Greenness_Increase_2': nan, 'Cycle_2.PGQ_Onset_Greenness_Maximum_2': nan, 'Cycle_2.PGQ_Onset_Greenness_Minimum_2': nan, 'Cycle_2.Rate_Greenness_Decrease_2': 0.0001, 'Cycle_2.Rate_Greenness_Increase_2': 0.0001}
 add_offset={'Day_view_angl': -65.0, 'Emis_31': 0.49, 'Emis_32': 0.49, 'Night_view_angl': -65.0, 'Emis_29': 0.49, 'View_Angle_Day': -65.0, 'View_Angle_Night': -65.0, 'Emis_14': 0.49, 'Emis_15': 0.49, 'Emis_16': 0.49}
-units={'ESIavg': 'ratio_ET/PET', 'PET': 'W/m^2', 'WUEavg': 'ratio_GPP/ET', 'counts': 'counts', 'elev_lowestmode_mean': 'meters', 'elev_lowestmode_stddev': 'meters', 'rh100_mean': 'meters', 'rh100_stddev': 'meters', 'MU': 'Mg/ha', 'NC': 'counts', 'NS': 'counts', 'PE': 'percent', 'SE': 'Mg/ha', 'LC_Prop1': 'class', 'LC_Prop1_Assessment': 'percent', 'LC_Prop2': 'class', 'LC_Prop2_Assessment': 'percent', 'LC_Prop3': 'class', 'LC_Prop3_Assessment': 'percent', 'LC_Type1': 'class', 'LC_Type2': 'class', 'LC_Type3': 'class', 'LC_Type4': 'class', 'LC_Type5': 'class', 'LW': 'class', 'QC': 'quality-flag', 'Dormancy.Num_Modes_01': 'days_since_1970-01-01', 'Dormancy.Num_Modes_02': 'days_since_1970-01-01', 'EVI_Amplitude.Num_Modes_01': 'NBAR-EVI2', 'EVI_Amplitude.Num_Modes_02': 'NBAR-EVI2', 'EVI_Area.Num_Modes_01': 'NBAR-EVI2', 'EVI_Area.Num_Modes_02': 'NBAR-EVI2', 'EVI_Minimum.Num_Modes_01': 'NBAR-EVI2', 'EVI_Minimum.Num_Modes_02': 'NBAR-EVI2', 'Greenup.Num_Modes_01': 'days_since_1970-01-01', 'Greenup.Num_Modes_02': 'days_since_1970-01-01', 'Maturity.Num_Modes_01': 'days_since_1970-01-01', 'Maturity.Num_Modes_02': 'days_since_1970-01-01', 'MidGreendown.Num_Modes_01': 'days_since_1970-01-01', 'MidGreendown.Num_Modes_02': 'days_since_1970-01-01', 'MidGreenup.Num_Modes_01': 'days_since_1970-01-01', 'MidGreenup.Num_Modes_02': 'days_since_1970-01-01', 'FparExtra_QC': 'class-flag', 'FparLai_QC': 'class-flag', 'FparStdDev_500m': 'percent', 'Fpar_500m': 'percent', 'LaiStdDev_500m': 'm^2/m^2', 'Lai_500m': 'm^2/m^2', 'BDRF_Albedo_Band_Mandatory_Quality_Band1': 'bit_field', 'BDRF_Albedo_Band_Mandatory_Quality_Band2': 'bit_field', 'BDRF_Albedo_Band_Mandatory_Quality_Band3': 'bit_field', 'BDRF_Albedo_Band_Mandatory_Quality_Band4': 'bit_field', 'BDRF_Albedo_Band_Mandatory_Quality_Band5': 'bit_field', 'BDRF_Albedo_Band_Mandatory_Quality_Band6': 'bit_field', 'BDRF_Albedo_Band_Mandatory_Quality_Band7': 'bit_field', 'BDRF_Albedo_Band_Mandatory_Quality_nir': 'bit_field', 'BDRF_Albedo_Band_Mandatory_Quality_shortwave': 'bit_field', 'BDRF_Albedo_Band_Mandatory_Quality_vis': 'bit_field', 'BRDF_Albedo_Band_Mandatory_Quality_Band1': 'concatenated flags', 'BRDF_Albedo_Band_Mandatory_Quality_Band2': 'concatenated flags', 'BRDF_Albedo_Band_Mandatory_Quality_Band3': 'concatenated flags', 'BRDF_Albedo_Band_Mandatory_Quality_Band4': 'concatenated flags', 'BRDF_Albedo_Band_Mandatory_Quality_Band5': 'concatenated flags', 'BRDF_Albedo_Band_Mandatory_Quality_Band6': 'concatenated flags', 'BRDF_Albedo_Band_Mandatory_Quality_Band7': 'concatenated flags', 'Burn_Date': 'day_of_year', 'Burn_Date_Uncertainty': 'days', 'First_Day': 'day_of_year', 'Last_Day': 'day_of_year', 'QA': 'bit_field', 'sur_refl_b01': 'reflectance', 'sur_refl_b02': 'reflectance', 'sur_refl_b03': 'reflectance', 'sur_refl_b04': 'reflectance', 'sur_refl_b05': 'reflectance', 'sur_refl_b06': 'reflectance', 'sur_refl_b07': 'reflectance', 'sur_refl_day_of_year': 'day_of_year', 'sur_refl_qc_500m': 'bit_field', 'sur_refl_raz': 'degree', 'sur_refl_state_500m': 'bit_field', 'sur_refl_szen': 'degree', 'sur_refl_vzen': 'degree', 'Day_view_angl': 'degree', 'Day_view_time': 'hrs', 'LST_Day_1km': 'degK', 'LST_Night_1km': 'degK', 'Night_view_angl': 'degree', 'Night_view_time': 'hrs', '250m_16_days_blue_reflectance': 'reflectance', '250m_16_days_composite_day_of_the_year': 'day_of_year', '250m_16_days_MIR_reflectance': 'reflectance', '250m_16_days_NIR_reflectance': 'reflectance', '250m_16_days_pixel_reliability': 'rank', '250m_16_days_red_reflectance': 'reflectance', '250m_16_days_relative_azimuth_angle': 'degrees', '250m_16_days_sun_zenith_angle': 'degrees', '250m_16_days_view_zenith_angle': 'degrees', '250m_16_days_VI_Quality': 'bit_field', 'FireMask': 'class-flag', 'ET_500m': 'kg/m^2/8day', 'LE_500m': 'J/m^2/day', 'PET_500m': 'kg/m^2/8day', 'PLE_500m': 'J/m^2/day', 'Gpp_500m': 'kgC/m^2 in 8 days', 'PsnNet_500m': 'kgC/m^2 in 8 days', 'Npp_500m': 'kg_C/m^2', 'Npp_QC_500m': 'percentage', 'LST_Day_1KM': 'degK', 'LST_Night_1KM': 'degK', 'View_Angle_Day': 'degree', 'View_Angle_Night': 'degree', 'View_Time_Day': 'hrs', 'View_Time_Night': 'hrs', 'Cloud': 'bit_field', 'Percent_NonTree_Vegetation': 'percent', 'Percent_NonVegetated': 'percent', 'Percent_NonVegetated_SD': 'percent', 'Percent_Tree_Cover': 'percent', 'Percent_Tree_Cover_SD': 'percent', 'Quality': 'bit_field', 'EVI_Quality': 'bit_field', 'SIF_740_daily_corr': 'mW/m2/nm/sr', 'SIF_740_daily_corr_SD': 'mW/m2/nm/sr', 'sif_ann': 'mW/m2/nm/sr', 'RelativeAzimuth': 'degree', 'SensorZenith': 'degree', 'SolarZenith': 'degree', 'SurfReflect_Day_Of_Year': 'day_of_year', 'SurfReflect_M1': 'reflectance', 'SurfReflect_M10': 'reflectance', 'SurfReflect_M11': 'reflectance', 'SurfReflect_M2': 'reflectance', 'SurfReflect_M3': 'reflectance', 'SurfReflect_M4': 'reflectance', 'SurfReflect_M5': 'reflectance', 'SurfReflect_M7': 'reflectance', 'SurfReflect_M8': 'reflectance', 'SurfReflect_QC': 'bit_field', 'SurfReflect_State': 'bit_field', 'SurfReflect_I1': 'reflectance', 'SurfReflect_I2': 'reflectance', 'SurfReflect_I3': 'reflectance', 'SurfReflect_QC_500m': 'bit_field', 'SurfReflect_State_500m': 'bit_field', '500_m_16_days_blue_reflectance': 'reflectance', '500_m_16_days_composite_day_of_the_year': 'day_of_year', '500_m_16_days_green_reflectance': 'reflectance', '500_m_16_days_NIR_reflectance': 'reflectance', '500_m_16_days_pixel_reliability': 'rank', '500_m_16_days_red_reflectance': 'reflectance', '500_m_16_days_relative_azimuth_angle': 'degrees', '500_m_16_days_sun_zenith_angle': 'degrees', '500_m_16_days_SWIR1_reflectance': 'reflectance', '500_m_16_days_SWIR2_reflectance': 'reflectance', '500_m_16_days_SWIR3_reflectance': 'reflectance', '500_m_16_days_view_zenith_angle': 'degrees', '500_m_16_days_VI_Quality': 'bit_field', 'Fpar': 'fraction', 'FparStdDev': 'fraction', 'Lai': 'm^2/m^2', 'LaiStdDev': 'm^2/m^2', 'Cycle_1.Date_Mid_Greenup_Phase_1': 'day_of_year', 'Cycle_1.Date_Mid_Senescence_Phase_1': 'day_of_year', 'Cycle_1.EVI2_Growing_Season_Area_1': 'EVI2', 'Cycle_1.EVI2_Onset_Greenness_Increase_1': 'EVI2', 'Cycle_1.EVI2_Onset_Greenness_Maximum_1': 'EVI2', 'Cycle_1.Growing_Season_Length_1': 'number_of_days', 'Cycle_1.Onset_Greenness_Decrease_1': 'day_of_year', 'Cycle_1.Onset_Greenness_Increase_1': 'day_of_year', 'Cycle_1.Onset_Greenness_Maximum_1': 'day_of_year', 'Cycle_1.Onset_Greenness_Minimum_1': 'day_of_year', 'Cycle_1.Rate_Greenness_Decrease_1': 'EVI2/day', 'Cycle_1.Rate_Greenness_Increase_1': 'EVI2/day', 'Cycle_2.Date_Mid_Greenup_Phase_2': 'day_of_year', 'Cycle_2.Date_Mid_Senescence_Phase_2': 'day_of_year', 'Cycle_2.EVI2_Growing_Season_Area_2': 'EVI2', 'Cycle_2.EVI2_Onset_Greenness_Increase_2': 'EVI2', 'Cycle_2.EVI2_Onset_Greenness_Maximum_2': 'EVI2', 'Cycle_2.Growing_Season_Length_2': 'number_of_days', 'Cycle_2.Onset_Greenness_Decrease_2': 'day_of_year', 'Cycle_2.Onset_Greenness_Increase_2': 'day_of_year', 'Cycle_2.Onset_Greenness_Maximum_2': 'day_of_year', 'Cycle_2.Onset_Greenness_Minimum_2': 'day_of_year', 'Cycle_2.Rate_Greenness_Decrease_2': 'EVI2/day', 'Cycle_2.Rate_Greenness_Increase_2': 'EVI2/day'}
-valid_range={'ESIavg': [0, 2], 'PET': [0, 2000], 'WUEavg': [0, 20], 'LC_Prop1': [1, 43], 'LC_Prop1_Assessment': [0, 100], 'LC_Prop2': [1, 40], 'LC_Prop2_Assessment': [0, 100], 'LC_Prop3': [1, 51], 'LC_Prop3_Assessment': [0, 100], 'LC_Type1': [1, 17], 'LC_Type2': [0, 15], 'LC_Type3': [0, 10], 'LC_Type4': [0, 8], 'LC_Type5': [0, 11], 'LW': [1, 2], 'QC': [0, 10], 'Dormancy.Num_Modes_01': [11138, 32766], 'Dormancy.Num_Modes_02': [11138, 32766], 'EVI_Amplitude.Num_Modes_01': [0, 10000], 'EVI_Amplitude.Num_Modes_02': [0, 10000], 'EVI_Area.Num_Modes_01': [0, 3700], 'EVI_Area.Num_Modes_02': [0, 3700], 'EVI_Minimum.Num_Modes_01': [0, 10000], 'EVI_Minimum.Num_Modes_02': [0, 10000], 'Greenup.Num_Modes_01': [11138, 32766], 'Greenup.Num_Modes_02': [11138, 32766], 'Maturity.Num_Modes_01': [11138, 32766], 'Maturity.Num_Modes_02': [11138, 32766], 'MidGreendown.Num_Modes_01': [11138, 32766], 'MidGreendown.Num_Modes_02': [11138, 32766], 'MidGreenup.Num_Modes_01': [11138, 32766], 'MidGreenup.Num_Modes_02': [11138, 32766], 'NumCycles': [0, 7], 'QA_Detailed.Num_Modes_01': [0, 16383], 'QA_Detailed.Num_Modes_02': [0, 16383], 'QA_Overall.Num_Modes_01': [0, 3], 'QA_Overall.Num_Modes_02': [0, 3], 'FparExtra_QC': [0, 254], 'FparLai_QC': [0, 254], 'FparStdDev_500m': [0, 100], 'Fpar_500m': [0, 100], 'LaiStdDev_500m': [0, 100], 'Lai_500m': [0, 100], 'Kgeo': [-32766, 32767], 'Kiso': [-32766, 32767], 'Kvol': [-32766, 32767], 'Sur_albedo': [-100, 16000], 'UpdateDay': [0, 254], 'BDRF_Albedo_Band_Mandatory_Quality_Band1': [0, 254], 'BDRF_Albedo_Band_Mandatory_Quality_Band2': [0, 254], 'BDRF_Albedo_Band_Mandatory_Quality_Band3': [0, 254], 'BDRF_Albedo_Band_Mandatory_Quality_Band4': [0, 254], 'BDRF_Albedo_Band_Mandatory_Quality_Band5': [0, 254], 'BDRF_Albedo_Band_Mandatory_Quality_Band6': [0, 254], 'BDRF_Albedo_Band_Mandatory_Quality_Band7': [0, 254], 'BDRF_Albedo_Band_Mandatory_Quality_nir': [0, 254], 'BDRF_Albedo_Band_Mandatory_Quality_shortwave': [0, 254], 'BDRF_Albedo_Band_Mandatory_Quality_vis': [0, 254], 'BRDF_Albedo_Parameters_Band1': [0, 32766], 'BRDF_Albedo_Parameters_Band2': [0, 32766], 'BRDF_Albedo_Parameters_Band3': [0, 32766], 'BRDF_Albedo_Parameters_Band4': [0, 32766], 'BRDF_Albedo_Parameters_Band5': [0, 32766], 'BRDF_Albedo_Parameters_Band6': [0, 32766], 'BRDF_Albedo_Parameters_Band7': [0, 32766], 'BRDF_Albedo_Parameters_nir': [0, 32766], 'BRDF_Albedo_Parameters_shortwave': [0, 32766], 'BRDF_Albedo_Parameters_vis': [0, 32766], 'BRDF_Albedo_Band_Mandatory_Quality_Band1': [0, 254], 'BRDF_Albedo_Band_Mandatory_Quality_Band2': [0, 254], 'BRDF_Albedo_Band_Mandatory_Quality_Band3': [0, 254], 'BRDF_Albedo_Band_Mandatory_Quality_Band4': [0, 254], 'BRDF_Albedo_Band_Mandatory_Quality_Band5': [0, 254], 'BRDF_Albedo_Band_Mandatory_Quality_Band6': [0, 254], 'BRDF_Albedo_Band_Mandatory_Quality_Band7': [0, 254], 'Nadir_Reflectance_Band1': [0, 32766], 'Nadir_Reflectance_Band2': [0, 32766], 'Nadir_Reflectance_Band3': [0, 32766], 'Nadir_Reflectance_Band4': [0, 32766], 'Nadir_Reflectance_Band5': [0, 32766], 'Nadir_Reflectance_Band6': [0, 32766], 'Nadir_Reflectance_Band7': [0, 32766], 'Burn_Date': [0, 366], 'Burn_Date_Uncertainty': [0, 100], 'First_Day': [1, 366], 'Last_Day': [1, 366], 'QA': [0, 6], 'sur_refl_b01': [-100, 16000], 'sur_refl_b02': [-100, 16000], 'sur_refl_b03': [-100, 16000], 'sur_refl_b04': [-100, 16000], 'sur_refl_b05': [-100, 16000], 'sur_refl_b06': [-100, 16000], 'sur_refl_b07': [-100, 16000], 'sur_refl_day_of_year': [0, 366], 'sur_refl_qc_500m': [0, 4294966531], 'sur_refl_raz': [-18000, 18000], 'sur_refl_state_500m': [0, 57343], 'sur_refl_szen': [0, 18000], 'sur_refl_vzen': [0, 18000], 'Clear_sky_days': [1, 255], 'Clear_sky_nights': [1, 255], 'Day_view_angl': [0, 130], 'Day_view_time': [0, 240], 'Emis_31': [1, 255], 'Emis_32': [1, 255], 'LST_Day_1km': [7500, 65535], 'LST_Night_1km': [7500, 65535], 'Night_view_angl': [0, 130], 'Night_view_time': [0, 240], 'QC_Day': [1, 255], 'QC_Night': [1, 255], '250m_16_days_blue_reflectance': [0, 10000], '250m_16_days_composite_day_of_the_year': [1, 366], '250m_16_days_EVI': [-2000, 10000], '250m_16_days_MIR_reflectance': [0, 10000], '250m_16_days_NDVI': [-2000, 10000], '250m_16_days_NIR_reflectance': [0, 10000], '250m_16_days_pixel_reliability': [0, 3], '250m_16_days_red_reflectance': [0, 10000], '250m_16_days_relative_azimuth_angle': [-3600, 3600], '250m_16_days_sun_zenith_angle': [-9000, 9000], '250m_16_days_view_zenith_angle': [-9000, 9000], '250m_16_days_VI_Quality': [0, 65534], 'FireMask': [1, 9], 'ET_500m': [-32767, 32700], 'ET_QC_500m': [0, 254], 'LE_500m': [-32767, 32700], 'PET_500m': [-32767, 32700], 'PLE_500m': [-32767, 32700], 'Gpp_500m': [0, 30000], 'PsnNet_500m': [-30000, 30000], 'Psn_QC_500m': [0, 254], 'Npp_500m': [-30000, 32700], 'Npp_QC_500m': [0, 100], 'Emis_29': [1, 255], 'LST_Day_1KM': [7500, 65535], 'LST_Night_1KM': [7500, 65535], 'View_Angle_Day': [0, 130], 'View_Angle_Night': [0, 130], 'View_Time_Day': [0, 240], 'View_Time_Night': [0, 240], 'Cloud': [0, 255], 'Percent_NonTree_Vegetation': [0, 100], 'Percent_NonVegetated': [0, 100], 'Percent_NonVegetated_SD': [0, 10000], 'Percent_Tree_Cover': [0, 100], 'Percent_Tree_Cover_SD': [0, 10000], 'Quality': [0, 255], 'RelativeAzimuth': [-18000, 18000], 'SensorZenith': [0, 18000], 'SolarZenith': [0, 18000], 'SurfReflect_Day_Of_Year': [1, 366], 'SurfReflect_M1': [-100, 16000], 'SurfReflect_M10': [-100, 16000], 'SurfReflect_M11': [-100, 16000], 'SurfReflect_M2': [-100, 16000], 'SurfReflect_M3': [-100, 16000], 'SurfReflect_M4': [-100, 16000], 'SurfReflect_M5': [-100, 16000], 'SurfReflect_M7': [-100, 16000], 'SurfReflect_M8': [-100, 16000], 'SurfReflect_QC': [0, 2147483647], 'SurfReflect_State': [0, 13311], 'SurfReflect_I1': [-100, 16000], 'SurfReflect_I2': [-100, 16000], 'SurfReflect_I3': [-100, 16000], 'SurfReflect_QC_500m': [0, 32767], 'SurfReflect_State_500m': [0, 13311], '500_m_16_days_blue_reflectance': [0, 10000], '500_m_16_days_composite_day_of_the_year': [1, 366], '500_m_16_days_EVI': [-10000, 10000], '500_m_16_days_EVI2': [-10000, 10000], '500_m_16_days_green_reflectance': [0, 10000], '500_m_16_days_NDVI': [-10000, 10000], '500_m_16_days_NIR_reflectance': [0, 10000], '500_m_16_days_pixel_reliability': [0, 11], '500_m_16_days_red_reflectance': [0, 10000], '500_m_16_days_relative_azimuth_angle': [-18000, 18000], '500_m_16_days_sun_zenith_angle': [0, 18000], '500_m_16_days_SWIR1_reflectance': [0, 10000], '500_m_16_days_SWIR2_reflectance': [0, 10000], '500_m_16_days_SWIR3_reflectance': [0, 10000], '500_m_16_days_view_zenith_angle': [0, 18000], '500_m_16_days_VI_Quality': [0, 65534], 'Fpar': [0, 100], 'FparStdDev': [0, 100], 'Lai': [0, 100], 'LaiStdDev': [0, 100], 'Emis_14': [1, 255], 'Emis_15': [1, 255], 'Emis_16': [1, 255], 'Cycle_1.Date_Mid_Greenup_Phase_1': [1, 32766], 'Cycle_1.Date_Mid_Senescence_Phase_1': [1, 32766], 'Cycle_1.EVI2_Growing_Season_Area_1': [1, 32766], 'Cycle_1.EVI2_Onset_Greenness_Increase_1': [1, 10000], 'Cycle_1.EVI2_Onset_Greenness_Maximum_1': [1, 10000], 'Cycle_1.GLSP_QC_1': [0, 100], 'Cycle_1.Greenness_Agreement_Growing_Season_1': [0, 100], 'Cycle_1.Growing_Season_Length_1': [1, 366], 'Cycle_1.Onset_Greenness_Decrease_1': [1, 32766], 'Cycle_1.Onset_Greenness_Increase_1': [1, 32766], 'Cycle_1.Onset_Greenness_Maximum_1': [1, 32766], 'Cycle_1.Onset_Greenness_Minimum_1': [1, 32766], 'Cycle_1.PGQ_Growing_Season_1': [1, 100], 'Cycle_1.PGQ_Onset_Greenness_Decrease_1': [1, 100], 'Cycle_1.PGQ_Onset_Greenness_Increase_1': [1, 100], 'Cycle_1.PGQ_Onset_Greenness_Maximum_1': [1, 100], 'Cycle_1.PGQ_Onset_Greenness_Minimum_1': [1, 100], 'Cycle_1.Rate_Greenness_Decrease_1': [1, 32766], 'Cycle_1.Rate_Greenness_Increase_1': [1, 32766], 'Cycle_2.Date_Mid_Greenup_Phase_2': [1, 32766], 'Cycle_2.Date_Mid_Senescence_Phase_2': [1, 32766], 'Cycle_2.EVI2_Growing_Season_Area_2': [1, 32766], 'Cycle_2.EVI2_Onset_Greenness_Increase_2': [1, 10000], 'Cycle_2.EVI2_Onset_Greenness_Maximum_2': [1, 10000], 'Cycle_2.GLSP_QC_2': [0, 100], 'Cycle_2.Greenness_Agreement_Growing_Season_2': [0, 100], 'Cycle_2.Growing_Season_Length_2': [1, 366], 'Cycle_2.Onset_Greenness_Decrease_2': [1, 32766], 'Cycle_2.Onset_Greenness_Increase_2': [1, 32766], 'Cycle_2.Onset_Greenness_Maximum_2': [1, 32766], 'Cycle_2.Onset_Greenness_Minimum_2': [1, 32766], 'Cycle_2.PGQ_Growing_Season_2': [1, 100], 'Cycle_2.PGQ_Onset_Greenness_Decrease_2': [1, 100], 'Cycle_2.PGQ_Onset_Greenness_Increase_2': [1, 100], 'Cycle_2.PGQ_Onset_Greenness_Maximum_2': [1, 100], 'Cycle_2.PGQ_Onset_Greenness_Minimum_2': [1, 100], 'Cycle_2.Rate_Greenness_Decrease_2': [1, 32766], 'Cycle_2.Rate_Greenness_Increase_2': [1, 32766]}
+units={'ESIavg': 'ratio_ET/PET', 'PET': 'W/m^2', 'WUEavg': 'ratio_GPP/ET', 'counts': 'counts', 'elev_lowestmode_mean': 'meters', 'elev_lowestmode_stddev': 'meters', 'rh100_mean': 'meters', 'rh100_stddev': 'meters', 'MU': 'Mg/ha', 'NC': 'counts', 'NS': 'counts', 'PE': 'percent', 'SE': 'Mg/ha', 'LC_Prop1': 'class', 'LC_Prop1_Assessment': 'percent', 'LC_Prop2': 'class', 'LC_Prop2_Assessment': 'percent', 'LC_Prop3': 'class', 'LC_Prop3_Assessment': 'percent', 'LC_Type1': 'class', 'LC_Type2': 'class', 'LC_Type3': 'class', 'LC_Type4': 'class', 'LC_Type5': 'class', 'LW': 'class', 'QC': 'quality-flag', 'Dormancy.Num_Modes_01': 'days_since_1970-01-01', 'Dormancy.Num_Modes_02': 'days_since_1970-01-01', 'EVI_Amplitude.Num_Modes_01': 'NBAR-EVI2', 'EVI_Amplitude.Num_Modes_02': 'NBAR-EVI2', 'EVI_Area.Num_Modes_01': 'NBAR-EVI2', 'EVI_Area.Num_Modes_02': 'NBAR-EVI2', 'EVI_Minimum.Num_Modes_01': 'NBAR-EVI2', 'EVI_Minimum.Num_Modes_02': 'NBAR-EVI2', 'Greenup.Num_Modes_01': 'days_since_1970-01-01', 'Greenup.Num_Modes_02': 'days_since_1970-01-01', 'Maturity.Num_Modes_01': 'days_since_1970-01-01', 'Maturity.Num_Modes_02': 'days_since_1970-01-01', 'MidGreendown.Num_Modes_01': 'days_since_1970-01-01', 'MidGreendown.Num_Modes_02': 'days_since_1970-01-01', 'MidGreenup.Num_Modes_01': 'days_since_1970-01-01', 'MidGreenup.Num_Modes_02': 'days_since_1970-01-01', 'Senescence.Num_Modes_01': 'days_since_1970-01-01', 'Senescence.Num_Modes_02': 'days_since_1970-01-01', 'FparExtra_QC': 'class-flag', 'FparLai_QC': 'class-flag', 'FparStdDev_500m': 'percent', 'Fpar_500m': 'percent', 'LaiStdDev_500m': 'm^2/m^2', 'Lai_500m': 'm^2/m^2', 'BRDF_Albedo_Band_Mandatory_Quality_Band1': 'concatenated flags', 'BRDF_Albedo_Band_Mandatory_Quality_Band2': 'concatenated flags', 'BRDF_Albedo_Band_Mandatory_Quality_Band3': 'concatenated flags', 'BRDF_Albedo_Band_Mandatory_Quality_Band4': 'concatenated flags', 'BRDF_Albedo_Band_Mandatory_Quality_Band5': 'concatenated flags', 'BRDF_Albedo_Band_Mandatory_Quality_Band6': 'concatenated flags', 'BRDF_Albedo_Band_Mandatory_Quality_Band7': 'concatenated flags', 'BRDF_Albedo_Band_Mandatory_Quality_nir': 'bit_field', 'BRDF_Albedo_Band_Mandatory_Quality_shortwave': 'bit_field', 'BRDF_Albedo_Band_Mandatory_Quality_vis': 'bit_field', 'Burn_Date': 'day_of_year', 'Burn_Date_Uncertainty': 'days', 'First_Day': 'day_of_year', 'Last_Day': 'day_of_year', 'QA': 'bit_field', 'sur_refl_b01': 'reflectance', 'sur_refl_b02': 'reflectance', 'sur_refl_b03': 'reflectance', 'sur_refl_b04': 'reflectance', 'sur_refl_b05': 'reflectance', 'sur_refl_b06': 'reflectance', 'sur_refl_b07': 'reflectance', 'sur_refl_day_of_year': 'day_of_year', 'sur_refl_qc_500m': 'bit_field', 'sur_refl_raz': 'degree', 'sur_refl_state_500m': 'bit_field', 'sur_refl_szen': 'degree', 'sur_refl_vzen': 'degree', 'Day_view_angl': 'degree', 'Day_view_time': 'hrs', 'LST_Day_1km': 'degK', 'LST_Night_1km': 'degK', 'Night_view_angl': 'degree', 'Night_view_time': 'hrs', '250m_16_days_blue_reflectance': 'reflectance', '250m_16_days_composite_day_of_the_year': 'day_of_year', '250m_16_days_MIR_reflectance': 'reflectance', '250m_16_days_NIR_reflectance': 'reflectance', '250m_16_days_pixel_reliability': 'rank', '250m_16_days_red_reflectance': 'reflectance', '250m_16_days_relative_azimuth_angle': 'degrees', '250m_16_days_sun_zenith_angle': 'degrees', '250m_16_days_view_zenith_angle': 'degrees', '250m_16_days_VI_Quality': 'bit_field', 'FireMask': 'class-flag', 'ET_500m': 'kg/m^2/8day', 'LE_500m': 'J/m^2/day', 'PET_500m': 'kg/m^2/8day', 'PLE_500m': 'J/m^2/day', 'Gpp_500m': 'kgC/m^2 in 8 days', 'PsnNet_500m': 'kgC/m^2 in 8 days', 'Npp_500m': 'kg_C/m^2', 'Npp_QC_500m': 'percentage', 'LST_Day_1KM': 'degK', 'LST_Night_1KM': 'degK', 'View_Angle_Day': 'degree', 'View_Angle_Night': 'degree', 'View_Time_Day': 'hrs', 'View_Time_Night': 'hrs', 'Cloud': 'bit_field', 'Percent_NonTree_Vegetation': 'percent', 'Percent_NonVegetated': 'percent', 'Percent_NonVegetated_SD': 'percent', 'Percent_Tree_Cover': 'percent', 'Percent_Tree_Cover_SD': 'percent', 'Quality': 'bit_field', 'EVI_Quality': 'bit_field', 'SIF_740_daily_corr': 'mW/m2/nm/sr', 'SIF_740_daily_corr_SD': 'mW/m2/nm/sr', 'sif_ann': 'mW/m2/nm/sr', 'RelativeAzimuth': 'degree', 'SensorZenith': 'degree', 'SolarZenith': 'degree', 'SurfReflect_Day_Of_Year': 'day_of_year', 'SurfReflect_M1': 'reflectance', 'SurfReflect_M10': 'reflectance', 'SurfReflect_M11': 'reflectance', 'SurfReflect_M2': 'reflectance', 'SurfReflect_M3': 'reflectance', 'SurfReflect_M4': 'reflectance', 'SurfReflect_M5': 'reflectance', 'SurfReflect_M7': 'reflectance', 'SurfReflect_M8': 'reflectance', 'SurfReflect_QC': 'bit_field', 'SurfReflect_State': 'bit_field', 'SurfReflect_I1': 'reflectance', 'SurfReflect_I2': 'reflectance', 'SurfReflect_I3': 'reflectance', 'SurfReflect_QC_500m': 'bit_field', 'SurfReflect_State_500m': 'bit_field', '500_m_16_days_blue_reflectance': 'reflectance', '500_m_16_days_composite_day_of_the_year': 'day_of_year', '500_m_16_days_green_reflectance': 'reflectance', '500_m_16_days_NIR_reflectance': 'reflectance', '500_m_16_days_pixel_reliability': 'rank', '500_m_16_days_red_reflectance': 'reflectance', '500_m_16_days_relative_azimuth_angle': 'degrees', '500_m_16_days_sun_zenith_angle': 'degrees', '500_m_16_days_SWIR1_reflectance': 'reflectance', '500_m_16_days_SWIR2_reflectance': 'reflectance', '500_m_16_days_SWIR3_reflectance': 'reflectance', '500_m_16_days_view_zenith_angle': 'degrees', '500_m_16_days_VI_Quality': 'bit_field', 'Fpar': 'fraction', 'FparStdDev': 'fraction', 'Lai': 'm^2/m^2', 'LaiStdDev': 'm^2/m^2', 'Cycle_1.Date_Mid_Greenup_Phase_1': 'day_of_year', 'Cycle_1.Date_Mid_Senescence_Phase_1': 'day_of_year', 'Cycle_1.EVI2_Growing_Season_Area_1': 'EVI2', 'Cycle_1.EVI2_Onset_Greenness_Increase_1': 'EVI2', 'Cycle_1.EVI2_Onset_Greenness_Maximum_1': 'EVI2', 'Cycle_1.Growing_Season_Length_1': 'number_of_days', 'Cycle_1.Onset_Greenness_Decrease_1': 'day_of_year', 'Cycle_1.Onset_Greenness_Increase_1': 'day_of_year', 'Cycle_1.Onset_Greenness_Maximum_1': 'day_of_year', 'Cycle_1.Onset_Greenness_Minimum_1': 'day_of_year', 'Cycle_1.Rate_Greenness_Decrease_1': 'EVI2/day', 'Cycle_1.Rate_Greenness_Increase_1': 'EVI2/day', 'Cycle_2.Date_Mid_Greenup_Phase_2': 'day_of_year', 'Cycle_2.Date_Mid_Senescence_Phase_2': 'day_of_year', 'Cycle_2.EVI2_Growing_Season_Area_2': 'EVI2', 'Cycle_2.EVI2_Onset_Greenness_Increase_2': 'EVI2', 'Cycle_2.EVI2_Onset_Greenness_Maximum_2': 'EVI2', 'Cycle_2.Growing_Season_Length_2': 'number_of_days', 'Cycle_2.Onset_Greenness_Decrease_2': 'day_of_year', 'Cycle_2.Onset_Greenness_Increase_2': 'day_of_year', 'Cycle_2.Onset_Greenness_Maximum_2': 'day_of_year', 'Cycle_2.Onset_Greenness_Minimum_2': 'day_of_year', 'Cycle_2.Rate_Greenness_Decrease_2': 'EVI2/day', 'Cycle_2.Rate_Greenness_Increase_2': 'EVI2/day'}
+valid_range={'ESIavg': [0, 2], 'PET': [0, 2000], 'WUEavg': [0, 20], 'LC_Prop1': [1, 43], 'LC_Prop1_Assessment': [0, 100], 'LC_Prop2': [1, 40], 'LC_Prop2_Assessment': [0, 100], 'LC_Prop3': [1, 51], 'LC_Prop3_Assessment': [0, 100], 'LC_Type1': [1, 17], 'LC_Type2': [0, 15], 'LC_Type3': [0, 10], 'LC_Type4': [0, 8], 'LC_Type5': [0, 11], 'LW': [1, 2], 'QC': [0, 10], 'Dormancy.Num_Modes_01': [11138, 32766], 'Dormancy.Num_Modes_02': [11138, 32766], 'EVI_Amplitude.Num_Modes_01': [0, 10000], 'EVI_Amplitude.Num_Modes_02': [0, 10000], 'EVI_Area.Num_Modes_01': [0, 3700], 'EVI_Area.Num_Modes_02': [0, 3700], 'EVI_Minimum.Num_Modes_01': [0, 10000], 'EVI_Minimum.Num_Modes_02': [0, 10000], 'Greenup.Num_Modes_01': [11138, 32766], 'Greenup.Num_Modes_02': [11138, 32766], 'Maturity.Num_Modes_01': [11138, 32766], 'Maturity.Num_Modes_02': [11138, 32766], 'MidGreendown.Num_Modes_01': [11138, 32766], 'MidGreendown.Num_Modes_02': [11138, 32766], 'MidGreenup.Num_Modes_01': [11138, 32766], 'MidGreenup.Num_Modes_02': [11138, 32766], 'NumCycles': [0, 7], 'QA_Detailed.Num_Modes_01': [0, 16383], 'QA_Detailed.Num_Modes_02': [0, 16383], 'QA_Overall.Num_Modes_01': [0, 3], 'QA_Overall.Num_Modes_02': [0, 3], 'Senescence.Num_Modes_01': [11138, 32766], 'Senescence.Num_Modes_02': [11138, 32766], 'FparExtra_QC': [0, 254], 'FparLai_QC': [0, 254], 'FparStdDev_500m': [0, 100], 'Fpar_500m': [0, 100], 'LaiStdDev_500m': [0, 100], 'Lai_500m': [0, 100], 'BRDF_Albedo_Band_Mandatory_Quality_Band1': [0, 254], 'BRDF_Albedo_Band_Mandatory_Quality_Band2': [0, 254], 'BRDF_Albedo_Band_Mandatory_Quality_Band3': [0, 254], 'BRDF_Albedo_Band_Mandatory_Quality_Band4': [0, 254], 'BRDF_Albedo_Band_Mandatory_Quality_Band5': [0, 254], 'BRDF_Albedo_Band_Mandatory_Quality_Band6': [0, 254], 'BRDF_Albedo_Band_Mandatory_Quality_Band7': [0, 254], 'BRDF_Albedo_Band_Mandatory_Quality_nir': [0, 254], 'BRDF_Albedo_Band_Mandatory_Quality_shortwave': [0, 254], 'BRDF_Albedo_Band_Mandatory_Quality_vis': [0, 254], 'BRDF_Albedo_Parameters_Band1': [0, 32766], 'BRDF_Albedo_Parameters_Band2': [0, 32766], 'BRDF_Albedo_Parameters_Band3': [0, 32766], 'BRDF_Albedo_Parameters_Band4': [0, 32766], 'BRDF_Albedo_Parameters_Band5': [0, 32766], 'BRDF_Albedo_Parameters_Band6': [0, 32766], 'BRDF_Albedo_Parameters_Band7': [0, 32766], 'BRDF_Albedo_Parameters_nir': [0, 32766], 'BRDF_Albedo_Parameters_shortwave': [0, 32766], 'BRDF_Albedo_Parameters_vis': [0, 32766], 'Nadir_Reflectance_Band1': [0, 32766], 'Nadir_Reflectance_Band2': [0, 32766], 'Nadir_Reflectance_Band3': [0, 32766], 'Nadir_Reflectance_Band4': [0, 32766], 'Nadir_Reflectance_Band5': [0, 32766], 'Nadir_Reflectance_Band6': [0, 32766], 'Nadir_Reflectance_Band7': [0, 32766], 'Burn_Date': [0, 366], 'Burn_Date_Uncertainty': [0, 100], 'First_Day': [1, 366], 'Last_Day': [1, 366], 'QA': [0, 6], 'sur_refl_b01': [-100, 16000], 'sur_refl_b02': [-100, 16000], 'sur_refl_b03': [-100, 16000], 'sur_refl_b04': [-100, 16000], 'sur_refl_b05': [-100, 16000], 'sur_refl_b06': [-100, 16000], 'sur_refl_b07': [-100, 16000], 'sur_refl_day_of_year': [0, 366], 'sur_refl_qc_500m': [0, 4294966531], 'sur_refl_raz': [-18000, 18000], 'sur_refl_state_500m': [0, 57343], 'sur_refl_szen': [0, 18000], 'sur_refl_vzen': [0, 18000], 'Clear_sky_days': [1, 255], 'Clear_sky_nights': [1, 255], 'Day_view_angl': [0, 130], 'Day_view_time': [0, 240], 'Emis_31': [1, 255], 'Emis_32': [1, 255], 'LST_Day_1km': [7500, 65535], 'LST_Night_1km': [7500, 65535], 'Night_view_angl': [0, 130], 'Night_view_time': [0, 240], 'QC_Day': [1, 255], 'QC_Night': [1, 255], '250m_16_days_blue_reflectance': [0, 10000], '250m_16_days_composite_day_of_the_year': [1, 366], '250m_16_days_EVI': [-2000, 10000], '250m_16_days_MIR_reflectance': [0, 10000], '250m_16_days_NDVI': [-2000, 10000], '250m_16_days_NIR_reflectance': [0, 10000], '250m_16_days_pixel_reliability': [0, 3], '250m_16_days_red_reflectance': [0, 10000], '250m_16_days_relative_azimuth_angle': [-3600, 3600], '250m_16_days_sun_zenith_angle': [-9000, 9000], '250m_16_days_view_zenith_angle': [-9000, 9000], '250m_16_days_VI_Quality': [0, 65534], 'FireMask': [1, 9], 'ET_500m': [-32767, 32700], 'ET_QC_500m': [0, 254], 'LE_500m': [-32767, 32700], 'PET_500m': [-32767, 32700], 'PLE_500m': [-32767, 32700], 'Gpp_500m': [0, 30000], 'PsnNet_500m': [-30000, 30000], 'Psn_QC_500m': [0, 254], 'Npp_500m': [-30000, 32700], 'Npp_QC_500m': [0, 100], 'Emis_29': [1, 255], 'LST_Day_1KM': [7500, 65535], 'LST_Night_1KM': [7500, 65535], 'View_Angle_Day': [0, 130], 'View_Angle_Night': [0, 130], 'View_Time_Day': [0, 240], 'View_Time_Night': [0, 240], 'Cloud': [0, 255], 'Percent_NonTree_Vegetation': [0, 100], 'Percent_NonVegetated': [0, 100], 'Percent_NonVegetated_SD': [0, 10000], 'Percent_Tree_Cover': [0, 100], 'Percent_Tree_Cover_SD': [0, 10000], 'Quality': [0, 255], 'RelativeAzimuth': [-18000, 18000], 'SensorZenith': [0, 18000], 'SolarZenith': [0, 18000], 'SurfReflect_Day_Of_Year': [1, 366], 'SurfReflect_M1': [-100, 16000], 'SurfReflect_M10': [-100, 16000], 'SurfReflect_M11': [-100, 16000], 'SurfReflect_M2': [-100, 16000], 'SurfReflect_M3': [-100, 16000], 'SurfReflect_M4': [-100, 16000], 'SurfReflect_M5': [-100, 16000], 'SurfReflect_M7': [-100, 16000], 'SurfReflect_M8': [-100, 16000], 'SurfReflect_QC': [0, 2147483647], 'SurfReflect_State': [0, 13311], 'SurfReflect_I1': [-100, 16000], 'SurfReflect_I2': [-100, 16000], 'SurfReflect_I3': [-100, 16000], 'SurfReflect_QC_500m': [0, 32767], 'SurfReflect_State_500m': [0, 13311], '500_m_16_days_blue_reflectance': [0, 10000], '500_m_16_days_composite_day_of_the_year': [1, 366], '500_m_16_days_EVI': [-10000, 10000], '500_m_16_days_EVI2': [-10000, 10000], '500_m_16_days_green_reflectance': [0, 10000], '500_m_16_days_NDVI': [-10000, 10000], '500_m_16_days_NIR_reflectance': [0, 10000], '500_m_16_days_pixel_reliability': [0, 11], '500_m_16_days_red_reflectance': [0, 10000], '500_m_16_days_relative_azimuth_angle': [-18000, 18000], '500_m_16_days_sun_zenith_angle': [0, 18000], '500_m_16_days_SWIR1_reflectance': [0, 10000], '500_m_16_days_SWIR2_reflectance': [0, 10000], '500_m_16_days_SWIR3_reflectance': [0, 10000], '500_m_16_days_view_zenith_angle': [0, 18000], '500_m_16_days_VI_Quality': [0, 65534], 'Fpar': [0, 100], 'FparStdDev': [0, 100], 'Lai': [0, 100], 'LaiStdDev': [0, 100], 'Emis_14': [1, 255], 'Emis_15': [1, 255], 'Emis_16': [1, 255], 'Cycle_1.Date_Mid_Greenup_Phase_1': [1, 32766], 'Cycle_1.Date_Mid_Senescence_Phase_1': [1, 32766], 'Cycle_1.EVI2_Growing_Season_Area_1': [1, 32766], 'Cycle_1.EVI2_Onset_Greenness_Increase_1': [1, 10000], 'Cycle_1.EVI2_Onset_Greenness_Maximum_1': [1, 10000], 'Cycle_1.GLSP_QC_1': [0, 100], 'Cycle_1.Greenness_Agreement_Growing_Season_1': [0, 100], 'Cycle_1.Growing_Season_Length_1': [1, 366], 'Cycle_1.Onset_Greenness_Decrease_1': [1, 32766], 'Cycle_1.Onset_Greenness_Increase_1': [1, 32766], 'Cycle_1.Onset_Greenness_Maximum_1': [1, 32766], 'Cycle_1.Onset_Greenness_Minimum_1': [1, 32766], 'Cycle_1.PGQ_Growing_Season_1': [1, 100], 'Cycle_1.PGQ_Onset_Greenness_Decrease_1': [1, 100], 'Cycle_1.PGQ_Onset_Greenness_Increase_1': [1, 100], 'Cycle_1.PGQ_Onset_Greenness_Maximum_1': [1, 100], 'Cycle_1.PGQ_Onset_Greenness_Minimum_1': [1, 100], 'Cycle_1.Rate_Greenness_Decrease_1': [1, 32766], 'Cycle_1.Rate_Greenness_Increase_1': [1, 32766], 'Cycle_2.Date_Mid_Greenup_Phase_2': [1, 32766], 'Cycle_2.Date_Mid_Senescence_Phase_2': [1, 32766], 'Cycle_2.EVI2_Growing_Season_Area_2': [1, 32766], 'Cycle_2.EVI2_Onset_Greenness_Increase_2': [1, 10000], 'Cycle_2.EVI2_Onset_Greenness_Maximum_2': [1, 10000], 'Cycle_2.GLSP_QC_2': [0, 100], 'Cycle_2.Greenness_Agreement_Growing_Season_2': [0, 100], 'Cycle_2.Growing_Season_Length_2': [1, 366], 'Cycle_2.Onset_Greenness_Decrease_2': [1, 32766], 'Cycle_2.Onset_Greenness_Increase_2': [1, 32766], 'Cycle_2.Onset_Greenness_Maximum_2': [1, 32766], 'Cycle_2.Onset_Greenness_Minimum_2': [1, 32766], 'Cycle_2.PGQ_Growing_Season_2': [1, 100], 'Cycle_2.PGQ_Onset_Greenness_Decrease_2': [1, 100], 'Cycle_2.PGQ_Onset_Greenness_Increase_2': [1, 100], 'Cycle_2.PGQ_Onset_Greenness_Maximum_2': [1, 100], 'Cycle_2.PGQ_Onset_Greenness_Minimum_2': [1, 100], 'Cycle_2.Rate_Greenness_Decrease_2': [1, 32766], 'Cycle_2.Rate_Greenness_Increase_2': [1, 32766]}
