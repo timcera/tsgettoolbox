@@ -7,10 +7,11 @@ import datetime
 import logging
 import os
 import warnings
+from io import BytesIO
 from typing import List, Literal, Optional, Union
 
+import async_retriever as ar
 import pandas as pd
-import pydaymet
 
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
@@ -26,15 +27,6 @@ _units_map = {
     "swe": ":kg/m2",
     "prcp": ":mm",
     "dayl": ":s",
-    "penman_monteith": ":mm",
-    "hargreaves_samani": ":mm",
-    "priestley_taylor": ":mm",
-}
-
-_time_scale_map = {
-    "daily": (pd.offsets.Day(0), pd.offsets.Day(0)),
-    "monthly": (pd.offsets.MonthBegin(0), pd.offsets.MonthEnd(0)),
-    "annual": (pd.offsets.YearBegin(0), pd.offsets.YearEnd(0)),
 }
 
 
@@ -43,8 +35,8 @@ _time_scale_map = {
 def daymet(
     lat: float,
     lon: float,
-    start_date: pd.Timestamp = "1980-01-01",
-    end_date: Optional[pd.Timestamp] = None,
+    start_date: Optional[Union[pd.Timestamp, str]] = "1980-01-01",
+    end_date: Optional[Union[pd.Timestamp, str]] = None,
     years: Optional[Union[str, List[int]]] = None,
     measuredParams: Optional[
         Union[
@@ -57,9 +49,6 @@ def daymet(
                     "swe",
                     "prcp",
                     "dayl",
-                    "penman_monteith",
-                    "hargreaves_samani",
-                    "priestley_taylor",
                 ]
             ],
             Literal[
@@ -70,15 +59,10 @@ def daymet(
                 "swe",
                 "prcp",
                 "dayl",
-                "penman_monteith",
-                "hargreaves_samani",
-                "priestley_taylor",
                 "all",
             ],
         ]
     ] = None,
-    time_scale: Literal["daily", "monthly", "annual"] = "daily",
-    snow: bool = False,
 ):
     r"""NAmerica:1km:1980-:D,M:Daymet, daily meteorology by the Oak Ridge National Laboratory
 
@@ -105,7 +89,8 @@ def daymet(
 
     ${end_date}
         The latest end date is usually 12-31 of the previous calendar year,
-        though this is dependent on time required to process that data.
+        though this is dependent on time required to process the previous
+        year's data.
 
     years : CommaSeparatedYears (optional):
         Current Daymet product is available from 1980 to the latest
@@ -120,57 +105,28 @@ def daymet(
 
         Use the abbreviations from the following table:
 
-        +-------------------+-------------------------+---------+-------------+
-        | measuredParams    | Description             | Unit    | time_scale  |
-        +===================+=========================+=========+=============+
-        | prcp              | precipitation           | mm      | daily       |
-        |                   |                         |         | monthly     |
-        |                   |                         |         | annual      |
-        +-------------------+-------------------------+---------+-------------+
-        | swe               | snow-water equivalent   | kg/m2   | daily       |
-        |                   |                         |         | monthly     |
-        |                   |                         |         | annual      |
-        +-------------------+-------------------------+---------+-------------+
-        | tmax              | maximum temperature     | degC    | daily       |
-        |                   |                         |         | monthly     |
-        |                   |                         |         | annual      |
-        +-------------------+-------------------------+---------+-------------+
-        | tmin              | minimum temperature     | degC    | daily       |
-        |                   |                         |         | monthly     |
-        |                   |                         |         | annual      |
-        +-------------------+-------------------------+---------+-------------+
-        | vp                | vapor pressure          | Pa      | daily       |
-        |                   |                         |         | monthly     |
-        |                   |                         |         | annual      |
-        +-------------------+-------------------------+---------+-------------+
-        | dayl              | daylength               | seconds | daily       |
-        +-------------------+-------------------------+---------+-------------+
-        | srad              | shortwave radiation     | W/m2    | daily       |
-        +-------------------+-------------------------+---------+-------------+
-        | penman_monteith   | PET by Penman-Montieth  | mm      | daily       |
-        +-------------------+-------------------------+---------+-------------+
-        | hargreaves_samani | PET by Hargreaves-      | mm      | daily       |
-        |                   | Samani                  |         |             |
-        +-------------------+-------------------------+---------+-------------+
-        | priestley_taylor  | PET by Priestley-Taylor | mm      | daily       |
-        +-------------------+-------------------------+---------+-------------+
+        +-------------------+--------------------------+---------+
+        | measuredParams    | Description              | Unit    |
+        +===================+==========================+=========+
+        | prcp              | precipitation            | mm      |
+        +-------------------+--------------------------+---------+
+        | swe               | snow-water equivalent    | kg/m2   |
+        +-------------------+--------------------------+---------+
+        | tmax              | maximum temperature      | degC    |
+        +-------------------+--------------------------+---------+
+        | tmin              | minimum temperature      | degC    |
+        +-------------------+--------------------------+---------+
+        | vp                | vapor pressure           | Pa      |
+        +-------------------+--------------------------+---------+
+        | dayl              | daylength                | seconds |
+        +-------------------+--------------------------+---------+
+        | srad              | shortwave radiation      | W/m2    |
+        +-------------------+--------------------------+---------+
 
         Example: --measuredParams=tmax,tmin
 
         All variables are returned by default.
-
-    time_scale:
-        [optional, default is "daily"]
-
-        One of "daily", "monthly", or "annual".
-
-    snow : bool
-        [optional, defaults to False]
-
-        Separate snowfall from precipitation using Martinez and Gupta (2010)
-        method.
     """
-    years = tsutils.make_list(years)
     avail_params = [
         "tmax",
         "tmin",
@@ -179,15 +135,6 @@ def daymet(
         "swe",
         "prcp",
         "dayl",
-        "penman_monteith",
-        "hargreaves_samani",
-        "priestley_taylor",
-    ]
-
-    pet_types = [
-        "penman_monteith",
-        "hargreaves_samani",
-        "priestley_taylor",
     ]
 
     if measuredParams is None or "all" in measuredParams:
@@ -205,76 +152,57 @@ def daymet(
                     )
                 )
 
-    if time_scale in ("monthly", "annual"):
-        for rem in ["srad", "dayl"] + pet_types:
-            if rem in measuredParams:
-                measuredParams.remove(rem)
-                logging.warning(
-                    tsutils.error_wrapper(
-                        f"""
-                        The parameter {rem} is not available for {time_scale}
-                        data.
-                        """
-                    )
-                )
-
-    dates = None
-    if years is not None:
-        dates = years
+    if years:
+        years = ",".join([str(y) for y in years])
+        update_params = {"years": years}
     else:
+        if start_date is None:
+            start_date = "1980-01-01"
         if end_date is None:
-            end_date = pd.Timestamp(
-                f"{datetime.datetime.now().year - 1}-12-31"
-            ).strftime("%Y-%m-%d")
-        time_code = _time_scale_map[time_scale]
+            end_date = f"{datetime.datetime.now().year - 1}-12-31"
 
-        dates = (
-            (pd.Timestamp(start_date) + time_code[0]).strftime("%Y-%m-%d"),
-            (pd.Timestamp(end_date) + time_code[1]).strftime("%Y-%m-%d"),
-        )
+        start = pd.Timestamp(start_date).strftime("%Y-%m-%d")
+        end = pd.Timestamp(end_date).strftime("%Y-%m-%d")
+        update_params = {"start": start, "end": end}
 
-    obs_data = [i for i in measuredParams if i not in pet_types]
+    time_series_url = "https://daymet.ornl.gov/single-pixel/api/data"
+
+    def year_doy(year, doy):
+        collect = []
+        for yr, dy in zip(year, doy):
+            collect.append(pd.to_datetime(f"{yr}-{dy}", format="%Y-%j"))
+        return collect
 
     ndf = pd.DataFrame()
-    if obs_data:
-        ndf = pydaymet.get_bycoords(
-            (lon, lat),
-            dates,
-            variables=obs_data,
-            crs="epsg:4326",
-            time_scale=time_scale,
-            snow=snow,
+
+    params = {"lat": lat, "lon": lon, "vars": ",".join(measuredParams), "format": "csv"}
+    params.update(update_params)
+    urls, kwds = [[time_series_url], [{"params": params}]]
+    resp = ar.retrieve_binary(urls, kwds)
+
+    ndf = pd.DataFrame()
+    for response, keyword in zip(resp, kwds):
+        df = pd.read_csv(
+            BytesIO(response),
+            sep=",",
+            skiprows=6,
+            header=0,
+            date_parser=year_doy,
+            parse_dates={"Datetime": ["year", "yday"]},
+            index_col="Datetime",
         )
-        ndf = ndf.rename(lambda x: x.split()[0], axis="columns")
-        ndf = ndf[obs_data]
+        df.index = pd.to_datetime(df.index)
 
-    for pet in pet_types:
-        if pet in measuredParams:
-            df = pydaymet.get_bycoords(
-                (lon, lat),
-                dates,
-                variables=["tmax"],
-                crs="epsg:4326",
-                time_scale=time_scale,
-                pet=pet,
-                snow=snow,
-            )
-            df = df.rename(lambda x: x.split()[0], axis="columns")
-            df = df.drop("tmax", axis="columns")
-            ndf[pet] = df["pet"]
-
-    if time_scale == "monthly":
-        ndf.index = ndf.index.to_period("M")
-    if time_scale == "annual":
-        ndf.index = ndf.index.to_period("A")
+        ndf = ndf.combine_first(df)
 
     if os.path.exists("debug_tsgettoolbox"):
         logging.warning(f"{start_date}, {end_date}, {years}")
 
-    ndf.columns = [i.split()[0] for i in ndf.columns]
-    ndf = ndf[measuredParams]
-    ndf.columns = [f"Daymet-{i}{_units_map[i]}" for i in ndf.columns]
     ndf.index.name = "Datetime"
+    ndf.columns = [
+        i.replace("(", "").replace(")", "").replace("deg c", "degC").replace(" ", "::")
+        for i in ndf.columns
+    ]
     return ndf
 
 
@@ -317,11 +245,10 @@ if __name__ == "__main__":
         lon=-85.2,
         start_date="1991",
         end_date="1995",
-        time_scale="annual",
     )
 
     print("Daymet 4")
-    print("start_date='1991', end_date='1995', time_scale='annual'")
+    print("start_date='1991', end_date='1995'")
     print(r)
 
     r = daymet(
@@ -329,41 +256,28 @@ if __name__ == "__main__":
         lon=-85.2,
         start_date="1980",
         end_date="1981",
-        time_scale="monthly",
     )
 
     print("Daymet 5")
-    print("start_date='1980', end_date='1981', time_scale='monthly'")
+    print("start_date='1980', end_date='1981'")
     print(r)
 
     r = daymet(
         lat=43.1,
         lon=-85.2,
         start_date="2010-04",
-        time_scale="annual",
     )
 
     print("Daymet 6")
-    print("start_date='2010-04', time_scale='annual'")
+    print("start_date='2010-04'")
     print(r)
 
     r = daymet(
         lat=43.1,
         lon=-85.2,
         start_date="2000-04",
-        time_scale="monthly",
     )
 
     print("Daymet 7")
-    print("start_date='2000-04', time_scale='monthly'")
-    print(r)
-
-    r = daymet(
-        lat=43.1,
-        lon=-85.2,
-        measuredParams="penman_monteith",
-    )
-
-    print("Daymet 8")
-    print("measuredParams='penman_monteith'")
+    print("start_date='2000-04'")
     print(r)

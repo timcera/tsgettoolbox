@@ -322,7 +322,8 @@ def foundation_api(
         variable=None,
     ):
         # fmt: off
-        """${first_line}
+        """
+        ${first_line}
 
         This will download data from a set of water cycle related variables
         (Table 1) from the North American and Global Land Data Assimilation
@@ -341,20 +342,16 @@ def foundation_api(
         Parameters
         ----------
         lat : float
-            Should use 'lat' and 'lon' to specify location.
-
             Latitude (required): Enter single geographic point by
-            latitude.::
+            latitude.
 
-                Example: --lat=43.1
+            Example: --lat=43.1
 
         lon : float
-            Should use 'lat' and 'lon' to specify location.
-
             Longitude (required): Enter single geographic point by
-            longitude::
+            longitude.
 
-                Example: --lon=-85.3
+            Example: --lon=-85.3
 
         variables : str
             Use the variable codes from the following table:
@@ -378,8 +375,8 @@ ${units_table}
             "tsgettoolbox"."""
         # fmt: on
         return base_ldas(
-            lat=lat,
-            lon=lon,
+            lat,
+            lon,
             variables=variables,
             startDate=startDate,
             endDate=endDate,
@@ -563,8 +560,8 @@ ldas_smerge = foundation_api(
 
 @tsutils.transform_args(variables=tsutils.make_list, variable=tsutils.make_list)
 def base_ldas(
-    lat=None,
-    lon=None,
+    lat,
+    lon,
     variables=None,
     startDate=None,
     endDate=None,
@@ -582,23 +579,18 @@ def base_ldas(
             )
         )
 
-    if lat is not None and lon is not None:
-        location = f"[{lat}, {lon}]"
-    else:
-        raise ValueError(
-            tsutils.error_wrapper(
-                f"""
-                There is a problem specifying the location.
-
-                Both `lat` and `lon` need to be specified where you have
-                "lat={lat}" and "lon={lon}".
-                """
-            )
-        )
+    location = f"[{lat}, {lon}]"
 
     signin_url = "https://api.giovanni.earthdata.nasa.gov/signin"
 
+    # This will make sure the .netrc file has an entry for
+    # urs.earthdata.nasa.gov and if not, will prompt for user
+    # credentials and create the .netrc file (if necessary) and populate with
+    # the urs.earthdata.nasa.gov entry.
     _ = utils.read_netrc("urs.earthdata.nasa.gov")
+
+    # This gets the token for Earthdata login authentication from the .netrc
+    # file.
     token = requests.get(
         signin_url,
         auth=HTTPBasicAuth(
@@ -696,27 +688,27 @@ if __name__ == "__main__":
     # for key in _UNITS_MAP:
     #     print("LDAS", key)
     #     r = ldas(
+    #         31,
+    #         -100,
     #         variables=key,
-    #         lon=-100,
-    #         lat=31,
     #         startDate="2013-06-01T09",
     #         endDate="2014-05-04T21",
     #     )
     #     print(r)
     #     time.sleep(20)
     #     r = ldas(
+    #         31,
+    #         -100,
     #         variables=key[key.index(":") + 1 :],
-    #         lon=-100,
-    #         lat=31,
     #         startDate="2013-06-01T09",
     #         endDate="2014-05-04T21",
     #     )
     #     print(r)
     #     time.sleep(20)
     r = ldas(
+        34,
+        100,
         variables="GLDAS_NOAH025_3H_2_1_SoilMoi10_40cm_inst",
-        lon=100,
-        lat=34,
         startDate="2001-01-01T00",
         endDate="2001-02-02T00",
     )
@@ -725,21 +717,21 @@ if __name__ == "__main__":
     print(r)
 
     r = ldas(
+        34,
+        100,
         variables="GLDAS_NOAH025_3H_2_1_SoilMoi10_40cm_inst",
-        lon=100,
-        lat=34,
         endDate="2001-01-01",
     )
 
     print("LDAS TEST")
     print(r)
 
-    for key in _UNITS_MAP:
+    for key in _NLDAS_FORA:
         print(key)
-        r = ldas_nldas_noah(
+        r = ldas_nldas_fora(
+            31,
+            -100,
             variables=key,
-            lon=-100,
-            lat=31,
             startDate="2013-06-01T09",
             endDate="2014-07-04T21",
         )
@@ -756,9 +748,9 @@ if __name__ == "__main__":
             )
 
     r = ldas(
+        30,
+        100,
         variables="GLDAS_NOAH025_3H_2_1_SoilMoi10_40cm_inst",
-        lon=100,
-        lat=30,
         startDate="2016-01-01T00",
         endDate="2016-12-01T00",
     )
@@ -767,9 +759,9 @@ if __name__ == "__main__":
     print(r)
 
     r = ldas(
+        34,
+        100,
         variables="GLDAS_NOAH025_3H_2_1_SoilMoi10_40cm_inst",
-        lon=100,
-        lat=34,
         startDate="5 years ago",
         endDate="4 years ago",
     )
@@ -778,12 +770,12 @@ if __name__ == "__main__":
     print(r)
 
     r = ldas(
+        34,
+        100,
         variables=[
             "GLDAS_NOAH025_3H_2_1_SoilMoi10_40cm_inst",
             "GLDAS_NOAH025_3H_2_1_Evap_tavg",
         ],
-        lon=100,
-        lat=34,
         startDate="5 years ago",
         endDate="4 years ago",
     )

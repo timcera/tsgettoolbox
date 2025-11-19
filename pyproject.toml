@@ -50,7 +50,6 @@ dependencies = [
     "platformdirs",
     "pydantic",
     "pydap",
-    "pydaymet",
     "python-dateutil",
     "requests",
     "scipy",

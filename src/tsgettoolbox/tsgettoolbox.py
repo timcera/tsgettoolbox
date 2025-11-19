@@ -205,8 +205,6 @@ def main():
         end_date=None,
         years=None,
         measuredParams="all",
-        time_scale="daily",
-        snow=False,
     ):
         tsutils.printiso(
             daymet(
@@ -216,8 +214,6 @@ def main():
                 end_date=end_date,
                 years=years,
                 measuredParams=measuredParams,
-                time_scale=time_scale,
-                snow=snow,
             )
         )
 
@@ -288,15 +284,13 @@ def main():
         cli_name,
         formatter_class=HelpFormatter,
     ):
-        """Create a foundation CLI function returning a function."""
+        """Create a foundation CLI function for LDAS returning a function."""
 
         @cltoolbox.command(cli_name, formatter_class=formatter_class)
         @tsutils.copy_doc(function)
         def ldas_cli(
             lat=None,
             lon=None,
-            xindex=None,
-            yindex=None,
             variables=None,
             startDate=None,
             endDate=None,
@@ -304,10 +298,8 @@ def main():
         ):
             tsutils.printiso(
                 function(
-                    lat=lat,
-                    lon=lon,
-                    xindex=xindex,
-                    yindex=yindex,
+                    lat,
+                    lon,
                     variables=variables,
                     startDate=startDate,
                     endDate=endDate,
