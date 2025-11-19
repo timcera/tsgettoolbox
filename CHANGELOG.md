@@ -1,3 +1,15 @@
+## v26.1.0 (2025-11-18)
+
+### Feat
+
+- add NLDAS VIC model
+- add NLDAS VIC model
+- add NLDAS VIC model
+
+### Fix
+
+- returned to using a built-in daymet downloader instead of pydaymet because pydaymet is broken
+
 ## v26.0.1 (2025-11-04)
 
 ## v26.0.0 (2025-11-01)
