@@ -29,7 +29,7 @@ repos:
 
     - repo: https://github.com/astral-sh/ruff-pre-commit
       # Ruff version.
-      rev: v0.14.3
+      rev: v0.14.9
       hooks:
           # Run the linter.
           - id: ruff
@@ -75,7 +75,7 @@ repos:
             args: [-s, bash]
 
     - repo: https://github.com/lovesegfault/beautysh
-      rev: v6.4.0
+      rev: v6.4.2
       hooks:
           - id: beautysh
             args: [--indent-size, '4']
@@ -86,12 +86,12 @@ repos:
           - id: blacken-docs
 
     - repo: https://github.com/asottile/pyupgrade
-      rev: v3.21.0
+      rev: v3.21.2
       hooks:
           - id: pyupgrade
 
     - repo: https://github.com/commitizen-tools/commitizen
-      rev: v4.9.1
+      rev: v4.10.0
       hooks:
           - id: commitizen
             stages: [commit-msg]
