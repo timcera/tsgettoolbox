@@ -1,14 +1,13 @@
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = [
-    "setuptools>=45",
-    "setuptools_scm[toml]>=6.2",
-    "wheel"
+    "setuptools-scm[simple]>=8",
+    "setuptools>=80"
 ]
 
 [project]
 authors = [
-    {name = "Tim Cera", email = "tim@cerazone.net"}
+    {email = "tim@cerazone.net", name = "Tim Cera"}
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -19,16 +18,16 @@ classifiers = [
     "License :: OSI Approved :: BSD License",
     "Natural Language :: English",
     "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3 :: Only",
-    "Topic :: Scientific/Engineering",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Scientific/Engineering",
     "Topic :: Software Development :: Libraries :: Python Modules"
-]
+] # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
 dependencies = [
     "async_retriever",
     "beautifulsoup4",
@@ -68,7 +67,8 @@ keywords = [
 ]
 license = {text = "BSD-3-Clause"}
 name = "tsgettoolbox"
-requires-python = ">=3.8"
+readme = "README.rst"
+requires-python = ">=3.10"
 
 [project.scripts]
 tsgettoolbox = "tsgettoolbox.tsgettoolbox:main"
@@ -92,8 +92,8 @@ profile = "black"
 testpaths = ["tests"]
 
 [tool.setuptools]
-license-files = ["LICENSE.txt"]
 include-package-data = true
+license-files = ["LICENSE.txt"]
 
 [tool.setuptools.dynamic]
 readme = {file = "README.rst"}
@@ -101,5 +101,3 @@ version = {file = "VERSION"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
-[tool.setuptools_scm]
