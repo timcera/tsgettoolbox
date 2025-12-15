@@ -67,7 +67,6 @@ keywords = [
 ]
 license = {text = "BSD-3-Clause"}
 name = "tsgettoolbox"
-readme = "README.rst"
 requires-python = ">=3.10"
 
 [project.scripts]
