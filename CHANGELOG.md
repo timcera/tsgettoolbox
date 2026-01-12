@@ -1,3 +1,9 @@
+## v26.1.1 (2026-01-11)
+
+### Fix
+
+- correct nwis defaults for outputDataTypeCd, seriesCatalogOutput, and siteOutput
+
 ## v26.1.0 (2025-11-18)
 
 ### Feat
