@@ -1113,8 +1113,14 @@ def usgs_site_rdb_to_df(url, **kwargs):
     """Convert from USGS RDB type to pd.DataFrame."""
     # Need to enforce rdb format
     kwargs["format"] = "rdb"
-    kwargs["siteOutput"] = "expanded"
-    kwargs["siteStatus"] = "all"
+    kwargs["siteOutput"] = kwargs.get("siteOutput", "expanded")
+    kwargs["siteStatus"] = kwargs.get("siteStatus", "all")
+
+    kwargs["outputDataTypeCd"] = kwargs.get("outputDataTypeCd", None)
+    kwargs["seriesCatalogOutput"] = kwargs.get("seriesCatalogOutput", False)
+
+    if kwargs["outputDataTypeCd"] is not None or kwargs["seriesCatalogOutput"] is True:
+        kwargs["siteOutput"] = None
 
     return _read_rdb(url, [kwargs])
 
@@ -1124,8 +1130,8 @@ def usgs_measurements_peak_rdb_to_df(url, **kwargs):
     rdb_format = "rdb_expanded" if "measurements" in url else "rdb"
     # Need to enforce rdb format
     kwargs["format"] = rdb_format
-    kwargs["agency_cd"] = "USGS"
-    kwargs["site_no"] = kwargs["sites"]
+    kwargs["agency_cd"] = kwargs.get("agency_cd", "USGS")
+    kwargs["site_no"] = kwargs.get("site_no", kwargs.get("sites", None))
     kwargs.pop("sites")
 
     # Get the state code and insert into URL
@@ -1281,7 +1287,7 @@ def nwis(
             )
 
         if database in ("measurements", "peak"):
-            url = f"http://nwis.waterdata.usgs.gov/XX/nwis/{database}"
+            url = f"http://nwis.waterdata.usgs.gov/nwis/{database}/"
 
     nkwds = {
         "sites": sites,
@@ -1919,7 +1925,7 @@ def nwis_measurements(
     ${wellDepthMin}
     ${wellDepthMax}
     """
-    url = r"http://nwis.waterdata.usgs.gov/XX/nwis/measurements"
+    url = r"http://nwis.waterdata.usgs.gov/nwis/measurements/"
     return usgs_measurements_peak_rdb_to_df(
         url,
         sites=sites,
@@ -2093,7 +2099,7 @@ def nwis_peak(
     ${wellDepthMin}
     ${wellDepthMax}
     """
-    url = r"http://nwis.waterdata.usgs.gov/XX/nwis/peak"
+    url = r"http://nwis.waterdata.usgs.gov/nwis/peak/"
     return usgs_measurements_peak_rdb_to_df(
         url,
         sites=sites,

@@ -29,7 +29,7 @@ _avail_vars = {
     },
     "pet": {
         "sname": "pet",
-        "lname": "potential_et",
+        "lname": "reference_et",
         "standard_name": "pet",
         "units": "mm",
         "vname": "TerraClimate2C_pet.nc",
