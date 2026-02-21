@@ -54,10 +54,16 @@ def test_get_station_data():
             end_date=test_values[1],
         )
 
-        test_timestamps = [
-            pd.Timestamp(t).tz_localize("Etc/GMT+8")
-            for t in pd.date_range(test_values[0], test_values[1], freq="H")
-        ]
+        try:
+            test_timestamps = [
+                pd.Timestamp(t).tz_localize("Etc/GMT+8")
+                for t in pd.date_range(test_values[0], test_values[1], freq="H")
+            ]
+        except ValueError:
+            test_timestamps = [
+                pd.Timestamp(t).tz_localize("Etc/GMT+8")
+                for t in pd.date_range(test_values[0], test_values[1], freq="h")
+            ]
         assert np.all(test_timestamps == [pd.Timestamp(t) for t in station_data.index])
 
         compare_data = pd.read_csv(data_file, index_col=0, parse_dates=True)
