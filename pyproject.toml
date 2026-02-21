@@ -81,7 +81,7 @@ github = "https://github.com/timcera/tsgettoolbox"
 name = "cz_conventional_commits"
 tag_format = "v$version"
 update_changelog_on_bump = true
-version = "26.1.1"
+version = "26.2.0"
 version_files = ["VERSION"]
 multiline = true
 

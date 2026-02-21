@@ -1,3 +1,9 @@
+## v26.2.0 (2026-02-21)
+
+### Feat
+
+- add variables to ldas_* available from Giovanni and cleanups
+
 ## v26.1.1 (2026-01-11)
 
 ### Fix
