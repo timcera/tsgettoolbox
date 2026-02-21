@@ -112,25 +112,25 @@ _vars = {
         "vname": "METDATA (GRIDMET) Vapor Pressure Deficit - Daily",
     },
     "spi14d": {
-        "sname": "spi",
+        "sname": "spi14d",
         "lname": "standard_precipitation_index_14_day",
         "standard_name": "spi",
         "vname": "METDATA (GRIDMET) 14 Day Standardized Precipitation Index(SPI) - Pentad",
     },
     "spi30d": {
-        "sname": "spi",
+        "sname": "spi30d",
         "lname": "standard_precipitation_index_30_day",
         "standard_name": "spi",
         "vname": "METDATA (GRIDMET) 30 Day Standardized Precipitation Index(SPI) - Pentad",
     },
     "spi90d": {
-        "sname": "spi",
+        "sname": "spi90d",
         "lname": "standard_precipitation_index_90_day",
         "standard_name": "spi",
         "vname": "METDATA (GRIDMET) 90 Day Standardized Precipitation Index(SPI) - Pentad",
     },
     "spi180d": {
-        "sname": "spi",
+        "sname": "spi180d",
         "lname": "standard_precipitation_index_180_day",
         "standard_name": "spi",
         "vname": "METDATA (GRIDMET) 180 Day Standardized Precipitation Index(SPI) - Pentad",
@@ -143,115 +143,115 @@ _vars = {
     #        "vname": "METDATA (GRIDMET) 270 Day Standardized Precipitation Index(SPI) - Pentad",
     #    },
     "spi1y": {
-        "sname": "spi",
+        "sname": "spi1y",
         "lname": "standard_precipitation_index_1_year",
         "standard_name": "spi",
         "vname": "METDATA (GRIDMET) 1 Year Standardized Precipitation Index(SPI) - Pentad",
     },
     "spi2y": {
-        "sname": "spi",
+        "sname": "spi2y",
         "lname": "standard_precipitation_index_2_year",
         "standard_name": "spi",
         "vname": "METDATA (GRIDMET) 2 Year Standardized Precipitation Index(SPI) - Pentad",
     },
     "spi5y": {
-        "sname": "spi",
+        "sname": "spi5y",
         "lname": "standard_precipitation_index_5_year",
         "standard_name": "spi",
         "vname": "METDATA (GRIDMET) 5 Year Standardized Precipitation Index(SPI) - Pentad",
     },
     "spei14d": {
-        "sname": "spei",
+        "sname": "spei14d",
         "lname": "standard_precipitation_evapotranspiration_index_14_day",
         "standard_name": "spei",
         "vname": "METDATA (GRIDMET) 14 Day Standardized Precipitation Evapotranspiration Index(SPEI) - Pentad",
     },
     "spei30d": {
-        "sname": "spei",
+        "sname": "spei30d",
         "lname": "standard_precipitation_evapotranspiration_index_30_day",
         "standard_name": "spei",
         "vname": "METDATA (GRIDMET) 30 Day Standardized Precipitation Evapotranspiration Index(SPEI) - Pentad",
     },
     "spei90d": {
-        "sname": "spei",
+        "sname": "spei90d",
         "lname": "standard_precipitation_evapotranspiration_index_90_day",
         "standard_name": "spei",
         "vname": "METDATA (GRIDMET) 90 Day Standardized Precipitation Evapotranspiration Index(SPEI) - Pentad",
     },
     "spei180d": {
-        "sname": "spei",
+        "sname": "spei180d",
         "lname": "standard_precipitation_evapotranspiration_index_180_day",
         "standard_name": "spei",
         "vname": "METDATA (GRIDMET) 180 Day Standardized Precipitation Evapotranspiration Index(SPEI) - Pentad",
     },
     "spei270d": {
-        "sname": "spei",
+        "sname": "spei270d",
         "lname": "standard_precipitation_evapotranspiration_index_270_day",
         "standard_name": "spei",
         "vname": "METDATA (GRIDMET) 270 Day Standardized Precipitation Evapotranspiration Index(SPEI) - Pentad",
     },
     "spei1y": {
-        "sname": "spei",
+        "sname": "spei1y",
         "lname": "standard_precipitation_evapotranspiration_index_1_year",
         "standard_name": "spei",
         "vname": "METDATA (GRIDMET) 1 Year Standardized Precipitation Evapotranspiration Index(SPEI) - Pentad",
     },
     "spei2y": {
-        "sname": "spei",
+        "sname": "spei2y",
         "lname": "standard_precipitation_evapotranspiration_index_2_year",
         "standard_name": "spei",
         "vname": "METDATA (GRIDMET) 2 Year Standardized Precipitation Evapotranspiration Index(SPEI) - Pentad",
     },
     "spei5y": {
-        "sname": "spei",
+        "sname": "spei5y",
         "lname": "standard_precipitation_evapotranspiration_index_5_year",
         "standard_name": "spei",
         "vname": "METDATA (GRIDMET) 5 Year Standardized Precipitation Evapotranspiration Index(SPEI) - Pentad",
     },
     "eddi14d": {
-        "sname": "eddi",
+        "sname": "eddi14d",
         "lname": "evaporative_drought_demand_index_14_day",
         "standard_name": "eddi",
         "vname": "METDATA (GRIDMET) 14 Day Evaporative Drought Demand Index(EDDI) - Pentad",
     },
     "eddi30d": {
-        "sname": "eddi",
+        "sname": "eddi30d",
         "lname": "evaporative_drought_demand_index_30_day",
         "standard_name": "eddi",
         "vname": "METDATA (GRIDMET) 30 Day Evaporative Drought Demand Index(EDDI) - Pentad",
     },
     "eddi90d": {
-        "sname": "eddi",
+        "sname": "eddi90d",
         "lname": "evaporative_drought_demand_index_90_day",
         "standard_name": "eddi",
         "vname": "METDATA (GRIDMET) 90 Day Evaporative Drought Demand Index(EDDI) - Pentad",
     },
     "eddi180d": {
-        "sname": "eddi",
+        "sname": "eddi180d",
         "lname": "evaporative_drought_demand_index_180_day",
         "standard_name": "eddi",
         "vname": "METDATA (GRIDMET) 180 Day Evaporative Drought Demand Index(EDDI) - Pentad",
     },
     "eddi270d": {
-        "sname": "eddi",
+        "sname": "eddi270d",
         "lname": "evaporative_drought_demand_index_270_day",
         "standard_name": "eddi",
         "vname": "METDATA (GRIDMET) 270 Day Evaporative Drought Demand Index(EDDI) - Pentad",
     },
     "eddi1y": {
-        "sname": "eddi",
+        "sname": "eddi1y",
         "lname": "evaporative_drought_demand_index_1_year",
         "standard_name": "eddi",
         "vname": "METDATA (GRIDMET) 1 Year Evaporative Drought Demand Index(EDDI) - Pentad",
     },
     "eddi2y": {
-        "sname": "eddi",
+        "sname": "eddi2y",
         "lname": "evaporative_drought_demand_index_2_year",
         "standard_name": "eddi",
         "vname": "METDATA (GRIDMET) 2 Year Evaporative Drought Demand Index(EDDI) - Pentad",
     },
     "eddi5y": {
-        "sname": "eddi",
+        "sname": "eddi5y",
         "lname": "evaporative_drought_demand_index_5_year",
         "standard_name": "eddi",
         "vname": "METDATA (GRIDMET) 5 Year Evaporative Drought Demand Index(EDDI) - Pentad",
@@ -264,7 +264,7 @@ _vars = {
     },
 }
 
-tsutils.docstrings.update({k: f"{v['standard_name']:50}" for k, v in _vars.items()})
+tsutils.docstrings.update({k: f"{v['lname']:50}" for k, v in _vars.items()})
 
 
 @tsutils.doc(tsutils.docstrings)
@@ -511,4 +511,7 @@ def metdata(
 
 if __name__ == "__main__":
     r = metdata(29.6, -82.3, variables="pr")
+    print(r)
+
+    r = metdata(29.6, -82.3, variables="eddi1y")
     print(r)

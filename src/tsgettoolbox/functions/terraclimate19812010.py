@@ -234,7 +234,7 @@ def terraclimate19812010(
 
     ${end_date}
     """
-    turl = "http://thredds.northwestknowledge.net:8080/thredds/dodsC/TERRACLIMATE_ALL/summaries/TerraClimate19812010_{}.nc"
+    turl = "dap2://thredds.northwestknowledge.net:8080/thredds/dodsC/TERRACLIMATE_ALL/climatology/TerraClimate_19812010_{}.nc"
 
     df = utils.opendap(
         turl,

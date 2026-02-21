@@ -360,8 +360,11 @@ def opendap(
                 calendar=calendar,
             )
         except ValueError:
-            # If the dates are byte strings b"2001-01-01"...
-            time = pd.to_datetime([i.decode("ascii") for i in time.data[:]])
+            try:
+                # If the dates are byte strings b"2001-01-01"...
+                time = pd.to_datetime([i.decode("ascii") for i in time.data[:]])
+            except AttributeError:
+                pass
 
         if (start_date is not None) or (end_date is not None):
             tndf = pd.DataFrame(range(len(time)), index=time)
@@ -393,6 +396,11 @@ def opendap(
         df = pd.DataFrame(
             np.squeeze(point), index=time[start_date_index:end_date_index]
         )
+
+        for col in df.columns:
+            ser = df[col].to_numpy()
+            ser = ser.astype(ser.dtype.newbyteorder("="))
+            df[col].data = ser
 
         df[df == missing_value] = pd.NA
         df = df * ds.attributes.get("scale_factor", 1.0) + ds.attributes.get(

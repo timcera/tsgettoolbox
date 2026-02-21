@@ -88,7 +88,7 @@ def terraclimate4C(
     start_date=None,
     end_date=None,
 ):
-    r"""global:1/24deg::M:Monthly normals from Terraclimate with 4deg C hotter climate.
+    r"""DISCONTINUED global:1/24deg::M:Monthly normals from Terraclimate with 4deg C hotter climate.
 
     method: These layers from TerraClimate were derived from the essential
     climate variables of TerraClimate. Water balance variables, actual
@@ -215,6 +215,8 @@ def terraclimate4C(
 
     ${end_date}
     """
+    raise NotImplementedError("This dataset has been discontinued by the provider.")
+
     turl = "http://thredds.northwestknowledge.net:8080/thredds/dodsC/TERRACLIMATE_ALL/summaries/TerraClimate4C_{}.nc"
 
     df = utils.opendap(

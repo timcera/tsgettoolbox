@@ -6,6 +6,7 @@ import datetime
 import email.utils
 import ftplib
 import os
+import ssl
 import urllib.parse
 import warnings
 from contextlib import contextmanager
@@ -14,16 +15,34 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from platformdirs import user_data_dir
+from requests.adapters import HTTPAdapter
 
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
-URL = "http://rivergages.mvr.usace.army.mil/WaterControl/datamining2.cfm"
+URL = "https://rivergages.mvr.usace.army.mil/WaterControl/datamining2.cfm"
 DEFAULT_START_DATE = datetime.date(1800, 1, 1)
 
 __all__ = ["rivergages"]
 
 # def get_station_data(station_code, parameter, start=None, end=None,
 #         min_value=None, max_value=None):
+
+
+# Source - https://stackoverflow.com/a/79515098
+# Posted by Steffen Ullrich
+# Retrieved 2026-02-20, License - CC BY-SA 4.0
+class CustomSSLAdapter(HTTPAdapter):
+    def init_poolmanager(self, *args, **kwargs):
+        ssl_context = ssl.create_default_context()
+        ssl_context.set_ciphers("DEFAULT@SECLEVEL=0")
+        ssl_context.check_hostname = False
+
+        kwargs["ssl_context"] = ssl_context
+        return super().init_poolmanager(*args, **kwargs)
+
+
+sess = requests.Session()
+sess.mount("https://", CustomSSLAdapter())
 
 
 def mkdir_if_doesnt_exist(dir_path):
@@ -121,7 +140,7 @@ def _ftp_last_modified(ftp, file_path):
 
 
 def _http_download_file(url, path):
-    request = requests.get(url, timeout=60)
+    request = sess.get(url, timeout=60, verify=False)
     mkdir_if_doesnt_exist(os.path.dirname(path))
     chunk_size = 64 * 1024
     with open(path, "wb") as f:
@@ -130,7 +149,7 @@ def _http_download_file(url, path):
 
 
 def _http_download_if_new(url, path, check_modified):
-    head = requests.head(url, timeout=60)
+    head = sess.head(url, timeout=60, verify=False)
     if not os.path.exists(path) or not _request_file_size_matches(head, path):
         _http_download_file(url, path)
     elif check_modified and _request_is_newer_than_file(head, path):
@@ -186,7 +205,7 @@ def get_stations():
     path = os.path.join(USACE_RIVERGAGES_DIR, "datamining_field_list.cfm")
 
     with open_file_for_url(URL, path, use_bytes=True) as f:
-        soup = BeautifulSoup(f)
+        soup = BeautifulSoup(f, features="lxml")
         options = soup.find("select", id="fld_station").find_all("option")
         stations = _parse_options(options)
 
@@ -232,16 +251,18 @@ def get_station_data(
         "hdn_excel": "",
     }
 
-    req = requests.post(URL, params=dict(sid=station_code), data=form_data, timeout=60)
-    soup = BeautifulSoup(req.content)
+    req = sess.post(
+        URL, params=dict(sid=station_code), data=form_data, timeout=60, verify=False
+    )
+    soup = BeautifulSoup(req.content, features="lxml")
     data_table = soup.find("table").find_all("table")[-1]
 
     return dict([_parse_value(value_tr) for value_tr in data_table.find_all("tr")[2:]])
 
 
 def get_station_parameters(station_code):
-    req = requests.get(URL, params=dict(sid=station_code), timeout=60)
-    soup = BeautifulSoup(req.content)
+    req = sess.get(URL, params=dict(sid=station_code), timeout=60, verify=False)
+    soup = BeautifulSoup(req.content, features="lxml")
 
     options = soup.find("select", id="fld_parameter").find_all()
     return _parse_options(options)
@@ -273,7 +294,7 @@ def rivergages(station_code, parameter, start_date=None, end_date=None):
             tsutils.error_wrapper(
                 f"""
                 Station code {station_code} not in available stations:
-                {tstations.keys}
+                {tstations.keys()}
                 """
             )
         )
@@ -302,7 +323,7 @@ def rivergages(station_code, parameter, start_date=None, end_date=None):
 
 
 if __name__ == "__main__":
-    r = rivergages("BIVO1", "HL", start_date="2015-11-04", end_date="2015-12-05")
+    r = rivergages("NAGA4", "HT", start_date="2015-11-04", end_date="2015-12-05")
 
     print("BIVOI HL")
     print(r)

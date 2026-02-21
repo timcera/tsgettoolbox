@@ -2630,7 +2630,7 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
     sdf.columns = [y for x, y in sdf.columns]
 
     for col in sdf.columns:
-        sdf[col] = sdf[col].replace(_MISSING.get(col, pd.NA))
+        sdf[col] = sdf[col].replace(to_replace=_MISSING.get(col, pd.NA), value=pd.NA)
         sdf.loc[sdf[col] < _VALID_RANGE[col][0], col] = pd.NA
         sdf.loc[sdf[col] > _VALID_RANGE[col][1], col] = pd.NA
         sdf[col] = sdf[col] * _SCALE.get(col, 1.0) + _OFFSET.get(col, 0.0)
@@ -2655,8 +2655,8 @@ if __name__ == "__main__":
 
     r = modis(
         product="MOD15A2H",
-        band="LaiStdDev_500m",
-        lat=29.65,
+        band="Lai_500m",
+        lat=29.75,
         lon=-82.32,
         start_date="3 years ago",
         end_date="2 years ago",

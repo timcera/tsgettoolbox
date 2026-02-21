@@ -154,7 +154,13 @@ def get_station_data(station_code, date=None, as_dataframe=False):
 
 
 def swtwc(station_code, date=None):
-    """US/region:station:::USACE Southwest Division, Tulsa Water Control
+    """DISCONTINUED US/region:station:::USACE Southwest Division, Tulsa Water Control
+
+    DISCONTINUED: The "swtwc" data source has been discontinued.  It is being
+    replaced by a nation-wide system at https://water.usace.army.mil/ and
+    https://www.swt-wc.usace.army.mil/ and software to access that system is
+    being developed at https://cwms-data.usace.army.mil/cwms-data/.  Please see
+    the documentation for that system for more information.
 
     Parameters
     ----------
@@ -163,6 +169,13 @@ def swtwc(station_code, date=None):
     date
         The date for the downloaded data.
     """
+    raise NotImplementedError("""
+    DISCONTINUED: The "swtwc" data source has been discontinued.  It is being
+    replaced by a nation-wide system at https://water.usace.army.mil/ and
+    https://www.swt-wc.usace.army.mil/ and software to access that system is
+    being developed at https://cwms-data.usace.army.mil/cwms-data/.  Please see
+    the documentation for that system for more information.
+    """)
     date = datetime.datetime.now() if date is None else pd.to_datetime(date)
     alldict = get_station_data(station_code, date=date, as_dataframe=True)
     df = alldict["values"]

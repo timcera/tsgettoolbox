@@ -58,6 +58,7 @@ __all__ = [
     "terraclimate4C",
     "terraclimate19611990",
     "terraclimate19812010",
+    "terraclimate19912020",
     "twc",
     "unavco",
 ]
@@ -120,6 +121,7 @@ from .functions.terraclimate2C import terraclimate2C
 from .functions.terraclimate4C import terraclimate4C
 from .functions.terraclimate19611990 import terraclimate19611990
 from .functions.terraclimate19812010 import terraclimate19812010
+from .functions.terraclimate19912020 import terraclimate19912020
 from .functions.twc import twc
 from .functions.unavco import unavco
 
@@ -1023,6 +1025,25 @@ def main():
     ):
         tsutils.printiso(
             terraclimate19611990(
+                lat,
+                lon,
+                variables=variables,
+                start_date=start_date,
+                end_date=end_date,
+            )
+        )
+
+    @cltoolbox.command("terraclimate19912020", formatter_class=HelpFormatter)
+    @tsutils.copy_doc(terraclimate19912020)
+    def terraclimate19912020_cli(
+        lat: float,
+        lon: float,
+        variables=None,
+        start_date=None,
+        end_date=None,
+    ):
+        tsutils.printiso(
+            terraclimate19912020(
                 lat,
                 lon,
                 variables=variables,

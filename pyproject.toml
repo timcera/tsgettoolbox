@@ -83,6 +83,7 @@ tag_format = "v$version"
 update_changelog_on_bump = true
 version = "26.1.1"
 version_files = ["VERSION"]
+multiline = true
 
 [tool.isort]
 profile = "black"

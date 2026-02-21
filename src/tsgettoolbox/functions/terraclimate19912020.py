@@ -1,6 +1,6 @@
 """
-terraclimate        global 1/24deg 1958- M:Download monthly data from
-                    Terraclimate.
+terraclimate19912020
+                    global 1/24deg M:Monthly normals using TerraClimate
 """
 
 # http://thredds.northwestknowledge.net:8080/thredds/terraclimate_aggregated.html
@@ -10,7 +10,7 @@ import pandas as pd
 from tsgettoolbox import utils
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
-__all__ = ["terraclimate"]
+__all__ = ["terraclimate19912020"]
 
 _avail_vars = {
     "aet": {
@@ -18,112 +18,101 @@ _avail_vars = {
         "lname": "actual_et",
         "standard_name": "aet",
         "units": "mm",
-        "vname": "TERRACLIMATE Actual Evapotranspiration 1958_CurrentYear Aggregated - Monthly",
+        "vname": "TerraClimate19912020_aet.nc",
     },
     "def": {
         "sname": "def",
         "lname": "climate_water_deficit",
         "standard_name": "def",
         "units": "mm",
-        "vname": "TERRACLIMATE Climatic Water Deficit 1958_CurrentYear Aggregated - Monthly",
+        "vname": "TerraClimate19912020_def.nc",
     },
     "pet": {
         "sname": "pet",
         "lname": "reference_et",
         "standard_name": "pet",
         "units": "mm",
-        "vname": "TERRACLIMATE Reference Evapotranspiration 1958_CurrentYear Aggregated - Monthly",
+        "vname": "TerraClimate19912020_pet.nc",
     },
     "ppt": {
         "sname": "ppt",
         "lname": "precipitation",
         "standard_name": "ppt",
         "units": "mm",
-        "vname": "TERRACLIMATE Precipitation 1958_CurrentYear Aggregated - Monthly",
-    },
-    "PDSI": {
-        "sname": "PDSI",
-        "lname": "palmer_drought_severity_index",
-        "standard_name": "PDSI",
-        "units": "",
-        "vname": "TERRACLIMATE Palmer Drought Severity Index 1958_CurrentYear Aggregated - Monthly",
+        "vname": "TerraClimate19912020_ppt.nc",
     },
     "q": {
         "sname": "q",
         "lname": "runoff",
         "standard_name": "q",
         "units": "mm",
-        "vname": "TERRACLIMATE Runoff 1958_CurrentYear Aggregated - Monthly",
+        "vname": "TerraClimate19912020_q.nc",
     },
     "soil": {
         "sname": "soil",
         "lname": "soil_moisture",
         "standard_name": "soil",
         "units": "mm",
-        "vname": "TERRACLIMATE Soil Moisture 1958_CurrentYear Aggregated - Monthly",
-    },
-    "srad": {
-        "sname": "srad",
-        "lname": "downward_shortwave_radiation",
-        "standard_name": "srad",
-        "units": "W/m**2",
-        "vname": "TERRACLIMATE Downward Shortwave Radiation 1958_CurrentYear Aggregated - Monthly",
+        "vname": "TerraClimate19912020_soil.nc",
     },
     "swe": {
         "sname": "swe",
         "lname": "snow_water_equivalent",
         "standard_name": "swe",
         "units": "mm",
-        "vname": "TERRACLIMATE Snow Water Equivalent 1958_CurrentYear Aggregated - Monthly",
+        "vname": "TerraClimate19912020_swe.nc",
     },
     "tmin": {
         "sname": "tmin",
         "lname": "minimum_daily_temperature",
         "standard_name": "tmin",
         "units": "degC",
-        "vname": "TERRACLIMATE Minimum Temperature 1958_CurrentYear Aggregated - Monthly",
+        "vname": "TerraClimate19912020_tmin.nc",
     },
     "tmax": {
         "sname": "tmax",
         "lname": "maximum_daily_temperature",
         "standard_name": "tmax",
         "units": "degC",
-        "vname": "TERRACLIMATE Maximum Temperature 1958_CurrentYear Aggregated - Monthly",
+        "vname": "TerraClimate19912020_tmax.nc",
     },
-    "vap": {
-        "sname": "vap",
-        "lname": "vapor_pressure",
-        "standard_name": "vap",
-        "units": "kPa",
-        "vname": "TERRACLIMATE Vapor Pressure 1958_CurrentYear Aggregated - Monthly",
+    "ws": {
+        "sname": "ws",
+        "lname": "wind_speed",
+        "standard_name": "ws",
+        "vname": "TerraClimate19812010_ws.nc",
     },
     "vpd": {
         "sname": "vpd",
         "lname": "vapor_pressure_deficit",
         "standard_name": "vpd",
-        "units": "kPa",
-        "vname": "TERRACLIMATE Vapor Pressure Deficit 1958_CurrentYear Aggregated - Monthly",
+        "vname": "TerraClimate19812010_vpd.nc",
     },
-    "ws": {
-        "sname": "ws",
-        "lname": "wind_speed_2m",
-        "standard_name": "ws",
-        "units": "m/s",
-        "vname": "TERRACLIMATE Wind Speed 1958_CurrentYear Aggregated - Monthly",
+    "vap": {
+        "sname": "vap",
+        "lname": "vapor_pressure",
+        "standard_name": "vap",
+        "vname": "TerraClimate19812010_vap.nc",
+    },
+    "srad": {
+        "sname": "srad",
+        "lname": "downward_shortwave_radiation",
+        "standard_name": "srad",
+        "vname": "TerraClimate19812010_srad.nc",
     },
 }
 
 
 @tsutils.transform_args(start_date=pd.to_datetime, end_date=pd.to_datetime)
 @tsutils.doc(tsutils.docstrings)
-def terraclimate(
+def terraclimate19912020(
     lat: float,
     lon: float,
     variables=None,
     start_date=None,
     end_date=None,
 ):
-    r"""global:1/24deg:1958-:M:Download monthly data from Terraclimate.
+    r"""global:1/24deg::M:Monthly normals using TerraClimate monthly data from 1991 to 2020.
 
     method: These layers from TerraClimate were derived from the essential
     climate variables of TerraClimate. Water balance variables, actual
@@ -147,12 +136,14 @@ def terraclimate(
     precipitation, temperature, and interpolated plant extractable soil water
     capacity.
 
+    method: These layers from TerraClimate were creating using climatically
+    aided interpolation of monthly anomalies from the CRU Ts4.0 and Japanese
+    55-year Reanalysis (JRA-55) datasets with WorldClim v2.0 climatologies.
+
     keywords: WORLDCLIM,global,monthly,
     temperature,precipitation,wind,radiation,vapor
     pressure,evapotranspiration,water balance,soil water capacity,snow water
     equivalent,runoff
-
-    naming_authority: edu.uidaho.nkn
 
     history: Created by John Abatzoglou, University of California Merced
 
@@ -218,50 +209,41 @@ def terraclimate(
 
         The current list of available variables are in the following table.
 
-        +--------+----------------------------------------+-----------+
-        | Short  | Long                                   | Units     |
-        +========+========================================+===========+
-        | aet    | Actual ET                              | mm        |
-        +--------+----------------------------------------+-----------+
-        | def    | Climate water deficit                  | mm        |
-        +--------+----------------------------------------+-----------+
-        | PDSI   | Palmer Drought Severity Index          |           |
-        +--------+----------------------------------------+-----------+
-        | pet    | Reference ET (mis-labeled by           | mm        |
-        |        | terraclimate as PET, but actually RET  |           |
-        |        | calculated by Penman-Monteith)         |           |
-        +--------+----------------------------------------+-----------+
-        | q      | Runoff                                 | mm        |
-        +--------+----------------------------------------+-----------+
-        | soil   | Soil moisture                          | mm        |
-        +--------+----------------------------------------+-----------+
-        | srad   | Downwelling solar shortwave            | W/m^2     |
-        +--------+----------------------------------------+-----------+
-        | swe    | Snow water equivalence                 | mm        |
-        +--------+----------------------------------------+-----------+
-        | tmax   | maximum temperature                    | degC      |
-        +--------+----------------------------------------+-----------+
-        | tmin   | minimum temperature                    | degC      |
-        +--------+----------------------------------------+-----------+
-        | vap    | Vapor pressure                         | kPa       |
-        +--------+----------------------------------------+-----------+
-        | vpd    | Vapor pressure deficit                 | kPa       |
-        +--------+----------------------------------------+-----------+
-        | ws     | wind_speed                             | m/s       |
-        +--------+----------------------------------------+-----------+
+        +--------+---------------------------------------+-----------+
+        | Short  | Long                                  | Units     |
+        +========+=======================================+===========+
+        | aet    | Actual ET                             | mm        |
+        +--------+---------------------------------------+-----------+
+        | def    | Climate water deficit                 | mm        |
+        +--------+---------------------------------------+-----------+
+        | pet    | Reference ET (mis-labeled by          | mm        |
+        |        | terraclimate as PET, but actually RET |           |
+        |        | calculated by Penman-Monteith)        |           |
+        +--------+---------------------------------------+-----------+
+        | q      | Runoff                                | mm        |
+        +--------+---------------------------------------+-----------+
+        | soil   | Soil moisture                         | mm        |
+        +--------+---------------------------------------+-----------+
+        | swe    | Snow water equivalence                | mm        |
+        +--------+---------------------------------------+-----------+
+        | tmax   | maximum temperature                   | degC      |
+        +--------+---------------------------------------+-----------+
+        | tmin   | minimum temperature                   | degC      |
+        +--------+---------------------------------------+-----------+
+        | vap    | Vapor pressure                        | kPa       |
+        +--------+---------------------------------------+-----------+
+        | vpd    | Vapor pressure deficit                | kPa       |
+        +--------+---------------------------------------+-----------+
+        | ws     | wind_speed                            | m/s       |
+        +--------+---------------------------------------+-----------+
 
     ${start_date}
 
     ${end_date}
     """
-    if variables is None:
-        variables = sorted(_avail_vars.keys())
-    else:
-        variables = tsutils.make_list(variables)
+    turl = "dap2://thredds.northwestknowledge.net:8080/thredds/dodsC/TERRACLIMATE_ALL/climatology/TerraClimate_19912020_{}.nc"
 
-    turl = "http://www.reacchpna.org/thredds/dodsC/agg_terraclimate_{}_1958_CurrentYear_GLOBE.nc"
-    turl = "dap2://thredds.northwestknowledge.net:8080/thredds/dodsC/agg_terraclimate_{}_1958_CurrentYear_GLOBE.nc"
-    return utils.opendap(
+    df = utils.opendap(
         turl,
         lat,
         lon,
@@ -269,14 +251,15 @@ def terraclimate(
         variables=variables,
         start_date=start_date,
         end_date=end_date,
-        tzname=None,
-        missing_value=None,
         time_name="time",
         single_var_url=True,
     )
 
+    df = df.rename(columns=lambda x: f"{x}:19912020")
+
+    return df
+
 
 if __name__ == "__main__":
-    r = terraclimate(29.6, -82.3)
-    print(r.columns)
+    r = terraclimate19912020(29.6, -82.3)
     print(r)
