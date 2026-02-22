@@ -6,6 +6,7 @@ Python API Function Summary
 .. autosummary::
     :toctree: _function_autosummary
 
+    tsgettoolbox.tsgettoolbox.about
     tsgettoolbox.tsgettoolbox.cdec
     tsgettoolbox.tsgettoolbox.coops
     tsgettoolbox.tsgettoolbox.cpc
@@ -17,13 +18,14 @@ Python API Function Summary
     tsgettoolbox.tsgettoolbox.hydstra_ts
     tsgettoolbox.tsgettoolbox.ldas
     tsgettoolbox.tsgettoolbox.ldas_gldas_noah
+    tsgettoolbox.tsgettoolbox.ldas_gldas_noah_v2_0
+    tsgettoolbox.tsgettoolbox.ldas_gldas_noah_v2_1
     tsgettoolbox.tsgettoolbox.ldas_grace
     tsgettoolbox.tsgettoolbox.ldas_merra
-    tsgettoolbox.tsgettoolbox.ldas_merra_update
     tsgettoolbox.tsgettoolbox.ldas_nldas_fora
     tsgettoolbox.tsgettoolbox.ldas_nldas_noah
+    tsgettoolbox.tsgettoolbox.ldas_nldas_vic
     tsgettoolbox.tsgettoolbox.ldas_smerge
-    tsgettoolbox.tsgettoolbox.ldas_trmm_tmpa
     tsgettoolbox.tsgettoolbox.metdata
     tsgettoolbox.tsgettoolbox.modis
     tsgettoolbox.tsgettoolbox.ncei_annual
@@ -54,6 +56,7 @@ Python API Function Summary
     tsgettoolbox.tsgettoolbox.terraclimate
     tsgettoolbox.tsgettoolbox.terraclimate19611990
     tsgettoolbox.tsgettoolbox.terraclimate19812010
+    tsgettoolbox.tsgettoolbox.terraclimate19912020
     tsgettoolbox.tsgettoolbox.terraclimate2C
     tsgettoolbox.tsgettoolbox.terraclimate4C
     tsgettoolbox.tsgettoolbox.twc

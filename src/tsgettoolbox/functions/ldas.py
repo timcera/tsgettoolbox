@@ -250,7 +250,7 @@ _NLDAS_FORA = {
 
 _NLDAS_MOSAIC = {
     "NLDAS_MOS0125_H_2_0_ACond": ["Aerodynamic conductance", "m/s"],
-    "NLDAS_MOS0125_H_2_0_Albedo": ["Surface albedo", "%"],
+    "NLDAS_MOS0125_H_2_0_Albedo": ["Surface albedo", "percent"],
     "NLDAS_MOS0125_H_2_0_AvgSurfT": ["Average surface skin temperature", "K"],
     "NLDAS_MOS0125_H_2_0_CanopInt": ["Plant canopy surface water", "kg/m**2"],
     "NLDAS_MOS0125_H_2_0_CCond": ["Canopy conductance", "m/s"],
@@ -269,8 +269,8 @@ _NLDAS_MOSAIC = {
     "NLDAS_MOS0125_H_2_0_Qsm": ["Snowmelt", "kg/m**2"],
     "NLDAS_MOS0125_H_2_0_Qs": ["Surface runoff (non-infiltrating)", "mm"],
     "NLDAS_MOS0125_H_2_0_Rainf": ["Liquid precipitation (rainfall)", "kg/m**2"],
-    "NLDAS_MOS0125_H_2_0_SMAvail_0_200cm": ["Soil moisture availability (0-200cm)", "%"],
-    "NLDAS_MOS0125_H_2_0_SMAvail_0_40cm": ["Soil moisture availability (0-40cm)", "%"],
+    "NLDAS_MOS0125_H_2_0_SMAvail_0_200cm": ["Soil moisture availability (0-200cm)", "percent"],
+    "NLDAS_MOS0125_H_2_0_SMAvail_0_40cm": ["Soil moisture availability (0-40cm)", "percent"],
     "NLDAS_MOS0125_H_2_0_SnowDepth": ["Snow depth", "m"],
     "NLDAS_MOS0125_H_2_0_Snowf": ["Frozen precipitation (snowfall)", "kg/m**2"],
     "NLDAS_MOS0125_H_2_0_SnowFrac": ["Snow cover", "fraction"],

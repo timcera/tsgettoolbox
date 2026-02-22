@@ -26,7 +26,7 @@
 tsgettoolbox - Quick Guide
 ==========================
 The 'tsgettoolbox' is a Python script and library to get time-series data from
-different web services.  The tsgettoolbox will work with Python 2.6+ and 3.0+.
+different web services.  The tsgettoolbox will work with Python and 3.10+.
 
 Documentation
 -------------
@@ -44,173 +44,190 @@ Just run 'tsgettoolbox --help' to get a list of subcommands.  To get detailed
 help for a particular sub-command, for instance 'coops', type 'tsgettoolbox
 coops --help'.
 
-    about
-        Display version number and system information.
++----------------------+----------+--------+----------+----------+----------------------------+
+| Sub-command          | Spatial  | Time   | Type     | Time     | Description                |
+|                      | Extent   | Extent |          | Interval |                            |
++======================+==========+========+==========+==========+============================+
+| cdec                 | US/CA    | varies | station  | E,H,D,M  | California Department of   |
+|                      |          |        |          |          | Water Resources            |
++----------------------+----------+--------+----------+----------+----------------------------+
+| coops                | global   | varies | station  | 1T,6T,H, | Center for Operational     |
+|                      |          |        |          | D,M      | Oceanographic Products and |
+|                      |          |        |          |          | Services                   |
++----------------------+----------+--------+----------+----------+----------------------------+
+| cpc DISCONTINUED     | US       | varies | region   | W        | Climate Prediction Center  |
++----------------------+----------+--------+----------+----------+----------------------------+
+| daymet               | NAmerica | 1980-  | grid 1km | D,M      | daily meteorology by the   |
+|                      |          |        |          |          | Oak Ridge National         |
+|                      |          |        |          |          | Laboratory                 |
++----------------------+----------+--------+----------+----------+----------------------------+
+| fawn                 | US/FL    | varies | station  | 15T,H,D, | Florida Automated Weather  |
+|                      |          |        |          | M        |                            |
++----------------------+----------+--------+----------+----------+----------------------------+
+| hydstra_ts           | varies   | varies | station  | E,H,D,M  | Kisters Hydstra Webservice |
+|                      |          |        |          |          | - time series values       |
++----------------------+----------+--------+----------+----------+----------------------------+
+| hydstrsa_catalog     | varies   | varies | station  | -NA-     | Kisters Hydstra Webservice |
+|                      |          |        |          |          | - variable catalog         |
++----------------------+----------+--------+----------+----------+----------------------------+
+| hydrstra_stations    | varies   | varies | station  | -NA-     | Kisters Hydstra Webservice |
+|                      |          |        |          |          | - station list             |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ldas DEPRECATED use  | global   | varies | grid     | varies   | Land Data Assimilation     |
+| ldas_* functions     |          |        |          |          | System                     |
+| below instead        |          |        |          |          |                            |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ldas_gldas_noah      | global   | 2000-  | grid     | 3H       | GLDAS NOAH hydrology model |
+|                      |          |        | 0.25deg  |          | results                    |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ldas_gldas_noah_v2_0 | global   | 1948-  | grid     | 3H       | GLDAS NOAH hydrology model |
+|                      |          | 2014   | 0.25deg  |          |                            |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ldas_gldas_noah_v2_1 | global   | 2000-  | grid     | 3H       | GLDAS NOAH hydrology model |
+|                      |          |        | 0.25deg  |          |                            |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ldas_grace           | NAmerica | 2002-  | grid     | 7D       | Groundwater and soil       |
+|                      |          |        | 0.125deg |          | moisture from GRACE        |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ldas_merra           | global   | 1980-  | grid     | H        | MERRA-2 Land surface       |
+|                      |          |        | 0.5x     |          |                            |
+|                      |          |        | 0.625deg |          |                            |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ldas_nldas_fora      | NAmerica | 1979-  | grid     | H        | NLDAS Weather Forcing A    |
+|                      |          |        | 0.125deg |          | (surface)                  |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ldas_nldas_noah      | NAmerica | 1979-  | grid     | H        | NLDAS NOAH hydrology model |
+|                      |          |        | 0.125deg |          |                            |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ldas_nldas_vic       | NAmerica | 1979-  | grid     | H        | NLDAS VIC hydrology model  |
+|                      |          |        | 0.125deg |          |                            |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ldas_smerge          | global   | 1997-  | grid     | D        | SMERGE-Noah-CCI root zone  |
+|                      |          |        | 0.125deg |          | soil                       |
++----------------------+----------+--------+----------+----------+----------------------------+
+| metdata              | NAmerica | 1980-  | grid 4km | D        | Daily data from METDATA    |
+|                      |          |        |          |          | based on PRISM.            |
++----------------------+----------+--------+----------+----------+----------------------------+
+| modis                | global   | 2000-  | grid     | 4D,8D,16 | MODIS derived data         |
+|                      |          |        | 250m,    | D,A      |                            |
+|                      |          |        | 500m,    |          |                            |
+|                      |          |        | 1000m    |          |                            |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ncei_ghcnd_ftp       | global   | varies | station  | D        | NCEI Global Historical     |
+|                      |          |        |          |          | Climatology Network -      |
+|                      |          |        |          |          | Daily (GHCND) from FTP     |
+|                      |          |        |          |          | server.                    |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ncei_ghcnd           | global   | varies | station  | D        | NCEI Global Historical     |
+|                      |          |        |          |          | Climatology Network -      |
+|                      |          |        |          |          | Daily (GHCND) from web     |
+|                      |          |        |          |          | services.                  |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ncei_gsod            | global   | varies | station  | D        | NCEI Global Summary of the |
+|                      |          |        |          |          | Day (GSOD)                 |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ncei_gsom            | global   | varies | station  | M        | NCEI Global Summary of the |
+|                      |          |        |          |          | Month (GSOM)               |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ncei_gsoy            | global   | varies | station  | A        | NCEI Global Summary of     |
+|                      |          |        |          |          | Year                       |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ncei_normal_ann      | global   | varies | station  | A        | NCEI annual normals        |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ncei_normal_dly      | global   | varies | station  | D        | NCEI daily normals         |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ncei_normal_hly      | global   | varies | station  | H        | NCEI hourly normals        |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ncei_normal_mly      | global   | varies | station  | M        | NCEI monthly normals       |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ncei_precip_15       | global   | varies | station  | 15T      | NCEI 15 minute             |
+|                      |          |        |          |          | precipitation              |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ncei_precip_hly      | global   | varies | station  | H        | NCEI hourly precipitation  |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ncei_annual          | global   | varies | station  | A        | NCEI annual data summaries |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ncei_ghcndms         | global   | varies | station  | M        | NCEI GHCND Monthly         |
+|                      |          |        |          |          | Summaries (GHCNDMS)        |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ncei_ish             | global   | varies | station  | H        | NCEI Integrated Surface    |
+|                      |          |        |          |          | hourly                     |
++----------------------+----------+--------+----------+----------+----------------------------+
+| ndbc                 | US       | varies | station  | 6T,10T,  | National Data Buoy Center  |
+|                      |          |        |          | 15T,H,D  |                            |
++----------------------+----------+--------+----------+----------+----------------------------+
+| nwis DEPRECATED use  | US       | varies | station  | varies   | USGS National Water        |
+| nwis_* functions     |          |        |          |          |                            |
+| below instead.       |          |        |          |          |                            |
++----------------------+----------+--------+----------+----------+----------------------------+
+| nwis_iv              | US       | varies | station  | E        | USGS NWIS Instantaneous    |
+|                      |          |        |          |          | Values                     |
++----------------------+----------+--------+----------+----------+----------------------------+
+| nwis_dv              | US       | varies | station  | D        | USGS NWIS Daily Values     |
++----------------------+----------+--------+----------+----------+----------------------------+
+| nwis_site            | US       | varies | station  | -NA-     | USGS NWIS Site Database    |
++----------------------+----------+--------+----------+----------+----------------------------+
+| nwis_gwlevels        | US       | varies | station  | varies   | USGS NWIS Groundwater      |
++----------------------+----------+--------+----------+----------+----------------------------+
+| nwis_measurements    | US       | varies | station  | varies   | USGS NWIS Measurements     |
++----------------------+----------+--------+----------+----------+----------------------------+
+| nwis_peak            | US       | varies | station  | varies   | USGS NWIS Peak             |
++----------------------+----------+--------+----------+----------+----------------------------+
+| nwis_stat            | US       | varies | station  | varies   | USGS NWIS Statistic        |
++----------------------+----------+--------+----------+----------+----------------------------+
+| epa_wqp              | US       | varies | station  | varies   | US EPA Water Quality       |
++----------------------+----------+--------+----------+----------+----------------------------+
+| rivergages           | US       | varies | station  | varies   | USACE river gages          |
++----------------------+----------+--------+----------+----------+----------------------------+
+| swtwc DISCONTINUED   | US/OK    | varies | station  | varies   | USACE Southwest Division,  |
+|                      |          |        |          |          | Tulsa Water Control        |
++----------------------+----------+--------+----------+----------+----------------------------+
+| terraclimate         | global   | varies | grid     | M        | Monthly data from          |
+|                      |          |        | 1/24deg  |          | TerraClimate               |
++----------------------+----------+--------+----------+----------+----------------------------+
+| terraclimate19611990 | global   | varies | grid     | M        | Monthly normals using      |
+| DISCONTINUED         |          |        | 1/24deg  |          | TerraClimate monthly data  |
+|                      |          |        |          |          | from 1961 to 1990          |
++----------------------+----------+--------+----------+----------+----------------------------+
+| terraclimate19812010 | global   | varies | grid     | M        | Monthly normals using      |
+|                      |          |        | 1/24deg  |          | TerraClimate monthly data  |
+|                      |          |        |          |          | from 1981 to 2010          |
++----------------------+----------+--------+----------+----------+----------------------------+
+| terraclimate19912020 | global   | varies | grid     | M        | Monthly normals using      |
+|                      |          |        | 1/24deg  |          | TerraClimate monthly data  |
+|                      |          |        |          |          | from 1991 to 2020          |
++----------------------+----------+--------+----------+----------+----------------------------+
+| terraclimate2C       | global   | varies | grid     | M        | Monthly normals using      |
+| DISCONTINUED         |          |        | 1/24deg  |          | TerraClimate with 2deg C   |
+|                      |          |        |          |          | hotter climate             |
++----------------------+----------+--------+----------+----------+----------------------------+
+| terraclimate4C       | global   | varies | grid     | M        | Monthly normals using      |
+| DISCONTINUED         |          |        | 1/24deg  |          | TerraClimate with 4deg C   |
+|                      |          |        |          |          | hotter climate             |
++----------------------+----------+--------+----------+----------+----------------------------+
+| twc                  | US/OK    | varies | station  | D        | Texas Weather Connection   |
+|                      |          |        |          |          | (TWC) data                 |
++----------------------+----------+--------+----------+----------+----------------------------+
+| unavco               | US       | varies | station  | varies   | UNAVCO well data           |
++----------------------+----------+--------+----------+----------+----------------------------+
 
-    cdec
-        US/CA station E,H,D,M: California Department of Water Resources
++-------------------+-------------+
+| Time Interval     | Description |
+| Code              |             |
++===================+=============+
+| E                 | Event       |
++-------------------+-------------+
+| T                 | Minute      |
++-------------------+-------------+
+| H                 | Hourly      |
++-------------------+-------------+
+| D                 | Daily       |
++-------------------+-------------+
+| M                 | Monthly     |
++-------------------+-------------+
+| A                 | Annual      |
++-------------------+-------------+
 
-    coops
-        global station 1T,6T,H,D,M: Center for Operational Oceanographic
-        Products and Services
-
-    cpc
-        US/region W: Climate Prediction Center, Weekly Drought Index
-
-    daymet
-        NAmerica 1km 1980- D,M:Daymet, daily meteorology by the Oak Ridge
-        National Laboratory
-
-    fawn
-        US/FL 15T,H,D,M:Florida Automated Weather Network (FAWN)
-
-    hydstra_ts
-        Kisters Hydstra Webservice - time series values
-
-    hydstra_catalog
-        Kisters Hydstra Webservice - variable catalog for a station
-
-    hydstra_stations
-        Kisters Hydstra Webservice - station list for a server
-
-    ldas
-        grid: Land Data Assimilation System, includes all ldas_* (NLDAS,
-        GLDAS2, TRMM, SMERGE, GRACE, MERRA)
-
-    ldas_gldas_noah
-        global 0.25deg 2000- 3H:GLDAS NOAH hydrology model results
-
-    ldas_grace
-        NAmerica 0.125deg 2002- 7D:Groundwater and soil moisture from GRACE
-
-    ldas_merra
-        global 0.5x0.625deg 1980- H:MERRA-2 Land surface forcings
-
-    ldas_merra_update
-        global 0.5x0.667deg 1980-2016 H:MERRA-2 Analysis update
-
-    ldas_nldas_fora
-        NAmerica 0.125deg 1979- H:NLDAS Weather Forcing A (surface)
-
-    ldas_nldas_noah
-        NAmerica 0.125deg 1979- H:NLDAS NOAH hydrology model results
-
-    ldas_smerge
-        global 0.125deg 1997- D:SMERGE-Noah-CCI root zone soil moisture
-
-    ldas_trmm_tmpa
-        global 0.25deg 1997- 3H:TRMM (TMPA) rainfall estimate
-
-    metdata
-        NAmerica 4km 1980- D: Download daily data from METDATA based on PRISM.
-
-    modis
-        global 250m,500m,1000m 2000- 4D,8D,16D,A:Download MODIS derived data.
-
-    ncei_ghcnd_ftp
-        global station D:NCEI Global Historical Climatology Network - Daily
-        (GHCND)
-
-    ncei_ghcnd
-        global station D:Global Historical Climatology Network - Daily (GHCND)
-
-    ncei_gsod
-        global station D:NCEI Global Summary of the Day (GSOD)
-
-    ncei_gsom
-        global station M:NCEI Global Summary of Month (GSOM)
-
-    ncei_gsoy
-        global station A:NCEI Global Summary of Year (GSOY)
-
-    ncei_normal_ann
-        global station A: NCEI annual normals
-
-    ncei_normal_dly
-        global station D:NCEI Daily Normals
-
-    ncei_normal_hly
-        global station H:NCEI Normal hourly
-
-    ncei_normal_mly
-        global station M:NCEI Monthly Summaries.
-
-    ncei_precip_15
-        global station 15T:NCEI 15 minute precipitation
-
-    ncei_precip_hly
-        global station H:NCEI hourly precipitation
-
-    ncei_annual
-        global station A:NCEI annual data summaries
-
-    ncei_ghcndms
-        global station M:NCEI GHCND Monthly Summaries (GHCNDMS)
-
-    ncei_ish
-        global station H:Integrated Surface Database
-
-    ndbc
-        US station T,6T,10T,15T,H,D:Download historical from the National Data
-        Buoy Center.
-
-    nwis
-        US station:Use the ``nwis_*`` functions instead.
-
-    nwis_iv
-        US station E:USGS NWIS Instantaneous Values
-
-    nwis_dv
-        US station D:USGS NWIS Daily Values
-
-    nwis_site
-        US station:USGS NWIS Site Database
-
-    nwis_gwlevels
-        US station:USGS NWIS Groundwater Levels
-
-    nwis_measurements
-        US station:USGS NWIS Measurements
-
-    nwis_peak
-        US station:USGS NWIS Peak
-
-    nwis_stat
-        US station:USGS NWIS Statistic
-
-    epa_wqp
-        US station E:EPA Water Quality Portal.
-
-    rivergages
-        US station:USACE river gages
-
-    swtwc
-        US/region station:USACE Southwest Division, Tulsa Water Control
-
-    terraclimate
-        global 1/24deg 1958- M:Download monthly data from Terraclimate.
-
-    terraclimate2C
-        global 1/24deg M:Monthly normals from Terraclimate with 2deg C hotter
-        climate.
-
-    terraclimate4C
-        global 1/24deg M:Monthly normals from Terraclimate with 4deg C hotter
-        climate.
-
-    terraclimate19611990
-        global 1/24deg M:Monthly normals using TerraClimate monthly data from
-        1961 to 1990.
-
-    terraclimate19812010
-        global 1/24deg M:Monthly normals using TerraClimate monthly data from
-        1981 to 2010.
-
-    twc
-        US/TX station D:Download Texas Weather Connection (TWC) data.
-
-    unavco
-        US station: Download data from the Unavco web services.
 
 Usage Summary - Python Library
 ------------------------------

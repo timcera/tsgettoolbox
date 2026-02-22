@@ -67,6 +67,16 @@ ldas_gldas_noah
 .. program-output:: tsgettoolbox ldas_gldas_noah --help
    :prompt:
 
+ldas_gldas_noah_v2_0
+~~~~~~~~~~~~~~~~~~~~
+.. program-output:: tsgettoolbox ldas_gldas_noah_v2_0 --help
+   :prompt:
+
+ldas_gldas_noah_v2_1
+~~~~~~~~~~~~~~~~~~~~
+.. program-output:: tsgettoolbox ldas_gldas_noah_v2_1 --help
+   :prompt:
+
 ldas_grace
 ~~~~~~~~~~
 .. program-output:: tsgettoolbox ldas_grace --help
@@ -75,11 +85,6 @@ ldas_grace
 ldas_merra
 ~~~~~~~~~~
 .. program-output:: tsgettoolbox ldas_merra --help
-   :prompt:
-
-ldas_merra_update
-~~~~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox ldas_merra_update --help
    :prompt:
 
 ldas_nldas_fora
@@ -92,14 +97,14 @@ ldas_nldas_noah
 .. program-output:: tsgettoolbox ldas_nldas_noah --help
    :prompt:
 
+ldas_nldas_vic
+~~~~~~~~~~~~~~
+.. program-output:: tsgettoolbox ldas_nldas_vic --help
+   :prompt:
+
 ldas_smerge
 ~~~~~~~~~~~
 .. program-output:: tsgettoolbox ldas_smerge --help
-   :prompt:
-
-ldas_trmm_tmpa
-~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox ldas_trmm_tmpa --help
    :prompt:
 
 metdata
@@ -250,6 +255,11 @@ terraclimate19611990
 terraclimate19812010
 ~~~~~~~~~~~~~~~~~~~~
 .. program-output:: tsgettoolbox terraclimate19812010 --help
+   :prompt:
+
+terraclimate19912020
+~~~~~~~~~~~~~~~~~~~~
+.. program-output:: tsgettoolbox terraclimate19912020 --help
    :prompt:
 
 terraclimate2C

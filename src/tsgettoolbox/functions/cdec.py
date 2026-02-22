@@ -321,10 +321,12 @@ def download_data(
         nnd.columns = [key]
         nd = nd.join(nnd, how="outer")
     nd.rename(
-        lambda x: x.replace(",", "_")
-        .replace(" ", "_")
-        .replace("__", "_")
-        .replace("DEG_F", "degF"),
+        lambda x: (
+            x.replace(",", "_")
+            .replace(" ", "_")
+            .replace("__", "_")
+            .replace("DEG_F", "degF")
+        ),
         axis="columns",
         inplace=True,
     )
