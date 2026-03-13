@@ -1,3 +1,9 @@
+## v26.2.2 (2026-03-13)
+
+### Fix
+
+- fixes for various pandas deprecations
+
 ## v26.2.1 (2026-02-21)
 
 ## v26.2.0 (2026-02-21)
