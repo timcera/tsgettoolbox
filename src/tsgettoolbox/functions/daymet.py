@@ -187,11 +187,10 @@ def daymet(
             sep=",",
             skiprows=6,
             header=0,
-            date_parser=year_doy,
-            parse_dates={"Datetime": ["year", "yday"]},
-            index_col="Datetime",
         )
-        df.index = pd.to_datetime(df.index)
+        nindex = year_doy(df["year"], df["yday"])
+        df.index = pd.to_datetime(nindex)
+        df.index.name = "Datetime"
 
         ndf = ndf.combine_first(df)
 

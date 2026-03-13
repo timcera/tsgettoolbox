@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 
 from tsgettoolbox import tsgettoolbox
+from tsgettoolbox.toolbox_utils.src.toolbox_utils.utils import pandas_offset_by_version
 
 # def test_get_stations():
 #     stations_file = "cdec/historical/all_stations.csv"
@@ -57,7 +58,9 @@ def test_get_station_data():
         try:
             test_timestamps = [
                 pd.Timestamp(t).tz_localize("Etc/GMT+8")
-                for t in pd.date_range(test_values[0], test_values[1], freq="H")
+                for t in pd.date_range(
+                    test_values[0], test_values[1], freq=pandas_offset_by_version("h")
+                )
             ]
         except ValueError:
             test_timestamps = [

@@ -5326,7 +5326,7 @@ def ncei_ghcndms(stationid, start_date=None, end_date=None):
 
 
 @tsutils.doc({**tsutils.docstrings, **ncei_ghcnd_docstrings})
-def ncei_ish(stationid, start_date=None, end_date=None):
+def ncei_ish(stationid, start_date="1901-01-01", end_date=datetime.datetime.now()):
     r"""global:station::H:Integrated Surface Database
 
     ${info}
@@ -5338,7 +5338,6 @@ def ncei_ish(stationid, start_date=None, end_date=None):
     ${end_date}
     """
     stationid = stationid.replace("-", "")
-
     # "https://www1.ncdc.noaa.gov/pub/data/noaa/{year}/{station}-{year}.gz",
     final = utils.file_downloader(
         "https://www.ncei.noaa.gov/data/global-hourly/access/{year}/{station}.csv",
@@ -5759,12 +5758,15 @@ def ncei_ish(stationid, start_date=None, end_date=None):
                 if "astype" in modifiers:
                     addto[vname] = addto[vname].astype(modifiers["astype"])
                 if "replace" in modifiers:
-                    pd.set_option("future.no_silent_downcasting", True)
-                    addto[vname] = addto[vname].replace(modifiers["replace"], np.nan)
+                    addto[vname] = (
+                        addto[vname]
+                        .convert_dtypes()
+                        .replace(modifiers["replace"], np.nan)
+                    )
                 if "factor" in modifiers:
                     addto[vname] = addto[vname] * modifiers["factor"]
             final = final.drop(cname, axis="columns")
-            final = pd.concat([final, addto], axis="columns")
+            final = pd.concat([final, addto], axis="columns", sort=False)
     return final
 
 

@@ -264,7 +264,7 @@ _vars = {
     },
 }
 
-tsutils.docstrings.update({k: f"{v['lname']:50}" for k, v in _vars.items()})
+tsutils.docstrings.update({k: f"{v['lname']:55}" for k, v in _vars.items()})
 
 
 @tsutils.doc(tsutils.docstrings)
