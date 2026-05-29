@@ -7,11 +7,6 @@ Help::
 
     tsgettoolbox --help
 
-about
-~~~~~
-.. program-output:: tsgettoolbox about --help
-   :prompt:
-
 cdec
 ~~~~
 .. program-output:: tsgettoolbox cdec --help

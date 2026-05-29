@@ -64,7 +64,8 @@ def daymet(
         ]
     ] = None,
 ):
-    r"""NAmerica:1km:1980-:D,M:Daymet, daily meteorology by the Oak Ridge National Laboratory
+    """
+    NAmerica:1km:1980-:D,M:Daymet, daily meteorology by the Oak Ridge National Laboratory
 
     Detailed documentation is at http://daymet.ornl.gov/.  Since this is
     daily data, it covers midnight to midnight based on local time.
@@ -83,15 +84,13 @@ def daymet(
 
             Example: --lon=-85.3
 
-    ${start_date}
+    start_date
         For North America and Hawaii, the earliest date is 1980-01-01. For
         Puerto Rico, the earliest date it 1950-01-01.
-
-    ${end_date}
+    end_date
         The latest end date is usually 12-31 of the previous calendar year,
         though this is dependent on time required to process the previous
         year's data.
-
     years : CommaSeparatedYears (optional):
         Current Daymet product is available from 1980 to the latest
         full calendar year.::
@@ -99,7 +98,6 @@ def daymet(
             Example: --years=2012,2014
 
         This overrides the start_date and end_date options.
-
     measuredParams:
         [optional, defaults to "all"]
 

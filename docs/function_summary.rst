@@ -6,7 +6,6 @@ Python API Function Summary
 .. autosummary::
     :toctree: _function_autosummary
 
-    tsgettoolbox.tsgettoolbox.about
     tsgettoolbox.tsgettoolbox.cdec
     tsgettoolbox.tsgettoolbox.coops
     tsgettoolbox.tsgettoolbox.cpc
