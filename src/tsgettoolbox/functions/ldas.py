@@ -32,6 +32,7 @@ import async_retriever as ar
 import pandas as pd
 import requests
 from requests.auth import HTTPBasicAuth
+import json
 
 # from pandas._libs.lib import no_default
 from tabulate import tabulate as tb
@@ -1141,8 +1142,10 @@ def base_ldas(
             netrc.netrc().hosts["urs.earthdata.nasa.gov"][2],
         ),
         allow_redirects=True,
-    ).text.replace('"', "")
-    token=token.split(':')[2][:-1]
+    )
+    token = json.loads(token._content)
+    token = token["token"]
+  
     time_series_url = "https://api.giovanni.earthdata.nasa.gov/timeseries"
 
     ndf = pd.DataFrame()
