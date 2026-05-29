@@ -29,6 +29,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules"
 ] # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
 dependencies = [
+    "aiodns>3.6.0",
     "async_retriever",
     "beautifulsoup4",
     "cftime",
