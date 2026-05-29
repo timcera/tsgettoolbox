@@ -1142,7 +1142,7 @@ def base_ldas(
         ),
         allow_redirects=True,
     ).text.replace('"', "")
-
+    token=token.split(':')[2][:-1]
     time_series_url = "https://api.giovanni.earthdata.nasa.gov/timeseries"
 
     ndf = pd.DataFrame()
