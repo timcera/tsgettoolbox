@@ -128,9 +128,6 @@ def get_station_data(station_code, date=None, as_dataframe=False):
         for variable_name in variable_names
     }
 
-    def date_parser(x):
-        return _convert_datetime(x, year)
-
     dataframe = pd.read_fwf(
         sio,
         names=column_names,
@@ -138,9 +135,8 @@ def get_station_data(station_code, date=None, as_dataframe=False):
         index_col=["datetime"],
         na_values=["----"],
         converters=converters,
-        parse_dates=True,
-        date_parser=date_parser,
     )
+    dataframe.index = [_convert_datetime(value, year) for value in dataframe.index]
 
     # parse out rows that are all nans (e.g. end of "current" page)
     dataframe = dataframe[~np.isnan(dataframe.T.sum())]
