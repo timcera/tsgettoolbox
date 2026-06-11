@@ -1,3 +1,9 @@
+## v26.2.5 (2026-06-11)
+
+### Fix
+
+- update toolbox_utils to support numpy 1.*
+
 ## v26.2.4 (2026-06-11)
 
 ## v26.2.3 (2026-05-29)
