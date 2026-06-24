@@ -29,7 +29,6 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules"
 ] # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
 dependencies = [
-    "aiodns>3.6.0",
     "async_retriever",
     "beautifulsoup4",
     "cftime",
@@ -48,7 +47,7 @@ dependencies = [
     "pint",
     "pint-pandas",
     "platformdirs",
-    "pydantic",
+    "pydantic >=2",
     "pydap",
     "python-dateutil",
     "requests",
@@ -89,8 +88,28 @@ multiline = true
 [tool.isort]
 profile = "black"
 
+[tool.jupytext]
+formats = "auto:percent"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.ruff]
+fix = true
+exclude = [
+    "src/*/toolbox_utils/**/*.py",
+    "src/*/cdo_api_py/**/*.py"
+]
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
+[tool.ruff.lint.isort.import-heading]
+future = "Future imports"
+standard-library = "Standard library imports"
+third-party = "Third party imports"
+first-party = "First party imports"
+local-folder = "Local folder imports"
 
 [tool.setuptools]
 include-package-data = true
