@@ -1,7 +1,6 @@
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = [
-    "setuptools-scm[simple]>=8",
     "setuptools>=80"
 ]
 
@@ -15,7 +14,6 @@ classifiers = [
     "Intended Audience :: Developers",
     "Intended Audience :: End Users/Desktop",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: BSD License",
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3 :: Only",
@@ -65,7 +63,8 @@ keywords = [
     "url",
     "web_services"
 ]
-license = {text = "BSD-3-Clause"}
+license = "BSD-3-Clause"
+license-files = ["LICENSE.txt"]
 name = "tsgettoolbox"
 requires-python = ">=3.10"
 
@@ -113,7 +112,6 @@ local-folder = "Local folder imports"
 
 [tool.setuptools]
 include-package-data = true
-license-files = ["LICENSE.txt"]
 
 [tool.setuptools.dynamic]
 readme = {file = "README.rst"}
@@ -121,3 +119,4 @@ version = {file = "VERSION"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+exclude = ["docs", "tests"]

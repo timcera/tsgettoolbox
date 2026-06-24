@@ -33,4 +33,19 @@ recursive-include src *.yaml
 recursive-include src *.yml
 recursive-include src Makefile
 
+recursive-exclude tests *.cfm
+recursive-exclude tests *.csv
+recursive-exclude tests *.data
+recursive-exclude tests *.dly
+recursive-exclude tests *.htm
+recursive-exclude tests *.html
+recursive-exclude tests *.img
+recursive-exclude tests *.jp2
+recursive-exclude tests *.json
+recursive-exclude tests *.py
+recursive-exclude tests *.tar
+recursive-exclude tests *.txt
+recursive-exclude tests *.xml
+recursive-exclude tests *.zip
+
 recursive-exclude src/tsgettoolbox/src/toolbox_utils/tests *
