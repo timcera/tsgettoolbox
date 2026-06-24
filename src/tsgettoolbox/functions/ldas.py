@@ -19,26 +19,37 @@ ldas_smerge          global 0.125deg 1997- D:SMERGE-Noah-CCI root zone soil
 ldas_trmm_tmpa       global 0.25deg 1997- 3H:TRMM (TMPA) rainfall estimate
 """
 
+# Standard library imports
 import datetime
 import itertools
+import json
 import logging
 import netrc
 import os
 import textwrap
 from contextlib import suppress
 from io import BytesIO
+from typing import Optional
 
+# Third party imports
 import async_retriever as ar
 import pandas as pd
 import requests
 from requests.auth import HTTPBasicAuth
-import json
 
 # from pandas._libs.lib import no_default
 from tabulate import tabulate as tb
 
+# First party imports
 from tsgettoolbox import utils
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
+
+try:
+    # Third party imports
+    from pydantic import validate_call
+except ImportError:
+    # Third party imports
+    from pydantic import validate_arguments as validate_call
 
 __all__ = [
     "ldas",
@@ -509,10 +520,10 @@ def make_units_table(units_dict):
 
 
 def foundation_api(
-    units_table="",
-    first_line="",
-    meta_table="",
-    description="",
+    units_table: str = "",
+    first_line: str = "",
+    meta_table: str = "",
+    description: str = "",
 ):
     """Create a foundation API function returning a function."""
 
@@ -524,9 +535,10 @@ def foundation_api(
             "description": description,
         }
     )
+    @validate_call
     def ldas_api(
-        lat=None,
-        lon=None,
+        lat: Optional[float] = None,
+        lon: Optional[float] = None,
         variables=None,
         startDate=None,
         endDate=None,
@@ -1103,9 +1115,10 @@ ldas_smerge = foundation_api(
 
 
 @tsutils.transform_args(variables=tsutils.make_list, variable=tsutils.make_list)
+@validate_call
 def base_ldas(
-    lat,
-    lon,
+    lat: float,
+    lon: float,
     variables=None,
     startDate=None,
     endDate=None,
@@ -1145,7 +1158,7 @@ def base_ldas(
     )
     token = json.loads(token._content)
     token = token["token"]
-  
+
     time_series_url = "https://api.giovanni.earthdata.nasa.gov/timeseries"
 
     ndf = pd.DataFrame()

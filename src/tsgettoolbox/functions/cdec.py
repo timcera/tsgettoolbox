@@ -3,13 +3,16 @@ cdec                US/CA station I,H,D,M: California Department of Water
                     Resources
 """
 
+# Standard library imports
 import datetime
 import warnings
 from pathlib import Path
 from typing import Optional, Union
 
+# Third party imports
 import pandas as pd
 
+# First party imports
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = ["cdec"]
@@ -125,7 +128,8 @@ def get_sensors(sensor_id=None):
 
 
 def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
-    """Get available sensors for the given stations.
+    """
+    Get available sensors for the given stations.
 
     Get available sensors, sensor ids and time resolutions. If no station ids
     are provided, all available stations will be used (this is not recommended,
@@ -201,7 +205,8 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
 
 
 def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, end=None):
-    """Download data for a set of CDEC station and sensor ids.
+    """
+    Download data for a set of CDEC station and sensor ids.
 
     If either is not provided, all available data will be downloaded. Be really
     careful with choosing hourly resolution as the data sets are big, and
