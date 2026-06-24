@@ -1,1 +1,36 @@
-recursive-exclude tests *.xml
+include *.cff
+include *.in
+include *.md
+include *.rst
+include *.toml
+include *.txt
+include *.yaml
+include .gitmodules
+recursive-include docs *.bat
+recursive-include docs *.png
+recursive-include docs *.py
+recursive-include docs *.rst
+recursive-include docs Makefile
+recursive-include notebooks *.csv
+recursive-include notebooks *.ipynb
+recursive-include notebooks *.png
+recursive-include notebooks *.py
+recursive-include notebooks *.sh
+recursive-include src *.bat
+recursive-include src *.csv
+recursive-include src *.dat
+recursive-include src *.hbn
+recursive-include src *.in
+recursive-include src *.md
+recursive-include src *.plt
+recursive-include src *.rst
+recursive-include src *.sh
+recursive-include src *.toml
+recursive-include src *.txt
+recursive-include src *.wdm
+recursive-include src *.xlsx
+recursive-include src *.yaml
+recursive-include src *.yml
+recursive-include src Makefile
+
+recursive-exclude src/tsgettoolbox/src/toolbox_utils/tests *
