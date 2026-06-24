@@ -1,3 +1,9 @@
+## v26.2.6 (2026-06-24)
+
+### Fix
+
+- add new location for functions so that functions are also at top level, use pydantic for validation
+
 ## v26.2.5 (2026-06-11)
 
 ### Fix
