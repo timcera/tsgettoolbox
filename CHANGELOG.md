@@ -1,3 +1,9 @@
+## v26.2.7 (2026-06-24)
+
+### Fix
+
+- needed to remove tests from sdist because of pypi size limits
+
 ## v26.2.6 (2026-06-24)
 
 ### Fix
