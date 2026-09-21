@@ -5,16 +5,20 @@ ulmo.util.raster
 Collection of useful functions for raster manipulation
 """
 
+# Standard library imports
 import hashlib
 import os
 import zipfile
 
+# Local folder imports
 from .misc import download_if_new, mkdir_if_doesnt_exist
 
 
 def mosaic_and_clip(raster_tiles, xmin, ymin, xmax, ymax, output_path):
+    # Standard library imports
     import subprocess
 
+    # Third party imports
     import rasterio
     from pyproj import Proj
 
@@ -26,9 +30,8 @@ def mosaic_and_clip(raster_tiles, xmin, ymin, xmax, ymax, output_path):
         )
     )
     # check crs
-    with rasterio.drivers():
-        with rasterio.open(output_vrt) as src:
-            p = Proj(src.crs)
+    with rasterio.drivers(), rasterio.open(output_vrt) as src:
+        p = Proj(src.crs)
 
     if not p.is_latlong():
         [xmax, xmin], [ymax, ymin] = p([xmax, xmin], [ymax, ymin])
@@ -78,7 +81,7 @@ def download_tiles(path, tile_urls, tile_fmt, check_modified=False):
 def extract_from_zip(zip_path, tile_path, tile_fmt):
     tile_path = os.path.splitext(tile_path)[0] + tile_fmt
     with zipfile.ZipFile(zip_path) as z:
-        fname = [x for x in z.namelist() if tile_fmt in x[-4:]][0]
+        fname = next(x for x in z.namelist() if tile_fmt in x[-4:])
         with open(tile_path, "wb") as f:
             f.write(z.read(fname))
             print(f"... ... {tile_fmt} format raster saved at {tile_path}")

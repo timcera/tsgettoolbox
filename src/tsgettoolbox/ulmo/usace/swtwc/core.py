@@ -10,15 +10,18 @@ Corps of Engineers`_ `Tulsa District Water Control`_ web site.
 
 """
 
+# Standard library imports
 import datetime
 import os.path
 from io import StringIO
 
+# Third party imports
 import numpy as np
 import pandas
 import requests
 from bs4 import BeautifulSoup
 
+# Local folder imports
 from ... import util
 
 USACE_SWTWC_DIR = os.path.join(util.get_ulmo_dir(), "usace/swtwc")
@@ -53,7 +56,7 @@ def get_station_data(station_code, date=None, as_dataframe=False):
 
     if date is None:
         date_str = "current"
-        year = datetime.date.today().year
+        year = datetime.datetime.now(datetime.timezone.utc).year
     else:
         date = util.convert_date(date)
         date_str = date.strftime("%Y%m%d")
@@ -155,7 +158,11 @@ def get_stations():
 
 def _convert_datetime(s, year):
     fmt = "%m/%d %H:%M"
-    return datetime.datetime.strptime(s, fmt).replace(year=year)
+    return (
+        datetime.datetime.strptime(s, fmt)
+        .astimezone(datetime.timezone.utc)
+        .replace(year=year)
+    )
 
 
 def _split_line(line, n):

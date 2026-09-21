@@ -6,4 +6,5 @@
 
 __all__ = ["get_available_layers", "get_raster", "get_raster_availability"]
 
+# Local folder imports
 from .core import get_available_layers, get_raster, get_raster_availability

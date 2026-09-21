@@ -9,12 +9,15 @@ Keetch-Byram Drought Index (KBDI)`_ dataset.
 .. _Daily Keetch-Byram Drought Index (KBDI): http://twc.tamu.edu/drought/kbdi
 """
 
+# Standard library imports
 import datetime
 import os
 
+# Third party imports
 import numpy as np
 import pandas
 
+# Local folder imports
 from ... import util
 
 CSV_SWITCHOVER = pandas.Timestamp("2016-10-01")
@@ -53,7 +56,11 @@ def get_data(county=None, start=None, end=None, as_dataframe=False, data_dir=Non
         A dict or pandas.DataFrame representing the data. See the
         ``as_dataframe`` parameter for more.
     """
-    end_date = datetime.date.today() if end is None else util.convert_date(end)
+    end_date = (
+        datetime.datetime.now(datetime.timezone.utc)
+        if end is None
+        else util.convert_date(end)
+    )
     if start is None:
         start_date = datetime.date(end_date.year, 1, 1)
     else:

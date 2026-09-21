@@ -6,13 +6,16 @@ This module provides direct access to `CUAHSI WaterOneFlow`_ web services.
 .. _CUAHSI WaterOneFlow: https://his.cuahsi.org/wofws.html
 """
 
+# Standard library imports
 import io
 import os
 
+# Third party imports
 import isodate
 import suds.client
 from suds.cache import ObjectCache
 
+# Local folder imports
 from ... import util, waterml
 
 _suds_client = None
@@ -113,7 +116,7 @@ def get_site_info(
 
     if len(sites) == 0:
         return {}
-    site_info = list(sites.values())[0]
+    site_info = next(iter(sites.values()))
     series_dict = {
         series["variable"]["vocabulary"] + ":" + series["variable"]["code"]: series
         for series in site_info["series"]
@@ -217,7 +220,7 @@ def get_values(
     elif waterml_version == "1.1":
         values = waterml.v1_1.parse_site_values(response_buffer)
 
-    return list(values.values())[0] if variable_code is not None else values
+    return next(iter(values.values())) if variable_code is not None else values
 
 
 def get_variable_info(
@@ -275,7 +278,7 @@ def get_variable_info(
         variable_info = waterml.v1_1.parse_variables(response_buffer)
 
     if variable_code is not None and len(variable_info) == 1:
-        return list(variable_info.values())[0]
+        return next(iter(variable_info.values()))
     else:
         return {
             f"{var['vocabulary']}:{var['code']}": var

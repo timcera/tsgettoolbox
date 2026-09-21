@@ -1,12 +1,15 @@
+# Standard library imports
+import datetime
 import logging
 import os
 import shutil
-from datetime import datetime, timedelta
 
+# Third party imports
 import isodate
 import pandas as pd
 import requests
 
+# Local folder imports
 from ... import util
 from . import parsers
 
@@ -155,9 +158,9 @@ def _format_time(timestamp):
         else:
             timestamp = isodate.parse_datetime(timestamp)
 
-    if isinstance(timestamp, datetime):
+    if isinstance(timestamp, datetime.datetime):
         return timestamp.strftime("%Y/%j %H:%M:%S")
-    elif isinstance(timestamp, timedelta):
+    if isinstance(timestamp, datetime.timedelta):
         return _format_period(timestamp)
 
 
@@ -174,9 +177,9 @@ def _get_store_path(path, default_file_name):
 def _parse(entry):
     return {
         "dcp_address": entry["TblDcpDataAddrCorr"],
-        "message_timestamp_utc": datetime.fromtimestamp(
+        "message_timestamp_utc": datetime.datetime.fromtimestamp(
             int(entry["TblDcpDataDtMsgCar"].strip("/Date()")) / 1000
-        ),
+        ).astimezone(datetime.timezone.utc),
         "failure_code": entry["TblDcpDataProcessInfo"],
         "signal_strength": entry["TblDcpDataSigStrength"],
         "goes_receive_channel": entry["TblDcpDataChan"],

@@ -2,6 +2,7 @@
 tsgettoolbox utility functions.
 """
 
+# Standard library imports
 import configparser as cp
 import contextlib
 import datetime
@@ -11,29 +12,56 @@ import os
 import platform
 import sys
 import textwrap
+import time
 import xml
 from multiprocessing import Pool
 from netrc import netrc
 from pathlib import Path
 
+# Third party imports
 import cftime
 import numpy as np
 import pandas as pd
 import requests
 from haversine import haversine_vector
-from platformdirs import user_config_dir
+from platformdirs import user_cache_path, user_config_dir
 from pydap.client import open_url
 from requests.adapters import HTTPAdapter, Retry
 from siphon.ncss import NCSS
 
+# Local folder imports
 from .toolbox_utils.src.toolbox_utils import tsutils
 
 try:
+    # Third party imports
     from pydantic import validate_call
 except ImportError:
+    # Third party imports
     from pydantic import validate_arguments as validate_call
 
 __all__ = []
+
+
+def set_cache_env(src_name):
+    """Set cache directory."""
+    cache_path = user_cache_path("tsgettoolbox")
+    os.environ["HYRIVER_CACHE_NAME"] = str(
+        cache_path / f"aiohttp_cache_{src_name}.sqlite"
+    )
+
+    # Set cache expiration to 7 days (in seconds) does not clean up the cache,
+    # just sets the expiration time for cached items.
+    os.environ["HYRIVER_CACHE_EXPIRE"] = "604800"  # 7 days in seconds
+
+    # Clean up cache files older than 8 days.
+    max_age_days = 8
+    if cache_path.exists():
+        now = time.time()
+        for item in cache_path.rglob("*"):
+            if item.is_file():
+                age_days = (now - item.stat().st_mtime) / 86400
+                if age_days > max_age_days:
+                    item.unlink()
 
 
 def read_netrc(machine):
@@ -64,8 +92,35 @@ def read_netrc(machine):
                 ),
                 file=sys.stderr,
             )
-        username = input(f"Username for '{machine}': ")
-        password = getpass.getpass(f"Password for '{machine}': ")
+        elif machine == "api.waterdata.usgs.gov":
+            print(
+                textwrap.dedent(
+                    f"""\
+                    *
+                    * To access USGS Water Data for the Nation services you
+                    * need to create a free * account at
+                    * https://api.waterdata.usgs.gov/signup
+                    *
+                    * After creating your account you can enter your credentials
+                    * below to have them stored in
+                    * '{netrcpath}'
+                    * file for future use.
+                    *
+                    """
+                ),
+                file=sys.stderr,
+            )
+
+        if machine == "urs.earthdata.nasa.gov":
+            username = input(f"Username for '{machine}': ")
+        elif machine == "api.waterdata.usgs.gov":
+            username = input(f"E-mail for '{machine}': ")
+
+        if machine == "urs.earthdata.nasa.gov":
+            password = getpass.getpass(f"Password for '{machine}': ")
+        elif machine == "api.waterdata.usgs.gov":
+            password = getpass.getpass(f"Token for '{machine}': ")
+
         nrc.hosts[machine] = (username, None, password)
         with open(netrcpath, "w", encoding="ascii") as fpnetrc:
             fpnetrc.write(repr(nrc))
@@ -98,7 +153,8 @@ def read_api_key(service):
     os.chmod(configfile, 0o600)
 
     inifile = cp.ConfigParser()
-    inifile.read_file(open(configfile, encoding="ascii"))
+    with open(configfile, "r+", encoding="ascii") as fpconfig:
+        inifile.read_file(fpconfig)
 
     try:
         api_key = inifile.get(service, "api_key")
@@ -116,7 +172,8 @@ def read_api_key(service):
             )
         api_key = "ReplaceThisStringWithYourKey"
 
-    inifile.read_file(open(configfile, encoding="ascii"))
+    with open(configfile, "r+", encoding="ascii") as fpconfig:
+        inifile.read_file(fpconfig)
     api_key = inifile.get(service, "api_key")
     if api_key == "ReplaceThisStringWithYourKey":
         raise ValueError(
@@ -174,7 +231,11 @@ def file_downloader(baseurl, station, startdate=None, enddate=None):
         startdate = pd.to_datetime(startdate)
     else:
         startdate = pd.to_datetime("1901-01-01")
-    enddate = pd.to_datetime(enddate) if enddate else datetime.datetime.now()
+    enddate = (
+        pd.to_datetime(enddate)
+        if enddate
+        else datetime.datetime.now(tz=datetime.timezone.utc)
+    )
     station = station.split(":")[-1]
     urls = []
     for year in range(startdate.year, enddate.year + 1):
@@ -215,9 +276,9 @@ def dapdownloader(url: str, lat, lon, var, start_date=None, end_date=None):
     query = ncss.query()
 
     if start_date is None:
-        start_date = datetime.datetime(1, 1, 1)
+        start_date = datetime.datetime(1, 1, 1, tzinfo=datetime.timezone.utc)
     if end_date is None:
-        end_date = datetime.datetime(9999, 1, 1)
+        end_date = datetime.datetime(9999, 1, 1, tzinfo=datetime.timezone.utc)
     query.time_range(start_date, end_date)
     query.variables(*var)
 
@@ -446,6 +507,7 @@ def erddap(
     """Download data from an ERDDAP server."""
     variables = tsutils.make_list(variables)
 
+    # Third party imports
     from erddapy import ERDDAP
 
     if single_var_url is True:
@@ -523,9 +585,9 @@ def nopendap(
     query = ncss.query()
 
     if start_date is None:
-        start_date = datetime.datetime(1, 1, 1)
+        start_date = datetime.datetime(1, 1, 1, tzinfo=datetime.timezone.utc)
     if end_date is None:
-        end_date = datetime.datetime(9999, 1, 1)
+        end_date = datetime.datetime(9999, 1, 1, tzinfo=datetime.timezone.utc)
     query.time_range(start_date, end_date)
 
     query.variables(*var)

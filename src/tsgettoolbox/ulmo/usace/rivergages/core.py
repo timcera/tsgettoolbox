@@ -9,12 +9,15 @@ Corps of Engineers`_ `Rivergages`_ web site.
 .. _Rivergages: http://rivergages.mvr.usace.army.mil/WaterControl/new/layout.cfm
 """
 
+# Standard library imports
 import datetime
 import os.path
 
+# Third party imports
 import requests
 from bs4 import BeautifulSoup
 
+# Local folder imports
 from ... import util
 
 USACE_RIVERGAGES_DIR = os.path.join(util.get_ulmo_dir(), "usace/rivergages/")
@@ -43,7 +46,11 @@ def get_station_data(
     if max_value is None:
         max_value = 9000000
     start_date = DEFAULT_START_DATE if start is None else util.convert_date(start)
-    end_date = datetime.date.today() if end is None else util.convert_date(end)
+    end_date = (
+        datetime.datetime.now(datetime.timezone.utc)
+        if end is None
+        else util.convert_date(end)
+    )
     start_date_str = _format_date(start_date)
     end_date_str = _format_date(end_date)
 

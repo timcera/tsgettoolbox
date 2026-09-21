@@ -3,15 +3,28 @@ fawn                US/FL 15T,H,D,M:Florida Automated Weather Network
                     (FAWN)
 """
 
+# Standard library imports
 import datetime
 from contextlib import suppress
+from typing import Annotated, Literal
 
+# Third party imports
 import mechanize
 import pandas as pd
+from pydantic import PlainValidator, WithJsonSchema, validate_call
 
+# First party imports
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = ["fawn"]
+
+_Timestamp = Annotated[
+    pd.Timestamp, PlainValidator(pd.Timestamp), WithJsonSchema({"type": "date-time"})
+]
+_ReportTypes = Annotated[
+    Literal["all", "hourly", "daily", "monthly", "entire"],
+    PlainValidator(lambda x: x.lower()),
+]
 
 #  "referrer": "https://fawn.ifas.ufl.edu/data/reports/?res",
 #  "referrerPolicy": "no-referrer-when-downgrade",
@@ -47,22 +60,22 @@ __all__ = ["fawn"]
 
 # FAWN https://fawn.ifas.ufl.edu/
 
-locs__ = {
-    260: ["alachua"],
-    320: ["apopka"],
-    490: ["arcadia"],
-    304: ["avalon"],
-    350: ["balm"],
-    410: ["belle glade", "belle_glade", "belleglade"],
-    230: ["bronson"],
-    310: ["brooksville"],
-    150: ["carrabelle"],
-    250: ["citra"],
-    405: ["clewiston"],
-    311: ["dade city", "dade_city", "dadecity"],
-    120: ["defuniak springs", "defuniak_springs", "defuniaksprings"],
-    360: ["dover"],
-    420: [
+locs__: dict[int, tuple[str, ...]] = {
+    260: ("alachua",),
+    320: ("apopka",),
+    490: ("arcadia",),
+    304: ("avalon",),
+    350: ("balm",),
+    410: ("belle glade", "belle_glade", "belleglade"),
+    230: ("bronson",),
+    310: ("brooksville",),
+    150: ("carrabelle",),
+    250: ("citra",),
+    405: ("clewiston",),
+    311: ("dade city", "dade_city", "dadecity"),
+    120: ("defuniak springs", "defuniak_springs", "defuniaksprings"),
+    360: ("dover",),
+    420: (
         "fort lauderdale",
         "fort_lauderdale",
         "fortlauderdale",
@@ -70,9 +83,9 @@ locs__ = {
         "ft. lauderdale",
         "ftlauderdale",
         "ft.lauderdale",
-    ],
-    390: ["frostproof"],
-    430: [
+    ),
+    390: ("frostproof",),
+    430: (
         "fort pierce",
         "fort_pierce",
         "fortpierce",
@@ -80,44 +93,44 @@ locs__ = {
         "ft pierce",
         "ftpierce",
         "ft.pierce",
-    ],
-    270: ["hastings"],
-    440: ["homestead"],
-    450: ["immokalee"],
-    371: ["indian river", "indian_river", "indianriver"],
-    110: ["jay"],
-    241: ["joshua"],
-    340: ["kenansville"],
-    330: ["lake alfred", "lake_alfred", "lakealfred"],
-    275: ["lecanto"],
-    170: ["live oak", "live_oak", "liveoak"],
-    180: ["macclenny"],
-    130: ["marianna"],
-    121: ["mayo"],
-    160: ["monticello"],
-    480: ["north port", "north_port"],
-    280: ["ocklawaha"],
-    303: ["okahumpka"],
-    455: ["okeechobee"],
-    380: ["ona"],
-    460: ["palmdale"],
-    290: ["pierson"],
-    240: ["putnam hall", "putnam_hall", "putnamhall"],
-    140: ["quincy"],
-    470: ["sebring"],
-    435: [
+    ),
+    270: ("hastings",),
+    440: ("homestead",),
+    450: ("immokalee",),
+    371: ("indian river", "indian_river", "indianriver"),
+    110: ("jay",),
+    241: ("joshua",),
+    340: ("kenansville",),
+    330: ("lake alfred", "lake_alfred", "lakealfred"),
+    275: ("lecanto",),
+    170: ("live oak", "live_oak", "liveoak"),
+    180: ("macclenny",),
+    130: ("marianna",),
+    121: ("mayo",),
+    160: ("monticello",),
+    480: ("north port", "north_port"),
+    280: ("ocklawaha",),
+    303: ("okahumpka",),
+    455: ("okeechobee",),
+    380: ("ona",),
+    460: ("palmdale",),
+    290: ("pierson",),
+    240: ("putnam hall", "putnam_hall", "putnamhall"),
+    140: ("quincy",),
+    470: ("sebring",),
+    435: (
         "st. lucie west",
         "st._lucie_west",
         "st_lucie_west",
         "saint_lucie_west",
         "st.luciewest",
         "stluciewest",
-    ],
-    302: ["umatilla"],
-    425: ["wellington"],
+    ),
+    302: ("umatilla",),
+    425: ("wellington",),
 }
 
-rev_locs = {}
+rev_locs: dict[str | int, int] = {}
 for key, value in locs__.items():
     rev_locs[key] = key
     rev_locs[str(key)] = key
@@ -127,22 +140,21 @@ for key, value in locs__.items():
 # variable names for stations are "loc__XXX" where XXX is one of the keys
 # above.
 
-reportTypes = ["all", "hourly", "daily", "monthly", "entire"]
 
-vars__ = {
-    "AirTemp1": ["airtemp@60cm", "airtemp1"],
-    "AirTemp9": ["airtemp@2m", "airtemp9"],
-    "AirTemp15": ["airtemp@10m", "airtemp15"],
-    "SoilTempAvg": ["soiltempavg"],
-    "DewPoint": ["dewpoint"],
-    "WetBulb": ["wetbulb"],
-    "RelHumAvg": ["relhumavg"],
-    "Rainfall": ["rainfall"],
-    "TotalRad": ["totalrad"],
-    "WindSpeed": ["windspeed"],
-    "WindDir": ["winddir"],
-    "ET": ["et"],
-    "BP": ["bp"],
+vars__: dict[str, tuple] = {
+    "AirTemp1": ("airtemp@60cm", "airtemp1"),
+    "AirTemp9": ("airtemp@2m", "airtemp9"),
+    "AirTemp15": ("airtemp@10m", "airtemp15"),
+    "SoilTempAvg": ("soiltempavg",),
+    "DewPoint": ("dewpoint",),
+    "WetBulb": ("wetbulb",),
+    "RelHumAvg": ("relhumavg",),
+    "Rainfall": ("rainfall",),
+    "TotalRad": ("totalrad",),
+    "WindSpeed": ("windspeed",),
+    "WindDir": ("winddir",),
+    "ET": ("et",),
+    "BP": ("bp",),
 }
 
 rev_vars = {}
@@ -211,20 +223,22 @@ def core(data):
     return df
 
 
+@tsutils.transform_args(stations=tsutils.make_list, variables=tsutils.make_list)
+@validate_call
 @tsutils.doc(tsutils.docstrings)
 def fawn(
-    stations,
-    variables,
-    reportType,
-    start_date=datetime.datetime(1998, 1, 1),
-    end_date=datetime.datetime.now(),
+    stations: list[str | int],
+    variables: list[str | int],
+    reportType: _ReportTypes,
+    start_date: _Timestamp = "",
+    end_date: _Timestamp = "",
 ):
     r"""US/FL:station::15T,H,D,M:Florida Automated Weather Network (FAWN)
 
     Parameters
     ----------
     stations : str
-        At the command line can supply a comma separated list or codes or
+        At the command line can supply a comma separated list of codes or
         names.  Using the Python API needs to be a Python list.
 
         The current complete list of FAWN stations.
@@ -321,24 +335,19 @@ def fawn(
 
     ${end_date}
     """
+    if not start_date:
+        start_date = datetime.datetime(1998, 1, 1, tzinfo=datetime.timezone.utc)
+    if not end_date:
+        end_date = datetime.datetime.now(datetime.timezone.utc)
     interval = {"all": 10, "hourly": 40, "daily": 366, "monthly": 8000}
-    data = {
+    data: dict[str, str | int | datetime.datetime] = {
         "start_date": tsutils.parsedate(start_date),
         "end_date": tsutils.parsedate(end_date),
     }
 
-    if reportType not in reportTypes:
-        raise ValueError(
-            tsutils.error_wrapper(
-                f"""
-            reportType must be one of {reportTypes} but got
-            {reportType}"""
-            )
-        )
-
     data["reportType"] = reportType
 
-    for station in tsutils.make_list(stations):
+    for station in stations:
         try:
             data[f"locs__{rev_locs[station]}"] = "on"
         except KeyError:
@@ -353,7 +362,7 @@ def fawn(
                     )
                 )
 
-    for variable in tsutils.make_list(variables):
+    for variable in variables:
         try:
             data[f"vars__{rev_vars[variable]}"] = "on"
         except KeyError as exc:

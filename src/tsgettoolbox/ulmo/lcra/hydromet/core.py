@@ -9,9 +9,11 @@ River Basin (Texas) provided by the `Lower Colorado River Authority`_
 .. _Hydromet: http://hydromet.lcra.org
 """
 
+# Standard library imports
 import datetime
 import logging
 
+# Third party imports
 import numpy as np
 import pandas
 import requests
@@ -19,6 +21,7 @@ from bs4 import BeautifulSoup
 from dateutil.relativedelta import relativedelta
 from geojson import Feature, FeatureCollection, Point
 
+# Local folder imports
 from ... import util
 
 # configure logging
@@ -154,7 +157,7 @@ def get_current_data(service, as_geojson=False):
         if len(feature):
             features.append(feature[0])
     if len(features) != len(current_values_dicts):
-        log.warn("some of the sites did not location information")
+        log.warning("some of the sites did not location information")
     return FeatureCollection(features) if features else {}
 
 
@@ -220,9 +223,9 @@ def get_site_data(
     elif parameter_code == "RHUMID":
         parameter_code = "Rhumid"
     if start_date is None:
-        start_date = datetime.date.today()
+        start_date = datetime.datetime.now(datetime.timezone.utc)
     if end_date is None:
-        end_date = datetime.date.today() + relativedelta(days=1)
+        end_date = datetime.datetime.now(datetime.timezone.utc) + relativedelta(days=1)
     if (end_date - start_date).days < 180:
         values_dict = _get_data(
             site_code[:4], parameter_code, list_request, start_date, end_date
@@ -235,11 +238,9 @@ def get_site_data(
         for chunk in np.arange(chunks) + 1:
             request_start_date = start_date + relativedelta(days=180 * (chunk - 1))
             chunk_end_date = start_date + relativedelta(days=180 * chunk)
-            request_end_date = (
-                end_date if chunk_end_date >= end_date else chunk_end_date
-            )
+            request_end_date = min(end_date, chunk_end_date)
             log.info(
-                "getting chunk: %i, start: %s, end: %s, parameter: %s"
+                "getting chunk: %i, start: %s, end: %s, parameter: %s"  # noqa: UP031
                 % (chunk, request_start_date, request_end_date, parameter_code)
             )
             values_chunk = _get_data(
@@ -258,7 +259,7 @@ def get_site_data(
 
 def _create_feature(row):
     geometry = Point((float(row["e"]), float(row["d"])))
-    site_props = dict(site_code=row["a"], site_description=row["c"])
+    site_props = {"site_code": row["a"], "site_description": row["c"]}
     return Feature(geometry=geometry, properties=site_props)
 
 
@@ -334,7 +335,6 @@ def _extract_headers_for_next_request(request):
     for tag in BeautifulSoup(request.content, "html.parser").findAll("input"):
         tag_dict = dict(tag.attrs)
         if tag_dict.get("value") == "tabular":
-            #
             continue
         # some tags don't have a value and are used w/ JS to toggle a set of checkboxes
         payload[tag_dict["name"]] = tag_dict.get("value")
@@ -355,7 +355,7 @@ def _parse_val(val):
 
 
 def _update_feature_props(feature, props):
-    if "datetime" in props.keys():
+    if "datetime" in props:
         props["datetime"] = props["datetime"].strftime("%Y-%m-%d %H:%M:%S")
     feature_props = feature["properties"]
     feature_props.update(props)

@@ -6,4 +6,5 @@ Access to data stream transmitted via GOES satellite.
 """
 
 __all__ = ["decode", "get_data"]
+# Local folder imports
 from .core import decode, get_data

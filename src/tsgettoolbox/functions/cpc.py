@@ -3,8 +3,9 @@ cpc                 US/region W: Climate Prediction Center, Weekly Drought
                     Index
 """
 
-from typing import Optional
+# Standard library imports
 
+# First party imports
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = ["cpc"]
@@ -12,8 +13,8 @@ __all__ = ["cpc"]
 
 @tsutils.doc(tsutils.docstrings)
 def cpc(
-    state: Optional[str] = None,
-    climate_division: Optional[int] = None,
+    state: str | None = None,
+    climate_division: int | None = None,
     start_date=None,
     end_date=None,
 ):

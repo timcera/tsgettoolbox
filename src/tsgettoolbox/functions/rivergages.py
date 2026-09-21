@@ -2,6 +2,7 @@
 rivergages          US station:USACE river gages
 """
 
+# Standard library imports
 import datetime
 import email.utils
 import ftplib
@@ -11,16 +12,18 @@ import urllib.parse
 import warnings
 from contextlib import contextmanager
 
+# Third party imports
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from platformdirs import user_data_dir
 from requests.adapters import HTTPAdapter
 
+# First party imports
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 URL = "https://rivergages.mvr.usace.army.mil/WaterControl/datamining2.cfm"
-DEFAULT_START_DATE = datetime.date(1800, 1, 1)
+DEFAULT_START_DATE = datetime.datetime(1800, 1, 1, tzinfo=datetime.timezone.utc).date()
 
 __all__ = ["rivergages"]
 
@@ -77,7 +80,9 @@ def _path_last_modified(path):
     if not os.path.exists(path):
         return None
 
-    return datetime.datetime.utcfromtimestamp(os.path.getmtime(path))
+    return datetime.datetime.fromtimestamp(
+        os.path.getmtime(path), tz=datetime.timezone.utc
+    )
 
 
 def _request_file_size_matches(request, path):
@@ -87,7 +92,9 @@ def _request_file_size_matches(request, path):
 
 
 def _parse_rfc_1123_timestamp(timestamp_str):
-    return datetime.datetime(*email.utils.parsedate(timestamp_str)[:6])
+    return datetime.datetime(
+        *email.utils.parsedate(timestamp_str)[:6], tzinfo=datetime.timezone.utc
+    )
 
 
 def _request_is_newer_than_file(request, path):
@@ -114,13 +121,15 @@ def _request_is_newer_than_file(request, path):
 def _ftp_download_if_new(url, path, check_modified=True):
     parsed = urllib.parse.urlparse(url)
     ftp = ftplib.FTP(parsed.netloc, "anonymous")
-    directory, filename = parsed.path.rsplit("/", 1)
     ftp_last_modified = _ftp_last_modified(ftp, parsed.path)
     ftp_file_size = _ftp_file_size(ftp, parsed.path)
 
-    if not os.path.exists(path) or os.path.getsize(path) != ftp_file_size:
-        _ftp_download_file(ftp, parsed.path, path)
-    elif check_modified and _path_last_modified(path) < ftp_last_modified:
+    if (
+        not os.path.exists(path)
+        or os.path.getsize(path) != ftp_file_size
+        or check_modified
+        and _path_last_modified(path) < ftp_last_modified
+    ):
         _ftp_download_file(ftp, parsed.path, path)
 
 
@@ -136,7 +145,9 @@ def _ftp_file_size(ftp, file_path):
 
 def _ftp_last_modified(ftp, file_path):
     timestamp = ftp.sendcmd(f"MDTM {file_path}").split()[-1]
-    return datetime.datetime.strptime(timestamp, "%Y%m%d%H%M%S")
+    return datetime.datetime.strptime(timestamp, "%Y%m%d%H%M%S").astimezone(
+        datetime.timezone.utc
+    )
 
 
 def _http_download_file(url, path):
@@ -144,15 +155,17 @@ def _http_download_file(url, path):
     mkdir_if_doesnt_exist(os.path.dirname(path))
     chunk_size = 64 * 1024
     with open(path, "wb") as f:
-        for content in request.iter_content(chunk_size):
-            f.write(content)
+        f.writelines(request.iter_content(chunk_size))
 
 
 def _http_download_if_new(url, path, check_modified):
     head = sess.head(url, timeout=60, verify=False)
-    if not os.path.exists(path) or not _request_file_size_matches(head, path):
-        _http_download_file(url, path)
-    elif check_modified and _request_is_newer_than_file(head, path):
+    if (
+        not os.path.exists(path)
+        or not _request_file_size_matches(head, path)
+        or check_modified
+        and _request_is_newer_than_file(head, path)
+    ):
         _http_download_file(url, path)
 
 
@@ -194,7 +207,7 @@ def open_file_for_url(url, path, check_modified=True, use_file=None, use_bytes=N
         yield use_file
     else:
         open_path = use_file
-    open_file = open(open_path) if use_bytes is None else open(open_path, "rb")
+        open_file = open(open_path) if use_bytes is None else open(open_path, "rb")  # noqa: SIM115
     yield open_file
 
     if not leave_open:
@@ -237,7 +250,11 @@ def get_station_data(
     if max_value is None:
         max_value = 9000000
     start_date = DEFAULT_START_DATE if start is None else convert_date(start)
-    end_date = datetime.date.today() if end is None else convert_date(end)
+    end_date = (
+        datetime.datetime.now(datetime.timezone.utc).date()
+        if end is None
+        else convert_date(end)
+    )
     start_date_str = _format_date(start_date)
     end_date_str = _format_date(end_date)
 
@@ -252,7 +269,7 @@ def get_station_data(
     }
 
     req = sess.post(
-        URL, params=dict(sid=station_code), data=form_data, timeout=60, verify=False
+        URL, params={"sid": station_code}, data=form_data, timeout=60, verify=False
     )
     soup = BeautifulSoup(req.content, features="lxml")
     data_table = soup.find("table").find_all("table")[-1]
@@ -261,7 +278,7 @@ def get_station_data(
 
 
 def get_station_parameters(station_code):
-    req = sess.get(URL, params=dict(sid=station_code), timeout=60, verify=False)
+    req = sess.get(URL, params={"sid": station_code}, timeout=60, verify=False)
     soup = BeautifulSoup(req.content, features="lxml")
 
     options = soup.find("select", id="fld_parameter").find_all()

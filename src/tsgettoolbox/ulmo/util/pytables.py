@@ -5,12 +5,15 @@ ulmo.util
 Collection of useful functions for common use cases
 """
 
+# Standard library imports
 import os
 import warnings
 from contextlib import contextmanager
 
+# Third party imports
 import tables
 
+# Local folder imports
 from . import misc as util_misc
 
 

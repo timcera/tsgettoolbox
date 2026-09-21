@@ -52,8 +52,10 @@ M    monthly
 
 """
 
+# Third party imports
 import pandas as pd
 
+# Local folder imports
 from ... import util
 
 DEFAULT_START_DATE = "01/01/1901"
@@ -159,12 +161,12 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
 
         try:
             sensor_list = pd.read_html(url, match="Sensor Description")[0]
-        except Exception:
+        except ValueError:
             sensor_list = pd.read_html(url)[0]
 
         try:
             sensor_list.columns = ["sensor_id", "variable", "resolution", "timerange"]
-        except Exception:
+        except ValueError:
             sensor_list.columns = [
                 "variable",
                 "sensor_id",

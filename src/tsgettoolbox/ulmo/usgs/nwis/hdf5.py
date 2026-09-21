@@ -1,3 +1,4 @@
+# Standard library imports
 import contextlib
 import copy
 import os
@@ -6,11 +7,13 @@ import sys
 import tempfile
 import warnings
 
+# Third party imports
 import numpy as np
 import pandas
 import tables
 from tables.scripts import ptrepack
 
+# Local folder imports
 from ... import util
 from . import core
 
@@ -276,9 +279,10 @@ def repack(path, complevel=None, complib=None):
     """
     comp_kwargs = _compression_kwargs(complevel=complevel, complib=complib)
 
-    temp_path = tempfile.NamedTemporaryFile().name
-    _ptrepack(path, temp_path, **comp_kwargs)
-    shutil.move(temp_path, path)
+    with tempfile.NamedTemporaryFile() as temp_file:
+        temp_path = temp_file.name
+        _ptrepack(path, temp_path, **comp_kwargs)
+        shutil.move(temp_path, path)
 
 
 def update_site_list(
@@ -438,7 +442,7 @@ def update_site_data(
     )
     if not new_site_data:
         core.log.info("No new data was found")
-        return None
+        return
 
     comp_kwargs = _compression_kwargs(complevel=complevel, complib=complib)
 
@@ -507,7 +511,7 @@ def _compression_kwargs(complevel=None, complib=None):
         possible_compressions = ("blosc", "zlib")
         for possible_compression in possible_compressions:
             with contextlib.suppress(tables.FiltersWarning):
-                try_kwargs = dict(complevel=9, complib=possible_compression)
+                try_kwargs = {"complevel": 9, "complib": possible_compression}
                 tables.Filters(**try_kwargs)
                 return try_kwargs
         complevel = 0
@@ -515,7 +519,7 @@ def _compression_kwargs(complevel=None, complib=None):
     elif complib is not None and complevel is None:
         complevel = 9
 
-    return dict(complevel=complevel, complib=complib)
+    return {"complevel": complevel, "complib": complib}
 
 
 @contextlib.contextmanager
@@ -532,7 +536,7 @@ def _get_last_refresh(site_code, path, complevel=None, complib=None):
             site_group = store.get_node(site_code)
             if site_group is None:
                 return None
-            last_refresh = getattr(site_group._v_attrs, "last_refresh")
+            last_refresh = site_group._v_attrs.last_refresh
             if pandas.isnull(last_refresh):
                 last_refresh = None
             return last_refresh
@@ -547,18 +551,16 @@ def _get_store(path, **kwargs):
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
 
-    with pandas.io.pytables.get_store(path, **kwargs) as store:
-        with _filter_warnings():
-            yield store
+    with pandas.io.pytables.get_store(path, **kwargs) as store, _filter_warnings():
+        yield store
 
 
 def _get_store_path(path, default_file_name):
     if path is None:
         path = DEFAULT_HDF5_FILE_PATH
-    if isinstance(path, str) and (path.endswith("/") or path.endswith("\\")):
+    if isinstance(path, str) and path.endswith(("/", "\\")):
         return os.path.join(path, default_file_name)
-    else:
-        return path
+    return path
 
 
 def _nans_to_none(df):

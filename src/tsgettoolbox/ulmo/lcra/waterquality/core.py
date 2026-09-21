@@ -8,17 +8,20 @@ River Authority`_ `Water Quality`_ web site.
 .. _Water Quality: http://waterquality.lcra.org/
 """
 
+# Standard library imports
 import logging
 
 # import datetime
 import os.path as op
 
+# Third party imports
 import numpy as np
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from geojson import Feature, FeatureCollection, Point
 
+# Local folder imports
 from ... import util
 
 # import unicode
@@ -69,7 +72,7 @@ def get_sites(source_agency=None):
     response = requests.get(sites_url, timeout=60)
     lines = response.content.decode("utf-8").split("\n")
     sites_unprocessed = [
-        line.strip().strip("createMarker").strip("(").strip(")").split(",")
+        line.strip().replace("createMarker", "").strip("(").strip(")").split(",")
         for line in lines
         if "createMarker" in line
     ]
@@ -120,7 +123,7 @@ def get_historical_data(site_code, start=None, end=None, as_dataframe=False):
             "Unsure of the site_code parameter type. \
                 Try string or int"
         )
-        raise ValueError(
+        raise TypeError(
             f"Unsure of the site_code parameter type. Got {site_code}. Try string or int"
         )
 
@@ -254,7 +257,6 @@ def _extract_headers_for_next_request(request):
     for tag in BeautifulSoup(request.content, "html.parser").findAll("input"):
         tag_dict = dict(tag.attrs)
         if tag_dict.get("value") == "tabular":
-            #
             continue
         # some tags don't have a value and are used w/ JS to toggle a set of checkboxes
         payload[tag_dict["name"]] = tag_dict.get("value")
@@ -308,7 +310,7 @@ def _parse_site_str(site_str):
         .strip()
     )
     site_description = site_str.split("<br />")[1].strip('"')
-    return dict(site_code=site_code, site_description=site_description)
+    return {"site_code": site_code, "site_description": site_description}
 
 
 def _real_time(site_type_code):

@@ -1,9 +1,12 @@
+# Standard library imports
 import glob
 import os
 
+# Third party imports
 import pandas
 import utils
 
+# First party imports
 from tsgettoolbox import ulmo
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "files/twc/kbdi")
@@ -104,16 +107,15 @@ def test_get_data():
 
 
 def test_get_data_as_dataframe():
-    with utils.temp_dir() as data_dir:
-        with utils.mocked_urls(MOCKED_URLS):
-            data = ulmo.twc.kbdi.get_data(
-                start="2013-04-09",
-                end="2013-04-09",
-                as_dataframe=True,
-                data_dir=data_dir,
-            )
+    with utils.temp_dir() as data_dir, utils.mocked_urls(MOCKED_URLS):
+        data = ulmo.twc.kbdi.get_data(
+            start="2013-04-09",
+            end="2013-04-09",
+            as_dataframe=True,
+            data_dir=data_dir,
+        )
 
-            assert isinstance(data, pandas.DataFrame)
+        assert isinstance(data, pandas.DataFrame)
 
 
 def test_data_dir_used():

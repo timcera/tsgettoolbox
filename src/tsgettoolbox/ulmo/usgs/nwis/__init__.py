@@ -13,11 +13,13 @@ __all__ = [
     "pytables",
 ]
 
+# Local folder imports
 from ... import util
 from . import core
 from .core import get_site_data, get_sites
 
 try:
+    # Local folder imports
     from . import hdf5
 
 except ImportError:

@@ -1,8 +1,10 @@
+# Standard library imports
 import csv
 import os
 import time
 from urllib.request import Request, urlopen
 
+# Third party imports
 import pandas as pd
 from bs4 import BeautifulSoup
 

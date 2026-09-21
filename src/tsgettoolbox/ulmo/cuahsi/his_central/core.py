@@ -7,11 +7,14 @@ This module provides direct access to the `CUAHSI HIS Central`_ web service.
 .. _CUAHSI HIS Central: http://hiscentral.cuahsi.org/
 """
 
+# Standard library imports
 import os
 
+# Third party imports
 import suds.client
 from suds.cache import ObjectCache
 
+# Local folder imports
 from ... import util
 
 HIS_CENTRAL_WSDL_URL = "http://hiscentral.cuahsi.org/webservices/hiscentral.asmx?WSDL"

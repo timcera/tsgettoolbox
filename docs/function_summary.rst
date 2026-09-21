@@ -6,7 +6,6 @@ Python API Function Summary
 .. autosummary::
     :toctree: _function_autosummary
 
-    tsgettoolbox.about
     tsgettoolbox.cdec
     tsgettoolbox.coops
     tsgettoolbox.cpc
@@ -57,7 +56,5 @@ Python API Function Summary
     tsgettoolbox.terraclimate19611990
     tsgettoolbox.terraclimate19812010
     tsgettoolbox.terraclimate19912020
-    tsgettoolbox.terraclimate2C
-    tsgettoolbox.terraclimate4C
     tsgettoolbox.twc
     tsgettoolbox.unavco

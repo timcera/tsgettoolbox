@@ -5,10 +5,13 @@ terraclimate19812010
 
 # http://thredds.northwestknowledge.net:8080/thredds/terraclimate_aggregated.html
 
+# Standard library imports
 import datetime
 
+# Third party imports
 import pandas as pd
 
+# First party imports
 from tsgettoolbox import utils
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
@@ -248,9 +251,10 @@ def terraclimate19812010(
         single_var_url=True,
     )
 
-    if df.index[0] == datetime.datetime(1961, 1, 1):
+    if df.index[0] == datetime.datetime(1961, 1, 1, tzinfo=datetime.timezone.utc):
         df.index = df.index + (
-            datetime.datetime(1981, 1, 1) - datetime.datetime(1961, 1, 1)
+            datetime.datetime(1981, 1, 1, tzinfo=datetime.timezone.utc)
+            - datetime.datetime(1961, 1, 1, tzinfo=datetime.timezone.utc)
         )
 
     df = df.rename(columns=lambda x: f"{x}:19812010")

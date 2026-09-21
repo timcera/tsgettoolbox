@@ -1,8 +1,11 @@
+# Standard library imports
 import os
 
+# Third party imports
 import numpy as np
 import pytest
 
+# First party imports
 from tsgettoolbox.tsgettoolbox import ldas_nldas_fora
 
 

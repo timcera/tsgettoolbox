@@ -3,9 +3,11 @@ swtwc               US/region station:USACE Southwest Division, Tulsa
                     Water Control
 """
 
+# Standard library imports
 import datetime
 from io import StringIO
 
+# Third party imports
 import numpy as np
 import pandas as pd
 import requests
@@ -27,7 +29,11 @@ def convert_date(date):
 
 def _convert_datetime(s, year):
     fmt = "%m/%d %H:%M"
-    return datetime.datetime.strptime(s, fmt).replace(year=year)
+    return (
+        datetime.datetime.strptime(s, fmt)
+        .astimezone(datetime.timezone.utc)
+        .replace(year=year)
+    )
 
 
 def dict_from_dataframe(dataframe):
@@ -71,7 +77,7 @@ def get_station_data(station_code, date=None, as_dataframe=False):
 
     if date is None:
         date_str = "current"
-        year = datetime.date.today().year
+        year = datetime.datetime.now(datetime.timezone.utc).year
     else:
         date = convert_date(date)
         date_str = date.strftime("%Y%m%d")
@@ -172,7 +178,11 @@ def swtwc(station_code, date=None):
     being developed at https://cwms-data.usace.army.mil/cwms-data/.  Please see
     the documentation for that system for more information.
     """)
-    date = datetime.datetime.now() if date is None else pd.to_datetime(date)
+    date = (
+        datetime.datetime.now(datetime.timezone.utc)
+        if date is None
+        else pd.to_datetime(date)
+    )
     alldict = get_station_data(station_code, date=date, as_dataframe=True)
     df = alldict["values"]
     df.columns = [f"{i}:{alldict['variables'][i]['unit']}" for i in df.columns]

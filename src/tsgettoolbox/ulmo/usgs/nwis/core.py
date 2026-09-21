@@ -9,14 +9,17 @@ System`_ web services.
 
 """
 
+# Standard library imports
 import contextlib
 import datetime
 import io
 import logging
 
+# Third party imports
 import isodate
 import requests
 
+# Local folder imports
 from ... import util
 from ...waterml import v1_1 as wml
 
@@ -150,7 +153,7 @@ def get_sites(
 
         if not service:
             return_sites = {}
-            for service in ["daily", "instantaneous"]:
+            for service_names in ["daily", "instantaneous"]:
                 new_sites = get_sites(
                     sites=sites,
                     state_code=state_code,
@@ -159,7 +162,7 @@ def get_sites(
                     county_code=county_code,
                     parameter_code=parameter_code,
                     site_type=site_type,
-                    service=service,
+                    service=service_names,
                     input_file=input_file,
                     **kwargs,
                 )
@@ -262,9 +265,9 @@ def get_site_data(
         if isinstance(period, str):
             if period == "all":
                 if service in ("iv", "instantaneous"):
-                    start = datetime.datetime(1910, 1, 1)
+                    start = datetime.datetime(1910, 1, 1, tzinfo=datetime.timezone.utc)
                 elif service in ("dv", "daily"):
-                    start = datetime.datetime(1851, 1, 1)
+                    start = datetime.datetime(1851, 1, 1, tzinfo=datetime.timezone.utc)
             else:
                 url_params["period"] = period
         elif isinstance(period, datetime.timedelta):
@@ -287,16 +290,16 @@ def get_site_data(
             service, url_params, input_file=input_file, methods=methods
         )
     else:
-        kw = dict(
-            parameter_code=parameter_code,
-            statistic_code=statistic_code,
-            start=start,
-            end=end,
-            period=period,
-            modified_since=modified_since,
-            input_file=input_file,
-            methods=methods,
-        )
+        kw = {
+            "parameter_code": parameter_code,
+            "statistic_code": statistic_code,
+            "start": start,
+            "end": end,
+            "period": period,
+            "modified_since": modified_since,
+            "input_file": input_file,
+            "methods": methods,
+        }
         kw.update(kwargs)
         values = get_site_data(site_code, service="daily", **kw)
         values.update(get_site_data(site_code, service="instantaneous", **kw))
@@ -347,7 +350,9 @@ def _get_site_values(service, url_params, input_file=None, methods=None):
     returns a values dict containing variable and data values
     """
     if input_file is None:
-        query_isodate = isodate.datetime_isoformat(datetime.datetime.now())
+        query_isodate = isodate.datetime_isoformat(
+            datetime.datetime.now(datetime.timezone.utc)
+        )
         service_url = _get_service_url(service)
 
         try:

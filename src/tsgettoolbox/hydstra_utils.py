@@ -2,12 +2,14 @@
 Collection of utilities to support Hydstra data access.
 """
 
+# Standard library imports
 import ast
 import datetime as dt
 import sys
 import urllib.error as ue
 from time import sleep
 
+# Third party imports
 import pandas as pd
 import requests
 
@@ -68,7 +70,7 @@ def dateint_to_datetime(date_int64):
     hour = int(strf[8:10])
     minute = int(strf[10:12])
     second = int(strf[12:14])
-    return dt.datetime(year, month, day, hour, minute, second)
+    return dt.datetime(year, month, day, hour, minute, second, tzinfo=dt.timezone.utc)
 
 
 def datetime_to_dateint(dattim):
@@ -213,14 +215,14 @@ def _process(url, desired_key):
         varlist = [vlist[i] for i in range(numv)]
     else:
         sys.stderr.write(
-            f"Get{desired_key}: {numsites} stations given - bug? {str(rdict)}"
+            f"Get{desired_key}: {numsites} stations given - bug? {rdict!s}"
         )
     return varlist
 
 
 # TODO Rename this here and in `_process`
 def _extracted_from__process_8(desired_key, arg1, rdict, url):
-    sys.stderr.write(f"Get{desired_key}{arg1}{str(rdict)}")
+    sys.stderr.write(f"Get{desired_key}{arg1}{rdict!s}")
     sys.stderr.write(f"    {url}")
     return []
 

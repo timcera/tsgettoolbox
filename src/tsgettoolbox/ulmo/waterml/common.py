@@ -1,6 +1,8 @@
+# Third party imports
 import isodate
 from lxml import etree
 
+# Local folder imports
 from .. import util
 
 
@@ -57,7 +59,7 @@ def parse_site_values(content_io, namespace, query_isodate=None, methods=None):
                         values_element, metadata_elements, namespace
                     )
                     updated_code = (
-                        f"{code}:" + str(list(metadata["methods"].values())[0]["id"])
+                        f"{code}:" + str(next(iter(metadata["methods"].values()))["id"])
                         if len(values_elements) > 1
                         else code
                     )

@@ -11,12 +11,15 @@ This module provides direct access to `National Climatic Data Center`_
 
 """
 
+# Standard library imports
 import itertools
 import os
 
+# Third party imports
 import numpy as np
 import pandas
 
+# Local folder imports
 from ... import util
 
 GHCN_DAILY_DIR = os.path.join(util.get_ulmo_dir(), "ncdc/ghcn_daily")

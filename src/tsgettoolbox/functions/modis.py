@@ -3,16 +3,22 @@ modis               global 250m,500m,1000m 2000- 4D,8D,16D,A:Download
                     MODIS derived data.
 """
 
+# Standard library imports
 import datetime
 import json
 
+# Third party imports
 import async_retriever as ar
 import numpy as np
 import pandas as pd
 
+# First party imports
+from tsgettoolbox import utils
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = ["modis"]
+
+utils.set_cache_env("modis")
 
 _MISSING = {
     "MU": -9999,
@@ -820,7 +826,11 @@ def date_parser(strdates):
     """Parse a list of dates in the format YYYYDDD, where DDD is day of year."""
     return [
         datetime.date.fromordinal(
-            datetime.datetime(int(i[1:5]), 1, 1).toordinal() + int(i[5:]) - 1
+            datetime.datetime(
+                int(i[1:5]), 1, 1, tzinfo=datetime.timezone.utc
+            ).toordinal()
+            + int(i[5:])
+            - 1
         )
         for i in strdates
     ]
@@ -2608,7 +2618,7 @@ def modis(lat, lon, product, band, start_date=None, end_date=None):
     }
 
     if end_date is None:
-        query_params["enddate"] = datetime.datetime.now()
+        query_params["enddate"] = datetime.datetime.now(datetime.timezone.utc)
     else:
         query_params["enddate"] = tsutils.parsedate(end_date)
 

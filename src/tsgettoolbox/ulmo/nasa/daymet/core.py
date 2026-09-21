@@ -9,9 +9,11 @@ Daymet`_ web services.
 
 """
 
+# Standard library imports
 import logging
 import time
 
+# Third party imports
 import pandas as pd
 
 VARIABLES = {

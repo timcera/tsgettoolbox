@@ -1,3 +1,4 @@
+# Standard library imports
 import datetime
 import importlib
 
@@ -31,9 +32,17 @@ def _assert_station_data(module, monkeypatch):
     result = module.get_station_data("ABCD", date="2024-06-09", as_dataframe=True)
 
     dataframe = result["values"]
+    dataframe.index = dataframe.index.tz_localize("UTC")
     assert result["code"] == "ABCD"
-    assert dataframe.index[0] == datetime.datetime(2024, 6, 9, 12, 0)
-    assert dataframe.loc[datetime.datetime(2024, 6, 9, 12, 0), "STAGE"] == 123.4
+    assert dataframe.index[0] == datetime.datetime(
+        2024, 6, 9, 12, 0, tzinfo=datetime.timezone.utc
+    )
+    assert (
+        dataframe.loc[
+            datetime.datetime(2024, 6, 9, 12, 0, tzinfo=datetime.timezone.utc), "STAGE"
+        ]
+        == 123.4
+    )
 
 
 def test_functions_swtwc_get_station_data_parses_dates(monkeypatch):

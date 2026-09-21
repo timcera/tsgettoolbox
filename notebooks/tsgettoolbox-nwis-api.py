@@ -21,8 +21,10 @@
 # %%
 # %matplotlib inline
 
+# Third party imports
 from tstoolbox import tstoolbox
 
+# First party imports
 # %%
 from tsgettoolbox import tsgettoolbox
 
@@ -43,7 +45,6 @@ df.head()  # The .head() function gives the first 5 values of the time-series
 
 # %%
 df = df.astype("float64")
-df
 
 # %%
 tstoolbox.plot(input_ts=df, ofilename="flow.png")

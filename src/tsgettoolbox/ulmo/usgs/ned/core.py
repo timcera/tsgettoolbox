@@ -11,12 +11,15 @@ Survey`_ `National Map`_ system.
 
 """
 
+# Standard library imports
 import logging
 import os
 
+# Third party imports
 import requests
 from geojson import Feature, FeatureCollection, Polygon
 
+# Local folder imports
 from ... import util
 
 # NED ftp url.
@@ -73,7 +76,7 @@ def get_raster_availability(layer, bbox=None):
 
     if bbox:
         xmin, ymin, xmax, ymax = (float(n) for n in bbox)
-        polygon = f"POLYGON (({','.join([f'{repr(x)} {repr(y)}' for x, y in [(xmin, ymax), (xmin, ymin), (xmax, ymin), (xmax, ymax), (xmin, ymax)]])}))"
+        polygon = f"POLYGON (({','.join([f'{x!r} {y!r}' for x, y in [(xmin, ymax), (xmin, ymin), (xmax, ymin), (xmax, ymax), (xmin, ymax)]])}))"
         params.append(
             (
                 "filter",
@@ -96,9 +99,9 @@ def get_raster_availability(layer, bbox=None):
                     "name": item["title"],
                     "layer": layer,
                     "format": ".img",
-                    "download url": [
+                    "download url": next(
                         x for x in item["webLinks"] if x["type"] == "download"
-                    ][0]["uri"],
+                    )["uri"],
                 },
             )
             features.append(feature)
@@ -190,12 +193,9 @@ def _download_features(
     tiles = []
     tile_fmt = ".img"
     for feature_id in feature_ids:
-        url = (
-            "https://www.sciencebase.gov/catalogMaps/mapping/ows/{0}?service=wcs&request=getcapabilities&version=1.0.0"
-            % feature_id
-        )
+        url = f"https://www.sciencebase.gov/catalogMaps/mapping/ows/{feature_id}?service=wcs&request=getcapabilities&version=1.0.0"
         metadata = requests.get(url, timeout=60).json()
-        layer = [a for a in list(layer_dict.keys()) if a in metadata["title"]][0]
+        layer = next(a for a in list(layer_dict.keys()) if a in metadata["title"])
         layer_path = os.path.join(path, layer_dict[layer])
         tile_urls = [
             link["uri"] for link in metadata["webLinks"] if link["type"] == "download"

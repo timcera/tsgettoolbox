@@ -7,11 +7,6 @@ Help::
 
     tsgettoolbox --help
 
-about
-~~~~~
-.. program-output:: tsgettoolbox about --help
-   :prompt:
-
 cdec
 ~~~~
 .. program-output:: tsgettoolbox cdec --help
@@ -260,16 +255,6 @@ terraclimate19812010
 terraclimate19912020
 ~~~~~~~~~~~~~~~~~~~~
 .. program-output:: tsgettoolbox terraclimate19912020 --help
-   :prompt:
-
-terraclimate2C
-~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox terraclimate2C --help
-   :prompt:
-
-terraclimate4C
-~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox terraclimate4C --help
    :prompt:
 
 twc

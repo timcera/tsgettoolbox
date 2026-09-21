@@ -7,7 +7,6 @@ cdec                US/CA station I,H,D,M: California Department of Water
 import datetime
 import warnings
 from pathlib import Path
-from typing import Optional, Union
 
 # Third party imports
 import pandas as pd
@@ -194,7 +193,7 @@ def get_station_sensors(station_ids=None, sensor_ids=None, resolutions=None):
         var_names = [i.replace(" ", "_") for i in var_names]
         units = [x[-1][1:] for x in split]
         units = [unit_conv.get(i, i) for i in units]
-        var_names = [":".join([i, j]) for i, j in zip(var_names, units)]
+        var_names = [f"{i}:{j}" for i, j in zip(var_names, units)]
         var_resolution = [x[1:-1] for x in sensor_list["resolution"]]
         sensor_list["resolution"] = var_resolution
         sensor_list["variable"] = var_names
@@ -240,7 +239,7 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
         start_date = pd.Timestamp(start).date()
     if end is None:
         end_date = (
-            pd.to_datetime(datetime.datetime.utcnow())
+            pd.to_datetime(datetime.datetime.now(datetime.timezone.utc))
             .tz_localize("UTC")
             .tz_convert("America/Los_Angeles")
         )
@@ -347,7 +346,7 @@ def download_data(
 @tsutils.doc(tsutils.docstrings)
 def cdec(
     station_id: str,
-    dur_code: Optional[Union[list, str]] = None,
+    dur_code: list | str | None = None,
     sensor_nums=None,
     start_date=None,
     end_date=None,

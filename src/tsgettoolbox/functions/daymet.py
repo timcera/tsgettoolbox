@@ -3,21 +3,34 @@ daymet              NAmerica 1km 1980- D,M:Daymet, daily meteorology by
                     the Oak Ridge National Laboratory
 """
 
+# Standard library imports
 import datetime
 import logging
 import os
 import warnings
 from io import BytesIO
-from typing import List, Literal, Optional, Union
+from typing import Annotated, Literal
 
+# Third party imports
 import async_retriever as ar
 import pandas as pd
+from pydantic import PlainValidator, WithJsonSchema, validate_call
 
+# First party imports
+from tsgettoolbox import utils
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = ["daymet"]
 
 warnings.filterwarnings("ignore")
+
+utils.set_cache_env("daymet")
+
+logger = logging.getLogger(__name__)
+
+_Timestamp = Annotated[
+    pd.Timestamp, PlainValidator(pd.Timestamp), WithJsonSchema({"type": "date-time"})
+]
 
 _units_map = {
     "tmax": ":degC",
@@ -31,38 +44,17 @@ _units_map = {
 
 
 @tsutils.transform_args(measuredParams=tsutils.make_list, years=tsutils.make_list)
+@validate_call
 @tsutils.doc(tsutils.docstrings)
 def daymet(
     lat: float,
     lon: float,
-    start_date: Optional[Union[pd.Timestamp, str]] = "1980-01-01",
-    end_date: Optional[Union[pd.Timestamp, str]] = None,
-    years: Optional[Union[str, List[int]]] = None,
-    measuredParams: Optional[
-        Union[
-            List[
-                Literal[
-                    "tmax",
-                    "tmin",
-                    "srad",
-                    "vp",
-                    "swe",
-                    "prcp",
-                    "dayl",
-                ]
-            ],
-            Literal[
-                "tmax",
-                "tmin",
-                "srad",
-                "vp",
-                "swe",
-                "prcp",
-                "dayl",
-                "all",
-            ],
-        ]
-    ] = None,
+    start_date: _Timestamp | None = "1980-01-01",
+    end_date: _Timestamp | None = None,
+    years: str | list[int] | None = None,
+    measuredParams: list[Literal["tmax", "tmin", "srad", "vp", "swe", "prcp", "dayl"]]
+    | Literal["tmax", "tmin", "srad", "vp", "swe", "prcp", "dayl", "all"]
+    | None = None,
 ):
     """
     NAmerica:1km:1980-:D,M:Daymet, daily meteorology by the Oak Ridge National Laboratory
@@ -157,7 +149,7 @@ def daymet(
         if start_date is None:
             start_date = "1980-01-01"
         if end_date is None:
-            end_date = f"{datetime.datetime.now().year - 1}-12-31"
+            end_date = f"{datetime.datetime.now(datetime.timezone.utc).year - 1}-12-31"
 
         start = pd.Timestamp(start_date).strftime("%Y-%m-%d")
         end = pd.Timestamp(end_date).strftime("%Y-%m-%d")
@@ -193,7 +185,7 @@ def daymet(
         ndf = ndf.combine_first(df)
 
     if os.path.exists("debug_tsgettoolbox"):
-        logging.warning(f"{start_date}, {end_date}, {years}")
+        logger.warning(f"{start_date}, {end_date}, {years}")
 
     ndf.index.name = "Datetime"
     ndf.columns = [

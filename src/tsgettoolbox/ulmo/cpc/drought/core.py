@@ -9,13 +9,16 @@ Drought Index`_ dataset.
 .. _Weekly Drought Index: http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/palmer_drought/
 """
 
+# Standard library imports
 import datetime
 import os
 
+# Third party imports
 import numpy as np
 import pandas
 import requests
 
+# Local folder imports
 from ... import util
 
 # directory where drought data will be stashed
@@ -109,11 +112,11 @@ def get_data(
 
     end_date = (
         None if end is None else util.convert_date(end)
-    ) or datetime.date.today()
+    ) or datetime.datetime.now(datetime.timezone.utc).date()
 
-    start_date = (None if start is None else util.convert_date(start)) or datetime.date(
-        end_date.year, 1, 1
-    )
+    start_date = (
+        None if start is None else util.convert_date(start)
+    ) or datetime.datetime(end_date.year, 1, 1, tzinfo=datetime.timezone.utc).date()
 
     start_year, _ = _week_number(start_date)
     end_year, _ = _week_number(end_date)
@@ -208,7 +211,7 @@ def _first_sunday(year):
     """returns the first Sunday of a growing season, which is the first Sunday
     after the first Wednesday in March
     """
-    first_day = datetime.date(year, 3, 1)
+    first_day = datetime.datetime(year, 3, 1, tzinfo=datetime.timezone.utc).date()
     if first_day.weekday() == 6:
         return first_day
     if first_day.weekday() <= 2:
@@ -223,7 +226,7 @@ def _get_data_format(year):
 
 
 def _get_data_url(year):
-    current_year, _ = _week_number(datetime.date.today())
+    current_year, _ = _week_number(datetime.datetime.now(datetime.timezone.utc).date())
     if year == current_year:
         return ("https://ftp.cpc.ncep.noaa.gov/htdocs/temp4/current.data", True)
     if year == current_year - 1:

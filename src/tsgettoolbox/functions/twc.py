@@ -3,6 +3,7 @@ twc                 US/TX station D:Download Texas Weather Connection
                     (TWC) data.
 """
 
+# Standard library imports
 import datetime
 import email.utils
 import ftplib
@@ -12,14 +13,19 @@ import warnings
 from contextlib import contextmanager
 from io import StringIO
 
+# Third party imports
 import async_retriever as ar
 import numpy as np
 import pandas as pd
 import requests
 
+# First party imports
+from tsgettoolbox import utils
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = ["twc"]
+
+utils.set_cache_env("twc")
 
 CSV_SWITCHOVER = pd.Timestamp("2016-10-01")
 
@@ -88,7 +94,9 @@ def _path_last_modified(path):
     if not os.path.exists(path):
         return None
 
-    return datetime.datetime.utcfromtimestamp(os.path.getmtime(path))
+    return datetime.datetime.fromtimestamp(
+        os.path.getmtime(path), tz=datetime.timezone.utc
+    )
 
 
 def _request_file_size_matches(request, path):
@@ -98,7 +106,9 @@ def _request_file_size_matches(request, path):
 
 
 def _parse_rfc_1123_timestamp(timestamp_str):
-    return datetime.datetime(*email.utils.parsedate(timestamp_str)[:6])
+    return datetime.datetime(
+        *email.utils.parsedate(timestamp_str)[:6], tzinfo=datetime.timezone.utc
+    )
 
 
 def _request_is_newer_than_file(request, path):
@@ -125,13 +135,15 @@ def _request_is_newer_than_file(request, path):
 def _ftp_download_if_new(url, path, check_modified=True):
     parsed = urllib.parse.urlparse(url)
     ftp = ftplib.FTP(parsed.netloc, "anonymous")
-    directory, filename = parsed.path.rsplit("/", 1)
     ftp_last_modified = _ftp_last_modified(ftp, parsed.path)
     ftp_file_size = _ftp_file_size(ftp, parsed.path)
 
-    if not os.path.exists(path) or os.path.getsize(path) != ftp_file_size:
-        _ftp_download_file(ftp, parsed.path, path)
-    elif check_modified and _path_last_modified(path) < ftp_last_modified:
+    if (
+        not os.path.exists(path)
+        or os.path.getsize(path) != ftp_file_size
+        or check_modified
+        and _path_last_modified(path) < ftp_last_modified
+    ):
         _ftp_download_file(ftp, parsed.path, path)
 
 
@@ -147,7 +159,9 @@ def _ftp_file_size(ftp, file_path):
 
 def _ftp_last_modified(ftp, file_path):
     timestamp = ftp.sendcmd(f"MDTM {file_path}").split()[-1]
-    return datetime.datetime.strptime(timestamp, "%Y%m%d%H%M%S")
+    return datetime.datetime.strptime(timestamp, "%Y%m%d%H%M%S").astimezone(
+        datetime.timezone.utc
+    )
 
 
 def mkdir_if_doesnt_exist(dir_path):
@@ -161,15 +175,17 @@ def _http_download_file(url, path):
     mkdir_if_doesnt_exist(os.path.dirname(path))
     chunk_size = 64 * 1024
     with open(path, "wb") as f:
-        for content in request.iter_content(chunk_size):
-            f.write(content)
+        f.writelines(request.iter_content(chunk_size))
 
 
 def _http_download_if_new(url, path, check_modified):
     head = requests.head(url, timeout=60)
-    if not os.path.exists(path) or not _request_file_size_matches(head, path):
-        _http_download_file(url, path)
-    elif check_modified and _request_is_newer_than_file(head, path):
+    if (
+        not os.path.exists(path)
+        or not _request_file_size_matches(head, path)
+        or check_modified
+        and _request_is_newer_than_file(head, path)
+    ):
         _http_download_file(url, path)
 
 
@@ -211,7 +227,7 @@ def open_file_for_url(url, path, check_modified=True, use_file=None, use_bytes=N
         yield use_file
     else:
         open_path = use_file
-    open_file = open(open_path) if use_bytes is None else open(open_path, "rb")
+    open_file = open(open_path) if use_bytes is None else open(open_path, "rb")  # noqa: SIM115
     yield open_file
 
     if not leave_open:
@@ -235,7 +251,7 @@ def open_file_for_url(url, path, check_modified=True, use_file=None, use_bytes=N
         yield use_file
     else:
         open_path = use_file
-    open_file = open(open_path) if use_bytes is None else open(open_path, "rb")
+    open_file = open(open_path) if use_bytes is None else open(open_path, "rb")  # noqa: SIM115
     yield open_file
 
     if not leave_open:
@@ -574,9 +590,15 @@ def get_data(county, start=None, end=None):
     data : pandas.Dataframe
         A pandas.DataFrame representing the data.
     """
-    end_date = datetime.date.today() if end is None else convert_date(end)
+    end_date = (
+        datetime.datetime.now(datetime.timezone.utc)
+        if end is None
+        else convert_date(end)
+    )
     if start is None:
-        start_date = datetime.date(end_date.year, 1, 1)
+        start_date = datetime.datetime(
+            end_date.year, 1, 1, tzinfo=datetime.timezone.utc
+        ).date()
     else:
         start_date = convert_date(start)
 

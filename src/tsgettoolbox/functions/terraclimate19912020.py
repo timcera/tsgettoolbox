@@ -5,8 +5,10 @@ terraclimate19912020
 
 # http://thredds.northwestknowledge.net:8080/thredds/terraclimate_aggregated.html
 
+# Third party imports
 import pandas as pd
 
+# First party imports
 from tsgettoolbox import utils
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 

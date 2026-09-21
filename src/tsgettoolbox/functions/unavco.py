@@ -3,16 +3,24 @@ unavco              US station: Download data from the Unavco web
                     services.
 """
 
+# Standard library imports
 import logging
 import os
 from io import BytesIO
 
+# Third party imports
 import async_retriever as ar
 import pandas as pd
 
+# First party imports
+from tsgettoolbox import utils
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = ["unavco"]
+
+utils.set_cache_env("unavco")
+
+logger = logging.getLogger(__name__)
 
 
 def unavco_to_df(url, **query_params):
@@ -35,7 +43,7 @@ def unavco_to_df(url, **query_params):
     query_params["tsFormat"] = "iso8601"
 
     if os.path.exists("debug_tsgettoolbox"):
-        logging.warning(url, query_params)
+        logger.warning(f"{url} {query_params}")
 
     query_params = {
         key: value for key, value in query_params.items() if value is not None
@@ -158,9 +166,8 @@ def unavco(station, database="met", starttime=None, endtime=None):
     """
     map_db_to_url = {
         "met": r"http://web-services.unavco.org:80/met/data",
-        "pore_temperaure": r"http://web-services.unavco.org:80"
-        "/pore/data/temperature",
-        "pore_pressure": r"http://web-services.unavco.org:80" "/pore/data/pressure",
+        "pore_temperaure": r"http://web-services.unavco.org:80/pore/data/temperature",
+        "pore_pressure": r"http://web-services.unavco.org:80/pore/data/pressure",
         "tilt": r"http://web-services.unavco.org:80/tilt/data",
         "strain": r"http://web-services.unavco.org:80/strain/data/L2",
     }

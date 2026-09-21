@@ -1,7 +1,10 @@
+# Standard library imports
 import datetime
 
+# Third party imports
 import tables
 
+# Local folder imports
 from ... import util
 from ...ncdc.gsod import core
 
@@ -42,7 +45,7 @@ def update_data(station_codes=None, start_year=None, end_year=None, path=None):
         else:
             start_year = last_updated.year
     if not end_year:
-        end_year = datetime.datetime.now().year
+        end_year = datetime.datetime.now(datetime.timezone.utc).year
 
     all_stations = get_stations()
     if station_codes:
@@ -55,8 +58,8 @@ def update_data(station_codes=None, start_year=None, end_year=None, path=None):
         stations = all_stations
 
     for year in range(start_year, end_year + 1):
-        start = datetime.datetime(year, 1, 1)
-        end = datetime.datetime(year, 12, 31)
+        start = datetime.datetime(year, 1, 1, tzinfo=datetime.timezone.utc)
+        end = datetime.datetime(year, 12, 31, tzinfo=datetime.timezone.utc)
         data = core.get_data(list(stations.keys()), start=start, end=end)
         for station_code, station_data in data.items():
             station = stations.get(station_code)
@@ -75,13 +78,13 @@ def _get_value_table(h5file, station, variable):
     """
     gsod_values_path = "/ncdc/gsod/values"
     station_code = core._station_code(station)
-    station_path = "/".join((gsod_values_path, station_code))
+    station_path = f"{gsod_values_path}/{station_code}"
     util.get_or_create_group(
         h5file, station_path, f"station {station_code}", createparents=True
     )
 
     value_table_name = variable
-    values_path = "/".join([station_path, value_table_name])
+    values_path = f"{station_path}/{value_table_name}"
 
     try:
         value_table = h5file.getNode(values_path)
@@ -103,7 +106,7 @@ def _get_value_table(h5file, station, variable):
 def _last_updated():
     """returns date of last update"""
     # TODO: implement
-    return datetime.datetime.now()
+    return datetime.datetime.now(datetime.timezone.utc)
 
 
 def _update_station_data(station, station_data, path=None):
@@ -125,6 +128,3 @@ if __name__ == "__main__":
         code for code, station in stations.items() if station["state"] == "TX"
     ]
     update_data(texas_stations, 2012, 2012, path=test_path)
-    import pdb
-
-    pdb.set_trace()

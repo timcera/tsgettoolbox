@@ -29,7 +29,6 @@ import os
 import textwrap
 from contextlib import suppress
 from io import BytesIO
-from typing import Optional
 
 # Third party imports
 import async_retriever as ar
@@ -63,6 +62,10 @@ __all__ = [
     "ldas_nldas_vic",
     "ldas_smerge",
 ]
+
+utils.set_cache_env("ldas")
+
+logger = logging.getLogger(__name__)
 
 # fmt: off
 _GLDAS_NOAH_v2_0 = {
@@ -537,8 +540,8 @@ def foundation_api(
     )
     @validate_call
     def ldas_api(
-        lat: Optional[float] = None,
-        lon: Optional[float] = None,
+        lat: float | None = None,
+        lon: float | None = None,
         variables=None,
         startDate=None,
         endDate=None,
@@ -1034,19 +1037,7 @@ SMERGE_DESCRIPTION = """
 ldas = foundation_api(
     units_table=make_units_table(_UNITS_MAP),
     first_line=LDAS_FIRST_LINE,
-    meta_table="".join(
-        [
-            _META_HEADER,
-            _GLDAS_NOAH_v2_0_META,
-            _GLDAS_NOAH_v2_1_META,
-            _GRACE_META,
-            _MERRA_META,
-            _NLDAS_FORA_META,
-            _NLDAS_NOAH_META,
-            _SMERGE_META,
-        ]
-    )
-    + "\n",
+    meta_table=f"{_META_HEADER}{_GLDAS_NOAH_v2_0_META}{_GLDAS_NOAH_v2_1_META}{_GRACE_META}{_MERRA_META}{_NLDAS_FORA_META}{_NLDAS_NOAH_META}{_SMERGE_META}\n",
     description=LDAS_DESCRIPTION,
 )
 
@@ -1195,13 +1186,13 @@ def base_ldas(
     else:
         with suppress(TypeError):
             startDate = tsutils.parsedate(startDate)
-            if startDate < tsutils.parsedate(_project_start_dates[project]):
-                startDate = tsutils.parsedate(_project_start_dates[project])
+            startDate = max(startDate, tsutils.parsedate(_project_start_dates[project]))
     if endDate is None:
         endDate = tsutils.parsedate(
-            (datetime.datetime.now() - datetime.timedelta(days=60)).strftime(
-                "%Y-%m-%dT%H"
-            )
+            (
+                datetime.datetime.now(datetime.timezone.utc)
+                - datetime.timedelta(days=60)
+            ).strftime("%Y-%m-%dT%H")
         )
     else:
         endDate = tsutils.parsedate(endDate)
@@ -1232,7 +1223,7 @@ def base_ldas(
     )
 
     if os.path.exists("debug_tsgettoolbox"):
-        logging.warning(f"{urls}, {kwds}")
+        logger.warning(f"{urls}, {kwds}")
     resp = ar.retrieve_binary(urls, kwds)
 
     ndf = pd.DataFrame()

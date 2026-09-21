@@ -1,5 +1,7 @@
+# Standard library imports
 import json
 
+# Third party imports
 import numpy as np
 import pandas as pd
 import requests
@@ -79,7 +81,7 @@ for prod in pdf.index:
         for val in bdf.itertuples():
             try:
                 testval = float(val.scale_factor)
-                if testval != 1 and testval != np.nan:
+                if testval != 1 and not np.isnan(testval):
                     scale_factor[val.Index] = float(val.scale_factor)
             except ValueError:
                 pass
@@ -87,7 +89,7 @@ for prod in pdf.index:
         for val in bdf.itertuples():
             try:
                 testval = float(val.add_offset)
-                if testval != 0 and testval is not np.nan:
+                if testval != 0 and not np.isnan(testval):
                     add_offset[val.Index] = float(val.add_offset)
             except ValueError:
                 pass

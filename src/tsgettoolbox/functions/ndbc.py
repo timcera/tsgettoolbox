@@ -3,17 +3,23 @@ ndbc                US station T,6T,10T,15T,H,D:Download historical from
                     the National Data Buoy Center.
 """
 
+# Standard library imports
 import datetime
 from contextlib import suppress
 from gzip import GzipFile
 from io import BytesIO, StringIO
 
+# Third party imports
 import async_retriever as ar
 import pandas as pd
 
+# First party imports
+from tsgettoolbox import utils
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = ["ndbc"]
+
+utils.set_cache_env("ndbc")
 
 _lmap = {
     "stdmet": "h",
@@ -174,7 +180,7 @@ def date_parser(*x):
     x = [int(i) for i in x[0]]
     if x[0] < 100:
         x[0] = x[0] + 1900
-    return datetime.datetime(*x)
+    return datetime.datetime(*x, tzinfo=datetime.timezone.utc)
 
 
 def ndbc_to_df(url, **query_params):
@@ -188,7 +194,7 @@ def ndbc_to_df(url, **query_params):
 
     df = pd.DataFrame()
 
-    cyear = datetime.datetime.now()
+    cyear = datetime.datetime.now(datetime.timezone.utc)
     filenames = []
     for yr in range(sdate.year, edate.year + 1):
         # Yearly

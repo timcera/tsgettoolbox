@@ -3,22 +3,44 @@ coops               global station 1T,6T,H,D,M: Center for Operational
                     Oceanographic Products and Services
 """
 
+# Standard library imports
 import contextlib
 import datetime
 import warnings
 from collections import defaultdict
-from typing import List, Literal, Optional, Union
+from typing import Annotated, Literal
 
+# Third party imports
 import async_retriever as ar
-import dateutil.parser as parser
 import pandas as pd
+from dateutil import parser
 from dateutil.tz import tzoffset
+from pydantic import PlainValidator, WithJsonSchema, validate_call
 
+# First party imports
+from tsgettoolbox import utils
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
+
+utils.set_cache_env("coops")
+
+_Timestamp = Annotated[
+    pd.Timestamp, PlainValidator(pd.Timestamp), WithJsonSchema({"type": "date-time"})
+]
+_Datum = Annotated[
+    Literal[
+        "CRD", "IGLD", "LWD", "MHHW", "MHW", "MTL", "MSL", "MLW", "MLLW", "NAVD", "STND"
+    ],
+    PlainValidator(lambda x: x.upper()),
+]
+_TimeZone = Annotated[
+    Literal["GMT", "UTC", "LST", "LST_LDT"], PlainValidator(lambda x: x.upper())
+]
 
 __all__ = ["coops"]
 
-_settings_map = defaultdict(lambda: [{"metric": "", "english": ""}])
+_settings_map: dict[str, list[dict | str | list[str] | None]] = defaultdict(
+    lambda: [{"metric": "", "english": ""}]
+)
 
 # Preliminary or verified water levels, depending on availability.
 _settings_map["water_level"] = [
@@ -165,50 +187,43 @@ deltas = {
 
 @tsutils.transform_args(
     product=tsutils.make_list,
-    time_zone=str.upper,
-    datum=str.upper,
-    begin_date=pd.Timestamp,
-    end_date=pd.Timestamp,
 )
+@validate_call
 def coops(
     station: str,
-    date: Literal["latest", "today", "recent"] = None,
-    begin_date: Optional[pd.Timestamp] = None,
-    end_date: Optional[pd.Timestamp] = None,
-    range: Optional[int] = None,
-    product: Union[
-        List[
-            Literal[
-                "air_gap",
-                "air_pressure",
-                "air_temperature",
-                "conductivity",
-                "currents",
-                "currents_header",
-                "currents_predictions",
-                "daily_mean",
-                "high_low",
-                "hourly_height",
-                "humidity",
-                "monthly_mean",
-                "ofs_water_level",
-                "one_minute_water_level",
-                "predictions",
-                "salinity",
-                "visibility",
-                "water_level",
-                "water_temperature",
-                "wind",
-            ]
-        ],
-        str,
-    ] = "hourly_height",
-    datum: Literal[
-        "CRD", "IGLD", "LWD", "MHHW", "MHW", "MTL", "MSL", "MLW", "MLLW", "NAVD", "STND"
-    ] = "NAVD",
-    time_zone: Literal["GMT", "UTC", "LST", "LST_LDT"] = "GMT",
-    interval="h",
-    bin=None,
+    date: Literal["latest", "today", "recent"] | None = None,
+    begin_date: _Timestamp = None,
+    end_date: _Timestamp = None,
+    range: int | None = None,
+    product: list[
+        Literal[
+            "air_gap",
+            "air_pressure",
+            "air_temperature",
+            "conductivity",
+            "currents",
+            "currents_header",
+            "currents_predictions",
+            "daily_mean",
+            "high_low",
+            "hourly_height",
+            "humidity",
+            "monthly_mean",
+            "ofs_water_level",
+            "one_minute_water_level",
+            "predictions",
+            "salinity",
+            "visibility",
+            "water_level",
+            "water_temperature",
+            "wind",
+        ]
+    ]
+    | str = "hourly_height",
+    datum: _Datum = "NAVD",
+    time_zone: _TimeZone = "GMT",
+    interval: Literal["h", 1, 5, 6, 10, 15, 30, 60, "hilo", "max_slack"] = "h",
+    bin: int | None = None,
 ):
     r"""global:station::1T,6T,H,D,M:Center for Operational Oceanographic Products and Services
 
@@ -763,6 +778,8 @@ def coops(
         | h                           | Hourly meteorological data |
         +-----------------------------+----------------------------+
 
+    bin
+        [optional, defaults to None]
         The bin number for the specified currents station Example:'--bin=4'
         Will retrieve data for bin number 4. Note! If a bin is not specified
         for a PORTS station, the data is returned using a predefined real-time

@@ -1,3 +1,4 @@
+# Standard library imports
 import datetime
 import email.utils
 import ftplib
@@ -8,12 +9,12 @@ import urllib.parse
 import warnings
 from contextlib import contextmanager
 
+# Third party imports
 import numpy as np
 import pandas
 import requests
 from lxml import etree
-
-from ... import appdirs
+from platformdirs import user_data_dir
 
 # pre-compiled regexes for underscore conversion
 first_cap_re = re.compile("(.)([A-Z][a-z]+)")
@@ -39,11 +40,14 @@ def convert_date(date):
     return pandas.Timestamp(date).date()
 
 
-def convert_datetime(datetime):
+def convert_datetime(dtime):
     """returns a datetime.date object from either a string representation or
     datetime-like object (datetime.date, datetime.datetime, or pandas.Timestamp)
     """
-    return pandas.Timestamp(datetime).to_pydatetime()
+    try:
+        return pandas.Timestamp(dtime).tz_localize("UTC").to_pydatetime()
+    except TypeError:
+        return pandas.Timestamp(dtime).tz_convert("UTC").to_pydatetime()
 
 
 def dir_list(url):
@@ -91,7 +95,7 @@ def download_if_new(url, path, check_modified=True):
 
 
 def get_ulmo_dir(sub_dir=None):
-    return_dir = appdirs.user_data_dir("ulmo", "ulmo")
+    return_dir = user_data_dir("ulmo", "ulmo")
     if sub_dir:
         return_dir = os.path.join(return_dir, sub_dir)
     mkdir_if_doesnt_exist(return_dir)
@@ -156,16 +160,16 @@ def open_file_for_url(url, path, check_modified=True, use_file=None, use_bytes=N
     if use_file is None:
         download_if_new(url, path, check_modified)
         open_path = path
-
     elif hasattr(use_file, "read"):
         leave_open = True
         yield use_file
     else:
         open_path = use_file
+
     if use_bytes is None:
-        open_file = open(open_path)
+        open_file = open(open_path)  # noqa: SIM115
     else:
-        open_file = open(open_path, "rb")
+        open_file = open(open_path, "rb")  # noqa: SIM115
 
     yield open_file
 
@@ -225,13 +229,15 @@ def to_bytes(s):
 def _ftp_download_if_new(url, path, check_modified=True):
     parsed = urllib.parse.urlparse(url)
     ftp = ftplib.FTP(parsed.netloc, "anonymous")
-    directory, filename = parsed.path.rsplit("/", 1)
     ftp_last_modified = _ftp_last_modified(ftp, parsed.path)
     ftp_file_size = _ftp_file_size(ftp, parsed.path)
 
-    if not os.path.exists(path) or os.path.getsize(path) != ftp_file_size:
-        _ftp_download_file(ftp, parsed.path, path)
-    elif check_modified and _path_last_modified(path) < ftp_last_modified:
+    if (
+        not os.path.exists(path)
+        or os.path.getsize(path) != ftp_file_size
+        or check_modified
+        and _path_last_modified(path) < ftp_last_modified
+    ):
         _ftp_download_file(ftp, parsed.path, path)
 
 
@@ -247,7 +253,9 @@ def _ftp_file_size(ftp, file_path):
 
 def _ftp_last_modified(ftp, file_path):
     timestamp = ftp.sendcmd(f"MDTM {file_path}").split()[-1]
-    return datetime.datetime.strptime(timestamp, "%Y%m%d%H%M%S")
+    return datetime.datetime.strptime(timestamp, "%Y%m%d%H%M%S").astimezone(
+        datetime.timezone.utc
+    )
 
 
 def _http_download_file(url, path):
@@ -255,26 +263,30 @@ def _http_download_file(url, path):
     mkdir_if_doesnt_exist(os.path.dirname(path))
     chunk_size = 64 * 1024
     with open(path, "wb") as f:
-        for content in request.iter_content(chunk_size):
-            f.write(content)
+        f.writelines(request.iter_content(chunk_size))
 
 
 def _http_download_if_new(url, path, check_modified):
     head = requests.head(url, timeout=60, verify=False)
-    if not os.path.exists(path) or not _request_file_size_matches(head, path):
-        _http_download_file(url, path)
-    elif check_modified and _request_is_newer_than_file(head, path):
+    if (
+        not os.path.exists(path)
+        or not _request_file_size_matches(head, path)
+        or check_modified
+        and _request_is_newer_than_file(head, path)
+    ):
         _http_download_file(url, path)
 
 
 def _nans_to_nones(nan_dict):
     """takes a dict and if any values are np.nan then it will replace them with
     None"""
-    return dict([(k, v) if v is not np.nan else (k, None) for k, v in nan_dict.items()])
+    return dict([(k, v) if not np.isnan(v) else (k, None) for k, v in nan_dict.items()])
 
 
 def _parse_rfc_1123_timestamp(timestamp_str):
-    return datetime.datetime(*email.utils.parsedate(timestamp_str)[:6])
+    return datetime.datetime(
+        *email.utils.parsedate(timestamp_str)[:6], tzinfo=datetime.timezone.utc
+    )
 
 
 def _path_last_modified(path):
@@ -284,7 +296,9 @@ def _path_last_modified(path):
     if not os.path.exists(path):
         return None
 
-    return datetime.datetime.utcfromtimestamp(os.path.getmtime(path))
+    return datetime.datetime.fromtimestamp(
+        os.path.getmtime(path), tz=datetime.timezone.utc
+    )
 
 
 def _request_file_size_matches(request, path):

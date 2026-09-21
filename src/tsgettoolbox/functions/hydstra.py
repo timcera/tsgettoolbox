@@ -5,8 +5,10 @@ hydstra_catalog     Kisters Hydstra Webservice - variable catalog for a
 hydstra_stations    Kisters Hydstra Webservice - station list for a server
 """
 
+# Third party imports
 import pandas as pd
 
+# First party imports
 from tsgettoolbox import hydstra_utils as hu
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 

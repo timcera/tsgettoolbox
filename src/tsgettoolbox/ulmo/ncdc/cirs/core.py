@@ -9,11 +9,14 @@ This module provides direct access to the `National Climatic Data Center`_
 .. _Climate Index Reference Sequential (CIRS): http://www1.ncdc.noaa.gov/pub/data/cirs/
 """
 
+# Standard library imports
 import os.path
 
+# Third party imports
 import pandas as pd
 from packaging.version import Version
 
+# Local folder imports
 from ... import util
 
 CIRS_DIR = util.get_ulmo_dir("ncdc/cirs")
@@ -183,7 +186,7 @@ def _most_recent(files, element, by_state):
     geographic_extent = "st" if by_state else "dv"
     match_str = f"climdiv-{element}{geographic_extent}"
     matches = [s for s in files if s.startswith(match_str)]
-    return sorted(matches, key=_file_key)[0]
+    return min(matches, key=_file_key)
 
 
 def _file_key(filename):

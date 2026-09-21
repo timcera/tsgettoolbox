@@ -1,12 +1,14 @@
+# Standard library imports
 import datetime
 
+# Third party imports
 import pytest
 import utils
 
+# First party imports
 from tsgettoolbox import ulmo
 
 
-@pytest.mark.skip(reason="This test is not working")
 def test_get_stations():
     test_stations = [
         (
@@ -86,7 +88,6 @@ def test_get_stations():
         assert stations[test_code] == test_station
 
 
-@pytest.mark.skip(reason="This test is not working")
 def test_get_stations_with_country():
     with utils.mocked_urls("ncdc/gsod/isd-history.csv"):
         stations = ulmo.ncdc.gsod.get_stations(country="AF")
@@ -102,7 +103,6 @@ def test_get_stations_with_country():
         assert "729675-99999" in stations
 
 
-@pytest.mark.skip(reason="This test is not working")
 def test_get_stations_with_state():
     with utils.mocked_urls("ncdc/gsod/isd-history.csv"):
         stations = ulmo.ncdc.gsod.get_stations(state="TX")
@@ -116,7 +116,6 @@ def test_get_stations_with_state():
         assert "994780-99999" in stations
 
 
-@pytest.mark.skip(reason="This test is not working")
 def test_get_stations_with_start():
     with utils.mocked_urls("ncdc/gsod/isd-history.csv"):
         stations = ulmo.ncdc.gsod.get_stations(start="2011-3-2")
@@ -125,7 +124,6 @@ def test_get_stations_with_start():
     assert "534780-99999" not in stations
 
 
-@pytest.mark.skip(reason="This test is not working")
 def test_get_stations_with_end():
     with utils.mocked_urls("ncdc/gsod/isd-history.csv"):
         stations = ulmo.ncdc.gsod.get_stations(end="1960-11-5")
@@ -138,7 +136,11 @@ def test_get_stations_with_end():
 def test_get_station_data():
     test_data = [
         (
-            dict(station_codes="999999-14896", start="1952-01-01", end="1953-02-02"),
+            {
+                "station_codes": "999999-14896",
+                "start": "1952-01-01",
+                "end": "1953-02-02",
+            },
             [
                 {
                     "FRSHTT": "010000",
@@ -224,12 +226,12 @@ def test_get_station_data():
             ],
         ),
         (
-            dict(
-                station_codes="999999-14896",
-                start="1952-01-01",
-                end="1953-02-02",
-                parameters="snow_depth",
-            ),
+            {
+                "station_codes": "999999-14896",
+                "start": "1952-01-01",
+                "end": "1953-02-02",
+                "parameters": "snow_depth",
+            },
             [
                 {
                     "date": datetime.date(1952, 1, 1),
@@ -246,12 +248,12 @@ def test_get_station_data():
             ],
         ),
         (
-            dict(
-                station_codes="999999-14896",
-                start="1952-01-01",
-                end="1953-02-02",
-                parameters=["station_pressure", "dew_point"],
-            ),
+            {
+                "station_codes": "999999-14896",
+                "start": "1952-01-01",
+                "end": "1953-02-02",
+                "parameters": ["station_pressure", "dew_point"],
+            },
             [
                 {
                     "date": datetime.date(1952, 1, 1),

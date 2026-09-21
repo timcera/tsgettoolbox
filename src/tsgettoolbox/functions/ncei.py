@@ -18,6 +18,7 @@ ncei_ghcndms        global:station::M:NCEI GHCND Monthly Summaries
 ncei_ish            global:station::H:Integrated Surface Database
 """
 
+# Standard library imports
 import datetime
 import email.utils
 import ftplib
@@ -27,12 +28,14 @@ import warnings
 from collections import OrderedDict
 from contextlib import contextmanager
 
+# Third party imports
 import numpy as np
 import pandas as pd
 import requests
 from packaging.version import Version
 from platformdirs import user_data_dir
 
+# First party imports
 from tsgettoolbox import utils
 from tsgettoolbox.cdo_api_py.cdo_api_py import Client
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
@@ -73,11 +76,15 @@ NO_DATA_VALUES = {
 }
 
 __all__ = [
-    "ncei_ghcnd_ftp",
+    "ncei_annual",
+    "ncei_cirs",
     "ncei_ghcnd",
+    "ncei_ghcnd_ftp",
+    "ncei_ghcndms",
     "ncei_gsod",
     "ncei_gsom",
     "ncei_gsoy",
+    "ncei_ish",
     "ncei_nexrad2",
     "ncei_nexrad3",
     "ncei_normal_ann",
@@ -86,10 +93,6 @@ __all__ = [
     "ncei_normal_mly",
     "ncei_precip_15",
     "ncei_precip_hly",
-    "ncei_annual",
-    "ncei_ghcndms",
-    "ncei_ish",
-    "ncei_cirs",
 ]
 
 ncei_ghcnd_docstrings = {
@@ -1578,7 +1581,7 @@ def _most_recent(files, element, by_state):
     geographic_extent = "st" if by_state else "dv"
     match_str = f"climdiv-{element}{geographic_extent}"
     matches = [s for s in files if s.startswith(match_str)]
-    return sorted(matches, key=_file_key)[0]
+    return min(matches, key=_file_key)
 
 
 def dir_list(url):
@@ -1605,7 +1608,9 @@ def _path_last_modified(path):
     if not os.path.exists(path):
         return None
 
-    return datetime.datetime.utcfromtimestamp(os.path.getmtime(path))
+    return datetime.datetime.fromtimestamp(os.path.getmtime(path)).astimezone(
+        datetime.timezone.utc
+    )
 
 
 def _request_file_size_matches(request, path):
@@ -1615,7 +1620,9 @@ def _request_file_size_matches(request, path):
 
 
 def _parse_rfc_1123_timestamp(timestamp_str):
-    return datetime.datetime(*email.utils.parsedate(timestamp_str)[:6])
+    return datetime.datetime(
+        *email.utils.parsedate(timestamp_str)[:6], tzinfo=datetime.timezone.utc
+    )
 
 
 def _request_is_newer_than_file(request, path):
@@ -1642,13 +1649,15 @@ def _request_is_newer_than_file(request, path):
 def _ftp_download_if_new(url, path, check_modified=True):
     parsed = urllib.parse.urlparse(url)
     ftp = ftplib.FTP(parsed.netloc, "anonymous")
-    directory, filename = parsed.path.rsplit("/", 1)
     ftp_last_modified = _ftp_last_modified(ftp, parsed.path)
     ftp_file_size = _ftp_file_size(ftp, parsed.path)
 
-    if not os.path.exists(path) or os.path.getsize(path) != ftp_file_size:
-        _ftp_download_file(ftp, parsed.path, path)
-    elif check_modified and _path_last_modified(path) < ftp_last_modified:
+    if (
+        not os.path.exists(path)
+        or os.path.getsize(path) != ftp_file_size
+        or check_modified
+        and _path_last_modified(path) < ftp_last_modified
+    ):
         _ftp_download_file(ftp, parsed.path, path)
 
 
@@ -1664,7 +1673,9 @@ def _ftp_file_size(ftp, file_path):
 
 def _ftp_last_modified(ftp, file_path):
     timestamp = ftp.sendcmd(f"MDTM {file_path}").split()[-1]
-    return datetime.datetime.strptime(timestamp, "%Y%m%d%H%M%S")
+    return datetime.datetime.strptime(timestamp, "%Y%m%d%H%M%S").astimezone(
+        datetime.timezone.utc
+    )
 
 
 def _http_download_file(url, path):
@@ -1672,15 +1683,17 @@ def _http_download_file(url, path):
     mkdir_if_doesnt_exist(os.path.dirname(path))
     chunk_size = 64 * 1024
     with open(path, "wb") as f:
-        for content in request.iter_content(chunk_size):
-            f.write(content)
+        f.writelines(request.iter_content(chunk_size))
 
 
 def _http_download_if_new(url, path, check_modified):
     head = requests.head(url, timeout=60)
-    if not os.path.exists(path) or not _request_file_size_matches(head, path):
-        _http_download_file(url, path)
-    elif check_modified and _request_is_newer_than_file(head, path):
+    if (
+        not os.path.exists(path)
+        or not _request_file_size_matches(head, path)
+        or check_modified
+        and _request_is_newer_than_file(head, path)
+    ):
         _http_download_file(url, path)
 
 
@@ -1722,7 +1735,7 @@ def open_file_for_url(url, path, check_modified=True, use_file=None, use_bytes=N
         yield use_file
     else:
         open_path = use_file
-    open_file = open(open_path) if use_bytes is None else open(open_path, "rb")
+        open_file = open(open_path) if use_bytes is None else open(open_path, "rb")  # noqa: SIM115
     yield open_file
 
     if not leave_open:
@@ -5326,7 +5339,7 @@ def ncei_ghcndms(stationid, start_date=None, end_date=None):
 
 
 @tsutils.doc({**tsutils.docstrings, **ncei_ghcnd_docstrings})
-def ncei_ish(stationid, start_date="1901-01-01", end_date=datetime.datetime.now()):
+def ncei_ish(stationid, start_date="1901-01-01", end_date=""):
     r"""global:station::H:Integrated Surface Database
 
     ${info}
@@ -5337,6 +5350,8 @@ def ncei_ish(stationid, start_date="1901-01-01", end_date=datetime.datetime.now(
     ${start_date}
     ${end_date}
     """
+    if not end_date:
+        end_date = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
     stationid = stationid.replace("-", "")
     # "https://www1.ncdc.noaa.gov/pub/data/noaa/{year}/{station}-{year}.gz",
     final = utils.file_downloader(
@@ -5753,8 +5768,8 @@ def ncei_ish(stationid, start_date="1901-01-01", end_date=datetime.datetime.now(
         if cname in loopvar:
             addto = final[cname].str.split(" *, *", expand=True)
             addto.columns = variables.keys()
-            for vname in variables.keys():
-                modifiers = process[cname][vname]
+            for vname in variables:
+                modifiers = variables[vname]
                 if "astype" in modifiers:
                     addto[vname] = addto[vname].astype(modifiers["astype"])
                 if "replace" in modifiers:

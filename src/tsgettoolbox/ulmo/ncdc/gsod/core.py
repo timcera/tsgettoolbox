@@ -9,6 +9,7 @@ This module provides direct access to `National Climatic Data Center`_
 .. _Global Summary of the Day: http://www.ncdc.noaa.gov/oa/gsod.html
 """
 
+# Standard library imports
 import csv
 import datetime
 import gzip
@@ -16,13 +17,15 @@ import itertools
 import os
 import tarfile
 
+# Third party imports
 import numpy as np
 
+# Local folder imports
 from ... import util
 
 NCDC_GSOD_DIR = os.path.join(util.get_ulmo_dir(), "ncdc/gsod")
 NCDC_GSOD_STATIONS_FILE = os.path.join(NCDC_GSOD_DIR, "isd-history.csv")
-NCDC_GSOD_START_DATE = datetime.date(1929, 1, 1)
+NCDC_GSOD_START_DATE = datetime.date(1929, 1, 1).astimezone(datetime.timezone.utc)
 
 
 def get_parameters():
@@ -89,7 +92,9 @@ def get_data(station_codes, start=None, end=None, parameters=None):
         Dict with station codes keyed to lists of value dicts.
     """
     start_date = util.convert_date(start) if start else NCDC_GSOD_START_DATE
-    end_date = util.convert_date(end) if end else datetime.date.today()
+    end_date = (
+        util.convert_date(end) if end else datetime.datetime.now(datetime.timezone.utc)
+    )
     if isinstance(parameters, str):
         parameters = [parameters]
     if parameters and "date" not in parameters:
@@ -136,7 +141,7 @@ def get_data(station_codes, start=None, end=None, parameters=None):
                     else:
                         data_dict[station] = year_data
     for station, data_array in data_dict.items():
-        if data_dict[station] is not None:
+        if data_array is not None:
             data_dict[station] = _record_array_to_value_dicts(data_array)
     return data_dict
 
@@ -210,7 +215,11 @@ def _convert_date_string(date_string):
     if isinstance(date_string, bytes):
         date_string = date_string.decode("utf-8")
 
-    return datetime.datetime.strptime(date_string, "%Y%m%d").date()
+    return (
+        datetime.datetime.strptime(date_string, "%Y%m%d")
+        .astimezone(datetime.timezone.utc)
+        .date()
+    )
 
 
 def _get_gsod_file(year):
@@ -228,9 +237,7 @@ def _passes_row_filter(row, country=None, state=None, start_str=None, end_str=No
         return False
     if start_str is not None and row["END"] != "" and row["END"] <= start_str:
         return False
-    if end_str is not None and row["BEGIN"] != "" and end_str <= row["BEGIN"]:
-        return False
-    return True
+    return end_str is None and row["BEGIN"] == "" and end_str > row["BEGIN"]
 
 
 def _process_station(station_row):

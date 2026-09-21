@@ -1,44 +1,18 @@
+# Standard library imports
 import contextlib
 import os
 import os.path
 import re
 import shutil
 import tempfile
-from unittest import mock
 
-import httpretty as httpretty
+# Third party imports
+import httpretty
 
 
 def get_test_file_path(file_path):
     """translates a file path to be relative to the test files directory"""
     return os.path.join(os.path.dirname(__file__), "files", file_path)
-
-
-@contextlib.contextmanager
-def mocked_suds_client(waterml_version, mocked_service_calls, force=False):
-    """mocks the suds library to return a given file's content"""
-    # if environment variable is set, then mock the tests otherwise just grab files
-    # over the network. Example:
-    #    env ULMO_MOCK_TESTS=1 py.test
-    if not os.environ.get("ULMO_MOCK_TESTS", False) and not force:
-        yield
-
-    else:
-        tns_str = f"http://www.cuahsi.org/his/{waterml_version}/ws/"
-        with _open_multiple(list(mocked_service_calls.values())) as open_files:
-            client = mock.MagicMock()
-            client.wsdl.tns = ("tns", tns_str)
-
-            for service_call, filename in mocked_service_calls.items():
-                open_file = open_files[filename]
-
-                def _func(*args, **kwargs):
-                    return open_file.read()
-
-                setattr(client.service, service_call, _func)
-
-            with mock.patch("suds.client.Client", return_value=client):
-                yield
 
 
 @contextlib.contextmanager
@@ -65,7 +39,7 @@ def mocked_urls(url_files, methods=None, force=False):
     # if environment variable is set, then mock the tests otherwise just grab files
     # over the network. Example:
     #    env ULMO_MOCK_TESTS=1 py.test
-    if not os.environ.get("ULMO_MOCK_TESTS", False) and not force:
+    if not os.environ.get("ULMO_MOCK_TESTS", "") and not force:
         yield
 
     else:
@@ -105,7 +79,7 @@ def temp_dir():
 
 def use_test_files():
     """Returns true if tests should be run using test files, false otherwise."""
-    return os.environ.get("ULMO_DONT_MOCK_TESTS", True)
+    return os.environ.get("ULMO_DONT_MOCK_TESTS", "")
 
 
 def _build_request_callback(response_file):

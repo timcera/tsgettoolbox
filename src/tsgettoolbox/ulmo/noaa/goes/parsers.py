@@ -1,5 +1,7 @@
+# Standard library imports
 from datetime import timedelta
 
+# Third party imports
 import numpy as np
 import pandas as pd
 
@@ -34,7 +36,7 @@ def twdb_fts(df_row, drop_dcp_metadata=True, dual_well=False):
                 message_timestamp, channel, channel_data, reverse=False
             )
             data.append(df)
-        except Exception as e:
+        except KeyError as e:
             print(f"Warning: Could not parse values for channel {channel}: {e}")
 
     df = pd.concat(data)
@@ -86,7 +88,7 @@ def twdb_sutron(df_row, drop_dcp_metadata=True, dual_well=False):
                     message_timestamp, channel, channel_data, reverse=False
                 )
                 data.append(df)
-            except Exception as e:
+            except KeyError as e:
                 print(f"Warning: Could not parse values for channel {channel}: {e}")
         else:
             try:
@@ -95,7 +97,7 @@ def twdb_sutron(df_row, drop_dcp_metadata=True, dual_well=False):
                     message_timestamp, channel, channel_data, reverse=False
                 )
                 data.append(df)
-            except Exception as e:
+            except KeyError as e:
                 print(f"Warning: Could not parse values for channel {channel}: {e}")
 
     df = pd.concat(data)
@@ -146,7 +148,7 @@ def _twdb_assemble_dataframe(message_timestamp, channel, channel_data, reverse=F
         timestamp = base_timestamp - timedelta(hours=hrs)
         try:
             value = float(value)
-        except Exception:
+        except TypeError:
             value = np.nan
 
         data.append([timestamp, channel, value])
@@ -192,12 +194,12 @@ def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=Tru
                     channel_data[channel].append(channel_datum.strip("+-"))
                 else:
                     channel_data[channel] = [channel_datum.strip("+-")]
-            except Exception:
-                pass
+            except KeyError:
+                print(f"Could not parse values for channel {field[:2]}: {field}")
 
-        for channel in channel_data:
+        for channel, value in channel_data.items():
             df = _twdb_assemble_dataframe(
-                message_timestamp, channel, channel_data[channel], reverse=reverse
+                message_timestamp, channel, value, reverse=reverse
             )
             data.append(df)
 
@@ -223,7 +225,7 @@ def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=Tru
                 df = _twdb_assemble_dataframe(
                     message_timestamp, channel, channel_data, reverse=reverse
                 )
-            except Exception as e:
+            except KeyError as e:
                 print(f"Warning: Could not parse values for channel {field[:2]}: {e}")
         elif "time" in field:
             try:
@@ -232,7 +234,7 @@ def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=Tru
                 df = _twdb_assemble_dataframe(
                     message_timestamp, channel, channel_data, reverse=reverse
                 )
-            except Exception as e:
+            except KeyError as e:
                 print(
                     f"Warning: Could not parse values for channel {field.split(':')[0]}: {e}"
                 )
@@ -241,22 +243,20 @@ def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=Tru
                 channel_name = field.split(":")[1]
                 if channel_name not in water_data:
                     water_data[channel_name] = []
-            except Exception as e:
+            except KeyError as e:
                 print(
                     f"Warning: Could not parse values for channel {field.split(':')[1]}: {e}"
                 )
         else:
             try:
                 water_data[channel_name].append(float(field.strip("+-$")))
-            except Exception:
-                pass
+            except KeyError:
+                print(f"Could not parse values for channel {channel_name}: {field}")
         data.append(df)
 
-    for channel in water_data:
+    for channel, value in water_data.items():
         data.append(
-            _twdb_assemble_dataframe(
-                message_timestamp, channel, water_data[channel], reverse=reverse
-            )
+            _twdb_assemble_dataframe(message_timestamp, channel, value, reverse=reverse)
         )
     df = pd.concat(data)
 
