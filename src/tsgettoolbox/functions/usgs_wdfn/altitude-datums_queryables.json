@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "title": "Altitude datums",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "string",
+      "x-ogc-role": "id"
+    },
+    "altitude_datum_description": {
+      "title": "altitude_datum_description",
+      "type": "string"
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/altitude-datums/queryables?f=json"
+}

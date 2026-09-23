@@ -1,0 +1,146 @@
+{
+  "type": "object",
+  "title": "Channel measurements",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "Record identifier",
+      "type": "string",
+      "format": "uuid",
+      "description": "A universally unique identifier (UUID) representing a single version of a record. It is not stable over time. Every time the record is refreshed in our database (which may happen as part of normal operations and does not imply any change to the data itself) a new ID will be generated. To uniquely identify a single observation over time, compare the `time` and `time_series_id` fields; each time series will only have a single observation at a given `time`.\n",
+      "x-ogc-role": "id"
+    },
+    "monitoring_location_id": {
+      "title": "Monitoring location ID",
+      "type": "string",
+      "description": "A unique identifier representing a single monitoring location. This corresponds to the `id` field in the `monitoring-locations` endpoint. Monitoring location IDs are created by combining the agency code of the agency responsible for the monitoring location (e.g. USGS) with the ID number of the monitoring location (e.g. 02238500), separated by a hyphen (e.g. USGS-02238500).\n"
+    },
+    "field_visit_id": {
+      "title": "Field visit ID",
+      "type": "string",
+      "format": "uuid",
+      "description": "A universally unique identifier (UUID) for the field visit. Multiple measurements may be made during a single field visit.\n"
+    },
+    "measurement_number": {
+      "title": "Measurement number",
+      "type": "string",
+      "description": "Measurement number."
+    },
+    "time": {
+      "title": "Time",
+      "type": "string",
+      "description": "The date an observation represents. You can query this field using date-times or intervals, adhering to RFC 3339, or using ISO 8601 duration objects. Intervals may be bounded or half-bounded (double-dots at start or end).\nExamples:\n\n  - A date-time: \"2018-02-12T23:20:50Z\"\n  - A bounded interval: \"2018-02-12T00:00:00Z/2018-03-18T12:31:12Z\"\n  - Half-bounded intervals: \"2018-02-12T00:00:00Z/..\" or \"../2018-03-18T12:31:12Z\"\n  - Duration objects: \"P1M\" for data from the past month or \"PT36H\" for the last 36 hours\n\nOnly features that have a `time` that intersects the value of datetime are selected. If a feature has multiple temporal properties, it is the decision of the server whether only a single temporal property is used to determine the extent or all relevant temporal properties.\n",
+      "x-ogc-role": "primary-instant"
+    },
+    "channel_name": {
+      "title": "Channel name",
+      "type": "string",
+      "description": "The channel name."
+    },
+    "channel_flow": {
+      "title": "Channel flow",
+      "type": "string",
+      "description": "Channel discharge."
+    },
+    "channel_flow_unit": {
+      "title": "Channel flow unit",
+      "type": "string",
+      "description": "The units for channel discharge."
+    },
+    "channel_width": {
+      "title": "Channel width",
+      "type": "string",
+      "description": "The channel width."
+    },
+    "channel_width_unit": {
+      "title": "Channel width unit",
+      "type": "string",
+      "description": "The units for channel width."
+    },
+    "channel_area": {
+      "title": "Channel area",
+      "type": "string",
+      "description": "The channel area."
+    },
+    "channel_area_unit": {
+      "title": "Channel area unit",
+      "type": "string",
+      "description": "The units for channel area."
+    },
+    "channel_velocity": {
+      "title": "Channel velocity",
+      "type": "string",
+      "description": "The mean channel velocity."
+    },
+    "channel_velocity_unit": {
+      "title": "Channel velocity unit",
+      "type": "string",
+      "description": "The units for channel velocity."
+    },
+    "channel_location_distance": {
+      "title": "Channel location distance",
+      "type": "string",
+      "description": "The channel location distance."
+    },
+    "channel_location_distance_unit": {
+      "title": "Channel location distance unit",
+      "type": "string",
+      "description": "The units for channel location distance."
+    },
+    "channel_stability": {
+      "title": "Channel stability",
+      "type": "string",
+      "description": "The stability of the channel material."
+    },
+    "channel_material": {
+      "title": "Channel material",
+      "type": "string",
+      "description": "The channel material."
+    },
+    "channel_evenness": {
+      "title": "Channel evenness",
+      "type": "string",
+      "description": "The channel evenness from bank to bank."
+    },
+    "horizontal_velocity_description": {
+      "title": "Horizontal velocity description",
+      "type": "string",
+      "description": "The horizontal velocity description."
+    },
+    "vertical_velocity_description": {
+      "title": "Vertical velocity description",
+      "type": "string",
+      "description": "The vertical velocity description."
+    },
+    "longitudinal_velocity_description": {
+      "title": "Longitudinal velocity description",
+      "type": "string",
+      "description": "The longitudinal velocity description."
+    },
+    "measurement_type": {
+      "title": "Measurement type",
+      "type": "string",
+      "description": "The measurement type."
+    },
+    "last_modified": {
+      "title": "Last modified date",
+      "type": "string",
+      "description": "The last time a record was refreshed in our database. This may happen due to regular operational processes and does not necessarily indicate anything about the measurement has changed.\nYou can query this field using date-times or intervals, adhering to RFC 3339, or using ISO 8601 duration objects. Intervals may be bounded or half-bounded (double-dots at start or end).\nExamples:\n\n  - A date-time: \"2018-02-12T23:20:50Z\"\n  - A bounded interval: \"2018-02-12T00:00:00Z/2018-03-18T12:31:12Z\"\n  - Half-bounded intervals: \"2018-02-12T00:00:00Z/..\" or \"../2018-03-18T12:31:12Z\"\n  - Duration objects: \"P1M\" for data from the past month or \"PT36H\" for the last 36 hours\n\nOnly features that have a `last_modified` that intersects the value of datetime are selected.\n"
+    },
+    "channel_measurement_type": {
+      "title": "Channel measurement type",
+      "type": "string",
+      "description": "The channel measurement type."
+    },
+    "channel_location_direction": {
+      "title": "Channel Location Direction",
+      "type": "string",
+      "description": "Location of the measurement from the gage."
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/channel-measurements/queryables?f=json"
+}

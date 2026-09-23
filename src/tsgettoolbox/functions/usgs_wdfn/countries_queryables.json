@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "title": "Country identifiers",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "string",
+      "description": "The purpose of ISO 3166 is to define internationally recognized codes of letters and/or numbers that we can use when we refer to countries and their subdivisions.",
+      "x-ogc-role": "id"
+    },
+    "country_name": {
+      "title": "country_name",
+      "type": "string",
+      "description": "Country name."
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/countries/queryables?f=json"
+}

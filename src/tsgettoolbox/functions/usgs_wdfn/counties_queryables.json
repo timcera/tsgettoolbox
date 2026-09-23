@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "title": "County identifiers",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "string",
+      "x-ogc-role": "id"
+    },
+    "country_code": {
+      "title": "country_code",
+      "type": "string",
+      "description": "FIPS country code as defined by FIPS PUB 10-4: Countries, Dependencies, Areas of Special Sovereignty, and Their Principal Administrative Divisions."
+    },
+    "state_fips_code": {
+      "title": "state_fips_code",
+      "type": "string",
+      "description": "State FIPS code."
+    },
+    "county_fips_code": {
+      "title": "county_fips_code",
+      "type": "string",
+      "description": "County FIPS code. A two digit code indicating a U.S. county as defined by FIPS 5-2."
+    },
+    "county_name": {
+      "title": "county_name",
+      "type": "string",
+      "description": "County name. The name of a U.S. county as defined by FIPS 5-2."
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/counties/queryables?f=json"
+}

@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "title": "National aquifer codes",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "string",
+      "description": "National aquifer code.",
+      "x-ogc-role": "id"
+    },
+    "national_aquifer_name": {
+      "title": "national_aquifer_name",
+      "type": "string",
+      "description": "National aquifer name."
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/national-aquifer-codes/queryables?f=json"
+}

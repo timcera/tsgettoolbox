@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "title": "Coordinate method codes",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "string",
+      "x-ogc-role": "id"
+    },
+    "coordinate_method_description": {
+      "title": "coordinate_method_description",
+      "type": "string"
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/coordinate-method-codes/queryables?f=json"
+}

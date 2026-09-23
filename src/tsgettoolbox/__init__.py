@@ -8,7 +8,6 @@ web services.
 __all__ = [
     "cdec",
     "coops",
-    "cpc",
     "daymet",
     "epa_wqp",
     "fawn",
@@ -53,21 +52,53 @@ __all__ = [
     "nwis_site",
     "nwis_stat",
     "rivergages",
-    "swtwc",
     "terraclimate",
-    "terraclimate2C",
-    "terraclimate4C",
-    "terraclimate19611990",
     "terraclimate19812010",
     "terraclimate19912020",
     "twc",
     "unavco",
+    "wdfn_agency_codes",
+    "wdfn_altitude_datums",
+    "wdfn_aquifer_codes",
+    "wdfn_aquifer_types",
+    "wdfn_channel_measurements",
+    "wdfn_citations",
+    "wdfn_combined_metadata",
+    "wdfn_continuous",
+    "wdfn_coordinate_accuracy_codes",
+    "wdfn_coordinate_datum_codes",
+    "wdfn_coordinate_method_codes",
+    "wdfn_counties",
+    "wdfn_countries",
+    "wdfn_daily",
+    "wdfn_field_measurements",
+    "wdfn_field_measurements_metadata",
+    "wdfn_hydrologic_unit_codes",
+    "wdfn_latest_continuous",
+    "wdfn_latest_daily",
+    "wdfn_latest_field_measurements",
+    "wdfn_medium_codes",
+    "wdfn_method_categories",
+    "wdfn_method_citations",
+    "wdfn_methods",
+    "wdfn_monitoring_locations",
+    "wdfn_national_aquifer_codes",
+    "wdfn_parameter_codes",
+    "wdfn_peaks",
+    "wdfn_reliability_codes",
+    "wdfn_site_types",
+    "wdfn_states",
+    "wdfn_statistic_codes",
+    "wdfn_time_series_metadata",
+    "wdfn_time_series_methods",
+    "wdfn_time_series_revisions",
+    "wdfn_time_zone_codes",
+    "wdfn_topographic_codes",
 ]
 
 # Local folder imports
 from .functions.cdec import cdec
 from .functions.coops import coops
-from .functions.cpc import cpc
 from .functions.daymet import daymet
 from .functions.fawn import fawn
 from .functions.hydstra import hydstra_catalog, hydstra_stations, hydstra_ts
@@ -116,12 +147,47 @@ from .functions.nwis import (
     nwis_stat,
 )
 from .functions.rivergages import rivergages
-from .functions.swtwc import swtwc
 from .functions.terraclimate import terraclimate
-from .functions.terraclimate2C import terraclimate2C
-from .functions.terraclimate4C import terraclimate4C
-from .functions.terraclimate19611990 import terraclimate19611990
 from .functions.terraclimate19812010 import terraclimate19812010
 from .functions.terraclimate19912020 import terraclimate19912020
 from .functions.twc import twc
 from .functions.unavco import unavco
+from .functions.usgs_wdfn.usgs_wdfn import (
+    wdfn_agency_codes,
+    wdfn_altitude_datums,
+    wdfn_aquifer_codes,
+    wdfn_aquifer_types,
+    wdfn_channel_measurements,
+    wdfn_citations,
+    wdfn_combined_metadata,
+    wdfn_continuous,
+    wdfn_coordinate_accuracy_codes,
+    wdfn_coordinate_datum_codes,
+    wdfn_coordinate_method_codes,
+    wdfn_counties,
+    wdfn_countries,
+    wdfn_daily,
+    wdfn_field_measurements,
+    wdfn_field_measurements_metadata,
+    wdfn_hydrologic_unit_codes,
+    wdfn_latest_continuous,
+    wdfn_latest_daily,
+    wdfn_latest_field_measurements,
+    wdfn_medium_codes,
+    wdfn_method_categories,
+    wdfn_method_citations,
+    wdfn_methods,
+    wdfn_monitoring_locations,
+    wdfn_national_aquifer_codes,
+    wdfn_parameter_codes,
+    wdfn_peaks,
+    wdfn_reliability_codes,
+    wdfn_site_types,
+    wdfn_states,
+    wdfn_statistic_codes,
+    wdfn_time_series_metadata,
+    wdfn_time_series_methods,
+    wdfn_time_series_revisions,
+    wdfn_time_zone_codes,
+    wdfn_topographic_codes,
+)

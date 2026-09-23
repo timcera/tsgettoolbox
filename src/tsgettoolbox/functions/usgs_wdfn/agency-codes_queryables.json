@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "title": "Agency codes",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "string",
+      "description": "Agency code identification number.",
+      "x-ogc-role": "id"
+    },
+    "agency_name": {
+      "title": "agency_name",
+      "type": "string",
+      "description": "Agency name."
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/agency-codes/queryables?f=json"
+}

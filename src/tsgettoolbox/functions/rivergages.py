@@ -201,13 +201,13 @@ def open_file_for_url(url, path, check_modified=True, use_file=None, use_bytes=N
     if use_file is None:
         download_if_new(url, path, check_modified)
         open_path = path
-
     elif hasattr(use_file, "read"):
         leave_open = True
         yield use_file
     else:
         open_path = use_file
-        open_file = open(open_path) if use_bytes is None else open(open_path, "rb")  # noqa: SIM115
+
+    open_file = open(open_path) if use_bytes is None else open(open_path, "rb")  # noqa: SIM115
     yield open_file
 
     if not leave_open:

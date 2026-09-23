@@ -190,25 +190,25 @@ if __name__ == "__main__":
     print("Unavco_met")
     print(df)
 
-    df = unavco_to_df(
-        r"http://web-services.unavco.org:80/pore/data/temperature",
-        station="B078",
-        starttime="2012-05-02T00:00:00",
-        endtime="2012-05-02T23:59:59",
-    )
+    # df = unavco_to_df(
+    #    r"http://web-services.unavco.org:80/pore/data/temperature",
+    #    station="B022",
+    #    starttime="2020-05-02T00:00:00",
+    #    endtime="2020-05-02T23:59:59",
+    # )
 
-    print("Unavco_pore_temperature")
-    print(df)
+    # print("Unavco_pore_temperature")
+    # print(df)
 
-    df = unavco_to_df(
-        r"http://web-services.unavco.org:80/pore/data/pressure",
-        station="B078",
-        starttime="2012-05-02T00:00:00",
-        endtime="2012-05-02T23:59:59",
-    )
+    # df = unavco_to_df(
+    #    r"http://web-services.unavco.org:80/pore/data/pressure",
+    #    station="B078",
+    #    starttime="2012-05-02T00:00:00",
+    #    endtime="2012-05-02T23:59:59",
+    # )
 
-    print("Unavco_pore_pressure")
-    print(df)
+    # print("Unavco_pore_pressure")
+    # print(df)
 
     # df = unavco_to_df(
     #     r"http://web-services.unavco.org:80/tilt/data",

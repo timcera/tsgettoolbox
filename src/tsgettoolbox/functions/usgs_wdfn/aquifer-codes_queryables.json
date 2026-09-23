@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "title": "Aquifer codes",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "string",
+      "description": "Aquifer code. The eight-character string identifying an aquifer. Codes are defined by the \\\"Catalog of Aquifer Names and Geologic Unit Codes used by the Water Resources Division.\\\"",
+      "x-ogc-role": "id"
+    },
+    "aquifer_name": {
+      "title": "aquifer_name",
+      "type": "string",
+      "description": "Aquifer name. Aquifer names are defined by the \\\"Catalog of Aquifer Names and Geologic Unit Codes used by the Water Resources Division.\\\""
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/aquifer-codes/queryables?f=json"
+}

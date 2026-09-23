@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "title": "Topographic codes",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "string",
+      "x-ogc-role": "id"
+    },
+    "topography_name": {
+      "title": "topography_name",
+      "type": "string"
+    },
+    "short_topography_description": {
+      "title": "short_topography_description",
+      "type": "string"
+    },
+    "full_topography_description": {
+      "title": "full_topography_description",
+      "type": "string"
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/topographic-codes/queryables?f=json"
+}

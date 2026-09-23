@@ -1,0 +1,38 @@
+{
+  "type": "object",
+  "title": "Water measurement methods",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "string",
+      "description": "Water measurement or water-quality analytical method code. The method used to determine a parameter value.",
+      "x-ogc-role": "id"
+    },
+    "method_type": {
+      "title": "method_type",
+      "type": "string",
+      "description": "Method type for measured or collected data"
+    },
+    "method_category": {
+      "title": "method_category",
+      "type": "string",
+      "description": "Code representing the method category standard."
+    },
+    "method_name": {
+      "title": "method_name",
+      "type": "string",
+      "description": "A short name that partially describes a method."
+    },
+    "method_description": {
+      "title": "method_description",
+      "type": "string",
+      "description": "A long name that fully describes a method."
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/methods/queryables?f=json"
+}

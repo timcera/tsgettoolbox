@@ -335,9 +335,9 @@ def fawn(
 
     ${end_date}
     """
-    if not start_date:
+    if pd.isnull(start_date):
         start_date = datetime.datetime(1998, 1, 1, tzinfo=datetime.timezone.utc)
-    if not end_date:
+    if pd.isnull(end_date):
         end_date = datetime.datetime.now(datetime.timezone.utc)
     interval = {"all": 10, "hourly": 40, "daily": 366, "monthly": 8000}
     data: dict[str, str | int | datetime.datetime] = {
@@ -398,7 +398,6 @@ def fawn(
         data["toDate_m"] = end_test_date.month
         data["toDate_d"] = end_test_date.day
         data["toDate_y"] = end_test_date.year
-
         df = core(data)
         if len(df) == 0:
             continue

@@ -8,7 +8,6 @@ Python API Function Summary
 
     tsgettoolbox.cdec
     tsgettoolbox.coops
-    tsgettoolbox.cpc
     tsgettoolbox.daymet
     tsgettoolbox.epa_wqp
     tsgettoolbox.fawn
@@ -51,9 +50,7 @@ Python API Function Summary
     tsgettoolbox.nwis_site
     tsgettoolbox.nwis_stat
     tsgettoolbox.rivergages
-    tsgettoolbox.swtwc
     tsgettoolbox.terraclimate
-    tsgettoolbox.terraclimate19611990
     tsgettoolbox.terraclimate19812010
     tsgettoolbox.terraclimate19912020
     tsgettoolbox.twc

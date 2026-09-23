@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "title": "Statistic codes",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "string",
+      "description": "Statistic code.",
+      "x-ogc-role": "id"
+    },
+    "statistic_name": {
+      "title": "statistic_name",
+      "type": "string",
+      "description": "Statistic name."
+    },
+    "statistic_description": {
+      "title": "statistic_description",
+      "type": "string",
+      "description": "Statistic description."
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/statistic-codes/queryables?f=json"
+}

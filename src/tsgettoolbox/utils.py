@@ -53,10 +53,10 @@ def set_cache_env(src_name):
     # just sets the expiration time for cached items.
     os.environ["HYRIVER_CACHE_EXPIRE"] = "604800"  # 7 days in seconds
 
-    # Clean up cache files older than 8 days.
-    max_age_days = 8
     if cache_path.exists():
         now = time.time()
+        # Clean up cache files older than 8 days.
+        max_age_days = 8
         for item in cache_path.rglob("*"):
             if item.is_file():
                 age_days = (now - item.stat().st_mtime) / 86400
@@ -71,9 +71,10 @@ def read_netrc(machine):
     if not netrcpath.exists():
         with open(netrcpath, "w", encoding="ascii") as fpnetrc:
             fpnetrc.write("")
-
     nrc = netrc(str(netrcpath))
+
     auths = nrc.authenticators(machine)
+
     if auths is None:
         if machine == "urs.earthdata.nasa.gov":
             print(
@@ -113,12 +114,9 @@ def read_netrc(machine):
 
         if machine == "urs.earthdata.nasa.gov":
             username = input(f"Username for '{machine}': ")
-        elif machine == "api.waterdata.usgs.gov":
-            username = input(f"E-mail for '{machine}': ")
-
-        if machine == "urs.earthdata.nasa.gov":
             password = getpass.getpass(f"Password for '{machine}': ")
         elif machine == "api.waterdata.usgs.gov":
+            username = input(f"E-mail for '{machine}': ")
             password = getpass.getpass(f"Token for '{machine}': ")
 
         nrc.hosts[machine] = (username, None, password)
@@ -360,7 +358,9 @@ def opendap(
     # If the url is a single variable url, it doesn't matter which variable is
     # used to download the lat and lon data.  So use the first.
     if single_var_url is True:
+        print(variables)
         dataset = open_url(url.format(variables[0]))
+        print(dataset)
     else:
         dataset = open_url(url)
 
@@ -411,26 +411,26 @@ def opendap(
         units = units.replace("unitless", "")
         units = {"C": "degC"}.get(units, units)
 
-        time = dataset[time_name]
+        time_ds = dataset[time_name]
         try:
-            time_units = time.attributes.get("units", "")
-            calendar = time.attributes.get("calendar", "standard")
-            time = cftime.num2pydate(
-                time.data[:],
+            time_units = time_ds.attributes.get("units", "")
+            calendar = time_ds.attributes.get("calendar", "standard")
+            time_ds = cftime.num2pydate(
+                time_ds.data[:],
                 units=time_units,
                 calendar=calendar,
             )
         except ValueError:
-            try:
+            with contextlib.suppress(AttributeError):
                 # If the dates are byte strings b"2001-01-01"...
-                time = pd.to_datetime([i.decode("ascii") for i in time.data[:]])
-            except AttributeError:
-                pass
+                time_ds = pd.to_datetime([i.decode("ascii") for i in time_ds.data[:]])
 
         if (start_date is not None) or (end_date is not None):
-            tndf = pd.DataFrame(range(len(time)), index=time)
+            tndf = pd.DataFrame(range(len(time_ds)), index=time_ds)
             timedfindex = tndf.index
 
+        print(timedfindex)
+        print(start_date)
         if start_date is None:
             start_date_index = None
         else:
@@ -455,7 +455,7 @@ def opendap(
             ]
 
         df = pd.DataFrame(
-            np.squeeze(point), index=time[start_date_index:end_date_index]
+            np.squeeze(point), index=time_ds[start_date_index:end_date_index]
         )
 
         for col in df.columns:

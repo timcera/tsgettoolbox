@@ -1,0 +1,38 @@
+{
+  "type": "object",
+  "title": "Method citations",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "integer",
+      "description": "Citation method identification number.",
+      "x-ogc-role": "id"
+    },
+    "method_id": {
+      "title": "method_id",
+      "type": "string",
+      "description": "USGS Central Laboratory method code. The lab method used to determine a parameter value."
+    },
+    "citation_name": {
+      "title": "citation_name",
+      "type": "string",
+      "description": "Method citation name. An abbreviated citation that describes the reference."
+    },
+    "citation_method_number": {
+      "title": "citation_method_number",
+      "type": "string",
+      "description": "Citation method number. A number assigned to a method within a cited reference."
+    },
+    "method_source": {
+      "title": "method_source",
+      "type": "string",
+      "description": "Protocol organization code."
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/method-citations/queryables?f=json"
+}

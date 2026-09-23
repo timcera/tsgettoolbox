@@ -7,7 +7,7 @@ requires = [
 
 [project]
 authors = [
-    {email = "tim@cerazone.net", name = "Tim Cera"}
+    { email = "tim@cerazone.net", name = "Tim Cera" }
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -29,10 +29,11 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules"
 ] # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
 dependencies = [
+    "aiodns >=3.5.0",
     "async_retriever",
     "beautifulsoup4",
     "cftime",
-    "cltoolbox",
+    "cltoolbox >=4.0.4", # this version ignores type-hints other than int, float, str, bool, and None
     "dateparser",
     "geojson",
     "haversine",
@@ -65,7 +66,7 @@ keywords = [
     "url",
     "web_services"
 ]
-license = {text = "BSD-3-Clause"}
+license = { text = "BSD-3-Clause" }
 name = "tsgettoolbox"
 requires-python = ">=3.10"
 
@@ -78,12 +79,12 @@ documentation = "https://timcera.bitbucket.io/tsgettoolbox/docs/index.html#tsget
 github = "https://github.com/timcera/tsgettoolbox"
 
 [tool.commitizen]
+multiline = true
 name = "cz_conventional_commits"
 tag_format = "v$version"
 update_changelog_on_bump = true
 version = "26.2.6"
 version_files = ["VERSION"]
-multiline = true
 
 [tool.isort]
 profile = "black"
@@ -95,29 +96,32 @@ formats = "auto:percent"
 testpaths = ["tests"]
 
 [tool.ruff]
-fix = true
 exclude = [
-    "src/*/toolbox_utils/**/*.py",
-    "src/*/cdo_api_py/**/*.py"
+    "src/tsgettoolbox/toolbox_utils",
+    "src/tsgettoolbox/cdo_api_py"
 ]
+fix = true
 
 [tool.ruff.lint]
 extend-select = ["I"]
 
 [tool.ruff.lint.isort.import-heading]
+first-party = "First party imports"
 future = "Future imports"
+local-folder = "Local folder imports"
 standard-library = "Standard library imports"
 third-party = "Third party imports"
-first-party = "First party imports"
-local-folder = "Local folder imports"
 
 [tool.setuptools]
 include-package-data = true
 license-files = ["LICENSE.txt"]
 
 [tool.setuptools.dynamic]
-readme = {file = "README.rst"}
-version = {file = "VERSION"}
+readme = { file = "README.rst" }
+version = { file = "VERSION" }
+
+[tool.setuptools.package-data]
+"tsgettoolbox.functions.usgs_wdfn" = ["*.json"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

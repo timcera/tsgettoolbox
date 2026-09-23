@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "title": "Method categories",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "string",
+      "description": "Code representing the method category standard.",
+      "x-ogc-role": "id"
+    },
+    "method_category_name": {
+      "title": "method_category_name",
+      "type": "string",
+      "description": "Name representing the method category standard."
+    },
+    "method_category_description": {
+      "title": "method_category_description",
+      "type": "string",
+      "description": "Full description of the method category as defined by the USGS Water Mission Area standards for field and analytical methods and their fit-for-purpose use internally and for public delivery"
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/method-categories/queryables?f=json"
+}

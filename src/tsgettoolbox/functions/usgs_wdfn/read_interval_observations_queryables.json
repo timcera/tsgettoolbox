@@ -1,0 +1,98 @@
+{
+  "type": "object",
+  "title": "Normal Observations",
+  "properties": {
+    "parent_time_series_id": {
+      "title": "Parent time series ID",
+      "type": "string",
+      "description": "A unique identifier representing a single time series. This corresponds to the `id` field in the `time-series-metadata` endpoint.\nThe parent_time_series_id returns statistics tied to a particular database entry\n\nAccepts Multiple Values:\nMultiple USGS Parent Time Series Identifiers can be specified\n\nDefault Behavior:\nIf no parent time series identifier is supplied, then all records matching the rest of the provided criteria will be returned.\n\nExamples:\nReturn statistics tied to one particular database entry\n- &parent_time_series_id=db020040c1b746c2a635f5a53a6bb904\nReturn statistics tied to multiple database entries\n- &parent_time_series_id=db020040c1b746c2a635f5a53a6bb9045&parent_time_series_id=db020040c1b746c2a635f5a53a6bb904\n"
+    },
+    "monitoring_location_id": {
+      "title": "Monitoring location ID",
+      "type": "string",
+      "description": "A unique identifier representing a single monitoring location. This corresponds to the `id` field in the `monitoring-locations` endpoint. Monitoring location IDs are created by combining the agency code of the agency responsible for the monitoring location (e.g. USGS) with the ID number of the monitoring location (e.g. 02238500), separated by a hyphen (e.g. USGS-02238500).\nEach monitoring location has been assigned a unique station number that places them in downstream order\n\nMonitoring Location Identifiers can be found using this period of record\nAccepts Multiple Values:\nMultiple Monitoring Location Identifiers can be specified\n\nDefault Behavior:\nIf a monitoring location identifier is not supplied, then statistics will be returned for all monitoring location identifiers within the period of record\n\nExamples:\nReturn statistics from a single monitoring location\n- &monitoring_location_id=USGS-01432160\nReturn statistics from multiple monitoring locations\n- &monitoring_location_id=USGS-01432160&monitoring_location_id=USGS-01432161\n"
+    },
+    "monitoring_location_number": {
+      "title": "Monitoring location number",
+      "type": "string",
+      "description": "An identifier representing a single monitoring location. This corresponds to the `number` field in the `monitoring-locations` endpoint. Monitoring location numbers (e.g. 02238500).\nEach monitoring location has been assigned a unique station number that places them in downstream order\n\nMonitoring Location Numbers can be found using this period of record\nAccepts Multiple Values:\nMultiple Monitoring Location Numbers can be specified\n\nDefault Behavior:\nIf a monitoring location number is not supplied, then statistics will be returned for all monitoring location numbers within the period of record\n\nExamples:\nReturn statistics from a single monitoring location\n- &monitoring_location_number=01432160\nReturn statistics from multiple monitoring locations\n- &monitoring_location_number=01432160&monitoring_location_number=01432161\n"
+    },
+    "agency_code": {
+      "title": "Agency code",
+      "type": "string",
+      "description": "The agency that is reporting the data. Agency codes are fixed values assigned by the National Water Information System (NWIS). A list of agency codes is available at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/agency-codes/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/agency-codes/items).\n"
+    },
+    "parameter_code": {
+      "title": "Parameter code",
+      "type": "string",
+      "description": "Parameter codes are 5-digit codes used to identify the constituent measured and the units of measure. A complete list of parameter codes and associated groupings can be found at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/parameter-codes/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/parameter-codes/items).\nAccepts Multiple Values:\nMultiple USGS parameter codes can be specified\n\nDefault Behavior:\nIf no USGS parameter code is specified, but a Monitoring Location Identifier is supplied, then all statistics and their parameter codes with a matching monitoring location identifier will be returned. All statistics within the period of record will be returned if no parameter code or monitoring location identifier are specified.\n\nExamples:\nReturn statistics from one matching USGS parameter code\n- &parameter_code=00095\nReturn statistics from multiple matching USGS parameter codes\n- &parameter_code=00095&parameter_code=0009\n"
+    },
+    "approval_status": {
+      "title": "Approval Status",
+      "type": "string",
+      "description": "Whether to include approved and/or provisional observations. At this time, only approved observations are returned.\nAccepts Multiple Values:Multiple approval_status values can be specified as separate parameter-value pairs.\nDefault Behavior: Approved observations are included by default.\nExample: Only include approved observations\n- &approval_status=approved\nAvailable values: approved\n",
+      "enum": [
+        "Provisional",
+        "Approved"
+      ]
+    },
+    "country_code": {
+      "title": "Country code",
+      "type": "string",
+      "description": "If one of country, county, or state code is supplied then the other two arguments do not need to be specified\nAccepts Multiple Values:\nMultiple Country codes can be specified\n\nDefault Behavior:\nUS will be specified by default.\n\nExamples:\nReturn statics from one country\n- &country_code=US\nReturn statistics from multiple countries\n- &country_code=US&country_code=CA\n"
+    },
+    "state_code": {
+      "title": "State code",
+      "type": "string",
+      "description": "State code. A [two-digit ANSI code](https://www2.census.gov/geo/docs/reference/state.txt) (formerly FIPS code) as defined by the American National Standards Institute, to define States and equivalents. A three-digit ANSI code is used to define counties and county equivalents. [A lookup table is available.](https://www.census.gov/library/reference/code-lists/ansi.html#states) The only countries with political subdivisions other than the US are Mexico and Canada. The Mexican states have US state codes ranging from 81-86 and Canadian provinces have state codes ranging from 90-98.\nAccepts Multiple Values:\nMultiple State codes can be specified\n\nDefault Behavior:\nUS:42 will be specified by default.\n\nExamples:\nReturn statistics from one state\n- &state_code=US:42\nReturn statistics in multiple states\n- &state_code=US:42&state_code=US:36\n"
+    },
+    "county_code": {
+      "title": "County code",
+      "type": "string",
+      "description": "The code for the county or county equivalent (parish, borough, etc.) in which the monitoring location is located. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/counties/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/counties/items).\nAccepts Multiple Values:\nMultiple County codes can be specified\n\nDefault Behavior:\nUS:42:103 will be specified by default.\n\nExamples:\nReturn statistics from one county\n- &county_code=US:42:103\nReturn statistics from multiple counties\n- &county_code=US:42:103&county_code=US:42:105\n"
+    },
+    "site_type_code": {
+      "title": "Monitoring location type code",
+      "type": "string",
+      "description": "A code describing the hydrologic setting of the monitoring location. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/site-types/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/site-types/items).\nAccepts Multiple Values:\nMultiple Site Type Codes can be specified\n\nDefault Behavior:\nIf no Site Type code is specified, statistics of all site types with the matching Monitoring Location Identifier will be returned.\n\nExamples:\nReturn statistics with matching site type code\n- &site_type_code=GW\nReturn statistics with matching site type codes\n- &site_type_code=GW&site_type_code=ST\n"
+    },
+    "site_type_name": {
+      "title": "Monitoring location type",
+      "type": "string",
+      "description": "A description of the hydrologic setting of the monitoring location. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/site-types/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/site-types/items).\nAccepts Multiple Values:\nMultiple Site Type Names can be specified\n\nDefault Behavior:\nIf no Site Type name is specified, statistics of all site types with the matching Monitoring Location Identifier will be returned\n\nExamples:\nReturn statistics with matching site type name\n- &site_type_name=Well\nReturn statistics with multiple matching site type names\n- &site_type_name=Well&site_type_name=Spring\n"
+    },
+    "computation_type": {
+      "title": "Desired statistical computation method",
+      "type": "string",
+      "description": "Statistical computation method\nAccepts Multiple Values:\nMultiple computation types can be specified\n\nDefault Behavior:\nAll statistical computation types are returned by default.\n\nExamples:\nOnly return arithmetic_mean calculations\n- &computation_type=arithmetic_mean\nOnly return maximum calculations\n- &computation_type=maximum\nOnly return median calculations\n- &computation_type=median\nOnly return minimum calculations\n- &computation_type=minimum\nOnly return percentile calculations\n- &computation_type=percentile\nReturn multiple calculations\n- &computation_type=arithmetic_mean&computation_type=median\nAvailable values : arithmetic_mean, maximum, median, minimum, percentile\n"
+    },
+    "start_date": {
+      "title": "Start date",
+      "type": "string",
+      "description": "The logic is inclusive i.e it will also return records that match the date\nDefault Behavior:\nIf an end date is supplied, but no start date is supplied, then statistics will be supplied for the entire period of record ending with the end date. If an end date is not supplied, but a start date is supplied then statistics will be supplied for the period of record following the start date. If no start or end date are supplied then statistics will be supplied for the entire period of record.\n\nExample:\nReturn statistics starting on a particular start date\n- &start_date=02-04\n"
+    },
+    "end_date": {
+      "title": "End date",
+      "type": "string",
+      "description": "The logic is inclusive i.e it will also return records that match the date\nDefault Behavior:\nIf an end date is supplied, but no start date is supplied, then statistics will be supplied for the entire period of record ending with the end date. If an end date is not supplied, but a start date is supplied then statistics will be supplied for the period of record following the start date. If no start or end date are supplied then statistics will be supplied for the entire period of record.\n\nExample:\nReturn statistics starting on a particular start date\n- &end_date=03-04\n"
+    },
+    "next_token": {
+      "title": "Token for next set of results",
+      "type": "string",
+      "description": "Randomly generated token value of numbers and digits\n\nTo get all pages, one is required to make continued requests with the newly provided token until the last resulting page where no nextToken is present\nDefault Behavior:\nProvided in the event of results exceeding the default or specified page_size.\n\nExample:\nReturned token for next set of results\n- A43kJRTn26nT46fyj4ug1A\n"
+    },
+    "interval_type": {
+      "title": "Interval Type",
+      "type": "string",
+      "description": "Default Behavior:\nDefaults to 'M'\nFilters the results to one of the following intervals: M for month, CY for calendar year, WY for water year\n\nExamples:\nReturn month interval\n- &interval_type=M\nReturn calendar year interval\n- &interval_type=CY\nReturn water year interval\n- &interval_type=WY\nAvailable values : M, CY, WY\n",
+      "enum": [
+        "M",
+        "CY",
+        "WY"
+      ],
+      "default": "M"
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/daily/queryables?f=json"
+}

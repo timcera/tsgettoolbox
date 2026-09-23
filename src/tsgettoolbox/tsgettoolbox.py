@@ -8,7 +8,6 @@ web services.
 __all__ = [
     "cdec",
     "coops",
-    "cpc",
     "daymet",
     "fawn",
     "hydstra_catalog",
@@ -52,21 +51,60 @@ __all__ = [
     "nwis_site",
     "nwis_stat",
     "rivergages",
-    "swtwc",
     "terraclimate",
-    "terraclimate2C",
-    "terraclimate4C",
-    "terraclimate19611990",
     "terraclimate19812010",
     "terraclimate19912020",
     "twc",
     "unavco",
+    "wdfn_agency_codes",
+    "wdfn_altitude_datums",
+    "wdfn_aquifer_codes",
+    "wdfn_aquifer_types",
+    "wdfn_channel_measurements",
+    "wdfn_citations",
+    "wdfn_combined_metadata",
+    "wdfn_continuous",
+    "wdfn_coordinate_accuracy_codes",
+    "wdfn_coordinate_datum_codes",
+    "wdfn_coordinate_method_codes",
+    "wdfn_counties",
+    "wdfn_countries",
+    "wdfn_daily",
+    "wdfn_field_measurements",
+    "wdfn_field_measurements_metadata",
+    "wdfn_hydrologic_unit_codes",
+    "wdfn_latest_continuous",
+    "wdfn_latest_daily",
+    "wdfn_latest_field_measurements",
+    "wdfn_medium_codes",
+    "wdfn_method_categories",
+    "wdfn_method_citations",
+    "wdfn_methods",
+    "wdfn_monitoring_locations",
+    "wdfn_national_aquifer_codes",
+    "wdfn_parameter_codes",
+    "wdfn_peaks",
+    "wdfn_read_interval_observations",
+    "wdfn_read_normal_observations",
+    "wdfn_reliability_codes",
+    "wdfn_site_types",
+    "wdfn_states",
+    "wdfn_statistic_codes",
+    "wdfn_time_series_metadata",
+    "wdfn_time_series_methods",
+    "wdfn_time_series_revisions",
+    "wdfn_time_zone_codes",
+    "wdfn_topographic_codes",
 ]
-import warnings
 
+# Standard library imports
+import inspect
+import warnings
+from functools import wraps
+
+# Local folder imports
 from .functions.cdec import cdec
 from .functions.coops import coops
-from .functions.cpc import cpc
 from .functions.daymet import daymet
 from .functions.fawn import fawn
 from .functions.hydstra import hydstra_catalog, hydstra_stations, hydstra_ts
@@ -115,101 +153,118 @@ from .functions.nwis import (
     nwis_stat,
 )
 from .functions.rivergages import rivergages
-from .functions.swtwc import swtwc
 from .functions.terraclimate import terraclimate
-from .functions.terraclimate2C import terraclimate2C
-from .functions.terraclimate4C import terraclimate4C
-from .functions.terraclimate19611990 import terraclimate19611990
 from .functions.terraclimate19812010 import terraclimate19812010
 from .functions.terraclimate19912020 import terraclimate19912020
 from .functions.twc import twc
 from .functions.unavco import unavco
+from .functions.usgs_wdfn.usgs_wdfn import (
+    wdfn_agency_codes,
+    wdfn_altitude_datums,
+    wdfn_aquifer_codes,
+    wdfn_aquifer_types,
+    wdfn_channel_measurements,
+    wdfn_citations,
+    wdfn_combined_metadata,
+    wdfn_continuous,
+    wdfn_coordinate_accuracy_codes,
+    wdfn_coordinate_datum_codes,
+    wdfn_coordinate_method_codes,
+    wdfn_counties,
+    wdfn_countries,
+    wdfn_daily,
+    wdfn_field_measurements,
+    wdfn_field_measurements_metadata,
+    wdfn_hydrologic_unit_codes,
+    wdfn_latest_continuous,
+    wdfn_latest_daily,
+    wdfn_latest_field_measurements,
+    wdfn_medium_codes,
+    wdfn_method_categories,
+    wdfn_method_citations,
+    wdfn_methods,
+    wdfn_monitoring_locations,
+    wdfn_national_aquifer_codes,
+    wdfn_parameter_codes,
+    wdfn_peaks,
+    wdfn_read_interval_observations,
+    wdfn_read_normal_observations,
+    wdfn_reliability_codes,
+    wdfn_site_types,
+    wdfn_states,
+    wdfn_statistic_codes,
+    wdfn_time_series_metadata,
+    wdfn_time_series_methods,
+    wdfn_time_series_revisions,
+    wdfn_time_zone_codes,
+    wdfn_topographic_codes,
+)
+from .toolbox_utils.src.toolbox_utils import tsutils
 
 warnings.filterwarnings("ignore")
+
+
+def cli_decorator(base_func):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            parameters = inspect.signature(base_func).parameters
+            parameter_names = tuple(parameters)
+
+            positional_kwargs = dict(zip(parameter_names, args))
+            positional_kwargs.update(kwargs)
+
+            tsutils.printiso(base_func(**positional_kwargs))
+
+        sig = inspect.signature(base_func)
+        wrapper.__signature__ = sig
+        wrapper.__doc__ = base_func.__doc__
+        return wrapper
+
+    return decorator
 
 
 def main():
     r"""Main function."""
     # from argparse import RawTextHelpFormatter as HelpFormatter
+    # Standard library imports
     import datetime
     import os.path
     import sys
 
+    # Third party imports
     import cltoolbox
     import pandas as pd
     from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 
+    # Local folder imports
     from .toolbox_utils.src.toolbox_utils import tsutils
 
     if not os.path.exists("debug_tsgettoolbox"):
         sys.tracebacklimit = 0
 
     @cltoolbox.command("cdec", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(cdec)
-    def cdec_cli(
-        station_id, dur_code=None, sensor_nums=None, start_date=None, end_date=None
-    ):
-        tsutils.printiso(
-            cdec(
-                station_id,
-                dur_code=dur_code,
-                sensor_nums=sensor_nums,
-                start_date=start_date,
-                end_date=end_date,
-            )
-        )
+    @cli_decorator(cdec)
+    def cdec_cli(*args, **kwargs):
+        """CDEC_CLI"""
 
     @cltoolbox.command("coops", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(coops)
-    def coops_cli(
-        station,
-        date=None,
-        begin_date=None,
-        end_date=None,
-        range=None,
-        product="hourly_height",
-        datum="NAVD",
-        time_zone="GMT",
-        interval="h",
-        bin=None,
-    ):
-        tsutils.printiso(
-            coops(
-                station,
-                date=date,
-                begin_date=begin_date,
-                end_date=end_date,
-                range=range,
-                product=product,
-                datum=datum,
-                time_zone=time_zone,
-                interval=interval,
-                bin=bin,
-            )
-        )
-
-    @cltoolbox.command("cpc", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(cpc)
-    def cpc_cli(state=None, climate_division=None, start_date=None, end_date=None):
-        tsutils.printiso(
-            cpc(
-                state=state,
-                climate_division=climate_division,
-                start_date=start_date,
-                end_date=end_date,
-            )
-        )
+    @cli_decorator(coops)
+    def coops_cli(*args, **kwargs):
+        """COOPS"""
 
     @cltoolbox.command("daymet", formatter_class=HelpFormatter)
     @tsutils.copy_doc(daymet)
     def daymet_cli(
         lat,
         lon,
-        start_date=pd.Timestamp("1980-01-01"),
+        start_date=None,
         end_date=None,
         years=None,
         measuredParams="all",
     ):
+        if start_date is None:
+            start_date = pd.Timestamp("1980-01-01")
         tsutils.printiso(
             daymet(
                 lat,
@@ -227,9 +282,13 @@ def main():
         stations,
         variables,
         reportType,
-        start_date=datetime.datetime(1998, 1, 1),
-        end_date=datetime.datetime.now(),
+        start_date=None,
+        end_date=None,
     ):
+        if start_date is None:
+            start_date = datetime.datetime(1998, 1, 1, tzinfo=datetime.timezone.utc)
+        if end_date is None:
+            end_date = datetime.datetime.now(datetime.timezone.utc)
         tsutils.printiso(
             fawn(
                 stations,
@@ -1009,30 +1068,6 @@ def main():
         )
         tsutils.printiso(ndf)
 
-    @cltoolbox.command("swtwc", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(swtwc)
-    def swtwc_cli(station_code, date=None):
-        tsutils.printiso(swtwc(station_code, date=date))
-
-    @cltoolbox.command("terraclimate19611990", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(terraclimate19611990)
-    def terraclimate19611990_cli(
-        lat: float,
-        lon: float,
-        variables=None,
-        start_date=None,
-        end_date=None,
-    ):
-        tsutils.printiso(
-            terraclimate19611990(
-                lat,
-                lon,
-                variables=variables,
-                start_date=start_date,
-                end_date=end_date,
-            )
-        )
-
     @cltoolbox.command("terraclimate19912020", formatter_class=HelpFormatter)
     @tsutils.copy_doc(terraclimate19912020)
     def terraclimate19912020_cli(
@@ -1071,44 +1106,6 @@ def main():
             )
         )
 
-    @cltoolbox.command("terraclimate2C", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(terraclimate2C)
-    def terraclimate2C_cli(
-        lat: float,
-        lon: float,
-        variables=None,
-        start_date=None,
-        end_date=None,
-    ):
-        tsutils.printiso(
-            terraclimate2C(
-                lat,
-                lon,
-                variables=variables,
-                start_date=start_date,
-                end_date=end_date,
-            )
-        )
-
-    @cltoolbox.command("terraclimate4C", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(terraclimate4C)
-    def terraclimate4C_cli(
-        lat: float,
-        lon: float,
-        variables=None,
-        start_date=None,
-        end_date=None,
-    ):
-        tsutils.printiso(
-            terraclimate4C(
-                lat,
-                lon,
-                variables=variables,
-                start_date=start_date,
-                end_date=end_date,
-            )
-        )
-
     @cltoolbox.command("terraclimate", formatter_class=HelpFormatter)
     @tsutils.copy_doc(terraclimate)
     def terraclimate_cli(
@@ -1139,6 +1136,196 @@ def main():
         tsutils.printiso(
             unavco(station, database=database, starttime=starttime, endtime=endtime)
         )
+
+    @cltoolbox.command("wdfn_agency_codes")
+    @cli_decorator(wdfn_agency_codes)
+    def wdfn_agency_codes_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_altitude_datums")
+    @cli_decorator(wdfn_altitude_datums)
+    def wdfn_altitude_datums_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_aquifer_codes")
+    @cli_decorator(wdfn_aquifer_codes)
+    def wdfn_aquifer_codes_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_aquifer_types")
+    @cli_decorator(wdfn_aquifer_types)
+    def wdfn_aquifer_types_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_channel_measurements")
+    @cli_decorator(wdfn_channel_measurements)
+    def wdfn_channel_measurements_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_citations")
+    @cli_decorator(wdfn_citations)
+    def wdfn_citations_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_combined_metadata")
+    @cli_decorator(wdfn_combined_metadata)
+    def wdfn_combined_metadata_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_continuous")
+    @cli_decorator(wdfn_continuous)
+    def wdfn_continuous_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_coordinate_accuracy_codes")
+    @cli_decorator(wdfn_coordinate_accuracy_codes)
+    def wdfn_coordinate_accuracy_codes_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_coordinate_datum_codes")
+    @cli_decorator(wdfn_coordinate_datum_codes)
+    def wdfn_coordinate_datum_codes_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_coordinate_method_codes")
+    @cli_decorator(wdfn_coordinate_method_codes)
+    def wdfn_coordinate_method_codes_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_counties")
+    @cli_decorator(wdfn_counties)
+    def wdfn_counties_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_countries")
+    @cli_decorator(wdfn_countries)
+    def wdfn_countries_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_daily")
+    @cli_decorator(wdfn_daily)
+    def wdfn_daily_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_field_measurements")
+    @cli_decorator(wdfn_field_measurements)
+    def wdfn_field_measurements_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_field_measurements_metadata")
+    @cli_decorator(wdfn_field_measurements_metadata)
+    def wdfn_field_measurements_metadata_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_hydrologic_unit_codes")
+    @cli_decorator(wdfn_hydrologic_unit_codes)
+    def wdfn_hydrologic_unit_codes_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_latest_continuous")
+    @cli_decorator(wdfn_latest_continuous)
+    def wdfn_latest_continuous_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_latest_daily")
+    @cli_decorator(wdfn_latest_daily)
+    def wdfn_latest_daily_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_latest_field_measurements")
+    @cli_decorator(wdfn_latest_field_measurements)
+    def wdfn_latest_field_measurements_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_medium_codes")
+    @cli_decorator(wdfn_medium_codes)
+    def wdfn_medium_codes_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_method_categories")
+    @cli_decorator(wdfn_method_categories)
+    def wdfn_method_categories_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_method_citations")
+    @cli_decorator(wdfn_method_citations)
+    def wdfn_method_citations_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_methods")
+    @cli_decorator(wdfn_methods)
+    def wdfn_methods_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_monitoring_locations")
+    @cli_decorator(wdfn_monitoring_locations)
+    def wdfn_monitoring_locations_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_national_aquifer_codes")
+    @cli_decorator(wdfn_national_aquifer_codes)
+    def wdfn_national_aquifer_codes_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_parameter_codes")
+    @cli_decorator(wdfn_parameter_codes)
+    def wdfn_parameter_codes_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_peaks")
+    @cli_decorator(wdfn_peaks)
+    def wdfn_peaks_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_reliability_codes")
+    @cli_decorator(wdfn_reliability_codes)
+    def wdfn_reliability_codes_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_site_types")
+    @cli_decorator(wdfn_site_types)
+    def wdfn_site_types_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_states")
+    @cli_decorator(wdfn_states)
+    def wdfn_states_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_statistic_codes")
+    @cli_decorator(wdfn_statistic_codes)
+    def wdfn_statistic_codes_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_time_series_metadata")
+    @cli_decorator(wdfn_time_series_metadata)
+    def wdfn_time_series_metadata_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_time_series_methods")
+    @cli_decorator(wdfn_time_series_methods)
+    def wdfn_time_series_methods_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_time_series_revisions")
+    @cli_decorator(wdfn_time_series_revisions)
+    def wdfn_time_series_revisions_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_time_zone_codes")
+    @cli_decorator(wdfn_time_zone_codes)
+    def wdfn_time_zone_codes_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_read_normal_observations")
+    @cli_decorator(wdfn_read_normal_observations)
+    def read_normal_observations_cli(*args, **kwargs):
+        """WDFN"""
+
+    @cltoolbox.command("wdfn_read_interval_observations")
+    @cli_decorator(wdfn_read_interval_observations)
+    def wdfn_read_interval_observations_cli(*args, **kwargs):
+        """WDFN"""
 
     @cltoolbox.command("about")
     def about():

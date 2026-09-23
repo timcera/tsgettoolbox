@@ -9,30 +9,37 @@ nwis_peak           US station:USGS NWIS Peak
 nwis_stat           US station:USGS NWIS Statistic
 """
 
+# Standard library imports
 import logging
 import os
 import warnings
 from io import BytesIO
 from urllib.parse import urlencode
 
+# Third party imports
 import async_retriever as ar
 import pandas as pd
 
+# First party imports
+from tsgettoolbox import utils
 from tsgettoolbox.toolbox_utils.src.toolbox_utils import tsutils
 
 __all__ = [
     "nwis",
-    "nwis_iv",
     "nwis_dv",
-    "nwis_site",
     "nwis_gwlevels",
+    "nwis_iv",
     "nwis_measurements",
     "nwis_peak",
+    "nwis_site",
     "nwis_stat",
 ]
 
+logger = logging.getLogger(__name__)
+
 warnings.filterwarnings("ignore")
 
+utils.set_cache_env("nwis")
 
 nwis_docstrings = {
     "filter_descriptions": r"""
@@ -1210,7 +1217,7 @@ def nwis(
     missingData=None,
     statYearType=None,
 ):
-    r"""US:station:::Use the ``nwis_*`` functions instead.
+    r"""US:station:::DEPRECATED BY USGS-Use the ``wdfn_*`` functions instead.
 
     This "nwis" function has been split up into individual functions for each
     source database.  This allows for keywords and output to be tailored to
@@ -1351,6 +1358,7 @@ def nwis(
         )
 
 
+@warnings.deprecated("The USGS has deprecated this function.  Use wdfn_* instead.")
 @tsutils.doc(nwis_docstrings)
 def nwis_iv(
     sites=None,
@@ -1378,7 +1386,7 @@ def nwis_iv(
     holeDepthMax=None,
     include_codes=False,
 ):
-    r"""US:station::E:USGS NWIS Instantaneous Values
+    r"""US:station::E:DEPRECATED BY USGS-Use "wdfn_continuous" instead.
 
     ${filter_descriptions}
     ${results_ts}
@@ -1440,6 +1448,7 @@ def nwis_iv(
     )
 
 
+@warnings.deprecated("The USGS has deprecated this function.  Use wdfn_daily instead.")
 @tsutils.doc(nwis_docstrings)
 def nwis_dv(
     sites=None,
@@ -1468,7 +1477,7 @@ def nwis_dv(
     holeDepthMax=None,
     include_codes=False,
 ):
-    r"""US:station::D:USGS NWIS Daily Values
+    r"""US:station::D:DEPRECATED BY USGS-Use "wdfn_daily" instead
 
     ${filter_descriptions}
     ${results_ts}
@@ -1532,6 +1541,9 @@ def nwis_dv(
     )
 
 
+@warnings.deprecated(
+    "The USGS has deprecated this function.  Use wdfn_monitoring_locations or wdfn_time_series_meta instead."
+)
 @tsutils.doc(nwis_docstrings)
 def nwis_site(
     sites=None,
@@ -1564,7 +1576,7 @@ def nwis_site(
     siteNameMatchOperator=None,
     hasDataTypeCd=None,
 ):
-    r"""US:station:::USGS NWIS Site Database
+    r"""US:station:::DEPRECATED BY USGS-Use "wdfn_monitoring_locations" or "wdfn_time_series_metadata"
 
     This does not return a time-series, but a table of sites.
     ${filter_descriptions}
@@ -1672,6 +1684,9 @@ def nwis_site(
     )
 
 
+@warnings.deprecated(
+    "The USGS has deprecated this function.  Use wdfn_field_measurements instead."
+)
 @tsutils.doc(nwis_docstrings)
 def nwis_gwlevels(
     sites=None,
@@ -1696,7 +1711,7 @@ def nwis_gwlevels(
     holeDepthMin=None,
     holeDepthMax=None,
 ):
-    r"""US:station:::USGS NWIS Groundwater Levels
+    r"""US:station:::DEPRECATED BY USGS-Use "wdfn_field_measurements"
 
     ${filter_descriptions}
     **Results**
@@ -1780,6 +1795,9 @@ def nwis_gwlevels(
     )
 
 
+@warnings.deprecated(
+    "The USGS has deprecated this function.  Use wdfn_field_measurements instead."
+)
 @tsutils.doc(nwis_docstrings)
 def nwis_measurements(
     sites=None,
@@ -1804,7 +1822,7 @@ def nwis_measurements(
     holeDepthMin=None,
     holeDepthMax=None,
 ):
-    r"""US:station:::USGS NWIS Measurements
+    r"""US:station:::DEPRECATED BY USGS-Use "wdfn_field_measurements"
 
     ${filter_descriptions}
     **Results**
@@ -1952,6 +1970,7 @@ def nwis_measurements(
     )
 
 
+@warnings.deprecated("The USGS has deprecated this function.  Use wdfn_peak instead.")
 @tsutils.doc(nwis_docstrings)
 def nwis_peak(
     sites=None,
@@ -1976,7 +1995,7 @@ def nwis_peak(
     holeDepthMin=None,
     holeDepthMax=None,
 ):
-    r"""US:station:::USGS NWIS Peak
+    r"""US:station:::DEPRECATED BY USGS-Use "wdfn_peaks"
 
     ${filter_descriptions}
     **Results**
@@ -2126,6 +2145,9 @@ def nwis_peak(
     )
 
 
+@warnings.deprecated(
+    "The USGS has deprecated this function.  New process from USGS is not yet in production."
+)
 @tsutils.doc(nwis_docstrings)
 def nwis_stat(
     sites=None,
@@ -2152,7 +2174,7 @@ def nwis_stat(
     missingData=None,
     statYearType=None,
 ):
-    r"""US:station:::USGS NWIS Statistic
+    r"""US:station:::DEPRECATED BY USGS-No replacement yet in production
 
     ${filter_descriptions}
     **Returns**
@@ -2288,6 +2310,9 @@ def nwis_stat(
     )
 
 
+@warnings.deprecated(
+    "The USGS has deprecated this function.  New process from USGS is not yet in production."
+)
 @tsutils.doc(nwis_docstrings)
 def epa_wqp(
     bBox=None,
@@ -2529,10 +2554,10 @@ def epa_wqp(
         )
 
     if countycode:
-        countycode = ":".join([countrycode, statecode, countycode])
+        countycode = f"{countrycode}:{statecode}:{countycode}"
 
     if statecode:
-        statecode = ":".join([countrycode, statecode])
+        statecode = f"{countrycode}:{statecode}"
 
     query_params = {
         "bBox": bBox,
@@ -2566,7 +2591,7 @@ def epa_wqp(
 
     url = r"https://www.waterqualitydata.us/data/Result/search"
     if os.path.exists("debug_tsgettoolbox"):
-        logging.warning(url, query_params)
+        logger.warning(url, query_params)
 
     query_params = {
         key: value for key, value in query_params.items() if value is not None

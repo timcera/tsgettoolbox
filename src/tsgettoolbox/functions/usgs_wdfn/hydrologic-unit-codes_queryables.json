@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "title": "Hydrologic unit codes (HUCs)",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "string",
+      "description": "Hydrologic unit code. The format of the code is ('RRSSBBUUWWXX') where: 'RR' is the 2-digit code for the region. 'SS' is the 2-digit code for the sub-region. 'BB' is the 2-digit code for the basin. 'UU' is the 2-digit code for the sub-basin. 'WW' is the 2-digit code for the watershed. 'XX' is the 2-digit code for the sub-watershed. Watersheds are delineated by USGS using a nationwide system based on surface hydrologic features. This system divides the country into 22 regions (2-digit), 245 subregions (4-digit), 405 basins (6-digit), ~2,400 subbasins (8-digit), ~19,000 watersheds (10-digit), and ~105,000 subwatersheds (12-digit). A hierarchical hydrologic unit code (HUC) consisting of 2 additional digits for each level in the hydrologic unit system is used to identify any hydrologic area (see Federal Standards and Procedures for the National Watershed Boundary Dataset - https://pubs.usgs.gov/tm/11/a3/).",
+      "x-ogc-role": "id"
+    },
+    "hydrologic_unit_name": {
+      "title": "hydrologic_unit_name",
+      "type": "string",
+      "description": "Hydrologic unit name."
+    },
+    "hydrologic_unit_classification_code": {
+      "title": "hydrologic_unit_classification_code",
+      "type": "string",
+      "description": "Hydrologic unit classification code."
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/hydrologic-unit-codes/queryables?f=json"
+}

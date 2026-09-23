@@ -1,0 +1,78 @@
+{
+  "type": "object",
+  "title": "Parameter codes",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "string",
+      "description": "Parameter code.",
+      "x-ogc-role": "id"
+    },
+    "parameter_name": {
+      "title": "parameter_name",
+      "type": "string",
+      "description": "Parameter short name."
+    },
+    "unit_of_measure": {
+      "title": "unit_of_measure",
+      "type": "string",
+      "description": "Parameter reporting units defined to cooperate with descriptions by USEPA."
+    },
+    "parameter_group_code": {
+      "title": "parameter_group_code",
+      "type": "string",
+      "description": "Categorical groupings of parameters by water-quality data type for display and report ordering"
+    },
+    "parameter_description": {
+      "title": "parameter_description",
+      "type": "string",
+      "description": "Parameter description."
+    },
+    "medium": {
+      "title": "medium",
+      "type": "string",
+      "description": "Parameter medium."
+    },
+    "statistical_basis": {
+      "title": "statistical_basis",
+      "type": "string",
+      "description": "Parameter statistical basis."
+    },
+    "time_basis": {
+      "title": "time_basis",
+      "type": "string",
+      "description": "Parameter time basis."
+    },
+    "weight_basis": {
+      "title": "weight_basis",
+      "type": "string",
+      "description": "Parameter weight basis."
+    },
+    "particle_size_basis": {
+      "title": "particle_size_basis",
+      "type": "string",
+      "description": "Parameter particle-size basis."
+    },
+    "sample_fraction": {
+      "title": "sample_fraction",
+      "type": "string",
+      "description": "Parameter fraction."
+    },
+    "temperature_basis": {
+      "title": "temperature_basis",
+      "type": "string",
+      "description": "Parameter temperature basis."
+    },
+    "epa_equivalence": {
+      "title": "epa_equivalence",
+      "type": "string",
+      "description": "Indicates the relationship of the USGS parameter code to the EPA code."
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/parameter-codes/queryables?f=json"
+}

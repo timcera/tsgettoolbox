@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "title": "Site types",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "string",
+      "description": "An acronym specifying the primary or secondary site type.",
+      "x-ogc-role": "id"
+    },
+    "site_type_primary_flag": {
+      "title": "site_type_primary_flag",
+      "type": "string",
+      "description": "Identifies which site types are primary."
+    },
+    "site_type_name": {
+      "title": "site_type_name",
+      "type": "string",
+      "description": "A long name for the site type used in retrieved output."
+    },
+    "site_type_description": {
+      "title": "site_type_description",
+      "type": "string",
+      "description": "Site type description."
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/site-types/queryables?f=json"
+}

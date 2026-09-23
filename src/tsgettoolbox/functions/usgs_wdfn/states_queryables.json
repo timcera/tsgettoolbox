@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "title": "State identifiers",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "string",
+      "x-ogc-role": "id"
+    },
+    "country_code": {
+      "title": "country_code",
+      "type": "string",
+      "description": "The purpose of ISO 3166 is to define internationally recognized codes of letters and/or numbers that we can use when we refer to countries and their subdivisions."
+    },
+    "state_fips_code": {
+      "title": "state_fips_code",
+      "type": "string",
+      "description": "State FIPS code."
+    },
+    "state_name": {
+      "title": "state_name",
+      "type": "string",
+      "description": "State name."
+    },
+    "state_postal_code": {
+      "title": "state_postal_code",
+      "type": "string",
+      "description": "State postal abbreviation. A two-letter USPS state postal abbreviation."
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/states/queryables?f=json"
+}

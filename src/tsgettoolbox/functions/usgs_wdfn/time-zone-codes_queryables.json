@@ -1,0 +1,48 @@
+{
+  "type": "object",
+  "title": "Time zone codes",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "string",
+      "description": "Time zone code. An NWIS time zone code.",
+      "x-ogc-role": "id"
+    },
+    "time_zone_name": {
+      "title": "time_zone_name",
+      "type": "string",
+      "description": "Time zone name. An English name for a world time zone."
+    },
+    "time_zone_description": {
+      "title": "time_zone_description",
+      "type": "string",
+      "description": "Time zone description."
+    },
+    "time_zone_utc_offset": {
+      "title": "time_zone_utc_offset",
+      "type": "string",
+      "description": "Coordinated Universal Time (UTC) offset time. The number of hours offset from UTC time, in ISO format."
+    },
+    "time_zone_daylight_savings_time_code": {
+      "title": "time_zone_daylight_savings_time_code",
+      "type": "string",
+      "description": "Time zone Daylight Saving Time code."
+    },
+    "time_zone_daylight_savings_time_name": {
+      "title": "time_zone_daylight_savings_time_name",
+      "type": "string",
+      "description": "Time zone Daylight Saving Time name."
+    },
+    "time_zone_daylight_savings_utc_offset": {
+      "title": "time_zone_daylight_savings_utc_offset",
+      "type": "string",
+      "description": "Daylight Saving Time offset time. The number of hours offset from UTC time when Daylight Saving Time is in effect, in ISO format."
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/time-zone-codes/queryables?f=json"
+}

@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "title": "Citations",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "string",
+      "description": "Method citation name. An abbreviated citation that describes the reference.",
+      "x-ogc-role": "id"
+    },
+    "citation_description": {
+      "title": "citation_description",
+      "type": "string",
+      "description": "Method citation description."
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/citations/queryables?f=json"
+}

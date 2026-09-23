@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "title": "Aquifer types",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "string",
+      "description": "The single-character code identifying the type of aquifer",
+      "x-ogc-role": "id"
+    },
+    "aquifer_type_description": {
+      "title": "aquifer_type_description",
+      "type": "string",
+      "description": "Longer description of the aquifer type."
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/aquifer-types/queryables?f=json"
+}

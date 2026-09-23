@@ -17,11 +17,6 @@ coops
 .. program-output:: tsgettoolbox coops --help
    :prompt:
 
-cpc
-~~~
-.. program-output:: tsgettoolbox cpc --help
-   :prompt:
-
 daymet
 ~~~~~~
 .. program-output:: tsgettoolbox daymet --help
@@ -232,19 +227,9 @@ rivergages
 .. program-output:: tsgettoolbox rivergages --help
    :prompt:
 
-swtwc
-~~~~~
-.. program-output:: tsgettoolbox swtwc --help
-   :prompt:
-
 terraclimate
 ~~~~~~~~~~~~
 .. program-output:: tsgettoolbox terraclimate --help
-   :prompt:
-
-terraclimate19611990
-~~~~~~~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox terraclimate19611990 --help
    :prompt:
 
 terraclimate19812010

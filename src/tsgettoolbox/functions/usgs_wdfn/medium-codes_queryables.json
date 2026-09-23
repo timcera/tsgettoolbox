@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "title": "Medium codes",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "id",
+      "type": "string",
+      "description": "The medium code is the 3-character alpha code that identifies the material type and quality-assurance type of the sample. The first character of the code is the \\\"super\\\" medium, which describes the primary matrix of the sample. The second character is the sub-medium, which characterizes the sample type as a unique entity within the \\\"super\\\" medium category. The third character is used to designate whether a sample is an environmental or QC sample. A blank in position three denotes an environmental sample; a \\\"Q\\\" in position three denotes a QC sample.",
+      "x-ogc-role": "id"
+    },
+    "medium_name": {
+      "title": "medium_name",
+      "type": "string",
+      "description": "The medium name is a short identifying appellation that explains the associated medium code. See qwmed for examples of codes, names, and descriptions."
+    },
+    "medium_description": {
+      "title": "medium_description",
+      "type": "string",
+      "description": "The medium description is a short string of words that explains the associated medium code. See qwmed for examples of codes, names, and descriptions."
+    },
+    "legacy_medium_code": {
+      "title": "legacy_medium_code",
+      "type": "string",
+      "description": "Historical 1-char medium code that corresponds to the 3-char code."
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/medium-codes/queryables?f=json"
+}
