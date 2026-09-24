@@ -35,6 +35,7 @@ dependencies = [
     "cftime",
     "cltoolbox >=4.0.4", # this version ignores type-hints other than int, float, str, bool, and None
     "dateparser",
+    "deprecated",
     "geojson",
     "haversine",
     "httpretty",

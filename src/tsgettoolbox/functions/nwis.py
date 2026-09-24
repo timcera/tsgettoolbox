@@ -19,6 +19,7 @@ from urllib.parse import urlencode
 # Third party imports
 import async_retriever as ar
 import pandas as pd
+from deprecated import deprecated
 
 # First party imports
 from tsgettoolbox import utils
@@ -1358,7 +1359,7 @@ def nwis(
         )
 
 
-@warnings.deprecated("The USGS has deprecated this function.  Use wdfn_* instead.")
+@deprecated("The USGS has deprecated this function.  Use wdfn_* instead.")
 @tsutils.doc(nwis_docstrings)
 def nwis_iv(
     sites=None,
@@ -1448,7 +1449,7 @@ def nwis_iv(
     )
 
 
-@warnings.deprecated("The USGS has deprecated this function.  Use wdfn_daily instead.")
+@deprecated("The USGS has deprecated this function.  Use wdfn_daily instead.")
 @tsutils.doc(nwis_docstrings)
 def nwis_dv(
     sites=None,
@@ -1541,7 +1542,7 @@ def nwis_dv(
     )
 
 
-@warnings.deprecated(
+@deprecated(
     "The USGS has deprecated this function.  Use wdfn_monitoring_locations or wdfn_time_series_meta instead."
 )
 @tsutils.doc(nwis_docstrings)
@@ -1684,7 +1685,7 @@ def nwis_site(
     )
 
 
-@warnings.deprecated(
+@deprecated(
     "The USGS has deprecated this function.  Use wdfn_field_measurements instead."
 )
 @tsutils.doc(nwis_docstrings)
@@ -1795,7 +1796,7 @@ def nwis_gwlevels(
     )
 
 
-@warnings.deprecated(
+@deprecated(
     "The USGS has deprecated this function.  Use wdfn_field_measurements instead."
 )
 @tsutils.doc(nwis_docstrings)
@@ -1970,7 +1971,7 @@ def nwis_measurements(
     )
 
 
-@warnings.deprecated("The USGS has deprecated this function.  Use wdfn_peak instead.")
+@deprecated("The USGS has deprecated this function.  Use wdfn_peak instead.")
 @tsutils.doc(nwis_docstrings)
 def nwis_peak(
     sites=None,
@@ -2145,7 +2146,7 @@ def nwis_peak(
     )
 
 
-@warnings.deprecated(
+@deprecated(
     "The USGS has deprecated this function.  New process from USGS is not yet in production."
 )
 @tsutils.doc(nwis_docstrings)
@@ -2310,7 +2311,7 @@ def nwis_stat(
     )
 
 
-@warnings.deprecated(
+@deprecated(
     "The USGS has deprecated this function.  New process from USGS is not yet in production."
 )
 @tsutils.doc(nwis_docstrings)
