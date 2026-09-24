@@ -34,22 +34,21 @@ def test_parse_dcp_message_timestamp():
         dcp_data_file = f"noaa/goes/{test_set['dcp_address']}.txt"
         with utils.mocked_urls(dcp_data_file, force=True):
             data = goes.get_data(test_set["dcp_address"], hours=12)
-            assert (
-                str(data["message_timestamp_utc"].iloc[-1].tz_localize("UTC"))
-                == str(
-                    pd.Timestamp.fromtimestamp(
-                        int(test_set["message_timestamp"].strip("/Date()")) / 1000
-                    )
+            assert str(
+                data["message_timestamp_utc"]
+                .iloc[-1]
+                .replace(tzinfo=datetime.timezone.utc)
+            ) == str(
+                pd.Timestamp.fromtimestamp(
+                    int(test_set["message_timestamp"].strip("/Date()")) / 1000,
+                    tz=datetime.timezone.utc,
                 )
-                + "+00:00"
             )
 
 
 twdb_stevens_test_sets = [
     {
-        "message_timestamp_utc": datetime.datetime(
-            2013, 10, 30, 15, 28, 18, tzinfo=datetime.timezone.utc
-        ),
+        "message_timestamp_utc": datetime.datetime(2013, 10, 30, 15, 28, 18),  # noqa: DTZ001
         "dcp_message": '"BV:11.9  193.76$ 193.70$ 193.62$ 193.54$ 193.49$ 193.43$ 193.37$ 199.62$ 200.51$ 200.98$ 195.00$ 194.33$ ',
         "dcp_address": "",
         "return_value": [

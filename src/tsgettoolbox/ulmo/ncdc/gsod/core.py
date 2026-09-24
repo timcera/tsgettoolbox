@@ -25,7 +25,9 @@ from ... import util
 
 NCDC_GSOD_DIR = os.path.join(util.get_ulmo_dir(), "ncdc/gsod")
 NCDC_GSOD_STATIONS_FILE = os.path.join(NCDC_GSOD_DIR, "isd-history.csv")
-NCDC_GSOD_START_DATE = datetime.date(1929, 1, 1).astimezone(datetime.timezone.utc)
+NCDC_GSOD_START_DATE = datetime.datetime(
+    1929, 1, 1, tzinfo=datetime.timezone.utc
+).date()
 
 
 def get_parameters():
@@ -149,7 +151,6 @@ def get_data(station_codes, start=None, end=None, parameters=None):
 def get_stations(country=None, state=None, start=None, end=None, update=True):
     """Retrieve information on the set of available stations.
 
-
     Parameters
     ----------
     country : {``None``, str, or iterable}
@@ -169,7 +170,6 @@ def get_stations(country=None, state=None, start=None, end=None, update=True):
         download if it is newer the previously downloaded copy. If ``False``,
         then a new stations file will only be downloaded if a previously
         downloaded file cannot be found.
-
 
     Returns
     -------
@@ -237,7 +237,7 @@ def _passes_row_filter(row, country=None, state=None, start_str=None, end_str=No
         return False
     if start_str is not None and row["END"] != "" and row["END"] <= start_str:
         return False
-    return end_str is None and row["BEGIN"] == "" and end_str > row["BEGIN"]
+    return not (end_str is not None and row["BEGIN"] != "" and end_str <= row["BEGIN"])
 
 
 def _process_station(station_row):

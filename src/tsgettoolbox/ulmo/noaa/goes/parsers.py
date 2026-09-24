@@ -148,17 +148,16 @@ def _twdb_assemble_dataframe(message_timestamp, channel, channel_data, reverse=F
         timestamp = base_timestamp - timedelta(hours=hrs)
         try:
             value = float(value)
-        except TypeError:
+        except ValueError:
             value = np.nan
 
         data.append([timestamp, channel, value])
     if len(data) > 0:
         df = pd.DataFrame(data, columns=["timestamp_utc", "channel", "channel_data"])
-        df.index = pd.to_datetime(df["timestamp_utc"])
+        df.index = pd.to_datetime(df["timestamp_utc"], utc=True)
         del df["timestamp_utc"]
         return df
-    else:
-        return pd.DataFrame()
+    return pd.DataFrame()
 
 
 def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=True):
@@ -234,7 +233,7 @@ def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=Tru
                 df = _twdb_assemble_dataframe(
                     message_timestamp, channel, channel_data, reverse=reverse
                 )
-            except KeyError as e:
+            except ValueError as e:
                 print(
                     f"Warning: Could not parse values for channel {field.split(':')[0]}: {e}"
                 )
@@ -250,7 +249,7 @@ def _twdb_stevens_or_dot(df_row, reverse, dual_well=False, drop_dcp_metadata=Tru
         else:
             try:
                 water_data[channel_name].append(float(field.strip("+-$")))
-            except KeyError:
+            except ValueError:
                 print(f"Could not parse values for channel {channel_name}: {field}")
         data.append(df)
 
