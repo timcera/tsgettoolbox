@@ -310,9 +310,10 @@ def wdfn(db_name, **kwargs):
                         f"Query returned more than {len(resp['features'])} records.  "
                         f"Please use a more restrictive query."
                     )
-        collect.append(pd.json_normalize(resp["features"]))
+        inner = pd.json_normalize(resp["features"]).reset_index()
+        collect.append(inner)
 
-    collect = pd.concat(collect)
+    collect = pd.concat(collect, ignore_index=True, sort=False)
     collect.columns = [i.split(".")[-1] for i in collect.columns]
 
     if ts_return_style == "compact":
@@ -479,8 +480,8 @@ def wdfn_factory(function_name):
     # the function.  The "type" and "enum" are used to create type hints for
     # the keyword arguments.  Currently other columns in the "keywords"
     # DataFrame are ignored.
-    keywords = pd.read_json(json_file, orient="records")
-    keywords = pd.json_normalize(keywords["properties"])
+    fkeywords = pd.read_json(json_file, orient="records")
+    keywords = pd.json_normalize(fkeywords["properties"]).set_index(fkeywords.index)
 
     if function_name in [
         "channel-measurements",
@@ -1159,112 +1160,111 @@ def wdfn_read_interval_observations(*args, **kwargs):
 
 if __name__ == "__main__":
     try:
+        print("USGS_GWLEVELS single")
         R = wdfn_field_measurements(
             monitoring_location_number="375907091432201",
             time="2017-01-01/2017-12-30",
         )
-        print("USGS_GWLEVELS single")
         print(R)
     except ValueError as e:
         print("Error: ", e)
 
     try:
+        print("USGS_GWLEVELS multiple")
         R = wdfn_field_measurements(
             hydrologic_unit_code="03110201",
             time="2017-01-01/2017-12-30",
         )
-        print("USGS_GWLEVELS multiple")
         print(R)
-        print(R.columns)
     except ValueError as e:
         print("Error: ", e)
 
+    print("USGS_IV single over a year")
     R = wdfn_continuous(
         monitoring_location_number="02325000",
         time="2015-07-01/2016-07-30",
     )
-    print("USGS_IV single over a year")
     print(R)
 
-    R = wdfn_continuous(
-        monitoring_location_number="02325000",
-        time="2015-07-01/2015-07-30",
-    )
     print("USGS_IV single")
+    R = wdfn_continuous(
+        monitoring_location_number="02325000",
+        time="2015-07-01/2015-07-30",
+    )
     print(R)
 
+    print("USGS_IV multiple")
     R = wdfn_continuous(
         monitoring_location_number="02325000,02239501",
         time="2015-07-01/2015-07-30",
     )
-    print("USGS_IV multiple")
     print(R)
 
+    print("USGS_DV")
     R = wdfn_daily(
         monitoring_location_number="02325000",
         time="2015-07-01/2015-07-30",
     )
-    print("USGS_DV")
     print(R)
 
+    print("USGS_DV multiple")
     R = wdfn_daily(
         monitoring_location_number="02325000,02239501",
         time="2015-07-01/2015-07-30",
     )
-    print("USGS_DV multiple")
     print(R)
 
-    R = wdfn_read_interval_observations(monitoring_location_number="02325000")
     print("USGS_DAILY_STAT single")
+    R = wdfn_read_interval_observations(monitoring_location_number="02325000")
     print(R)
     print(R.columns)
 
-    R = wdfn_read_interval_observations(monitoring_location_number="02325000,02239501")
-    print("USGS_DAILY_STAT multiple")
-    print(R)
-    print(R.columns)
-
-    R = wdfn_read_normal_observations(
-        monitoring_location_number="01646500",
-        normal_type="MOY",
-    )
-    print("USGS_MONTHLY_STAT single")
-    print(R)
-    print(R.columns)
-
-    R = wdfn_read_normal_observations(
-        monitoring_location_number="01646500",
-        normal_type="DOY",
-    )
-    print("USGS_MONTHLY_STAT single")
-    print(R)
-    print(R.columns)
-
-    R = wdfn_read_interval_observations(
-        monitoring_location_number="02325000,01646500",
-        interval_type="WY",
-    )
-    print("USGS_MONTHLY_STAT multiple")
-    print(R)
-    print(R.columns)
-
-    R = wdfn_read_interval_observations(
-        monitoring_location_number="02325000,01646500",
-        interval_type="CY",
-    )
-    print("USGS_MONTHLY_STAT multiple")
-    print(R)
-
-    R = wdfn_read_interval_observations(
-        monitoring_location_number="01646500",
-        interval_type="WY",
-    )
-    print("USGS_ANNUAL_STAT single")
-    print(R)
-
-    R = wdfn_read_interval_observations(
-        monitoring_location_number="01646500,02239501",
-        interval_type="WY",
-    )
-    print("USGS_ANNUAL_STAT multple")
-    print(R)
+#    print("USGS_DAILY_STAT multiple")
+#    R = wdfn_read_interval_observations(monitoring_location_number="02325000,02239501")
+#    print(R)
+#    print(R.columns)
+#
+#    print("USGS_MONTHLY_STAT single")
+#    R = wdfn_read_normal_observations(
+#        monitoring_location_number="01646500",
+#        normal_type="MOY",
+#    )
+#    print(R)
+#    print(R.columns)
+#
+#    print("USGS_MONTHLY_STAT single")
+#    R = wdfn_read_normal_observations(
+#        monitoring_location_number="01646500",
+#        normal_type="DOY",
+#    )
+#    print(R)
+#    print(R.columns)
+#
+#    print("USGS_MONTHLY_STAT multiple")
+#    R = wdfn_read_interval_observations(
+#        monitoring_location_number="02325000,01646500",
+#        interval_type="WY",
+#    )
+#    print(R)
+#    print(R.columns)
+#
+#    print("USGS_MONTHLY_STAT multiple")
+#    R = wdfn_read_interval_observations(
+#        monitoring_location_number="02325000,01646500",
+#        interval_type="CY",
+#    )
+#    print(R)
+#
+#    print("USGS_ANNUAL_STAT single")
+#    R = wdfn_read_interval_observations(
+#        monitoring_location_number="01646500",
+#        interval_type="WY",
+#    )
+#    print(R)
+#
+#    print("USGS_ANNUAL_STAT multple")
+#    R = wdfn_read_interval_observations(
+#        monitoring_location_number="01646500,02239501",
+#        interval_type="WY",
+#    )
+#    print(R)
