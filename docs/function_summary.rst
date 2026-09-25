@@ -55,3 +55,41 @@ Python API Function Summary
     tsgettoolbox.terraclimate19912020
     tsgettoolbox.twc
     tsgettoolbox.unavco
+    tsgettoolbox.wdfn_agency_codes
+    tsgettoolbox.wdfn_altitude_datums
+    tsgettoolbox.wdfn_aquifer_codes
+    tsgettoolbox.wdfn_aquifer_types
+    tsgettoolbox.wdfn_channel_measurements
+    tsgettoolbox.wdfn_citations
+    tsgettoolbox.wdfn_combined_metadata
+    tsgettoolbox.wdfn_continuous
+    tsgettoolbox.wdfn_coordinate_accuracy_codes
+    tsgettoolbox.wdfn_coordinate_datum_codes
+    tsgettoolbox.wdfn_coordinate_method_codes
+    tsgettoolbox.wdfn_counties
+    tsgettoolbox.wdfn_countries
+    tsgettoolbox.wdfn_daily
+    tsgettoolbox.wdfn_field_measurements
+    tsgettoolbox.wdfn_field_measurements_metadata
+    tsgettoolbox.wdfn_hydrologic_unit_codes
+    tsgettoolbox.wdfn_latest_continuous
+    tsgettoolbox.wdfn_latest_daily
+    tsgettoolbox.wdfn_latest_field_measurements
+    tsgettoolbox.wdfn_medium_codes
+    tsgettoolbox.wdfn_method_categories
+    tsgettoolbox.wdfn_method_citations
+    tsgettoolbox.wdfn_methods
+    tsgettoolbox.wdfn_monitoring_locations
+    tsgettoolbox.wdfn_national_aquifer_codes
+    tsgettoolbox.wdfn_parameter_codes
+    tsgettoolbox.wdfn_peaks
+    tsgettoolbox.wdfn_reliability_codes
+    tsgettoolbox.wdfn_site_types
+    tsgettoolbox.wdfn_states
+    tsgettoolbox.wdfn_statistic_codes
+    tsgettoolbox.wdfn_time_series_metadata
+    tsgettoolbox.wdfn_time_series_methods
+    tsgettoolbox.wdfn_time_series_revisions
+    tsgettoolbox.wdfn_time_zone_codes
+    tsgettoolbox.wdfn_read_normal_observations
+    tsgettoolbox.wdfn_read_interval_observations
