@@ -215,11 +215,7 @@ def _convert_date_string(date_string):
     if isinstance(date_string, bytes):
         date_string = date_string.decode("utf-8")
 
-    return (
-        datetime.datetime.strptime(date_string, "%Y%m%d")
-        .astimezone(datetime.timezone.utc)
-        .date()
-    )
+    return datetime.datetime.strptime(date_string, "%Y%m%d").date()
 
 
 def _get_gsod_file(year):

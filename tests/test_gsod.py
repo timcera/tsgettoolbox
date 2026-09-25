@@ -132,6 +132,31 @@ def test_get_stations_with_end():
     assert "062390-99999" not in stations
 
 
+def test_convert_date_string_pre_epoch(monkeypatch):
+    expected = datetime.date(1931, 1, 1)
+
+    class FakeParsedDate:
+        def astimezone(self, tzinfo):
+            raise OSError(22, "Invalid argument")
+
+        def date(self):
+            return expected
+
+    class FakeDateTime:
+        @staticmethod
+        def strptime(date_string, date_format):
+            assert date_string == "19310101"
+            assert date_format == "%Y%m%d"
+            return FakeParsedDate()
+
+    monkeypatch.setattr(ulmo.ncdc.gsod.core.datetime, "datetime", FakeDateTime)
+    assert ulmo.ncdc.gsod.core._convert_date_string("19310101") == expected
+
+    assert ulmo.ncdc.gsod.core._convert_date_string(b"19310101") == datetime.date(
+        1931, 1, 1
+    )
+
+
 @pytest.mark.skip(reason="This test is not working")
 def test_get_station_data():
     test_data = [
