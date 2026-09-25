@@ -341,7 +341,11 @@ def wdfn(db_name, **kwargs):
 
         if "data" in collect.columns:
             """Comes from 'read_normal_observations' or 'read_interval_observations'."""
-            collect = collect.explode("data")
+            # explode() preserves the original (possibly duplicated) index, but
+            # json_normalize() always creates a fresh 0..n-1 index.  Resetting
+            # the index here keeps both sides aligned so pandas doesn't need to
+            # reindex a non-unique index, which pandas<2 raises InvalidIndexError on.
+            collect = collect.explode("data").reset_index(drop=True)
             collect = pd.concat(
                 [collect, pd.json_normalize(collect["data"])], axis="columns"
             )
@@ -350,7 +354,7 @@ def wdfn(db_name, **kwargs):
             # the current "values" column.  So rename the current "values" column
             # to "values_exploded" to be able to drop "values_exploded".
             collect = collect.rename(columns={"values": "values_exploded"})
-            collect = collect.explode("values_exploded")
+            collect = collect.explode("values_exploded").reset_index(drop=True)
             collect = pd.concat(
                 [collect, pd.json_normalize(collect["values_exploded"])], axis="columns"
             )
@@ -1219,52 +1223,52 @@ if __name__ == "__main__":
     print(R)
     print(R.columns)
 
-#    print("USGS_DAILY_STAT multiple")
-#    R = wdfn_read_interval_observations(monitoring_location_number="02325000,02239501")
-#    print(R)
-#    print(R.columns)
-#
-#    print("USGS_MONTHLY_STAT single")
-#    R = wdfn_read_normal_observations(
-#        monitoring_location_number="01646500",
-#        normal_type="MOY",
-#    )
-#    print(R)
-#    print(R.columns)
-#
-#    print("USGS_MONTHLY_STAT single")
-#    R = wdfn_read_normal_observations(
-#        monitoring_location_number="01646500",
-#        normal_type="DOY",
-#    )
-#    print(R)
-#    print(R.columns)
-#
-#    print("USGS_MONTHLY_STAT multiple")
-#    R = wdfn_read_interval_observations(
-#        monitoring_location_number="02325000,01646500",
-#        interval_type="WY",
-#    )
-#    print(R)
-#    print(R.columns)
-#
-#    print("USGS_MONTHLY_STAT multiple")
-#    R = wdfn_read_interval_observations(
-#        monitoring_location_number="02325000,01646500",
-#        interval_type="CY",
-#    )
-#    print(R)
-#
-#    print("USGS_ANNUAL_STAT single")
-#    R = wdfn_read_interval_observations(
-#        monitoring_location_number="01646500",
-#        interval_type="WY",
-#    )
-#    print(R)
-#
-#    print("USGS_ANNUAL_STAT multple")
-#    R = wdfn_read_interval_observations(
-#        monitoring_location_number="01646500,02239501",
-#        interval_type="WY",
-#    )
-#    print(R)
+    print("USGS_DAILY_STAT multiple")
+    R = wdfn_read_interval_observations(monitoring_location_number="02325000,02239501")
+    print(R)
+    print(R.columns)
+
+    print("USGS_MONTHLY_STAT single")
+    R = wdfn_read_normal_observations(
+        monitoring_location_number="01646500",
+        normal_type="MOY",
+    )
+    print(R)
+    print(R.columns)
+
+    print("USGS_MONTHLY_STAT single")
+    R = wdfn_read_normal_observations(
+        monitoring_location_number="01646500",
+        normal_type="DOY",
+    )
+    print(R)
+    print(R.columns)
+
+    print("USGS_MONTHLY_STAT multiple")
+    R = wdfn_read_interval_observations(
+        monitoring_location_number="02325000,01646500",
+        interval_type="WY",
+    )
+    print(R)
+    print(R.columns)
+
+    print("USGS_MONTHLY_STAT multiple")
+    R = wdfn_read_interval_observations(
+        monitoring_location_number="02325000,01646500",
+        interval_type="CY",
+    )
+    print(R)
+
+    print("USGS_ANNUAL_STAT single")
+    R = wdfn_read_interval_observations(
+        monitoring_location_number="01646500",
+        interval_type="WY",
+    )
+    print(R)
+
+    print("USGS_ANNUAL_STAT multple")
+    R = wdfn_read_interval_observations(
+        monitoring_location_number="01646500,02239501",
+        interval_type="WY",
+    )
+    print(R)
