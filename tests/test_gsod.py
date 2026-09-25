@@ -152,8 +152,8 @@ def test_convert_date_string_pre_epoch(monkeypatch):
     monkeypatch.setattr(ulmo.ncdc.gsod.core.datetime, "datetime", FakeDateTime)
     assert ulmo.ncdc.gsod.core._convert_date_string("19310101") == expected
 
-    assert ulmo.ncdc.gsod.core._convert_date_string(b"19580101") == datetime.date(
-        1958, 1, 1
+    assert ulmo.ncdc.gsod.core._convert_date_string(b"19310101") == datetime.date(
+        1931, 1, 1
     )
 
 
