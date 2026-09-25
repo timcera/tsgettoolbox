@@ -1,3 +1,19 @@
+## v26.3.0 (2026-09-25)
+
+### Feat
+
+- add all 'wdfn_*' function to support new USGS web services
+
+### Fix
+
+- fixed bug on 1.5 version of pandas that affected "wdfn_read_interval_observations" and "wdfn_read_normal_observations"
+- account for different json_normalize behavior across different pandas versions
+- used "deprecated" package to support python < 3.13
+
+### Refactor
+
+- sort imports, minor refactors, removed terraclimate2C and terraclimate4C
+
 ## v26.2.6 (2026-06-24)
 
 ### Fix
