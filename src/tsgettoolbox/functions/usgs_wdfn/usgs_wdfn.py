@@ -101,16 +101,16 @@ warnings.filterwarnings("ignore")
 
 utils.set_cache_env("usgs_wdfn")
 
-_ts_databases = [
-    "channel-measurements",
-    "continuous",
-    "daily",
-    "field-measurements",
-    "latest-continuous",
-    "latest-daily",
-    "latest-field-measurements",
-    "peaks",
-]
+_time_delta = {
+    "channel-measurements": dt.timedelta(days=3660),
+    "continuous": dt.timedelta(minutes=15 * 49000),
+    "daily": dt.timedelta(days=49000),
+    "field-measurements": dt.timedelta(days=3660),
+    "latest-continuous": dt.timedelta(minutes=15 * 49000),
+    "latest-daily": dt.timedelta(days=49000),
+    "latest-field-measurements": dt.timedelta(days=3660),
+    "peaks": dt.timedelta(days=3660),
+}
 
 
 def make_list_all_str(value):
@@ -219,19 +219,13 @@ def wdfn(db_name, **kwargs):
         kwargs["f"] = "json"
         url = f"https://api.waterdata.usgs.gov/ogcapi/v0/collections/{db_name}/items"
 
-    time_delta = {
-        "channel-measurements": dt.timedelta(days=3660),
-        "continuous": dt.timedelta(minutes=15 * 49000),
-        "daily": dt.timedelta(days=49000),
-        "field-measurements": dt.timedelta(days=3660),
-        "latest-continuous": dt.timedelta(minutes=15 * 49000),
-        "latest-daily": dt.timedelta(days=49000),
-        "latest-field-measurements": dt.timedelta(days=3660),
-        "peaks": dt.timedelta(days=3660),
-    }
-
-    # pop off tsgettoolbox specific keywords that are not part of the WDFN API.
-    ts_return_style = kwargs.pop("ts_return_style", "compact")
+    if db_name in list(_time_delta.keys()) + [
+        "read_normal_observations",
+        "read_interval_observations",
+    ]:
+        ts_return_style = kwargs.pop("ts_return_style", "compact")
+    else:
+        ts_return_style = kwargs.pop("ts_return_style", "full")
 
     if ts_return_style not in ["compact", "full"]:
         raise ValueError(
@@ -256,19 +250,38 @@ def wdfn(db_name, **kwargs):
     parameter_codes = make_list_all_str(kwargs.get("parameter_code", [])) or [""]
 
     periods = [""]
-    if "time" in kwargs:
+    if db_name in _time_delta:
         input_start, input_end = kwargs["time"].split("/")
-        input_start = None if input_start == ".." else pd.to_datetime(input_start)
-        input_end = None if input_end == ".." else pd.to_datetime(input_end)
-        if input_start is None:
-            input_start = pd.to_datetime("1900-01-01")
-        if input_end is None:
-            input_end = pd.Timestamp.now()
+        input_start = (
+            None
+            if input_start == ".."
+            else pd.to_datetime(input_start).tz_localize("UTC")
+        )
+        input_end = (
+            None if input_end == ".." else pd.to_datetime(input_end).tz_localize("UTC")
+        )
+        if monitoring_location_ids[0] and (input_start is None or input_end is None):
+            for monitoring_location_id in monitoring_location_ids:
+                start = pd.Timestamp.now(tz="UTC")
+                end = pd.to_datetime("1800-01-01").tz_localize("UTC")
+                station_metadata = wdfn_time_series_metadata(
+                    monitoring_location_id=monitoring_location_id
+                )
+                station_metadata_start = min(
+                    pd.to_datetime(station_metadata["begin_utc"])
+                )
+                station_metadata_end = max(pd.to_datetime(station_metadata["end_utc"]))
+                start = min(station_metadata_start, start)
+                end = max(station_metadata_end, end)
+            if input_start is None:
+                input_start = start
+            if input_end is None:
+                input_end = end
 
         periods = []
         period_start = input_start
         while period_start < input_end:
-            period_end = min(period_start + time_delta[db_name], input_end)
+            period_end = min(period_start + _time_delta[db_name], input_end)
             periods.append(
                 f"{period_start.strftime('%Y-%m-%dT%H:%M:%S')}/{period_end.strftime('%Y-%m-%dT%H:%M:%S')}"
             )
@@ -336,8 +349,7 @@ def wdfn(db_name, **kwargs):
             errors="ignore",
         )
 
-        if "time" in collect.columns:
-            time_col = "time"
+        time_col = "time"
 
         if "data" in collect.columns:
             """Comes from 'read_normal_observations' or 'read_interval_observations'."""
@@ -386,77 +398,95 @@ def wdfn(db_name, **kwargs):
                 time_col = "start_date"
                 collect["start_date"] = pd.to_datetime(collect["start_date"])
 
-        # Do it this way to enforce a particular order.
-        stack_col_names = []
-        if "monitoring_location_id" in collect.columns:
-            stack_col_names.append("monitoring_location_id")
-        if "parameter_code" in collect.columns:
-            stack_col_names.append("parameter_code")
-        if "statistic_id" in collect.columns:
-            stack_col_names.append("statistic_id")
-        if "computation" in collect.columns:
-            stack_col_names.append("computation")
-        if "percentiles" in collect.columns:
-            stack_col_names.append("percentiles")
-        if "unit_of_measure" in collect.columns:
-            stack_col_names.append("unit_of_measure")
-
         if "time_of_year" in collect.columns:
             time_col = "time_of_year"
-        collect = collect.sort_values(stack_col_names + [time_col])
-        collect = collect.set_index(stack_col_names + [time_col])
-        collect = collect.loc[~collect.index.duplicated()]
-        collect = collect.unstack(level=stack_col_names)
-        pretty_names = []
-        for col in collect.columns:
-            cols = []
-            for i in col[1:-1]:
-                if pd.isna(i):
-                    cols.append("")
-                elif i == "5":  # Need to make more generic - only captures percentile 5
-                    cols.append("05")
-                else:
-                    cols.append(str(i))
-            units = f":{col[-1]}"
-            if "value" not in col[0]:
-                units = ""
-            pretty_names.append(
-                f"{'_'.join(cols)}_{col[0]}{units}".replace("__", "_")
-                .replace("_value", "")
-                .replace("_arithmetic_mean", "_mean")
-            )
-        collect.columns = pretty_names
 
-        id_cols = set()
-        for col in collect.columns:
-            id_cols.add(tuple(col.split("_")[:2]))
-        for id_col in id_cols:
-            for duplicate_data_columns in [
-                [
-                    col
-                    for col in collect.columns
-                    if "_sample_count" in col and tuple(col.split("_")[:2]) == id_col
-                ],
-                [
-                    col
-                    for col in collect.columns
-                    if "_approval_status" in col and tuple(col.split("_")[:2]) == id_col
-                ],
-            ]:
-                if duplicate_data_columns:
-                    common_prefix = "_".join(duplicate_data_columns[0].split("_")[:2])
-                    collect = collect.rename(
-                        columns={
-                            duplicate_data_columns[
-                                0
-                            ]: f"{common_prefix}_{duplicate_data_columns[0].split('_')[-1]}"
-                        }
-                    )
-                    collect = collect.drop(
-                        columns=duplicate_data_columns, errors="ignore"
-                    )
+        if time_col in collect.columns:
+            if time_col in ["time"]:
+                collect[time_col] = pd.to_datetime(collect[time_col], utc=True)
+            # Do it this way to enforce a particular order.
+            stack_col_names = []
+            if "monitoring_location_id" in collect.columns:
+                stack_col_names.append("monitoring_location_id")
+            if "parameter_code" in collect.columns:
+                stack_col_names.append("parameter_code")
+            if "statistic_id" in collect.columns:
+                stack_col_names.append("statistic_id")
+            if "computation" in collect.columns:
+                stack_col_names.append("computation")
+            if "percentiles" in collect.columns:
+                stack_col_names.append("percentiles")
+            if "unit_of_measure" in collect.columns:
+                stack_col_names.append("unit_of_measure")
+
+            collect = collect.sort_values(stack_col_names + [time_col])
+            collect = collect.set_index(stack_col_names + [time_col])
+            collect = collect.loc[~collect.index.duplicated()]
+            collect = collect.unstack(level=stack_col_names)
+
+            pretty_names = []
+            for col in collect.columns:
+                cols = []
+                for i in col[1:-1]:
+                    if pd.isna(i):
+                        cols.append("")
+                    elif (
+                        i == "5"
+                    ):  # Need to make more generic - only captures percentile 5
+                        cols.append("05")
+                    else:
+                        cols.append(str(i))
+                units = f":{col[-1]}"
+                if "value" not in col[0]:
+                    units = ""
+                pretty_names.append(
+                    f"{'_'.join(cols)}_{col[0]}{units}".replace("__", "_")
+                    .replace("_value", "")
+                    .replace("_arithmetic_mean", "_mean")
+                )
+            collect.columns = pretty_names
+
+            if db_name in ["read_normal_observations", "read_interval_observations"]:
+                id_cols = set()
+                for col in collect.columns:
+                    id_cols.add(tuple(col.split("_")[:2]))
+                for id_col in id_cols:
+                    for duplicate_data_columns in [
+                        [
+                            col
+                            for col in collect.columns
+                            if "_sample_count" in col
+                            and tuple(col.split("_")[:2]) == id_col
+                        ],
+                        [
+                            col
+                            for col in collect.columns
+                            if "_approval_status" in col
+                            and tuple(col.split("_")[:2]) == id_col
+                        ],
+                    ]:
+                        if duplicate_data_columns:
+                            common_prefix = "_".join(
+                                duplicate_data_columns[0].split("_")[:2]
+                            )
+                            collect = collect.rename(
+                                columns={
+                                    duplicate_data_columns[
+                                        0
+                                    ]: f"{common_prefix}_{duplicate_data_columns[0].split('_')[-1]}"
+                                }
+                            )
+                            collect = collect.drop(
+                                columns=duplicate_data_columns, errors="ignore"
+                            )
         collect = collect.sort_index(axis="columns")
 
+    dup_names = collect.columns.duplicated()
+    collect = collect.loc[:, ~dup_names]
+    collect = collect.drop(columns=["index", "type"], errors="ignore")
+    collect = collect.dropna(axis="columns", how="all")
+    if "id" in collect.columns:
+        collect = collect.set_index("id")
     return collect
 
 
@@ -487,16 +517,7 @@ def wdfn_factory(function_name):
     fkeywords = pd.read_json(json_file, orient="records")
     keywords = pd.json_normalize(fkeywords["properties"]).set_index(fkeywords.index)
 
-    if function_name in [
-        "channel-measurements",
-        "continuous",
-        "daily",
-        "field-measurements",
-        "latest-continuous",
-        "latest-daily",
-        "latest-field-measurements",
-        "peaks",
-    ]:
+    if function_name in _time_delta:
         added_keywords = pd.DataFrame(
             data=[
                 [
@@ -506,7 +527,7 @@ def wdfn_factory(function_name):
                     "string",
                     "Return style, either 'compact' or 'full'",
                     ["compact", "full"],
-                    "compact",
+                    "compact" if function_name in _time_delta else "full",
                 ],
             ],
             columns=[
@@ -1207,7 +1228,7 @@ if __name__ == "__main__":
     print("USGS_DV")
     R = wdfn_daily(
         monitoring_location_number="02325000",
-        time="2015-07-01/2015-07-30",
+        time="2025-06-01/..",
     )
     print(R)
 
@@ -1269,6 +1290,198 @@ if __name__ == "__main__":
     print("USGS_ANNUAL_STAT multple")
     R = wdfn_read_interval_observations(
         monitoring_location_number="01646500,02239501",
+        interval_type="WY",
+    )
+    print(R)
+
+    print("AGENCY_CODES")
+    R = wdfn_agency_codes()
+    print(R)
+
+    print("ALTITUDE_DATUMS")
+    R = wdfn_altitude_datums()
+    print(R)
+
+    print("AQUIFER_CODES")
+    R = wdfn_aquifer_codes()
+    print(R)
+
+    print("AQUIFER_TYPES")
+    R = wdfn_aquifer_types()
+    print(R)
+
+    print("CHANNEL_MEASUREMENTS")
+    R = wdfn_channel_measurements(
+        monitoring_location_number="02325000",
+        time="2015-07-01/2015-07-30",
+    )
+    print(R)
+
+    print("CITATIONS")
+    R = wdfn_citations()
+    print(R)
+
+    print("COMBINED_METADATA")
+    R = wdfn_combined_metadata(
+        monitoring_location_number="02325000",
+        begin="2015-07-01",
+        end="2015-07-30",
+    )
+    print(R)
+
+    print("CONTINUOUS")
+    R = wdfn_continuous(
+        monitoring_location_number="02325000",
+        time="2015-07-01/2015-07-30",
+    )
+    print(R)
+
+    print("COORDINATE_ACCURACY_CODES")
+    R = wdfn_coordinate_accuracy_codes()
+    print(R)
+
+    print("COORDINATE_DATUM_CODES")
+    R = wdfn_coordinate_datum_codes()
+    print(R)
+
+    print("COORDINATE_METHOD_CODES")
+    R = wdfn_coordinate_method_codes()
+    print(R)
+
+    print("COUNTIES")
+    R = wdfn_counties()
+    print(R)
+
+    print("COUNTRIES")
+    R = wdfn_countries()
+    print(R)
+
+    print("DAILY")
+    R = wdfn_daily(
+        monitoring_location_number="02325000",
+        time="2015-07-01/2015-07-30",
+    )
+    print(R)
+
+    print("FIELD_MEASUREMENTS")
+    R = wdfn_field_measurements(
+        monitoring_location_number="375907091432201",
+        time="2017-01-01/2017-12-30",
+    )
+    print(R)
+
+    print("FIELD_MEASUREMENTS_METADATA")
+    R = wdfn_field_measurements_metadata(
+        monitoring_location_id="USGS-02238500",
+    )
+    print(R)
+
+    print("HYDROLOGIC_UNIT_CODES")
+    R = wdfn_hydrologic_unit_codes(id="031102010101")  # RRSSBBUUWWXX
+    print(R)
+
+    print("LATEST_CONTINUOUS")
+    R = wdfn_latest_continuous(
+        monitoring_location_number="02325000",
+        time="2015-07-01/..",
+    )
+    print(R)
+
+    print("LATEST_DAILY")
+    R = wdfn_latest_daily(
+        monitoring_location_number="02325000",
+        time="2015-07-01/..",
+    )
+    print(R)
+
+    print("LATEST_FIELD_MEASUREMENTS")
+    R = wdfn_latest_field_measurements(
+        monitoring_location_number="375907091432201",
+        time="2017-01-01/..",
+    )
+    print(R)
+
+    print("MEDIUM_CODES")
+    R = wdfn_medium_codes()
+    print(R)
+
+    print("METHOD_CATEGORIES")
+    R = wdfn_method_categories()
+    print(R)
+
+    print("METHOD_CITATIONS")
+    R = wdfn_method_citations()
+    print(R)
+
+    print("METHODS")
+    R = wdfn_methods()
+    print(R)
+
+    print("MONITORING_LOCATIONS")
+    R = wdfn_monitoring_locations(
+        id="USGS-02325000",
+    )
+    print(R)
+
+    print("NATIONAL_AQUIFER_CODES")
+    R = wdfn_national_aquifer_codes()
+    print(R)
+
+    print("PARAMETER_CODES")
+    R = wdfn_parameter_codes()
+    print(R)
+
+    print("PEAKS")
+    R = wdfn_peaks(
+        monitoring_location_number="02325000",
+        time="2014-01-01/2015-07-30",
+    )
+    print(R)
+
+    print("RELIABILITY_CODES")
+    R = wdfn_reliability_codes()
+    print(R)
+
+    print("SITE_TYPES")
+    R = wdfn_site_types()
+    print(R)
+
+    print("STATES")
+    R = wdfn_states()
+    print(R)
+
+    print("STATISTIC_CODES")
+    R = wdfn_statistic_codes()
+    print(R)
+
+    print("TIME_SERIES_METADATA")
+    R = wdfn_time_series_metadata(
+        monitoring_location_number="02325000",
+    )
+    print(R)
+
+    print("TIME_SERIES_METHODS")
+    R = wdfn_time_series_methods(time_series_id="1dda662e2f51473ea5ca5574b2f37fc2")
+    print(R)
+
+    print("TIME_SERIES_REVISIONS")
+    R = wdfn_time_series_revisions(monitoring_location_id="USGS-02344872")
+    print(R)
+
+    print("TIME_ZONE_CODES")
+    R = wdfn_time_zone_codes()
+    print(R)
+
+    print("READ_NORMAL_OBSERVATIONS")
+    R = wdfn_read_normal_observations(
+        monitoring_location_number="01646500",
+        normal_type="MOY",
+    )
+    print(R)
+
+    print("READ_INTERVAL_OBSERVATIONS")
+    R = wdfn_read_interval_observations(
+        monitoring_location_number="02325000",
         interval_type="WY",
     )
     print(R)
