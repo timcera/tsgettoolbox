@@ -1,3 +1,16 @@
+## v26.3.1 (2026-09-26)
+
+### Fix
+
+- added docs for wdfn_*, clarified different processing for ts and info tables, added processing of ".." in "time" keyword
+
+## v26.2.7 (2026-06-24)
+
+### Fix
+
+- needed to remove tests from sdist because of pypi size limits
+- needed to remove tests from sdist because of pypi size limits
+
 ## v26.3.0 (2026-09-25)
 
 ### Feat
