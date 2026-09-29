@@ -276,6 +276,51 @@ def main():
             )
         )
 
+    @cltoolbox.command("epa_wqp", formatter_class=HelpFormatter)
+    @tsutils.copy_doc(epa_wqp)
+    def epa_wqp_cli(
+        bBox=None,
+        lat=None,
+        lon=None,
+        within=None,
+        countrycode=None,
+        statecode=None,
+        countycode=None,
+        siteType=None,
+        organization=None,
+        siteid=None,
+        huc=None,
+        sampleMedia=None,
+        characteristicType=None,
+        characteristicName=None,
+        pCode=None,
+        activityId=None,
+        startDateLo=None,
+        startDateHi=None,
+    ):
+        tsutils.printiso(
+            epa_wqp(
+                bBox=bBox,
+                lat=lat,
+                lon=lon,
+                within=within,
+                countrycode=countrycode,
+                statecode=statecode,
+                countycode=countycode,
+                siteType=siteType,
+                organization=organization,
+                siteid=siteid,
+                huc=huc,
+                sampleMedia=sampleMedia,
+                characteristicType=characteristicType,
+                characteristicName=characteristicName,
+                pCode=pCode,
+                activityId=activityId,
+                startDateLo=startDateLo,
+                startDateHi=startDateHi,
+            )
+        )
+
     @cltoolbox.command("fawn", formatter_class=HelpFormatter)
     @tsutils.copy_doc(fawn)
     def fawn_cli(
@@ -298,6 +343,18 @@ def main():
                 end_date=end_date,
             )
         )
+
+    @cltoolbox.command("hydstra_catalog", formatter_class=HelpFormatter)
+    @tsutils.copy_doc(hydstra_catalog)
+    def hydstra_catalog_cli(server, station, isleep=0, tablefmt="csv"):
+        catalogdf = hydstra_catalog(server, station, isleep=isleep)
+        tsutils.printiso(catalogdf, tablefmt=tablefmt, headers="keys", showindex=False)
+
+    @cltoolbox.command("hydstra_stations", formatter_class=HelpFormatter)
+    @tsutils.copy_doc(hydstra_stations)
+    def hydstra_stations_cli(server, activeonly=False, latlong=False, tablefmt="csv"):
+        sitedf = hydstra_stations(server, activeonly=activeonly, latlong=latlong)
+        tsutils.printiso(sitedf, headers="keys", tablefmt=tablefmt, showindex=False)
 
     @cltoolbox.command("hydstra_ts", formatter_class=HelpFormatter)
     @tsutils.copy_doc(hydstra_ts)
@@ -329,18 +386,6 @@ def main():
                 maxqual=maxqual,
             )
         )
-
-    @cltoolbox.command("hydstra_catalog", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(hydstra_catalog)
-    def hydstra_catalog_cli(server, station, isleep=0, tablefmt="csv"):
-        catalogdf = hydstra_catalog(server, station, isleep=isleep)
-        tsutils.printiso(catalogdf, tablefmt=tablefmt, headers="keys", showindex=False)
-
-    @cltoolbox.command("hydstra_stations", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(hydstra_stations)
-    def hydstra_stations_cli(server, activeonly=False, latlong=False, tablefmt="csv"):
-        sitedf = hydstra_stations(server, activeonly=activeonly, latlong=latlong)
-        tsutils.printiso(sitedf, headers="keys", tablefmt=tablefmt, showindex=False)
 
     def foundation_cli(
         function,
@@ -422,11 +467,12 @@ def main():
             modis(lat, lon, product, band, start_date=start_date, end_date=end_date)
         )
 
-    @cltoolbox.command("ncei_ghcnd_ftp", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ncei_ghcnd_ftp)
-    def ncei_ghcnd_ftp_cli(stationid, start_date=None, end_date=None):
+    # ANNUAL
+    @cltoolbox.command("ncei_annual", formatter_class=HelpFormatter)
+    @tsutils.copy_doc(ncei_annual)
+    def ncei_annual_cli(stationid, start_date=None, end_date=None):
         tsutils.printiso(
-            ncei_ghcnd_ftp(stationid, start_date=start_date, end_date=end_date),
+            ncei_annual(stationid, start_date=start_date, end_date=end_date),
         )
 
     # 1763-01-01, 2016-11-05, Daily Summaries             , 1    , GHCND
@@ -435,6 +481,21 @@ def main():
     def ncei_ghcnd_cli(stationid, start_date=None, end_date=None):
         tsutils.printiso(
             ncei_ghcnd(stationid, start_date=start_date, end_date=end_date),
+        )
+
+    @cltoolbox.command("ncei_ghcnd_ftp", formatter_class=HelpFormatter)
+    @tsutils.copy_doc(ncei_ghcnd_ftp)
+    def ncei_ghcnd_ftp_cli(stationid, start_date=None, end_date=None):
+        tsutils.printiso(
+            ncei_ghcnd_ftp(stationid, start_date=start_date, end_date=end_date),
+        )
+
+    # GHCNDMS
+    @cltoolbox.command("ncei_ghcndms", formatter_class=HelpFormatter)
+    @tsutils.copy_doc(ncei_ghcndms)
+    def ncei_ghcndms_cli(stationid, start_date=None, end_date=None):
+        tsutils.printiso(
+            ncei_ghcndms(stationid, start_date=start_date, end_date=end_date),
         )
 
     @cltoolbox.command("ncei_gsod", formatter_class=HelpFormatter)
@@ -466,6 +527,13 @@ def main():
                 start_date=start_date,
                 end_date=end_date,
             ),
+        )
+
+    @cltoolbox.command("ncei_ish", formatter_class=HelpFormatter)
+    @tsutils.copy_doc(ncei_ish)
+    def ncei_ish_cli(stationid, start_date=None, end_date=None):
+        tsutils.printiso(
+            ncei_ish(stationid, start_date=start_date, end_date=end_date),
         )
 
     # 1991-06-05, 2016-11-06, Weather Radar (Level II)    , 0.95 , NEXRAD2
@@ -520,29 +588,6 @@ def main():
     def ncei_precip_hly_cli(stationid, start_date=None, end_date=None):
         tsutils.printiso(
             ncei_precip_hly(stationid, start_date=start_date, end_date=end_date),
-        )
-
-    # ANNUAL
-    @cltoolbox.command("ncei_annual", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ncei_annual)
-    def ncei_annual_cli(stationid, start_date=None, end_date=None):
-        tsutils.printiso(
-            ncei_annual(stationid, start_date=start_date, end_date=end_date),
-        )
-
-    # GHCNDMS
-    @cltoolbox.command("ncei_ghcndms", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ncei_ghcndms)
-    def ncei_ghcndms_cli(stationid, start_date=None, end_date=None):
-        tsutils.printiso(
-            ncei_ghcndms(stationid, start_date=start_date, end_date=end_date),
-        )
-
-    @cltoolbox.command("ncei_ish", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ncei_ish)
-    def ncei_ish_cli(stationid, start_date=None, end_date=None):
-        tsutils.printiso(
-            ncei_ish(stationid, start_date=start_date, end_date=end_date),
         )
 
     # @cltoolbox.command("ncei_cirs", formatter_class=HelpFormatter)
@@ -624,63 +669,6 @@ def main():
             )
         )
 
-    @cltoolbox.command("nwis_iv", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(nwis_iv)
-    def nwis_iv_cli(
-        sites=None,
-        stateCd=None,
-        huc=None,
-        bBox=None,
-        countyCd=None,
-        parameterCd=None,
-        siteType=None,
-        modifiedSince=None,
-        agencyCd=None,
-        siteStatus=None,
-        altMin=None,
-        altMax=None,
-        drainAreaMin=None,
-        drainAreaMax=None,
-        aquiferCd=None,
-        localAquiferCd=None,
-        wellDepthMin=None,
-        wellDepthMax=None,
-        holeDepthMin=None,
-        holeDepthMax=None,
-        period=None,
-        startDT=None,
-        endDT=None,
-        include_codes=False,
-    ):
-        tsutils.printiso(
-            nwis_iv(
-                sites=sites,
-                stateCd=stateCd,
-                huc=huc,
-                bBox=bBox,
-                countyCd=countyCd,
-                parameterCd=parameterCd,
-                siteType=siteType,
-                modifiedSince=modifiedSince,
-                agencyCd=agencyCd,
-                siteStatus=siteStatus,
-                altMin=altMin,
-                altMax=altMax,
-                drainAreaMin=drainAreaMin,
-                drainAreaMax=drainAreaMax,
-                aquiferCd=aquiferCd,
-                localAquiferCd=localAquiferCd,
-                wellDepthMin=wellDepthMin,
-                wellDepthMax=wellDepthMax,
-                holeDepthMin=holeDepthMin,
-                holeDepthMax=holeDepthMax,
-                period=period,
-                startDT=startDT,
-                endDT=endDT,
-                include_codes=include_codes,
-            )
-        )
-
     @cltoolbox.command("nwis_dv", formatter_class=HelpFormatter)
     @tsutils.copy_doc(nwis_dv)
     def nwis_dv_cli(
@@ -740,73 +728,6 @@ def main():
             )
         )
 
-    @cltoolbox.command("nwis_site", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(nwis_site)
-    def nwis_site_cli(
-        sites=None,
-        stateCd=None,
-        huc=None,
-        bBox=None,
-        countyCd=None,
-        parameterCd=None,
-        period=None,
-        startDT=None,
-        endDT=None,
-        siteType=None,
-        modifiedSince=None,
-        agencyCd=None,
-        siteStatus=None,
-        altMin=None,
-        altMax=None,
-        drainAreaMin=None,
-        drainAreaMax=None,
-        aquiferCd=None,
-        localAquiferCd=None,
-        wellDepthMin=None,
-        wellDepthMax=None,
-        holeDepthMin=None,
-        holeDepthMax=None,
-        siteOutput=None,
-        seriesCatalogOutput=None,
-        outputDataTypeCd=None,
-        siteName=None,
-        siteNameMatchOperator=None,
-        hasDataTypeCd=None,
-    ):
-        tsutils.printiso(
-            nwis_site(
-                sites=sites,
-                stateCd=stateCd,
-                huc=huc,
-                bBox=bBox,
-                countyCd=countyCd,
-                parameterCd=parameterCd,
-                siteType=siteType,
-                modifiedSince=modifiedSince,
-                agencyCd=agencyCd,
-                siteStatus=siteStatus,
-                altMin=altMin,
-                altMax=altMax,
-                drainAreaMin=drainAreaMin,
-                drainAreaMax=drainAreaMax,
-                aquiferCd=aquiferCd,
-                localAquiferCd=localAquiferCd,
-                wellDepthMin=wellDepthMin,
-                wellDepthMax=wellDepthMax,
-                holeDepthMin=holeDepthMin,
-                holeDepthMax=holeDepthMax,
-                period=period,
-                startDT=startDT,
-                endDT=endDT,
-                siteOutput=siteOutput,
-                seriesCatalogOutput=seriesCatalogOutput,
-                outputDataTypeCd=outputDataTypeCd,
-                siteName=siteName,
-                siteNameMatchOperator=siteNameMatchOperator,
-                hasDataTypeCd=hasDataTypeCd,
-            )
-        )
-
     @cltoolbox.command("nwis_gwlevels", formatter_class=HelpFormatter)
     @tsutils.copy_doc(nwis_gwlevels)
     def nwis_gwlevels_cli(
@@ -855,6 +776,63 @@ def main():
                 period=period,
                 startDT=startDT,
                 endDT=endDT,
+            )
+        )
+
+    @cltoolbox.command("nwis_iv", formatter_class=HelpFormatter)
+    @tsutils.copy_doc(nwis_iv)
+    def nwis_iv_cli(
+        sites=None,
+        stateCd=None,
+        huc=None,
+        bBox=None,
+        countyCd=None,
+        parameterCd=None,
+        siteType=None,
+        modifiedSince=None,
+        agencyCd=None,
+        siteStatus=None,
+        altMin=None,
+        altMax=None,
+        drainAreaMin=None,
+        drainAreaMax=None,
+        aquiferCd=None,
+        localAquiferCd=None,
+        wellDepthMin=None,
+        wellDepthMax=None,
+        holeDepthMin=None,
+        holeDepthMax=None,
+        period=None,
+        startDT=None,
+        endDT=None,
+        include_codes=False,
+    ):
+        tsutils.printiso(
+            nwis_iv(
+                sites=sites,
+                stateCd=stateCd,
+                huc=huc,
+                bBox=bBox,
+                countyCd=countyCd,
+                parameterCd=parameterCd,
+                siteType=siteType,
+                modifiedSince=modifiedSince,
+                agencyCd=agencyCd,
+                siteStatus=siteStatus,
+                altMin=altMin,
+                altMax=altMax,
+                drainAreaMin=drainAreaMin,
+                drainAreaMax=drainAreaMax,
+                aquiferCd=aquiferCd,
+                localAquiferCd=localAquiferCd,
+                wellDepthMin=wellDepthMin,
+                wellDepthMax=wellDepthMax,
+                holeDepthMin=holeDepthMin,
+                holeDepthMax=holeDepthMax,
+                period=period,
+                startDT=startDT,
+                endDT=endDT,
+                include_codes=include_codes,
             )
         )
 
@@ -960,6 +938,73 @@ def main():
             )
         )
 
+    @cltoolbox.command("nwis_site", formatter_class=HelpFormatter)
+    @tsutils.copy_doc(nwis_site)
+    def nwis_site_cli(
+        sites=None,
+        stateCd=None,
+        huc=None,
+        bBox=None,
+        countyCd=None,
+        parameterCd=None,
+        period=None,
+        startDT=None,
+        endDT=None,
+        siteType=None,
+        modifiedSince=None,
+        agencyCd=None,
+        siteStatus=None,
+        altMin=None,
+        altMax=None,
+        drainAreaMin=None,
+        drainAreaMax=None,
+        aquiferCd=None,
+        localAquiferCd=None,
+        wellDepthMin=None,
+        wellDepthMax=None,
+        holeDepthMin=None,
+        holeDepthMax=None,
+        siteOutput=None,
+        seriesCatalogOutput=None,
+        outputDataTypeCd=None,
+        siteName=None,
+        siteNameMatchOperator=None,
+        hasDataTypeCd=None,
+    ):
+        tsutils.printiso(
+            nwis_site(
+                sites=sites,
+                stateCd=stateCd,
+                huc=huc,
+                bBox=bBox,
+                countyCd=countyCd,
+                parameterCd=parameterCd,
+                siteType=siteType,
+                modifiedSince=modifiedSince,
+                agencyCd=agencyCd,
+                siteStatus=siteStatus,
+                altMin=altMin,
+                altMax=altMax,
+                drainAreaMin=drainAreaMin,
+                drainAreaMax=drainAreaMax,
+                aquiferCd=aquiferCd,
+                localAquiferCd=localAquiferCd,
+                wellDepthMin=wellDepthMin,
+                wellDepthMax=wellDepthMax,
+                holeDepthMin=holeDepthMin,
+                holeDepthMax=holeDepthMax,
+                period=period,
+                startDT=startDT,
+                endDT=endDT,
+                siteOutput=siteOutput,
+                seriesCatalogOutput=seriesCatalogOutput,
+                outputDataTypeCd=outputDataTypeCd,
+                siteName=siteName,
+                siteNameMatchOperator=siteNameMatchOperator,
+                hasDataTypeCd=hasDataTypeCd,
+            )
+        )
+
     @cltoolbox.command("nwis_stat", formatter_class=HelpFormatter)
     @tsutils.copy_doc(nwis_stat)
     def nwis_stat_cli(
@@ -1012,51 +1057,6 @@ def main():
                 statType=statType,
                 missingData=missingData,
                 statYearType=statYearType,
-            )
-        )
-
-    @cltoolbox.command("epa_wqp", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(epa_wqp)
-    def epa_wqp_cli(
-        bBox=None,
-        lat=None,
-        lon=None,
-        within=None,
-        countrycode=None,
-        statecode=None,
-        countycode=None,
-        siteType=None,
-        organization=None,
-        siteid=None,
-        huc=None,
-        sampleMedia=None,
-        characteristicType=None,
-        characteristicName=None,
-        pCode=None,
-        activityId=None,
-        startDateLo=None,
-        startDateHi=None,
-    ):
-        tsutils.printiso(
-            epa_wqp(
-                bBox=bBox,
-                lat=lat,
-                lon=lon,
-                within=within,
-                countrycode=countrycode,
-                statecode=statecode,
-                countycode=countycode,
-                siteType=siteType,
-                organization=organization,
-                siteid=siteid,
-                huc=huc,
-                sampleMedia=sampleMedia,
-                characteristicType=characteristicType,
-                characteristicName=characteristicName,
-                pCode=pCode,
-                activityId=activityId,
-                startDateLo=startDateLo,
-                startDateHi=startDateHi,
             )
         )
 

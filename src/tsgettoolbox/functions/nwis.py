@@ -1218,7 +1218,7 @@ def nwis(
     missingData=None,
     statYearType=None,
 ):
-    r"""US:station:::DEPRECATED BY USGS-Use the ``wdfn_*`` functions instead.
+    r"""US:station:::DEPRECATED-Use the ``wdfn_*`` functions instead.
 
     This "nwis" function has been split up into individual functions for each
     source database.  This allows for keywords and output to be tailored to
@@ -1387,7 +1387,7 @@ def nwis_iv(
     holeDepthMax=None,
     include_codes=False,
 ):
-    r"""US:station::E:DEPRECATED BY USGS-Use "wdfn_continuous" instead.
+    r"""US:station::E:DEPRECATED-Use "wdfn_continuous" instead.
 
     ${filter_descriptions}
     ${results_ts}
@@ -1478,7 +1478,7 @@ def nwis_dv(
     holeDepthMax=None,
     include_codes=False,
 ):
-    r"""US:station::D:DEPRECATED BY USGS-Use "wdfn_daily" instead
+    r"""US:station::D:DEPRECATED-Use "wdfn_daily" instead
 
     ${filter_descriptions}
     ${results_ts}
@@ -1577,7 +1577,7 @@ def nwis_site(
     siteNameMatchOperator=None,
     hasDataTypeCd=None,
 ):
-    r"""US:station:::DEPRECATED BY USGS-Use "wdfn_monitoring_locations" or "wdfn_time_series_metadata"
+    r"""US:station:::DEPRECATED-Use "wdfn_monitoring_locations" or "wdfn_time_series_metadata"
 
     This does not return a time-series, but a table of sites.
     ${filter_descriptions}
@@ -1712,7 +1712,7 @@ def nwis_gwlevels(
     holeDepthMin=None,
     holeDepthMax=None,
 ):
-    r"""US:station:::DEPRECATED BY USGS-Use "wdfn_field_measurements"
+    r"""US:station:::DEPRECATED-Use "wdfn_field_measurements"
 
     ${filter_descriptions}
     **Results**
@@ -1823,7 +1823,7 @@ def nwis_measurements(
     holeDepthMin=None,
     holeDepthMax=None,
 ):
-    r"""US:station:::DEPRECATED BY USGS-Use "wdfn_field_measurements"
+    r"""US:station:::DEPRECATED-Use "wdfn_field_measurements"
 
     ${filter_descriptions}
     **Results**
@@ -1996,7 +1996,7 @@ def nwis_peak(
     holeDepthMin=None,
     holeDepthMax=None,
 ):
-    r"""US:station:::DEPRECATED BY USGS-Use "wdfn_peaks"
+    r"""US:station:::DEPRECATED-Use "wdfn_peaks"
 
     ${filter_descriptions}
     **Results**
@@ -2175,7 +2175,7 @@ def nwis_stat(
     missingData=None,
     statYearType=None,
 ):
-    r"""US:station:::DEPRECATED BY USGS-No replacement yet in production
+    r"""US:station:::DEPRECATED-Use "wdfn_read_normal_observations" or "wdfn_read_interval_observations"
 
     ${filter_descriptions}
     **Returns**

@@ -227,9 +227,9 @@ rivergages
 .. program-output:: tsgettoolbox rivergages --help
    :prompt:
 
-terraclimate
-~~~~~~~~~~~~
-.. program-output:: tsgettoolbox terraclimate --help
+terraclimate19912020
+~~~~~~~~~~~~~~~~~~~~
+.. program-output:: tsgettoolbox terraclimate19912020 --help
    :prompt:
 
 terraclimate19812010
@@ -237,9 +237,9 @@ terraclimate19812010
 .. program-output:: tsgettoolbox terraclimate19812010 --help
    :prompt:
 
-terraclimate19912020
-~~~~~~~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox terraclimate19912020 --help
+terraclimate
+~~~~~~~~~~~~
+.. program-output:: tsgettoolbox terraclimate --help
    :prompt:
 
 twc
@@ -269,7 +269,7 @@ wdfn_aquifer_codes
 
 wdfn_aquifer_types
 ~~~~~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox wdfn_aquifer_types   --help
+.. program-output:: tsgettoolbox wdfn_aquifer_types --help
    :prompt:
 
 wdfn_channel_measurements
@@ -279,7 +279,7 @@ wdfn_channel_measurements
 
 wdfn_citations
 ~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox wdfn_citations      --help
+.. program-output:: tsgettoolbox wdfn_citations --help
    :prompt:
 
 wdfn_combined_metadata
@@ -289,7 +289,7 @@ wdfn_combined_metadata
 
 wdfn_continuous
 ~~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox wdfn_continuous    --help
+.. program-output:: tsgettoolbox wdfn_continuous --help
    :prompt:
 
 wdfn_coordinate_accuracy_codes
@@ -309,17 +309,17 @@ wdfn_coordinate_method_codes
 
 wdfn_counties
 ~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox wdfn_counties     --help
+.. program-output:: tsgettoolbox wdfn_counties --help
    :prompt:
 
 wdfn_countries
 ~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox wdfn_countries   --help
+.. program-output:: tsgettoolbox wdfn_countries --help
    :prompt:
 
 wdfn_daily
 ~~~~~~~~~~
-.. program-output:: tsgettoolbox wdfn_daily      --help
+.. program-output:: tsgettoolbox wdfn_daily --help
    :prompt:
 
 wdfn_field_measurements
@@ -344,7 +344,7 @@ wdfn_latest_continuous
 
 wdfn_latest_daily
 ~~~~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox wdfn_latest_daily    --help
+.. program-output:: tsgettoolbox wdfn_latest_daily --help
    :prompt:
 
 wdfn_latest_field_measurements
@@ -354,7 +354,7 @@ wdfn_latest_field_measurements
 
 wdfn_medium_codes
 ~~~~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox wdfn_medium_codes   --help
+.. program-output:: tsgettoolbox wdfn_medium_codes --help
    :prompt:
 
 wdfn_method_categories
@@ -369,7 +369,7 @@ wdfn_method_citations
 
 wdfn_methods
 ~~~~~~~~~~~~
-.. program-output:: tsgettoolbox wdfn_methods         --help
+.. program-output:: tsgettoolbox wdfn_methods --help
    :prompt:
 
 wdfn_monitoring_locations
@@ -389,7 +389,7 @@ wdfn_parameter_codes
 
 wdfn_peaks
 ~~~~~~~~~~
-.. program-output:: tsgettoolbox wdfn_peaks          --help
+.. program-output:: tsgettoolbox wdfn_peaks --help
    :prompt:
 
 wdfn_reliability_codes
@@ -399,12 +399,12 @@ wdfn_reliability_codes
 
 wdfn_site_types
 ~~~~~~~~~~~~~~~
-.. program-output:: tsgettoolbox wdfn_site_types    --help
+.. program-output:: tsgettoolbox wdfn_site_types --help
    :prompt:
 
 wdfn_states
 ~~~~~~~~~~~
-.. program-output:: tsgettoolbox wdfn_states       --help
+.. program-output:: tsgettoolbox wdfn_states --help
    :prompt:
 
 wdfn_statistic_codes
@@ -440,4 +440,9 @@ wdfn_read_normal_observations
 wdfn_read_interval_observations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. program-output:: tsgettoolbox wdfn_read_interval_observations --help
+   :prompt:
+
+about
+~~~~~
+.. program-output:: tsgettoolbox about --help
    :prompt:

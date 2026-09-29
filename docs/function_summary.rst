@@ -50,9 +50,9 @@ Python API Function Summary
     tsgettoolbox.nwis_site
     tsgettoolbox.nwis_stat
     tsgettoolbox.rivergages
-    tsgettoolbox.terraclimate
-    tsgettoolbox.terraclimate19812010
     tsgettoolbox.terraclimate19912020
+    tsgettoolbox.terraclimate19812010
+    tsgettoolbox.terraclimate
     tsgettoolbox.twc
     tsgettoolbox.unavco
     tsgettoolbox.wdfn_agency_codes
@@ -93,3 +93,4 @@ Python API Function Summary
     tsgettoolbox.wdfn_time_zone_codes
     tsgettoolbox.wdfn_read_normal_observations
     tsgettoolbox.wdfn_read_interval_observations
+    tsgettoolbox.about
