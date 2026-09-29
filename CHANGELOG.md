@@ -1,3 +1,9 @@
+## v26.3.2 (2026-09-29)
+
+### Fix
+
+- added wdfn_read_normal_observations and wdfn_read_interval_observations to top level import
+
 ## v26.3.1 (2026-09-26)
 
 ### Fix
