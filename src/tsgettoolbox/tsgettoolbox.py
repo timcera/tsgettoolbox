@@ -19,6 +19,7 @@ __all__ = [
     "ldas_gldas_noah_v2_1",
     "ldas_grace",
     "ldas_merra",
+    "ldas_nldas3_forcing",
     "ldas_nldas_fora",
     "ldas_nldas_noah",
     "ldas_nldas_vic",
@@ -101,6 +102,7 @@ __all__ = [
 import inspect
 import warnings
 from functools import wraps
+from typing import Literal
 
 # Local folder imports
 from .functions.cdec import cdec
@@ -141,6 +143,7 @@ from .functions.ncei import (
     ncei_precip_hly,
 )
 from .functions.ndbc import ndbc
+from .functions.nldas3 import ldas_nldas3_forcing
 from .functions.nwis import (
     epa_wqp,
     nwis,
@@ -432,6 +435,20 @@ def main():
     ldas_grace_cli = foundation_cli(ldas_grace, "ldas_grace")  # noqa: F841
 
     ldas_merra_cli = foundation_cli(ldas_merra, "ldas_merra")  # noqa: F841
+
+    @cltoolbox.command("ldas_nldas3_forcing", formatter_class=HelpFormatter)
+    @tsutils.copy_doc(ldas_nldas3_forcing)
+    def ldas_nldas3_forcing_cli(
+        lat: float,
+        lon: float,
+        variables=None,
+        startDate=None,
+        endDate=None,
+        time_interval: Literal["hourly", "daily"] = "hourly",
+    ):
+        tsutils.printiso(
+            ldas_nldas3_forcing(lat, lon, variables, startDate, endDate, time_interval)
+        )
 
     ldas_nldas_fora_cli = foundation_cli(ldas_nldas_fora, "ldas_nldas_fora")  # noqa: F841
 

@@ -15,6 +15,7 @@ dbases = [
     "channel-measurements",
     "citations",
     "combined-metadata",
+    "combined-method-citations",
     "continuous",
     "coordinate-accuracy-codes",
     "coordinate-datum-codes",
@@ -22,6 +23,7 @@ dbases = [
     "counties",
     "countries",
     "daily",
+    "edr/daily",
     "field-measurements-metadata",
     "field-measurements",
     "hydrologic-unit-codes",
@@ -56,7 +58,7 @@ respons = ar.retrieve_text(
     urls, [{"params": {"f": "json"}, "headers": {"X-Api-Key": token}}] * len(urls)
 )
 
-fnames = [f"{func_name}_queryables.json" for func_name in dbases]
+fnames = [f"{func_name}_queryables.json".replace("/", "_") for func_name in dbases]
 
 for fname, resp in zip(fnames, respons):
     with open(fname, "w", encoding="utf-8") as f:

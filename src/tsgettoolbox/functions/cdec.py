@@ -238,11 +238,9 @@ def get_data(station_ids=None, sensor_ids=None, resolutions=None, start=None, en
     else:
         start_date = pd.Timestamp(start).date()
     if end is None:
-        end_date = (
-            pd.to_datetime(datetime.datetime.now(datetime.timezone.utc))
-            .tz_localize("UTC")
-            .tz_convert("America/Los_Angeles")
-        )
+        end_date = pd.to_datetime(
+            datetime.datetime.now(datetime.timezone.utc)
+        ).tz_convert("America/Los_Angeles")
     else:
         end_date = pd.Timestamp(end).date()
 

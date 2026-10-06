@@ -25,7 +25,7 @@
     "parameter_code": {
       "title": "Parameter code",
       "type": "string",
-      "description": "Parameter codes are 5-digit codes used to identify the constituent measured and the units of measure. A complete list of parameter codes and associated groupings can be found at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/parameter-codes/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/parameter-codes/items).\n"
+      "description": "Parameter codes are 5-digit codes used to identify the constituent measured and the units of measure. A complete list of parameter codes and associated groupings can be found at [https://api.waterdata.usgs.gov/ogcapi/v1/collections/parameter-codes/items](https://api.waterdata.usgs.gov/ogcapi/v1/collections/parameter-codes/items).\n"
     },
     "parameter_name": {
       "title": "Parameter name",
@@ -51,6 +51,11 @@
       "title": "Last modified date",
       "type": "string",
       "description": "The last time a record was refreshed in our database. This may happen due to regular operational processes and does not necessarily indicate anything about the measurement has changed.\nYou can query this field using date-times or intervals, adhering to RFC 3339, or using ISO 8601 duration objects. Intervals may be bounded or half-bounded (double-dots at start or end).\nExamples:\n\n  - A date-time: \"2018-02-12T23:20:50Z\"\n  - A bounded interval: \"2018-02-12T00:00:00Z/2018-03-18T12:31:12Z\"\n  - Half-bounded intervals: \"2018-02-12T00:00:00Z/..\" or \"../2018-03-18T12:31:12Z\"\n  - Duration objects: \"P1M\" for data from the past month or \"PT36H\" for the last 36 hours\n\nOnly features that have a `last_modified` that intersects the value of datetime are selected.\n"
+    },
+    "sublocation_identifier": {
+      "title": "Sublocation identifier",
+      "type": "string",
+      "description": "An optional human-readable identifier used to specify where measurements are recorded at a monitoring location.\n"
     }
   },
   "$schema": "http://json-schema.org/draft/2019-09/schema",

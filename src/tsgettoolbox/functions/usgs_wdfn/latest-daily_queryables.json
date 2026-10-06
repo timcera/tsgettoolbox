@@ -26,12 +26,12 @@
     "parameter_code": {
       "title": "Parameter code",
       "type": "string",
-      "description": "Parameter codes are 5-digit codes used to identify the constituent measured and the units of measure. A complete list of parameter codes and associated groupings can be found at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/parameter-codes/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/parameter-codes/items).\n"
+      "description": "Parameter codes are 5-digit codes used to identify the constituent measured and the units of measure. A complete list of parameter codes and associated groupings can be found at [https://api.waterdata.usgs.gov/ogcapi/v1/collections/parameter-codes/items](https://api.waterdata.usgs.gov/ogcapi/v1/collections/parameter-codes/items).\n"
     },
     "statistic_id": {
       "title": "Statistic ID",
       "type": "string",
-      "description": "A code corresponding to the statistic an observation represents. Example codes include 00001 (max), 00002 (min), and 00003 (mean). A complete list of codes and their descriptions can be found at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/statistic-codes/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/statistic-codes/items).\n"
+      "description": "A code corresponding to the statistic an observation represents. Example codes include 00001 (max), 00002 (min), and 00003 (mean). A complete list of codes and their descriptions can be found at [https://api.waterdata.usgs.gov/ogcapi/v1/collections/statistic-codes/items](https://api.waterdata.usgs.gov/ogcapi/v1/collections/statistic-codes/items).\n"
     },
     "time": {
       "title": "Time",
@@ -71,7 +71,7 @@
     "agency_code": {
       "title": "Agency code",
       "type": "string",
-      "description": "The agency that is reporting the data. Agency codes are fixed values assigned by the National Water Information System (NWIS). A list of agency codes is available at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/agency-codes/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/agency-codes/items).\n"
+      "description": "The agency that is reporting the data. Agency codes are fixed values assigned by the National Water Information System (NWIS). A list of agency codes is available at [https://api.waterdata.usgs.gov/ogcapi/v1/collections/agency-codes/items](https://api.waterdata.usgs.gov/ogcapi/v1/collections/agency-codes/items).\n"
     },
     "agency_name": {
       "title": "Agency name",
@@ -116,12 +116,12 @@
     "county_code": {
       "title": "County code",
       "type": "string",
-      "description": "The code for the county or county equivalent (parish, borough, etc.) in which the monitoring location is located. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/counties/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/counties/items).\n"
+      "description": "The code for the county or county equivalent (parish, borough, etc.) in which the monitoring location is located. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v1/collections/counties/items](https://api.waterdata.usgs.gov/ogcapi/v1/collections/counties/items).\n"
     },
     "county_name": {
       "title": "County name",
       "type": "string",
-      "description": "The name of the county or county equivalent (parish, borough, etc.) in which the monitoring location is located. [A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/counties/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/counties/items).\n"
+      "description": "The name of the county or county equivalent (parish, borough, etc.) in which the monitoring location is located. [A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v1/collections/counties/items](https://api.waterdata.usgs.gov/ogcapi/v1/collections/counties/items).\n"
     },
     "minor_civil_division_code": {
       "title": "Minor civil division code",
@@ -131,12 +131,12 @@
     "site_type_code": {
       "title": "Monitoring location type code",
       "type": "string",
-      "description": "A code describing the hydrologic setting of the monitoring location. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/site-types/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/site-types/items).\n"
+      "description": "A code describing the hydrologic setting of the monitoring location. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v1/collections/site-types/items](https://api.waterdata.usgs.gov/ogcapi/v1/collections/site-types/items).\n"
     },
     "site_type": {
       "title": "Monitoring location type",
       "type": "string",
-      "description": "A description of the hydrologic setting of the monitoring location. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/site-types/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/site-types/items).\n"
+      "description": "A description of the hydrologic setting of the monitoring location. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v1/collections/site-types/items](https://api.waterdata.usgs.gov/ogcapi/v1/collections/site-types/items).\n"
     },
     "hydrologic_unit_code": {
       "title": "Hydrologic unit code (HUC)",
@@ -171,42 +171,42 @@
     "vertical_datum": {
       "title": "Vertical datum",
       "type": "string",
-      "description": "The datum used to determine altitude and vertical position at the monitoring location. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/altitude-datums/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/altitude-datums/items).\n"
+      "description": "The datum used to determine altitude and vertical position at the monitoring location. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v1/collections/altitude-datums/items](https://api.waterdata.usgs.gov/ogcapi/v1/collections/altitude-datums/items).\n"
     },
     "vertical_datum_name": {
       "title": "Vertical datum name",
       "type": "string",
-      "description": "The datum used to determine altitude and vertical position at the monitoring location. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/altitude-datums/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/altitude-datums/items).\n"
+      "description": "The datum used to determine altitude and vertical position at the monitoring location. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v1/collections/altitude-datums/items](https://api.waterdata.usgs.gov/ogcapi/v1/collections/altitude-datums/items).\n"
     },
     "horizontal_positional_accuracy_code": {
       "title": "Horizontal positional accuracy code",
       "type": "string",
-      "description": "Indicates the accuracy of the latitude longitude values. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/coordinate-accuracy-codes/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/coordinate-accuracy-codes/items).\n"
+      "description": "Indicates the accuracy of the latitude longitude values. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v1/collections/coordinate-accuracy-codes/items](https://api.waterdata.usgs.gov/ogcapi/v1/collections/coordinate-accuracy-codes/items).\n"
     },
     "horizontal_positional_accuracy": {
       "title": "Horizontal positional accuracy",
       "type": "string",
-      "description": "Indicates the accuracy of the latitude longitude values. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/coordinate-accuracy-codes/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/coordinate-accuracy-codes/items).\n"
+      "description": "Indicates the accuracy of the latitude longitude values. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v1/collections/coordinate-accuracy-codes/items](https://api.waterdata.usgs.gov/ogcapi/v1/collections/coordinate-accuracy-codes/items).\n"
     },
     "horizontal_position_method_code": {
       "title": "Horizontal position method code",
       "type": "string",
-      "description": "Indicates the method used to determine latitude longitude values. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/coordinate-method-codes/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/coordinate-method-codes/items).\n"
+      "description": "Indicates the method used to determine latitude longitude values. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v1/collections/coordinate-method-codes/items](https://api.waterdata.usgs.gov/ogcapi/v1/collections/coordinate-method-codes/items).\n"
     },
     "horizontal_position_method_name": {
       "title": "Horizontal position method name",
       "type": "string",
-      "description": "Indicates the method used to determine latitude longitude values. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/coordinate-method-codes/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/coordinate-method-codes/items).\n"
+      "description": "Indicates the method used to determine latitude longitude values. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v1/collections/coordinate-method-codes/items](https://api.waterdata.usgs.gov/ogcapi/v1/collections/coordinate-method-codes/items).\n"
     },
     "original_horizontal_datum": {
       "title": "Original horizontal datum",
       "type": "string",
-      "description": "Coordinates are published in EPSG:4326 / WGS84 / World Geodetic System 1984. This field indicates the original datum used to determine coordinates before they were converted. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/coordinate-datum-codes/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/coordinate-datum-codes/items).\n"
+      "description": "Coordinates are published in EPSG:4326 / WGS84 / World Geodetic System 1984. This field indicates the original datum used to determine coordinates before they were converted. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v1/collections/coordinate-datum-codes/items](https://api.waterdata.usgs.gov/ogcapi/v1/collections/coordinate-datum-codes/items).\n"
     },
     "original_horizontal_datum_name": {
       "title": "Original horizontal datum name",
       "type": "string",
-      "description": "Coordinates are published in EPSG:4326 / WGS84 / World Geodetic System 1984. This field indicates the original datum used to determine coordinates before they were converted. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/coordinate-datum-codes/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/coordinate-datum-codes/items).\n"
+      "description": "Coordinates are published in EPSG:4326 / WGS84 / World Geodetic System 1984. This field indicates the original datum used to determine coordinates before they were converted. A list of codes is available at [https://api.waterdata.usgs.gov/ogcapi/v1/collections/coordinate-datum-codes/items](https://api.waterdata.usgs.gov/ogcapi/v1/collections/coordinate-datum-codes/items).\n"
     },
     "drainage_area": {
       "title": "Drainage area",
@@ -241,7 +241,7 @@
     "national_aquifer_code": {
       "title": "National aquifer code",
       "type": "string",
-      "description": "National aquifers are the principal aquifers or aquifer systems in the United States, defined as regionally extensive aquifers or aquifer systems that have the potential to be used as a source of potable water. Not all groundwater monitoring locations can be associated with a National Aquifer. Such monitoring locations will not be retrieved using this search criteria. A list of National aquifer codes and names is available at [https://api.waterdata.usgs.gov/ogcapi/v0/collections/national-aquifer-codes/items](https://api.waterdata.usgs.gov/ogcapi/v0/collections/national-aquifer-codes/items).\n"
+      "description": "National aquifers are the principal aquifers or aquifer systems in the United States, defined as regionally extensive aquifers or aquifer systems that have the potential to be used as a source of potable water. Not all groundwater monitoring locations can be associated with a National Aquifer. Such monitoring locations will not be retrieved using this search criteria. A list of National aquifer codes and names is available at [https://api.waterdata.usgs.gov/ogcapi/v1/collections/national-aquifer-codes/items](https://api.waterdata.usgs.gov/ogcapi/v1/collections/national-aquifer-codes/items).\n"
     },
     "aquifer_type_code": {
       "title": "Aquifer type code",

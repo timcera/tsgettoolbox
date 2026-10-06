@@ -262,17 +262,24 @@ def wdfn(db_name, **kwargs):
         )
         if monitoring_location_ids[0] and (input_start is None or input_end is None):
             for monitoring_location_id in monitoring_location_ids:
-                start = pd.Timestamp.now(tz="UTC")
-                end = pd.to_datetime("1800-01-01").tz_localize("UTC")
                 station_metadata = wdfn_time_series_metadata(
                     monitoring_location_id=monitoring_location_id
                 )
-                station_metadata_start = min(
-                    pd.to_datetime(station_metadata["begin_utc"])
+                station_metadata_start = pd.to_datetime(
+                    station_metadata["begin_utc"]
+                ).min()
+                if pd.isnull(station_metadata_start):
+                    station_metadata_start = pd.to_datetime("1800-01-01").tz_localize(
+                        "UTC"
+                    )
+                station_metadata_end = pd.to_datetime(station_metadata["end_utc"]).max()
+                if pd.isnull(station_metadata_end):
+                    station_metadata_end = pd.Timestamp.now(tz="UTC")
+                start = min(station_metadata_start, pd.Timestamp.now(tz="UTC"))
+                end = max(
+                    station_metadata_end,
+                    pd.to_datetime("1800-01-01").tz_localize("UTC"),
                 )
-                station_metadata_end = max(pd.to_datetime(station_metadata["end_utc"]))
-                start = min(station_metadata_start, start)
-                end = max(station_metadata_end, end)
             if input_start is None:
                 input_start = start
             if input_end is None:
@@ -401,9 +408,15 @@ def wdfn(db_name, **kwargs):
         if "time_of_year" in collect.columns:
             time_col = "time_of_year"
 
+        dtindex = ""
         if time_col in collect.columns:
             if time_col in ["time"]:
-                collect[time_col] = pd.to_datetime(collect[time_col], utc=True)
+                if db_name in ["daily", "edr_daily"]:
+                    collect[time_col] = pd.to_datetime(collect[time_col])
+                    dtindex = "Datetime"
+                else:
+                    collect[time_col] = pd.to_datetime(collect[time_col], utc=True)
+                    dtindex = "Datetime:UTC"
             # Do it this way to enforce a particular order.
             stack_col_names = []
             if "monitoring_location_id" in collect.columns:
@@ -419,6 +432,7 @@ def wdfn(db_name, **kwargs):
             if "unit_of_measure" in collect.columns:
                 stack_col_names.append("unit_of_measure")
 
+            collect = collect.drop(columns=["index", "type"], errors="ignore")
             collect = collect.sort_values(stack_col_names + [time_col])
             collect = collect.set_index(stack_col_names + [time_col])
             collect = collect.loc[~collect.index.duplicated()]
@@ -430,9 +444,10 @@ def wdfn(db_name, **kwargs):
                 for i in col[1:-1]:
                     if pd.isna(i):
                         cols.append("")
-                    elif (
-                        i == "5"
-                    ):  # Need to make more generic - only captures percentile 5
+                    elif i == "5":
+                        # Need to make more generic - only captures percentile
+                        # "5". Percentile "5" is all that is needed to change
+                        # at the moment, but should future proof in some way.
                         cols.append("05")
                     else:
                         cols.append(str(i))
@@ -483,10 +498,12 @@ def wdfn(db_name, **kwargs):
 
     dup_names = collect.columns.duplicated()
     collect = collect.loc[:, ~dup_names]
-    collect = collect.drop(columns=["index", "type"], errors="ignore")
     collect = collect.dropna(axis="columns", how="all")
     if "id" in collect.columns:
         collect = collect.set_index("id")
+    elif dtindex:
+        collect.index.name = dtindex
+    collect = collect.apply(pd.to_numeric, errors="ignore")
     return collect
 
 
@@ -690,6 +707,25 @@ def wdfn_combined_metadata(*args, **kwargs):
     return wdfn("citations", *args, **kwargs)
 
 
+@wdfn_factory("combined-method-citations")
+def wdfn_combined_method_citations(args, **kwargs):
+    """
+    US:station:::USGS WDFN Combined method citations as table
+
+    Water measurement methods joined with their method category, their method
+    citations and those citations' descriptions — the same content as the
+    methods, method-categories, method-citations and citations collections,
+    denormalized so one request describes a method fully. A method with several
+    citations appears once per citation, all sharing the same method_id;
+    a method with no citation appears once with the citation fields null. The
+    id is synthetic (<method_id>.<citation_method_id>, with 0 standing in for
+    "no citation") because no single source column identifies a row. This
+    collection is non-spatial: method records carry no geometry, so
+    bbox/spatial filters are not supported.
+    """
+    return wdfn("combined-method-citations", *args, **kwargs)
+
+
 @wdfn_factory("continuous")
 def wdfn_continuous(*args, **kwargs):
     """
@@ -779,6 +815,25 @@ def wdfn_daily(*args, **kwargs):
     code. These data have also been referred to as “daily values” or “DV”.
     """
     return wdfn("daily", *args, **kwargs)
+
+
+@wdfn_factory("edr_daily")
+def wdfn_edr_daily(*args, **kwargs):
+    """
+    US:station::D:USGS WDFN Environmental Data Retrieval (EDR) daily data as time-series
+
+    Daily data provide one data value to represent water conditions for the
+    day. Throughout much of the history of the USGS, the primary water data
+    available was daily data collected manually at the monitoring location
+    once each day. With improved availability of computer storage and
+    automated transmission of data, the daily data published today are
+    generally a statistical summary or metric of the continuous data
+    collected each day, such as the daily mean, minimum, or maximum value.
+    Daily data are automatically calculated from the continuous data of the
+    same parameter code and are described by parameter code and a statistic
+    code. These data have also been referred to as “daily values” or “DV”.
+    """
+    return wdfn("edr_daily", *args, **kwargs)
 
 
 @wdfn_factory("field-measurements-metadata")

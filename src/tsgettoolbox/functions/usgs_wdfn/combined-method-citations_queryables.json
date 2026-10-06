@@ -1,0 +1,78 @@
+{
+  "type": "object",
+  "title": "Combined method citations",
+  "properties": {
+    "geometry": {
+      "format": "geometry-any",
+      "x-ogc-role": "primary-geometry"
+    },
+    "id": {
+      "title": "Combined method ID",
+      "type": "string",
+      "description": "A unique identifier for one method/citation pairing, formed as the `method_id`, a `.`, and the `citation_method_id`. A `0` in the second position means the method has no citation. Derived, so both halves are also available as their own properties.",
+      "x-ogc-role": "id"
+    },
+    "method_id": {
+      "title": "Method ID",
+      "type": "string",
+      "description": "The RLMS method code. Shared by every row describing the same method."
+    },
+    "method_type": {
+      "title": "Method type",
+      "type": "string",
+      "description": "Method type for measured or collected data."
+    },
+    "method_name": {
+      "title": "Method name",
+      "type": "string",
+      "description": "A short name that partially describes the method."
+    },
+    "method_description": {
+      "title": "Method description",
+      "type": "string",
+      "description": "A long name that fully describes the method."
+    },
+    "method_category": {
+      "title": "Method category",
+      "type": "string",
+      "description": "Code representing the method category standard."
+    },
+    "method_category_name": {
+      "title": "Method category name",
+      "type": "string",
+      "description": "Name representing the method category standard."
+    },
+    "method_category_description": {
+      "title": "Method category description",
+      "type": "string",
+      "description": "Full description of the method category as defined by the USGS Water Mission Area standards for field and analytical methods and their fit-for-purpose use internally and for public delivery."
+    },
+    "citation_method_id": {
+      "title": "Citation method ID",
+      "type": "integer",
+      "description": "Citation method identification number. Null when the method has no citation, in which case the `id` ends in `.0`."
+    },
+    "citation_name": {
+      "title": "Citation name",
+      "type": "string",
+      "description": "Method citation name — an abbreviated citation that describes the reference. Null when the method-citation record names none."
+    },
+    "citation_method_number": {
+      "title": "Citation method number",
+      "type": "string",
+      "description": "A number assigned to a method within a cited reference."
+    },
+    "method_source": {
+      "title": "Method source",
+      "type": "string",
+      "description": "Protocol organization code."
+    },
+    "citation_description": {
+      "title": "Citation description",
+      "type": "string",
+      "description": "Method citation description. Null when the method has no citation, and also when the method-citation record names a citation with no matching record in the citations reference list."
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "$id": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/combined-method-citations/queryables?f=json"
+}

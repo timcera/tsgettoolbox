@@ -20,6 +20,7 @@ __all__ = [
     "ldas_gldas_noah_v2_1",
     "ldas_grace",
     "ldas_merra",
+    "ldas_nldas3_forcing",
     "ldas_nldas_fora",
     "ldas_nldas_noah",
     "ldas_nldas_vic",
@@ -137,6 +138,7 @@ from .functions.ncei import (
     ncei_precip_hly,
 )
 from .functions.ndbc import ndbc
+from .functions.nldas3 import ldas_nldas3_forcing
 from .functions.nwis import (
     epa_wqp,
     nwis,
