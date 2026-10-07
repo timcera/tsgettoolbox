@@ -1,3 +1,9 @@
+## v26.4.0 (2026-10-07)
+
+### Feat
+
+- added NLDAS3, re-worked wdfn_ to return proper numeric types as needed, updates wdfn *.json files
+
 ## v26.3.2 (2026-09-29)
 
 ### Fix
