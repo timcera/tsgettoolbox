@@ -65,13 +65,16 @@ def read_monthly_url(url):
     soup = BeautifulSoup(a, "html.parser")
     x = soup.find_all("a")
     for i in x:
-        time.sleep(1)
         file_name = i.extract().get_text()
         url_new = url + file_name
         url_new = url_new.replace(" ", "%20")
         if ".csv" not in file_name:
             continue
-        df = pd.read_csv(url_new, header=0, parse_dates=["DATE"])
+        try:
+            df = pd.read_csv(url_new, header=0, parse_dates=["DATE"])
+        except:  # noqa: E722
+            time.sleep(1)
+            df = pd.read_csv(url_new, header=0, parse_dates=["DATE"])
         _ndict.setdefault(file_name, []).append(f"{min(df['DATE'])}")
         _ndict.setdefault(file_name, []).append(f"{max(df['DATE'])}")
         print(file_name, min(df["DATE"]), max(df["DATE"]))

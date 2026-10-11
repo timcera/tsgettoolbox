@@ -20,6 +20,7 @@ Python API Function Summary
     tsgettoolbox.ldas_gldas_noah_v2_1
     tsgettoolbox.ldas_grace
     tsgettoolbox.ldas_merra
+    tsgettoolbox.ldas_nldas3_forcing
     tsgettoolbox.ldas_nldas_fora
     tsgettoolbox.ldas_nldas_noah
     tsgettoolbox.ldas_nldas_vic
@@ -62,6 +63,7 @@ Python API Function Summary
     tsgettoolbox.wdfn_channel_measurements
     tsgettoolbox.wdfn_citations
     tsgettoolbox.wdfn_combined_metadata
+    tsgettoolbox.wdfn_combined_method_citations
     tsgettoolbox.wdfn_continuous
     tsgettoolbox.wdfn_coordinate_accuracy_codes
     tsgettoolbox.wdfn_coordinate_datum_codes
@@ -69,6 +71,7 @@ Python API Function Summary
     tsgettoolbox.wdfn_counties
     tsgettoolbox.wdfn_countries
     tsgettoolbox.wdfn_daily
+    tsgettoolbox.wdfn_edr_daily
     tsgettoolbox.wdfn_field_measurements
     tsgettoolbox.wdfn_field_measurements_metadata
     tsgettoolbox.wdfn_hydrologic_unit_codes

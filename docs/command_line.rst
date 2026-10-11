@@ -77,6 +77,11 @@ ldas_merra
 .. program-output:: tsgettoolbox ldas_merra --help
    :prompt:
 
+ldas_nldas3_forcing
+~~~~~~~~~~~~~~~~~~~
+.. program-output:: tsgettoolbox ldas_nldas3_forcing --help
+   :prompt:
+
 ldas_nldas_fora
 ~~~~~~~~~~~~~~~
 .. program-output:: tsgettoolbox ldas_nldas_fora --help
@@ -287,6 +292,11 @@ wdfn_combined_metadata
 .. program-output:: tsgettoolbox wdfn_combined_metadata --help
    :prompt:
 
+wdfn_combined_method_citations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. program-output:: tsgettoolbox wdfn_combined_method_citations --help
+   :prompt:
+
 wdfn_continuous
 ~~~~~~~~~~~~~~~
 .. program-output:: tsgettoolbox wdfn_continuous --help
@@ -320,6 +330,11 @@ wdfn_countries
 wdfn_daily
 ~~~~~~~~~~
 .. program-output:: tsgettoolbox wdfn_daily --help
+   :prompt:
+
+wdfn_edr_daily
+~~~~~~~~~~~~~~
+.. program-output:: tsgettoolbox wdfn_edr_daily --help
    :prompt:
 
 wdfn_field_measurements

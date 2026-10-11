@@ -89,12 +89,6 @@ _NLDAS3_STATIC = {
 }
 # fmt: on
 
-_UNITS_MAP = {}
-_UNITS_MAP.update(_NLDAS3_FORCING)
-_UNITS_MAP.update(_NLDAS3_NOAH)
-_UNITS_MAP.update(_NLDAS3_HYMAP)
-_UNITS_MAP.update(_NLDAS3_STATIC)
-
 _varmap = {
     "NLDAS3": "NLDAS3",
 }
@@ -303,6 +297,7 @@ def normalize_start_end_dates(startDate, endDate):
 
 @tsutils.transform_args(variables=tsutils.make_list)
 @validate_call
+@tsutils.doc({"units_table": make_units_table(_NLDAS3_FORCING)})
 def ldas_nldas3_forcing(
     lat: float,
     lon: float,
@@ -312,99 +307,99 @@ def ldas_nldas3_forcing(
     time_interval: Literal["hourly", "daily"] = "hourly",
 ):
     r"""
-    NAmerica:0.01deg:2001-:HDM:NLDAS Meteorological Forcing (surface)
+        NAmerica:0.01deg:2001-:HDM:NLDAS Meteorological Forcing (surface)
 
-    +------------------+-----------+-----------+-----------+---------------+
-    | Description/Name | Spatial   | Lat Range | Lon Range | Time          |
-    +==================+===========+===========+===========+===============+
-    | NLDAS V3 Forcing | 0.01x0.01 | 7, 72     | -169, -52 | 1 hr, daily,  |
-    |                  |           |           |           | monthly       |
-    |                  |           |           |           | 2001-01-01 to |
-    |                  |           |           |           | recent        |
-    +------------------+-----------+-----------+-----------+---------------+
+        +------------------+-----------+-----------+-----------+---------------+
+        | Description/Name | Spatial   | Lat Range | Lon Range | Time          |
+        +==================+===========+===========+===========+===============+
+        | NLDAS V3 Forcing | 0.01x0.01 | 7, 72     | -169, -52 | 1 hr, daily,  |
+        |                  |           |           |           | monthly       |
+        |                  |           |           |           | 2001-01-01 to |
+        |                  |           |           |           | recent        |
+        +------------------+-----------+-----------+-----------+---------------+
 
-    Baldwin, M., and K.E. Mitchell, 1997: The NCEP hourly multi-sensor U.S.
-    precipitation analysis for operations and GCIP research. Preprints,
-    13th AMS Conference on Hydrology, pp. 54-55, Am. Meteorol. Soc.,
-    Boston, Mass.
+        Baldwin, M., and K.E. Mitchell, 1997: The NCEP hourly multi-sensor U.S.
+        precipitation analysis for operations and GCIP research. Preprints,
+        13th AMS Conference on Hydrology, pp. 54-55, Am. Meteorol. Soc.,
+        Boston, Mass.
 
-    Berg, A.A., J.S. Famiglietti, J.P. Walker, and P.R. Houser, 2003:
-    Impact of bias correction to reanalysis products on simulations of
-    North American soil moisture and hydrological fluxes.  J. Geophys.
-    Res., 108(D16), 4490, doi:10.1029/2002JD003334.
+        Berg, A.A., J.S. Famiglietti, J.P. Walker, and P.R. Houser, 2003:
+        Impact of bias correction to reanalysis products on simulations of
+        North American soil moisture and hydrological fluxes.  J. Geophys.
+        Res., 108(D16), 4490, doi:10.1029/2002JD003334.
 
-    Cosgrove, B.A., et al., 2003: Real-time and retrospective forcing in
-    the North American Land Data Assimilation System (NLDAS) project.  J.
-    Geophys. Res., 108(D22), 8842, doi:10.1029/2002JD003118.
+        Cosgrove, B.A., et al., 2003: Real-time and retrospective forcing in
+        the North American Land Data Assimilation System (NLDAS) project.  J.
+        Geophys. Res., 108(D22), 8842, doi:10.1029/2002JD003118.
 
-    Daly, C., R.P. Neilson, and D.L. Phillips, 1994:
-    A statistical-topographic model for mapping climatological
-    precipitation over mountainous terrain.  J. Appl. Meteor., 33, 140-158,
-    doi:10.1175/1520-0450(1994)033<0140:ASTMFM>2.0.CO;2
+        Daly, C., R.P. Neilson, and D.L. Phillips, 1994:
+        A statistical-topographic model for mapping climatological
+        precipitation over mountainous terrain.  J. Appl. Meteor., 33, 140-158,
+        doi:10.1175/1520-0450(1994)033<0140:ASTMFM>2.0.CO;2
 
-    Fulton, R.A., J.P. Breidenbach, D.J. Seo, D.A. Miller, and T. O'Bannon,
-    1998: The WSR-88D rainfall algorithm.  Weather and Forecasting, 13,
-    377-395.
+        Fulton, R.A., J.P. Breidenbach, D.J. Seo, D.A. Miller, and T. O'Bannon,
+        1998: The WSR-88D rainfall algorithm.  Weather and Forecasting, 13,
+        377-395.
 
-    Higgins, R.W., J.E. Janowiak and Y. Yao, 1996: A gridded hourly
-    precipitation data base for the United States (1963-1993). NCEP/Climate
-    Prediction Center Atlas No. 1.
+        Higgins, R.W., J.E. Janowiak and Y. Yao, 1996: A gridded hourly
+        precipitation data base for the United States (1963-1993). NCEP/Climate
+        Prediction Center Atlas No. 1.
 
-    Higgins, R.W., W. Shi, E. Yarosh, and R. Joyce, 2000: Improved United
-    States precipitation quality control system and analysis. NCEP/Climate
-    Prediction Center Atlas No. 7.
+        Higgins, R.W., W. Shi, E. Yarosh, and R. Joyce, 2000: Improved United
+        States precipitation quality control system and analysis. NCEP/Climate
+        Prediction Center Atlas No. 7.
 
-    Mitchell, K.E., et al., 2004: The multi-institution North American Land
-    Data Assimilation System (NLDAS): Utilizing multiple GCIP products and
-    partners in a continental distributed hydrological modeling system.  J.
-    Geophys. Res., 109, D07S90, doi:10.1029/2003JD003823.
+        Mitchell, K.E., et al., 2004: The multi-institution North American Land
+        Data Assimilation System (NLDAS): Utilizing multiple GCIP products and
+        partners in a continental distributed hydrological modeling system.  J.
+        Geophys. Res., 109, D07S90, doi:10.1029/2003JD003823.
 
-    Mo, K.C., L.-C. Chen, S. Shukla, T.J. Bohn, and D.P. Lettenmaier, 2012:
-    Uncertainties in North American Land Data Assimilation Systems over the
-    Contiguous United States.  J. Hydrometeor, 13, 996-1009,
-    doi:10.1175/JHM-D-11-0132.1
+        Mo, K.C., L.-C. Chen, S. Shukla, T.J. Bohn, and D.P. Lettenmaier, 2012:
+        Uncertainties in North American Land Data Assimilation Systems over the
+        Contiguous United States.  J. Hydrometeor, 13, 996-1009,
+        doi:10.1175/JHM-D-11-0132.1
 
-    Pinker, R.T., et al., 2003: Surface radiation budgets in support of the
-    GEWEX Continental-Scale International Project (GCIP) and the GEWEX
-    Americas Prediction Project (GAPP), including the North American Land
-    Data Assimilation System (NLDAS) project.  J. Geophys. Res., 108(D22),
-    8844, doi:10.1029/2002JD003301.
+        Pinker, R.T., et al., 2003: Surface radiation budgets in support of the
+        GEWEX Continental-Scale International Project (GCIP) and the GEWEX
+        Americas Prediction Project (GAPP), including the North American Land
+        Data Assimilation System (NLDAS) project.  J. Geophys. Res., 108(D22),
+        8844, doi:10.1029/2002JD003301.
 
-    Parameters
-    ----------
-    lat : float
-        Latitude (required): Enter single geographic latitude point. Use
-        positive values for the northern hemisphere and negative for the
-        southern hemisphere.  The valid range is specified in the table
-        above.
+        Parameters
+        ----------
+        lat : float
+            Latitude (required): Enter single geographic latitude point. Use
+            positive values for the northern hemisphere and negative for the
+            southern hemisphere.  The valid range is specified in the table
+            above.
 
-    lon : float
-        Longitude (required): Enter single geographic longitude point. Use
-        positive for the eastern hemisphere and negative for the western
-        hemisphere.  The valid range is specified in the table above.
+        lon : float
+            Longitude (required): Enter single geographic longitude point. Use
+            positive for the eastern hemisphere and negative for the western
+            hemisphere.  The valid range is specified in the table above.
 
-    variables : str
-        For the command line a comma separated string of variable codes
-        from the following table.  Using the Python API a list of variable
-        strings.  Valid variable names are specified in the table below.
+        variables : str
+            For the command line a comma separated string of variable codes
+            from the following table.  Using the Python API a list of variable
+            strings.  Valid variable names are specified in the table below.
 
-        ${units_table}
+    ${units_table}
 
-    startDate : str
-        The start date of the time series.::
+        startDate : str
+            The start date of the time series.::
 
-            Example: --startDate=2001-01-01T05
+                Example: --startDate=2001-01-01T05
 
-        If startDate and endDate are None, returns the entire series.
-    endDate : str
-        The end date of the time series.::
+            If startDate and endDate are None, returns the entire series.
+        endDate : str
+            The end date of the time series.::
 
-            Example: --endDate=2002-01-05T05
+                Example: --endDate=2002-01-05T05
 
-        If startDate and endDate are None, returns the entire series.
-    time_interval : str
-        The time interval of the data to retrieve. Can be either "hourly"
-        or "daily". Defaults to "hourly".
+            If startDate and endDate are None, returns the entire series.
+        time_interval : str
+            The time interval of the data to retrieve. Can be either "hourly"
+            or "daily". Defaults to "hourly".
     """
     if os.path.exists("debug_tsgettoolbox"):
         logger.warning(f"{lat=}, {lon=}, {variables=}, {startDate=}, {endDate=}")
@@ -450,7 +445,7 @@ def ldas_nldas3_forcing(
             df = pd.DataFrame(
                 sub[get_var].load(),
                 index=index,
-                columns=[f"{get_var}:{_UNITS_MAP[get_var][1]}"],
+                columns=[f"{get_var}:{_NLDAS3_FORCING[get_var][1]}"],
             )
             df.index.name = "Datetime:UTC"
             df = df.tz_localize("UTC")

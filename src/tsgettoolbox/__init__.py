@@ -6,7 +6,6 @@ web services.
 """
 
 __all__ = [
-    "cdec",
     "coops",
     "daymet",
     "epa_wqp",
@@ -100,7 +99,6 @@ __all__ = [
 ]
 
 # Local folder imports
-from .functions.cdec import cdec
 from .functions.coops import coops
 from .functions.daymet import daymet
 from .functions.fawn import fawn
@@ -197,3 +195,9 @@ from .functions.usgs_wdfn.usgs_wdfn import (
     wdfn_time_zone_codes,
     wdfn_topographic_codes,
 )
+
+try:
+    # Third party imports
+    from tsgettoolbox_cdec.cdec import cdec  # noqa: F401
+except ImportError:
+    pass

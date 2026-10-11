@@ -5,99 +5,6 @@ This program is a collection of utilities to download data from various
 web services.
 """
 
-__all__ = [
-    "cdec",
-    "coops",
-    "daymet",
-    "fawn",
-    "hydstra_catalog",
-    "hydstra_stations",
-    "hydstra_ts",
-    "ldas",
-    "ldas_gldas_noah",
-    "ldas_gldas_noah_v2_0",
-    "ldas_gldas_noah_v2_1",
-    "ldas_grace",
-    "ldas_merra",
-    "ldas_nldas3_forcing",
-    "ldas_nldas_fora",
-    "ldas_nldas_noah",
-    "ldas_nldas_vic",
-    "ldas_smerge",
-    "metdata",
-    "modis",
-    "ncei_annual",
-    "ncei_ghcnd",
-    "ncei_ghcnd_ftp",
-    "ncei_ghcndms",
-    "ncei_gsod",
-    "ncei_gsom",
-    "ncei_gsoy",
-    "ncei_ish",
-    "ncei_nexrad2",
-    "ncei_nexrad3",
-    "ncei_normal_ann",
-    "ncei_normal_dly",
-    "ncei_normal_hly",
-    "ncei_normal_mly",
-    "ncei_precip_15",
-    "ncei_precip_hly",
-    "ndbc",
-    "nwis",
-    "nwis_dv",
-    "nwis_gwlevels",
-    "nwis_iv",
-    "nwis_measurements",
-    "nwis_peak",
-    "nwis_site",
-    "nwis_stat",
-    "rivergages",
-    "terraclimate",
-    "terraclimate19812010",
-    "terraclimate19912020",
-    "twc",
-    "unavco",
-    "wdfn_agency_codes",
-    "wdfn_altitude_datums",
-    "wdfn_aquifer_codes",
-    "wdfn_aquifer_types",
-    "wdfn_channel_measurements",
-    "wdfn_citations",
-    "wdfn_combined_metadata",
-    "wdfn_continuous",
-    "wdfn_coordinate_accuracy_codes",
-    "wdfn_coordinate_datum_codes",
-    "wdfn_coordinate_method_codes",
-    "wdfn_counties",
-    "wdfn_countries",
-    "wdfn_daily",
-    "wdfn_field_measurements",
-    "wdfn_field_measurements_metadata",
-    "wdfn_hydrologic_unit_codes",
-    "wdfn_latest_continuous",
-    "wdfn_latest_daily",
-    "wdfn_latest_field_measurements",
-    "wdfn_medium_codes",
-    "wdfn_method_categories",
-    "wdfn_method_citations",
-    "wdfn_methods",
-    "wdfn_monitoring_locations",
-    "wdfn_national_aquifer_codes",
-    "wdfn_parameter_codes",
-    "wdfn_peaks",
-    "wdfn_read_interval_observations",
-    "wdfn_read_normal_observations",
-    "wdfn_reliability_codes",
-    "wdfn_site_types",
-    "wdfn_states",
-    "wdfn_statistic_codes",
-    "wdfn_time_series_metadata",
-    "wdfn_time_series_methods",
-    "wdfn_time_series_revisions",
-    "wdfn_time_zone_codes",
-    "wdfn_topographic_codes",
-]
-
 # Standard library imports
 import inspect
 import warnings
@@ -105,7 +12,6 @@ from functools import wraps
 from typing import Literal
 
 # Local folder imports
-from .functions.cdec import cdec
 from .functions.coops import coops
 from .functions.daymet import daymet
 from .functions.fawn import fawn
@@ -200,9 +106,14 @@ from .functions.usgs_wdfn.usgs_wdfn import (
     wdfn_time_series_methods,
     wdfn_time_series_revisions,
     wdfn_time_zone_codes,
-    wdfn_topographic_codes,
 )
 from .toolbox_utils.src.toolbox_utils import tsutils
+
+try:
+    # Third party imports
+    from tsgettoolbox_cdec.cdec import cdec
+except ImportError:
+    pass
 
 warnings.filterwarnings("ignore")
 
@@ -246,10 +157,14 @@ def main():
     if not os.path.exists("debug_tsgettoolbox"):
         sys.tracebacklimit = 0
 
-    @cltoolbox.command("cdec", formatter_class=HelpFormatter)
-    @cli_decorator(cdec)
-    def cdec_cli(*args, **kwargs):
-        """CDEC_CLI"""
+    try:
+
+        @cltoolbox.command("cdec", formatter_class=HelpFormatter)
+        @cli_decorator(cdec)
+        def cdec_cli(*args, **kwargs):
+            """CDEC_CLI"""
+    except NameError:
+        pass
 
     @cltoolbox.command("coops", formatter_class=HelpFormatter)
     @cli_decorator(coops)
