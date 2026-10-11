@@ -1,3 +1,13 @@
+## v27.0.0 (2026-10-10)
+
+### BREAKING CHANGE
+
+- the plugin architecture needs to advance in one step
+
+### Refactor
+
+- started development of plugin system to have the smallest number of dependencies
+
 ## v26.4.0 (2026-10-07)
 
 ### Feat
