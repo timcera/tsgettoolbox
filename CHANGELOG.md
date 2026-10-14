@@ -1,3 +1,9 @@
+## v27.1.0 (2026-10-14)
+
+### Feat
+
+- finished all plugin style architecture
+
 ## v27.0.0 (2026-10-10)
 
 ### BREAKING CHANGE
