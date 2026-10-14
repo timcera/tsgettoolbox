@@ -12,25 +12,28 @@ from functools import wraps
 from typing import Literal
 
 # Local folder imports
-from .functions.coops import coops
-from .functions.daymet import daymet
-from .functions.fawn import fawn
-from .functions.hydstra import hydstra_catalog, hydstra_stations, hydstra_ts
-from .functions.ldas import (
+from . import (
+    cdec,
+    coops,
+    daymet,
+    epa_wqp,
+    fawn,
+    hydstra_catalog,
+    hydstra_stations,
+    hydstra_ts,
     ldas,
     ldas_gldas_noah,
     ldas_gldas_noah_v2_0,
     ldas_gldas_noah_v2_1,
     ldas_grace,
     ldas_merra,
+    ldas_nldas3_forcing,
     ldas_nldas_fora,
     ldas_nldas_noah,
     ldas_nldas_vic,
     ldas_smerge,
-)
-from .functions.metdata import metdata
-from .functions.modis import modis
-from .functions.ncei import (
+    metdata,
+    modis,
     ncei_annual,
     ncei_ghcnd,
     ncei_ghcnd_ftp,
@@ -47,11 +50,7 @@ from .functions.ncei import (
     ncei_normal_mly,
     ncei_precip_15,
     ncei_precip_hly,
-)
-from .functions.ndbc import ndbc
-from .functions.nldas3 import ldas_nldas3_forcing
-from .functions.nwis import (
-    epa_wqp,
+    ndbc,
     nwis,
     nwis_dv,
     nwis_gwlevels,
@@ -60,14 +59,12 @@ from .functions.nwis import (
     nwis_peak,
     nwis_site,
     nwis_stat,
-)
-from .functions.rivergages import rivergages
-from .functions.terraclimate import terraclimate
-from .functions.terraclimate19812010 import terraclimate19812010
-from .functions.terraclimate19912020 import terraclimate19912020
-from .functions.twc import twc
-from .functions.unavco import unavco
-from .functions.usgs_wdfn.usgs_wdfn import (
+    rivergages,
+    terraclimate,
+    terraclimate19812010,
+    terraclimate19912020,
+    twc,
+    unavco,
     wdfn_agency_codes,
     wdfn_altitude_datums,
     wdfn_aquifer_codes,
@@ -108,12 +105,6 @@ from .functions.usgs_wdfn.usgs_wdfn import (
     wdfn_time_zone_codes,
 )
 from .toolbox_utils.src.toolbox_utils import tsutils
-
-try:
-    # Third party imports
-    from tsgettoolbox_cdec.cdec import cdec
-except ImportError:
-    pass
 
 warnings.filterwarnings("ignore")
 
@@ -157,14 +148,10 @@ def main():
     if not os.path.exists("debug_tsgettoolbox"):
         sys.tracebacklimit = 0
 
-    try:
-
-        @cltoolbox.command("cdec", formatter_class=HelpFormatter)
-        @cli_decorator(cdec)
-        def cdec_cli(*args, **kwargs):
-            """CDEC_CLI"""
-    except NameError:
-        pass
+    @cltoolbox.command("cdec", formatter_class=HelpFormatter)
+    @cli_decorator(cdec)
+    def cdec_cli(*args, **kwargs):
+        """CDEC_CLI"""
 
     @cltoolbox.command("coops", formatter_class=HelpFormatter)
     @cli_decorator(coops)

@@ -358,9 +358,7 @@ def opendap(
     # If the url is a single variable url, it doesn't matter which variable is
     # used to download the lat and lon data.  So use the first.
     if single_var_url is True:
-        print(variables)
         dataset = open_url(url.format(variables[0]))
-        print(dataset)
     else:
         dataset = open_url(url)
 
@@ -425,12 +423,14 @@ def opendap(
                 # If the dates are byte strings b"2001-01-01"...
                 time_ds = pd.to_datetime([i.decode("ascii") for i in time_ds.data[:]])
 
+        ser = time_ds.data[:]
+        ser = ser.astype(ser.dtype.newbyteorder("="))
+        time_ds.data = ser
+
         if (start_date is not None) or (end_date is not None):
             tndf = pd.DataFrame(range(len(time_ds)), index=time_ds)
             timedfindex = tndf.index
 
-        print(timedfindex)
-        print(start_date)
         if start_date is None:
             start_date_index = None
         else:
@@ -484,12 +484,16 @@ def opendap(
                 """
             )
         )
-    try:
-        ndf.index = ndf.index.tz_localize(tzname)
-    except TypeError:
-        ndf.index = ndf.index.tz_convert(tzname)
 
-    ndf.index.name = f"Datetime:{tzname}"
+    try:
+        try:
+            ndf.index = ndf.index.tz_localize(tzname)
+        except TypeError:
+            ndf.index = ndf.index.tz_convert(tzname)
+
+        ndf.index.name = f"Datetime:{tzname}"
+    except AttributeError:
+        ndf.index.name = "Index"
 
     return ndf
 

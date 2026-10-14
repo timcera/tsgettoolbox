@@ -32,10 +32,8 @@ dependencies = [
     "beautifulsoup4",
     "cftime",
     "cltoolbox >=4.0.4", # this version ignores type-hints other than int, float, str, bool, and None
-    "dask",
     "dateparser",
     "deprecated",
-    "fsspec",
     "geojson",
     "haversine",
     "httpretty",
@@ -56,9 +54,7 @@ dependencies = [
     "scipy",
     "siphon",
     "suds-community",
-    "tabulate",
-    "xarray",
-    "zarr"
+    "tabulate"
 ]
 description = "Will get time series from different sources on the internet"
 dynamic = ["readme", "version"]
