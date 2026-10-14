@@ -34,10 +34,10 @@ The current plugins are:
   + California Department of Water Resources (CDEC) time series data
 * tsgettoolbox_coops
   + Center for Operational Oceanographic Products and Services (CO-OPS) time
-    series data
+  series data
 * tsgettoolbox_daymet
   + Daily meteorology by the Oak Ridge National Laboratory (Daymet) gridded
-    data
+  data
 * tsgettoolbox_fawn
   + Florida Automated Weather Network (FAWN) time series data
 * tsgettoolbox_hydstra
@@ -56,7 +56,7 @@ The current plugins are:
   + North American Land Data Assimilation System (NLDAS) version 3 gridded data
 * tsgettoolbox_nwis
   + USGS National Water Information System (NWIS) time series data (USGS will
-    turn off NWIS in 2027, use functions in tsgettoolbox_wdfn instead)
+  turn off NWIS in 2027, use functions in tsgettoolbox_wdfn instead)
 * tsgettoolbox_rivergages
   + USACE river gages time series data
 * tsgettoolbox_terraclimate
