@@ -32,6 +32,7 @@ dependencies = [
     "dateparser",
     "geojson",
     "haversine",
+    "httpretty",
     "isodate",
     "jinja2", # needed here until included in pydap
     "numpy",
@@ -44,6 +45,7 @@ dependencies = [
     "requests",
     "scipy",
     "siphon",
+    "suds-community",
     "tabulate"
 ]
 description = "Will get time series from different sources on the internet"
