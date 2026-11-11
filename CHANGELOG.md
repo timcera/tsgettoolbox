@@ -1,3 +1,9 @@
+## v27.1.1 (2026-11-10)
+
+### Fix
+
+- removed unused dependencies that are now part of plugins, use "cli_decorator" exclusively, clean up
+
 ## v27.1.0 (2026-10-14)
 
 ### Feat
