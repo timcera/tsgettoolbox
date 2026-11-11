@@ -9,7 +9,6 @@ web services.
 import inspect
 import warnings
 from functools import wraps
-from typing import Literal
 
 # Local folder imports
 from . import (
@@ -42,8 +41,6 @@ from . import (
     ncei_gsom,
     ncei_gsoy,
     ncei_ish,
-    ncei_nexrad2,
-    ncei_nexrad3,
     ncei_normal_ann,
     ncei_normal_dly,
     ncei_normal_hly,
@@ -133,13 +130,11 @@ def main():
     r"""Main function."""
     # from argparse import RawTextHelpFormatter as HelpFormatter
     # Standard library imports
-    import datetime
     import os.path
     import sys
 
     # Third party imports
     import cltoolbox
-    import pandas as pd
     from cltoolbox.rst_text_formatter import RSTHelpFormatter as HelpFormatter
 
     # Local folder imports
@@ -159,902 +154,256 @@ def main():
         """COOPS"""
 
     @cltoolbox.command("daymet", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(daymet)
-    def daymet_cli(
-        lat,
-        lon,
-        start_date=None,
-        end_date=None,
-        years=None,
-        measuredParams="all",
-    ):
-        if start_date is None:
-            start_date = pd.Timestamp("1980-01-01")
-        tsutils.printiso(
-            daymet(
-                lat,
-                lon,
-                start_date=start_date,
-                end_date=end_date,
-                years=years,
-                measuredParams=measuredParams,
-            )
-        )
+    @cli_decorator(daymet)
+    def daymet_cli(*args, **kwargs):
+        """DAYMET"""
 
     @cltoolbox.command("epa_wqp", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(epa_wqp)
-    def epa_wqp_cli(
-        bBox=None,
-        lat=None,
-        lon=None,
-        within=None,
-        countrycode=None,
-        statecode=None,
-        countycode=None,
-        siteType=None,
-        organization=None,
-        siteid=None,
-        huc=None,
-        sampleMedia=None,
-        characteristicType=None,
-        characteristicName=None,
-        pCode=None,
-        activityId=None,
-        startDateLo=None,
-        startDateHi=None,
-    ):
-        tsutils.printiso(
-            epa_wqp(
-                bBox=bBox,
-                lat=lat,
-                lon=lon,
-                within=within,
-                countrycode=countrycode,
-                statecode=statecode,
-                countycode=countycode,
-                siteType=siteType,
-                organization=organization,
-                siteid=siteid,
-                huc=huc,
-                sampleMedia=sampleMedia,
-                characteristicType=characteristicType,
-                characteristicName=characteristicName,
-                pCode=pCode,
-                activityId=activityId,
-                startDateLo=startDateLo,
-                startDateHi=startDateHi,
-            )
-        )
+    @cli_decorator(epa_wqp)
+    def epa_wqp_cli(*args, **kwargs):
+        """EPA_WQP"""
 
     @cltoolbox.command("fawn", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(fawn)
-    def fawn_cli(
-        stations,
-        variables,
-        reportType,
-        start_date=None,
-        end_date=None,
-    ):
-        if start_date is None:
-            start_date = datetime.datetime(1998, 1, 1, tzinfo=datetime.timezone.utc)
-        if end_date is None:
-            end_date = datetime.datetime.now(datetime.timezone.utc)
-        tsutils.printiso(
-            fawn(
-                stations,
-                variables,
-                reportType,
-                start_date=start_date,
-                end_date=end_date,
-            )
-        )
+    @cli_decorator(fawn)
+    def fawn_cli(*args, **kwargs):
+        """FAWN"""
 
     @cltoolbox.command("hydstra_catalog", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(hydstra_catalog)
-    def hydstra_catalog_cli(server, station, isleep=0, tablefmt="csv"):
-        catalogdf = hydstra_catalog(server, station, isleep=isleep)
-        tsutils.printiso(catalogdf, tablefmt=tablefmt, headers="keys", showindex=False)
+    @cli_decorator(hydstra_catalog)
+    def hydstra_catalog_cli(*args, **kwargs):
+        """HYDSTRA_CATALOG"""
 
     @cltoolbox.command("hydstra_stations", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(hydstra_stations)
-    def hydstra_stations_cli(server, activeonly=False, latlong=False, tablefmt="csv"):
-        sitedf = hydstra_stations(server, activeonly=activeonly, latlong=latlong)
-        tsutils.printiso(sitedf, headers="keys", tablefmt=tablefmt, showindex=False)
+    @cli_decorator(hydstra_stations)
+    def hydstra_stations_cli(*args, **kwargs):
+        """HYDSTRA_STATIONS"""
 
     @cltoolbox.command("hydstra_ts", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(hydstra_ts)
-    def hydstra_ts_cli(
-        server,
-        station,
-        variable,
-        start_time,
-        end_time,
-        interval="day",
-        provisional=False,
-        datasource=None,
-        aggcode=None,
-        quality=False,
-        maxqual=254,
-    ):
-        tsutils.printiso(
-            hydstra_ts(
-                server,
-                station,
-                variable,
-                start_time,
-                end_time,
-                interval=interval,
-                provisional=provisional,
-                datasource=datasource,
-                aggcode=aggcode,
-                quality=quality,
-                maxqual=maxqual,
-            )
-        )
+    @cli_decorator(hydstra_ts)
+    def hydstra_ts_cli(*args, **kwargs):
+        """HYDSTRA_TS"""
 
-    def foundation_cli(
-        function,
-        cli_name,
-        formatter_class=HelpFormatter,
-    ):
-        """Create a foundation CLI function for LDAS returning a function."""
+    @cltoolbox.command("ldas", formatter_class=HelpFormatter)
+    @cli_decorator(ldas)
+    def ldas_cli(*args, **kwargs):
+        """LDAS"""
 
-        @cltoolbox.command(cli_name, formatter_class=formatter_class)
-        @tsutils.copy_doc(function)
-        def ldas_cli(
-            lat=None,
-            lon=None,
-            variables=None,
-            startDate=None,
-            endDate=None,
-            variable=None,
-        ):
-            tsutils.printiso(
-                function(
-                    lat,
-                    lon,
-                    variables=variables,
-                    startDate=startDate,
-                    endDate=endDate,
-                    variable=variable,
-                )
-            )
+    @cltoolbox.command("ldas_gldas_noah", formatter_class=HelpFormatter)
+    @cli_decorator(ldas_gldas_noah)
+    def ldas_gldas_noah_cli(*args, **kwargs):
+        """LDAS_GLDA_NOAH"""
 
-        return ldas_cli
+    @cltoolbox.command("ldas_gldas_noah_v2_0", formatter_class=HelpFormatter)
+    @cli_decorator(ldas_gldas_noah_v2_0)
+    def ldas_gldas_noah_v2_0_cli(*args, **kwargs):
+        """LDAS_GLDA_NOAH_V2_0"""
 
-    ldas_cli = foundation_cli(ldas, "ldas")  # noqa: F841
+    @cltoolbox.command("ldas_gldas_noah_v2_1", formatter_class=HelpFormatter)
+    @cli_decorator(ldas_gldas_noah_v2_1)
+    def ldas_gldas_noah_v2_1_cli(*args, **kwargs):
+        """LDAS_GLDA_NOAH_V2_1"""
 
-    ldas_gldas_noah_cli = foundation_cli(ldas_gldas_noah, "ldas_gldas_noah")  # noqa: F841
+    @cltoolbox.command("ldas_grace", formatter_class=HelpFormatter)
+    @cli_decorator(ldas_grace)
+    def ldas_grace_cli(*args, **kwargs):
+        """LDAS_GRACE"""
 
-    ldas_gldas_noah_v2_0_cli = foundation_cli(  # noqa: F841
-        ldas_gldas_noah_v2_0, "ldas_gldas_noah_v2_0"
-    )
-
-    ldas_gldas_noah_v2_1_cli = foundation_cli(  # noqa: F841
-        ldas_gldas_noah_v2_1, "ldas_gldas_noah_v2_1"
-    )
-
-    ldas_grace_cli = foundation_cli(ldas_grace, "ldas_grace")  # noqa: F841
-
-    ldas_merra_cli = foundation_cli(ldas_merra, "ldas_merra")  # noqa: F841
+    @cltoolbox.command("ldas_merra", formatter_class=HelpFormatter)
+    @cli_decorator(ldas_merra)
+    def ldas_merra_cli(*args, **kwargs):
+        """LDAS_MERRA"""
 
     @cltoolbox.command("ldas_nldas3_forcing", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ldas_nldas3_forcing)
-    def ldas_nldas3_forcing_cli(
-        lat: float,
-        lon: float,
-        variables=None,
-        startDate=None,
-        endDate=None,
-        time_interval: Literal["hourly", "daily"] = "hourly",
-    ):
-        tsutils.printiso(
-            ldas_nldas3_forcing(lat, lon, variables, startDate, endDate, time_interval)
-        )
+    @cli_decorator(ldas_nldas3_forcing)
+    def ldas_nldas3_forcing_cli(*args, **kwargs):
+        """LDAS_NLDAS3_FORCING"""
 
-    ldas_nldas_fora_cli = foundation_cli(ldas_nldas_fora, "ldas_nldas_fora")  # noqa: F841
+    @cltoolbox.command("ldas_nldas_fora", formatter_class=HelpFormatter)
+    @cli_decorator(ldas_nldas_fora)
+    def ldas_nldas_fora_cli(*args, **kwargs):
+        """LDAS_NLDAS_FORA"""
 
-    ldas_nldas_noah_cli = foundation_cli(ldas_nldas_noah, "ldas_nldas_noah")  # noqa: F841
+    @cltoolbox.command("ldas_nldas_noah", formatter_class=HelpFormatter)
+    @cli_decorator(ldas_nldas_noah)
+    def ldas_nldas_noah_cli(*args, **kwargs):
+        """LDAS_NLDAS_NOAH"""
 
-    ldas_nldas_vic_cli = foundation_cli(ldas_nldas_vic, "ldas_nldas_vic")  # noqa: F841
+    @cltoolbox.command("ldas_nldas_vic", formatter_class=HelpFormatter)
+    @cli_decorator(ldas_nldas_vic)
+    def ldas_nldas_vic_cli(*args, **kwargs):
+        """LDAS_NLDAS_VIC"""
 
-    ldas_smerge_cli = foundation_cli(ldas_smerge, "ldas_smerge")  # noqa: F841
+    @cltoolbox.command("ldas_smerge", formatter_class=HelpFormatter)
+    @cli_decorator(ldas_smerge)
+    def ldas_smerge_cli(*args, **kwargs):
+        """LDAS_SMERGE"""
 
     @cltoolbox.command("metdata", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(metdata)
-    def metdata_cli(
-        lat,
-        lon,
-        variables=None,
-        start_date=None,
-        end_date=None,
-    ):
-        tsutils.printiso(
-            metdata(
-                lat,
-                lon,
-                variables=variables,
-                start_date=start_date,
-                end_date=end_date,
-            )
-        )
+    @cli_decorator(metdata)
+    def metdata_cli(*args, **kwargs):
+        """METDATA"""
 
     @cltoolbox.command("modis", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(modis)
-    def modis_cli(lat, lon, product, band, start_date=None, end_date=None):
-        tsutils.printiso(
-            modis(lat, lon, product, band, start_date=start_date, end_date=end_date)
-        )
+    @cli_decorator(modis)
+    def modis_cli(*args, **kwargs):
+        """MODIS"""
 
-    # ANNUAL
     @cltoolbox.command("ncei_annual", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ncei_annual)
-    def ncei_annual_cli(stationid, start_date=None, end_date=None):
-        tsutils.printiso(
-            ncei_annual(stationid, start_date=start_date, end_date=end_date),
-        )
+    @cli_decorator(ncei_annual)
+    def ncei_annual_cli(*args, **kwargs):
+        """NCEI_ANNUAL"""
 
-    # 1763-01-01, 2016-11-05, Daily Summaries             , 1    , GHCND
     @cltoolbox.command("ncei_ghcnd", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ncei_ghcnd)
-    def ncei_ghcnd_cli(stationid, start_date=None, end_date=None):
-        tsutils.printiso(
-            ncei_ghcnd(stationid, start_date=start_date, end_date=end_date),
-        )
+    @cli_decorator(ncei_ghcnd)
+    def ncei_ghcnd_cli(*args, **kwargs):
+        """NCEI_GHCND"""
 
     @cltoolbox.command("ncei_ghcnd_ftp", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ncei_ghcnd_ftp)
-    def ncei_ghcnd_ftp_cli(stationid, start_date=None, end_date=None):
-        tsutils.printiso(
-            ncei_ghcnd_ftp(stationid, start_date=start_date, end_date=end_date),
-        )
+    @cli_decorator(ncei_ghcnd_ftp)
+    def ncei_ghcnd_ftp_cli(*args, **kwargs):
+        """NCEI_GHCND_FTP"""
 
-    # GHCNDMS
     @cltoolbox.command("ncei_ghcndms", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ncei_ghcndms)
-    def ncei_ghcndms_cli(stationid, start_date=None, end_date=None):
-        tsutils.printiso(
-            ncei_ghcndms(stationid, start_date=start_date, end_date=end_date),
-        )
+    @cli_decorator(ncei_ghcndms)
+    def ncei_ghcndms_cli(*args, **kwargs):
+        """NCEI_GHCNDMS"""
 
     @cltoolbox.command("ncei_gsod", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ncei_gsod)
-    def ncei_gsod_cli(stationid, start_date=None, end_date=None):
-        tsutils.printiso(
-            ncei_gsod(stationid, start_date=start_date, end_date=end_date),
-        )
+    @cli_decorator(ncei_gsod)
+    def ncei_gsod_cli(*args, **kwargs):
+        """NCEI_GSOD"""
 
-    # 1763-01-01, 2016-09-01, Global Summary of the Month , 1    , GSOM
     @cltoolbox.command("ncei_gsom", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ncei_gsom)
-    def ncei_gsom_cli(stationid, start_date=None, end_date=None):
-        tsutils.printiso(
-            ncei_gsom(
-                stationid,
-                start_date=start_date,
-                end_date=end_date,
-            ),
-        )
+    @cli_decorator(ncei_gsom)
+    def ncei_gsom_cli(*args, **kwargs):
+        """NCEI_GSOM"""
 
-    # 1763-01-01, 2016-01-01, Global Summary of the Year  , 1    , GSOY
     @cltoolbox.command("ncei_gsoy", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ncei_gsoy)
-    def ncei_gsoy_cli(stationid, start_date=None, end_date=None):
-        tsutils.printiso(
-            ncei_gsoy(
-                stationid,
-                start_date=start_date,
-                end_date=end_date,
-            ),
-        )
+    @cli_decorator(ncei_gsoy)
+    def ncei_gsoy_cli(*args, **kwargs):
+        """NCEI_GSOY"""
 
     @cltoolbox.command("ncei_ish", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ncei_ish)
-    def ncei_ish_cli(stationid, start_date=None, end_date=None):
-        tsutils.printiso(
-            ncei_ish(stationid, start_date=start_date, end_date=end_date),
-        )
+    @cli_decorator(ncei_ish)
+    def ncei_ish_cli(*args, **kwargs):
+        """NCEI_ISH"""
 
-    # 1991-06-05, 2016-11-06, Weather Radar (Level II)    , 0.95 , NEXRAD2
-    # @cltoolbox.command('ncei_nexrad2', formatter_class=HelpFormatter)
-    def ncei_nexrad2_cli(stationid, start_date=None, end_date=None):
-        tsutils.printiso(
-            ncei_nexrad2(stationid, start_date=start_date, end_date=end_date),
-        )
-
-    # 1991-06-05, 2016-11-06, Weather Radar (Level III)   , 0.95 , NEXRAD3
-    # @cltoolbox.command('ncei_nexrad3',formatter_class=HelpFormatter)
-    def ncei_nexrad3_cli(stationid, start_date=None, end_date=None):
-        return tsutils.printiso(
-            ncei_nexrad3(stationid, start_date=start_date, end_date=end_date),
-        )
-
-    # 2010-01-01, 2010-01-01, Normals Annual/Seasonal     , 1    , NORMAL_ANN
     @cltoolbox.command("ncei_normal_ann", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ncei_normal_ann)
-    def ncei_normal_ann_cli(stationid):
-        tsutils.printiso(ncei_normal_ann(stationid))
+    @cli_decorator(ncei_normal_ann)
+    def ncei_normal_ann_cli(*args, **kwargs):
+        """NCEI_NORMAL_ANN"""
 
-    # 2010-01-01, 2010-12-31, Normals Daily               , 1    , NORMAL_DLY
     @cltoolbox.command("ncei_normal_dly", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ncei_normal_dly)
-    def ncei_normal_dly_cli(stationid):
-        tsutils.printiso(ncei_normal_dly(stationid))
+    @cli_decorator(ncei_normal_dly)
+    def ncei_normal_dly_cli(*args, **kwargs):
+        """NCEI_NORMAL_DLY"""
 
-    # 2010-01-01, 2010-12-31, Normals Hourly              , 1    , NORMAL_HLY
     @cltoolbox.command("ncei_normal_hly", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ncei_normal_hly)
-    def ncei_normal_hly_cli(stationid):
-        tsutils.printiso(ncei_normal_hly(stationid))
+    @cli_decorator(ncei_normal_hly)
+    def ncei_normal_hly_cli(*args, **kwargs):
+        """NCEI_NORMAL_HLY"""
 
-    # 2010-01-01, 2010-12-01, Normals Monthly             , 1    , NORMAL_MLY
     @cltoolbox.command("ncei_normal_mly", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ncei_normal_mly)
-    def ncei_normal_mly_cli(stationid):
-        tsutils.printiso(ncei_normal_mly(stationid))
+    @cli_decorator(ncei_normal_mly)
+    def ncei_normal_mly_cli(*args, **kwargs):
+        """NCEI_NORMAL_MLY"""
 
-    # 1970-05-12, 2014-01-01, Precipitation 15 Minute     , 0.25 , PRECIP_15
     @cltoolbox.command("ncei_precip_15", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ncei_precip_15)
-    def ncei_precip_15_cli(stationid, start_date=None, end_date=None):
-        tsutils.printiso(
-            ncei_precip_15(stationid, start_date=start_date, end_date=end_date),
-        )
+    @cli_decorator(ncei_precip_15)
+    def ncei_precip_15_cli(*args, **kwargs):
+        """NCEI_PRECIP_15"""
 
-    # 1900-01-01, 2014-01-01, Precipitation Hourly        , 1    , PRECIP_HLY
     @cltoolbox.command("ncei_precip_hly", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ncei_precip_hly)
-    def ncei_precip_hly_cli(stationid, start_date=None, end_date=None):
-        tsutils.printiso(
-            ncei_precip_hly(stationid, start_date=start_date, end_date=end_date),
-        )
-
-    # @cltoolbox.command("ncei_cirs", formatter_class=HelpFormatter)
-    # @tsutils.copy_doc(ncei_cirs)
-    # def ncei_cirs_cli(elements=None, by_state=False, location_names="abbr"):
-    #     tsutils.printiso(
-    #         ncei_cirs(
-    #             elements=elements, by_state=by_state, location_names=location_names
-    #         )
-    #     )
+    @cli_decorator(ncei_precip_hly)
+    def ncei_precip_hly_cli(*args, **kwargs):
+        """NCEI_PRECIP_HLY"""
 
     @cltoolbox.command("ndbc", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(ndbc)
-    def ndbc_cli(station, table, startUTC, endUTC=None):
-        tsutils.printiso(ndbc(station, table, startUTC, endUTC=endUTC))
+    @cli_decorator(ndbc)
+    def ndbc_cli(*args, **kwargs):
+        """NDBC"""
 
     @cltoolbox.command("nwis", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(nwis)
-    def nwis_cli(
-        sites=None,
-        stateCd=None,
-        huc=None,
-        bBox=None,
-        countyCd=None,
-        parameterCd=None,
-        period=None,
-        startDT=None,
-        endDT=None,
-        siteType=None,
-        modifiedSince=None,
-        agencyCd=None,
-        siteStatus=None,
-        altMin=None,
-        altMax=None,
-        drainAreaMin=None,
-        drainAreaMax=None,
-        aquiferCd=None,
-        localAquiferCd=None,
-        wellDepthMin=None,
-        wellDepthMax=None,
-        holeDepthMin=None,
-        holeDepthMax=None,
-        database="dv",
-        statReportType=None,
-        statType=None,
-        missingData=None,
-        statYearType=None,
-    ):
-        tsutils.printiso(
-            nwis(
-                sites=sites,
-                stateCd=stateCd,
-                huc=huc,
-                bBox=bBox,
-                countyCd=countyCd,
-                parameterCd=parameterCd,
-                period=period,
-                startDT=startDT,
-                endDT=endDT,
-                siteType=siteType,
-                modifiedSince=modifiedSince,
-                agencyCd=agencyCd,
-                siteStatus=siteStatus,
-                altMin=altMin,
-                altMax=altMax,
-                drainAreaMin=drainAreaMin,
-                drainAreaMax=drainAreaMax,
-                aquiferCd=aquiferCd,
-                localAquiferCd=localAquiferCd,
-                wellDepthMin=wellDepthMin,
-                wellDepthMax=wellDepthMax,
-                holeDepthMin=holeDepthMin,
-                holeDepthMax=holeDepthMax,
-                database=database,
-                statReportType=statReportType,
-                statType=statType,
-                missingData=missingData,
-                statYearType=statYearType,
-            )
-        )
+    @cli_decorator(nwis)
+    def nwis_cli(*args, **kwargs):
+        """NWIS"""
 
     @cltoolbox.command("nwis_dv", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(nwis_dv)
+    @cli_decorator(nwis_dv)
     def nwis_dv_cli(
-        sites=None,
-        stateCd=None,
-        huc=None,
-        bBox=None,
-        countyCd=None,
-        agencyCd=None,
-        altMax=None,
-        altMin=None,
-        aquiferCd=None,
-        drainAreaMax=None,
-        drainAreaMin=None,
-        holeDepthMax=None,
-        holeDepthMin=None,
-        localAquiferCd=None,
-        modifiedSince=None,
-        parameterCd=None,
-        siteStatus=None,
-        siteType=None,
-        wellDepthMax=None,
-        wellDepthMin=None,
-        startDT=None,
-        endDT=None,
-        period=None,
-        include_codes=False,
-        statisticsCd=None,
+        *args,
+        **kwargs,
     ):
-        tsutils.printiso(
-            nwis_dv(
-                sites=sites,
-                stateCd=stateCd,
-                huc=huc,
-                bBox=bBox,
-                countyCd=countyCd,
-                parameterCd=parameterCd,
-                statisticsCd=statisticsCd,
-                siteType=siteType,
-                modifiedSince=modifiedSince,
-                agencyCd=agencyCd,
-                siteStatus=siteStatus,
-                altMin=altMin,
-                altMax=altMax,
-                drainAreaMin=drainAreaMin,
-                drainAreaMax=drainAreaMax,
-                aquiferCd=aquiferCd,
-                localAquiferCd=localAquiferCd,
-                wellDepthMin=wellDepthMin,
-                wellDepthMax=wellDepthMax,
-                holeDepthMin=holeDepthMin,
-                holeDepthMax=holeDepthMax,
-                period=period,
-                startDT=startDT,
-                endDT=endDT,
-                include_codes=include_codes,
-            )
-        )
+        """NWIS_DV"""
 
     @cltoolbox.command("nwis_gwlevels", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(nwis_gwlevels)
-    def nwis_gwlevels_cli(
-        sites=None,
-        stateCd=None,
-        huc=None,
-        bBox=None,
-        countyCd=None,
-        parameterCd=None,
-        period=None,
-        startDT=None,
-        endDT=None,
-        siteType=None,
-        modifiedSince=None,
-        agencyCd=None,
-        siteStatus=None,
-        altMin=None,
-        altMax=None,
-        aquiferCd=None,
-        localAquiferCd=None,
-        wellDepthMin=None,
-        wellDepthMax=None,
-        holeDepthMin=None,
-        holeDepthMax=None,
-    ):
-        tsutils.printiso(
-            nwis_gwlevels(
-                sites=sites,
-                stateCd=stateCd,
-                huc=huc,
-                bBox=bBox,
-                countyCd=countyCd,
-                parameterCd=parameterCd,
-                siteType=siteType,
-                modifiedSince=modifiedSince,
-                agencyCd=agencyCd,
-                siteStatus=siteStatus,
-                altMin=altMin,
-                altMax=altMax,
-                aquiferCd=aquiferCd,
-                localAquiferCd=localAquiferCd,
-                wellDepthMin=wellDepthMin,
-                wellDepthMax=wellDepthMax,
-                holeDepthMin=holeDepthMin,
-                holeDepthMax=holeDepthMax,
-                period=period,
-                startDT=startDT,
-                endDT=endDT,
-            )
-        )
+    @cli_decorator(nwis_gwlevels)
+    def nwis_gwlevels_cli(*args, **kwargs):
+        """NWIS_GWLEVELS"""
 
     @cltoolbox.command("nwis_iv", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(nwis_iv)
-    def nwis_iv_cli(
-        sites=None,
-        stateCd=None,
-        huc=None,
-        bBox=None,
-        countyCd=None,
-        parameterCd=None,
-        siteType=None,
-        modifiedSince=None,
-        agencyCd=None,
-        siteStatus=None,
-        altMin=None,
-        altMax=None,
-        drainAreaMin=None,
-        drainAreaMax=None,
-        aquiferCd=None,
-        localAquiferCd=None,
-        wellDepthMin=None,
-        wellDepthMax=None,
-        holeDepthMin=None,
-        holeDepthMax=None,
-        period=None,
-        startDT=None,
-        endDT=None,
-        include_codes=False,
-    ):
-        tsutils.printiso(
-            nwis_iv(
-                sites=sites,
-                stateCd=stateCd,
-                huc=huc,
-                bBox=bBox,
-                countyCd=countyCd,
-                parameterCd=parameterCd,
-                siteType=siteType,
-                modifiedSince=modifiedSince,
-                agencyCd=agencyCd,
-                siteStatus=siteStatus,
-                altMin=altMin,
-                altMax=altMax,
-                drainAreaMin=drainAreaMin,
-                drainAreaMax=drainAreaMax,
-                aquiferCd=aquiferCd,
-                localAquiferCd=localAquiferCd,
-                wellDepthMin=wellDepthMin,
-                wellDepthMax=wellDepthMax,
-                holeDepthMin=holeDepthMin,
-                holeDepthMax=holeDepthMax,
-                period=period,
-                startDT=startDT,
-                endDT=endDT,
-                include_codes=include_codes,
-            )
-        )
+    @cli_decorator(nwis_iv)
+    def nwis_iv_cli(*args, **kwargs):
+        """NWIS_IV"""
 
     @cltoolbox.command("nwis_measurements", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(nwis_measurements)
-    def nwis_measurements_cli(
-        sites=None,
-        stateCd=None,
-        huc=None,
-        bBox=None,
-        countyCd=None,
-        parameterCd=None,
-        period=None,
-        startDT=None,
-        endDT=None,
-        siteType=None,
-        modifiedSince=None,
-        agencyCd=None,
-        siteStatus=None,
-        altMin=None,
-        altMax=None,
-        aquiferCd=None,
-        localAquiferCd=None,
-        wellDepthMin=None,
-        wellDepthMax=None,
-        holeDepthMin=None,
-        holeDepthMax=None,
-    ):
-        tsutils.printiso(
-            nwis_measurements(
-                sites=sites,
-                stateCd=stateCd,
-                huc=huc,
-                bBox=bBox,
-                countyCd=countyCd,
-                parameterCd=parameterCd,
-                siteType=siteType,
-                modifiedSince=modifiedSince,
-                agencyCd=agencyCd,
-                siteStatus=siteStatus,
-                altMin=altMin,
-                altMax=altMax,
-                aquiferCd=aquiferCd,
-                localAquiferCd=localAquiferCd,
-                wellDepthMin=wellDepthMin,
-                wellDepthMax=wellDepthMax,
-                holeDepthMin=holeDepthMin,
-                holeDepthMax=holeDepthMax,
-                period=period,
-                startDT=startDT,
-                endDT=endDT,
-            )
-        )
+    @cli_decorator(nwis_measurements)
+    def nwis_measurements_cli(*args, **kwargs):
+        """NWIS_MEASUREMENTS"""
 
     @cltoolbox.command("nwis_peak", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(nwis_peak)
-    def nwis_peak_cli(
-        sites=None,
-        stateCd=None,
-        huc=None,
-        bBox=None,
-        countyCd=None,
-        parameterCd=None,
-        period=None,
-        startDT=None,
-        endDT=None,
-        siteType=None,
-        modifiedSince=None,
-        agencyCd=None,
-        siteStatus=None,
-        altMin=None,
-        altMax=None,
-        aquiferCd=None,
-        localAquiferCd=None,
-        wellDepthMin=None,
-        wellDepthMax=None,
-        holeDepthMin=None,
-        holeDepthMax=None,
-    ):
-        tsutils.printiso(
-            nwis_peak(
-                sites=sites,
-                stateCd=stateCd,
-                huc=huc,
-                bBox=bBox,
-                countyCd=countyCd,
-                parameterCd=parameterCd,
-                siteType=siteType,
-                modifiedSince=modifiedSince,
-                agencyCd=agencyCd,
-                siteStatus=siteStatus,
-                altMin=altMin,
-                altMax=altMax,
-                aquiferCd=aquiferCd,
-                localAquiferCd=localAquiferCd,
-                wellDepthMin=wellDepthMin,
-                wellDepthMax=wellDepthMax,
-                holeDepthMin=holeDepthMin,
-                holeDepthMax=holeDepthMax,
-                period=period,
-                startDT=startDT,
-                endDT=endDT,
-            )
-        )
+    @cli_decorator(nwis_peak)
+    def nwis_peak_cli(*args, **kwargs):
+        """NWIS_PEAK"""
 
     @cltoolbox.command("nwis_site", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(nwis_site)
-    def nwis_site_cli(
-        sites=None,
-        stateCd=None,
-        huc=None,
-        bBox=None,
-        countyCd=None,
-        parameterCd=None,
-        period=None,
-        startDT=None,
-        endDT=None,
-        siteType=None,
-        modifiedSince=None,
-        agencyCd=None,
-        siteStatus=None,
-        altMin=None,
-        altMax=None,
-        drainAreaMin=None,
-        drainAreaMax=None,
-        aquiferCd=None,
-        localAquiferCd=None,
-        wellDepthMin=None,
-        wellDepthMax=None,
-        holeDepthMin=None,
-        holeDepthMax=None,
-        siteOutput=None,
-        seriesCatalogOutput=None,
-        outputDataTypeCd=None,
-        siteName=None,
-        siteNameMatchOperator=None,
-        hasDataTypeCd=None,
-    ):
-        tsutils.printiso(
-            nwis_site(
-                sites=sites,
-                stateCd=stateCd,
-                huc=huc,
-                bBox=bBox,
-                countyCd=countyCd,
-                parameterCd=parameterCd,
-                siteType=siteType,
-                modifiedSince=modifiedSince,
-                agencyCd=agencyCd,
-                siteStatus=siteStatus,
-                altMin=altMin,
-                altMax=altMax,
-                drainAreaMin=drainAreaMin,
-                drainAreaMax=drainAreaMax,
-                aquiferCd=aquiferCd,
-                localAquiferCd=localAquiferCd,
-                wellDepthMin=wellDepthMin,
-                wellDepthMax=wellDepthMax,
-                holeDepthMin=holeDepthMin,
-                holeDepthMax=holeDepthMax,
-                period=period,
-                startDT=startDT,
-                endDT=endDT,
-                siteOutput=siteOutput,
-                seriesCatalogOutput=seriesCatalogOutput,
-                outputDataTypeCd=outputDataTypeCd,
-                siteName=siteName,
-                siteNameMatchOperator=siteNameMatchOperator,
-                hasDataTypeCd=hasDataTypeCd,
-            )
-        )
+    @cli_decorator(nwis_site)
+    def nwis_site_cli(*args, **kwargs):
+        """NWIS_SITE"""
 
     @cltoolbox.command("nwis_stat", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(nwis_stat)
-    def nwis_stat_cli(
-        sites=None,
-        parameterCd=None,
-        period=None,
-        startDT=None,
-        endDT=None,
-        siteType=None,
-        modifiedSince=None,
-        agencyCd=None,
-        siteStatus=None,
-        altMin=None,
-        altMax=None,
-        drainAreaMin=None,
-        drainAreaMax=None,
-        aquiferCd=None,
-        localAquiferCd=None,
-        wellDepthMin=None,
-        wellDepthMax=None,
-        holeDepthMin=None,
-        holeDepthMax=None,
-        statReportType=None,
-        statType=None,
-        missingData=None,
-        statYearType=None,
-    ):
-        tsutils.printiso(
-            nwis_stat(
-                sites=sites,
-                parameterCd=parameterCd,
-                siteType=siteType,
-                modifiedSince=modifiedSince,
-                agencyCd=agencyCd,
-                siteStatus=siteStatus,
-                altMin=altMin,
-                altMax=altMax,
-                drainAreaMin=drainAreaMin,
-                drainAreaMax=drainAreaMax,
-                aquiferCd=aquiferCd,
-                localAquiferCd=localAquiferCd,
-                wellDepthMin=wellDepthMin,
-                wellDepthMax=wellDepthMax,
-                holeDepthMin=holeDepthMin,
-                holeDepthMax=holeDepthMax,
-                period=period,
-                startDT=startDT,
-                endDT=endDT,
-                statReportType=statReportType,
-                statType=statType,
-                missingData=missingData,
-                statYearType=statYearType,
-            )
-        )
+    @cli_decorator(nwis_stat)
+    def nwis_stat_cli(*args, **kwargs):
+        """NWIS_STAT"""
 
     @cltoolbox.command("rivergages", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(rivergages)
-    def rivergages_cli(station_code, parameter, start_date=None, end_date=None):
-        ndf = rivergages(
-            station_code, parameter, start_date=start_date, end_date=end_date
-        )
-        tsutils.printiso(ndf)
+    @cli_decorator(rivergages)
+    def rivergages_cli(*args, **kwargs):
+        """RIVERGAGES"""
 
     @cltoolbox.command("terraclimate19912020", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(terraclimate19912020)
+    @cli_decorator(terraclimate19912020)
     def terraclimate19912020_cli(
-        lat: float,
-        lon: float,
-        variables=None,
-        start_date=None,
-        end_date=None,
+        *args,
+        **kwargs,
     ):
-        tsutils.printiso(
-            terraclimate19912020(
-                lat,
-                lon,
-                variables=variables,
-                start_date=start_date,
-                end_date=end_date,
-            )
-        )
+        """TERRACLIMATE19912020"""
 
     @cltoolbox.command("terraclimate19812010", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(terraclimate19812010)
+    @cli_decorator(terraclimate19812010)
     def terraclimate19812010_cli(
-        lat: float,
-        lon: float,
-        variables=None,
-        start_date=None,
-        end_date=None,
+        *args,
+        **kwargs,
     ):
-        tsutils.printiso(
-            terraclimate19812010(
-                lat,
-                lon,
-                variables=variables,
-                start_date=start_date,
-                end_date=end_date,
-            )
-        )
+        """TERRACLIMATE19812010"""
 
     @cltoolbox.command("terraclimate", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(terraclimate)
+    @cli_decorator(terraclimate)
     def terraclimate_cli(
-        lat: float,
-        lon: float,
-        variables=None,
-        start_date=None,
-        end_date=None,
+        *args,
+        **kwargs,
     ):
-        tsutils.printiso(
-            terraclimate(
-                lat,
-                lon,
-                variables=variables,
-                start_date=start_date,
-                end_date=end_date,
-            )
-        )
+        """TERRACLIMATE"""
 
     @cltoolbox.command("twc", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(twc)
-    def twc_cli(county, start_date=None, end_date=None):
-        tsutils.printiso(twc(county, start_date=start_date, end_date=end_date))
+    @cli_decorator(twc)
+    def twc_cli(*args, **kwargs):
+        """TWC"""
 
     @cltoolbox.command("unavco", formatter_class=HelpFormatter)
-    @tsutils.copy_doc(unavco)
-    def unavco_cli(station, database="met", starttime=None, endtime=None):
-        tsutils.printiso(
-            unavco(station, database=database, starttime=starttime, endtime=endtime)
-        )
+    @cli_decorator(unavco)
+    def unavco_cli(*args, **kwargs):
+        """UNAVCO"""
 
     @cltoolbox.command("wdfn_agency_codes")
     @cli_decorator(wdfn_agency_codes)

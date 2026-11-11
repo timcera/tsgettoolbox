@@ -54,7 +54,8 @@ copyright = "2013, Tim Cera"
 # built documents.
 #
 # The short X.Y version.
-version = open("../VERSION").readline().strip()
+with open("../VERSION", encoding="ascii") as version_file:
+    version = version_file.readline().strip()
 # The full version, including alpha/beta/rc tags.
 release = version
 

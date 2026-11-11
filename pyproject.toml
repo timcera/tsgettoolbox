@@ -27,33 +27,23 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules"
 ] # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
 dependencies = [
-    "aiodns >3.6.0",
-    "async_retriever",
-    "beautifulsoup4",
     "cftime",
     "cltoolbox >=4.0.4", # this version ignores type-hints other than int, float, str, bool, and None
     "dateparser",
-    "deprecated",
     "geojson",
     "haversine",
-    "httpretty",
     "isodate",
     "jinja2", # needed here until included in pydap
-    "lxml",
-    "mechanize",
     "numpy",
-    "packaging",
     "pandas[excel]",
     "pint",
     "pint-pandas",
     "platformdirs",
     "pydantic >=2",
     "pydap",
-    "python-dateutil",
     "requests",
     "scipy",
     "siphon",
-    "suds-community",
     "tabulate"
 ]
 description = "Will get time series from different sources on the internet"
